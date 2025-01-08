@@ -1,0 +1,77 @@
+@use "@angular/material" as mat;
+@use "./styles_theme-colors" as colors;
+
+// Defining custom color palettes
+$custom-primary: colors.$primary-palette;
+$custom-accent: colors.$secondary-palette;
+$custom-warn: colors.$tertiary-palette;
+$custom-success: colors.$secondary-palette;
+
+// Dark theme
+$dark-theme: (
+  theme-type: dark,
+  primary: $custom-primary,
+  secondary: $custom-accent,
+  error: $custom-warn,
+  background: (
+    default: #151828,
+    app-bar: #151828,
+    status-bar: #151828,
+    hover: #1c1f2b,
+  ),
+  foreground: (
+    base: #ff0000,
+    divider: #fff4f0,
+    disabled: #fff4f0,
+    disabled-button: #fff4f0,
+    disabled-text: #fff4f0,
+    elevation: #fff4f0,
+    hint-text: #fff4f0,
+    secondary-text: #fff4f0,
+    icon: #fff4f0,
+  ),
+);
+
+// Light theme
+$light-theme: (
+  theme-type: light,
+  primary: $custom-primary,
+  secondary: $custom-accent,
+  error: $custom-warn,
+  background: (
+    default: #fff4f0,
+    app-bar: #fff4f0,
+    status-bar: #fff4f0,
+    hover: #d0d0d0,
+  ),
+  foreground: (
+    base: #ff0000,
+    divider: #e0e0e0,
+    disabled: #a0a0a0,
+    disabled-button: #a0a0a0,
+    disabled-text: #a0a0a0,
+    elevation: #e0e0e0,
+    hint-text: #a0a0a0,
+    secondary-text: #707070,
+    icon: #000000,
+  ),
+);
+
+// Apply the dark and light themes
+html {
+  color-scheme: light dark;
+}
+
+body.light-theme {
+  color-scheme: light;
+  background-color: var(--mat-background-default);
+  color: var(--mat-color);
+  @include mat.theme($light-theme);
+}
+
+body.dark-theme {
+  color-scheme: dark;
+  background-color: var(--mat-background);
+  color: var(--mat-color);
+  @include mat.theme($dark-theme);
+}
