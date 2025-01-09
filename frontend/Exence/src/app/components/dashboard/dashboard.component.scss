@@ -1,0 +1,66 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-panel {
+  grid-area: 1 / 1 / 2 / 9; // First row, spanning 8 columns
+}
+
+.category-panel {
+  grid-area: 1 / 9 / 2 / 13; // First row, spanning 4 columns
+}
+app-summary-container {
+  min-width: 15%;
+  max-width: 25%;
+}
+.summary-container {
+  grid-area: 2 / 1 / 3 / 13; // Second row, spanning 12 columns
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 2rem;
+}
+
+.list.expenses {
+  grid-area: 3 / 1 / 4 / 7; // Third row, spanning 6 columns
+}
+
+.list.incomes {
+  grid-area: 3 / 7 / 4 / 13; // Third row, spanning 6 columns
+}
+
+.list {
+  grid-column: span 2;
+  grid-row: 3;
+  grid-column: 5;
+  grid: 3 5;
+  background-color: var(--background-color);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-panel {
+    grid-column: span 1;
+  }
+}

@@ -1,1 +1,43 @@
-<h1>Dashboard</h1>
+<div class="dashboard-container">
+  <div class="welcome-section">
+    <h1>Welcome back, <span>Patrik!</span></h1>
+    <p>Here's this month's finances:</p>
+  </div>
+
+  <div class="grid-container">
+    <!-- Chart panel -->
+    <div class="chart-panel">
+      <!-- <app-chart></app-chart> -->
+      grafikon
+    </div>
+    <div class="categories-panel">kategória panel</div>
+
+    <!-- Summary panels -->
+    <div class="summary-container">
+      <app-summary-container
+        icon="attach_money"
+        label="Income"
+        [value]="0"
+      ></app-summary-container>
+      <app-summary-container
+        icon="money_off"
+        label="Expenses"
+        [value]="-400000"
+      ></app-summary-container>
+      <app-summary-container
+        icon="savings"
+        label="Balance"
+        [value]="456400"
+      ></app-summary-container>
+      <app-summary-container
+        icon="receipt_long"
+        label="Utilities"
+        [value]="-500"
+      ></app-summary-container>
+    </div>
+
+    <!-- Detailed panels -->
+    <div class="list expenses">Expenses táblázat</div>
+    <div class="list incomes">Incomes táblázat</div>
+  </div>
+</div>

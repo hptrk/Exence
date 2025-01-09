@@ -1,0 +1,44 @@
+.summary {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: start;
+  background-color: var(--surface);
+  height: auto;
+  width: 100%;
+  padding: 0.5rem 1.2rem 0.5rem 0.5rem;
+  border-radius: 2rem;
+  gap: 1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  flex-grow: 1;
+}
+.icon-container {
+  width: 4.5rem;
+  height: 4.5rem;
+  background-color: var(--background);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  font-size: var(--size-lg);
+  gap: 0.5rem;
+
+  .label {
+    font-size: var(--size-md);
+  }
+  .value {
+    font-size: var(--size-lg);
+    font-weight: bold;
+  }
+}
+mat-icon {
+  font-size: 45px;
+  height: auto;
+  width: auto;
+}
