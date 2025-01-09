@@ -1,15 +1,79 @@
-<nav>
-  <ul>
-    <li><a routerLink="/dashboard">Dashboard</a></li>
-    <li><a routerLink="/goals">Goals</a></li>
-    <li><a routerLink="/statistics">Statistics</a></li>
-    <li><a routerLink="/transactions">Transactions</a></li>
-    <li><a routerLink="/debts">Debts</a></li>
-    <li><a routerLink="/profile">Profile</a></li>
-    <li><a routerLink="/settings">Settings</a></li>
-    <br />
-    <br />
-    <br />
-    <li><button (click)="toggleTheme()">Theme toggle</button></li>
-  </ul>
-</nav>
+<mat-sidenav-container autosize>
+  <mat-sidenav mode="side" opened>
+    <div class="sidebar-content">
+      <a routerLink="/dashboard">
+        <img
+          src="assets/exence_logo_horizontal.png"
+          alt="Logo"
+          class="exence-logo"
+        />
+      </a>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+          <mat-icon fontSet="material-symbols-outlined">home</mat-icon>
+          <span>Dashboard</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="/transactions"
+          routerLinkActive="active-link"
+        >
+          <mat-icon fontSet="material-symbols-outlined">sync_alt</mat-icon>
+          <span>Transactions</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="/statistics"
+          routerLinkActive="active-link"
+        >
+          <mat-icon fontSet="material-symbols-outlined">leaderboard</mat-icon>
+          <span>Statistics</span>
+        </a>
+        <a mat-list-item routerLink="/goals" routerLinkActive="active-link">
+          <mat-icon fontSet="material-symbols-outlined">emoji_events</mat-icon>
+          <span>Goals</span>
+        </a>
+        <a mat-list-item routerLink="/debts" routerLinkActive="active-link">
+          <mat-icon fontSet="material-symbols-outlined"
+            >account_balance</mat-icon
+          >
+          <span>Debts</span>
+        </a>
+      </mat-nav-list>
+      <mat-nav-list>
+        <div class="bottom-icons">
+          <a mat-list-item routerLink="/profile" routerLinkActive="active-link">
+            <mat-icon fontSet="material-symbols-outlined" matListItemIcon
+              >person</mat-icon
+            >
+          </a>
+          <a
+            mat-list-item
+            routerLink="/settings"
+            routerLinkActive="active-link"
+          >
+            <mat-icon fontSet="material-symbols-outlined" matListItemIcon
+              >settings</mat-icon
+            >
+          </a>
+          <a mat-list-item (click)="toggleTheme()">
+            <mat-icon fontSet="material-symbols-outlined" matListItemIcon
+              >contrast</mat-icon
+            >
+          </a>
+          <a mat-list-item>
+            <mat-icon fontSet="material-symbols-outlined" matListItemIcon
+              >logout</mat-icon
+            >
+          </a>
+        </div>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

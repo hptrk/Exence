@@ -23,12 +23,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles/styles.scss"],
             "scripts": []
           },
@@ -77,12 +72,7 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/styles/styles.scss"],
             "scripts": []
           }

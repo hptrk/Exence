@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { ThemeService } from './services/theme.service';
