@@ -1,5 +1,5 @@
 <mat-sidenav-container autosize>
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav mode="side" opened="true">
     <div class="sidebar-content">
       <a routerLink="/dashboard">
         <img
@@ -72,8 +72,6 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <div class="main-content">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

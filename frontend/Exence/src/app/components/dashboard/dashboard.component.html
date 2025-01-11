@@ -1,4 +1,4 @@
-<div class="dashboard-container">
+<div class="dashboard-container" [class.loading]="isLoading">
   <div class="welcome-section">
     <h1>Welcome back, <span>Patrik!</span></h1>
     <p>Here's this month's finances:</p>
@@ -6,10 +6,7 @@
 
   <div class="grid-container">
     <!-- Chart panel -->
-    <div class="chart-panel">
-      <!-- <app-chart></app-chart> -->
-      grafikon
-    </div>
+    <app-chart class="chart-panel" [transactions]="transactions"></app-chart>
     <div class="categories-panel">kategória panel</div>
 
     <!-- Summary panels -->
@@ -17,12 +14,12 @@
       <app-summary-container
         icon="attach_money"
         label="Income"
-        [value]="0"
+        [value]="49500"
       ></app-summary-container>
       <app-summary-container
         icon="money_off"
         label="Expenses"
-        [value]="-400000"
+        [value]="-44530"
       ></app-summary-container>
       <app-summary-container
         icon="savings"
@@ -32,12 +29,15 @@
       <app-summary-container
         icon="receipt_long"
         label="Utilities"
-        [value]="-500"
+        [value]="-43670"
       ></app-summary-container>
     </div>
 
     <!-- Detailed panels -->
-    <div class="list expenses">Expenses táblázat</div>
-    <div class="list incomes">Incomes táblázat</div>
+    <!-- <app-data-table icon="savings" label="Expenses" [dataSource]="expenses"> -->
+    <app-data-table class="list expenses" icon="money_off" label="Expenses">
+    </app-data-table>
+    <app-data-table class="list incomes" icon="attach_money" label="Incomes">
+    </app-data-table>
   </div>
 </div>
