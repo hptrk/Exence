@@ -6,30 +6,44 @@ import { Transaction } from '../../models/Transaction';
 
 const DUMMY_DATA: Transaction[] = [
   {
+    title: 'Pay',
+    date: '2023-10-04',
+    amount: 61230,
+    emoji: '🍽️',
+    recurring: false,
+  },
+  {
     title: 'Groceries',
     date: '2023-10-01',
-    amount: 50,
+    amount: -18900,
     emoji: '🛒',
     recurring: false,
   },
   {
     title: 'Netflix',
     date: '2023-10-02',
-    amount: 15,
+    amount: -3000,
     emoji: '🎬',
     recurring: true,
   },
   {
     title: 'Restaurant',
     date: '2023-10-03',
-    amount: 80,
+    amount: -8000,
+    emoji: '🍽️',
+    recurring: false,
+  },
+  {
+    title: 'Pay',
+    date: '2023-10-04',
+    amount: 61230,
     emoji: '🍽️',
     recurring: false,
   },
   {
     title: 'Heating bill',
     date: '2023-10-04',
-    amount: 120,
+    amount: -21300,
     emoji: '🔥',
     recurring: false,
   },

@@ -13,7 +13,7 @@ export class AppComponent {
 
   ngOnInit() {
     // Set default theme
-    const themeClass = this.themeService.currentTheme
+    const themeClass = this.themeService.getIsDarkTheme
       ? 'dark-theme'
       : 'light-theme';
     document.body.classList.add(themeClass);
