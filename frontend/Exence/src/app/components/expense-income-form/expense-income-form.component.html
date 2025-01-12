@@ -1,0 +1,91 @@
+<div class="form-container">
+  <h1 class="form-header">
+    Add your
+    <span
+      class="form-header-title"
+      [ngStyle]="{
+        color:
+          formType === 'expense'
+            ? 'var(--mat-sys-tertiary-fixed)'
+            : 'var(--mat-sys-secondary-fixed)'
+      }"
+      >{{ formType === "income" ? "income" : "expense" }}</span
+    >
+  </h1>
+  <form
+    [formGroup]="expenseIncomeForm"
+    class="expense-income-form"
+    (ngSubmit)="onSubmit()"
+  >
+    <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="expenseIncomeForm.get('name')?.hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <div class="category-selector">
+      <mat-label>Category</mat-label>
+      <mat-chip-set>
+        <mat-chip-option
+          *ngFor="let category of categories"
+          [selected]="selectedCategory === category.name"
+          (click)="selectCategory(category.name)"
+          selectable
+          removable
+        >
+          {{ category.name }} {{ category.emoji }}
+        </mat-chip-option>
+        <mat-chip
+          *ngIf="!addingCategory"
+          (click)="addCategory()"
+          class="add-chip"
+        >
+          <mat-icon fontSet="material-symbols-outlined" class="pointer-cursor"
+            >add_2</mat-icon
+          >
+        </mat-chip>
+
+        <!-- NEW CATEGORY FORM -->
+        <app-new-category-form
+          *ngIf="addingCategory"
+          (categoryAdded)="onCategoryAdded($event)"
+          (closeForm)="addingCategory = false"
+        ></app-new-category-form>
+      </mat-chip-set>
+      <mat-error
+        *ngIf="
+          formSubmitted &&
+          expenseIncomeForm.get('category')?.hasError('required')
+        "
+      >
+        Category is <strong>required</strong>
+      </mat-error>
+    </div>
+
+    <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+      <mat-label>Amount</mat-label>
+      <input matInput formControlName="amount" type="number" />
+      <mat-error *ngIf="expenseIncomeForm.get('amount')?.hasError('required')">
+        Amount is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+      <mat-label>Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="picker"
+        formControlName="date"
+        readonly
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker disabled="false" #picker></mat-datepicker>
+      <mat-error *ngIf="expenseIncomeForm.get('date')?.hasError('required')">
+        Date is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <button mat-flat-button color="primary" type="submit">Submit</button>
+  </form>
+</div>

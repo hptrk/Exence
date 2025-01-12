@@ -55,17 +55,15 @@ export class DataTableComponent {
   constructor(public dialog: MatDialog) {}
   @Input() icon!: string;
   @Input() label!: string;
+  @Input() formType: 'income' | 'expense' = 'income';
 
   displayedColumns: string[] = ['title', 'date', 'amount', 'category'];
   dataSource = DUMMY_DATA;
 
   openDialog(): void {
-    const dialogRef = this.dialog.open(DataTableDialogComponent, {
-      width: '250px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+    this.dialog.open(DataTableDialogComponent, {
+      width: 'auto',
+      data: { formType: this.formType },
     });
   }
 }

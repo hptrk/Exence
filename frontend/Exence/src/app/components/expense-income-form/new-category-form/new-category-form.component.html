@@ -1,0 +1,58 @@
+<form *ngIf="isLoaded" class="new-category" [formGroup]="newCategoryForm">
+  <div class="new-category-inputs">
+    <mat-form-field appearance="outline" [hideRequiredMarker]="true">
+      <mat-label>Category</mat-label>
+      <input
+        matInput
+        placeholder="Category"
+        formControlName="newCategoryName"
+      />
+    </mat-form-field>
+    <div class="new-category-emoji-container">
+      <button
+        mat-fab
+        [matMenuTriggerFor]="emojiMenu"
+        class="new-category-emojibtn"
+        type="button"
+      >
+        {{ newCategoryForm.get("newCategoryEmoji")?.value }}
+      </button>
+      <mat-menu #emojiMenu="matMenu" class="emoji-picker-menu">
+        <emoji-mart
+          title="Pick your emoji…"
+          emoji="point_up"
+          [include]="[
+            'people',
+            'nature',
+            'foods',
+            'activity',
+            'places',
+            'objects',
+            'symbols',
+            'flags'
+          ]"
+          (emojiSelect)="addEmoji($event)"
+          (click)="$event.stopPropagation()"
+        ></emoji-mart>
+      </mat-menu>
+    </div>
+  </div>
+  <div class="new-category-buttons">
+    <button
+      mat-mini-fab
+      (click)="saveCategory()"
+      class="pointer-cursor"
+      type="button"
+    >
+      <mat-icon fontSet="material-symbols-outlined">check</mat-icon>
+    </button>
+    <button
+      mat-mini-fab
+      (click)="cancelCategory()"
+      class="pointer-cursor"
+      type="button"
+    >
+      <mat-icon fontSet="material-symbols-outlined">close</mat-icon>
+    </button>
+  </div>
+</form>

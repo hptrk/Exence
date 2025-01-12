@@ -1,0 +1,17 @@
+.dialog-cancel-button {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 30px;
+    height: auto;
+    width: auto;
+  }
+}
