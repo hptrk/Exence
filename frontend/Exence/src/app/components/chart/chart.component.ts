@@ -1,10 +1,15 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { Transaction } from '../../models/Transaction';
-import { ChartOptions, ChartConfiguration } from 'chart.js';
+import { Chart, Plugin } from 'chart.js';
 import { ThemeService } from '../../services/theme.service';
 import { Subscription } from 'rxjs';
+import {
+  createCustomBackgroundPlugin,
+  getLineChartData,
+  lineChartOptions,
+} from './chart-config';
 
 @Component({
   selector: 'app-chart',
@@ -13,61 +18,35 @@ import { Subscription } from 'rxjs';
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
 })
-export class ChartComponent {
+export class ChartComponent implements OnInit, OnDestroy {
   @Input() transactions: Transaction[] = [];
-  private themeSubscription!: Subscription;
-
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
+  public lineChartData = getLineChartData([], []);
+  public lineChartOptions = lineChartOptions;
+  private themeSubscription!: Subscription;
+  private customBackgroundPlugin!: Plugin;
 
   constructor(private themeService: ThemeService) {}
 
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        backgroundColor: 'rgba(222, 222, 247, 0.2)',
-        borderColor: '#C9C9F2',
-        pointBackgroundColor: '#C9C9F2',
-        pointBorderColor: '#C9C9F2',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: '#C9C9F2',
-        fill: 'origin',
-        borderWidth: 4,
-      },
-    ],
-  };
-
-  public lineChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    animations: {
-      tension: {
-        duration: 2000,
-      },
-      backgroundColor: {
-        duration: 0,
-      },
-    },
-    elements: {
-      line: {
-        tension: 0.3, // Smoothen the line
-      },
-    },
-    plugins: {
-      legend: { display: false },
-    },
-    scales: {
-      x: {
-        display: false, // Hide X-axis labels
-      },
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
-
   ngOnInit() {
+    this.initializeChart();
+    this.subscribeToThemeChanges();
+  }
+
+  ngOnDestroy() {
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
+    }
+  }
+
+  private initializeChart() {
+    // Create custom background plugin
+    this.customBackgroundPlugin = createCustomBackgroundPlugin(
+      this.themeService.getIsDarkTheme
+    );
+    Chart.register(this.customBackgroundPlugin);
+
+    // Calculate balance data
     let balance = 0;
     const balanceData = this.transactions.map((transaction) => {
       balance += transaction.amount;
@@ -80,24 +59,30 @@ export class ChartComponent {
 
     // Check the current theme and update chart colors accordingly
     this.updateChartColors(this.themeService.getIsDarkTheme);
+  }
 
+  private subscribeToThemeChanges() {
     // Subscribe to theme changes
     this.themeSubscription = this.themeService.themeChange$.subscribe(
       (isDarkMode) => {
         this.updateChartColors(isDarkMode);
+        this.registerCustomBackgroundPlugin(isDarkMode);
       }
     );
-  }
-  ngOnDestroy() {
-    if (this.themeSubscription) {
-      this.themeSubscription.unsubscribe();
-    }
   }
 
   private updateChartColors(isDarkMode: boolean) {
     this.lineChartData.datasets[0].backgroundColor = isDarkMode
       ? 'rgba(222, 222, 247, 0.1)'
       : 'rgba(222, 222, 247, 0.4)';
+
+    this.chart?.update();
+  }
+
+  private registerCustomBackgroundPlugin(isDarkMode: boolean) {
+    Chart.unregister(this.customBackgroundPlugin);
+    this.customBackgroundPlugin = createCustomBackgroundPlugin(isDarkMode);
+    Chart.register(this.customBackgroundPlugin);
     this.chart?.update();
   }
 }
