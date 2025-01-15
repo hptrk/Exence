@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ChartComponent } from '../chart/chart.component';
+import { ChartComponent } from '../../chart/chart.component';
 import { SummaryContainerComponent } from './summary-container/summary-container.component';
-import { DataTableComponent } from '../data-table/data-table.component';
-import { Transaction } from '../../models/Transaction';
+import { DataTableComponent } from '../../data-table/data-table.component';
+import { Transaction } from '../../../models/Transaction';
+import { CategoriesComponent } from './categories/categories.component';
 
 const DUMMY_DATA: Transaction[] = [
   {
@@ -11,6 +12,7 @@ const DUMMY_DATA: Transaction[] = [
     amount: 61230,
     emoji: '🍽️',
     recurring: false,
+    category: 'Income',
   },
   {
     title: 'Groceries',
@@ -18,6 +20,15 @@ const DUMMY_DATA: Transaction[] = [
     amount: -18900,
     emoji: '🛒',
     recurring: false,
+    category: 'Food',
+  },
+  {
+    title: 'Investment',
+    date: '2023-10-01',
+    amount: -15200,
+    emoji: '😞',
+    recurring: false,
+    category: 'Tax',
   },
   {
     title: 'Netflix',
@@ -25,6 +36,7 @@ const DUMMY_DATA: Transaction[] = [
     amount: -3000,
     emoji: '🎬',
     recurring: true,
+    category: 'Entertainment',
   },
   {
     title: 'Restaurant',
@@ -32,6 +44,7 @@ const DUMMY_DATA: Transaction[] = [
     amount: -8000,
     emoji: '🍽️',
     recurring: false,
+    category: 'Food',
   },
   {
     title: 'Pay',
@@ -39,6 +52,7 @@ const DUMMY_DATA: Transaction[] = [
     amount: 61230,
     emoji: '🍽️',
     recurring: false,
+    category: 'Income',
   },
   {
     title: 'Heating bill',
@@ -46,11 +60,17 @@ const DUMMY_DATA: Transaction[] = [
     amount: -21300,
     emoji: '🔥',
     recurring: false,
+    category: 'Utilities',
   },
 ];
 @Component({
   selector: 'app-dashboard',
-  imports: [SummaryContainerComponent, DataTableComponent, ChartComponent],
+  imports: [
+    SummaryContainerComponent,
+    DataTableComponent,
+    ChartComponent,
+    CategoriesComponent,
+  ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })

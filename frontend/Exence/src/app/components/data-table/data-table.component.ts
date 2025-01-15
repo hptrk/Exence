@@ -2,40 +2,60 @@ import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { Transaction } from '../../models/Transaction';
 import { MatPaginator } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { Transaction } from '../../models/Transaction';
 import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
 
 const DUMMY_DATA: Transaction[] = [
   {
+    title: 'Pay',
+    date: '2023-10-04',
+    amount: 61230,
+    emoji: '🍽️',
+    recurring: false,
+    category: 'Income',
+  },
+  {
     title: 'Groceries',
     date: '2023-10-01',
-    amount: -50,
+    amount: -18900,
     emoji: '🛒',
     recurring: false,
+    category: 'Food',
   },
   {
     title: 'Netflix',
     date: '2023-10-02',
-    amount: -15,
+    amount: -3000,
     emoji: '🎬',
     recurring: true,
+    category: 'Entertainment',
   },
   {
     title: 'Restaurant',
     date: '2023-10-03',
-    amount: 80,
+    amount: -8000,
     emoji: '🍽️',
     recurring: false,
+    category: 'Food',
+  },
+  {
+    title: 'Pay',
+    date: '2023-10-04',
+    amount: 61230,
+    emoji: '🍽️',
+    recurring: false,
+    category: 'Income',
   },
   {
     title: 'Heating bill',
     date: '2023-10-04',
-    amount: 120,
+    amount: -21300,
     emoji: '🔥',
     recurring: false,
+    category: 'Utilities',
   },
 ];
 

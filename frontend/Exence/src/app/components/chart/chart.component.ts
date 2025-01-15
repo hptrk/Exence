@@ -1,7 +1,6 @@
 import { Component, ViewChild, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
-import { Transaction } from '../../models/Transaction';
 import { Chart, Plugin } from 'chart.js';
 import { ThemeService } from '../../services/theme.service';
 import { Subscription } from 'rxjs';
@@ -10,6 +9,7 @@ import {
   getLineChartData,
   lineChartOptions,
 } from './chart-config';
+import { Transaction } from '../../models/Transaction';
 
 @Component({
   selector: 'app-chart',

@@ -3,5 +3,6 @@ export interface Transaction {
   date: string;
   amount: number;
   recurring: boolean;
+  category: string;
   emoji: string;
 }

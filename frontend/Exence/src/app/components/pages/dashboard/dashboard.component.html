@@ -5,9 +5,13 @@
   </div>
 
   <div class="grid-container">
-    <!-- Chart panel -->
-    <app-chart class="chart-panel" [transactions]="transactions"></app-chart>
-    <div class="categories-panel">kategória panel</div>
+    <div class="first-row">
+      <app-chart class="chart-panel" [transactions]="transactions"></app-chart>
+      <app-categories
+        class="categories-panel"
+        [transactions]="transactions"
+      ></app-categories>
+    </div>
 
     <!-- Summary panels -->
     <div class="summary-container">

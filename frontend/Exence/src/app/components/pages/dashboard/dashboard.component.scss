@@ -20,17 +20,32 @@
   align-items: center;
 }
 
+.first-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  grid-area: 1 / 1 / 2 / 13;
+}
+
 .chart-panel {
-  grid-area: 1 / 1 / 2 / 9; // First row, spanning 8 columns
+  flex-grow: 0.7;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-width: 300px;
 }
 
 .category-panel {
-  grid-area: 1 / 9 / 2 / 13; // First row, spanning 4 columns
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  min-width: 200px;
 }
+
 app-summary-container {
   min-width: 15%;
   max-width: 25%;
 }
+
 .summary-container {
   grid-area: 2 / 1 / 3 / 13; // Second row, spanning 12 columns
   display: flex;

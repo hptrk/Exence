@@ -1,0 +1,13 @@
+<mat-card class="categories-container">
+  <mat-card-title>Categories</mat-card-title>
+  <div *ngFor="let category of categories" class="category">
+    <div class="category-info">
+      <span>{{ category.name }}</span>
+      <span>{{ category.percentage | number : "1.0-2" }}%</span>
+    </div>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="category.percentage"
+    ></mat-progress-bar>
+  </div>
+</mat-card>
