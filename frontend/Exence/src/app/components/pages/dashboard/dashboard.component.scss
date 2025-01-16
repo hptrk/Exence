@@ -1,5 +1,5 @@
 .dashboard-container {
-  padding: 2rem;
+  padding: 5rem 15rem;
   opacity: 1;
   transition: opacity 0.3s ease;
 
@@ -22,20 +22,20 @@
 
 .first-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 3rem;
   grid-area: 1 / 1 / 2 / 13;
 }
 
 .chart-panel {
-  flex-grow: 0.7;
+  flex-grow: 7;
   flex-shrink: 1;
   flex-basis: 0;
   min-width: 300px;
 }
 
-.category-panel {
-  flex-grow: 1;
+.categories-panel {
+  flex-grow: 3;
   flex-shrink: 1;
   flex-basis: 0;
   min-width: 200px;
@@ -75,7 +75,38 @@ app-summary-container {
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+@media (max-width: 1900px) {
+  .dashboard-container {
+    padding: 3rem 10rem;
+  }
+}
+@media (max-width: 1700px) {
+  .dashboard-container {
+    padding: 3rem 7rem;
+  }
+}
+@media (max-width: 1500px) {
+  .dashboard-container {
+    padding: 1.5rem 3rem;
+  }
+}
+
+@media (max-width: 1200px) {
+  .dashboard-container {
+    padding: 1.5rem 2rem;
+  }
+}
+
+@media (max-width: 1000px) {
+  .dashboard-container {
+    padding: 1rem 1.5rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .dashboard-container {
+    padding: 2rem 2rem;
+  }
   .grid-container {
     grid-template-columns: 1fr;
   }
