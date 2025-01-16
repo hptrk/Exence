@@ -4,6 +4,7 @@ import { SummaryContainerComponent } from './summary-container/summary-container
 import { DataTableComponent } from '../../data-table/data-table.component';
 import { Transaction } from '../../../models/Transaction';
 import { CategoriesComponent } from './categories/categories.component';
+import { ViewToggleComponent } from '../../view-toggle/view-toggle.component';
 
 const DUMMY_DATA: Transaction[] = [
   {
@@ -70,6 +71,7 @@ const DUMMY_DATA: Transaction[] = [
     DataTableComponent,
     ChartComponent,
     CategoriesComponent,
+    ViewToggleComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

@@ -1,0 +1,9 @@
+<mat-button-toggle-group
+  [(ngModel)]="selectedView"
+  (change)="onViewChange($event)"
+  hideSingleSelectionIndicator="true"
+>
+  <mat-button-toggle value="week">Week</mat-button-toggle>
+  <mat-button-toggle value="month">Month</mat-button-toggle>
+  <mat-button-toggle value="year">Year</mat-button-toggle>
+</mat-button-toggle-group>

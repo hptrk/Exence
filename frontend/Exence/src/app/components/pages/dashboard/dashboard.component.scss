@@ -7,8 +7,16 @@
     opacity: 0;
   }
 }
-.welcome-section {
+.title-toggle-row {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  &--welcome {
+    & span {
+      font-weight: bold;
+      color: var(--mat-sys-primary-fixed);
+    }
+  }
 }
 
 .grid-container {

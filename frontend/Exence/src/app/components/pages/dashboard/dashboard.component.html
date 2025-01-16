@@ -1,7 +1,12 @@
 <div class="dashboard-container" [class.loading]="isLoading">
-  <div class="welcome-section">
-    <h1>Welcome back, <span>Patrik!</span></h1>
-    <p>Here's this month's finances:</p>
+  <div class="title-toggle-row">
+    <div class="title-toggle-row--welcome">
+      <h1>Welcome back, <span>Patrik!</span></h1>
+      <p>Here's this month's finances:</p>
+    </div>
+    <div class="title-toggle-row--toggle">
+      <app-view-toggle></app-view-toggle>
+    </div>
   </div>
 
   <div class="grid-container">

@@ -37,6 +37,17 @@ html {
       on-surface: var(--on-surface)
     )
   );
+
+  @include mat.button-toggle-overrides(
+    (
+      selected-state-background-color: var(--mat-sys-primary-fixed),
+      selected-state-text-color: var(--on-primary-fixed),
+      state-layer-color: var(--on-primary-fixed),
+      background-color: var(--mat-sys-surface),
+      divider-color: none,
+      height: 2.5rem,
+    )
+  );
 }
 
 body.light-theme {
