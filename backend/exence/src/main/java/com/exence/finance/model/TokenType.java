@@ -1,4 +1,4 @@
 package com.exence.finance.model;
 
-public enum TokenType {
+public enum TokenType { BEARER
 }
