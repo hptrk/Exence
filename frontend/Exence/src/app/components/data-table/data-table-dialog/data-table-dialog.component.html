@@ -1,5 +1,8 @@
 <div mat-dialog-content>
-  <app-expense-income-form [formType]="formType"></app-expense-income-form>
+  <app-expense-income-form
+    [formType]="formType"
+    [transaction]="data.transaction"
+  ></app-expense-income-form>
 </div>
 <div class="dialog-cancel-button">
   <mat-icon mat-dialog-close fontSet="material-symbols-outlined" matListItemIcon

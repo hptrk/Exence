@@ -6,8 +6,12 @@ import { SettingsComponent } from './components/pages/settings/settings.componen
 import { GoalsComponent } from './components/pages/goals/goals.component';
 import { StatisticsComponent } from './components/pages/statistics/statistics.component';
 import { TransactionsComponent } from './components/pages/transactions/transactions.component';
+import { LoginComponent } from './components/pages/auth/login/login.component';
+import { RegisterComponent } from './components/pages/auth/register/register.component';
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'goals', component: GoalsComponent },

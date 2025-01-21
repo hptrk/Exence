@@ -5,59 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator } from '@angular/material/paginator';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { Transaction } from '../../models/Transaction';
 import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
-
-const DUMMY_DATA: Transaction[] = [
-  {
-    title: 'Pay',
-    date: '2023-10-04',
-    amount: 61230,
-    emoji: '🍽️',
-    recurring: false,
-    category: 'Income',
-  },
-  {
-    title: 'Groceries',
-    date: '2023-10-01',
-    amount: -18900,
-    emoji: '🛒',
-    recurring: false,
-    category: 'Food',
-  },
-  {
-    title: 'Netflix',
-    date: '2023-10-02',
-    amount: -3000,
-    emoji: '🎬',
-    recurring: true,
-    category: 'Entertainment',
-  },
-  {
-    title: 'Restaurant',
-    date: '2023-10-03',
-    amount: -8000,
-    emoji: '🍽️',
-    recurring: false,
-    category: 'Food',
-  },
-  {
-    title: 'Pay',
-    date: '2023-10-04',
-    amount: 61230,
-    emoji: '🍽️',
-    recurring: false,
-    category: 'Income',
-  },
-  {
-    title: 'Heating bill',
-    date: '2023-10-04',
-    amount: -21300,
-    emoji: '🔥',
-    recurring: false,
-    category: 'Utilities',
-  },
-];
+import { Transaction } from '../../models/Transaction';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-data-table',
@@ -72,18 +22,46 @@ const DUMMY_DATA: Transaction[] = [
   styleUrl: './data-table.component.scss',
 })
 export class DataTableComponent {
-  constructor(public dialog: MatDialog) {}
   @Input() icon!: string;
   @Input() label!: string;
   @Input() formType: 'income' | 'expense' = 'income';
+  @Input() transactions: Transaction[] = [];
 
   displayedColumns: string[] = ['title', 'date', 'amount', 'category'];
-  dataSource = DUMMY_DATA;
+  dataSource: Transaction[] = [];
+
+  constructor(
+    public dialog: MatDialog,
+    private transactionService: TransactionService
+  ) {}
+
+  ngOnInit(): void {}
 
   openDialog(): void {
     this.dialog.open(DataTableDialogComponent, {
       width: 'auto',
       data: { formType: this.formType },
     });
+  }
+  openEditDialog(transaction: Transaction): void {
+    this.formType = transaction.amount > 0 ? 'income' : 'expense';
+    this.dialog.open(DataTableDialogComponent, {
+      width: 'auto',
+      data: { formType: this.formType, transaction },
+    });
+  }
+
+  changeCategory(transactionId: number, newCategoryId: number): void {
+    this.transactionService
+      .changeTransactionCategory(transactionId, newCategoryId)
+      .subscribe((updatedTransaction: Transaction) => {
+        // Update the local transactions with the updated transaction
+        const index = this.transactions.findIndex(
+          (t) => t.id === transactionId
+        );
+        if (index !== -1) {
+          this.dataSource[index] = updatedTransaction;
+        }
+      });
   }
 }

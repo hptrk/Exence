@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { Transaction } from '../../../../models/Transaction';
+import { Category } from '../../../../models/category';
 
 @Component({
   selector: 'app-categories',
@@ -12,10 +13,17 @@ import { Transaction } from '../../../../models/Transaction';
 })
 export class CategoriesComponent {
   @Input() transactions: Transaction[] = [];
-  categories: { name: string; percentage: number }[] = [];
+  @Input() categories: Category[] = [];
+  categoryPercentages: { name: string; percentage: number }[] = [];
 
   ngOnInit() {
     this.calculateCategoryPercentages();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['transactions'] || changes['categories']) {
+      this.calculateCategoryPercentages();
+    }
   }
 
   private calculateCategoryPercentages() {
@@ -24,14 +32,17 @@ export class CategoriesComponent {
 
     this.transactions.forEach((transaction) => {
       if (transaction.amount < 0) {
-        const category = transaction.category;
+        const category =
+          this.categories.find(
+            (category) => category.id === transaction.categoryId
+          )?.name || 'Unknown';
         categoryTotals[category] =
           (categoryTotals[category] || 0) + Math.abs(transaction.amount);
         totalSpent += Math.abs(transaction.amount);
       }
     });
 
-    this.categories = Object.keys(categoryTotals)
+    this.categoryPercentages = Object.keys(categoryTotals)
       .map((category) => ({
         name: category,
         percentage: (categoryTotals[category] / totalSpent) * 100,

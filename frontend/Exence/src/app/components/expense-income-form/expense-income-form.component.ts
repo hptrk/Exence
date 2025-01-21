@@ -21,6 +21,8 @@ import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 
 import { NewCategoryFormComponent } from './new-category-form/new-category-form.component';
+import { Transaction } from '../../models/Transaction';
+import { Category } from '../../models/category';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
@@ -60,6 +62,8 @@ export const MY_FORMATS = {
 })
 export class ExpenseIncomeFormComponent {
   @Input() formType: 'income' | 'expense' = 'income';
+  @Input() transaction!: Transaction;
+  @Input() categories: Category[] = [];
   expenseIncomeForm!: FormGroup;
   formSubmitted: boolean = false;
 
@@ -70,33 +74,38 @@ export class ExpenseIncomeFormComponent {
   ngOnInit(): void {
     const today = moment();
     this.expenseIncomeForm = this.fb.group({
-      name: ['', Validators.required],
-      category: ['', Validators.required],
-      amount: ['', [Validators.required, Validators.min(1)]],
-      date: [{ value: today, disabled: false }, Validators.required],
+      name: [this.transaction?.title || '', Validators.required],
+      category: [this.transaction?.categoryId || '', Validators.required],
+      amount: [
+        Math.abs(this.transaction?.amount) || '',
+        [Validators.required, Validators.min(1)],
+      ],
+      date: [
+        { value: this.transaction?.date || today, disabled: false },
+        Validators.required,
+      ],
     });
   }
-
-  // Categories
-  categories: { name: string; emoji: string }[] = [
-    { name: 'Food', emoji: '🍔' },
-    { name: 'Transport', emoji: '🚗' },
-    { name: 'Utilities', emoji: '💡' },
-    { name: 'Entertainment', emoji: '🎬' },
-  ];
   selectedCategory: string | null = null;
   addingCategory: boolean = false;
 
-  selectCategory(category: string): void {
-    this.selectedCategory = category;
-    this.expenseIncomeForm.get('category')?.setValue(category);
+  selectCategory(categoryId: number): void {
+    this.selectedCategory =
+      this.categories.find((category) => category.id === categoryId)?.name ||
+      null;
+    this.expenseIncomeForm.get('category')?.setValue(categoryId);
   }
 
   addCategory(): void {
     this.addingCategory = true;
   }
   onCategoryAdded(category: { name: string; emoji: string }): void {
-    this.categories.push(category);
+    const newCategory: Category = {
+      id: this.categories.length + 1, // or generate a unique id
+      name: category.name,
+      emoji: category.emoji,
+    };
+    this.categories.push(newCategory);
     this.addingCategory = false;
   }
 

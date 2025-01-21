@@ -1,6 +1,6 @@
 <div class="form-container">
   <h1 class="form-header">
-    Add your
+    {{ this.transaction ? "Edit" : "Add" }} your
     <span
       class="form-header-title"
       [ngStyle]="{
@@ -31,7 +31,7 @@
         <mat-chip-option
           *ngFor="let category of categories"
           [selected]="selectedCategory === category.name"
-          (click)="selectCategory(category.name)"
+          (click)="selectCategory(category.id)"
           selectable
         >
           {{ category.name }} {{ category.emoji }}

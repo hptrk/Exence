@@ -1,8 +1,8 @@
 export interface Transaction {
+  id: number;
   title: string;
-  date: string;
+  date: string; // String to represent date in ISO format
   amount: number;
-  recurring: boolean;
-  category: string;
-  emoji: string;
+  type: string;
+  categoryId: number;
 }

@@ -52,9 +52,14 @@ th {
   border: none;
 }
 
-.alt-row {
-  position: relative;
-  background-color: var(--background);
+.row td:first-child {
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: 2rem;
+}
+
+.row td:last-child {
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
 }
 .alt-row td:first-child {
   border-top-left-radius: 2rem;
@@ -64,4 +69,15 @@ th {
 .alt-row td:last-child {
   border-top-right-radius: 2rem;
   border-bottom-right-radius: 2rem;
+}
+.alt-row {
+  background-color: var(--background);
+  cursor: pointer;
+}
+.row {
+  cursor: pointer;
+}
+
+.mat-mdc-row:hover {
+  background-color: rgba(201, 201, 242, 0.05);
 }

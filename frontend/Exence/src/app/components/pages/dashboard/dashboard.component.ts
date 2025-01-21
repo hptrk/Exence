@@ -2,68 +2,13 @@ import { Component } from '@angular/core';
 import { ChartComponent } from '../../chart/chart.component';
 import { SummaryContainerComponent } from './summary-container/summary-container.component';
 import { DataTableComponent } from '../../data-table/data-table.component';
-import { Transaction } from '../../../models/Transaction';
 import { CategoriesComponent } from './categories/categories.component';
 import { ViewToggleComponent } from '../../view-toggle/view-toggle.component';
+import { Transaction } from '../../../models/Transaction';
+import { TransactionService } from '../../../services/transaction.service';
+import { Category } from '../../../models/category';
+import { CategoryService } from '../../../services/category.service';
 
-const DUMMY_DATA: Transaction[] = [
-  {
-    title: 'Pay',
-    date: '2023-10-04',
-    amount: 61230,
-    emoji: '🍽️',
-    recurring: false,
-    category: 'Income',
-  },
-  {
-    title: 'Groceries',
-    date: '2023-10-01',
-    amount: -18900,
-    emoji: '🛒',
-    recurring: false,
-    category: 'Food',
-  },
-  {
-    title: 'Investment',
-    date: '2023-10-01',
-    amount: -15200,
-    emoji: '😞',
-    recurring: false,
-    category: 'Tax',
-  },
-  {
-    title: 'Netflix',
-    date: '2023-10-02',
-    amount: -3000,
-    emoji: '🎬',
-    recurring: true,
-    category: 'Entertainment',
-  },
-  {
-    title: 'Restaurant',
-    date: '2023-10-03',
-    amount: -8000,
-    emoji: '🍽️',
-    recurring: false,
-    category: 'Food',
-  },
-  {
-    title: 'Pay',
-    date: '2023-10-04',
-    amount: 61230,
-    emoji: '🍽️',
-    recurring: false,
-    category: 'Income',
-  },
-  {
-    title: 'Heating bill',
-    date: '2023-10-04',
-    amount: -21300,
-    emoji: '🔥',
-    recurring: false,
-    category: 'Utilities',
-  },
-];
 @Component({
   selector: 'app-dashboard',
   imports: [
@@ -78,11 +23,27 @@ const DUMMY_DATA: Transaction[] = [
 })
 export class DashboardComponent {
   isLoading = true;
-  transactions = DUMMY_DATA;
+  transactions: Transaction[] = [];
+  categories: Category[] = [];
+
+  constructor(
+    private transactionService: TransactionService,
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit() {
-    setTimeout(() => {
-      this.isLoading = false;
-    });
+    this.isLoading = false; // Remove this line after API integration
+    this.transactionService
+      .getTransactionsForLoggedInUser()
+      .subscribe((transactions) => {
+        this.transactions = transactions;
+        this.isLoading = false;
+      });
+
+    this.categoryService
+      .getCategoriesForLoggedInUser()
+      .subscribe((categories) => {
+        this.categories = categories;
+      });
   }
 }

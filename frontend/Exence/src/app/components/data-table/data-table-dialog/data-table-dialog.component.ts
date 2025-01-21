@@ -2,6 +2,7 @@ import { Component, Input, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { ExpenseIncomeFormComponent } from '../../expense-income-form/expense-income-form.component';
 import { MatIcon } from '@angular/material/icon';
+import { Transaction } from '../../../models/Transaction';
 
 @Component({
   selector: 'app-data-table-dialog',
@@ -11,7 +12,9 @@ import { MatIcon } from '@angular/material/icon';
 })
 export class DataTableDialogComponent {
   @Input() formType: 'income' | 'expense' = 'income';
+  transaction: Transaction;
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.formType = data.formType;
+    this.transaction = data.transaction;
   }
 }
