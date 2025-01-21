@@ -6,7 +6,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { ViewToggleComponent } from '../../view-toggle/view-toggle.component';
 import { Transaction } from '../../../models/Transaction';
 import { TransactionService } from '../../../services/transaction.service';
-import { Category } from '../../../models/category';
+import { Category } from '../../../models/Category';
 import { CategoryService } from '../../../services/category.service';
 
 @Component({

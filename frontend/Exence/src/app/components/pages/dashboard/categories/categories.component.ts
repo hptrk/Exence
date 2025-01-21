@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { Transaction } from '../../../../models/Transaction';
-import { Category } from '../../../../models/category';
+import { Category } from '../../../../models/Category';
 
 @Component({
   selector: 'app-categories',

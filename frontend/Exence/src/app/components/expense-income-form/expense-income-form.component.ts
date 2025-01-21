@@ -22,7 +22,7 @@ import { default as _rollupMoment } from 'moment';
 
 import { NewCategoryFormComponent } from './new-category-form/new-category-form.component';
 import { Transaction } from '../../models/Transaction';
-import { Category } from '../../models/category';
+import { Category } from '../../models/Category';
 
 const moment = _rollupMoment || _moment;
 export const MY_FORMATS = {
