@@ -21,6 +21,7 @@ public class Transaction {
     private LocalDate date;
     private Double amount;
     private String type;
+    private Boolean recurring;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)

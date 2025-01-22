@@ -62,6 +62,7 @@ public class TransactionService {
         transaction.setTitle(transactionDTO.getTitle());
         transaction.setDate(transactionDTO.getDate());
         transaction.setAmount(transactionDTO.getAmount());
+        transaction.setRecurring(transactionDTO.getRecurring());
         transaction.setType(transactionDTO.getType());
         transaction.setCategory(categoryRepository.findById(transactionDTO.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException("Category not found")));
         Transaction updatedTransaction = transactionRepository.save(transaction);
@@ -100,6 +101,7 @@ public class TransactionService {
                 .date(transaction.getDate())
                 .amount(transaction.getAmount())
                 .type(transaction.getType())
+                .recurring(transaction.getRecurring())
                 .categoryId(transaction.getCategory().getId())
                 .build();
     }
@@ -110,6 +112,7 @@ public class TransactionService {
                 .date(transactionDTO.getDate())
                 .amount(transactionDTO.getAmount())
                 .type(transactionDTO.getType())
+                .recurring(transactionDTO.getRecurring())
                 .category(categoryRepository.findById(transactionDTO.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException("Category not found")))
                 .build();
     }

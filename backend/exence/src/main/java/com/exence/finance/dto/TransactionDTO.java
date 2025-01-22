@@ -28,6 +28,9 @@ public class TransactionDTO {
     @NotBlank(message = "Type is mandatory")
     private String type;
 
+    @NotNull(message = "Recurring is mandatory")
+    private Boolean recurring;
+
     @NotNull(message = "Category ID is mandatory")
     private Long categoryId;
 //    @NotNull(message = "User ID is mandatory")

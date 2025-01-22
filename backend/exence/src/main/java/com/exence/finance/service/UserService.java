@@ -88,7 +88,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    private UserDTO convertToDTO(User user) {
+    public UserDTO convertToDTO(User user) {
         return UserDTO.builder()
                 .id(user.getId())
                 .username(user.getActualUsername())

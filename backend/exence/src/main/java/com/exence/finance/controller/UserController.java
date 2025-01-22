@@ -3,7 +3,6 @@ package com.exence.finance.controller;
 import com.exence.finance.dto.UserDTO;
 import com.exence.finance.model.User;
 import com.exence.finance.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -15,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -27,6 +27,14 @@ public class UserController {
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable Long id){
         return userService.getUserById(id);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        UserDTO userDTO = userService.convertToDTO(user);
+        return ResponseEntity.ok(userDTO);
     }
 
     @PutMapping("/update-username")
