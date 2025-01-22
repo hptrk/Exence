@@ -1,4 +1,11 @@
-import { Component, ViewChild, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  Input,
+  OnInit,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, Plugin } from 'chart.js';
@@ -33,6 +40,12 @@ export class ChartComponent implements OnInit, OnDestroy {
     this.subscribeToThemeChanges();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['transactions']) {
+      this.initializeChart();
+    }
+  }
+
   ngOnDestroy() {
     if (this.themeSubscription) {
       this.themeSubscription.unsubscribe();
@@ -49,7 +62,10 @@ export class ChartComponent implements OnInit, OnDestroy {
     // Calculate balance data
     let balance = 0;
     const balanceData = this.transactions.map((transaction) => {
-      balance += transaction.amount;
+      balance +=
+        transaction.type === 'income'
+          ? transaction.amount
+          : -transaction.amount;
       return balance;
     });
     this.lineChartData.labels = this.transactions.map(

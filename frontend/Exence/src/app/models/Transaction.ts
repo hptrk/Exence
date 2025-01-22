@@ -4,5 +4,6 @@ export interface Transaction {
   date: string; // String to represent date in ISO format
   amount: number;
   type: string;
+  recurring: boolean;
   categoryId: number;
 }

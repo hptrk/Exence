@@ -2,6 +2,8 @@
   <app-expense-income-form
     [formType]="formType"
     [transaction]="data.transaction"
+    [categories]="data.categories"
+    (transactionAdded)="onTransactionAdded()"
   ></app-expense-income-form>
 </div>
 <div class="dialog-cancel-button">

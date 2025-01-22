@@ -12,7 +12,7 @@ import { Category } from '../../../../models/Category';
   styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent {
-  @Input() transactions: Transaction[] = [];
+  @Input() expenses: Transaction[] = [];
   @Input() categories: Category[] = [];
   categoryPercentages: { name: string; percentage: number }[] = [];
 
@@ -21,7 +21,7 @@ export class CategoriesComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['transactions'] || changes['categories']) {
+    if (changes['expenses'] || changes['categories']) {
       this.calculateCategoryPercentages();
     }
   }
@@ -30,16 +30,14 @@ export class CategoriesComponent {
     const categoryTotals: { [key: string]: number } = {};
     let totalSpent = 0;
 
-    this.transactions.forEach((transaction) => {
-      if (transaction.amount < 0) {
-        const category =
-          this.categories.find(
-            (category) => category.id === transaction.categoryId
-          )?.name || 'Unknown';
-        categoryTotals[category] =
-          (categoryTotals[category] || 0) + Math.abs(transaction.amount);
-        totalSpent += Math.abs(transaction.amount);
-      }
+    this.expenses.forEach((transaction) => {
+      const category =
+        this.categories.find(
+          (category) => category.id === transaction.categoryId
+        )?.name || 'Unknown';
+      categoryTotals[category] =
+        (categoryTotals[category] || 0) + Math.abs(transaction.amount);
+      totalSpent += Math.abs(transaction.amount);
     });
 
     this.categoryPercentages = Object.keys(categoryTotals)

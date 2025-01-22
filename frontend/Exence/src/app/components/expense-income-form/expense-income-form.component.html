@@ -18,10 +18,10 @@
     (ngSubmit)="onSubmit()"
   >
     <mat-form-field appearance="outline" [hideRequiredMarker]="true">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
-      <mat-error *ngIf="expenseIncomeForm.get('name')?.hasError('required')">
-        Name is <strong>required</strong>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" />
+      <mat-error *ngIf="expenseIncomeForm.get('title')?.hasError('required')">
+        Title is <strong>required</strong>
       </mat-error>
     </mat-form-field>
 

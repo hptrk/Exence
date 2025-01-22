@@ -1,4 +1,11 @@
-import { Component, ViewChild, Input } from '@angular/core';
+import { TransactionService } from './../../services/transaction.service';
+import {
+  Component,
+  ViewChild,
+  Input,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   MAT_DATE_FORMATS,
@@ -7,6 +14,7 @@ import {
 } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -64,17 +72,22 @@ export class ExpenseIncomeFormComponent {
   @Input() formType: 'income' | 'expense' = 'income';
   @Input() transaction!: Transaction;
   @Input() categories: Category[] = [];
+  @Output() transactionAdded = new EventEmitter<void>();
   expenseIncomeForm!: FormGroup;
   formSubmitted: boolean = false;
 
   readonly date = new FormControl(moment());
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private transactionService: TransactionService,
+    private dialogRef: MatDialogRef<ExpenseIncomeFormComponent>
+  ) {}
 
   ngOnInit(): void {
     const today = moment();
     this.expenseIncomeForm = this.fb.group({
-      name: [this.transaction?.title || '', Validators.required],
+      title: [this.transaction?.title || '', Validators.required],
       category: [this.transaction?.categoryId || '', Validators.required],
       amount: [
         Math.abs(this.transaction?.amount) || '',
@@ -113,17 +126,23 @@ export class ExpenseIncomeFormComponent {
     this.formSubmitted = true;
     if (this.expenseIncomeForm.valid) {
       const formValue = this.expenseIncomeForm.value;
-      // if the form is an expense, make the amount negative
-      const amount =
-        this.formType === 'expense' ? -formValue.amount : formValue.amount;
-
       const formData = {
         ...formValue,
-        amount,
+        categoryId: formValue.category,
+        recurring: false,
+        type: this.formType,
       };
-      this.formSubmitted = false;
-      // API call to save the data
-      console.log('Form data:', formData);
+      this.transactionService.createTransaction(formData).subscribe(
+        (response) => {
+          console.log('Transaction added successfully:', response);
+          this.formSubmitted = false;
+          this.transactionAdded.emit(); // Emit an event to notify the parent component
+          this.dialogRef.close(); // Close the dialog
+        },
+        (error) => {
+          console.error('Failed to add transaction:', error);
+        }
+      );
     } else {
       console.log('Form is invalid');
     }

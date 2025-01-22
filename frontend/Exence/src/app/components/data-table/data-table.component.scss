@@ -14,6 +14,16 @@
   }
 }
 
+.expense-amount {
+  color: var(--mat-sys-tertiary-fixed);
+  font-weight: bold;
+}
+
+.income-amount {
+  color: var(--mat-sys-secondary-fixed);
+  font-weight: bold;
+}
+
 .icon-container {
   width: 3rem;
   height: 3rem;
