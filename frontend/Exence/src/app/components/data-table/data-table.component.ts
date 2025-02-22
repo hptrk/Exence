@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, inject, input, computed, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,8 +7,8 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
 import { Transaction } from '../../models/Transaction';
-import { Category } from '../../models/Category';
 import { TransactionService } from '../../services/transaction.service';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-data-table',
@@ -23,70 +23,64 @@ import { TransactionService } from '../../services/transaction.service';
   styleUrl: './data-table.component.scss',
 })
 export class DataTableComponent {
-  @Input() icon!: string;
-  @Input() label!: string;
-  @Input() formType: 'income' | 'expense' = 'income';
-  @Input() transactions: Transaction[] = [];
-  @Input() categories: Category[] = [];
-  @Output() transactionAdded = new EventEmitter<void>();
+  private readonly dialog = inject(MatDialog);
+  private readonly transactionService = inject(TransactionService);
+  private readonly categoryService = inject(CategoryService);
 
-  displayedColumns: string[] = ['title', 'date', 'amount', 'category'];
-  filteredTransactions: Transaction[] = [];
+  icon = input.required<string>();
+  label = input.required<string>();
+  formType = input<'income' | 'expense'>('income');
+  // transactionAdded = output<void>();
 
-  constructor(
-    public dialog: MatDialog,
-    private transactionService: TransactionService
-  ) {}
+  protected readonly displayedColumns = ['title', 'date', 'amount', 'category'];
 
-  ngOnInit(): void {
-    this.filteredTransactions = this.transactions.filter(
-      (transaction) => transaction.type === this.formType
-    );
-  }
+  protected readonly categories = computed(() =>
+    this.categoryService.getCategories()()
+  );
+  protected readonly filteredTransactions = computed(() =>
+    this.transactionService
+      .getTransactions()()
+      .filter((transaction) => transaction.type === this.formType())
+  );
 
-  getCategoryEmoji(categoryId: number): string {
-    const category = this.categories.find(
+  protected getCategoryEmoji(categoryId: number): string {
+    const category = this.categories()?.find(
       (category) => category.id === categoryId
     );
     return category ? category.emoji : '';
   }
 
-  openDialog(): void {
+  protected openDialog(): void {
     const dialogRef = this.dialog.open(DataTableDialogComponent, {
       width: 'auto',
-      data: { formType: this.formType, categories: this.categories },
+      data: {
+        formType: this.formType(),
+        categories: this.categories(),
+      },
     });
 
-    dialogRef.componentInstance.transactionAdded.subscribe(() => {
-      this.transactionAdded.emit(); // Emit the event to notify the DashboardComponent
-    });
+    // dialogRef.componentInstance.transactionAdded.subscribe(() => {
+    //   this.transactionAdded.emit(); // Emit the event to notify the DashboardComponent to reload the data
+    // });
   }
-  openEditDialog(transaction: Transaction): void {
-    this.formType = transaction.type as 'income' | 'expense';
+
+  protected openEditDialog(transaction: Transaction): void {
     const dialogRef = this.dialog.open(DataTableDialogComponent, {
       width: 'auto',
-      data: { formType: this.formType, transaction },
+      data: {
+        formType: transaction.type,
+        transaction,
+      },
     });
 
-    dialogRef.componentInstance.transactionAdded.subscribe(() => {
-      this.transactionAdded.emit(); // Emit the event to notify the DashboardComponent
-    });
+    // dialogRef.componentInstance.transactionAdded.subscribe(() => {
+    //   this.transactionAdded.emit(); // Emit the event to notify the DashboardComponent to reload the data
+    // });
   }
 
-  changeCategory(transactionId: number, newCategoryId: number): void {
+  protected changeCategory(transactionId: number, newCategoryId: number): void {
     this.transactionService
       .changeTransactionCategory(transactionId, newCategoryId)
-      .subscribe((updatedTransaction: Transaction) => {
-        // Update the local transactions with the updated transaction
-        const index = this.transactions.findIndex(
-          (t) => t.id === transactionId
-        );
-        if (index !== -1) {
-          this.transactions[index] = updatedTransaction;
-          this.filteredTransactions = this.transactions.filter(
-            (transaction) => transaction.type === this.formType
-          );
-        }
-      });
+      .subscribe();
   }
 }

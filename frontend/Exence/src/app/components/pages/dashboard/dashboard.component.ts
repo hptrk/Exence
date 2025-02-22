@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { ChartComponent } from '../../chart/chart.component';
 import { SummaryContainerComponent } from './summary-container/summary-container.component';
 import { DataTableComponent } from '../../data-table/data-table.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { ViewToggleComponent } from '../../view-toggle/view-toggle.component';
-import { Transaction } from '../../../models/Transaction';
 import { TransactionService } from '../../../services/transaction.service';
-import { Category } from '../../../models/Category';
 import { CategoryService } from '../../../services/category.service';
 import { AuthService } from '../../../services/auth.service';
 
@@ -23,102 +21,64 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent {
-  isLoading = true;
-  transactions: Transaction[] = [];
-  expenses: Transaction[] = [];
-  incomes: Transaction[] = [];
-  categories: Category[] = [];
-  user: any;
-  totalIncome = 0;
-  totalExpenses = 0;
-  balance = 0;
-  highestSpendingCategory: { name: string; amount: number } = {
-    name: '',
-    amount: 0,
-  };
+  private readonly transactionService = inject(TransactionService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly authService = inject(AuthService);
 
-  constructor(
-    private transactionService: TransactionService,
-    private categoryService: CategoryService,
-    private authService: AuthService
-  ) {}
+  protected readonly transactions = this.transactionService.getTransactions();
+  protected readonly categories = this.categoryService.getCategories();
 
-  ngOnInit() {
-    this.loadData();
-  }
+  // Computed values
+  protected readonly username = computed(
+    () => this.authService.getUserData()()?.username ?? ''
+  );
 
-  loadData() {
-    this.transactionService
-      .getTransactionsForLoggedInUser()
-      .subscribe((transactions) => {
-        this.transactions = transactions;
-        this.expenses = transactions.filter(
-          (transaction) => transaction.type === 'expense'
-        );
-        this.incomes = transactions.filter(
-          (transaction) => transaction.type === 'income'
-        );
-        this.totalIncome = this.incomes.reduce(
-          (sum, transaction) => sum + transaction.amount,
-          0
-        );
-        this.totalExpenses =
-          this.expenses.reduce(
-            (sum, transaction) => sum + transaction.amount,
-            0
-          ) * -1;
-        this.balance = this.totalIncome + this.totalExpenses;
-        this.calculateHighestSpendingCategory();
-        this.isLoading = false;
-      });
+  protected readonly expenses = computed(() =>
+    this.transactions().filter((t) => t.type === 'expense')
+  );
 
-    this.categoryService
-      .getCategoriesForLoggedInUser()
-      .subscribe((categories) => {
-        this.categories = categories;
-      });
+  protected readonly incomes = computed(() =>
+    this.transactions().filter((t) => t.type === 'income')
+  );
 
-    this.authService.getUserData().subscribe(
-      (data) => {
-        this.user = data;
-      },
-      (error) => {
-        console.error('Failed to fetch user data', error);
-      }
-    );
-  }
+  protected readonly totalIncome = computed(() =>
+    this.incomes().reduce((sum, t) => sum + t.amount, 0)
+  );
 
-  calculateHighestSpendingCategory() {
+  protected readonly totalExpenses = computed(
+    () => this.expenses().reduce((sum, t) => sum + t.amount, 0) * -1
+  );
+
+  protected readonly balance = computed(
+    () => this.totalIncome() + this.totalExpenses()
+  );
+
+  protected readonly highestSpendingCategory = computed(() => {
     const categorySpending: { [key: number]: number } = {};
-    this.expenses.forEach((transaction) => {
-      if (!categorySpending[transaction.categoryId]) {
-        categorySpending[transaction.categoryId] = 0;
-      }
-      categorySpending[transaction.categoryId] += transaction.amount;
+
+    this.expenses().forEach((transaction) => {
+      categorySpending[transaction.categoryId] =
+        (categorySpending[transaction.categoryId] || 0) + transaction.amount;
     });
 
-    let highestSpendingCategoryId = null;
-    let highestSpendingAmount = 0;
-    for (const categoryId in categorySpending) {
-      if (categorySpending[categoryId] > highestSpendingAmount) {
-        highestSpendingAmount = categorySpending[categoryId];
-        highestSpendingCategoryId = categoryId;
+    let highestId: any = null;
+    let highestAmount = 0;
+
+    Object.entries(categorySpending).forEach(([categoryId, amount]) => {
+      if (amount > highestAmount) {
+        highestAmount = amount;
+        highestId = +categoryId;
       }
+    });
+
+    if (highestId === null) {
+      return { name: '', amount: 0 };
     }
 
-    if (highestSpendingCategoryId !== null) {
-      const category = this.categories.find(
-        (category) => category.id === +highestSpendingCategoryId
-      );
-      if (category) {
-        this.highestSpendingCategory = {
-          name: category.name,
-          amount: highestSpendingAmount * -1,
-        };
-      }
-    }
-  }
-  onTransactionAdded() {
-    this.loadData();
-  }
+    const category = this.categories().find((c) => c.id === highestId);
+    return {
+      name: category?.name ?? '',
+      amount: highestAmount * -1,
+    };
+  });
 }

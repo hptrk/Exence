@@ -1,16 +1,16 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
+import { RouterModule, RouterLink } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ThemeService } from '../../services/theme.service';
-import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
   imports: [
     RouterModule,
+    RouterLink,
     MatSidenavModule,
     MatListModule,
     MatIconModule,
@@ -20,20 +20,18 @@ import { ChangeDetectorRef } from '@angular/core';
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
-  constructor(
-    private themeService: ThemeService,
-    private cdr: ChangeDetectorRef
-  ) {}
-  @ViewChild('sidenavContainer') sidenavContainer!: ElementRef;
+  themeService = inject(ThemeService);
+  @ViewChild('sidenavContainer', { read: ElementRef })
+  sidenavContainerElmRef!: ElementRef<HTMLElement>;
 
   toggleTheme() {
     this.themeService.toggleTheme();
   }
 
+  // sidebar flash bug fix
   ngAfterViewInit() {
     setTimeout(() => {
-      document.querySelector('mat-sidenav-container')?.classList.add('loaded');
-      this.cdr.detectChanges();
+      this.sidenavContainerElmRef.nativeElement.classList.add('loaded');
     }, 0);
   }
 }

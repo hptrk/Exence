@@ -2,9 +2,9 @@
   <div class="table-header">
     <div class="table-header-left">
       <div class="icon-container">
-        <mat-icon fontSet="material-symbols-outlined">{{ icon }}</mat-icon>
+        <mat-icon fontSet="material-symbols-outlined">{{ icon() }}</mat-icon>
       </div>
-      <span class="table-label">{{ label }}</span>
+      <span class="table-label">{{ label() }}</span>
     </div>
     <div class="table-header-right">
       <div class="icon-container pointer-cursor" (click)="openDialog()">
@@ -12,7 +12,11 @@
       </div>
     </div>
   </div>
-  <table mat-table [dataSource]="transactions" class="mat-elevation-z8">
+  <table
+    mat-table
+    [dataSource]="filteredTransactions()"
+    class="mat-elevation-z8"
+  >
     <!-- Title Column -->
     <ng-container matColumnDef="title">
       <th mat-header-cell *matHeaderCellDef>Title</th>

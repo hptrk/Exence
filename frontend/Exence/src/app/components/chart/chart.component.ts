@@ -5,6 +5,12 @@ import {
   OnInit,
   OnDestroy,
   SimpleChanges,
+  input,
+  inject,
+  WritableSignal,
+  computed,
+  effect,
+  DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
@@ -17,87 +23,94 @@ import {
   lineChartOptions,
 } from './chart-config';
 import { Transaction } from '../../models/Transaction';
+import { TransactionService } from '../../services/transaction.service';
 
 @Component({
   selector: 'app-chart',
-  standalone: true,
   imports: [CommonModule, BaseChartDirective],
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent implements OnInit, OnDestroy {
-  @Input() transactions: Transaction[] = [];
-  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-  public lineChartData = getLineChartData([], []);
-  public lineChartOptions = lineChartOptions;
-  private themeSubscription!: Subscription;
+  private readonly transactionService = inject(TransactionService);
+  private readonly themeService = inject(ThemeService);
+
+  @ViewChild(BaseChartDirective) private readonly chart?: BaseChartDirective;
+  protected readonly lineChartOptions = lineChartOptions;
   private customBackgroundPlugin!: Plugin;
 
-  constructor(private themeService: ThemeService) {}
+  // Computed properties
+  protected readonly balanceData = computed(() => {
+    let balance = 0;
+    return this.transactionService
+      .getTransactions()()
+      .map((transaction) => {
+        balance +=
+          transaction.type === 'income'
+            ? transaction.amount
+            : -transaction.amount;
+        return balance;
+      });
+  });
+  protected readonly chartLabels = computed(() =>
+    this.transactionService
+      .getTransactions()()
+      .map((t) => t.title)
+  );
+  protected readonly lineChartData = computed(() =>
+    getLineChartData(this.balanceData(), this.chartLabels())
+  );
+  protected readonly isDarkMode = computed(() =>
+    this.themeService.isDarkTheme()
+  );
 
+  constructor() {
+    // Theme changes
+    effect(() => {
+      const isDark = this.themeService.isDarkTheme();
+      if (this.chart) {
+        this.updateChartColors();
+        this.registerCustomBackgroundPlugin();
+      }
+    });
+  }
   ngOnInit() {
     this.initializeChart();
-    this.subscribeToThemeChanges();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['transactions']) {
-      this.initializeChart();
-    }
   }
 
   ngOnDestroy() {
-    if (this.themeSubscription) {
-      this.themeSubscription.unsubscribe();
+    if (this.customBackgroundPlugin) {
+      Chart.unregister(this.customBackgroundPlugin);
     }
   }
 
   private initializeChart() {
     // Create custom background plugin
     this.customBackgroundPlugin = createCustomBackgroundPlugin(
-      this.themeService.getIsDarkTheme
+      this.isDarkMode()
     );
     Chart.register(this.customBackgroundPlugin);
-
-    // Calculate balance data
-    let balance = 0;
-    const balanceData = this.transactions.map((transaction) => {
-      balance +=
-        transaction.type === 'income'
-          ? transaction.amount
-          : -transaction.amount;
-      return balance;
-    });
-    this.lineChartData.labels = this.transactions.map(
-      (transaction) => transaction.title
-    );
-    this.lineChartData.datasets[0].data = balanceData;
-
-    // Check the current theme and update chart colors accordingly
-    this.updateChartColors(this.themeService.getIsDarkTheme);
+    this.updateChartColors();
   }
 
-  private subscribeToThemeChanges() {
-    // Subscribe to theme changes
-    this.themeSubscription = this.themeService.themeChange$.subscribe(
-      (isDarkMode) => {
-        this.updateChartColors(isDarkMode);
-        this.registerCustomBackgroundPlugin(isDarkMode);
-      }
-    );
-  }
-
-  private updateChartColors(isDarkMode: boolean) {
-    this.lineChartData.datasets[0].backgroundColor = isDarkMode
+  private updateChartColors() {
+    const backgroundColor = this.isDarkMode()
       ? 'rgba(222, 222, 247, 0.1)'
       : 'rgba(222, 222, 247, 0.4)';
+
+    if (this.lineChartData()) {
+      this.lineChartData().datasets[0].backgroundColor = backgroundColor;
+      this.chart?.update();
+    }
 
     this.chart?.update();
   }
 
-  private registerCustomBackgroundPlugin(isDarkMode: boolean) {
+  private registerCustomBackgroundPlugin() {
     Chart.unregister(this.customBackgroundPlugin);
-    this.customBackgroundPlugin = createCustomBackgroundPlugin(isDarkMode);
+    this.customBackgroundPlugin = createCustomBackgroundPlugin(
+      this.isDarkMode()
+    );
     Chart.register(this.customBackgroundPlugin);
     this.chart?.update();
   }

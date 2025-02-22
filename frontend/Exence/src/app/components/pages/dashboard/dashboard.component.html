@@ -1,8 +1,8 @@
-<div class="dashboard-container" [class.loading]="isLoading">
+<div class="dashboard-container">
   <div class="title-toggle-row">
     <div class="title-toggle-row--welcome">
       <h1>
-        Welcome back, <span>{{ user?.username }}!</span>
+        Welcome back, <span>{{ username() }}!</span>
       </h1>
       <p>Here's this month's finances:</p>
     </div>
@@ -13,12 +13,8 @@
 
   <div class="grid-container">
     <div class="first-row">
-      <app-chart class="chart-panel" [transactions]="transactions"></app-chart>
-      <app-categories
-        class="categories-panel"
-        [expenses]="expenses"
-        [categories]="categories"
-      ></app-categories>
+      <app-chart class="chart-panel"></app-chart>
+      <app-categories class="categories-panel"></app-categories>
     </div>
 
     <!-- Summary panels -->
@@ -26,22 +22,22 @@
       <app-summary-container
         icon="attach_money"
         label="Income"
-        [value]="totalIncome"
+        [value]="totalIncome()"
       ></app-summary-container>
       <app-summary-container
         icon="money_off"
         label="Expenses"
-        [value]="totalExpenses"
+        [value]="totalExpenses()"
       ></app-summary-container>
       <app-summary-container
         icon="savings"
         label="Balance"
-        [value]="balance"
+        [value]="balance()"
       ></app-summary-container>
       <app-summary-container
         icon="receipt_long"
-        [label]="highestSpendingCategory.name"
-        [value]="highestSpendingCategory.amount"
+        [label]="highestSpendingCategory().name"
+        [value]="highestSpendingCategory().amount"
       ></app-summary-container>
     </div>
 
@@ -51,9 +47,6 @@
       class="list expenses"
       icon="money_off"
       label="Expenses"
-      [transactions]="expenses"
-      [categories]="categories"
-      (transactionAdded)="onTransactionAdded()"
     >
     </app-data-table>
     <app-data-table
@@ -61,9 +54,6 @@
       class="list incomes"
       icon="attach_money"
       label="Incomes"
-      [transactions]="incomes"
-      [categories]="categories"
-      (transactionAdded)="onTransactionAdded()"
     >
     </app-data-table>
   </div>
