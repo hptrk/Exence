@@ -1,3 +1,4 @@
+import { CategoryService } from './../../services/category.service';
 import { TransactionService } from './../../services/transaction.service';
 import {
   Component,
@@ -5,6 +6,10 @@ import {
   Input,
   Output,
   EventEmitter,
+  inject,
+  input,
+  signal,
+  computed,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -33,7 +38,7 @@ import { Transaction } from '../../models/Transaction';
 import { Category } from '../../models/Category';
 
 const moment = _rollupMoment || _moment;
-export const MY_FORMATS = {
+export const DATE_FORMATS = {
   parse: {
     dateInput: 'LL',
   },
@@ -62,89 +67,110 @@ export const MY_FORMATS = {
   ],
   providers: [
     provideNativeDateAdapter(),
-    { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS },
-    provideMomentDateAdapter(MY_FORMATS),
+    provideMomentDateAdapter(DATE_FORMATS),
   ],
   templateUrl: './expense-income-form.component.html',
   styleUrl: './expense-income-form.component.scss',
 })
 export class ExpenseIncomeFormComponent {
-  @Input() formType: 'income' | 'expense' = 'income';
-  @Input() transaction!: Transaction;
-  @Input() categories: Category[] = [];
-  @Output() transactionAdded = new EventEmitter<void>();
-  expenseIncomeForm!: FormGroup;
-  formSubmitted: boolean = false;
+  private readonly fb = inject(FormBuilder);
+  private readonly transactionService = inject(TransactionService);
+  private readonly categoryService = inject(CategoryService);
+  private readonly dialogRef = inject(MatDialogRef);
 
-  readonly date = new FormControl(moment());
+  formType = input<'income' | 'expense'>('income');
+  transaction = input<Transaction | null>();
 
-  constructor(
-    private fb: FormBuilder,
-    private transactionService: TransactionService,
-    private dialogRef: MatDialogRef<ExpenseIncomeFormComponent>
-  ) {}
+  protected readonly categories = this.categoryService.getCategories();
 
-  ngOnInit(): void {
+  protected readonly isAddingCategory = signal(false);
+  protected readonly isFormSubmitted = signal(false);
+  protected readonly selectedCategory = signal<string | null>(null);
+
+  protected readonly form = computed(() => this.initForm());
+  protected readonly date = new FormControl(moment());
+
+  private initForm() {
     const today = moment();
-    this.expenseIncomeForm = this.fb.group({
-      title: [this.transaction?.title || '', Validators.required],
-      category: [this.transaction?.categoryId || '', Validators.required],
+    return this.fb.group({
+      title: [this.transaction()?.title || '', Validators.required],
+      categoryId: [this.transaction()?.categoryId || '', Validators.required],
       amount: [
-        Math.abs(this.transaction?.amount) || '',
+        this.transaction() ? Math.abs(this.transaction()!.amount) : '',
         [Validators.required, Validators.min(1)],
       ],
       date: [
-        { value: this.transaction?.date || today, disabled: false },
+        {
+          value: this.transaction()?.date || today.format('YYYY-MM-DD'),
+          disabled: false,
+        },
         Validators.required,
       ],
     });
   }
-  selectedCategory: string | null = null;
-  addingCategory: boolean = false;
 
-  selectCategory(categoryId: number): void {
-    this.selectedCategory =
-      this.categories.find((category) => category.id === categoryId)?.name ||
-      null;
-    this.expenseIncomeForm.get('category')?.setValue(categoryId);
+  protected selectCategory(categoryId: number): void {
+    const category = this.categories().find((c) => c.id === categoryId);
+    this.selectedCategory.set(category?.name || null);
+    this.form().get('categoryId')?.setValue(categoryId);
   }
 
-  addCategory(): void {
-    this.addingCategory = true;
+  protected addCategory(): void {
+    this.isAddingCategory.set(true);
   }
-  onCategoryAdded(category: { name: string; emoji: string }): void {
+
+  protected onCategoryAdded(category: { name: string; emoji: string }): void {
     const newCategory: Category = {
-      id: this.categories.length + 1, // or generate a unique id
+      id: 0, // backend will generate the actual ID
       name: category.name,
       emoji: category.emoji,
     };
-    this.categories.push(newCategory);
-    this.addingCategory = false;
+
+    this.categoryService.createCategory(newCategory).subscribe({
+      next: (createdCategory) => {
+        this.selectCategory(createdCategory.id);
+        this.isAddingCategory.set(false);
+      },
+    });
   }
 
-  onSubmit(): void {
-    this.formSubmitted = true;
-    if (this.expenseIncomeForm.valid) {
-      const formValue = this.expenseIncomeForm.value;
-      const formData = {
-        ...formValue,
-        categoryId: formValue.category,
-        recurring: false,
-        type: this.formType,
-      };
-      this.transactionService.createTransaction(formData).subscribe(
-        (response) => {
-          console.log('Transaction added successfully:', response);
-          this.formSubmitted = false;
-          this.transactionAdded.emit(); // Emit an event to notify the parent component
-          this.dialogRef.close(); // Close the dialog
-        },
-        (error) => {
-          console.error('Failed to add transaction:', error);
-        }
-      );
-    } else {
-      console.log('Form is invalid');
+  protected onSubmit(): void {
+    this.isFormSubmitted.set(true);
+
+    if (this.form().valid) {
+      const formValue = this.form().value;
+
+      // const newTransaction: Transaction = {
+      //   id: this.transaction()!.id,
+      //   title: formValue.title,
+      //   date: formValue.date ?? undefined,
+      //   amount: Number(formValue.amount),
+      //   type: this.formType(),
+      //   recurring: false,
+      //   categoryId: Number(formValue.categoryId),
+      // };
+
+      // if (this.transaction()) {
+      //   // Update existing transaction
+      //   this.transactionService.updateTransaction(this.transaction()!.id, transaction)
+      //     .subscribe({
+      //       next: () => {
+      //         this.isFormSubmitted.set(false);
+      //         this.dialogRef.close();
+      //       },
+      //       error: (error) => console.error('Failed to update transaction:', error)
+      //     });
+      // } else {
+      //   // Create new transaction
+      //   this.transactionService.createTransaction(transaction)
+      //     .subscribe({
+      //       next: () => {
+      //         this.isFormSubmitted.set(false);
+      //         this.dialogRef.close();
+      //       },
+      //       error: (error) => console.error('Failed to create transaction:', error)
+      //     });
+      // }
     }
   }
 }

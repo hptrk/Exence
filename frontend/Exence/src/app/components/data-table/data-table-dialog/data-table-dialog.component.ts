@@ -1,9 +1,8 @@
-import { Component, Input, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { ExpenseIncomeFormComponent } from '../../expense-income-form/expense-income-form.component';
 import { MatIcon } from '@angular/material/icon';
-import { Transaction } from '../../../models/Transaction';
-import { Category } from '../../../models/Category';
+import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-data-table-dialog',
@@ -12,17 +11,12 @@ import { Category } from '../../../models/Category';
   styleUrl: './data-table-dialog.component.scss',
 })
 export class DataTableDialogComponent {
-  @Output() transactionAdded = new EventEmitter<void>();
-  @Input() formType: 'income' | 'expense' = 'income';
-  categories: Category[] = [];
-  transaction: Transaction;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    this.formType = data.formType;
-    this.transaction = data.transaction;
-    this.categories = data.categories;
-  }
+  // dialogData will come from the parent component
+  private readonly dialogData = inject(MAT_DIALOG_DATA);
+  protected readonly formType: 'income' | 'expense' = this.dialogData.formType;
 
-  onTransactionAdded() {
-    this.transactionAdded.emit();
-  }
+  // will come from the parent component IF the user wants to EDIT a transaction (otherwise it will be null)
+  protected readonly transaction = this.dialogData.transaction
+    ? this.dialogData.transaction
+    : null;
 }

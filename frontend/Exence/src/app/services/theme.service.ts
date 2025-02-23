@@ -1,22 +1,28 @@
-import { Injectable, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { inject, Injectable, signal } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  isDarkTheme = signal(true);
+  private readonly isDark = signal(true);
+  private readonly document = inject(DOCUMENT);
+
+  isDarkTheme() {
+    return this.isDark;
+  }
 
   constructor() {
     this.updateThemeClass();
   }
 
   toggleTheme() {
-    this.isDarkTheme.update((prev) => !prev);
+    this.isDark.update((prev) => !prev);
     this.updateThemeClass();
   }
   private updateThemeClass(): void {
-    const themeClass = this.isDarkTheme() ? 'dark-theme' : 'light-theme';
-    document.body.className = themeClass;
+    const themeClass = this.isDark() ? 'dark-theme' : 'light-theme';
+    this.document.body.className = themeClass;
   }
 }

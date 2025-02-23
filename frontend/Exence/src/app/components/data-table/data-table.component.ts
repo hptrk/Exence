@@ -1,4 +1,4 @@
-import { Component, inject, input, computed, output } from '@angular/core';
+import { Component, inject, input, computed } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
@@ -30,7 +30,6 @@ export class DataTableComponent {
   icon = input.required<string>();
   label = input.required<string>();
   formType = input<'income' | 'expense'>('income');
-  // transactionAdded = output<void>();
 
   protected readonly displayedColumns = ['title', 'date', 'amount', 'category'];
 
@@ -55,13 +54,8 @@ export class DataTableComponent {
       width: 'auto',
       data: {
         formType: this.formType(),
-        categories: this.categories(),
       },
     });
-
-    // dialogRef.componentInstance.transactionAdded.subscribe(() => {
-    //   this.transactionAdded.emit(); // Emit the event to notify the DashboardComponent to reload the data
-    // });
   }
 
   protected openEditDialog(transaction: Transaction): void {
@@ -72,10 +66,6 @@ export class DataTableComponent {
         transaction,
       },
     });
-
-    // dialogRef.componentInstance.transactionAdded.subscribe(() => {
-    //   this.transactionAdded.emit(); // Emit the event to notify the DashboardComponent to reload the data
-    // });
   }
 
   protected changeCategory(transactionId: number, newCategoryId: number): void {

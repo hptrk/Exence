@@ -1,28 +1,21 @@
 import {
   Component,
   ViewChild,
-  Input,
   OnInit,
   OnDestroy,
-  SimpleChanges,
-  input,
   inject,
-  WritableSignal,
   computed,
   effect,
-  DestroyRef,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, Plugin } from 'chart.js';
 import { ThemeService } from '../../services/theme.service';
-import { Subscription } from 'rxjs';
 import {
   createCustomBackgroundPlugin,
   getLineChartData,
   lineChartOptions,
 } from './chart-config';
-import { Transaction } from '../../models/Transaction';
 import { TransactionService } from '../../services/transaction.service';
 
 @Component({
@@ -61,13 +54,13 @@ export class ChartComponent implements OnInit, OnDestroy {
     getLineChartData(this.balanceData(), this.chartLabels())
   );
   protected readonly isDarkMode = computed(() =>
-    this.themeService.isDarkTheme()
+    this.themeService.isDarkTheme()()
   );
 
   constructor() {
     // Theme changes
     effect(() => {
-      const isDark = this.themeService.isDarkTheme();
+      const isDark = this.themeService.isDarkTheme()();
       if (this.chart) {
         this.updateChartColors();
         this.registerCustomBackgroundPlugin();
