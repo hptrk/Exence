@@ -1,0 +1,19 @@
+version: '3.8'
+
+name: exence
+services:
+  exence-pg:
+    image: postgres:16
+    container_name: exence-postgres
+    restart: always
+    ports:
+      - "6969:5432"
+    environment:
+      POSTGRES_USER: exencedev
+      POSTGRES_PASSWORD: exencepwd
+      POSTGRES_DB: exence_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

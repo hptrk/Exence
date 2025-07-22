@@ -140,37 +140,40 @@ export class ExpenseIncomeFormComponent {
     if (this.form().valid) {
       const formValue = this.form().value;
 
-      // const newTransaction: Transaction = {
-      //   id: this.transaction()!.id,
-      //   title: formValue.title,
-      //   date: formValue.date ?? undefined,
-      //   amount: Number(formValue.amount),
-      //   type: this.formType(),
-      //   recurring: false,
-      //   categoryId: Number(formValue.categoryId),
-      // };
+      // TODO: most csak átírtam h működjön, ne any legyen
+      const newTransaction: any = {
+        id: this.transaction()?.id,
+        title: formValue.title,
+        date: formValue.date ?? undefined,
+        amount: Number(formValue.amount),
+        type: this.formType(),
+        recurring: false,
+        categoryId: Number(formValue.categoryId),
+      };
 
-      // if (this.transaction()) {
-      //   // Update existing transaction
-      //   this.transactionService.updateTransaction(this.transaction()!.id, transaction)
-      //     .subscribe({
-      //       next: () => {
-      //         this.isFormSubmitted.set(false);
-      //         this.dialogRef.close();
-      //       },
-      //       error: (error) => console.error('Failed to update transaction:', error)
-      //     });
-      // } else {
-      //   // Create new transaction
-      //   this.transactionService.createTransaction(transaction)
-      //     .subscribe({
-      //       next: () => {
-      //         this.isFormSubmitted.set(false);
-      //         this.dialogRef.close();
-      //       },
-      //       error: (error) => console.error('Failed to create transaction:', error)
-      //     });
-      // }
+      if (this.transaction()) {
+        // Update existing transaction
+        this.transactionService
+          .updateTransaction(this.transaction()!.id, newTransaction)
+          .subscribe({
+            next: () => {
+              this.isFormSubmitted.set(false);
+              this.dialogRef.close();
+            },
+            error: (error) =>
+              console.error('Failed to update transaction:', error),
+          });
+      } else {
+        // Create new transaction
+        this.transactionService.createTransaction(newTransaction).subscribe({
+          next: () => {
+            this.isFormSubmitted.set(false);
+            this.dialogRef.close();
+          },
+          error: (error) =>
+            console.error('Failed to create transaction:', error),
+        });
+      }
     }
   }
 }

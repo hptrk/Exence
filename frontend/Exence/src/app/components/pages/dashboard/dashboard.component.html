@@ -14,7 +14,11 @@
   <div class="grid-container">
     <div class="first-row">
       <app-chart class="chart-panel"></app-chart>
-      <app-categories class="categories-panel"></app-categories>
+      <app-categories
+        [expenses]="expenses()"
+        [categories]="categories()"
+        class="categories-panel"
+      ></app-categories>
     </div>
 
     <!-- Summary panels -->
