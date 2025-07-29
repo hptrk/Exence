@@ -1,0 +1,29 @@
+.form-container {
+  padding: 1rem;
+}
+.form-header {
+  margin-bottom: 3rem;
+  font-weight: 400;
+
+  &-title {
+    font-weight: 600;
+  }
+}
+
+.expense-income-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.category-selector {
+  margin-bottom: 0;
+}
+
+.add-chip mat-icon {
+  margin-top: 4px;
+}
+
+ex-new-category-form {
+  width: 100%;
+}

@@ -1,14 +1,15 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
-import { DebtsComponent } from './components/pages/debts/debts.component';
-import { ProfileComponent } from './components/pages/profile/profile.component';
-import { SettingsComponent } from './components/pages/settings/settings.component';
-import { GoalsComponent } from './components/pages/goals/goals.component';
-import { StatisticsComponent } from './components/pages/statistics/statistics.component';
-import { TransactionsComponent } from './components/pages/transactions/transactions.component';
-import { LoginComponent } from './components/pages/auth/login/login.component';
-import { RegisterComponent } from './components/pages/auth/register/register.component';
+
 import { AuthGuard } from './guards/auth.guard';
+import { LoginComponent } from './layout/auth/login/login.component';
+import { RegisterComponent } from './layout/auth/register/register.component';
+import { DashboardComponent } from './layout/dashboard/dashboard.component';
+import { DebtsComponent } from './layout/debts/debts.component';
+import { ProfileComponent } from './layout/frame/profile/profile.component';
+import { SettingsComponent } from './layout/frame/settings/settings.component';
+import { GoalsComponent } from './layout/goals/goals.component';
+import { StatisticsComponent } from './layout/statistics/statistics.component';
+import { TransactionsComponent } from './layout/transactions/transactions.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
