@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { Category } from '../models/Category';
+import { Category } from '../data-model/modules/category/Category';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +13,7 @@ export class CategoryService {
   private readonly categories = signal<Category[]>([]);
 
   loadCategories() {
-    return this.getCategoriesForLoggedInUser().pipe(
-      tap((categories) => this.categories.set(categories))
-    );
+    return this.getCategoriesForLoggedInUser().pipe(tap(categories => this.categories.set(categories)));
   }
 
   getCategories() {
@@ -28,38 +26,38 @@ export class CategoryService {
 
   createCategory(category: Category) {
     return this.http.post<Category>(this.baseUrl, category).pipe(
-      tap((newCategory) => {
+      tap(newCategory => {
         const current = this.categories();
         this.categories.set([...current, newCategory]);
-      })
+      }),
     );
   }
 
   updateCategory(id: number, category: Category) {
     return this.http.put<Category>(`${this.baseUrl}/${id}`, category).pipe(
-      tap((updatedCategory) => {
+      tap(updatedCategory => {
         const current = this.categories();
-        const index = current.findIndex((c) => c.id === id);
+        const index = current.findIndex(c => c.id === id);
         if (index !== -1) {
           const updated = [...current];
           updated[index] = updatedCategory;
           this.categories.set(updated);
         }
-      })
+      }),
     );
   }
 
   patchCategory(id: number, updates: Partial<Category>) {
     return this.http.patch<Category>(`${this.baseUrl}/${id}`, updates).pipe(
-      tap((patchedCategory) => {
+      tap(patchedCategory => {
         const current = this.categories();
-        const index = current.findIndex((c) => c.id === id);
+        const index = current.findIndex(c => c.id === id);
         if (index !== -1) {
           const updated = [...current];
           updated[index] = patchedCategory;
           this.categories.set(updated);
         }
-      })
+      }),
     );
   }
 
@@ -67,8 +65,8 @@ export class CategoryService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const current = this.categories();
-        this.categories.set(current.filter((c) => c.id !== id));
-      })
+        this.categories.set(current.filter(c => c.id !== id));
+      }),
     );
   }
 }

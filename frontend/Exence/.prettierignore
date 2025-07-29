@@ -1,0 +1,13 @@
+# Ignore artifacts:
+build
+**/node_modules
+**/.angular
+public
+devops
+helm
+README.md
+craco.config.js
+sonar-project.properties
+coverage
+.*
+*.json
