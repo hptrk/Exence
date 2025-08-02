@@ -33,7 +33,12 @@
               "src/styles/styles.scss",
               "node_modules/@ctrl/ngx-emoji-mart/picker.css"
             ],
-            "scripts": []
+            "scripts": [],
+			"stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": ["import", "color-functions", "global-builtin"]
+              }
+            }
           },
           "configurations": {
             "production": {
