@@ -1,0 +1,17 @@
+// only variables, no styles in this file
+
+// keep in sync with constants.ts
+$bootstrapSm: 576px;
+$bootstrapMd: 768px;
+$bootstrapLg: 992px;
+$bootstrapXl: 1280px;
+$bootstrapXXl: 1400px;
+
+// override bootstrap breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: $bootstrapSm,
+  md: $bootstrapMd,
+  lg: $bootstrapLg,
+  xl: $bootstrapXl,
+);

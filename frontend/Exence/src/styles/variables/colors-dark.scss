@@ -1,0 +1,148 @@
+// only variables, no styles in this file
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+$palettes: (
+	primary: (
+		0: #000000,
+		10: #171838,
+		20: #2c2d4e,
+		25: #37385a,
+		30: #424466,
+		35: #4e4f72,
+		40: #5a5b7f,
+		50: #737499,
+		60: #8d8db4,
+		70: #a8a8cf,
+		80: #c3c3ec,
+		90: #c9c9f2,
+		95: #f1efff,
+		98: #fcf8ff,
+		99: #fffbff,
+		100: #ffffff,
+	),
+	secondary: (
+		0: #000000,
+		10: #00210c,
+		20: #003919,
+		25: #004520,
+		30: #005227,
+		35: #00602e,
+		40: #006d35,
+		50: #008945,
+		60: #1aa657,
+		70: #42c26f,
+		80: #61de88,
+		90: #7efba2,
+		95: #c4ffcd,
+		98: #eaffe9,
+		99: #f5fff2,
+		100: #ffffff,
+	),
+	tertiary: (
+		0: #000000,
+		10: #410005,
+		20: #68000e,
+		25: #7d0012,
+		30: #8e111c,
+		35: #9f1f26,
+		40: #b02c31,
+		50: #d24546,
+		60: #f45e5d,
+		70: #ff8984,
+		80: #ffb3af,
+		90: #ffdad7,
+		95: #ffedeb,
+		98: #fff8f7,
+		99: #fffbff,
+		100: #ffffff,
+	),
+	neutral: (
+		0: #000000,
+		10: #1a1a1f,
+		20: #2f2f37,
+		25: #3a3a42,
+		30: #46464e,
+		35: #515159,
+		40: #5d5d65,
+		50: #76767e,
+		60: #909098,
+		70: #ababb3,
+		80: #c6c6ce,
+		90: #e2e2eb,
+		95: #f0f0f9,
+		98: #f9f9ff,
+		99: #fffbff,
+		100: #ffffff,
+		4: #0e0e13,
+		6: #131318,
+		12: #1f1f24,
+		17: #2a2a2f,
+		22: #35353a,
+		24: #393940,
+		87: #dcdce5,
+		92: #e9e9f2,
+		94: #efeff8,
+		96: #f6f6ff,
+	),
+	neutral-variant: (
+		0: #000000,
+		10: #1a1a1f,
+		20: #2f2f37,
+		25: #3a3a42,
+		30: #46464e,
+		35: #515159,
+		40: #5d5d65,
+		50: #76767e,
+		60: #909098,
+		70: #ababb3,
+		80: #c6c6ce,
+		90: #e2e2eb,
+		95: #f0f0f9,
+		98: #f9f9ff,
+		99: #fffbff,
+		100: #ffffff,
+	),
+	error: (
+		0: #000000,
+		10: #410002,
+		20: #690005,
+		25: #7e0007,
+		30: #93000a,
+		35: #a80710,
+		40: #ba1a1a,
+		50: #de3730,
+		60: #ff5449,
+		70: #ff897d,
+		80: #ffb4ab,
+		90: #ffdad6,
+		95: #ffedea,
+		98: #fff8f7,
+		99: #fffbff,
+		100: #ffffff,
+	),
+);
+
+$secondary: map.get($palettes, secondary);
+$neutral: map.get($palettes, neutral);
+$error: map.get($palettes, error);
+$_rest: (
+	secondary: $secondary,
+	neutral: $neutral,
+	neutral-variant: map.get($palettes,  neutral-variant),
+	error: $error,
+);
+$primary: map.merge(map.get($palettes, primary), $_rest);
+$tertiary: map.merge(map.get($palettes, tertiary), $_rest);
+
+$app-card-color-dark: map.get($primary, 25);
+
+$light-disabled-text: map.get($neutral, 85);
+$light-secondary-text: map.get($neutral, 90);
+
+$primary-color-dark: map.get($primary, 90);
+$accent-color-dark: map.get($primary, 20);
+$error-color-dark: map.get($error, 50);
+
+$app-background-color-dark: map.get($primary, 10);
+$default-text-color-dark: map.get($neutral, 95);

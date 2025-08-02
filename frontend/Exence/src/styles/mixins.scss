@@ -1,0 +1,74 @@
+@import './variables/display-sizes.scss';
+@import './variables/colors.scss';
+
+@mixin displaySm {
+	@media (min-width: #{$bootstrapSm}) {
+		@content;
+	}
+}
+@mixin displayMd {
+	@media (min-width: #{$bootstrapMd}) {
+		@content;
+	}
+}
+@mixin displayLg {
+	@media (min-width: #{$bootstrapLg}) {
+		@content;
+	}
+}
+@mixin displayXl {
+	@media (min-width: #{$bootstrapXl}) {
+		@content;
+	}
+}
+@mixin displayXXl {
+	@media (min-width: #{$bootstrapXXl}) {
+		@content;
+	}
+}
+
+@mixin centralize($value) {
+	width: $value;
+	height: $value;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+
+@mixin scrollbar-base {
+	& {
+		scrollbar-color: $primary-color-light #E0F4EE;
+		scrollbar-width: thin;
+	}
+
+	&::-webkit-scrollbar {
+		height: 8px;
+		width: 8px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background: #E0F4EE;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		border-radius: 3px;
+		background: $primary-color-light;
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background: black;
+	}
+}
+
+@mixin scrollbar-dark {
+	scrollbar-color: $primary-color-light #5b677b;
+
+	&::-webkit-scrollbar-track {
+		background: #5b677b;
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background: #E0F4EE;
+	}
+}
