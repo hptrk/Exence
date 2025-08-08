@@ -1,4 +1,4 @@
-package com.exence.finance.modules.auth.dto;
+package com.exence.finance.modules.auth.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -11,7 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticateRequest {
+public class RegisterRequest {
+    @NotBlank(message = "Username is mandatory")
+    private String username;
+
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Email should be valid")
     private String email;

@@ -1,4 +1,4 @@
-package com.exence.finance.modules.category.dto;
+package com.exence.finance.modules.category.dto.request;
 
 import lombok.Data;
 

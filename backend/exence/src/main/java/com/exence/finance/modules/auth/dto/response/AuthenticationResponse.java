@@ -1,4 +1,4 @@
-package com.exence.finance.modules.auth.dto;
+package com.exence.finance.modules.auth.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
