@@ -1,38 +1,35 @@
 package com.exence.finance.modules.transaction.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
-@Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+@EqualsAndHashCode(callSuper = false, exclude = { "" })
+@ToString(callSuper = true, exclude = { "" })
+@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = TransactionDTO.class)
 public class TransactionDTO {
     private Long id;
 
-    @NotBlank(message = "Title is mandatory")
     private String title;
 
-    @NotNull(message = "Date is mandatory")
     private LocalDate date;
 
-    @NotNull(message = "Amount is mandatory")
     private Double amount;
 
-    @NotBlank(message = "Type is mandatory")
     private String type;
 
-    @NotNull(message = "Recurring is mandatory")
     private Boolean recurring;
 
-    @NotNull(message = "Category ID is mandatory")
     private Long categoryId;
-//    @NotNull(message = "User ID is mandatory")
-//    private Long userId;
 }

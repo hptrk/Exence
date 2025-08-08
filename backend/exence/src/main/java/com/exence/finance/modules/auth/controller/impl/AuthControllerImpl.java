@@ -20,6 +20,7 @@ import java.io.IOException;
 public class AuthControllerImpl {
     private final AuthServiceImpl authService;
 
+    // TODO: consider using other return type
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){
         return ResponseEntity.ok(authService.register(request));

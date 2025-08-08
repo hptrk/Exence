@@ -1,26 +1,25 @@
 package com.exence.finance.modules.auth.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+@EqualsAndHashCode(callSuper = false, exclude = { "" })
+@ToString(callSuper = true, exclude = { "" })
+@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = UserDTO.class)
 public class UserDTO {
     private Long id;
 
-    @NotBlank(message = "Username is mandatory")
     private String username;
 
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Email should be valid")
     private String email;
-
-//    @NotBlank(message = "Password is mandatory")
-//    private String password;
 }

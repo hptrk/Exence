@@ -1,6 +1,6 @@
 package com.exence.finance.modules.transaction.controller.impl;
 
-import com.exence.finance.modules.category.dto.request.CategoryChangeRequest;
+import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.transaction.service.impl.TransactionServiceImpl;
@@ -57,8 +57,8 @@ public class TransactionControllerImpl {
     }
 
     @PatchMapping("/{transactionId}/change-category")
-    public ResponseEntity<TransactionDTO> changeTransactionCategory(@PathVariable Long transactionId, @RequestBody CategoryChangeRequest request) {
-        TransactionDTO updatedTransaction = transactionService.changeTransactionCategory(transactionId, request.getNewCategoryId());
+    public ResponseEntity<TransactionDTO> changeTransactionCategory(@PathVariable Long transactionId, @RequestBody CategoryIdRequest request) {
+        TransactionDTO updatedTransaction = transactionService.changeTransactionCategory(transactionId, request.getId());
         return ResponseEntity.ok(updatedTransaction);
     }
 

@@ -1,5 +1,7 @@
-package com.exence.finance.modules.auth.dto.request;
+package com.exence.finance.modules.transaction.dto.response;
 
+import com.exence.finance.modules.transaction.dto.TransactionDTO;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,10 +18,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class RegisterRequest implements Serializable {
-    private String username;
-
-    private String email;
-
-    private String password;
+public class TransactionResponse implements Serializable {
+    @Valid
+    private TransactionDTO transaction;
 }

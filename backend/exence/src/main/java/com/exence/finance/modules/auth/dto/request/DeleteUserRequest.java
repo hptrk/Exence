@@ -16,10 +16,6 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class RegisterRequest implements Serializable {
-    private String username;
-
-    private String email;
-
-    private String password;
+public class DeleteUserRequest implements Serializable {
+    private Long id;
 }

@@ -1,21 +1,23 @@
 package com.exence.finance.modules.auth.dto.request;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 
-@Data
-@Builder
-@AllArgsConstructor
+import java.io.Serializable;
+
+@SuperBuilder
 @NoArgsConstructor
-public class AuthenticateRequest {
-    @NotBlank(message = "Email is mandatory")
-    @Email(message = "Email should be valid")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Data
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
+public class AuthenticateRequest implements Serializable {
     private String email;
 
-    @NotBlank(message = "Password is mandatory")
     private String password;
 }
