@@ -1,0 +1,14 @@
+mat-drawer.mat-drawer-side {
+	width: max-content;
+	height: 100dvh;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+	a.ex-nav-button.active {
+		background-color: #{$app-background-color-light};
+	}
+
+	@include displayLg {
+		width: 20dvw;
+	}
+}
+

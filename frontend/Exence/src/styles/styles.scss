@@ -3,6 +3,9 @@
 @import "./imports";
 @import "./themes/app-theme.scss";
 @import "./bootstrap.scss";
+@import "./components/icon.scss";
+@import "./components/sidenav.scss";
+@import "./components/menu.scss";
 @import "./fonts/material-icons.scss";
 
 * {
@@ -72,4 +75,19 @@ html.theme-dark hr {
 
 .pointer-cursor {
 	cursor: pointer;
+}
+
+.ex-nav-button {
+	width: 100%;
+	transition: backgrond-color .25s;
+	text-decoration: none;
+	background-color: #{$app-background-color-light}20;
+	padding: 8px 16px;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+
+	&:hover {
+		background-color: #{$app-background-color-light};
+	}
 }
