@@ -4,6 +4,9 @@ import { TransactionService } from './services/transaction.service';
 import { CategoryService } from './services/category.service';
 import { AuthService } from './services/auth.service';
 import { SidebarComponent } from './layout/frame/sidebar/sidebar.component';
+import { MatIconRegistry } from '@angular/material/icon';
+import { SvgIcons } from './utils/svg-icons/svg-icons';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'ex-root',
@@ -16,6 +19,8 @@ export class AppComponent implements OnInit {
   private authService = inject(AuthService);
   private transactionService = inject(TransactionService);
   private categoryService = inject(CategoryService);
+  private matIconRegistry = inject(MatIconRegistry);
+  private domSanitizer = inject(DomSanitizer);
 
   ngOnInit() {
     // Set default theme
@@ -30,5 +35,10 @@ export class AppComponent implements OnInit {
 
     // Load categories
     this.categoryService.loadCategories().subscribe();
+
+	// Icon set
+	for (let iconName of Object.values(SvgIcons)) {
+		this.matIconRegistry.addSvgIcon(iconName, this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${iconName}.svg`));
+	}
   }
 }
