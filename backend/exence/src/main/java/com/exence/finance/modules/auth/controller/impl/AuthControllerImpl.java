@@ -1,5 +1,6 @@
 package com.exence.finance.modules.auth.controller.impl;
 
+import com.exence.finance.modules.auth.controller.AuthController;
 import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
@@ -13,13 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
-public class AuthControllerImpl {
+public class AuthControllerImpl implements AuthController {
     private final AuthServiceImpl authService;
 
     @PostMapping("/register")
@@ -35,7 +34,7 @@ public class AuthControllerImpl {
     }
 
     @PostMapping("/refreshToken")
-    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse servletResponse) throws IOException {
+    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse servletResponse) {
         EmptyAuthResponse response = authService.refreshToken(request, servletResponse);
         return response;
     }

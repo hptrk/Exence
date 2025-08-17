@@ -1,5 +1,6 @@
 package com.exence.finance.modules.transaction.controller.impl;
 
+import com.exence.finance.modules.transaction.controller.TransactionController;
 import com.exence.finance.modules.transaction.dto.request.CreateTransactionRequest;
 import com.exence.finance.modules.transaction.dto.request.DeleteTransactionRequest;
 import com.exence.finance.modules.transaction.dto.request.TransactionIdRequest;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/transactions")
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
-public class TransactionControllerImpl {
+public class TransactionControllerImpl implements TransactionController {
     private final TransactionServiceImpl transactionService;
 
     @PostMapping("/getTransaction")

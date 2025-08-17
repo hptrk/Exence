@@ -18,6 +18,7 @@ import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
 import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryServiceImpl {
+public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final UserServiceImpl userService;

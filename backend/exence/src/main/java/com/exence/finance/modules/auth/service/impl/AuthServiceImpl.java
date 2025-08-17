@@ -13,6 +13,7 @@ import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
+import com.exence.finance.modules.auth.service.AuthService;
 import com.exence.finance.security.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,12 +25,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImpl {
+public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -83,7 +83,7 @@ public class AuthServiceImpl {
 
     // Refresh the token
     // TODO: rethink token refreshing logic entirely
-    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
@@ -108,7 +108,14 @@ public class AuthServiceImpl {
                         .refreshToken(refreshToken)
                         .build();
                 response.setContentType("application/json");
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+
+                // TODO
+                try{
+                    new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+
+                } catch(Exception e){
+
+                }
             }
         }
         return EmptyAuthResponse.builder().build();

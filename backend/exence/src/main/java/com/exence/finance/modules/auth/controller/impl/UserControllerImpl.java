@@ -1,5 +1,6 @@
 package com.exence.finance.modules.auth.controller.impl;
 
+import com.exence.finance.modules.auth.controller.UserController;
 import com.exence.finance.modules.auth.dto.request.DeleteUserRequest;
 import com.exence.finance.modules.auth.dto.request.UpdatePasswordRequest;
 import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
-public class UserControllerImpl {
+public class UserControllerImpl implements UserController {
     private final UserServiceImpl userService;
 
     @PostMapping("/updateUser")

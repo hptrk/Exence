@@ -11,6 +11,7 @@ import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
+import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.transaction.entity.Transaction;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final TransactionRepository transactionRepository;

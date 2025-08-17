@@ -1,5 +1,6 @@
 package com.exence.finance.modules.category.controller.impl;
 
+import com.exence.finance.modules.category.controller.CategoryController;
 import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
 import com.exence.finance.modules.category.dto.request.CreateCategoryRequest;
 import com.exence.finance.modules.category.dto.request.DeleteCategoryRequest;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/categories")
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
-public class CategoryControllerImpl {
+public class CategoryControllerImpl implements CategoryController {
     private final CategoryServiceImpl categoryService;
 
     @PostMapping("/getCategory")
