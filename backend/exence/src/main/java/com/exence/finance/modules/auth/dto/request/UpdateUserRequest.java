@@ -20,6 +20,5 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 public class UpdateUserRequest implements Serializable {
-    @Valid
-    private UserDTO transaction;
+    private UserDTO user;
 }

@@ -1,69 +1,55 @@
 package com.exence.finance.modules.category.controller.impl;
 
-import com.exence.finance.modules.category.dto.CategoryDTO;
-import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
+import com.exence.finance.modules.category.dto.request.CreateCategoryRequest;
+import com.exence.finance.modules.category.dto.request.DeleteCategoryRequest;
+import com.exence.finance.modules.category.dto.request.EmptyCategoryRequest;
+import com.exence.finance.modules.category.dto.request.UpdateCategoryRequest;
+import com.exence.finance.modules.category.dto.response.CategoryResponse;
+import com.exence.finance.modules.category.dto.response.CreateCategoryResponse;
+import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
+import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
 import com.exence.finance.modules.category.service.impl.CategoryServiceImpl;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/categories")
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class CategoryControllerImpl {
-    @Autowired
-    private CategoryServiceImpl categoryService;
+    private final CategoryServiceImpl categoryService;
 
-    @GetMapping
-    public List<CategoryDTO> getAllCategories() {
-        return categoryService.getAllCategories();
+    @PostMapping("/getCategory")
+    public CategoryResponse getCategory(CategoryIdRequest request) {
+        CategoryResponse response = categoryService.getCategory(request);
+        return response;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
-        CategoryDTO categoryDTO = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(categoryDTO);
+    @PostMapping("/getCategories")
+    public GetCategoriesResponse getCategories(EmptyCategoryRequest request) {
+        GetCategoriesResponse response = categoryService.getCategories(request);
+        return response;
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<CategoryDTO>> getCategoriesForLoggedInUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        Long userId = user.getId();
-        List<CategoryDTO> categories = categoryService.getCategoriesByUserId(userId);
-        return ResponseEntity.ok(categories);
+    @PostMapping("/createCategory")
+    public CreateCategoryResponse createCategory(CreateCategoryRequest request) {
+        CreateCategoryResponse response = categoryService.createCategory(request);
+        return response;
     }
 
-    @PostMapping
-    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        Long userId = user.getId();
-        CategoryDTO createdCategory = categoryService.createCategory(categoryDTO, userId);
-        return ResponseEntity.ok(createdCategory);
+    @PostMapping("/updateCategory")
+    public CategoryResponse updateCategory(UpdateCategoryRequest request) {
+        CategoryResponse response = categoryService.updateCategory(request);
+        return response;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
-        CategoryDTO updatedCategory = categoryService.updateCategory(id, categoryDTO);
-        return ResponseEntity.ok(updatedCategory);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<CategoryDTO> patchCategory(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
-        CategoryDTO updatedCategory = categoryService.patchCategory(id, updates);
-        return ResponseEntity.ok(updatedCategory);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/deleteCategory")
+    public EmptyCategoryResponse deleteCategory(DeleteCategoryRequest request) {
+        EmptyCategoryResponse response = categoryService.deleteCategory(request);
+        return response;
     }
 }

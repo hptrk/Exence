@@ -1,4 +1,4 @@
-package com.exence.finance.modules.auth.dto.request;
+package com.exence.finance.modules.category.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,5 +16,5 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class DeleteUserRequest implements Serializable {
+public class EmptyCategoryRequest implements Serializable{
 }

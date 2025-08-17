@@ -18,5 +18,5 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 public class UserResponse implements Serializable {
-    private UserDTO transaction;
+    private UserDTO user;
 }

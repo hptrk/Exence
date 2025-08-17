@@ -1,16 +1,23 @@
 package com.exence.finance.modules.auth.service.impl;
 
-import com.exence.finance.modules.auth.dto.UserDTO;
 import com.exence.finance.common.exception.UserNotFoundException;
-import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.auth.dto.UserDTO;
+import com.exence.finance.modules.auth.dto.request.DeleteUserRequest;
+import com.exence.finance.modules.auth.dto.request.UpdatePasswordRequest;
+import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
+import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
+import com.exence.finance.modules.auth.dto.response.UserResponse;
 import com.exence.finance.modules.auth.entity.Token;
-import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.auth.repository.TokenRepository;
-import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.transaction.entity.Transaction;
+import com.exence.finance.modules.transaction.repository.TransactionRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,58 +26,47 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
+    private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private TokenRepository tokenRepository;
-
-    @Autowired
-    private TransactionRepository transactionRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public Long getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+        return userId;
     }
 
+    public UserResponse updateUser(UpdateUserRequest request){
+        UserDTO userDTO = request.getUser();
+        Long userId = getUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
-    public UserDTO getUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow( () -> new UsernameNotFoundException("User not found"));
-        return convertToDTO(user);
+        user.setEmail(userDTO.getEmail());
+        user.setUsername(userDTO.getUsername());
+
+        return UserResponse.builder()
+                .user(convertToDTO(user))
+                .build();
     }
 
-    public UserDTO updateUsername(Long id, String username) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        user.setUsername(username);
-        User updatedUser = userRepository.save(user);
-        return convertToDTO(updatedUser);
+    public EmptyAuthResponse updatePassword(UpdatePasswordRequest request) {
+        Long userId = getUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        // TODO: validation for updating password (e.g oldpassword check)
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+        return EmptyAuthResponse.builder().build();
     }
 
-    public UserDTO updateEmail(Long id, String email) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        user.setEmail(email);
-        User updatedUser = userRepository.save(user);
-        return convertToDTO(updatedUser);
-    }
-
-    public UserDTO updatePassword(Long id, String password) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-        user.setPassword(passwordEncoder.encode(password));
-        User updatedUser = userRepository.save(user);
-        return convertToDTO(updatedUser);
-    }
-
-    public void deleteUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
+    public EmptyAuthResponse deleteUser(DeleteUserRequest request) {
+        Long userId = getUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // Delete all tokens associated with the user
         List<Token> tokens = tokenRepository.findAllValidTokenByUser(user.getId());
@@ -85,7 +81,9 @@ public class UserServiceImpl {
         categoryRepository.deleteAll(categories);
 
         // Delete the user
-        userRepository.deleteById(id);
+        userRepository.deleteById(userId);
+
+        return EmptyAuthResponse.builder().build();
     }
 
     public UserDTO convertToDTO(User user) {
@@ -102,30 +100,4 @@ public class UserServiceImpl {
                 .email(userDTO.getEmail())
                 .build();
     }
-
-    // We can create a user through registration, so we don't need this endpoint
-//    public UserDTO createUser(UserDTO userDTO){
-//        User user = convertToEntity(userDTO);
-//        User savedUser = userRepository.save(user);
-//        return convertToDTO(savedUser);
-//    }
-    // Admin only
-//    public UserDTO updateUser(Long id, UserDTO userDTO){
-//        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-//        user.setUsername(userDTO.getUsername());
-//        user.setEmail(userDTO.getEmail());
-//        User updatedUser = userRepository.save(user);
-//        return convertToDTO(updatedUser);
-//    }
-//
-//    public UserDTO patchUser(Long id, Map<String, Object> updates) {
-//        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
-//        updates.forEach((key, value) -> {
-//            Field field = ReflectionUtils.findField(User.class, key);
-//            field.setAccessible(true);
-//            ReflectionUtils.setField(field, user, value);
-//        });
-//        User updatedUser = userRepository.save(user);
-//        return convertToDTO(updatedUser);
-//    }
 }

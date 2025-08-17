@@ -1,4 +1,4 @@
-package com.exence.finance.modules.auth.dto.request;
+package com.exence.finance.modules.category.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,10 +11,11 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 
 @SuperBuilder
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class DeleteUserRequest implements Serializable {
+public class DeleteCategoryRequest implements Serializable {
+    private long id;
 }

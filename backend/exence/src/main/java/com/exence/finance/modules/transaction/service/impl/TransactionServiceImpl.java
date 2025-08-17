@@ -1,97 +1,75 @@
 package com.exence.finance.modules.transaction.service.impl;
 
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.common.exception.TransactionNotFoundException;
 import com.exence.finance.common.exception.UserNotFoundException;
-import com.exence.finance.modules.category.entity.Category;
-import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.category.repository.CategoryRepository;
-import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.exence.finance.modules.auth.service.impl.UserServiceImpl;
+import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.transaction.dto.TransactionDTO;
+import com.exence.finance.modules.transaction.dto.request.CreateTransactionRequest;
+import com.exence.finance.modules.transaction.dto.request.DeleteTransactionRequest;
+import com.exence.finance.modules.transaction.dto.request.TransactionIdRequest;
+import com.exence.finance.modules.transaction.dto.request.UpdateTransactionRequest;
+import com.exence.finance.modules.transaction.dto.response.CreateTransactionResponse;
+import com.exence.finance.modules.transaction.dto.response.EmptyTransactionResponse;
+import com.exence.finance.modules.transaction.dto.response.TransactionResponse;
+import com.exence.finance.modules.transaction.entity.Transaction;
+import com.exence.finance.modules.transaction.repository.TransactionRepository;
+import com.exence.finance.modules.transaction.service.TransactionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TransactionServiceImpl {
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
+    private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    private final UserServiceImpl userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    public List<TransactionDTO> getAllTransactions() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public TransactionResponse getTransaction(TransactionIdRequest request) {
+        Transaction transaction = transactionRepository.findById(request.getId()).orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
+        return TransactionResponse.builder()
+                .transaction(convertToDTO(transaction))
+                .build();
     }
 
-    public TransactionDTO getTransactionById(Long id) {
-        Transaction transaction = transactionRepository.findById(id).orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
-        return convertToDTO(transaction);
-    }
-
-    public List<TransactionDTO> getTransactionsByUserId(Long userId) {
-        List<Transaction> transactions = transactionRepository.findByUserId(userId);
-        return transactions.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
-
-    public TransactionDTO createTransaction(TransactionDTO transactionDTO, Long userId) {
+    public CreateTransactionResponse createTransaction(CreateTransactionRequest request) {
+        Long userId = userService.getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
-        Transaction transaction = convertToEntity(transactionDTO);
+        Transaction transaction = convertToEntity(request.getTransaction());
         transaction.setUser(user);
         Transaction savedTransaction = transactionRepository.save(transaction);
-        return convertToDTO(savedTransaction);
+        return CreateTransactionResponse.builder()
+                .transaction(convertToDTO(savedTransaction))
+                .build();
     }
 
-    public TransactionDTO updateTransaction(Long id, TransactionDTO transactionDTO) {
-        Transaction transaction = transactionRepository.findById(id).orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
+    public TransactionResponse updateTransaction(UpdateTransactionRequest request) {
+        TransactionDTO transactionDTO = request.getTransaction();
+        Category category = categoryRepository.findById(transactionDTO.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+        Transaction transaction = transactionRepository.findById(request.getTransaction().getId())
+                .orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
         transaction.setTitle(transactionDTO.getTitle());
         transaction.setDate(transactionDTO.getDate());
         transaction.setAmount(transactionDTO.getAmount());
         transaction.setRecurring(transactionDTO.getRecurring());
         transaction.setType(transactionDTO.getType());
-        transaction.setCategory(categoryRepository.findById(transactionDTO.getCategoryId()).orElseThrow(() -> new CategoryNotFoundException("Category not found")));
-        Transaction updatedTransaction = transactionRepository.save(transaction);
-        return convertToDTO(updatedTransaction);
+        transaction.setCategory(category);
+        Transaction savedTransaction = transactionRepository.save(transaction);
+        return TransactionResponse.builder()
+                .transaction(convertToDTO(savedTransaction))
+                .build();
     }
 
-    public TransactionDTO changeTransactionCategory(Long transactionId, Long newCategoryId) {
-        Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
-        Category newCategory = categoryRepository.findById(newCategoryId)
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-        transaction.setCategory(newCategory);
-        Transaction updatedTransaction = transactionRepository.save(transaction);
-        return convertToDTO(updatedTransaction);
-    }
-
-    public TransactionDTO patchTransaction(Long id, Map<String, Object> updates) {
-        Transaction transaction = transactionRepository.findById(id).orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
-        updates.forEach((key, value) -> {
-            Field field = ReflectionUtils.findField(Transaction.class, key);
-            field.setAccessible(true);
-            ReflectionUtils.setField(field, transaction, value);
-        });
-        Transaction updatedTransaction = transactionRepository.save(transaction);
-        return convertToDTO(updatedTransaction);
-    }
-
-    public void deleteTransaction(Long id) {
-        transactionRepository.deleteById(id);
+    public EmptyTransactionResponse deleteTransaction(DeleteTransactionRequest request) {
+        transactionRepository.deleteById(request.getId());
+        return EmptyTransactionResponse.builder()
+                .build();
     }
 
     private TransactionDTO convertToDTO(Transaction transaction) {

@@ -1,77 +1,48 @@
 package com.exence.finance.modules.transaction.controller.impl;
 
-import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
-import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.transaction.dto.request.CreateTransactionRequest;
+import com.exence.finance.modules.transaction.dto.request.DeleteTransactionRequest;
+import com.exence.finance.modules.transaction.dto.request.TransactionIdRequest;
+import com.exence.finance.modules.transaction.dto.request.UpdateTransactionRequest;
+import com.exence.finance.modules.transaction.dto.response.CreateTransactionResponse;
+import com.exence.finance.modules.transaction.dto.response.EmptyTransactionResponse;
+import com.exence.finance.modules.transaction.dto.response.TransactionResponse;
 import com.exence.finance.modules.transaction.service.impl.TransactionServiceImpl;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/transactions")
+@RequestMapping("/api/transactions")
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class TransactionControllerImpl {
-    @Autowired
-    private TransactionServiceImpl transactionService;
+    private final TransactionServiceImpl transactionService;
 
-    @GetMapping
-    public List<TransactionDTO> getAllTransactions() {
-        return transactionService.getAllTransactions();
+    @PostMapping("/getTransaction")
+    public TransactionResponse getTransaction(TransactionIdRequest request){
+        TransactionResponse response = transactionService.getTransaction(request);
+        return response;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TransactionDTO> getTransactionById(@PathVariable Long id){
-        TransactionDTO transactionDTO = transactionService.getTransactionById(id);
-        return ResponseEntity.ok(transactionDTO);
+    @PostMapping("/createTransaction")
+    public CreateTransactionResponse createTransaction(CreateTransactionRequest request) {
+        CreateTransactionResponse response = transactionService.createTransaction(request);
+        return response;
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<TransactionDTO>> getTransactionsForLoggedInUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        Long userId = user.getId();
-        List<TransactionDTO> transactions = transactionService.getTransactionsByUserId(userId);
-        return ResponseEntity.ok(transactions);
+    @PostMapping("/updateTransaction")
+    public TransactionResponse updateTransaction(UpdateTransactionRequest request) {
+        TransactionResponse response = transactionService.updateTransaction(request);
+        return response;
     }
 
-    @PostMapping
-    public ResponseEntity<TransactionDTO> createTransaction(@Valid @RequestBody TransactionDTO transactionDTO) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        Long userId = user.getId();
-        TransactionDTO createdTransaction = transactionService.createTransaction(transactionDTO, userId);
-        return ResponseEntity.ok(createdTransaction);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<TransactionDTO> updateTransaction(@PathVariable Long id, @Valid @RequestBody TransactionDTO transactionDTO) {
-        TransactionDTO updatedTransaction = transactionService.updateTransaction(id, transactionDTO);
-        return ResponseEntity.ok(updatedTransaction);
-    }
-
-    @PatchMapping("/{transactionId}/change-category")
-    public ResponseEntity<TransactionDTO> changeTransactionCategory(@PathVariable Long transactionId, @RequestBody CategoryIdRequest request) {
-        TransactionDTO updatedTransaction = transactionService.changeTransactionCategory(transactionId, request.getId());
-        return ResponseEntity.ok(updatedTransaction);
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<TransactionDTO> patchTransaction(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
-        TransactionDTO updatedTransaction = transactionService.patchTransaction(id, updates);
-        return ResponseEntity.ok(updatedTransaction);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        transactionService.deleteTransaction(id);
-        return ResponseEntity.noContent().build();
+    @PostMapping("/deleteTransaction")
+    public EmptyTransactionResponse deleteTransaction(DeleteTransactionRequest request) {
+        EmptyTransactionResponse response = transactionService.deleteTransaction(request);
+        return response;
     }
 
 }

@@ -1,13 +1,15 @@
 package com.exence.finance.modules.auth.service.impl;
 
-import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
-import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
-import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.common.exception.AuthenticationFailedException;
 import com.exence.finance.common.exception.EmailAlreadyInUseException;
 import com.exence.finance.common.exception.UserNotFoundException;
-import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.dto.TokenType;
+import com.exence.finance.modules.auth.dto.UserDTO;
+import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
+import com.exence.finance.modules.auth.dto.request.RegisterRequest;
+import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
+import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
+import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
@@ -52,6 +54,7 @@ public class AuthServiceImpl {
 
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
+                .user(convertToDTO(savedUser))
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -71,6 +74,7 @@ public class AuthServiceImpl {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
+                .user(convertToDTO(user))
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -78,13 +82,14 @@ public class AuthServiceImpl {
     }
 
     // Refresh the token
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // TODO: rethink token refreshing logic entirely
+    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
-            return;
+            return EmptyAuthResponse.builder().build();
         }
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
@@ -106,6 +111,7 @@ public class AuthServiceImpl {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+        return EmptyAuthResponse.builder().build();
     }
 
     // Save the token to the database
@@ -134,4 +140,18 @@ public class AuthServiceImpl {
         tokenRepository.saveAll(validUserTokens);
     }
 
+    private UserDTO convertToDTO(User user) {
+        return UserDTO.builder()
+                .id(user.getId())
+                .username(user.getActualUsername())
+                .email(user.getEmail())
+                .build();
+    }
+
+    private User convertToEntity(UserDTO userDTO) {
+        return User.builder()
+                .username(userDTO.getUsername())
+                .email(userDTO.getEmail())
+                .build();
+    }
 }

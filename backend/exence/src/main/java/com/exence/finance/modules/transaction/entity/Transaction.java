@@ -4,15 +4,15 @@ import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
 @Entity
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Transaction {

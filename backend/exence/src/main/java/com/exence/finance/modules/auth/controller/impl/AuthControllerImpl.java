@@ -1,15 +1,17 @@
 package com.exence.finance.modules.auth.controller.impl;
 
 import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
-import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
+import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
+import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
 import com.exence.finance.modules.auth.service.impl.AuthServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
@@ -20,19 +22,21 @@ import java.io.IOException;
 public class AuthControllerImpl {
     private final AuthServiceImpl authService;
 
-    // TODO: consider using other return type
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){
-        return ResponseEntity.ok(authService.register(request));
+    public AuthenticationResponse register(RegisterRequest request){
+        AuthenticationResponse response = authService.register(request);
+        return response;
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@Valid @RequestBody AuthenticateRequest request){
-        return ResponseEntity.ok(authService.authenticate(request));
+    public AuthenticationResponse authenticate(AuthenticateRequest request){
+        AuthenticationResponse response = authService.authenticate(request);
+        return response;
     }
 
-    @PostMapping("/refresh-token")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        authService.refreshToken(request, response);
+    @PostMapping("/refreshToken")
+    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse servletResponse) throws IOException {
+        EmptyAuthResponse response = authService.refreshToken(request, servletResponse);
+        return response;
     }
 }

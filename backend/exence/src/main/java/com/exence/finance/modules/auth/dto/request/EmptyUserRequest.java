@@ -16,5 +16,6 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class DeleteUserRequest implements Serializable {
+public class EmptyUserRequest implements Serializable {
 }
+

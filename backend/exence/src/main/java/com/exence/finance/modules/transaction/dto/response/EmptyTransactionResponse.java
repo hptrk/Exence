@@ -11,11 +11,10 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 
 @SuperBuilder
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 public class EmptyTransactionResponse implements Serializable {
-    private long id;
 }

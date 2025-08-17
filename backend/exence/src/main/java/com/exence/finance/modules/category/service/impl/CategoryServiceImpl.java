@@ -1,83 +1,90 @@
 package com.exence.finance.modules.category.service.impl;
 
-import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.common.exception.CategoryAlreadyExistsException;
 import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.common.exception.UserNotFoundException;
-import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.exence.finance.modules.auth.service.impl.UserServiceImpl;
+import com.exence.finance.modules.category.dto.CategoryDTO;
+import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
+import com.exence.finance.modules.category.dto.request.CreateCategoryRequest;
+import com.exence.finance.modules.category.dto.request.DeleteCategoryRequest;
+import com.exence.finance.modules.category.dto.request.EmptyCategoryRequest;
+import com.exence.finance.modules.category.dto.request.UpdateCategoryRequest;
+import com.exence.finance.modules.category.dto.response.CategoryResponse;
+import com.exence.finance.modules.category.dto.response.CreateCategoryResponse;
+import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
+import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
+import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.category.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
 
-import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
+    private final UserServiceImpl userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    public List<CategoryDTO> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
-        return categories.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+    public CategoryResponse getCategory(CategoryIdRequest request) {
+        Category category = categoryRepository.findById(request.getId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+        return CategoryResponse.builder()
+                .category(convertToDTO(category))
+                .build();
     }
 
-    public CategoryDTO getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-        return convertToDTO(category);
-    }
-
-    public List<CategoryDTO> getCategoriesByUserId(Long userId) {
+    public GetCategoriesResponse getCategories(EmptyCategoryRequest request) {
+        Long userId = userService.getUserId();
         List<Category> categories = categoryRepository.findByUserId(userId);
-        return categories.stream()
+
+        List<CategoryDTO> categoryDTOs = categories.stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
+
+        return GetCategoriesResponse.builder()
+                .categories(categoryDTOs)
+                .build();
     }
 
-    public CategoryDTO createCategory(CategoryDTO categoryDTO, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
-        Optional<Category> existingCategory = categoryRepository.findByUserIdAndName(userId, categoryDTO.getName());
+    public CreateCategoryResponse createCategory(CreateCategoryRequest request) {
+        Long userId = userService.getUserId();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+        Optional<Category> existingCategory = categoryRepository.findByUserIdAndName(userId, request.getCategory().getName());
         if (existingCategory.isPresent()) {
             throw new CategoryAlreadyExistsException("Category with the same name already exists for you!");
         }
-        Category category = convertToEntity(categoryDTO);
+        Category category = convertToEntity(request.getCategory());
         category.setUser(user);
         Category savedCategory = categoryRepository.save(category);
-        return convertToDTO(savedCategory);
+        return CreateCategoryResponse.builder()
+                .category(convertToDTO(savedCategory))
+                .build();
     }
 
-    public CategoryDTO updateCategory(Long id, CategoryDTO categoryDTO) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+    public CategoryResponse updateCategory(UpdateCategoryRequest request) {
+        CategoryDTO categoryDTO = request.getCategory();
+        Category category = categoryRepository.findById(categoryDTO.getId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
         category.setName(categoryDTO.getName());
         category.setEmoji(categoryDTO.getEmoji());
         Category updatedCategory = categoryRepository.save(category);
-        return convertToDTO(updatedCategory);
+        return CategoryResponse.builder()
+                .category(convertToDTO(updatedCategory))
+                .build();
     }
 
-    public CategoryDTO patchCategory(Long id, Map<String, Object> updates) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-        updates.forEach((key, value) -> {
-            Field field = ReflectionUtils.findField(Category.class, key);
-            field.setAccessible(true);
-            ReflectionUtils.setField(field, category, value);
-        });
-        Category updatedCategory = categoryRepository.save(category);
-        return convertToDTO(updatedCategory);
-    }
-
-    public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+    public EmptyCategoryResponse deleteCategory(DeleteCategoryRequest request) {
+        categoryRepository.deleteById(request.getId());
+        return EmptyCategoryResponse.builder()
+                .build();
     }
 
     private CategoryDTO convertToDTO(Category category) {
