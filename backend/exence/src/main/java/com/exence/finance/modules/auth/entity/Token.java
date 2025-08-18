@@ -35,10 +35,10 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = false, exclude = { "user" })
 @ToString(callSuper = true, exclude = { "user" })
 @Table(name = "TOKEN", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
-@SequenceGenerator(name = "default_gen", sequenceName = "TOKEN_ID_SEQ", allocationSize = 1)
+@SequenceGenerator(name = "token_gen", sequenceName = "token_id_seq", allocationSize = 1)
 public class Token {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_gen")
     private Long id;
 
     @NotBlank

@@ -48,11 +48,11 @@ import java.util.Set;
                 @Index(name = "idx_user_email", columnList = "EMAIL"),
                 @Index(name = "idx_user_username", columnList = "USERNAME"),
         })
-@SequenceGenerator(name = "default_gen", sequenceName = "USER_ID_SEQ", allocationSize = 1)
+@SequenceGenerator(name = "user_gen", sequenceName = "user_id_seq", allocationSize = 1)
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gen")
     private Long id;
 
     @NotBlank()

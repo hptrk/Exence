@@ -39,11 +39,11 @@ import java.time.Instant;
 @EqualsAndHashCode(callSuper = false, exclude = { "user", "category" })
 @ToString(callSuper = true, exclude = { "user", "category" })
 @Table(name = "TRANSACTION", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
-@SequenceGenerator(name = "default_gen", sequenceName = "TRANSACTION_ID_SEQ", allocationSize = 1)
+@SequenceGenerator(name = "transaction_gen", sequenceName = "transaction_id_seq", allocationSize = 1)
 public class Transaction extends BaseAuditableEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_gen")
     private Long id;
 
     @NotNull

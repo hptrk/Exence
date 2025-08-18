@@ -23,11 +23,11 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false, exclude = { "user", "transactions" })
 @ToString(callSuper = true, exclude = { "user", "transactions" })
 @Table(name = "CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
-@SequenceGenerator(name = "default_gen", sequenceName = "CATEGORY_ID_SEQ", allocationSize = 1)
+@SequenceGenerator(name = "category_gen", sequenceName = "category_id_seq", allocationSize = 1)
 public class Category extends BaseAuditableEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "default_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
     private Long id;
 
     @NotBlank
