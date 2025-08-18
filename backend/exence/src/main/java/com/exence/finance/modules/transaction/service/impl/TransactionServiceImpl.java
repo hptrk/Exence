@@ -41,10 +41,16 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     public CreateTransactionResponse createTransaction(CreateTransactionRequest request) {
+        TransactionDTO transactionDTO = request.getTransaction();
+
         Long userId = userService.getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        Transaction transaction = transactionMapper.mapToTransaction(request.getTransaction());
+        Category category = categoryRepository.findById(transactionDTO.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+
+        Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
+        transaction.setCategory(category);
         transaction.setUser(user);
         Transaction savedTransaction = transactionRepository.save(transaction);
 
