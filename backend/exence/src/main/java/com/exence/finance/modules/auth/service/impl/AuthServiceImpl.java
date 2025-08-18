@@ -25,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -127,12 +128,16 @@ public class AuthServiceImpl implements AuthService {
 
     // Save the token to the database
     private void saveUserToken(User user, String jwtToken){
+        // TODO: consider using a more sophisticated expiration strategy (configurable expiration time, etc.)
+        Instant expiresAt = Instant.now().plusSeconds(7 * 24 * 60 * 60);
+
         Token token = Token.builder()
                 .user(user)
                 .token(jwtToken)
                 .tokenType(TokenType.BEARER)
                 .expired(false)
                 .revoked(false)
+                .expiresAt(expiresAt)
                 .build();
         tokenRepository.save(token);
     }
@@ -150,5 +155,15 @@ public class AuthServiceImpl implements AuthService {
             token.setRevoked(true);
         });
         tokenRepository.saveAll(validUserTokens);
+    }
+
+    public void markTokenAsUsed(String tokenValue, String ipAddress, String userAgent) {
+        tokenRepository.findByToken(tokenValue)
+                .ifPresent(token -> {
+                    token.setLastUsedAt(Instant.now());
+                    token.setIpAddress(ipAddress);
+                    token.setUserAgent(userAgent);
+                    tokenRepository.save(token);
+                });
     }
 }

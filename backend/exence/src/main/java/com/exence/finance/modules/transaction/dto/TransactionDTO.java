@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.Instant;
 
 @SuperBuilder
 @NoArgsConstructor
@@ -23,11 +24,11 @@ public class TransactionDTO {
 
     private String title;
 
-    private LocalDate date;
+    private Instant date;
 
-    private Double amount;
+    private BigDecimal amount;
 
-    private String type;
+    private TransactionType type;
 
     private Boolean recurring;
 
