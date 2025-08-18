@@ -34,6 +34,7 @@ public class TransactionServiceImpl implements TransactionService{
 
     public TransactionResponse getTransaction(TransactionIdRequest request) {
         Transaction transaction = transactionRepository.findById(request.getId()).orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
+
         return TransactionResponse.builder()
                 .transaction(transactionMapper.mapToTransactionDTO(transaction))
                 .build();
@@ -42,9 +43,11 @@ public class TransactionServiceImpl implements TransactionService{
     public CreateTransactionResponse createTransaction(CreateTransactionRequest request) {
         Long userId = userService.getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+
         Transaction transaction = transactionMapper.mapToTransaction(request.getTransaction());
         transaction.setUser(user);
         Transaction savedTransaction = transactionRepository.save(transaction);
+
         return CreateTransactionResponse.builder()
                 .transaction(transactionMapper.mapToTransactionDTO(savedTransaction))
                 .build();
@@ -61,7 +64,6 @@ public class TransactionServiceImpl implements TransactionService{
 
         transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
         transaction.setCategory(category);
-
         Transaction savedTransaction = transactionRepository.save(transaction);
 
         return TransactionResponse.builder()
@@ -71,6 +73,7 @@ public class TransactionServiceImpl implements TransactionService{
 
     public EmptyTransactionResponse deleteTransaction(DeleteTransactionRequest request) {
         transactionRepository.deleteById(request.getId());
+
         return EmptyTransactionResponse.builder()
                 .build();
     }

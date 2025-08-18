@@ -41,6 +41,7 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) authentication.getPrincipal();
         Long userId = user.getId();
+
         return userId;
     }
 
@@ -63,6 +64,7 @@ public class UserServiceImpl implements UserService {
         // TODO: validation for updating password (e.g oldpassword check)
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+
         return EmptyAuthResponse.builder().build();
     }
 

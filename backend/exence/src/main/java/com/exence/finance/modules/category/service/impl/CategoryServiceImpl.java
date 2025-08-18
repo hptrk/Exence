@@ -37,6 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResponse getCategory(CategoryIdRequest request) {
         Category category = categoryRepository.findById(request.getId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+
         return CategoryResponse.builder()
                 .category(categoryMapper.mapToCategoryDTO(category))
                 .build();
@@ -44,6 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     public GetCategoriesResponse getCategories(EmptyCategoryRequest request) {
         Long userId = userService.getUserId();
+
         List<Category> categories = categoryRepository.findByUserId(userId);
         List<CategoryDTO> categoryDTOs = categoryMapper.mapToCategoryDTOList(categories);
 
@@ -56,13 +58,16 @@ public class CategoryServiceImpl implements CategoryService {
         Long userId = userService.getUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
+
         Optional<Category> existingCategory = categoryRepository.findByUserIdAndName(userId, request.getCategory().getName());
         if (existingCategory.isPresent()) {
             throw new CategoryAlreadyExistsException("Category with the same name already exists for you!");
         }
+
         Category category = categoryMapper.mapToCategory(request.getCategory());
         category.setUser(user);
         Category savedCategory = categoryRepository.save(category);
+
         return CreateCategoryResponse.builder()
                 .category(categoryMapper.mapToCategoryDTO(savedCategory))
                 .build();
@@ -74,7 +79,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
         categoryMapper.updateCategoryFromDto(categoryDTO, category);
-
         Category updatedCategory = categoryRepository.save(category);
 
         return CategoryResponse.builder()
@@ -84,6 +88,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     public EmptyCategoryResponse deleteCategory(DeleteCategoryRequest request) {
         categoryRepository.deleteById(request.getId());
+
         return EmptyCategoryResponse.builder()
                 .build();
     }

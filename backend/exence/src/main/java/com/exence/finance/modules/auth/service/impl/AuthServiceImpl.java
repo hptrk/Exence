@@ -52,8 +52,8 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(user);
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
-
         saveUserToken(savedUser, jwtToken);
+
         return AuthenticationResponse.builder()
                 .user(userMapper.mapToUserDto(savedUser))
                 .accessToken(jwtToken)
@@ -67,13 +67,14 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new AuthenticationFailedException("Invalid username or password");
         }
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+
         return AuthenticationResponse.builder()
                 .user(userMapper.mapToUserDto(user))
                 .accessToken(jwtToken)
@@ -92,6 +93,7 @@ public class AuthServiceImpl implements AuthService {
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
             return EmptyAuthResponse.builder().build();
         }
+
         refreshToken = authHeader.substring(7);
         userEmail = jwtService.extractUsername(refreshToken);
 
@@ -119,6 +121,7 @@ public class AuthServiceImpl implements AuthService {
                 }
             }
         }
+
         return EmptyAuthResponse.builder().build();
     }
 
@@ -136,15 +139,16 @@ public class AuthServiceImpl implements AuthService {
     // Revoke all tokens for a user
     private void revokeAllUserTokens(User user){
         List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+
         if (validUserTokens.isEmpty()){
             return;
         }
+
         // Set all valid tokens to expired and revoked
         validUserTokens.forEach(token -> {
             token.setExpired(true);
             token.setRevoked(true);
         });
-        // Save the updated tokens
         tokenRepository.saveAll(validUserTokens);
     }
 }
