@@ -5,7 +5,7 @@ import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
-import com.exence.finance.modules.auth.service.impl.AuthServiceImpl;
+import com.exence.finance.modules.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthControllerImpl implements AuthController {
-    private final AuthServiceImpl authService;
+    private final AuthService authService;
 
     @PostMapping("/register")
     public AuthenticationResponse register(RegisterRequest request){

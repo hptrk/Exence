@@ -8,7 +8,7 @@ import com.exence.finance.modules.transaction.dto.request.UpdateTransactionReque
 import com.exence.finance.modules.transaction.dto.response.CreateTransactionResponse;
 import com.exence.finance.modules.transaction.dto.response.EmptyTransactionResponse;
 import com.exence.finance.modules.transaction.dto.response.TransactionResponse;
-import com.exence.finance.modules.transaction.service.impl.TransactionServiceImpl;
+import com.exence.finance.modules.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class TransactionControllerImpl implements TransactionController {
-    private final TransactionServiceImpl transactionService;
+    private final TransactionService transactionService;
 
     @PostMapping("/getTransaction")
     public TransactionResponse getTransaction(TransactionIdRequest request){

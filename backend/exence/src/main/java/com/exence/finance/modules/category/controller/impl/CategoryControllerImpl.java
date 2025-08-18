@@ -10,7 +10,7 @@ import com.exence.finance.modules.category.dto.response.CategoryResponse;
 import com.exence.finance.modules.category.dto.response.CreateCategoryResponse;
 import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
 import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
-import com.exence.finance.modules.category.service.impl.CategoryServiceImpl;
+import com.exence.finance.modules.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class CategoryControllerImpl implements CategoryController {
-    private final CategoryServiceImpl categoryService;
+    private final CategoryService categoryService;
 
     @PostMapping("/getCategory")
     public CategoryResponse getCategory(CategoryIdRequest request) {

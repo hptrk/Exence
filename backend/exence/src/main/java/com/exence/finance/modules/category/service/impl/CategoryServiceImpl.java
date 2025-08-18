@@ -5,7 +5,7 @@ import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.UserRepository;
-import com.exence.finance.modules.auth.service.impl.UserServiceImpl;
+import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
 import com.exence.finance.modules.category.dto.request.CreateCategoryRequest;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     public CategoryResponse getCategory(CategoryIdRequest request) {
         Category category = categoryRepository.findById(request.getId())

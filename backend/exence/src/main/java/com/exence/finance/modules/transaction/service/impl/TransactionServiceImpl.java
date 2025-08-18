@@ -5,7 +5,7 @@ import com.exence.finance.common.exception.TransactionNotFoundException;
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.UserRepository;
-import com.exence.finance.modules.auth.service.impl.UserServiceImpl;
+import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
@@ -28,7 +28,7 @@ public class TransactionServiceImpl implements TransactionService{
     private final TransactionRepository transactionRepository;
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     public TransactionResponse getTransaction(TransactionIdRequest request) {
         Transaction transaction = transactionRepository.findById(request.getId()).orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));

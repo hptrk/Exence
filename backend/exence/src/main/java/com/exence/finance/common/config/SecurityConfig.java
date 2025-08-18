@@ -24,7 +24,6 @@ import org.springframework.web.filter.CorsFilter;
 @AllArgsConstructor
 @EnableMethodSecurity
 public class SecurityConfig {
-
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final CustomAuthenticationProvider customAuthenticationProvider;
     private final LogoutHandler logoutHandler;

@@ -6,7 +6,7 @@ import com.exence.finance.modules.auth.dto.request.UpdatePasswordRequest;
 import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
 import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
 import com.exence.finance.modules.auth.dto.response.UserResponse;
-import com.exence.finance.modules.auth.service.impl.UserServiceImpl;
+import com.exence.finance.modules.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class UserControllerImpl implements UserController {
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @PostMapping("/updateUser")
     public UserResponse updateUser(UpdateUserRequest request){
