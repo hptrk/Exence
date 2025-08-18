@@ -9,6 +9,7 @@ import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
 import com.exence.finance.modules.auth.dto.response.UserResponse;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.auth.mapper.UserMapper;
 import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.UserService;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
     public Long getUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -47,11 +49,10 @@ public class UserServiceImpl implements UserService {
         Long userId = getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        user.setEmail(userDTO.getEmail());
-        user.setUsername(userDTO.getUsername());
+        userMapper.updateUserFromDto(userDTO, user);
 
         return UserResponse.builder()
-                .user(convertToDTO(user))
+                .user(userMapper.mapToUserDto(user))
                 .build();
     }
 
@@ -85,20 +86,5 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
 
         return EmptyAuthResponse.builder().build();
-    }
-
-    public UserDTO convertToDTO(User user) {
-        return UserDTO.builder()
-                .id(user.getId())
-                .username(user.getActualUsername())
-                .email(user.getEmail())
-                .build();
-    }
-
-    private User convertToEntity(UserDTO userDTO) {
-        return User.builder()
-                .username(userDTO.getUsername())
-                .email(userDTO.getEmail())
-                .build();
     }
 }

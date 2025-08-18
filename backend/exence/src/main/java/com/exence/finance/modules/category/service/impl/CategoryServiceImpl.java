@@ -17,6 +17,7 @@ import com.exence.finance.modules.category.dto.response.CreateCategoryResponse;
 import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
 import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
 import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,22 +32,20 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final UserService userService;
+    private final CategoryMapper categoryMapper;
 
     public CategoryResponse getCategory(CategoryIdRequest request) {
         Category category = categoryRepository.findById(request.getId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
         return CategoryResponse.builder()
-                .category(convertToDTO(category))
+                .category(categoryMapper.mapToCategoryDTO(category))
                 .build();
     }
 
     public GetCategoriesResponse getCategories(EmptyCategoryRequest request) {
         Long userId = userService.getUserId();
         List<Category> categories = categoryRepository.findByUserId(userId);
-
-        List<CategoryDTO> categoryDTOs = categories.stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        List<CategoryDTO> categoryDTOs = categoryMapper.mapToCategoryDTOList(categories);
 
         return GetCategoriesResponse.builder()
                 .categories(categoryDTOs)
@@ -62,11 +60,11 @@ public class CategoryServiceImpl implements CategoryService {
         if (existingCategory.isPresent()) {
             throw new CategoryAlreadyExistsException("Category with the same name already exists for you!");
         }
-        Category category = convertToEntity(request.getCategory());
+        Category category = categoryMapper.mapToCategory(request.getCategory());
         category.setUser(user);
         Category savedCategory = categoryRepository.save(category);
         return CreateCategoryResponse.builder()
-                .category(convertToDTO(savedCategory))
+                .category(categoryMapper.mapToCategoryDTO(savedCategory))
                 .build();
     }
 
@@ -74,32 +72,19 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryDTO categoryDTO = request.getCategory();
         Category category = categoryRepository.findById(categoryDTO.getId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
-        category.setName(categoryDTO.getName());
-        category.setEmoji(categoryDTO.getEmoji());
+
+        categoryMapper.updateCategoryFromDto(categoryDTO, category);
+
         Category updatedCategory = categoryRepository.save(category);
+
         return CategoryResponse.builder()
-                .category(convertToDTO(updatedCategory))
+                .category(categoryMapper.mapToCategoryDTO(updatedCategory))
                 .build();
     }
 
     public EmptyCategoryResponse deleteCategory(DeleteCategoryRequest request) {
         categoryRepository.deleteById(request.getId());
         return EmptyCategoryResponse.builder()
-                .build();
-    }
-
-    private CategoryDTO convertToDTO(Category category) {
-        return CategoryDTO.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .emoji(category.getEmoji())
-                .build();
-    }
-
-    private Category convertToEntity(CategoryDTO categoryDTO) {
-        return Category.builder()
-                .name(categoryDTO.getName())
-                .emoji(categoryDTO.getEmoji())
                 .build();
     }
 }

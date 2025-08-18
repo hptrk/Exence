@@ -4,13 +4,13 @@ import com.exence.finance.common.exception.AuthenticationFailedException;
 import com.exence.finance.common.exception.EmailAlreadyInUseException;
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.dto.TokenType;
-import com.exence.finance.modules.auth.dto.UserDTO;
 import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.auth.mapper.UserMapper;
 import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.AuthService;
@@ -35,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
 
     // Register the user and generate a token
     public AuthenticationResponse register(RegisterRequest request) {
@@ -54,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
 
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
-                .user(convertToDTO(savedUser))
+                .user(userMapper.mapToUserDto(savedUser))
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -74,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
-                .user(convertToDTO(user))
+                .user(userMapper.mapToUserDto(user))
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
@@ -145,20 +146,5 @@ public class AuthServiceImpl implements AuthService {
         });
         // Save the updated tokens
         tokenRepository.saveAll(validUserTokens);
-    }
-
-    private UserDTO convertToDTO(User user) {
-        return UserDTO.builder()
-                .id(user.getId())
-                .username(user.getActualUsername())
-                .email(user.getEmail())
-                .build();
-    }
-
-    private User convertToEntity(UserDTO userDTO) {
-        return User.builder()
-                .username(userDTO.getUsername())
-                .email(userDTO.getEmail())
-                .build();
     }
 }
