@@ -34,9 +34,7 @@ export class AuthService {
   private readonly authUrl = `${this.baseUrl}/auth`;
 
   private readonly userData = signal<UserData | null>(null);
-  private readonly isAuthenticated = signal<boolean>(
-    !!localStorage.getItem('token')
-  );
+  private readonly isAuthenticated = signal<boolean>(!!localStorage.getItem('token'));
 
   getUserData() {
     return this.userData;
@@ -47,20 +45,18 @@ export class AuthService {
 
   register(data: RegisterData) {
     return this.http.post<AuthResponse>(`${this.authUrl}/register`, data).pipe(
-      tap((response) => {
+      tap(response => {
         this.handleAuthResponse(response);
-      })
+      }),
     );
   }
 
   login(data: LoginData) {
-    return this.http
-      .post<AuthResponse>(`${this.authUrl}/authenticate`, data)
-      .pipe(
-        tap((response) => {
-          this.handleAuthResponse(response);
-        })
-      );
+    return this.http.post<AuthResponse>(`${this.authUrl}/authenticate`, data).pipe(
+      tap(response => {
+        this.handleAuthResponse(response);
+      }),
+    );
   }
 
   logout(): void {
@@ -72,9 +68,9 @@ export class AuthService {
 
   fetchUserData() {
     return this.http.get<UserData>(`${this.baseUrl}/users/me`).pipe(
-      tap((userData) => {
+      tap(userData => {
         this.userData.set(userData);
-      })
+      }),
     );
   }
 
