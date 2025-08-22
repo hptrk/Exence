@@ -1,7 +1,6 @@
 package com.exence.finance.modules.category.dto.response;
 
 import com.exence.finance.modules.category.dto.CategoryDTO;
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

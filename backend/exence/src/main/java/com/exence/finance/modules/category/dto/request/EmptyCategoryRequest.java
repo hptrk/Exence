@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 
 @SuperBuilder
-//@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)

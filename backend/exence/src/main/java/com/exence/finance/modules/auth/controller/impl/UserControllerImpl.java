@@ -26,7 +26,7 @@ public class UserControllerImpl implements UserController {
         return response;
     }
 
-    @PostMapping("updatePassword")
+    @PostMapping("/updatePassword")
     public EmptyAuthResponse updatePassword(UpdatePasswordRequest request){
         EmptyAuthResponse response = userService.updatePassword(request);
         return response;

@@ -1,8 +1,6 @@
 package com.exence.finance.modules.auth.dto.request;
 
 import com.exence.finance.modules.auth.dto.UserDTO;
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
-import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
