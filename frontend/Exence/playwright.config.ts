@@ -39,13 +39,15 @@ export default defineConfig({
       },
     },
   ],
-  webServer: {
-    command: 'npm run start',
-    url: 'http://localhost:4200',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-    stdout: 'ignore', // don't spam log during CI
-    stderr: 'pipe',
-  },
+  webServer: process.env.CI
+    ? undefined
+    : {
+        command: 'npm run start',
+        url: 'http://localhost:4200',
+        reuseExistingServer: !process.env.CI,
+        timeout: 120 * 1000,
+        stdout: 'ignore', // don't spam log during CI
+        stderr: 'pipe',
+      },
   outputDir: 'test-results/',
 });
