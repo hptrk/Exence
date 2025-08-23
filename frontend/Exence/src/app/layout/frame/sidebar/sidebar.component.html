@@ -1,175 +1,136 @@
 <mat-drawer-container class="h-100">
-    <mat-drawer
-        mode="side"
-        opened
-        disableClose
-    >
-        @if (display.isLg | async) {
-        <div class="d-flex flex-column align-items-center h-100 py-4 gap-5">
-            <a [routerLink]="navigationService.private().index()">
-                <mat-icon
-                    class="h-auto w-auto m-0"
-                    [svgIcon]="svgIcons.logoHorizontal"
-                />
-            </a>
+	<mat-drawer
+		mode="side"
+		opened
+		disableClose
+	>
+		<div class="d-flex flex-column align-items-center h-100 py-4 gap-5">
+			<a
+				class="px-2"
+				[routerLink]="navigationService.private().index()"
+			>
+				@if (display.isLg | async) {
+					<mat-icon
+						class="h-auto w-auto m-0"
+						[svgIcon]="svgIcons.logoHorizontal"
+					/>
+				} @else {
+					<mat-icon
+						size="xl"
+						[svgIcon]="svgIcons.logo"
+					/>
+				}
+			</a>
+			<div class="d-flex flex-column w-100 h-100 fs-4 gap-4 flex-grow-1 fw-medium">
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().dashboard()"
+					routerLinkActive="active"
+				>
+					<mat-icon>home</mat-icon>
+					{{ (display.isLg | async) && 'Dashboard' }}
+				</a>
 
-            <div class="d-flex flex-column w-100 h-100 fs-4 gap-4 flex-grow-1 fw-medium">
-                <a
-                    ex-nav-button
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.private().dashboard()"
-                    routerLinkActive="active"
-                >
-                    <mat-icon>home</mat-icon>
-                    Dashboard
-                </a>
-                <a
-                    ex-nav-button
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.private().transactions()"
-                >
-                    <mat-icon>sync_alt</mat-icon>
-                    Transactions
-                </a>
-                <a
-                    ex-nav-button
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.private().statistics()"
-                >
-                    <mat-icon>leaderboard</mat-icon>
-                    Statistics
-                </a>
-                <a
-                    ex-nav-button
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.private().goals()"
-                >
-                    <mat-icon>emoji_events</mat-icon>
-                    Goals
-                </a>
-                <a
-                    ex-nav-button
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.private().debts()"
-                >
-                    <mat-icon>account_balance</mat-icon>
-                    Debts
-                </a>
-            </div>
-
-            <div class="d-flex gap-4">
-                <a [routerLink]="navigationService.private().profile().index()">
-                    <mat-icon>person</mat-icon>
-                </a>
-                <a [routerLink]="navigationService.private().settings()">
-                    <mat-icon>settings</mat-icon>
-                </a>
-                <button (click)="toggleTheme()">
-                    <mat-icon>contrast</mat-icon>
-                </button>
-                <a [routerLink]="navigationService.account().logout()">
-                    <mat-icon>logout</mat-icon>
-                </a>
-            </div>
-        </div>
-        } @else {
-        <ng-container [ngTemplateOutlet]="mobileView"></ng-container>
-        }
-    </mat-drawer>
-    <mat-drawer-content>
-        <router-outlet></router-outlet>
-    </mat-drawer-content>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().transactions()"
+				>
+					<mat-icon>sync_alt</mat-icon>
+					{{ (display.isLg | async) && 'Transactions' }}
+				</a>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().statistics()"
+				>
+					<mat-icon>leaderboard</mat-icon>
+					{{ (display.isLg | async) && 'Statistics' }}
+				</a>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().goals()"
+				>
+					<mat-icon>emoji_events</mat-icon>
+					{{ (display.isLg | async) && 'Goals' }}
+				</a>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().debts()"
+				>
+					<mat-icon>account_balance</mat-icon>
+					{{ (display.isLg | async) && 'Debts' }}
+				</a>
+			</div>
+			@if (display.isLg | async) {
+				<div class="d-flex gap-4">
+					<a [routerLink]="navigationService.private().profile().index()">
+						<mat-icon>person</mat-icon>
+					</a>
+					<a [routerLink]="navigationService.private().settings()">
+						<mat-icon>settings</mat-icon>
+					</a>
+					<button (click)="toggleTheme()">
+						<mat-icon>contrast</mat-icon>
+					</button>
+					<a [routerLink]="navigationService.account().logout()">
+						<mat-icon>logout</mat-icon>
+					</a>
+				</div>
+			} @else {
+				<ng-container [ngTemplateOutlet]="mobileActions" />
+			}
+		</div>
+	</mat-drawer>
+	<mat-drawer-content>
+		<router-outlet></router-outlet>
+	</mat-drawer-content>
 </mat-drawer-container>
 
-<ng-template #mobileView>
-    <div class="d-flex flex-column align-items-center h-100 py-4 gap-5">
-        <a [routerLink]="navigationService.private().index()">
-            <mat-icon
-                size="xl"
-                [svgIcon]="svgIcons.logo"
-            />
-        </a>
-
-        <div class="d-flex flex-column w-100 h-100 fs-4 gap-4 flex-grow-1 fw-medium">
-            <a
-                ex-nav-button
-                class="d-flex align-items-center gap-2"
-                [routerLink]="navigationService.private().dashboard()"
-                routerLinkActive="active"
-            >
-                <mat-icon>home</mat-icon>
-            </a>
-            <a
-                ex-nav-button
-                class="d-flex align-items-center gap-2"
-                [routerLink]="navigationService.private().transactions()"
-            >
-                <mat-icon>sync_alt</mat-icon>
-            </a>
-            <a
-                ex-nav-button
-                class="d-flex align-items-center gap-2"
-                [routerLink]="navigationService.private().statistics()"
-            >
-                <mat-icon>leaderboard</mat-icon>
-            </a>
-            <a
-                ex-nav-button
-                class="d-flex align-items-center gap-2"
-                [routerLink]="navigationService.private().goals()"
-            >
-                <mat-icon>emoji_events</mat-icon>
-            </a>
-            <a
-                ex-nav-button
-                class="d-flex align-items-center gap-2"
-                [routerLink]="navigationService.private().debts()"
-            >
-                <mat-icon>account_balance</mat-icon>
-            </a>
-        </div>
-
-        <button
-            ex-nav-button
-            [matMenuTriggerFor]="sidebarActionsMenu"
-        >
-            <mat-icon>more_horiz</mat-icon>
-        </button>
-        <mat-menu #sidebarActionsMenu="matMenu">
-            <div class="d-flex flex-column gap-4">
-                <a
-                    mat-menu-item
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.private().profile().index()"
-                >
-                    <mat-icon>person</mat-icon>
-                    Profile
-                </a>
-                <a
-                    mat-menu-item
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.private().settings()"
-                >
-                    <mat-icon>settings</mat-icon>
-                    Settings
-                </a>
-                <button
-                    mat-menu-item
-                    class="d-flex align-items-center gap-2 pointer-cursor"
-                    (click)="toggleTheme()"
-                >
-                    <mat-icon>contrast</mat-icon>
-                    Dark/Light mode
-                </button>
-                <a
-                    mat-menu-item
-                    class="d-flex align-items-center gap-2"
-                    [routerLink]="navigationService.account().logout()"
-                >
-                    <mat-icon>logout</mat-icon>
-                    Log out
-                </a>
-            </div>
-        </mat-menu>
-    </div>
+<ng-template #mobileActions>
+	<button
+		ex-nav-button
+		[matMenuTriggerFor]="sidebarActionsMenu"
+	>
+		<mat-icon>more_horiz</mat-icon>
+	</button>
+	<mat-menu #sidebarActionsMenu="matMenu">
+		<div class="d-flex flex-column gap-4">
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.private().profile().index()"
+			>
+				<mat-icon>person</mat-icon>
+				Profile
+			</a>
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.private().settings()"
+			>
+				<mat-icon>settings</mat-icon>
+				Settings
+			</a>
+			<button
+				mat-menu-item
+				class="d-flex align-items-center gap-2 pointer-cursor"
+				(click)="toggleTheme()"
+			>
+				<mat-icon>contrast</mat-icon>
+				Dark/Light mode
+			</button>
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.account().logout()"
+			>
+				<mat-icon>logout</mat-icon>
+				Log out
+			</a>
+		</div>
+	</mat-menu>
 </ng-template>
