@@ -1,4 +1,4 @@
-import { NavigationServiceForProfile, ProfileRoutes } from "./navigation-profile.service";
+import { NavigationServiceForProfile, ProfileRoutes } from './navigation-profile.service';
 
 export class PrivateRoutes {
 	index(): string {

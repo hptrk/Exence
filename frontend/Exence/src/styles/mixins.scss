@@ -38,7 +38,7 @@
 
 @mixin scrollbar-base {
 	& {
-		scrollbar-color: $primary-color-light #E0F4EE;
+		scrollbar-color: $primary-color-light #e0f4ee;
 		scrollbar-width: thin;
 	}
 
@@ -48,7 +48,7 @@
 	}
 
 	&::-webkit-scrollbar-track {
-		background: #E0F4EE;
+		background: #e0f4ee;
 	}
 
 	&::-webkit-scrollbar-thumb {
@@ -69,6 +69,6 @@
 	}
 
 	&::-webkit-scrollbar-thumb:hover {
-		background: #E0F4EE;
+		background: #e0f4ee;
 	}
 }

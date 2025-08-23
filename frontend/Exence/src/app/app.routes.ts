@@ -12,27 +12,27 @@ import { StatisticsComponent } from './layout/statistics/statistics.component';
 import { TransactionsComponent } from './layout/transactions/transactions.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [AuthGuard],
-  },
-  { path: 'goals', component: GoalsComponent, canActivate: [AuthGuard] },
-  {
-    path: 'statistics',
-    component: StatisticsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'transactions',
-    component: TransactionsComponent,
-    canActivate: [AuthGuard],
-  },
-  { path: 'debts', component: DebtsComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: '**', redirectTo: '/dashboard' },
+	{ path: 'login', component: LoginComponent },
+	{ path: 'register', component: RegisterComponent },
+	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+	{
+		path: 'dashboard',
+		component: DashboardComponent,
+		canActivate: [AuthGuard],
+	},
+	{ path: 'goals', component: GoalsComponent, canActivate: [AuthGuard] },
+	{
+		path: 'statistics',
+		component: StatisticsComponent,
+		canActivate: [AuthGuard],
+	},
+	{
+		path: 'transactions',
+		component: TransactionsComponent,
+		canActivate: [AuthGuard],
+	},
+	{ path: 'debts', component: DebtsComponent, canActivate: [AuthGuard] },
+	{ path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+	{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+	{ path: '**', redirectTo: '/dashboard' },
 ];

@@ -2,43 +2,43 @@ mat-icon.mat-icon {
 	display: inline-flex;
 	align-items: center;
 
-	&[size="xs"] {
+	&[size='xs'] {
 		width: 8px;
 		height: 8px;
 		font-size: 8px;
 	}
 
-	&[size="sm"] {
+	&[size='sm'] {
 		width: 18px;
 		height: 18px;
 		font-size: 18px;
 	}
 
-	&[size="md"] {
+	&[size='md'] {
 		width: 24px;
 		height: 24px;
 		font-size: 24px;
 	}
 
-	&[size="lg"] {
+	&[size='lg'] {
 		width: 32px;
 		height: 32px;
 		font-size: 32px;
 	}
 
-	&[size="xl"] {
+	&[size='xl'] {
 		width: 40px;
 		height: 40px;
 		font-size: 40px;
 	}
 
-	&[size="xxl"] {
+	&[size='xxl'] {
 		width: 60px;
 		height: 60px;
 		font-size: 60px;
 	}
 
-	&[size="2xxl"] {
+	&[size='2xxl'] {
 		width: 120px;
 		height: 120px;
 		font-size: 120px;
@@ -51,7 +51,7 @@ mat-icon.mat-icon {
 }
 
 button.mat-mdc-mini-fab .mat-button-wrapper {
-    padding: 0;
+	padding: 0;
 }
 
 mat-icon.mat-primary {

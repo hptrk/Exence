@@ -9,36 +9,36 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'ex-register',
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+	selector: 'ex-register',
+	imports: [CommonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule],
+	templateUrl: './register.component.html',
+	styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+	private fb = inject(FormBuilder);
+	private authService = inject(AuthService);
 
-  public registerForm!: FormGroup;
+	public registerForm!: FormGroup;
 
-  ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-    });
-  }
+	ngOnInit(): void {
+		this.registerForm = this.fb.group({
+			username: ['', Validators.required],
+			email: ['', [Validators.required, Validators.email]],
+			password: ['', Validators.required],
+			confirmPassword: ['', Validators.required],
+		});
+	}
 
-  onSubmit(): void {
-    if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe(
-        () => {
-          console.log('Registration successful');
-        },
-        error => {
-          console.error('Registration failed', error);
-        },
-      );
-    }
-  }
+	onSubmit(): void {
+		if (this.registerForm.valid) {
+			this.authService.register(this.registerForm.value).subscribe(
+				() => {
+					console.log('Registration successful');
+				},
+				error => {
+					console.error('Registration failed', error);
+				},
+			);
+		}
+	}
 }

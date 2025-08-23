@@ -10,11 +10,11 @@ import { authInterceptor } from './app/interceptors/auth.interceptor';
 import { LayoutModule } from '@angular/cdk/layout';
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
-    provideAnimations(),
-    provideCharts(withDefaultRegisterables()),
-	importProvidersFrom(LayoutModule)
-  ],
-}).catch((err) => console.error(err));
+	providers: [
+		provideRouter(routes),
+		provideHttpClient(withInterceptors([authInterceptor])),
+		provideAnimations(),
+		provideCharts(withDefaultRegisterables()),
+		importProvidersFrom(LayoutModule),
+	],
+}).catch(err => console.error(err));

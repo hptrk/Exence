@@ -4,8 +4,7 @@ import { Directive } from '@angular/core';
 	selector: '[ex-nav-button]',
 	standalone: true,
 	host: {
-		'class': 'ex-nav-button'
-	}
+		class: 'ex-nav-button',
+	},
 })
-export class NavButtonDirective {
-}
+export class NavButtonDirective {}

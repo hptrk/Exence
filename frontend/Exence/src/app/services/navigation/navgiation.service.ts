@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { AccountRoutes, NavigationServiceForAccount } from "./navgiation-account.service";
-import { NavigationServiceForPrivate, PrivateRoutes } from "./navigation-private.service";
+import { Injectable } from '@angular/core';
+import { AccountRoutes, NavigationServiceForAccount } from './navgiation-account.service';
+import { NavigationServiceForPrivate, PrivateRoutes } from './navigation-private.service';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class NavigationService {
 	// Every route that is related to the user account should go in navigation-account.service.ts

@@ -1,11 +1,11 @@
 // styles only that are global to the whole application
-@import "@ctrl/ngx-emoji-mart/picker";
-@import "./imports";
-@import "./themes/app-theme.scss";
-@import "./bootstrap.scss";
-@import "./components/icon.scss";
-@import "./components/menu.scss";
-@import "./fonts/material-icons.scss";
+@import '@ctrl/ngx-emoji-mart/picker';
+@import './imports';
+@import './themes/app-theme.scss';
+@import './bootstrap.scss';
+@import './components/icon.scss';
+@import './components/menu.scss';
+@import './fonts/material-icons.scss';
 
 * {
 	box-sizing: border-box;
@@ -15,7 +15,7 @@ html {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	font-family: "Montserrat", Arial, sans-serif;
+	font-family: 'Montserrat', Arial, sans-serif;
 	font-size: $default-font-size;
 }
 
@@ -64,13 +64,12 @@ hr {
 	background-color: #{$accent-color-light}55;
 	height: 1px;
 	border: none;
-	opacity: .36;
+	opacity: 0.36;
 }
 
 html.theme-dark hr {
 	background-color: $accent-color-dark;
 }
-
 
 .pointer-cursor {
 	cursor: pointer;
@@ -78,7 +77,7 @@ html.theme-dark hr {
 
 .ex-nav-button {
 	width: 100%;
-	transition: background-color .25s;
+	transition: background-color 0.25s;
 	text-decoration: none;
 	background-color: #{$app-background-color-light}20;
 	padding: 8px 16px;

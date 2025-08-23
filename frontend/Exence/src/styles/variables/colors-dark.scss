@@ -129,7 +129,7 @@ $error: map.get($palettes, error);
 $_rest: (
 	secondary: $secondary,
 	neutral: $neutral,
-	neutral-variant: map.get($palettes,  neutral-variant),
+	neutral-variant: map.get($palettes, neutral-variant),
 	error: $error,
 );
 $primary: map.merge(map.get($palettes, primary), $_rest);

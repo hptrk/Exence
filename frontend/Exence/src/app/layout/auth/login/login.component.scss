@@ -1,31 +1,31 @@
 :host {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 }
 
 .form-container {
-  min-width: 40%;
-  padding: 1rem;
+	min-width: 40%;
+	padding: 1rem;
 }
 
 .form-header {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  font-weight: 400;
-  &-note {
-    font-size: 1.2rem;
-    margin-bottom: 3rem;
-  }
-  &-link {
-    color: var(--mat-sys-primary-fixed);
-    cursor: pointer;
-  }
+	font-size: 3rem;
+	margin-bottom: 1rem;
+	font-weight: 400;
+	&-note {
+		font-size: 1.2rem;
+		margin-bottom: 3rem;
+	}
+	&-link {
+		color: var(--mat-sys-primary-fixed);
+		cursor: pointer;
+	}
 }
 
 .auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.7rem;
 }

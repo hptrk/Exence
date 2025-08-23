@@ -12,5 +12,7 @@ export abstract class BaseComponent implements OnDestroy {
 		this._subscriptions.forEach(a => a.unsubscribe());
 	}
 
-	addSubscription(s: Subscription): void { this._subscriptions.push(s); }
+	addSubscription(s: Subscription): void {
+		this._subscriptions.push(s);
+	}
 }

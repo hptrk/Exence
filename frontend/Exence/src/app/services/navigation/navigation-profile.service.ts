@@ -1,8 +1,8 @@
 export class ProfileRoutes {
-	constructor(private readonly baseUrl: string) { }
+	constructor(private readonly baseUrl: string) {}
 
 	index(): string {
-		return `${this.baseUrl}profile`
+		return `${this.baseUrl}profile`;
 	}
 }
 

@@ -9,9 +9,9 @@ $bootstrapXXl: 1400px;
 
 // override bootstrap breakpoints
 $grid-breakpoints: (
-  xs: 0,
-  sm: $bootstrapSm,
-  md: $bootstrapMd,
-  lg: $bootstrapLg,
-  xl: $bootstrapXl,
+	xs: 0,
+	sm: $bootstrapSm,
+	md: $bootstrapMd,
+	lg: $bootstrapLg,
+	xl: $bootstrapXl,
 );
