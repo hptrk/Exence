@@ -15,6 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 	selector: 'ex-sidebar',
 	imports: [RouterModule, RouterLink, MatSidenavModule, MatListModule, MatIconModule, MatButtonModule, NavButtonDirective, CommonModule, MatMenuModule],
 	templateUrl: './sidebar.component.html',
+	styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent extends BaseComponent {
 	public navigationService = inject(NavigationService);
