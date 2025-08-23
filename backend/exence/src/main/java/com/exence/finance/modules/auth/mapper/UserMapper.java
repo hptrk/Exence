@@ -21,6 +21,7 @@ public interface UserMapper {
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "categories", ignore = true)
     @Mapping(target = "tokens", ignore = true)
+    @Mapping(target = "displayUsername", source = "username")
     User mapToUser(UserDTO userDTO);
 
     @Mapping(target = "id", ignore = true)
