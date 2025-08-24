@@ -2,11 +2,7 @@ package com.exence.finance.modules.auth.service.impl;
 
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.dto.UserDTO;
-import com.exence.finance.modules.auth.dto.request.DeleteUserRequest;
-import com.exence.finance.modules.auth.dto.request.UpdatePasswordRequest;
-import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
-import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
-import com.exence.finance.modules.auth.dto.response.UserResponse;
+import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.UserMapper;
@@ -35,38 +31,25 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public Long getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        Long userId = user.getId();
-
-        return userId;
-    }
-
-    public UserResponse updateUser(UpdateUserRequest request){
-        UserDTO userDTO = request.getUser();
+    public UserDTO updateUser(UserDTO userDTO){
         Long userId = getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         userMapper.updateUserFromDto(userDTO, user);
 
-        return UserResponse.builder()
-                .user(userMapper.mapToUserDto(user))
-                .build();
+        return userMapper.mapToUserDto(user);
     }
 
-    public EmptyAuthResponse updatePassword(UpdatePasswordRequest request) {
+    public void changePassword(ChangePasswordRequest request) {
         Long userId = getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         // TODO: validation for updating password (e.g oldpassword check)
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
-
-        return EmptyAuthResponse.builder().build();
     }
 
-    public EmptyAuthResponse deleteUser(DeleteUserRequest request) {
+    public void deleteUser() {
         Long userId = getUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
 
@@ -84,7 +67,13 @@ public class UserServiceImpl implements UserService {
 
         // Delete the user
         userRepository.deleteById(userId);
+    }
 
-        return EmptyAuthResponse.builder().build();
+    public Long getUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        Long userId = user.getId();
+
+        return userId;
     }
 }

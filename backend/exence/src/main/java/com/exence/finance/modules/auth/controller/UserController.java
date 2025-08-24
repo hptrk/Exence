@@ -1,15 +1,13 @@
 package com.exence.finance.modules.auth.controller;
 
-import com.exence.finance.modules.auth.dto.request.DeleteUserRequest;
-import com.exence.finance.modules.auth.dto.request.UpdatePasswordRequest;
-import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
-import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
-import com.exence.finance.modules.auth.dto.response.UserResponse;
+import com.exence.finance.modules.auth.dto.UserDTO;
+import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
+import org.springframework.http.ResponseEntity;
 
 public interface UserController {
-    public UserResponse updateUser(UpdateUserRequest request);
+    public ResponseEntity<UserDTO> updateUser(UserDTO userDTO);
 
-    public EmptyAuthResponse updatePassword(UpdatePasswordRequest request);
+    public ResponseEntity<Void> changePassword(ChangePasswordRequest request);
 
-    public EmptyAuthResponse deleteUser(DeleteUserRequest request);
+    public ResponseEntity<Void> deleteUser();
 }

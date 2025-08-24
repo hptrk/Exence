@@ -1,56 +1,62 @@
 package com.exence.finance.modules.category.controller.impl;
 
+import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.category.controller.CategoryController;
-import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
-import com.exence.finance.modules.category.dto.request.CreateCategoryRequest;
-import com.exence.finance.modules.category.dto.request.DeleteCategoryRequest;
-import com.exence.finance.modules.category.dto.request.EmptyCategoryRequest;
-import com.exence.finance.modules.category.dto.request.UpdateCategoryRequest;
-import com.exence.finance.modules.category.dto.response.CategoryResponse;
-import com.exence.finance.modules.category.dto.response.CreateCategoryResponse;
-import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
-import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
+import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.modules.category.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/categories")
 @CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class CategoryControllerImpl implements CategoryController {
     private final CategoryService categoryService;
 
-    @PostMapping("/getCategory")
-    public CategoryResponse getCategory(CategoryIdRequest request) {
-        CategoryResponse response = categoryService.getCategory(request);
-        return response;
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
+        CategoryDTO categoryDTO = categoryService.getCategoryById(id);
+        return ResponseFactory.ok(categoryDTO);
     }
 
-    @PostMapping("/getCategories")
-    public GetCategoriesResponse getCategories(EmptyCategoryRequest request) {
-        GetCategoriesResponse response = categoryService.getCategories(request);
-        return response;
+    @GetMapping()
+    public ResponseEntity<List<CategoryDTO>> getCategories() {
+        List<CategoryDTO> categoryDTOs = categoryService.getCategories();
+        return ResponseFactory.ok(categoryDTOs);
     }
 
-    @PostMapping("/createCategory")
-    public CreateCategoryResponse createCategory(CreateCategoryRequest request) {
-        CreateCategoryResponse response = categoryService.createCategory(request);
-        return response;
+    @PostMapping()
+    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
+        CategoryDTO created = categoryService.createCategory(categoryDTO);
+        return ResponseFactory.created(created.getId(), created);
     }
 
-    @PostMapping("/updateCategory")
-    public CategoryResponse updateCategory(UpdateCategoryRequest request) {
-        CategoryResponse response = categoryService.updateCategory(request);
-        return response;
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,
+                                                      @Valid @RequestBody CategoryDTO categoryDTO) {
+        categoryDTO.setId(id);
+        CategoryDTO updated = categoryService.updateCategory(categoryDTO);
+        return ResponseFactory.ok(updated);
     }
 
-    @PostMapping("/deleteCategory")
-    public EmptyCategoryResponse deleteCategory(DeleteCategoryRequest request) {
-        EmptyCategoryResponse response = categoryService.deleteCategory(request);
-        return response;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteCategory(id);
+        return ResponseFactory.noContent();
     }
+
 }

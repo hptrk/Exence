@@ -1,16 +1,18 @@
 package com.exence.finance.modules.auth.controller;
 
-import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
+import com.exence.finance.modules.auth.dto.request.LoginRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
-import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseEntity;
 
 public interface AuthController {
-    public AuthenticationResponse register(RegisterRequest request);
+    public ResponseEntity<AuthenticationResponse> register(RegisterRequest request);
 
-    public AuthenticationResponse authenticate(AuthenticateRequest request);
+    public ResponseEntity<AuthenticationResponse> login(LoginRequest request);
 
-    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse servletResponse);
+    public ResponseEntity<Void> refreshToken(HttpServletRequest request, HttpServletResponse servletResponse);
+
+    public ResponseEntity<Void> logout(HttpServletRequest request);
 }
