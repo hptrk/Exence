@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AccountRoutes, NavigationServiceForAccount } from './navgiation-account.service';
+import { AccountRoutes, NavigationServiceForAccount } from './navigation-account.service';
 import { NavigationServiceForPrivate, PrivateRoutes } from './navigation-private.service';
 
 @Injectable({
