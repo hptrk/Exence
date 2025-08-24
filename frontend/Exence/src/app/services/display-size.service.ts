@@ -2,7 +2,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { bootstrapLg, bootstrapMd, bootstrapSm, bootstrapXl, bootstrapXxl } from '../common-components/util/contsants';
+import { bootstrapLg, bootstrapMd, bootstrapSm, bootstrapXl, bootstrapXxl } from '../common-components/util/constants';
 
 export type DisplaySizeBreakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
