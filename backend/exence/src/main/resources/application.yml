@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:6969/exence_db
+    username: exencedev
+    password: exencepwd
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# jwt configuration
+jwt:
+  secret: 1d2c3b4a5f6e7d8c9b0a1e2f3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2
+  expiration: 86400000
+  refreshExpiration: 604800000
