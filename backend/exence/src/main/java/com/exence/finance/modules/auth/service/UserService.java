@@ -1,16 +1,14 @@
 package com.exence.finance.modules.auth.service;
 
-import com.exence.finance.modules.auth.dto.request.DeleteUserRequest;
-import com.exence.finance.modules.auth.dto.request.UpdatePasswordRequest;
-import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
-import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
-import com.exence.finance.modules.auth.dto.response.UserResponse;
+import com.exence.finance.modules.auth.dto.UserDTO;
+import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
 
 public interface UserService {
-    public UserResponse updateUser(UpdateUserRequest request);
+    public UserDTO updateUser(UserDTO userDTO);
 
-    public EmptyAuthResponse updatePassword(UpdatePasswordRequest request);
+    public void changePassword(ChangePasswordRequest request);
 
-    public EmptyAuthResponse deleteUser(DeleteUserRequest request);
+    public void deleteUser();
+
     public Long getUserId();
 }

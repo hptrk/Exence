@@ -1,4 +1,4 @@
-package com.exence.finance.modules.category.dto.request;
+package com.exence.finance.modules.transaction.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class CategoryIdRequest implements Serializable {
-    private long id;
+public class TransactionFilter implements Serializable {
+    // TODO: IMPLEMENT FILTER VALUES
+    private String keyword;
 }

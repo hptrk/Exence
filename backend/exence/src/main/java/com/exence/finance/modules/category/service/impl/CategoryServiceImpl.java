@@ -7,15 +7,6 @@ import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.dto.CategoryDTO;
-import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
-import com.exence.finance.modules.category.dto.request.CreateCategoryRequest;
-import com.exence.finance.modules.category.dto.request.DeleteCategoryRequest;
-import com.exence.finance.modules.category.dto.request.EmptyCategoryRequest;
-import com.exence.finance.modules.category.dto.request.UpdateCategoryRequest;
-import com.exence.finance.modules.category.dto.response.CategoryResponse;
-import com.exence.finance.modules.category.dto.response.CreateCategoryResponse;
-import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
-import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
@@ -34,62 +25,48 @@ public class CategoryServiceImpl implements CategoryService {
     private final UserService userService;
     private final CategoryMapper categoryMapper;
 
-    public CategoryResponse getCategory(CategoryIdRequest request) {
-        Category category = categoryRepository.findById(request.getId())
+    public CategoryDTO getCategoryById(Long id) {
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
-        return CategoryResponse.builder()
-                .category(categoryMapper.mapToCategoryDTO(category))
-                .build();
+        return categoryMapper.mapToCategoryDTO(category);
     }
 
-    public GetCategoriesResponse getCategories(EmptyCategoryRequest request) {
+    public List<CategoryDTO> getCategories() {
         Long userId = userService.getUserId();
-
         List<Category> categories = categoryRepository.findByUserId(userId);
-        List<CategoryDTO> categoryDTOs = categoryMapper.mapToCategoryDTOList(categories);
 
-        return GetCategoriesResponse.builder()
-                .categories(categoryDTOs)
-                .build();
+        return categoryMapper.mapToCategoryDTOList(categories);
     }
 
-    public CreateCategoryResponse createCategory(CreateCategoryRequest request) {
+    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         Long userId = userService.getUserId();
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
 
-        Optional<Category> existingCategory = categoryRepository.findByUserIdAndName(userId, request.getCategory().getName());
+        Optional<Category> existingCategory = categoryRepository.findByUserIdAndName(userId, categoryDTO.getName());
         if (existingCategory.isPresent()) {
             throw new CategoryAlreadyExistsException("Category with the same name already exists for you!");
         }
 
-        Category category = categoryMapper.mapToCategory(request.getCategory());
+        Category category = categoryMapper.mapToCategory(categoryDTO);
         category.setUser(user);
         Category savedCategory = categoryRepository.save(category);
 
-        return CreateCategoryResponse.builder()
-                .category(categoryMapper.mapToCategoryDTO(savedCategory))
-                .build();
+        return categoryMapper.mapToCategoryDTO(savedCategory);
     }
 
-    public CategoryResponse updateCategory(UpdateCategoryRequest request) {
-        CategoryDTO categoryDTO = request.getCategory();
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         Category category = categoryRepository.findById(categoryDTO.getId())
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
 
         categoryMapper.updateCategoryFromDto(categoryDTO, category);
         Category updatedCategory = categoryRepository.save(category);
 
-        return CategoryResponse.builder()
-                .category(categoryMapper.mapToCategoryDTO(updatedCategory))
-                .build();
+        return categoryMapper.mapToCategoryDTO(updatedCategory);
     }
 
-    public EmptyCategoryResponse deleteCategory(DeleteCategoryRequest request) {
-        categoryRepository.deleteById(request.getId());
-
-        return EmptyCategoryResponse.builder()
-                .build();
+    public void deleteCategory(Long id) {
+        categoryRepository.deleteById(id);
     }
 }

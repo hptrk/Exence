@@ -1,23 +1,18 @@
 package com.exence.finance.modules.category.service;
 
-import com.exence.finance.modules.category.dto.request.CategoryIdRequest;
-import com.exence.finance.modules.category.dto.request.CreateCategoryRequest;
-import com.exence.finance.modules.category.dto.request.DeleteCategoryRequest;
-import com.exence.finance.modules.category.dto.request.EmptyCategoryRequest;
-import com.exence.finance.modules.category.dto.request.UpdateCategoryRequest;
-import com.exence.finance.modules.category.dto.response.CategoryResponse;
-import com.exence.finance.modules.category.dto.response.CreateCategoryResponse;
-import com.exence.finance.modules.category.dto.response.EmptyCategoryResponse;
-import com.exence.finance.modules.category.dto.response.GetCategoriesResponse;
+import com.exence.finance.modules.category.dto.CategoryDTO;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 public interface CategoryService {
-    public CategoryResponse getCategory(CategoryIdRequest request);
+    public CategoryDTO getCategoryById(@PathVariable Long id);
 
-    public GetCategoriesResponse getCategories(EmptyCategoryRequest request);
+    public List<CategoryDTO> getCategories();
 
-    public CreateCategoryResponse createCategory(CreateCategoryRequest request);
+    public CategoryDTO createCategory(CategoryDTO categoryDTO);
 
-    public CategoryResponse updateCategory(UpdateCategoryRequest request);
+    public CategoryDTO updateCategory(CategoryDTO categoryDTO);
 
-    public EmptyCategoryResponse deleteCategory(DeleteCategoryRequest request);
+    public void deleteCategory(Long id);
 }

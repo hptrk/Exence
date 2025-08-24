@@ -1,4 +1,4 @@
-package com.exence.finance.modules.transaction.dto.request;
+package com.exence.finance.modules.auth.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,8 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class TransactionIdRequest implements Serializable {
-    private long id;
+public class ChangePasswordRequest implements Serializable {
+    private String oldPassword;
+
+    private String newPassword;
 }

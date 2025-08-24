@@ -1,4 +1,4 @@
-package com.exence.finance.modules.auth.dto.response;
+package com.exence.finance.modules.auth.dto.request;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,13 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 
 @SuperBuilder
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-public class EmptyAuthResponse implements Serializable {
+public class LoginRequest implements Serializable {
+    private String email;
+
+    private String password;
 }

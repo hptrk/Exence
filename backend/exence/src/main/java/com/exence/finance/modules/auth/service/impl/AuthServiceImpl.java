@@ -4,10 +4,9 @@ import com.exence.finance.common.exception.AuthenticationFailedException;
 import com.exence.finance.common.exception.EmailAlreadyInUseException;
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.dto.TokenType;
-import com.exence.finance.modules.auth.dto.request.AuthenticateRequest;
+import com.exence.finance.modules.auth.dto.request.LoginRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
-import com.exence.finance.modules.auth.dto.response.EmptyAuthResponse;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.UserMapper;
@@ -62,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
     // Authenticate the user and generate a token
-    public AuthenticationResponse authenticate(AuthenticateRequest request){
+    public AuthenticationResponse login(LoginRequest request){
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (Exception e) {
@@ -86,13 +85,13 @@ public class AuthServiceImpl implements AuthService {
 
     // Refresh the token
     // TODO: rethink token refreshing logic entirely
-    public EmptyAuthResponse refreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")){
-            return EmptyAuthResponse.builder().build();
+            return;
         }
 
         refreshToken = authHeader.substring(7);
@@ -122,8 +121,6 @@ public class AuthServiceImpl implements AuthService {
                 }
             }
         }
-
-        return EmptyAuthResponse.builder().build();
     }
 
     // Save the token to the database
@@ -165,5 +162,9 @@ public class AuthServiceImpl implements AuthService {
                     token.setUserAgent(userAgent);
                     tokenRepository.save(token);
                 });
+    }
+
+    public void logout(HttpServletRequest request) {
+        // TODO: implement logout logic
     }
 }
