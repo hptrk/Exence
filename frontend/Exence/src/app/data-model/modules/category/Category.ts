@@ -1,5 +1,5 @@
 export interface Category {
-  id: number;
-  name: string;
-  emoji: string;
+	id: number;
+	name: string;
+	emoji: string;
 }

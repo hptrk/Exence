@@ -9,34 +9,34 @@ import { MatButtonModule } from '@angular/material/button';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'ex-login',
-  imports: [CommonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+	selector: 'ex-login',
+	imports: [CommonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule],
+	templateUrl: './login.component.html',
+	styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+	private fb = inject(FormBuilder);
+	private authService = inject(AuthService);
 
-  public loginForm!: FormGroup;
+	public loginForm!: FormGroup;
 
-  ngOnInit() {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
-  }
+	ngOnInit() {
+		this.loginForm = this.fb.group({
+			email: ['', [Validators.required, Validators.email]],
+			password: ['', Validators.required],
+		});
+	}
 
-  onSubmit(): void {
-    if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(
-        () => {
-          console.log('Login successful');
-        },
-        error => {
-          console.error('Login failed', error);
-        },
-      );
-    }
-  }
+	onSubmit(): void {
+		if (this.loginForm.valid) {
+			this.authService.login(this.loginForm.value).subscribe(
+				() => {
+					console.log('Login successful');
+				},
+				error => {
+					console.error('Login failed', error);
+				},
+			);
+		}
+	}
 }

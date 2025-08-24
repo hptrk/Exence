@@ -7,12 +7,14 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { authInterceptor } from './app/interceptors/auth.interceptor';
+import { LayoutModule } from '@angular/cdk/layout';
 
 bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
-    provideAnimations(),
-    provideCharts(withDefaultRegisterables()),
-  ],
-}).catch((err) => console.error(err));
+	providers: [
+		provideRouter(routes),
+		provideHttpClient(withInterceptors([authInterceptor])),
+		provideAnimations(),
+		provideCharts(withDefaultRegisterables()),
+		importProvidersFrom(LayoutModule),
+	],
+}).catch(err => console.error(err));

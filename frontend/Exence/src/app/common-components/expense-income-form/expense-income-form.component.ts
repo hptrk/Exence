@@ -25,134 +25,134 @@ import { Category } from '../../data-model/modules/category/Category';
 
 const moment = _rollupMoment || _moment;
 export const DATE_FORMATS = {
-  parse: {
-    dateInput: 'LL',
-  },
-  display: {
-    dateInput: 'LL',
-    monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
-    monthYearA11yLabel: 'MMMM YYYY',
-  },
+	parse: {
+		dateInput: 'LL',
+	},
+	display: {
+		dateInput: 'LL',
+		monthYearLabel: 'MMM YYYY',
+		dateA11yLabel: 'LL',
+		monthYearA11yLabel: 'MMMM YYYY',
+	},
 };
 
 @Component({
-  selector: 'ex-expense-income-form',
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    ReactiveFormsModule,
-    MatChipsModule,
-    MatIconModule,
-    NewCategoryFormComponent,
-  ],
-  providers: [provideNativeDateAdapter(), provideMomentDateAdapter(DATE_FORMATS)],
-  templateUrl: './expense-income-form.component.html',
-  styleUrl: './expense-income-form.component.scss',
+	selector: 'ex-expense-income-form',
+	imports: [
+		CommonModule,
+		MatFormFieldModule,
+		MatButtonModule,
+		MatInputModule,
+		MatSelectModule,
+		MatDatepickerModule,
+		MatNativeDateModule,
+		ReactiveFormsModule,
+		MatChipsModule,
+		MatIconModule,
+		NewCategoryFormComponent,
+	],
+	providers: [provideNativeDateAdapter(), provideMomentDateAdapter(DATE_FORMATS)],
+	templateUrl: './expense-income-form.component.html',
+	styleUrl: './expense-income-form.component.scss',
 })
 export class ExpenseIncomeFormComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private transactionService = inject(TransactionService);
-  private categoryService = inject(CategoryService);
-  private dialogRef = inject(MatDialogRef);
+	private fb = inject(FormBuilder);
+	private transactionService = inject(TransactionService);
+	private categoryService = inject(CategoryService);
+	private dialogRef = inject(MatDialogRef);
 
-  formType = input<'income' | 'expense'>('income');
-  transaction = input<Transaction | null>();
+	formType = input<'income' | 'expense'>('income');
+	transaction = input<Transaction | null>();
 
-  public categories = this.categoryService.getCategories();
+	public categories = this.categoryService.getCategories();
 
-  public isAddingCategory = signal(false);
-  public isFormSubmitted = signal(false);
-  public selectedCategory = signal<string | null>(null);
+	public isAddingCategory = signal(false);
+	public isFormSubmitted = signal(false);
+	public selectedCategory = signal<string | null>(null);
 
-  public form!: UntypedFormGroup;
-  public date = new FormControl(moment());
+	public form!: UntypedFormGroup;
+	public date = new FormControl(moment());
 
-  ngOnInit() {
-    const today = moment();
-    this.form = this.fb.group({
-      title: [this.transaction()?.title || '', Validators.required],
-      categoryId: [this.transaction()?.categoryId || '', Validators.required],
-      amount: [
-        this.transaction() ? Math.abs(this.transaction()!.amount) : '',
-        [Validators.required, Validators.min(1)],
-      ],
-      date: [
-        {
-          value: this.transaction()?.date || today.format('YYYY-MM-DD'),
-          disabled: false,
-        },
-        Validators.required,
-      ],
-    });
-  }
+	ngOnInit() {
+		const today = moment();
+		this.form = this.fb.group({
+			title: [this.transaction()?.title || '', Validators.required],
+			categoryId: [this.transaction()?.categoryId || '', Validators.required],
+			amount: [
+				this.transaction() ? Math.abs(this.transaction()!.amount) : '',
+				[Validators.required, Validators.min(1)],
+			],
+			date: [
+				{
+					value: this.transaction()?.date || today.format('YYYY-MM-DD'),
+					disabled: false,
+				},
+				Validators.required,
+			],
+		});
+	}
 
-  selectCategory(categoryId: number): void {
-    const category = this.categories().find(c => c.id === categoryId);
-    this.selectedCategory.set(category?.name || null);
-    this.form.get('categoryId')?.setValue(categoryId);
-  }
+	selectCategory(categoryId: number): void {
+		const category = this.categories().find(c => c.id === categoryId);
+		this.selectedCategory.set(category?.name || null);
+		this.form.get('categoryId')?.setValue(categoryId);
+	}
 
-  addCategory(): void {
-    this.isAddingCategory.set(true);
-  }
+	addCategory(): void {
+		this.isAddingCategory.set(true);
+	}
 
-  onCategoryAdded(category: { name: string; emoji: string }): void {
-    const newCategory: Category = {
-      id: 0, // backend will generate the actual ID
-      name: category.name,
-      emoji: category.emoji,
-    };
+	onCategoryAdded(category: { name: string; emoji: string }): void {
+		const newCategory: Category = {
+			id: 0, // backend will generate the actual ID
+			name: category.name,
+			emoji: category.emoji,
+		};
 
-    this.categoryService.createCategory(newCategory).subscribe({
-      next: createdCategory => {
-        this.selectCategory(createdCategory.id);
-        this.isAddingCategory.set(false);
-      },
-    });
-  }
+		this.categoryService.createCategory(newCategory).subscribe({
+			next: createdCategory => {
+				this.selectCategory(createdCategory.id);
+				this.isAddingCategory.set(false);
+			},
+		});
+	}
 
-  onSubmit(): void {
-    this.isFormSubmitted.set(true);
+	onSubmit(): void {
+		this.isFormSubmitted.set(true);
 
-    if (this.form.valid) {
-      const formValue = this.form.value;
+		if (this.form.valid) {
+			const formValue = this.form.value;
 
-      // TODO: most csak átírtam h működjön, ne any legyen
-      const newTransaction: any = {
-        id: this.transaction()?.id,
-        title: formValue.title,
-        date: formValue.date ?? undefined,
-        amount: Number(formValue.amount),
-        type: this.formType(),
-        recurring: false,
-        categoryId: Number(formValue.categoryId),
-      };
+			// TODO: most csak átírtam h működjön, ne any legyen
+			const newTransaction: any = {
+				id: this.transaction()?.id,
+				title: formValue.title,
+				date: formValue.date ?? undefined,
+				amount: Number(formValue.amount),
+				type: this.formType(),
+				recurring: false,
+				categoryId: Number(formValue.categoryId),
+			};
 
-      if (this.transaction()) {
-        // Update existing transaction
-        this.transactionService.updateTransaction(this.transaction()!.id, newTransaction).subscribe({
-          next: () => {
-            this.isFormSubmitted.set(false);
-            this.dialogRef.close();
-          },
-          error: error => console.error('Failed to update transaction:', error),
-        });
-      } else {
-        // Create new transaction
-        this.transactionService.createTransaction(newTransaction).subscribe({
-          next: () => {
-            this.isFormSubmitted.set(false);
-            this.dialogRef.close();
-          },
-          error: error => console.error('Failed to create transaction:', error),
-        });
-      }
-    }
-  }
+			if (this.transaction()) {
+				// Update existing transaction
+				this.transactionService.updateTransaction(this.transaction()!.id, newTransaction).subscribe({
+					next: () => {
+						this.isFormSubmitted.set(false);
+						this.dialogRef.close();
+					},
+					error: error => console.error('Failed to update transaction:', error),
+				});
+			} else {
+				// Create new transaction
+				this.transactionService.createTransaction(newTransaction).subscribe({
+					next: () => {
+						this.isFormSubmitted.set(false);
+						this.dialogRef.close();
+					},
+					error: error => console.error('Failed to create transaction:', error),
+				});
+			}
+		}
+	}
 }

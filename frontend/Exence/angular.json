@@ -23,9 +23,20 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles/styles.scss", "node_modules/@ctrl/ngx-emoji-mart/picker.css"],
-            "scripts": []
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles/styles.scss",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css"
+            ],
+            "scripts": [],
+			"stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": ["import", "color-functions", "global-builtin"]
+              }
+            }
           },
           "configurations": {
             "production": {

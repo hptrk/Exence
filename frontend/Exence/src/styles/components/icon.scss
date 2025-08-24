@@ -1,0 +1,63 @@
+mat-icon.mat-icon {
+	display: inline-flex;
+	align-items: center;
+
+	&[size='xs'] {
+		width: 8px;
+		height: 8px;
+		font-size: 8px;
+	}
+
+	&[size='sm'] {
+		width: 18px;
+		height: 18px;
+		font-size: 18px;
+	}
+
+	&[size='md'] {
+		width: 24px;
+		height: 24px;
+		font-size: 24px;
+	}
+
+	&[size='lg'] {
+		width: 32px;
+		height: 32px;
+		font-size: 32px;
+	}
+
+	&[size='xl'] {
+		width: 40px;
+		height: 40px;
+		font-size: 40px;
+	}
+
+	&[size='xxl'] {
+		width: 60px;
+		height: 60px;
+		font-size: 60px;
+	}
+
+	&[size='2xxl'] {
+		width: 120px;
+		height: 120px;
+		font-size: 120px;
+	}
+
+	&[size] svg {
+		width: 100%;
+		height: 100%;
+	}
+}
+
+button.mat-mdc-mini-fab .mat-button-wrapper {
+	padding: 0;
+}
+
+mat-icon.mat-primary {
+	--mat-icon-color: var(--mat-sys-primary);
+}
+
+mat-icon.mat-warn {
+	--mat-icon-color: var(--mat-sys-error);
+}

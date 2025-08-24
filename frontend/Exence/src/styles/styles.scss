@@ -1,24 +1,91 @@
-@use "./themes" as *;
-@use "@ctrl/ngx-emoji-mart/picker";
+// styles only that are global to the whole application
+@import '@ctrl/ngx-emoji-mart/picker';
+@import './imports';
+@import './themes/app-theme.scss';
+@import './bootstrap.scss';
+@import './components/icon.scss';
+@import './components/menu.scss';
+@import './fonts/material-icons.scss';
 
-/* CSS Reset */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-  font-family: "Montserrat", Arial, sans-serif;
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	font-family: 'Montserrat', Arial, sans-serif;
+	font-size: $default-font-size;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+	background-color: $app-background-color-light;
+	color: $default-text-color-light;
+	font-weight: normal;
+	line-height: 1.5;
+	margin: 0;
+	text-align: left;
+	height: 100%;
+	scrollbar-color: $primary-color-light #c9c9f2;
 }
+
+html.theme-dark body {
+	background-color: $app-background-color-dark;
+	color: $default-text-color-dark;
+	color-scheme: dark;
+	scrollbar-color: $primary-color-dark #c9c9f2;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.header-1 {
+	font-weight: bold;
+	font-size: $header-1;
+}
+
+.header-2 {
+	font-weight: bold;
+	font-size: $header-2;
+}
+
+.header-3 {
+	font-size: $header-3;
+}
+
+.centralize {
+	@include centralize(100%);
+}
+
+hr {
+	background-color: #{$accent-color-light}55;
+	height: 1px;
+	border: none;
+	opacity: 0.36;
+}
+
+html.theme-dark hr {
+	background-color: $accent-color-dark;
+}
+
 .pointer-cursor {
-  cursor: pointer;
+	cursor: pointer;
+}
+
+.ex-nav-button {
+	width: 100%;
+	transition: background-color 0.25s;
+	text-decoration: none;
+	background-color: #{$app-background-color-light}20;
+	padding: 8px 16px;
+	border: none;
+	color: inherit;
+	cursor: pointer;
+
+	&:hover {
+		background-color: #{$app-background-color-light};
+	}
 }
