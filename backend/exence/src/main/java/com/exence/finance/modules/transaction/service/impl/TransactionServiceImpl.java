@@ -38,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService{
     public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable){
         // TODO: Implement filtering logic based on request parameters
 
-        return null;
+        return Page.empty(pageable);
     }
 
     public TransactionDTO createTransaction(TransactionDTO transactionDTO) {
