@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>17</java.version>
+		<byte.buddy.agent.version>1.15.11</byte.buddy.agent.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -183,7 +184,7 @@
 				<version>3.1.2</version>
 				<configuration>
 					<argLine>
-						-javaagent:"${settings.localRepository}/net/bytebuddy/byte-buddy-agent/1.15.11/byte-buddy-agent-1.15.11.jar"
+						-javaagent:"${settings.localRepository}/net/bytebuddy/byte-buddy-agent/${byte.buddy.agent.version}/byte-buddy-agent-${byte.buddy.agent.version}.jar"
 					</argLine>
 				</configuration>
 			</plugin>
