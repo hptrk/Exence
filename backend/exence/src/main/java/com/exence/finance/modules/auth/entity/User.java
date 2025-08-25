@@ -14,9 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +29,9 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import static com.exence.finance.common.util.ValidationConstants.EMAIL_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LENGTH;
 
 @SuperBuilder
 @Entity
@@ -55,19 +56,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gen")
     private Long id;
 
-    @NotBlank()
-    @Size(min = 3, max = 25)
-    @Column(name = "USERNAME", nullable = false, length = 25)
+    @NotNull
+    @Column(name = "USERNAME", nullable = false, length = USERNAME_MAX_LENGTH)
     private String username;
 
-    @NotBlank
-    @Email()
-    @Size(max = 100)
-    @Column(name = "EMAIL", nullable = false, unique = true, length = 100)
+    @NotNull
+    @Column(name = "EMAIL", nullable = false, unique = true, length = EMAIL_MAX_LENGTH)
     private String email;
 
-    @NotBlank
-    @Size(min = 8, max = 255)
+    @NotNull
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
