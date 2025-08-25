@@ -1,5 +1,8 @@
 package com.exence.finance.modules.auth.dto.request;
 
+import com.exence.finance.common.annotations.PasswordMatches;
+import com.exence.finance.common.annotations.ValidPassword;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,8 +19,18 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
+@PasswordMatches(
+        password = "newPassword",
+        confirmPassword = "confirmNewPassword",
+        message = "New password and confirmation password do not match"
+)
 public class ChangePasswordRequest implements Serializable {
+    @NotBlank(message = "Current password is required")
     private String oldPassword;
 
+    @ValidPassword
     private String newPassword;
+
+    @NotBlank(message = "Password confirmation is required")
+    private String confirmNewPassword;
 }
