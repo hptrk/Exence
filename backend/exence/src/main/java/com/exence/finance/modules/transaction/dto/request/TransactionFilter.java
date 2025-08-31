@@ -47,8 +47,7 @@ public class TransactionFilter implements Serializable {
 
     private TransactionType type;
 
-    @DecimalMin(value = TRANSACTION_AMOUNT_MIN,
-            message = "Minimum amount must be greater than " + TRANSACTION_AMOUNT_MIN)
+            message = "Minimum amount must be at least " + TRANSACTION_AMOUNT_MIN)
     @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
             fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
             message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and " + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
