@@ -36,9 +36,11 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable){
-        // TODO: Implement filtering logic based on request parameters
+        Long userId = userService.getUserId();
 
-        return Page.empty(pageable);
+        Page<Transaction> transactions = transactionRepository.findTransactions(userId, filter, pageable);
+
+        return transactions.map(transactionMapper::mapToTransactionDTO);
     }
 
     public TransactionDTO createTransaction(TransactionDTO transactionDTO) {

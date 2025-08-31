@@ -37,6 +37,7 @@ public class ValidationConstants {
     public static final String TRANSACTION_AMOUNT_MIN = "0.01";
     public static final int TRANSACTION_AMOUNT_INTEGER_DIGITS = 17;
     public static final int TRANSACTION_AMOUNT_FRACTION_DIGITS = 2;
+    public static final int TRANSACTION_NOTE_MAX_LENGTH = 500;
 
     // Email domain lists
     public static final Set<String> WHITELISTED_DOMAINS = Set.of(
