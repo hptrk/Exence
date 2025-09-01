@@ -42,8 +42,7 @@ import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LE
 @ToString(callSuper = true, exclude = { "transactions", "categories", "tokens", "password" })
 @Table(name = "_user",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uk_user_email", columnNames = "EMAIL"),
-                @UniqueConstraint(name = "uk_user_username", columnNames = "USERNAME")
+                @UniqueConstraint(name = "uk_user_email", columnNames = "EMAIL")
         },
         indexes = {
                 @Index(name = "idx_user_email", columnList = "EMAIL"),

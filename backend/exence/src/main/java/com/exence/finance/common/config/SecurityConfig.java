@@ -35,13 +35,13 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable) // REST stateless API, no need for CSRF
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/auth/**").permitAll() // allow all requests to /auth (registration, login))
+                        .requestMatchers("/api/auth/**").permitAll() // allow all requests to /auth (registration, login))
                         .anyRequest().authenticated()) // all other requests need to be authenticated
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // no session management
                 .authenticationProvider(customAuthenticationProvider) // custom authentication provider
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // add JWT filter before UsernamePasswordAuthenticationFilter
                 .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint)) // handle auth exceptions with custom entry point
-                .logout(logout -> logout.logoutUrl("/auth/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler((request, response, authentication) ->
+                .logout(logout -> logout.logoutUrl("/api/auth/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler((request, response, authentication) ->
         SecurityContextHolder.clearContext())); // clear security context on logout
 
         return http.build();
