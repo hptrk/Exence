@@ -1,6 +1,7 @@
 package com.exence.finance.common.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -28,9 +30,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> handleGenericException(Exception ex, WebRequest request) {
+        log.error("Unexpected error occurred: {}", ex.getMessage(), ex);
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                "Unexpected error occured."
+                "Unexpected error occurred."
         );
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + "internal-server-error"));
         problemDetail.setTitle("Internal Server Error");
@@ -48,6 +52,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatusCode status,
             WebRequest request) {
 
+        Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
+                .collect(Collectors.toMap(
+                        error -> error.getField(),
+                        error -> error.getDefaultMessage(),
+                        (existing, replacement) -> existing
+                ));
+
+        log.warn("Validation failed for request. Errors: {}", errors);
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,
                 "The request contains invalid data. Please check the provided fields and try again."
@@ -55,13 +68,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + "validation-error"));
         problemDetail.setTitle("Validation Failed");
         problemDetail.setProperty("timestamp", Instant.now());
-
-        Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
-                .collect(Collectors.toMap(
-                        error -> error.getField(),
-                        error -> error.getDefaultMessage(),
-                        (existing, replacement) -> existing
-                ));
         problemDetail.setProperty("errors", errors);
 
         return ResponseEntity.badRequest().body(problemDetail);
@@ -69,6 +75,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ProblemDetail> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+        log.warn("Authentication failed - bad credentials provided");
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
                 "The username or password you entered is incorrect. Please double-check your credentials and try again."
@@ -82,6 +90,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ProblemDetail> handleAccessDeniedException(AccessDeniedException ex, WebRequest request) {
+        log.warn("Access denied to resource: {}", request.getDescription(false));
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.FORBIDDEN,
                 "You don't have permission to access this resource."
@@ -95,6 +105,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ProblemDetail> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
+        log.warn("Data integrity violation occurred: {}", ex.getMessage());
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.CONFLICT,
                 "The operation could not be completed due to a data constraint violation. This usually occurs when trying to delete referenced data."
@@ -108,6 +120,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ProblemDetail> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+        log.warn("Illegal argument provided: {}", ex.getMessage());
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,
                 "One or more parameters in your request are invalid. Please check the request format and try again."
@@ -121,6 +135,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ProblemDetail> handleExpiredJwtException(ExpiredJwtException ex, WebRequest request) {
+        log.warn("JWT token has expired for request: {}", request.getDescription(false));
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
                 "Your session has expired. Please log in again."
@@ -134,6 +150,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleUsernameNotFoundException(UsernameNotFoundException ex, WebRequest request) {
+        log.warn("Username not found during authentication attempt");
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
                 "The username or email you entered could not be found. Please check your credentials and try again."
@@ -149,6 +167,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
     public ResponseEntity<ProblemDetail> handleEmailAlreadyInUseException(EmailAlreadyInUseException ex, WebRequest request) {
+        log.warn("Attempt to register with email that is already in use");
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.CONFLICT,
                 "This email address is already in use."
@@ -162,6 +182,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        log.warn("User not found for request: {}", request.getDescription(false));
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.NOT_FOUND,
                 "The requested user could not be found."
@@ -175,6 +197,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleCategoryNotFoundException(CategoryNotFoundException ex, WebRequest request) {
+        log.warn("Category not found for request: {}", request.getDescription(false));
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.NOT_FOUND,
                 "Category could not be found."
@@ -188,6 +212,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(CategoryAlreadyExistsException.class)
     public ResponseEntity<ProblemDetail> handleCategoryAlreadyExistsException(CategoryAlreadyExistsException ex, WebRequest request) {
+        log.warn("Attempt to create category that already exists");
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.CONFLICT,
                 "A category with this name already exists."
@@ -201,6 +227,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(TransactionNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleTransactionNotFoundException(TransactionNotFoundException ex, WebRequest request) {
+        log.warn("Transaction not found for request: {}", request.getDescription(false));
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.NOT_FOUND,
                 "Transaction could not be found."
@@ -214,6 +242,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AuthenticationFailedException.class)
     public ResponseEntity<ProblemDetail> handleAuthenticationFailedException(AuthenticationFailedException ex, WebRequest request) {
+        log.warn("Authentication failed for request: {}", request.getDescription(false));
+
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
                 "Authentication failed. Please check your credentials and try again."

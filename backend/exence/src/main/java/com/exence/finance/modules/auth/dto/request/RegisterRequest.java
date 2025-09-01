@@ -21,7 +21,7 @@ import java.io.Serializable;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = { "password", "confirmPassword" })
 @PasswordMatches(
         password = "password",
         confirmPassword = "confirmPassword",
