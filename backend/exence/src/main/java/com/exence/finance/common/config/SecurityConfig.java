@@ -1,6 +1,7 @@
 package com.exence.finance.common.config;
 
 import com.exence.finance.security.CustomAuthenticationProvider;
+import com.exence.finance.security.JwtAuthenticationEntryPoint;
 import com.exence.finance.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final CustomAuthenticationProvider customAuthenticationProvider;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final LogoutHandler logoutHandler;
 
     @Bean
@@ -38,6 +40,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // no session management
                 .authenticationProvider(customAuthenticationProvider) // custom authentication provider
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class) // add JWT filter before UsernamePasswordAuthenticationFilter
+                .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint)) // handle auth exceptions with custom entry point
                 .logout(logout -> logout.logoutUrl("/auth/logout").addLogoutHandler(logoutHandler).logoutSuccessHandler((request, response, authentication) ->
         SecurityContextHolder.clearContext())); // clear security context on logout
 

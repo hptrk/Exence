@@ -1,5 +1,6 @@
 package com.exence.finance.security;
 
+import com.exence.finance.common.exception.AuthenticationFailedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +27,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         if (passwordEncoder.matches(password, user.getPassword())) {
             return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
         } else {
-            throw new AuthenticationException("Invalid username or password") {};
+            throw new AuthenticationFailedException();
         }
     }
 

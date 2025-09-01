@@ -1,7 +1,10 @@
 package com.exence.finance.common.exception;
 
 public class CategoryNotFoundException extends RuntimeException{
-    public CategoryNotFoundException(String message) {
-        super(message);
+    public CategoryNotFoundException() {
+        super();
+    }
+    public CategoryNotFoundException(String context) {
+        super(context);
     }
 }
