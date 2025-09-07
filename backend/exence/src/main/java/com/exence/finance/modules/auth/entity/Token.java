@@ -35,7 +35,7 @@ import static com.exence.finance.common.util.ValidationConstants.USER_AGENT_MAX_
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, exclude = { "user" })
-@ToString(callSuper = true, exclude = { "user" })
+@ToString(callSuper = true, exclude = { "user", "token" })
 @Table(name = "TOKEN", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
 @SequenceGenerator(name = "token_gen", sequenceName = "token_id_seq", allocationSize = 1)
 public class Token {

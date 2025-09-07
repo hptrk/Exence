@@ -49,7 +49,7 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
         }
 
         if (!SPECIAL_CHAR_PATTERN.matcher(password).matches()) {
-            violations.add("must contain at least one special character (!@#$%^&*()_+-=[]{}|;':\"\\,.<>/?)");
+            violations.add("must contain at least one special character (" + SPECIAL_CHAR_PATTERN + ")");
         }
 
         if (COMMON_PASSWORDS.contains(password.toLowerCase())) {
