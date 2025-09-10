@@ -23,6 +23,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import java.util.List;
 
@@ -38,6 +41,7 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_M
 @ToString(callSuper = true, exclude = { "user", "transactions" })
 @Table(name = "CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
 @SequenceGenerator(name = "category_gen", sequenceName = "category_id_seq", allocationSize = 1)
+@Filter(name = "userFilter", condition = "user_id = :userId")
 public class Category extends BaseAuditableEntity {
 
     @Id

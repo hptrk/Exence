@@ -23,12 +23,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+// TODO: átnézni az egész authservicet
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
 
-    // Register the user and generate a token
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
         // Check if the email already exists
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
@@ -60,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
                 .refreshToken(refreshToken)
                 .build();
     }
-    // Authenticate the user and generate a token
+    @Transactional
     public AuthenticationResponse login(LoginRequest request){
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -124,6 +126,20 @@ public class AuthServiceImpl implements AuthService {
             }
         }
     }
+
+//    @Transactional
+//    @CacheEvict(value = {"currentUser", "currentUserId"}, key = "#authentication.getName()")
+//    public void logout(Authentication authentication) {
+//        if (authentication == null || !authentication.isAuthenticated()) {
+//            return;
+//        }
+//
+//        String userEmail = authentication.getName();
+//        User user = userRepository.findByEmail(userEmail)
+//                .orElseThrow(() -> new UserNotFoundException("User not found: " + userEmail));
+//
+//        revokeAllUserTokens(user);
+//    }
 
     // Save the token to the database
     private void saveUserToken(User user, String jwtToken){

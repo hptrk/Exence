@@ -1,4 +1,4 @@
-package com.exence.finance.common.config;
+package com.exence.finance.config;
 
 import com.exence.finance.security.CustomAuthenticationProvider;
 import com.exence.finance.security.JwtAuthenticationEntryPoint;

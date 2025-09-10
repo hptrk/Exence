@@ -18,6 +18,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
@@ -60,4 +62,9 @@ public class TransactionFilter implements Serializable {
     private BigDecimal amountTo;
 
     private Boolean recurring;
+
+    public boolean hasActiveFilter() {
+        return Stream.of(keyword, dateFrom, dateTo, categoryId, type, amountFrom, amountTo, recurring)
+                .anyMatch(Objects::nonNull);
+    }
 }

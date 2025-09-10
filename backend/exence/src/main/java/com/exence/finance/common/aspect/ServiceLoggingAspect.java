@@ -27,6 +27,7 @@ public class ServiceLoggingAspect {
         ServiceLogDocument doc = new ServiceLogDocument();
         doc.setTimeOfRequest(Instant.now());
         doc.setServiceClass(joinPoint.getSignature().getDeclaringTypeName());
+        doc.setMethod(joinPoint.getSignature().getName());
 
         Object[] maskedArgs = Arrays.stream(joinPoint.getArgs())
                 .map(arg -> arg == null ? "null" : arg.toString())

@@ -1,11 +1,8 @@
 package com.exence.finance.modules.category.service.impl;
 
-import com.exence.finance.common.exception.CategoryAlreadyExistsException;
 import com.exence.finance.common.exception.CategoryNotFoundException;
-import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.repository.UserRepository;
-import com.exence.finance.modules.auth.service.UserService;
+import com.exence.finance.modules.auth.service.impl.UserServiceImpl;
 import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
@@ -13,41 +10,40 @@ import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
-    private final UserService userService;
     private final CategoryMapper categoryMapper;
+    private final UserServiceImpl userServiceImpl;
 
     public CategoryDTO getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id)
+        Category category = categoryRepository.find(id)
                 .orElseThrow(CategoryNotFoundException::new);
 
         return categoryMapper.mapToCategoryDTO(category);
     }
 
     public List<CategoryDTO> getCategories() {
-        Long userId = userService.getUserId();
-        List<Category> categories = categoryRepository.findByUserId(userId);
+        List<Category> categories = categoryRepository.findAll();
 
         return categoryMapper.mapToCategoryDTOList(categories);
     }
 
+    @Transactional
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
-        Long userId = userService.getUserId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+        User user = userServiceImpl.getCurrentUser();
 
-        Optional<Category> existingCategory = categoryRepository.findByUserIdAndName(userId, categoryDTO.getName());
-        if (existingCategory.isPresent()) {
-            throw new CategoryAlreadyExistsException();
-        }
+        // TODO: valahogy máshogy megoldani + kérés nélkül?
+//        Optional<Category> existingCategory = categoryRepository.findByName(categoryDTO.getName());
+//        if (existingCategory.isPresent()) {
+//            throw new CategoryAlreadyExistsException();
+//        }
 
         Category category = categoryMapper.mapToCategory(categoryDTO);
         category.setUser(user);
@@ -56,8 +52,9 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.mapToCategoryDTO(savedCategory);
     }
 
+    @Transactional
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
-        Category category = categoryRepository.findById(categoryDTO.getId())
+        Category category = categoryRepository.find(categoryDTO.getId())
                 .orElseThrow(CategoryNotFoundException::new);
 
         categoryMapper.updateCategoryFromDto(categoryDTO, category);
@@ -66,7 +63,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.mapToCategoryDTO(updatedCategory);
     }
 
+    @Transactional
     public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+        Category category = categoryRepository.find(id)
+                .orElseThrow(CategoryNotFoundException::new);
+
+        categoryRepository.delete(category);
     }
 }
