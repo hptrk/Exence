@@ -14,9 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +24,10 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
+
+import static com.exence.finance.common.util.ValidationConstants.IP_ADDRESS_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.TOKEN_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.USER_AGENT_MAX_LENGTH;
 
 @SuperBuilder
 @Entity
@@ -41,13 +43,13 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_gen")
     private Long id;
 
-    @NotBlank
-    @Column(name = "TOKEN_VALUE", nullable = false, unique = true, length = 1000)
+    @NotNull
+    @Column(name = "TOKEN_VALUE", nullable = false, unique = true, length = TOKEN_MAX_LENGTH)
     private String token;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "TOKEN_TYPE", nullable = false, length = 20)
+    @Column(name = "TOKEN_TYPE", nullable = false)
     @Builder.Default
     private TokenType tokenType = TokenType.BEARER;
 
@@ -67,12 +69,10 @@ public class Token {
     @Column(name = "LAST_USED_AT")
     private Instant lastUsedAt;
 
-    @Size(max = 45)
-    @Column(name = "IP_ADDRESS", length = 45)
+    @Column(name = "IP_ADDRESS", length = IP_ADDRESS_MAX_LENGTH)
     private String ipAddress;
 
-    @Size(max = 500)
-    @Column(name = "USER_AGENT", length = 500)
+    @Column(name = "USER_AGENT", length = USER_AGENT_MAX_LENGTH)
     private String userAgent;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -20,7 +20,6 @@ import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,6 +29,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
 
 @SuperBuilder
 @Entity
@@ -47,7 +50,6 @@ public class Transaction extends BaseAuditableEntity {
     private Long id;
 
     @NotNull
-    @Size(min = 2, max = 255)
     @Column(name = "TITLE", nullable = false)
     private String title;
 
@@ -56,8 +58,9 @@ public class Transaction extends BaseAuditableEntity {
     private Instant date;
 
     @NotNull
-    @DecimalMin(value = "0.01")
-    @Digits(integer = 17, fraction = 2)
+    @DecimalMin(value = TRANSACTION_AMOUNT_MIN)
+    @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
+            fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS)
     @Column(name = "AMOUNT", nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
