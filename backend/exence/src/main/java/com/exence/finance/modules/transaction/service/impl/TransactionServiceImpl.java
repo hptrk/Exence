@@ -68,10 +68,15 @@ public class TransactionServiceImpl implements TransactionService{
         Transaction transaction = transactionRepository.find(transactionDTO.getId())
                 .orElseThrow(TransactionNotFoundException::new);
 
-        Category category = categoryRepository.find(transactionDTO.getCategoryId())
-                .orElseThrow(CategoryNotFoundException::new);
+        if (transactionDTO.getCategoryId() != null &&
+            !transactionDTO.getCategoryId().equals(transaction.getCategory().getId())){
 
-        transaction.setCategory(category);
+            Category category = categoryRepository.find(transactionDTO.getCategoryId())
+                    .orElseThrow(CategoryNotFoundException::new);
+
+            transaction.setCategory(category);
+        }
+
 
         transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
 

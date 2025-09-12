@@ -39,12 +39,6 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         User user = userServiceImpl.getCurrentUser();
 
-        // TODO: valahogy máshogy megoldani + kérés nélkül?
-//        Optional<Category> existingCategory = categoryRepository.findByName(categoryDTO.getName());
-//        if (existingCategory.isPresent()) {
-//            throw new CategoryAlreadyExistsException();
-//        }
-
         Category category = categoryMapper.mapToCategory(categoryDTO);
         category.setUser(user);
         Category savedCategory = categoryRepository.save(category);

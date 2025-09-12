@@ -39,7 +39,7 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_M
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, exclude = { "user", "transactions" })
 @ToString(callSuper = true, exclude = { "user", "transactions" })
-@Table(name = "CATEGORY", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
+@Table(name = "CATEGORY", uniqueConstraints = { @UniqueConstraint(name = "uk_category_user_name", columnNames = {"USER_ID", "NAME"}) })
 @SequenceGenerator(name = "category_gen", sequenceName = "category_id_seq", allocationSize = 1)
 @Filter(name = "userFilter", condition = "user_id = :userId")
 public class Category extends BaseAuditableEntity {

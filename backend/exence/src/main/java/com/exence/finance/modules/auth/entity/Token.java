@@ -22,6 +22,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Filter;
 
 import java.time.Instant;
 
@@ -38,6 +39,7 @@ import static com.exence.finance.common.util.ValidationConstants.USER_AGENT_MAX_
 @ToString(callSuper = true, exclude = { "user", "token" })
 @Table(name = "TOKEN", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
 @SequenceGenerator(name = "token_gen", sequenceName = "token_id_seq", allocationSize = 1)
+@Filter(name = "userFilter", condition = "user_id = :userId")
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_gen")
