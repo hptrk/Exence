@@ -1,0 +1,9 @@
+@use './variables/colors.scss';
+
+$primary: colors.$primary-color-light;
+$secondary: colors.$accent-color-light;
+$danger: colors.$error-color-light;
+$body-color: colors.$default-text-color-light;
+
+@import '../../node_modules/bootstrap/scss/bootstrap-grid.scss';
+@import '../../node_modules/bootstrap/scss/bootstrap-utilities.scss';

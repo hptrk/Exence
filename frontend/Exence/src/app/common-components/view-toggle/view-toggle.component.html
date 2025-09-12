@@ -1,9 +1,9 @@
 <mat-button-toggle-group
-  [(ngModel)]="selectedView"
-  (change)="onViewChange()"
-  hideSingleSelectionIndicator="true"
+	[(ngModel)]="selectedView"
+	(change)="onViewChange()"
+	hideSingleSelectionIndicator="true"
 >
-  @for (item of ["year", "month", "week"]; track item) {
-  <mat-button-toggle [value]="item">{{ item | titlecase }}</mat-button-toggle>
-  }
+	@for (item of ['year', 'month', 'week']; track item) {
+		<mat-button-toggle [value]="item">{{ item | titlecase }}</mat-button-toggle>
+	}
 </mat-button-toggle-group>

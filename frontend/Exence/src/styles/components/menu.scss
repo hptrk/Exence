@@ -1,0 +1,41 @@
+$menu-shadow: 0px 2px 20px -2px #0003;
+
+html {
+	--mat-menu-container-color: var(--mat-sys-surface);
+	--mat-menu-container-elevation-shadow: #{$menu-shadow};
+	--mat-select-panel-background-color: var(--mat-sys-surface);
+	--mat-select-container-elevation-shadow: #{$menu-shadow};
+	--mat-autocomplete-background-color: var(--mat-sys-surface);
+	--mat-autocomplete-container-elevation-shadow: #{$menu-shadow};
+	--mat-menu-item-label-text-color: #{$default-text-color-light};
+}
+
+.mat-mdc-menu-panel {
+	--mat-menu-container-shape: 16px;
+	height: fit-content;
+}
+
+.mat-mdc-menu-panel {
+	margin-left: 10px;
+	overflow-x: hidden;
+
+	[mat-menu-item].mat-mdc-menu-item {
+		&.active,
+		&.mat-menu-item-highlighted,
+		&.selected {
+			background: transparent;
+			color: $primary-color;
+
+			mat-icon {
+				color: $primary-color;
+			}
+		}
+		&:hover {
+			background-color: #{$app-background-color-light}90;
+
+			html.theme-dark & {
+				background-color: #{$app-background-color-dark}25;
+			}
+		}
+	}
+}
