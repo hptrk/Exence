@@ -1,5 +1,4 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ThemeService } from './shared/theme.service';
 import { TransactionService } from './private/transactions/transaction.service';
 import { CategoryService } from './private/category.service';
 import { AuthService } from './shared/account/auth.service';
@@ -15,7 +14,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 	styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-	private themeService = inject(ThemeService);
 	private authService = inject(AuthService);
 	private transactionService = inject(TransactionService);
 	private categoryService = inject(CategoryService);
@@ -23,10 +21,6 @@ export class AppComponent implements OnInit {
 	private domSanitizer = inject(DomSanitizer);
 
 	ngOnInit() {
-		// Set default theme
-		const themeClass = this.themeService.isDarkTheme() ? 'dark-theme' : 'light-theme';
-		document.body.classList.add(themeClass);
-
 		// Load user
 		this.authService.fetchUserData().subscribe();
 

@@ -27,6 +27,7 @@
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().dashboard()"
 					routerLinkActive="active"
+					darkMode
 				>
 					<mat-icon>home</mat-icon>
 					{{ (display.isLg | async) && 'Dashboard' }}
@@ -36,6 +37,8 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().transactions()"
+					routerLinkActive="active"
+					darkMode
 				>
 					<mat-icon>sync_alt</mat-icon>
 					{{ (display.isLg | async) && 'Transactions' }}
@@ -44,6 +47,8 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().statistics()"
+					routerLinkActive="active"
+					darkMode
 				>
 					<mat-icon>leaderboard</mat-icon>
 					{{ (display.isLg | async) && 'Statistics' }}
@@ -52,6 +57,8 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().goals()"
+					routerLinkActive="active"
+					darkMode
 				>
 					<mat-icon>emoji_events</mat-icon>
 					{{ (display.isLg | async) && 'Goals' }}
@@ -60,6 +67,8 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().debts()"
+					routerLinkActive="active"
+					darkMode
 				>
 					<mat-icon>account_balance</mat-icon>
 					{{ (display.isLg | async) && 'Debts' }}
