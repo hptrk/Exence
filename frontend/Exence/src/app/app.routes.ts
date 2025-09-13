@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
 
-import { AuthGuard } from './guards/auth.guard';
-import { LoginComponent } from './layout/auth/login/login.component';
-import { RegisterComponent } from './layout/auth/register/register.component';
-import { DashboardComponent } from './layout/dashboard/dashboard.component';
-import { DebtsComponent } from './layout/debts/debts.component';
-import { ProfileComponent } from './layout/frame/profile/profile.component';
-import { SettingsComponent } from './layout/frame/settings/settings.component';
-import { GoalsComponent } from './layout/goals/goals.component';
-import { StatisticsComponent } from './layout/statistics/statistics.component';
-import { TransactionsComponent } from './layout/transactions/transactions.component';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { LoginComponent } from './public/login/login.component';
+import { RegisterComponent } from './public/register/register.component';
+import { DashboardComponent } from './private/dashboard/dashboard.component';
+import { DebtsComponent } from './private/debts/debts.component';
+import { ProfileComponent } from './private/profile/profile.component'; 
+import { SettingsComponent } from './private/settings/settings.component';
+import { GoalsComponent } from './private/goals/goals.component';
+import { StatisticsComponent } from './private/statistics/statistics.component';
+import { TransactionsComponent } from './private/transactions/transactions.component';
 
 export const routes: Routes = [
 	{ path: 'login', component: LoginComponent },

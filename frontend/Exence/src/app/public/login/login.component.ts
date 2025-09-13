@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../shared/account/auth.service';
 
 @Component({
 	selector: 'ex-login',

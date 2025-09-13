@@ -1,12 +1,12 @@
 import { Component, computed, inject, OnInit, Signal } from '@angular/core';
-import { SummaryContainerComponent } from './summary-container/summary-container.component';
-import { DataTableComponent } from '../../common-components/data-table/data-table.component';
-import { ChartComponent } from '../../common-components/chart/chart.component';
-import { CategoriesComponent } from './categories/categories.component';
-import { ViewToggleComponent } from '../../common-components/view-toggle/view-toggle.component';
-import { TransactionService } from '../../services/transaction.service';
-import { CategoryService } from '../../services/category.service';
-import { AuthService } from '../../services/auth.service';
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
+import { ChartComponent } from '../../shared/chart/chart.component';
+import { CategoriesComponent } from '../../private/dashboard/categories/categories.component';
+import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
+import { TransactionService } from '../transactions/transaction.service';
+import { CategoryService } from '../category.service';
+import { AuthService } from '../../shared/account/auth.service';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 
 @Component({

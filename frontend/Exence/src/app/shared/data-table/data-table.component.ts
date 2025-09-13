@@ -7,8 +7,8 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
-import { TransactionService } from '../../services/transaction.service';
-import { CategoryService } from '../../services/category.service';
+import { TransactionService } from '../../private/transactions/transaction.service';
+import { CategoryService } from '../../private/category.service';
 
 @Component({
 	selector: 'ex-data-table',

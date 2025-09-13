@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, inject, computed, effect, viewChild } fro
 import { CommonModule } from '@angular/common';
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, Plugin } from 'chart.js';
-import { ThemeService } from '../../services/theme.service';
+import { ThemeService } from '../theme.service'; 
 import { createCustomBackgroundPlugin, getLineChartData, lineChartOptions } from './chart-config';
-import { TransactionService } from '../../services/transaction.service';
+import { TransactionService } from '../../private/transactions/transaction.service'; 
 
 @Component({
 	selector: 'ex-chart',

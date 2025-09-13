@@ -6,7 +6,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
-import { authInterceptor } from './app/interceptors/auth.interceptor';
+import { authInterceptor } from './app/shared/interceptors/auth.interceptor';
 import { LayoutModule } from '@angular/cdk/layout';
 
 bootstrapApplication(AppComponent, {

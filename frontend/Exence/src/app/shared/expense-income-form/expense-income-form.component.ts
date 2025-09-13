@@ -1,13 +1,12 @@
 import { Transaction } from './../../data-model/modules/transaction/Transaction';
-import { CategoryService } from './../../services/category.service';
-import { TransactionService } from './../../services/transaction.service';
+import { CategoryService } from '../../private/category.service';
+import { TransactionService } from '../../private/transactions/transaction.service';
 import { Component, inject, input, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
@@ -16,10 +15,8 @@ import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
-
 import { NewCategoryFormComponent } from './new-category-form/new-category-form.component';
 import { Category } from '../../data-model/modules/category/Category';
 
@@ -43,7 +40,6 @@ export const DATE_FORMATS = {
 		MatFormFieldModule,
 		MatButtonModule,
 		MatInputModule,
-		MatSelectModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
 		ReactiveFormsModule,
