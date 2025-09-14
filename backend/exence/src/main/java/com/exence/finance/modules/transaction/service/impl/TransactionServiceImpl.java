@@ -30,7 +30,8 @@ public class TransactionServiceImpl implements TransactionService{
     private final TransactionMapper transactionMapper;
 
     public TransactionDTO getTransactionById(Long id) {
-        Transaction transaction = transactionRepository.findById(id).orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(TransactionNotFoundException::new);
 
         return transactionMapper.mapToTransactionDTO(transaction);
     }
@@ -45,10 +46,11 @@ public class TransactionServiceImpl implements TransactionService{
 
     public TransactionDTO createTransaction(TransactionDTO transactionDTO) {
         Long userId = userService.getUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         Category category = categoryRepository.findById(transactionDTO.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+                .orElseThrow(CategoryNotFoundException::new);
 
         Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
         transaction.setCategory(category);
@@ -60,10 +62,10 @@ public class TransactionServiceImpl implements TransactionService{
 
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
         Transaction transaction = transactionRepository.findById(transactionDTO.getId())
-                .orElseThrow(() -> new TransactionNotFoundException("Transaction not found"));
+                .orElseThrow(TransactionNotFoundException::new);
 
         Category category = categoryRepository.findById(transactionDTO.getCategoryId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+                .orElseThrow(CategoryNotFoundException::new);
 
         transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
         transaction.setCategory(category);

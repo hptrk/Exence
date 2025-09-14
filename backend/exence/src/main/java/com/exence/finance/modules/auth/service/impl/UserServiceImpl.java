@@ -33,7 +33,8 @@ public class UserServiceImpl implements UserService {
 
     public UserDTO updateUser(UserDTO userDTO){
         Long userId = getUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         userMapper.updateUserFromDto(userDTO, user);
 
@@ -42,7 +43,8 @@ public class UserServiceImpl implements UserService {
 
     public void changePassword(ChangePasswordRequest request) {
         Long userId = getUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         // TODO: validation for updating password (e.g oldpassword check)
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));

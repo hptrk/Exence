@@ -41,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     public AuthenticationResponse register(RegisterRequest request) {
         // Check if the email already exists
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new EmailAlreadyInUseException("Email is already in use");
+            throw new EmailAlreadyInUseException();
         }
 
         User user = User.builder()
@@ -65,10 +65,11 @@ public class AuthServiceImpl implements AuthService {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (Exception e) {
-            throw new AuthenticationFailedException("Invalid username or password");
+            throw new AuthenticationFailedException();
         }
 
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UserNotFoundException("User not found"));
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(UserNotFoundException::new);
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
@@ -98,7 +99,8 @@ public class AuthServiceImpl implements AuthService {
         userEmail = jwtService.extractUsername(refreshToken);
 
         if (userEmail != null) {
-            User user = userRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("User not found"));
+            User user = userRepository.findByEmail(userEmail)
+                    .orElseThrow(UserNotFoundException::new);
 
             if (jwtService.isTokenValid(refreshToken, user)){
                 String accessToken = jwtService.generateToken(user);

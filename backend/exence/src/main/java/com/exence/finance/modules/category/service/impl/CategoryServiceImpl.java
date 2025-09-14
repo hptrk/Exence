@@ -27,7 +27,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     public CategoryDTO getCategoryById(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+                .orElseThrow(CategoryNotFoundException::new);
 
         return categoryMapper.mapToCategoryDTO(category);
     }
@@ -42,11 +42,11 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         Long userId = userService.getUserId();
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(UserNotFoundException::new);
 
         Optional<Category> existingCategory = categoryRepository.findByUserIdAndName(userId, categoryDTO.getName());
         if (existingCategory.isPresent()) {
-            throw new CategoryAlreadyExistsException("Category with the same name already exists for you!");
+            throw new CategoryAlreadyExistsException();
         }
 
         Category category = categoryMapper.mapToCategory(categoryDTO);
@@ -58,7 +58,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         Category category = categoryRepository.findById(categoryDTO.getId())
-                .orElseThrow(() -> new CategoryNotFoundException("Category not found"));
+                .orElseThrow(CategoryNotFoundException::new);
 
         categoryMapper.updateCategoryFromDto(categoryDTO, category);
         Category updatedCategory = categoryRepository.save(category);
