@@ -31,6 +31,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
+    public UserDTO getCurrentUser(){
+        Long userId = getUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        return userMapper.mapToUserDto(user);
+    }
+
     public UserDTO updateUser(UserDTO userDTO){
         Long userId = getUserId();
         User user = userRepository.findById(userId)

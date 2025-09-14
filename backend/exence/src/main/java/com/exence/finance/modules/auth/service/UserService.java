@@ -4,6 +4,8 @@ import com.exence.finance.modules.auth.dto.UserDTO;
 import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
 
 public interface UserService {
+    public UserDTO getCurrentUser();
+
     public UserDTO updateUser(UserDTO userDTO);
 
     public void changePassword(ChangePasswordRequest request);
