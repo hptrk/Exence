@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { NavigationService } from '../../shared/navigation/navigation.service';
-import { NavButtonDirective } from '../../shared/nav-button/nav-button.directive'; 
+import { NavButtonDirective } from '../../shared/nav-button/nav-button.directive';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';

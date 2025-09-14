@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ThemeService } from './shared/theme.service'; 
+import { ThemeService } from './shared/theme.service';
 import { TransactionService } from './private/transactions/transaction.service';
 import { CategoryService } from './private/category.service';
-import { AuthService } from './shared/account/auth.service'; 
+import { AuthService } from './shared/account/auth.service';
 import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
