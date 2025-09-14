@@ -10,7 +10,6 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -79,7 +78,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
-                "The username or password you entered is incorrect. Please double-check your credentials and try again."
+                "Incorrect username and password combination! Please try again..."
         );
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + "bad-credentials"));
         problemDetail.setTitle("Invalid Credentials");
@@ -130,7 +129,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST,
-                "One or more parameters in your request are invalid. Please check the request format and try again."
+                "One or more parameters are invalid in your request!"
         );
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + "illegal-argument"));
         problemDetail.setTitle("Invalid Request Parameter");
@@ -149,21 +148,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + "jwt-expired"));
         problemDetail.setTitle("JWT Token Expired");
-        problemDetail.setProperty("timestamp", Instant.now());
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
-    }
-
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ProblemDetail> handleUsernameNotFoundException(UsernameNotFoundException ex, WebRequest request) {
-        log.warn("Username not found during authentication attempt");
-
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.UNAUTHORIZED,
-                "The username or email you entered could not be found. Please check your credentials and try again."
-        );
-        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "username-not-found"));
-        problemDetail.setTitle("User Not Found");
         problemDetail.setProperty("timestamp", Instant.now());
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);

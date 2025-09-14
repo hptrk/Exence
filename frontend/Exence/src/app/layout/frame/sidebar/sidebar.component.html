@@ -1,109 +1,136 @@
-<mat-sidenav-container
-  autosize
-  #sidenavContainer
->
-  <mat-sidenav
-    mode="side"
-    opened="true"
-  >
-    <div class="sidebar-content">
-      <a routerLink="/dashboard">
-        <img
-          src="assets/exence_logo_horizontal.png"
-          alt="Logo"
-          class="exence-logo"
-        />
-      </a>
-      <mat-nav-list>
-        <a
-          mat-list-item
-          routerLink="/dashboard"
-          routerLinkActive="active-link"
-        >
-          <mat-icon fontSet="material-symbols-outlined">home</mat-icon>
-          <span>Dashboard</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="/transactions"
-          routerLinkActive="active-link"
-        >
-          <mat-icon fontSet="material-symbols-outlined">sync_alt</mat-icon>
-          <span>Transactions</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="/statistics"
-          routerLinkActive="active-link"
-        >
-          <mat-icon fontSet="material-symbols-outlined">leaderboard</mat-icon>
-          <span>Statistics</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="/goals"
-          routerLinkActive="active-link"
-        >
-          <mat-icon fontSet="material-symbols-outlined">emoji_events</mat-icon>
-          <span>Goals</span>
-        </a>
-        <a
-          mat-list-item
-          routerLink="/debts"
-          routerLinkActive="active-link"
-        >
-          <mat-icon fontSet="material-symbols-outlined">account_balance</mat-icon>
-          <span>Debts</span>
-        </a>
-      </mat-nav-list>
-      <mat-nav-list>
-        <div class="bottom-icons">
-          <a
-            mat-list-item
-            routerLink="/profile"
-            routerLinkActive="active-link"
-          >
-            <mat-icon
-              fontSet="material-symbols-outlined"
-              matListItemIcon
-              >person</mat-icon
-            >
-          </a>
-          <a
-            mat-list-item
-            routerLink="/settings"
-            routerLinkActive="active-link"
-          >
-            <mat-icon
-              fontSet="material-symbols-outlined"
-              matListItemIcon
-              >settings</mat-icon
-            >
-          </a>
-          <button
-            class="theme-toggle-button"
-            mat-list-item
-            (click)="toggleTheme()"
-          >
-            <mat-icon
-              fontSet="material-symbols-outlined"
-              matListItemIcon
-              >contrast</mat-icon
-            >
-          </button>
-          <a mat-list-item>
-            <mat-icon
-              fontSet="material-symbols-outlined"
-              matListItemIcon
-              >logout</mat-icon
-            >
-          </a>
-        </div>
-      </mat-nav-list>
-    </div>
-  </mat-sidenav>
+<mat-drawer-container class="h-100">
+	<mat-drawer
+		mode="side"
+		opened
+		disableClose
+	>
+		<div class="d-flex flex-column align-items-center h-100 py-4 gap-5">
+			<a
+				class="px-2"
+				[routerLink]="navigationService.private().index()"
+			>
+				@if (display.isLg | async) {
+					<mat-icon
+						class="h-auto w-auto m-0"
+						[svgIcon]="svgIcons.logoHorizontal"
+					/>
+				} @else {
+					<mat-icon
+						size="xl"
+						[svgIcon]="svgIcons.logo"
+					/>
+				}
+			</a>
+			<div class="d-flex flex-column w-100 h-100 fs-4 gap-4 flex-grow-1 fw-medium">
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().dashboard()"
+					routerLinkActive="active"
+				>
+					<mat-icon>home</mat-icon>
+					{{ (display.isLg | async) && 'Dashboard' }}
+				</a>
 
-  <mat-sidenav-content>
-    <router-outlet></router-outlet>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().transactions()"
+				>
+					<mat-icon>sync_alt</mat-icon>
+					{{ (display.isLg | async) && 'Transactions' }}
+				</a>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().statistics()"
+				>
+					<mat-icon>leaderboard</mat-icon>
+					{{ (display.isLg | async) && 'Statistics' }}
+				</a>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().goals()"
+				>
+					<mat-icon>emoji_events</mat-icon>
+					{{ (display.isLg | async) && 'Goals' }}
+				</a>
+				<a
+					ex-nav-button
+					class="d-flex align-items-center gap-2"
+					[routerLink]="navigationService.private().debts()"
+				>
+					<mat-icon>account_balance</mat-icon>
+					{{ (display.isLg | async) && 'Debts' }}
+				</a>
+			</div>
+			@if (display.isLg | async) {
+				<div class="d-flex gap-4">
+					<a [routerLink]="navigationService.private().profile().index()">
+						<mat-icon>person</mat-icon>
+					</a>
+					<a [routerLink]="navigationService.private().settings()">
+						<mat-icon>settings</mat-icon>
+					</a>
+					<button (click)="toggleTheme()">
+						<mat-icon>contrast</mat-icon>
+					</button>
+					<a [routerLink]="navigationService.account().logout()">
+						<mat-icon>logout</mat-icon>
+					</a>
+				</div>
+			} @else {
+				<ng-container [ngTemplateOutlet]="mobileActions" />
+			}
+		</div>
+	</mat-drawer>
+	<mat-drawer-content>
+		<router-outlet></router-outlet>
+	</mat-drawer-content>
+</mat-drawer-container>
+
+<ng-template #mobileActions>
+	<button
+		ex-nav-button
+		[matMenuTriggerFor]="sidebarActionsMenu"
+	>
+		<mat-icon>more_horiz</mat-icon>
+	</button>
+	<mat-menu #sidebarActionsMenu="matMenu">
+		<div class="d-flex flex-column gap-4">
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.private().profile().index()"
+			>
+				<mat-icon>person</mat-icon>
+				Profile
+			</a>
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.private().settings()"
+			>
+				<mat-icon>settings</mat-icon>
+				Settings
+			</a>
+			<button
+				mat-menu-item
+				class="d-flex align-items-center gap-2 pointer-cursor"
+				(click)="toggleTheme()"
+			>
+				<mat-icon>contrast</mat-icon>
+				Dark/Light mode
+			</button>
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.account().logout()"
+			>
+				<mat-icon>logout</mat-icon>
+				Log out
+			</a>
+		</div>
+	</mat-menu>
+</ng-template>

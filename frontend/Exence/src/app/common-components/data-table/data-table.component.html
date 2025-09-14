@@ -1,74 +1,111 @@
 <div class="table-container">
-  <div class="table-header">
-    <div class="table-header-left">
-      <div class="icon-container">
-        <mat-icon fontSet="material-symbols-outlined">{{ icon() }}</mat-icon>
-      </div>
-      <span class="table-label">{{ label() }}</span>
-    </div>
-    <div class="table-header-right">
-      <div class="icon-container pointer-cursor" (click)="openDialog()">
-        <mat-icon fontSet="material-symbols-outlined">add_2</mat-icon>
-      </div>
-    </div>
-  </div>
-  <table
-    mat-table
-    [dataSource]="filteredTransactions()"
-    class="mat-elevation-z8"
-  >
-    <!-- Title Column -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef>Title</th>
-      <td class="title-cell" mat-cell *matCellDef="let element">
-        {{ element.title }}
-      </td>
-    </ng-container>
+	<div class="table-header">
+		<div class="table-header-left">
+			<div class="icon-container">
+				<mat-icon fontSet="material-symbols-outlined">{{ icon() }}</mat-icon>
+			</div>
+			<span class="table-label">{{ label() }}</span>
+		</div>
+		<div class="table-header-right">
+			<div
+				class="icon-container pointer-cursor"
+				(click)="openDialog()"
+			>
+				<mat-icon fontSet="material-symbols-outlined">add_2</mat-icon>
+			</div>
+		</div>
+	</div>
+	<table
+		mat-table
+		[dataSource]="filteredTransactions()"
+		class="mat-elevation-z8"
+	>
+		<!-- Title Column -->
+		<ng-container matColumnDef="title">
+			<th
+				mat-header-cell
+				*matHeaderCellDef
+			>
+				Title
+			</th>
+			<td
+				class="title-cell"
+				mat-cell
+				*matCellDef="let element"
+			>
+				{{ element.title }}
+			</td>
+		</ng-container>
 
-    <!-- Date Column -->
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.date }}
-      </td>
-    </ng-container>
+		<!-- Date Column -->
+		<ng-container matColumnDef="date">
+			<th
+				mat-header-cell
+				*matHeaderCellDef
+			>
+				Date
+			</th>
+			<td
+				mat-cell
+				*matCellDef="let element"
+			>
+				{{ element.date }}
+			</td>
+		</ng-container>
 
-    <!-- Amount Column -->
-    <ng-container matColumnDef="amount">
-      <th mat-header-cell *matHeaderCellDef>Amount</th>
-      <td
-        mat-cell
-        *matCellDef="let element"
-        [ngClass]="{
-          'expense-amount': element.type === 'expense',
-          'income-amount': element.type === 'income'
-        }"
-      >
-        {{ element.amount }} Ft
-      </td>
-    </ng-container>
+		<!-- Amount Column -->
+		<ng-container matColumnDef="amount">
+			<th
+				mat-header-cell
+				*matHeaderCellDef
+			>
+				Amount
+			</th>
+			<td
+				mat-cell
+				*matCellDef="let element"
+				[ngClass]="{
+					'expense-amount': element.type === 'expense',
+					'income-amount': element.type === 'income',
+				}"
+			>
+				{{ element.amount }} Ft
+			</td>
+		</ng-container>
 
-    <!-- Category Column -->
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef>Category</th>
-      <td class="category-cell" mat-cell *matCellDef="let element">
-        {{ getCategoryEmoji(element.categoryId) }}
-        <span *ngIf="element.recurring">🔃</span>
-      </td>
-    </ng-container>
+		<!-- Category Column -->
+		<ng-container matColumnDef="category">
+			<th
+				mat-header-cell
+				*matHeaderCellDef
+			>
+				Category
+			</th>
+			<td
+				class="category-cell"
+				mat-cell
+				*matCellDef="let element"
+			>
+				{{ getCategoryEmoji(element.categoryId) }}
+				<span *ngIf="element.recurring">🔃</span>
+			</td>
+		</ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; let rowIndex = index; columns: displayedColumns"
-      [ngClass]="{ 'alt-row': rowIndex % 2 === 1, row: rowIndex % 2 !== 1 }"
-      (click)="openEditDialog(row)"
-    ></tr>
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 20]"
-      showFirstLastButtons
-      aria-label="Select page of transactions"
-    >
-    </mat-paginator>
-  </table>
+		<tr
+			mat-header-row
+			*matHeaderRowDef="displayedColumns"
+		></tr>
+		<tr
+			mat-row
+			*matRowDef="let row; let rowIndex = index; columns: displayedColumns"
+			[ngClass]="{ 'alt-row': rowIndex % 2 === 1, row: rowIndex % 2 !== 1 }"
+			(click)="openEditDialog(row)"
+		></tr>
+		<mat-paginator
+			[pageSizeOptions]="[5, 10, 20]"
+			showFirstLastButtons
+			aria-label="Select page of transactions"
+		>
+		</mat-paginator>
+	</table>
 </div>

@@ -22,7 +22,7 @@ import java.io.Serializable;
 @PasswordMatches(
         password = "newPassword",
         confirmPassword = "confirmNewPassword",
-        message = "New password and confirmation password do not match"
+        message = "Passwords do not match!"
 )
 public class ChangePasswordRequest implements Serializable {
     @NotBlank(message = "Current password is required")
