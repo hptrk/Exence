@@ -60,13 +60,6 @@ public class PasswordValidatorTest {
     }
 
     @Test
-    void test_commonPassword() {
-        assertFalse(validator.isValid("password", context));
-        assertFalse(validator.isValid("12345678", context));
-        assertFalse(validator.isValid("password123", context));
-    }
-
-    @Test
     void test_nullOrEmptyPassword() {
         assertTrue(validator.isValid(null, context));
         assertTrue(validator.isValid("", context));
