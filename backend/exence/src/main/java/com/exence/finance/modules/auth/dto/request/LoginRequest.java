@@ -21,7 +21,7 @@ import static com.exence.finance.common.util.ValidationConstants.PASSWORD_MAX_LE
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = { "password" })
 public class LoginRequest implements Serializable {
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Email must be valid")

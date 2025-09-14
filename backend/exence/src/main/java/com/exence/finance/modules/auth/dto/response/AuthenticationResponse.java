@@ -18,7 +18,7 @@ import java.io.Serializable;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
+@ToString(callSuper = true, exclude = { "accessToken", "refreshToken" })
 public class AuthenticationResponse implements Serializable {
     @Valid
     private UserDTO user;
