@@ -22,12 +22,6 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
     private static final Pattern DIGIT_PATTERN = Pattern.compile(PASSWORD_DIGIT_PATTERN);
     private static final Pattern SPECIAL_CHAR_PATTERN = Pattern.compile(PASSWORD_SPECIAL_CHAR_PATTERN);
 
-    private static final List<String> COMMON_PASSWORDS = List.of(
-            "password", "123456", "password123", "admin", "qwerty",
-            "welcome", "monkey", "password1", "12345678", "welcome123",
-            "admin123", "root"
-    );
-
     @Override
     public boolean isValid(String password, ConstraintValidatorContext context) {
         if (password == null || password.trim().isEmpty()) {
@@ -50,10 +44,6 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
 
         if (!SPECIAL_CHAR_PATTERN.matcher(password).matches()) {
             violations.add("must contain at least one special character (" + SPECIAL_CHAR_PATTERN + ")");
-        }
-
-        if (COMMON_PASSWORDS.contains(password.toLowerCase())) {
-            violations.add("cannot be a common password");
         }
 
         if (!violations.isEmpty()) {

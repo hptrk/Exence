@@ -1,40 +1,40 @@
 .new-category {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 1rem;
-  margin-bottom: -2rem;
-  width: 100%;
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 1rem;
+	margin-bottom: -2rem;
+	width: 100%;
 
-  &-inputs {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    width: 100%;
-  }
+	&-inputs {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+		width: 100%;
+	}
 
-  &-buttons {
-    display: flex;
-    gap: 0.5rem;
-  }
+	&-buttons {
+		display: flex;
+		gap: 0.5rem;
+	}
 
-  &-emojibtn {
-    font-size: 1.6rem;
-    line-height: 1rem;
-  }
-  &-emoji-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
+	&-emojibtn {
+		font-size: 1.6rem;
+		line-height: 1rem;
+	}
+	&-emoji-container {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
 }
 
 // Emoji picker fit bugfix
 ::ng-deep .mat-mdc-menu-panel {
-  max-width: none !important;
-  width: auto !important;
+	max-width: none !important;
+	width: auto !important;
 }
 // Remove padding-bottom from form field
 ::ng-deep .mat-form-field-wrapper {
-  padding-bottom: 0 !important;
+	padding-bottom: 0 !important;
 }
