@@ -29,6 +29,8 @@ export class DisplayThemeService {
 	constructor() {
 		let themeData = this.getInitialTheme();
 
+		this.setCssClass(themeData);
+
 		this._displayTheme = new BehaviorSubject(themeData.name);
 		this.displayTheme$ = this._displayTheme.asObservable();
 		this.isDark$ = this.displayTheme$.pipe(map(a => a === DisplayTheme.DARK));
