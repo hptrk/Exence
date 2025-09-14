@@ -50,23 +50,24 @@ public class UserServiceImpl implements UserService {
     }
 
     public void deleteUser() {
-        Long userId = getUserId();
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
-
-        // Delete all tokens associated with the user
-        List<Token> tokens = tokenRepository.findAllValidTokenByUser(user.getId());
-        tokenRepository.deleteAll(tokens);
-
-        // Delete all transactions associated with the user
-        List<Transaction> transactions = transactionRepository.findByUserId(user.getId());
-        transactionRepository.deleteAll(transactions);
-
-        // Delete all categories associated with the user
-        List<Category> categories = categoryRepository.findByUserId(user.getId());
-        categoryRepository.deleteAll(categories);
-
-        // Delete the user
-        userRepository.deleteById(userId);
+        // TODO: CASCADE DELETE !! EX-84 TASK
+//        Long userId = getUserId();
+//        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
+//
+//        // Delete all tokens associated with the user
+//        List<Token> tokens = tokenRepository.findAllValidTokenByUser(user.getId());
+//        tokenRepository.deleteAll(tokens);
+//
+//        // Delete all transactions associated with the user
+//        List<Transaction> transactions = transactionRepository.findByUserId(user.getId());
+//        transactionRepository.deleteAll(transactions);
+//
+//        // Delete all categories associated with the user
+//        List<Category> categories = categoryRepository.findByUserId(user.getId());
+//        categoryRepository.deleteAll(categories);
+//
+//        // Delete the user
+//        userRepository.deleteById(userId);
     }
 
     public Long getUserId() {
