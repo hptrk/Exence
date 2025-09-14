@@ -35,10 +35,6 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException();
         }
 
-        String userEmail = authentication.getName();
-        //TODO: remove log?
-        log.debug("Loading user from DB: {}", userEmail);
-
         return loadUserFromAuthentication(authentication);
     }
 
