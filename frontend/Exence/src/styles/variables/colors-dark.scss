@@ -5,20 +5,20 @@
 $palettes: (
 	primary: (
 		0: #000000,
-		10: #171838,
-		20: #2c2d4e,
-		25: #37385a,
-		30: #424466,
-		35: #4e4f72,
-		40: #5a5b7f,
-		50: #737499,
-		60: #8d8db4,
-		70: #a8a8cf,
-		80: #c3c3ec,
+		10: #121420,
+		20: #151828,
+		25: #22233a,
+		30: #2e2f46,
+		35: #3a3b52,
+		40: #46455e,
+		50: #5e5e7a,
+		60: #767796,
+		70: #8e8fb2,
+		80: #a6a7ce,
 		90: #c9c9f2,
-		95: #f1efff,
-		98: #fcf8ff,
-		99: #fffbff,
+		95: #e4e4fa,
+		98: #f6f6fd,
+		99: #fcfcff,
 		100: #ffffff,
 	),
 	secondary: (
@@ -135,7 +135,7 @@ $_rest: (
 $primary: map.merge(map.get($palettes, primary), $_rest);
 $tertiary: map.merge(map.get($palettes, tertiary), $_rest);
 
-$app-card-color-dark: map.get($primary, 25);
+$app-card-color-dark: map.get($primary, 20);
 
 $light-disabled-text: map.get($neutral, 85);
 $light-secondary-text: map.get($neutral, 90);
