@@ -1,64 +1,64 @@
 <div class="dashboard-container">
-  <div class="title-toggle-row">
-    <div class="title-toggle-row--welcome">
-      <h1>
-        Welcome back, <span>{{ username() }}!</span>
-      </h1>
-      <p>Here's this month's finances:</p>
-    </div>
-    <div class="title-toggle-row--toggle">
-      <ex-view-toggle></ex-view-toggle>
-    </div>
-  </div>
+	<div class="title-toggle-row">
+		<div class="title-toggle-row--welcome">
+			<h1>
+				Welcome back, <span>{{ username() }}!</span>
+			</h1>
+			<p>Here's this month's finances:</p>
+		</div>
+		<div class="title-toggle-row--toggle">
+			<ex-view-toggle></ex-view-toggle>
+		</div>
+	</div>
 
-  <div class="grid-container">
-    <div class="first-row">
-      <ex-chart class="chart-panel"></ex-chart>
-      <ex-categories
-        [expenses]="expenses()"
-        [categories]="categories()"
-        class="categories-panel"
-      ></ex-categories>
-    </div>
+	<div class="grid-container">
+		<div class="first-row">
+			<ex-chart class="chart-panel"></ex-chart>
+			<ex-categories
+				[expenses]="expenses()"
+				[categories]="categories()"
+				class="categories-panel"
+			></ex-categories>
+		</div>
 
-    <!-- Summary panels -->
-    <div class="summary-container">
-      <ex-summary-container
-        icon="attach_money"
-        label="Income"
-        [value]="totalIncome()"
-      ></ex-summary-container>
-      <ex-summary-container
-        icon="money_off"
-        label="Expenses"
-        [value]="totalExpenses()"
-      ></ex-summary-container>
-      <ex-summary-container
-        icon="savings"
-        label="Balance"
-        [value]="balance()"
-      ></ex-summary-container>
-      <ex-summary-container
-        icon="receipt_long"
-        [label]="highestSpendingCategory().name"
-        [value]="highestSpendingCategory().amount"
-      ></ex-summary-container>
-    </div>
+		<!-- Summary panels -->
+		<div class="summary-container">
+			<ex-summary-container
+				icon="attach_money"
+				label="Income"
+				[value]="totalIncome()"
+			></ex-summary-container>
+			<ex-summary-container
+				icon="money_off"
+				label="Expenses"
+				[value]="totalExpenses()"
+			></ex-summary-container>
+			<ex-summary-container
+				icon="savings"
+				label="Balance"
+				[value]="balance()"
+			></ex-summary-container>
+			<ex-summary-container
+				icon="receipt_long"
+				[label]="highestSpendingCategory().name"
+				[value]="highestSpendingCategory().amount"
+			></ex-summary-container>
+		</div>
 
-    <!-- Detailed panels -->
-    <ex-data-table
-      formType="expense"
-      class="list expenses"
-      icon="money_off"
-      label="Expenses"
-    >
-    </ex-data-table>
-    <ex-data-table
-      formType="income"
-      class="list incomes"
-      icon="attach_money"
-      label="Incomes"
-    >
-    </ex-data-table>
-  </div>
+		<!-- Detailed panels -->
+		<ex-data-table
+			formType="expense"
+			class="list expenses"
+			icon="money_off"
+			label="Expenses"
+		>
+		</ex-data-table>
+		<ex-data-table
+			formType="income"
+			class="list incomes"
+			icon="attach_money"
+			label="Incomes"
+		>
+		</ex-data-table>
+	</div>
 </div>

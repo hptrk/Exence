@@ -11,54 +11,54 @@ import { TransactionService } from '../../services/transaction.service';
 import { CategoryService } from '../../services/category.service';
 
 @Component({
-  selector: 'ex-data-table',
-  imports: [MatCardModule, MatTableModule, MatIconModule, CommonModule, MatPaginator],
-  templateUrl: './data-table.component.html',
-  styleUrl: './data-table.component.scss',
+	selector: 'ex-data-table',
+	imports: [MatCardModule, MatTableModule, MatIconModule, CommonModule, MatPaginator],
+	templateUrl: './data-table.component.html',
+	styleUrl: './data-table.component.scss',
 })
 export class DataTableComponent {
-  private dialog = inject(MatDialog);
-  private transactionService = inject(TransactionService);
-  private categoryService = inject(CategoryService);
+	private dialog = inject(MatDialog);
+	private transactionService = inject(TransactionService);
+	private categoryService = inject(CategoryService);
 
-  icon = input.required<string>();
-  label = input.required<string>();
-  formType = input<'income' | 'expense'>('income');
+	icon = input.required<string>();
+	label = input.required<string>();
+	formType = input<'income' | 'expense'>('income');
 
-  public displayedColumns = ['title', 'date', 'amount', 'category'];
+	public displayedColumns = ['title', 'date', 'amount', 'category'];
 
-  public categories = computed(() => this.categoryService.getCategories()());
-  public filteredTransactions = computed(() =>
-    this.transactionService
-      .getTransactions()()
-      .filter(transaction => transaction.type === this.formType()),
-  );
+	public categories = computed(() => this.categoryService.getCategories()());
+	public filteredTransactions = computed(() =>
+		this.transactionService
+			.getTransactions()()
+			.filter(transaction => transaction.type === this.formType()),
+	);
 
-  protected getCategoryEmoji(categoryId: number): string {
-    const category = this.categories()?.find(category => category.id === categoryId);
-    return category ? category.emoji : '';
-  }
+	protected getCategoryEmoji(categoryId: number): string {
+		const category = this.categories()?.find(category => category.id === categoryId);
+		return category ? category.emoji : '';
+	}
 
-  protected openDialog(): void {
-    this.dialog.open(DataTableDialogComponent, {
-      width: 'auto',
-      data: {
-        formType: this.formType(),
-      },
-    });
-  }
+	protected openDialog(): void {
+		this.dialog.open(DataTableDialogComponent, {
+			width: 'auto',
+			data: {
+				formType: this.formType(),
+			},
+		});
+	}
 
-  protected openEditDialog(transaction: Transaction): void {
-    this.dialog.open(DataTableDialogComponent, {
-      width: 'auto',
-      data: {
-        formType: transaction.type,
-        transaction,
-      },
-    });
-  }
+	protected openEditDialog(transaction: Transaction): void {
+		this.dialog.open(DataTableDialogComponent, {
+			width: 'auto',
+			data: {
+				formType: transaction.type,
+				transaction,
+			},
+		});
+	}
 
-  protected changeCategory(transactionId: number, newCategoryId: number): void {
-    this.transactionService.changeTransactionCategory(transactionId, newCategoryId).subscribe();
-  }
+	protected changeCategory(transactionId: number, newCategoryId: number): void {
+		this.transactionService.changeTransactionCategory(transactionId, newCategoryId).subscribe();
+	}
 }

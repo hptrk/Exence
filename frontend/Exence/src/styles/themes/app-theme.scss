@@ -1,0 +1,24 @@
+@use '@angular/material' as mat;
+@use '../themes/light' as light-theme;
+@use '../themes/dark' as dark-theme;
+@use '../variables/colors-light' as light-colors;
+@use '../variables/colors-dark' as dark-colors;
+
+@include mat.elevation-classes();
+@include mat.app-background();
+
+html {
+	@include mat.all-component-themes(light-theme.$theme);
+	@include mat.system-level-colors(light-theme.$theme);
+
+	@include mat.form-field-density(-5);
+}
+
+html.theme-dark {
+	@include mat.all-component-colors(dark-theme.$theme);
+	@include mat.system-level-colors(dark-theme.$theme);
+}
+
+mat-form-field {
+	@include mat.icon-button-density(-5);
+}

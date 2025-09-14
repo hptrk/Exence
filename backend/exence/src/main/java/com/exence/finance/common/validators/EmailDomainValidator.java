@@ -46,10 +46,8 @@ public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomai
     }
 
     private String extractDomain(String email) {
-        int atIndex = email.lastIndexOf('@');
-        if (atIndex == -1 || atIndex == email.length() - 1) {
-            return null;
-        }
-        return email.substring(atIndex + 1);
+        return email != null && email.matches("^[^@]+@[^@]+$")
+                ? email.substring(email.indexOf('@') + 1)
+                : null;
     }
 }

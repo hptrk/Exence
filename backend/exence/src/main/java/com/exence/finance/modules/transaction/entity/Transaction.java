@@ -33,7 +33,7 @@ import java.time.Instant;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_DETAILS_MAX_LENGTH;
 
 @SuperBuilder
 @Entity
@@ -54,7 +54,7 @@ public class Transaction extends BaseAuditableEntity {
     @Column(name = "TITLE", nullable = false)
     private String title;
 
-    @Column(name = "NOTE", length = TRANSACTION_NOTE_MAX_LENGTH)
+    @Column(name = "NOTE", length = TRANSACTION_DETAILS_MAX_LENGTH)
     private String note;
 
     @NotNull
