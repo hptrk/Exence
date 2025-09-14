@@ -4,7 +4,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { Chart, Plugin } from 'chart.js';
 import { DisplayTheme, DisplayThemeService } from '../display-theme.service'; 
 import { createCustomBackgroundPlugin, getLineChartData, lineChartOptions } from './chart-config';
-import { TransactionService } from '../../private/transactions/transaction.service';
+// import { TransactionService } from '../../private/transactions/transaction.service'; 
 
 @Component({
 	selector: 'ex-chart',
@@ -13,7 +13,7 @@ import { TransactionService } from '../../private/transactions/transaction.servi
 	styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent implements OnInit, OnDestroy {
-	private transactionService = inject(TransactionService);
+	// private transactionService = inject(TransactionService);
 	private themeService = inject(DisplayThemeService);
 
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
@@ -23,20 +23,22 @@ export class ChartComponent implements OnInit, OnDestroy {
 	private darkMode = this.themeService.currentTheme === DisplayTheme.DARK;
 
 	// Computed properties
-	public balanceData = computed(() => {
-		let balance = 0;
-		return this.transactionService
-			.getTransactions()()
-			.map(transaction => {
-				balance += transaction.type === 'income' ? transaction.amount : -transaction.amount;
-				return balance;
-			});
-	});
-	public chartLabels = computed(() =>
-		this.transactionService
-			.getTransactions()()
-			.map(t => t.title),
-	);
+	// public balanceData = computed(() => {
+	// 	let balance = 0;
+	// 	return this.transactionService
+	// 		.getTransactions()()
+	// 		.map(transaction => {
+	// 			balance += transaction.type === 'income' ? transaction.amount : -transaction.amount;
+	// 			return balance;
+	// 		});
+	// });
+	public balanceData = computed(() => [10,0,100]);
+	// public chartLabels = computed(() =>
+	// 	this.transactionService
+	// 		.getTransactions()()
+	// 		.map(t => t.title),
+	// );
+	public chartLabels = computed(() => ['dummylabel', 'dummylabel', 'dummylabel']);
 	public lineChartData = computed(() => getLineChartData(this.balanceData(), this.chartLabels()));
 
 	// theme change effect
