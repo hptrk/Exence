@@ -148,21 +148,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
     }
 
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<ProblemDetail> handleUsernameNotFoundException(UsernameNotFoundException ex, WebRequest request) {
-        log.warn("Username not found during authentication attempt");
-
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.UNAUTHORIZED,
-                "The username or email you entered could not be found. Please check your credentials and try again."
-        );
-        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "username-not-found"));
-        problemDetail.setTitle("User Not Found");
-        problemDetail.setProperty("timestamp", Instant.now());
-
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
-    }
-
     // Custom application errors
 
     @ExceptionHandler(EmailAlreadyInUseException.class)
