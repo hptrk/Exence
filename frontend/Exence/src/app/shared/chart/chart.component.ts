@@ -4,6 +4,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { Chart, Plugin } from 'chart.js';
 import { DisplayTheme, DisplayThemeService } from '../display-theme.service'; 
 import { createCustomBackgroundPlugin, getLineChartData, lineChartOptions } from './chart-config';
+import { BaseComponent } from '../base-component/base.component';
 // import { TransactionService } from '../../private/transactions/transaction.service'; 
 
 @Component({
@@ -12,7 +13,7 @@ import { createCustomBackgroundPlugin, getLineChartData, lineChartOptions } from
 	templateUrl: './chart.component.html',
 	styleUrls: ['./chart.component.scss'],
 })
-export class ChartComponent implements OnInit, OnDestroy {
+export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 	// private transactionService = inject(TransactionService);
 	private themeService = inject(DisplayThemeService);
 
@@ -20,7 +21,7 @@ export class ChartComponent implements OnInit, OnDestroy {
 	public lineChartOptions = lineChartOptions;
 	private customBackgroundPlugin!: Plugin;
 
-	private darkMode = this.themeService.currentTheme === DisplayTheme.DARK;
+	private darkMode = false;
 
 	// Computed properties
 	// public balanceData = computed(() => {
@@ -51,9 +52,18 @@ export class ChartComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.initializeChart();
+
+		this.addSubscription(
+			this.themeService.isDark$.subscribe(isDark => {
+				this.darkMode = isDark;
+				this.updateChartColors();
+				this.registerCustomBackgroundPlugin();
+			})
+		);
 	}
 
-	ngOnDestroy() {
+	override ngOnDestroy() {
+		super.ngOnDestroy();
 		if (this.customBackgroundPlugin) {
 			Chart.unregister(this.customBackgroundPlugin);
 		}
