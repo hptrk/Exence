@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ThemeService } from './services/theme.service';
-import { TransactionService } from './services/transaction.service';
-import { CategoryService } from './services/category.service';
-import { AuthService } from './services/auth.service';
-import { SidebarComponent } from './layout/frame/sidebar/sidebar.component';
+import { ThemeService } from './shared/theme.service';
+import { TransactionService } from './private/transactions/transaction.service';
+import { CategoryService } from './private/category.service';
+import { AuthService } from './shared/account/auth.service';
+import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { MatIconRegistry } from '@angular/material/icon';
-import { SvgIcons } from './utils/svg-icons/svg-icons';
+import { SvgIcons } from './shared/svg-icons/svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({

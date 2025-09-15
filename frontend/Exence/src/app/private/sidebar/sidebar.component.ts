@@ -4,10 +4,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { BaseComponent } from '../../../common-components/base-component/base.component';
-import { NavigationService } from '../../../services/navigation/navigation.service';
-import { NavButtonDirective } from '../../../common-components/nav-button/nav-button.directive';
-import { DisplaySizeService } from '../../../services/display-size.service';
+import { BaseComponent } from '../../shared/base-component/base.component';
+import { NavigationService } from '../../shared/navigation/navigation.service';
+import { NavButtonDirective } from '../../shared/nav-button/nav-button.directive';
+import { DisplaySizeService } from '../../shared/display-size.service';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 
