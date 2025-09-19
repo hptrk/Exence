@@ -18,6 +18,8 @@ import java.util.Arrays;
 public class ServiceLoggingAspect {
     private final ObjectMapper jacksonObjectMapper;
 
+    private static final int MAX_LOG_DOCUMENT_LENGTH = 1000000;
+
     public ServiceLoggingAspect(ObjectMapper jacksonObjectMapper) {
         this.jacksonObjectMapper = jacksonObjectMapper;
     }
@@ -27,6 +29,7 @@ public class ServiceLoggingAspect {
         ServiceLogDocument doc = new ServiceLogDocument();
         doc.setTimeOfRequest(Instant.now());
         doc.setServiceClass(joinPoint.getSignature().getDeclaringTypeName());
+        doc.setMethod(joinPoint.getSignature().getName());
 
         Object[] maskedArgs = Arrays.stream(joinPoint.getArgs())
                 .map(arg -> arg == null ? "null" : arg.toString())
@@ -55,8 +58,8 @@ public class ServiceLoggingAspect {
             try {
                 document.setException(null);
                 int documentLength = jacksonObjectMapper.writeValueAsString(document).length();
-                if (documentLength > 1000000) {
-                    documentLength = 1000000;
+                if (documentLength > MAX_LOG_DOCUMENT_LENGTH) {
+                    documentLength = MAX_LOG_DOCUMENT_LENGTH;
                 }
                 if (exception != null) {
                     log.debug(jacksonObjectMapper.writeValueAsString(document).substring(0, documentLength), exception);

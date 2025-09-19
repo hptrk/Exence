@@ -103,16 +103,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ProblemDetail> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request) {
-        log.warn("Data integrity violation occurred: {}", ex.getMessage());
+    public ResponseEntity<ProblemDetail> handleDataIntegrityViolationException(
+            DataIntegrityViolationException ex, WebRequest request) {
+
+        log.warn("Data integrity violation: {}", ex.getMessage());
+
+        if (ex.getMessage().contains("uk_category_user_name")) {
+            return handleCategoryAlreadyExistsException(new CategoryAlreadyExistsException(), request);
+        }
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.CONFLICT,
                 "The operation could not be completed due to a data constraint violation."
-
         );
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + "data-integrity-violation"));
-        problemDetail.setTitle("Data Constraint Violation");
+        problemDetail.setTitle("Data Integrity Violation");
         problemDetail.setProperty("timestamp", Instant.now());
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);

@@ -18,63 +18,77 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TransactionServiceImpl implements TransactionService{
     private final TransactionRepository transactionRepository;
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final UserService userService;
     private final TransactionMapper transactionMapper;
 
     public TransactionDTO getTransactionById(Long id) {
-        Transaction transaction = transactionRepository.findById(id)
+        Transaction transaction = transactionRepository.find(id)
                 .orElseThrow(TransactionNotFoundException::new);
 
         return transactionMapper.mapToTransactionDTO(transaction);
     }
 
     public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable){
-        Long userId = userService.getUserId();
+        Page<Transaction> transactions;
 
-        Page<Transaction> transactions = transactionRepository.findTransactions(userId, filter, pageable);
+        if (filter == null || filter.hasActiveFilter()) {
+            transactions = transactionRepository.findWithFilter(filter, pageable);
+        } else {
+            transactions = transactionRepository.findAll(pageable);
+        }
 
         return transactions.map(transactionMapper::mapToTransactionDTO);
     }
 
+    @Transactional
     public TransactionDTO createTransaction(TransactionDTO transactionDTO) {
-        Long userId = userService.getUserId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+        Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
 
-        Category category = categoryRepository.findById(transactionDTO.getCategoryId())
+        Category category = categoryRepository.find(transactionDTO.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
 
-        Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
         transaction.setCategory(category);
-        transaction.setUser(user);
-        Transaction savedTransaction = transactionRepository.save(transaction);
+        transaction.setUser(userService.getCurrentUser());
 
+        Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.mapToTransactionDTO(savedTransaction);
     }
 
+    @Transactional
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
-        Transaction transaction = transactionRepository.findById(transactionDTO.getId())
+        Transaction transaction = transactionRepository.find(transactionDTO.getId())
                 .orElseThrow(TransactionNotFoundException::new);
 
-        Category category = categoryRepository.findById(transactionDTO.getCategoryId())
-                .orElseThrow(CategoryNotFoundException::new);
+        if (transactionDTO.getCategoryId() != null &&
+            !transactionDTO.getCategoryId().equals(transaction.getCategory().getId())){
+
+            Category category = categoryRepository.find(transactionDTO.getCategoryId())
+                    .orElseThrow(CategoryNotFoundException::new);
+
+            transaction.setCategory(category);
+        }
+
 
         transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
-        transaction.setCategory(category);
-        Transaction savedTransaction = transactionRepository.save(transaction);
 
+        Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.mapToTransactionDTO(savedTransaction);
     }
 
+    @Transactional
     public void deleteTransaction(Long id) {
-        transactionRepository.deleteById(id);
+        Transaction transaction = transactionRepository.find(id)
+                .orElseThrow(TransactionNotFoundException::new);
+
+        transactionRepository.delete(transaction);
     }
 }

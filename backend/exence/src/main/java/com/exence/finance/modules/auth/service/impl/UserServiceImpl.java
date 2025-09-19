@@ -3,80 +3,88 @@ package com.exence.finance.modules.auth.service.impl;
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.dto.UserDTO;
 import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
-import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.UserMapper;
-import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.category.entity.Category;
-import com.exence.finance.modules.category.repository.CategoryRepository;
-import com.exence.finance.modules.transaction.entity.Transaction;
-import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final TokenRepository tokenRepository;
-    private final TransactionRepository transactionRepository;
-    private final CategoryRepository categoryRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
-    public UserDTO updateUser(UserDTO userDTO){
-        Long userId = getUserId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+    @Cacheable(value = "currentUser", key = "#root.methodName + '_' + T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()")
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        userMapper.updateUserFromDto(userDTO, user);
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new UserNotFoundException();
+        }
 
-        return userMapper.mapToUserDto(user);
+        return loadUserFromAuthentication(authentication);
     }
 
-    public void changePassword(ChangePasswordRequest request) {
-        Long userId = getUserId();
-        User user = userRepository.findById(userId)
-                .orElseThrow(UserNotFoundException::new);
+    @Cacheable(value = "currentUserId", key = "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()")
+    public Long getCurrentUserId() {
+        return getCurrentUser().getId();
+    }
 
-        // TODO: validation for updating password (e.g oldpassword check)
+    @Transactional
+    @CacheEvict(value = {"currentUser", "currentUserId"}, allEntries = true)
+    public UserDTO updateUser(UserDTO userDTO){
+        User user = getCurrentUser();
+        userMapper.updateUserFromDto(userDTO, user);
+        User savedUser = userRepository.save(user);
+
+        return userMapper.mapToUserDto(savedUser);
+    }
+
+    @Transactional
+    @CacheEvict(value = {"userSecurity", "currentUser", "currentUserId"}, allEntries = true)
+    public void changePassword(ChangePasswordRequest request) {
+        User user = getCurrentUser();
+
+        // TODO: validation for updating password (e.g currentPassword check, old passwords check, etc.)
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteUser() {
-        // TODO: CASCADE DELETE !! EX-84 TASK
-//        Long userId = getUserId();
-//        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
-//
-//        // Delete all tokens associated with the user
-//        List<Token> tokens = tokenRepository.findAllValidTokenByUser(user.getId());
-//        tokenRepository.deleteAll(tokens);
-//
-//        // Delete all transactions associated with the user
-//        List<Transaction> transactions = transactionRepository.findByUserId(user.getId());
-//        transactionRepository.deleteAll(transactions);
-//
-//        // Delete all categories associated with the user
-//        List<Category> categories = categoryRepository.findByUserId(user.getId());
-//        categoryRepository.deleteAll(categories);
-//
-//        // Delete the user
-//        userRepository.deleteById(userId);
+        User user = getCurrentUser();
+        userRepository.delete(user);
     }
 
-    public Long getUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = (User) authentication.getPrincipal();
-        Long userId = user.getId();
+    private User loadUserFromAuthentication(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
 
-        return userId;
+        if (principal instanceof User user) {
+            return user;
+        }
+        if (principal instanceof String email) {
+            return userRepository.findByEmail(email)
+                    .orElseThrow(UserNotFoundException::new);
+        }
+        if (principal instanceof UserDetails userDetails) {
+            String email = userDetails.getUsername();
+            return userRepository.findByEmail(email)
+                    .orElseThrow(UserNotFoundException::new);
+        }
+
+        throw new UserNotFoundException();
     }
 }

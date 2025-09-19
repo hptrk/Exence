@@ -18,17 +18,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -36,22 +43,21 @@ public class AuthServiceImpl implements AuthService {
     private final TokenRepository tokenRepository;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
+    private final ObjectMapper objectMapper;
 
-    // Register the user and generate a token
+    @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
-        // Check if the email already exists
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new EmailAlreadyInUseException();
-        }
-
         User user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
+
         User savedUser = userRepository.save(user);
-        String jwtToken = jwtService.generateToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+
+        String jwtToken = jwtService.generateToken(savedUser);
+        String refreshToken = jwtService.generateRefreshToken(savedUser);
+
         saveUserToken(savedUser, jwtToken);
 
         return AuthenticationResponse.builder()
@@ -60,20 +66,21 @@ public class AuthServiceImpl implements AuthService {
                 .refreshToken(refreshToken)
                 .build();
     }
-    // Authenticate the user and generate a token
+    @Transactional
     public AuthenticationResponse login(LoginRequest request){
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        } catch (Exception e) {
+        } catch (BadCredentialsException e) {
             throw new AuthenticationFailedException();
         }
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(UserNotFoundException::new);
+
         String jwtToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
 
-        revokeAllUserTokens(user);
+        tokenRepository.revokeAllValidTokensByUser(user.getId());
         saveUserToken(user, jwtToken);
 
         return AuthenticationResponse.builder()
@@ -86,42 +93,66 @@ public class AuthServiceImpl implements AuthService {
 
     // Refresh the token
     // TODO: rethink token refreshing logic entirely
+    @Transactional
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String userEmail;
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
-        refreshToken = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(refreshToken);
+        final String refreshToken = authHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(refreshToken);
+
+        if (userEmail == null) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(UserNotFoundException::new);
+
+        if (!jwtService.isTokenValid(refreshToken, user)) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return;
+        }
+
+        String accessToken = jwtService.generateToken(user);
+        tokenRepository.revokeAllValidTokensByUser(user.getId());
+        saveUserToken(user, accessToken);
+
+        AuthenticationResponse authResponse = AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .build();
+
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        try {
+            objectMapper.writeValue(response.getOutputStream(), authResponse);
+        } catch (IOException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Transactional
+    @CacheEvict(value = {"currentUser", "currentUserId"}, key = "#authentication.getName()")
+    public void logout(HttpServletRequest request) {
+        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return;
+        }
+
+        final String jwt = authHeader.substring(7);
+        final String userEmail = jwtService.extractUsername(jwt);
 
         if (userEmail != null) {
             User user = userRepository.findByEmail(userEmail)
                     .orElseThrow(UserNotFoundException::new);
 
-            if (jwtService.isTokenValid(refreshToken, user)){
-                String accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
-
-                // Send the new token as a response
-                AuthenticationResponse authResponse = AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
-                response.setContentType("application/json");
-
-                // TODO
-                try{
-                    new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-
-                } catch(Exception e){
-
-                }
-            }
+            tokenRepository.revokeAllValidTokensByUser(user.getId());
         }
     }
 
@@ -139,34 +170,5 @@ public class AuthServiceImpl implements AuthService {
                 .expiresAt(expiresAt)
                 .build();
         tokenRepository.save(token);
-    }
-    // Revoke all tokens for a user
-    private void revokeAllUserTokens(User user){
-        List<Token> validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
-
-        if (validUserTokens.isEmpty()){
-            return;
-        }
-
-        // Set all valid tokens to expired and revoked
-        validUserTokens.forEach(token -> {
-            token.setExpired(true);
-            token.setRevoked(true);
-        });
-        tokenRepository.saveAll(validUserTokens);
-    }
-
-    public void markTokenAsUsed(String tokenValue, String ipAddress, String userAgent) {
-        tokenRepository.findByToken(tokenValue)
-                .ifPresent(token -> {
-                    token.setLastUsedAt(Instant.now());
-                    token.setIpAddress(ipAddress);
-                    token.setUserAgent(userAgent);
-                    tokenRepository.save(token);
-                });
-    }
-
-    public void logout(HttpServletRequest request) {
-        // TODO: implement logout logic
     }
 }

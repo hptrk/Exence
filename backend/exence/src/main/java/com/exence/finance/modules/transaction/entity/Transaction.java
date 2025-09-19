@@ -26,6 +26,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -44,6 +47,7 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_DET
 @ToString(callSuper = true, exclude = { "user", "category" })
 @Table(name = "TRANSACTION", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
 @SequenceGenerator(name = "transaction_gen", sequenceName = "transaction_id_seq", allocationSize = 1)
+@Filter(name = "userFilter", condition = "user_id = :userId")
 public class Transaction extends BaseAuditableEntity {
 
     @Id
