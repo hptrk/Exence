@@ -21,8 +21,6 @@ export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 	public lineChartOptions = lineChartOptions;
 	private customBackgroundPlugin!: Plugin;
 
-	private darkMode = false;
-
 	// Computed properties
 	// public balanceData = computed(() => {
 	// 	let balance = 0;
@@ -42,24 +40,19 @@ export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 	public chartLabels = computed(() => ['dummylabel', 'dummylabel', 'dummylabel']);
 	public lineChartData = computed(() => getLineChartData(this.balanceData(), this.chartLabels()));
 
-	// theme change effect
-	private themeEffect = effect(() => {
-		if (this.chart()) {
-			this.updateChartColors();
-			this.registerCustomBackgroundPlugin();
-		}
-	});
+	constructor() {
+		super();
+
+		effect(() => {
+			if (this.chart()) {
+				this.updateChartColors();
+				this.registerCustomBackgroundPlugin();
+			}
+		});
+	}
 
 	ngOnInit() {
 		this.initializeChart();
-
-		this.addSubscription(
-			this.themeService.isDark$.subscribe(isDark => {
-				this.darkMode = isDark;
-				this.updateChartColors();
-				this.registerCustomBackgroundPlugin();
-			})
-		);
 	}
 
 	override ngOnDestroy() {
@@ -71,13 +64,13 @@ export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 
 	private initializeChart() {
 		// Create custom background plugin
-		this.customBackgroundPlugin = createCustomBackgroundPlugin(this.darkMode);
+		this.customBackgroundPlugin = createCustomBackgroundPlugin(this.themeService.currentTheme === DisplayTheme.DARK);
 		Chart.register(this.customBackgroundPlugin);
 		this.updateChartColors();
 	}
 
 	private updateChartColors() {
-		const backgroundColor = this.darkMode ? 'rgba(222, 222, 247, 0.1)' : 'rgba(222, 222, 247, 0.4)';
+		const backgroundColor = this.themeService.currentTheme === DisplayTheme.DARK ? 'rgba(222, 222, 247, 0.1)' : 'rgba(222, 222, 247, 0.4)';
 
 		if (this.lineChartData()) {
 			this.lineChartData().datasets[0].backgroundColor = backgroundColor;
@@ -89,7 +82,7 @@ export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 
 	private registerCustomBackgroundPlugin() {
 		Chart.unregister(this.customBackgroundPlugin);
-		this.customBackgroundPlugin = createCustomBackgroundPlugin(this.darkMode);
+		this.customBackgroundPlugin = createCustomBackgroundPlugin(this.themeService.currentTheme === DisplayTheme.DARK);
 		Chart.register(this.customBackgroundPlugin);
 		this.chart()?.update();
 	}

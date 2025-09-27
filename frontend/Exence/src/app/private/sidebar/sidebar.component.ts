@@ -11,7 +11,7 @@ import { DisplaySizeService } from '../../shared/display-size.service';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { DisplayTheme, DisplayThemeService } from '../../shared/display-theme.service';
-import { DarkModeDirective } from '../../shared/dark-mode.directive';
+import { ThemeApplierDirective } from '../../shared/theme-applier.directive';
 
 @Component({
 	selector: 'ex-sidebar',
@@ -25,7 +25,7 @@ import { DarkModeDirective } from '../../shared/dark-mode.directive';
 		NavButtonDirective,
 		CommonModule,
 		MatMenuModule,
-		DarkModeDirective
+		ThemeApplierDirective
 	],
 	templateUrl: './sidebar.component.html',
 	styleUrl: './sidebar.component.scss',
@@ -36,10 +36,6 @@ export class SidebarComponent extends BaseComponent {
 	readonly themeService = inject(DisplayThemeService);
 
 	toggleTheme() {
-		this.themeService.setTheme(
-			this.themeService.currentTheme === DisplayTheme.DARK
-				? DisplayTheme.LIGHT
-				: DisplayTheme.DARK
-		);
+		this.themeService.toggleTheme();
 	}
 }
