@@ -87,7 +87,7 @@ html.theme-dark hr {
 	&:hover {
 		background-color: #{$app-background-color-light};
 		
-		&.theme-dark {
+		.theme-dark & {
 			background-color: #{$app-background-color-dark}80;
 		}
 	}
