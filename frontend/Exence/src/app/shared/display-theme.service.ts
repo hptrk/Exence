@@ -1,5 +1,4 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
 
 export enum DisplayTheme {
 	DARK = 'DARK',
