@@ -20,10 +20,9 @@ export class ThemeApplierDirective extends BaseComponent {
 			const currentTheme = this.themeService.currentTheme;
 			const preferredThemes = this.themeService.preferredThemes;
 			const currentIsPreferred = !!Object.values(preferredThemes).find(themeData => themeData.name === currentTheme)
-			console.log(currentTheme, currentIsPreferred)
 			
 			if (!currentIsPreferred || currentTheme === preferredThemes.secondary.name) {
-				// removes the theme wheather it is the currently preferred or not
+				// removes the theme wheater it is the currently preferred or not
 				this.renderer.removeClass(this.element.nativeElement, themes.find(t => t.name === this.previousTheme)!.cssClass);
 				this.renderer.addClass(this.element.nativeElement, preferredThemes.secondary.cssClass);
 			} else {

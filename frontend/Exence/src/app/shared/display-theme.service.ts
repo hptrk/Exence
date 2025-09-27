@@ -35,7 +35,7 @@ export class DisplayThemeService {
 	}
 
 	public toggleTheme(): void {
-		const currentTheme = this.displayThemeSignal();;
+		const currentTheme = this.displayThemeSignal();
 		const preferredThemes = this._preferredThemes;
 		const currentIsPreferred = !!Object.values(preferredThemes).find(themeData => themeData.name === currentTheme)
 
