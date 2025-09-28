@@ -32,7 +32,9 @@
 					routerLinkActive="active"
 				>
 					<mat-icon>home</mat-icon>
-					{{ (display.isLg | async) && 'Dashboard' }}
+					@if (display.isLg | async) {
+						Dashboard
+					}
 				</a>
 
 				<a
@@ -42,7 +44,9 @@
 					routerLinkActive="active"
 				>
 					<mat-icon>sync_alt</mat-icon>
-					{{ (display.isLg | async) && 'Transactions' }}
+					@if (display.isLg | async) {
+						Transactions
+					}
 				</a>
 				<a
 					ex-nav-button
@@ -51,7 +55,9 @@
 					routerLinkActive="active"
 				>
 					<mat-icon>leaderboard</mat-icon>
-					{{ (display.isLg | async) && 'Statistics' }}
+					@if (display.isLg | async) {
+						Statistics
+					}
 				</a>
 				<a
 					ex-nav-button
@@ -60,7 +66,9 @@
 					routerLinkActive="active"
 				>
 					<mat-icon>emoji_events</mat-icon>
-					{{ (display.isLg | async) && 'Goals' }}
+					@if (display.isLg | async) {
+						Goals
+					}
 				</a>
 				<a
 					ex-nav-button
@@ -69,7 +77,9 @@
 					routerLinkActive="active"
 				>
 					<mat-icon>account_balance</mat-icon>
-					{{ (display.isLg | async) && 'Debts' }}
+					@if (display.isLg | async) {
+						Debts
+					}
 				</a>
 			</div>
 			@if (display.isLg | async) {
@@ -93,7 +103,7 @@
 		</div>
 	</mat-drawer>
 	<mat-drawer-content>
-		<router-outlet></router-outlet>
+		<ng-content />
 	</mat-drawer-content>
 </mat-drawer-container>
 

@@ -5,6 +5,8 @@
 }
 
 mat-drawer.mat-drawer-side {
+	--mat-sidenav-container-shape: 0;
+
 	width: max-content;
 	height: 100dvh;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -15,6 +17,7 @@ mat-drawer.mat-drawer-side {
 
 	@include displayLg {
 		width: 20dvw;
+		--mat-sidenav-container-shape: 16px;
 	}
 }
 
