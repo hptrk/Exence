@@ -1,64 +1,107 @@
-<div class="dashboard-container">
-	<div class="title-toggle-row">
-		<div class="title-toggle-row--welcome">
-			<h1>
-				Welcome back, <span>{{ username() }}!</span>
+<section class="d-flex flex-column h-100 justif-content-between px-3 py-4 p-md-5 gap-5">
+	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
+		<div>
+			<h1 class="fs-1 m-0 text-center text-md-start">
+				Welcome back, <span class="username">{{ username() || 'PLACEHOLDER' }}</span
+				>!
 			</h1>
-			<p>Here's this month's finances:</p>
+			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
 		</div>
-		<div class="title-toggle-row--toggle">
-			<ex-view-toggle></ex-view-toggle>
-		</div>
+		@if (display.isMd | async) {
+			<ng-container [ngTemplateOutlet]="toggleFilter" />
+		}
 	</div>
 
-	<div class="grid-container">
-		<div class="first-row">
-			<ex-chart class="chart-panel"></ex-chart>
+	<div class="d-flex flex-column-reverse flex-md-column gap-5">
+		<div
+			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
+		>
+			@if ((display.isMd | async) === false) {
+				<div class="mx-auto">
+					<ng-container [ngTemplateOutlet]="toggleFilter" />
+				</div>
+			}
+			<ex-chart />
 			<ex-categories
 				[expenses]="expenses()"
 				[categories]="categories()"
-				class="categories-panel"
-			></ex-categories>
+			/>
 		</div>
 
-		<!-- Summary panels -->
-		<div class="summary-container">
-			<ex-summary-container
-				icon="attach_money"
-				label="Income"
-				[value]="totalIncome()"
-			></ex-summary-container>
-			<ex-summary-container
-				icon="money_off"
-				label="Expenses"
-				[value]="totalExpenses()"
-			></ex-summary-container>
-			<ex-summary-container
-				icon="savings"
-				label="Balance"
-				[value]="balance()"
-			></ex-summary-container>
-			<ex-summary-container
-				icon="receipt_long"
-				[label]="highestSpendingCategory().name"
-				[value]="highestSpendingCategory().amount"
-			></ex-summary-container>
-		</div>
+		@if (display.isMd | async) {
+			<div class="summary-container">
+				<ex-summary-container
+					icon="attach_money"
+					label="Income"
+					[value]="856400"
+				/>
+				<ex-summary-container
+					icon="money_off"
+					label="Expenses"
+					[value]="210460"
+				/>
+				<ex-summary-container
+					icon="savings"
+					label="Balance"
+					[value]="645940"
+				/>
+				<ex-summary-container
+					icon="receipt_long"
+					[label]="highestSpendingCategory().name"
+					[value]="92600"
+				/>
+			</div>
+		}
 
-		<!-- Detailed panels -->
-		<ex-data-table
-			formType="expense"
-			class="list expenses"
-			icon="money_off"
-			label="Expenses"
-		>
-		</ex-data-table>
-		<ex-data-table
-			formType="income"
-			class="list incomes"
-			icon="attach_money"
-			label="Incomes"
-		>
-		</ex-data-table>
+		@if (display.isMd | async) {
+			<div class="row">
+				<ex-data-table
+					formType="expense"
+					class="col-6"
+					icon="money_off"
+					label="Expenses"
+				/>
+				<ex-data-table
+					formType="income"
+					class="col-6"
+					icon="attach_money"
+					label="Incomes"
+				/>
+			</div>
+		} @else {
+			<div class="d-flex flex-column gap-4 align-items-center">
+				<ex-data-table
+					class="w-100"
+					icon="attach_money"
+					label="Movements"
+				/>
+				<ng-container [ngTemplateOutlet]="mobileButtons" />
+			</div>
+		}
 	</div>
-</div>
+</section>
+
+<ng-template #toggleFilter>
+	<ex-view-toggle />
+</ng-template>
+
+<ng-template #mobileButtons>
+	<div
+		class="d-flex flex-column-reverse flex-sm-row gap-2 gap-sm-4 justify-content-center align-items-md-center w-100"
+	>
+		<button
+			mat-flat-button
+			class="add-expense flex-grow-1"
+			(click)="openTransactionDialog(transactionTypes.EXPENSE)"
+		>
+			Expense
+		</button>
+		<button
+			mat-flat-button
+			class="add-income flex-grow-1"
+			(click)="openTransactionDialog(transactionTypes.INCOME)"
+		>
+			Income
+		</button>
+	</div>
+</ng-template>

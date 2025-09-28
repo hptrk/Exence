@@ -23,7 +23,7 @@ export class DataTableComponent {
 
 	icon = input.required<string>();
 	label = input.required<string>();
-	formType = input<'income' | 'expense'>('income');
+	formType = input<'income' | 'expense'>();
 
 	public displayedColumns = ['title', 'date', 'amount', 'category'];
 

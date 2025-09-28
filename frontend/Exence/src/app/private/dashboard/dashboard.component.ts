@@ -4,15 +4,23 @@ import { SummaryContainerComponent } from '../../private/dashboard/summary-conta
 import { ChartComponent } from '../../shared/chart/chart.component';
 import { CategoriesComponent } from '../../private/dashboard/categories/categories.component';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
-// import { TransactionService } from '../transactions/transaction.service';
-// import { CategoryService } from '../category.service';
 import { AuthService } from '../../shared/account/auth.service';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { Category } from '../../data-model/modules/category/Category';
+import { DisplaySizeService } from '../../shared/display-size.service';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { MatButton } from "@angular/material/button";
+import { MatDialog } from '@angular/material/dialog';
+import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
+
+enum TransactionType {
+	INCOME = 'INCOME',
+	EXPENSE = 'EXPENSE'
+} 
 
 @Component({
 	selector: 'ex-dashboard',
-	imports: [SummaryContainerComponent, DataTableComponent, ChartComponent, CategoriesComponent, ViewToggleComponent],
+	imports: [SummaryContainerComponent, DataTableComponent, ChartComponent, CategoriesComponent, ViewToggleComponent, AsyncPipe, CommonModule, MatButton],
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',
 })
@@ -20,11 +28,13 @@ export class DashboardComponent implements OnInit {
 	// private transactionService = inject(TransactionService);
 	// private categoryService = inject(CategoryService);
 	private authService = inject(AuthService);
+	public display = inject(DisplaySizeService);
+	public dialog = inject(MatDialog);
 
 	// public transactions = this.transactionService.getTransactions();
 	public transactions = computed(() => []);
 	// public categories = this.categoryService.getCategories();
-	public categories = computed(() => []);
+	public categories = computed(() => [{id: 1, name: 'Utilities', emoji: '👎'}, {id: 1, name: 'Utilities', emoji: '👎'}]);
 	public username!: Signal<string>;
 	public expenses!: Signal<Transaction[]>;
 	public incomes!: Signal<Transaction[]>;
@@ -33,11 +43,11 @@ export class DashboardComponent implements OnInit {
 	public balance!: Signal<number>;
 	public highestSpendingCategory!: Signal<{ name: string; amount: number }>;
 
+	transactionTypes = TransactionType;
+
 	ngOnInit() {
 		this.username = computed(() => this.authService.getUserData()()?.username ?? '');
-		// this.expenses = computed(() => this.transactions().filter(t => t.type === 'expense'));
 		this.expenses = computed(() => []);
-		// this.incomes = computed(() => this.transactions().filter(t => t.type === 'income'));
 		this.incomes = computed(() => []);
 		this.totalIncome = computed(() => this.incomes().reduce((sum, t) => sum + t.amount, 0));
 		this.totalExpenses = computed(() => this.expenses().reduce((sum, t) => sum + t.amount, 0) * -1);
@@ -71,5 +81,30 @@ export class DashboardComponent implements OnInit {
 				amount: highestAmount * -1,
 			};
 		});
+	}
+
+	public openTransactionDialog(transactionType: TransactionType): void {
+		switch (transactionType) {
+			case TransactionType.INCOME: {
+				// temp: open a dialog
+				this.dialog.open(DataTableDialogComponent, {
+					width: 'auto',
+					data: {
+						formType: TransactionType.INCOME,
+					},
+				});
+				break;
+			}
+			case TransactionType.EXPENSE: {
+				// temp: open a dialog
+				this.dialog.open(DataTableDialogComponent, {
+					width: 'auto',
+					data: {
+						formType: TransactionType.EXPENSE,
+					},
+				});
+				break;
+			}
+		}
 	}
 }

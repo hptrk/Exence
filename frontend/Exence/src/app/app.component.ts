@@ -6,10 +6,11 @@ import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
+import { RouterModule } from "@angular/router";
 
 @Component({
 	selector: 'ex-root',
-	imports: [SidebarComponent],
+	imports: [SidebarComponent, RouterModule],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })

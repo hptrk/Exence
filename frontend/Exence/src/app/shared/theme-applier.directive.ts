@@ -23,7 +23,9 @@ export class ThemeApplierDirective extends BaseComponent {
 			
 			if (!currentIsPreferred || currentTheme === preferredThemes.secondary.name) {
 				// removes the theme wheater it is the currently preferred or not
-				this.renderer.removeClass(this.element.nativeElement, themes.find(t => t.name === this.previousTheme)!.cssClass);
+				if (this.previousTheme) {
+					this.renderer.removeClass(this.element.nativeElement, themes.find(t => t.name === this.previousTheme)!.cssClass);
+				}
 				this.renderer.addClass(this.element.nativeElement, preferredThemes.secondary.cssClass);
 			} else {
 				this.renderer.removeClass(this.element.nativeElement, preferredThemes.secondary.cssClass);

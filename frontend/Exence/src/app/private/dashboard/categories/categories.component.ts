@@ -1,9 +1,11 @@
-import { Component, input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatCardModule } from '@angular/material/card';
 import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { Category } from '../../../data-model/modules/category/Category';
+import { DisplaySizeService } from '../../../shared/display-size.service';
+import { BaseComponent } from '../../../shared/base-component/base.component';
 
 @Component({
 	selector: 'ex-categories',
@@ -11,7 +13,9 @@ import { Category } from '../../../data-model/modules/category/Category';
 	templateUrl: './categories.component.html',
 	styleUrl: './categories.component.scss',
 })
-export class CategoriesComponent implements OnInit, OnChanges {
+export class CategoriesComponent extends BaseComponent implements OnInit, OnChanges {
+	public display = inject(DisplaySizeService);
+
 	expenses = input<Transaction[]>();
 	categories = input<Category[]>();
 
@@ -19,6 +23,18 @@ export class CategoriesComponent implements OnInit, OnChanges {
 
 	ngOnInit() {
 		this.calculateCategoryPercentages();
+		
+		// TEST
+		this.categoryPercentages = [{name: 'Utilities', percentage: 40 }, {name: 'Groceries', percentage: 20 }, {name: 'Transport', percentage: 18 }, {name: 'Date', percentage: 22 }];
+
+		this.addSubscription(this.display.isSm.subscribe((isSm) => {
+			if (isSm) {
+				this.categoryPercentages = this.categoryPercentages.slice(0, 4);
+			} else {
+				this.categoryPercentages = this.categoryPercentages.slice(0, 2);
+			}
+		}));
+		
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
