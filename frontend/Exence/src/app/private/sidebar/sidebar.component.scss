@@ -24,3 +24,19 @@ mat-drawer.mat-drawer-side {
 mat-drawer-content.mat-drawer-content {
 	background-color: var(--app-background-color);
 }
+
+.mobile-navigation {
+	background-color: var(--app-background-color);
+}
+
+.mobile-actions {
+	padding: 0.5rem;
+	border-radius: 20px;
+	background-color: var(--app-card-color);
+}
+
+.mobile-view {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}

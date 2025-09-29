@@ -12,6 +12,8 @@
 }
 
 html {
+	max-width: 100dvw;
+	min-height: 100dvh;
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -28,10 +30,6 @@ body {
 	text-align: left;
 	height: 100%;
 	scrollbar-color: var(--primary-color) #c9c9f2;
-}
-
-html.theme-dark body {
-	color-scheme: dark;
 }
 
 a {
@@ -69,15 +67,19 @@ hr {
 }
 
 .ex-nav-button {
-	width: 100%;
 	transition: background-color 0.25s;
 	text-decoration: none;
-	padding: 8px 16px;
+	padding: 8px;
 	border: none;
+	border-radius: 1rem;
 	color: inherit;
 	cursor: pointer;
 
 	&:hover {
 		background-color: var(--app-background-color);
+	}
+	
+	@include displayMd {
+		padding: 8px 16px;
 	}
 }
