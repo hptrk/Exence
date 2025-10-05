@@ -5,12 +5,12 @@
 
 
 // Import Bootstrap with DEFAULT values (use one theme as default)
-$primary: $primary-color-dark;
-$secondary: $secondary-color-dark;
-$success: $tertiary-color-dark;
-$danger: $error-color-dark;
-$body-bg: $app-background-color-dark;
-$body-color: $default-text-color-dark;
+$primary: $primary-color-blue-dolphin;
+$secondary: $secondary-color-blue-dolphin;
+$success: $tertiary-color-blue-dolphin;
+$danger: $error-color-blue-dolphin;
+$body-bg: $app-background-color-blue-dolphin;
+$body-color: $default-text-color-blue-dolphin;
 
 @import 'bootstrap/scss/bootstrap';
 

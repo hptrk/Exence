@@ -4,22 +4,22 @@
 
 // default theme
 :root {
-	--primary-color: #{$primary-color-dark};
-	--secondary-color: #{$secondary-color-dark};
-	--tertiary-color: #{$tertiary-color-dark};
-	--error-color: #{$error-color-dark};
+	--primary-color: #{$primary-color-blue-dolphin};
+	--secondary-color: #{$secondary-color-blue-dolphin};
+	--tertiary-color: #{$tertiary-color-blue-dolphin};
+	--error-color: #{$error-color-blue-dolphin};
 	
-	--app-hover-color: #{$app-hover-color-dark};
+	--app-hover-color: #{$app-hover-color-blue-dolphin};
 	
-	--app-card-color: #{$app-card-color-dark};
-	--app-background-color: #{$app-background-color-dark};
+	--app-card-color: #{$app-card-color-blue-dolphin};
+	--app-background-color: #{$app-background-color-blue-dolphin};
 	
-	--shadow-color: #{$shadow-dark};
-	--border-color: #{$border-color-dark};
+	--shadow-color: #{$shadow-blue-dolphin};
+	--border-color: #{$border-color-blue-dolphin};
 	
-	--default-text-color: #{$default-text-color-dark};
-	--disabled-text-color: #{$disabled-text-color-dark};
-	--secondary-text-color: #{$secondary-text-color-dark};
+	--default-text-color: #{$default-text-color-blue-dolphin};
+	--disabled-text-color: #{$disabled-text-color-blue-dolphin};
+	--secondary-text-color: #{$secondary-text-color-blue-dolphin};
 }
 
 html.theme-light {

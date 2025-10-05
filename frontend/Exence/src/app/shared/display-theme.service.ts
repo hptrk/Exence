@@ -28,7 +28,7 @@ export class DisplayThemeService {
 
 	private _preferredThemes: Record<'primary' | 'secondary', ThemeData> = { 
 		primary: themes.find(t => t.name === DisplayTheme.DARK)!, 
-		secondary: themes.find(t => t.name === DisplayTheme.LIGHT)!
+		secondary: themes.find(t => t.name === DisplayTheme.BLUE_DOLPHIN)!
 	};
 
 	get currentTheme(): DisplayTheme { return this.displayThemeSignal(); }
