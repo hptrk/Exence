@@ -1,0 +1,154 @@
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+$palettes: (
+	primary: (
+		0: #000000,
+		10: #3d0029,
+		20: #5a003f,
+		25: #6b004d,
+		30: #7d005b,
+		35: #8f0069,
+		40: #a10077,
+		50: #c60094,
+		60: #ec00b2,
+		70: #ff6ec7,
+		80: #ff9dd9,
+		90: #f2c9f2,
+		95: #ffe0f5,
+		98: #fff0fa,
+		99: #fffbff,
+		100: #ffffff,
+	),
+	secondary: (
+		0: #000000,
+		10: #001f29,
+		20: #00323f,
+		25: #083b4c,
+		30: #08495c,
+		35: #0e5066,
+		40: #1a6278,
+		50: #2d7c95,
+		60: #4397b2,
+		70: #5ab2cf,
+		80: #7ccdec,
+		90: #b8e6ff,
+		95: #ddf3ff,
+		98: #f0f9ff,
+		99: #f9fcff,
+		100: #ffffff,
+	),
+	tertiary: (
+		0: #000000,
+		10: #00210c,
+		20: #003919,
+		25: #004520,
+		30: #005227,
+		35: #00602e,
+		40: #006d35,
+		50: #008945,
+		60: #1aa657,
+		70: #42c26f,
+		80: #61de88,
+		90: #7efba2,
+		95: #c4ffcd,
+		98: #eaffe9,
+		99: #f5fff2,
+		100: #ffffff,
+	),
+	neutral: (
+		0: #000000,
+		10: #1a1a1f,
+		20: #2f2f37,
+		25: #3a3a42,
+		30: #46464e,
+		35: #515159,
+		40: #5d5d65,
+		50: #76767e,
+		60: #909098,
+		70: #ababb3,
+		80: #c6c6ce,
+		90: #e2e2eb,
+		95: #f0f0f9,
+		98: #f9f9ff,
+		99: #fffbff,
+		100: #ffffff,
+		4: #0e0e13,
+		6: #131318,
+		12: #1f1f24,
+		17: #2a2a2f,
+		22: #35353a,
+		24: #393940,
+		87: #dcdce5,
+		92: #e9e9f2,
+		94: #efeff8,
+		96: #f6f6ff,
+	),
+	neutral-variant: (
+		0: #000000,
+		10: #1a1a1f,
+		20: #2f2f37,
+		25: #3a3a42,
+		30: #46464e,
+		35: #515159,
+		40: #5d5d65,
+		50: #76767e,
+		60: #909098,
+		70: #ababb3,
+		80: #c6c6ce,
+		90: #e2e2eb,
+		95: #f0f0f9,
+		98: #f9f9ff,
+		99: #fffbff,
+		100: #ffffff,
+	),
+	error: (
+		0: #000000,
+		10: #410002,
+		20: #690005,
+		25: #7e0007,
+		30: #93000a,
+		35: #a80710,
+		40: #ba1a1a,
+		50: #de3730,
+		60: #ff5449,
+		70: #ff897d,
+		80: #ffb4ab,
+		90: #ffdad6,
+		95: #ffedea,
+		98: #fff8f7,
+		99: #fffbff,
+		100: #ffffff,
+	),
+);
+
+$_rest: (
+	secondary: map.get($palettes, secondary),
+	neutral: map.get($palettes, neutral),
+	neutral-variant: map.get($palettes, neutral-variant),
+	error: map.get($palettes, error),
+	);
+	
+$primary-palette: map.merge(map.get($palettes, primary), $_rest);
+$secondary-palette: map.merge(map.get($palettes, secondary), $_rest);
+$tertiary-palette: map.merge(map.get($palettes, tertiary), $_rest);
+$neutral-palette: map.merge(map.get($palettes, neutral), $_rest);
+$error-palette: map.merge(map.get($palettes, error), $_rest);
+
+// predefined variables
+$app-card-color-blue-dolphin: map.get($secondary-palette, 35);
+$app-background-color-blue-dolphin: map.get($secondary-palette, 25);
+
+$primary-color-blue-dolphin: map.get($primary-palette, 70);
+$secondary-color-blue-dolphin: map.get($secondary-palette, 25);
+$tertiary-color-blue-dolphin: map.get($tertiary-palette, 60);
+$app-hover-color-blue-dolphin: map.get($primary-palette, 70);
+
+$shadow-blue-dolphin: map.get($neutral-palette, 40);
+$border-color-blue-dolphin: map.get($primary-palette, 20);
+
+$default-text-color-blue-dolphin: map.get($primary-palette, 90);
+$disabled-text-color-blue-dolphin: map.get($neutral-palette, 85);
+$secondary-text-color-blue-dolphin: map.get($secondary-palette, 25);
+
+$error-color-blue-dolphin: map.get($error-palette, 50);

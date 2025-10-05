@@ -1,8 +1,10 @@
 @use '@angular/material' as mat;
 @use '../themes/light' as light-theme;
 @use '../themes/dark' as dark-theme;
+@use '../themes/blue-dolphin' as blue-dolphin-theme;
 @use '../variables/colors-light' as light-colors;
 @use '../variables/colors-dark' as dark-colors;
+@use '../variables/colors-blue-dolphin' as blue-dolphin-colors;
 
 @include mat.core();
 @include mat.elevation-classes();
@@ -25,3 +27,7 @@ html.theme-dark {
 	@include mat.system-level-colors(dark-theme.$theme);
 }
 
+html.theme-blue-dolphin {
+	@include mat.all-component-colors(blue-dolphin-theme.$theme);
+	@include mat.system-level-colors(blue-dolphin-theme.$theme);
+}

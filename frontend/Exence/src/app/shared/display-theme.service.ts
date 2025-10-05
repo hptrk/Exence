@@ -1,8 +1,11 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
 
+
+// add new theme here
 export enum DisplayTheme {
+	LIGHT = 'LIGHT',
 	DARK = 'DARK',
-	LIGHT = 'LIGHT'
+	BLUE_DOLPHIN = 'BLUE_DOLPHIN'
 }
 
 interface ThemeData {
@@ -10,9 +13,11 @@ interface ThemeData {
 	cssClass: string;
 }
 
+// add new theme's data here
 export const themes: ThemeData[] = [
 	{ name: DisplayTheme.LIGHT, cssClass: 'theme-light' },
-	{ name: DisplayTheme.DARK, cssClass: 'theme-dark' }
+	{ name: DisplayTheme.DARK, cssClass: 'theme-dark' },
+	{ name: DisplayTheme.BLUE_DOLPHIN, cssClass: 'theme-blue-dolphin' }
 ];
 
 @Injectable({

@@ -1,5 +1,6 @@
 @import './variables/colors-light.scss';
 @import './variables/colors-dark.scss';
+@import './variables/colors-blue-dolphin.scss';
 @import './mixins.scss';
 
 
@@ -35,4 +36,16 @@ $body-color: $default-text-color-dark;
 	$default-text-color-dark,
 	$border-color-dark,
 	$app-card-color-dark
+);
+
+@include generate-bootstrap-theme(
+	'theme-blue-dolphin',
+	$primary-color-blue-dolphin,
+	$secondary-color-blue-dolphin,
+	$tertiary-color-blue-dolphin,
+	$error-color-blue-dolphin,
+	$app-background-color-blue-dolphin,
+	$default-text-color-blue-dolphin,
+	$border-color-blue-dolphin,
+	$app-card-color-blue-dolphin
 );

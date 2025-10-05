@@ -1,5 +1,6 @@
 @import './colors-light.scss';
 @import './colors-dark.scss';
+@import './colors-blue-dolphin.scss';
 
 // default theme
 :root {
@@ -57,4 +58,23 @@ html.theme-dark {
 	--default-text-color: #{$default-text-color-dark};
 	--disabled-text-color: #{$disabled-text-color-dark};
 	--secondary-text-color: #{$secondary-text-color-dark};
+}
+
+html.theme-blue-dolphin {
+	--primary-color: #{$primary-color-blue-dolphin};
+	--secondary-color: #{$secondary-color-blue-dolphin};
+	--tertiary-color: #{$tertiary-color-blue-dolphin};
+	--error-color: #{$error-color-blue-dolphin};
+	
+	--app-hover-color: #{$app-hover-color-blue-dolphin};
+	
+	--app-card-color: #{$app-card-color-blue-dolphin};
+	--app-background-color: #{$app-background-color-blue-dolphin};
+	
+	--shadow-color: #{$shadow-blue-dolphin};
+	--border-color: #{$border-color-blue-dolphin};
+	
+	--default-text-color: #{$default-text-color-blue-dolphin};
+	--disabled-text-color: #{$disabled-text-color-blue-dolphin};
+	--secondary-text-color: #{$secondary-text-color-blue-dolphin};
 }

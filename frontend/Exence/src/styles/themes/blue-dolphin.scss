@@ -1,0 +1,18 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../variables/colors-blue-dolphin' as colors;
+
+$theme: mat.define-theme(
+	(
+		color: (
+			theme-type: light,
+			primary: colors.$primary-palette,
+			tertiary: colors.$secondary-palette,
+		),
+		typography: (
+			plain-family: 'Montserrat, sans-serif',
+			brand-family: 'Montserrat, sans-serif',
+			medium-weight: 400,
+		),
+	)
+);
