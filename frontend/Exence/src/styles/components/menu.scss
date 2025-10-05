@@ -7,7 +7,7 @@ html {
 	--mat-select-container-elevation-shadow: #{$menu-shadow};
 	--mat-autocomplete-background-color: var(--mat-sys-surface);
 	--mat-autocomplete-container-elevation-shadow: #{$menu-shadow};
-	--mat-menu-item-label-text-color: #{$default-text-color-light};
+	--mat-menu-item-label-text-color: var(--default-text-color);
 }
 
 .mat-mdc-menu-panel {
@@ -24,18 +24,14 @@ html {
 		&.mat-menu-item-highlighted,
 		&.selected {
 			background: transparent;
-			color: $primary-color;
+			color: var(--primary-color);
 
 			mat-icon {
-				color: $primary-color;
+				color: var(--primary-color);
 			}
 		}
 		&:hover {
-			background-color: #{$app-background-color-light}90;
-
-			html.theme-dark & {
-				background-color: #{$app-background-color-dark}25;
-			}
+			background-color: var(--app-hover-color);
 		}
 	}
 }

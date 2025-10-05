@@ -38,7 +38,7 @@
 
 @mixin scrollbar-base {
 	& {
-		scrollbar-color: $primary-color-light #e0f4ee;
+		scrollbar-color: var(--primary-color) #c9c9f2;
 		scrollbar-width: thin;
 	}
 
@@ -48,12 +48,12 @@
 	}
 
 	&::-webkit-scrollbar-track {
-		background: #e0f4ee;
+		background: #c9c9f2;
 	}
 
 	&::-webkit-scrollbar-thumb {
 		border-radius: 3px;
-		background: $primary-color-light;
+		background: var(--primary-color);
 	}
 
 	&::-webkit-scrollbar-thumb:hover {
@@ -61,14 +61,42 @@
 	}
 }
 
-@mixin scrollbar-dark {
-	scrollbar-color: $primary-color-light #5b677b;
-
-	&::-webkit-scrollbar-track {
-		background: #5b677b;
-	}
-
-	&::-webkit-scrollbar-thumb:hover {
-		background: #e0f4ee;
-	}
+@mixin generate-bootstrap-theme($prefix, $primary, $secondary, $tertiary, $error, $bg, $text, $border, $card-bg) {
+  
+  .#{$prefix} {
+    // Override Bootstrap's CSS custom properties directly
+    --bs-primary: #{$primary};
+    --bs-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+    
+    --bs-secondary: #{$secondary};
+    --bs-secondary-rgb: #{red($secondary)}, #{green($secondary)}, #{blue($secondary)};
+    
+    --bs-success: #{$tertiary};
+    --bs-success-rgb: #{red($tertiary)}, #{green($tertiary)}, #{blue($tertiary)};
+    
+    --bs-danger: #{$error};
+    --bs-danger-rgb: #{red($error)}, #{green($error)}, #{blue($error)};
+    
+    --bs-body-bg: #{$bg};
+    --bs-body-color: #{$text};
+    
+    --bs-border-color: #{$border};
+    
+    // Card
+    --bs-card-bg: #{$card-bg};
+    --bs-card-border-color: #{$border};
+    --bs-card-color: #{$text};
+    
+    // Forms
+    --bs-form-control-bg: #{$card-bg};
+    --bs-form-control-color: #{$text};
+    
+    // Buttons - generate shades
+    --bs-btn-hover-bg: #{darken($primary, 7.5%)};
+    --bs-btn-active-bg: #{darken($primary, 10%)};
+    
+    // Links
+    --bs-link-color: #{$primary};
+    --bs-link-hover-color: #{darken($primary, 15%)};
+  }
 }

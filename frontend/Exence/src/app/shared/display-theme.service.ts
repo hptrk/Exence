@@ -73,11 +73,7 @@ export class DisplayThemeService {
 	}
 
 	private setCssClassForHtmlElement(themeData: ThemeData): void {
-		let htmlElement = document.getElementsByTagName('html')[0];
-		if (!htmlElement) {
-			console.error('Couldn\'t set theme, no htmlElement');
-			return;
-		}
+		const htmlElement = document.getElementsByTagName('html')[0];
 		themes.forEach(t => htmlElement.classList.remove(t.cssClass));
 		htmlElement.classList.add(themeData.cssClass);
 	}

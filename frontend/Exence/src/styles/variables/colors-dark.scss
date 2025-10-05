@@ -123,26 +123,34 @@ $palettes: (
 	),
 );
 
-$secondary: map.get($palettes, secondary);
-$neutral: map.get($palettes, neutral);
-$error: map.get($palettes, error);
 $_rest: (
-	secondary: $secondary,
-	neutral: $neutral,
+	secondary: map.get($palettes, secondary),
+	neutral: map.get($palettes, neutral),
 	neutral-variant: map.get($palettes, neutral-variant),
-	error: $error,
-);
-$primary: map.merge(map.get($palettes, primary), $_rest);
-$tertiary: map.merge(map.get($palettes, tertiary), $_rest);
+	error: map.get($palettes, error),
+	);
+	
+$primary-palette: map.merge(map.get($palettes, primary), $_rest);
+$secondary-palette: map.merge(map.get($palettes, secondary), $_rest);
+$tertiary-palette: map.merge(map.get($palettes, tertiary), $_rest);
+$neutral-palette: map.merge(map.get($palettes, neutral), $_rest);
+$error-palette: map.merge(map.get($palettes, error), $_rest);
 
-$app-card-color-dark: map.get($primary, 20);
+// predefined variables
+$app-card-color-dark: map.get($primary-palette, 20);
+$app-background-color-dark: map.get($primary-palette, 10);
 
-$light-disabled-text: map.get($neutral, 85);
-$light-secondary-text: map.get($neutral, 90);
+$primary-color-dark: map.get($primary-palette, 90);
+$secondary-color-dark: map.get($secondary-palette, 90);
+$secondary-color-dark: map.get($secondary-palette, 80);
+$tertiary-color-dark: map.get($tertiary-palette, 60);
+$app-hover-color-dark: map.get($primary-palette, 60);
 
-$primary-color-dark: map.get($primary, 90);
-$accent-color-dark: map.get($primary, 20);
-$error-color-dark: map.get($error, 50);
+$shadow-dark: map.get($neutral-palette, 40);
+$border-color-dark: map.get($primary-palette, 10);
 
-$app-background-color-dark: map.get($primary, 10);
-$default-text-color-dark: map.get($neutral, 95);
+$default-text-color-dark: map.get($neutral-palette, 95);
+$disabled-text-color-dark: map.get($neutral-palette, 85);
+$secondary-text-color-dark: map.get($neutral-palette, 90);
+
+$error-color-dark: map.get($error-palette, 50);

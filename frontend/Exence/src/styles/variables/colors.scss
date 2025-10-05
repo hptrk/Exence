@@ -1,5 +1,60 @@
 @import './colors-light.scss';
 @import './colors-dark.scss';
 
-$primary-color: $primary-color-light;
-$error-color: $error-color-light;
+// default theme
+:root {
+	--primary-color: #{$primary-color-dark};
+	--secondary-color: #{$secondary-color-dark};
+	--tertiary-color: #{$tertiary-color-dark};
+	--error-color: #{$error-color-dark};
+	
+	--app-hover-color: #{$app-hover-color-dark};
+	
+	--app-card-color: #{$app-card-color-dark};
+	--app-background-color: #{$app-background-color-dark};
+	
+	--shadow-color: #{$shadow-dark};
+	--border-color: #{$border-color-dark};
+	
+	--default-text-color: #{$default-text-color-dark};
+	--disabled-text-color: #{$disabled-text-color-dark};
+	--secondary-text-color: #{$secondary-text-color-dark};
+}
+
+html.theme-light {
+	--primary-color: #{$primary-color-light};
+	--secondary-color: #{$secondary-color-light};
+	--tertiary-color: #{$tertiary-color-light};
+	--error-color: #{$error-color-light};
+	
+	--app-hover-color: #{$app-hover-color-light};
+	
+	--app-card-color: #{$app-card-color-light};
+	--app-background-color: #{$app-background-color-light};
+	
+	--shadow-color: #{$shadow-light};
+	--border-color: #{$border-color-light};
+	
+	--default-text-color: #{$default-text-color-light};
+	--disabled-text-color: #{$disabled-text-color-light};
+	--secondary-text-color: #{$secondary-text-color-light};
+}
+
+html.theme-dark {
+	--primary-color: #{$primary-color-dark};
+	--secondary-color: #{$secondary-color-dark};
+	--tertiary-color: #{$tertiary-color-dark};
+	--error-color: #{$error-color-dark};
+	
+	--app-hover-color: #{$app-hover-color-dark};
+	
+	--app-card-color: #{$app-card-color-dark};
+	--app-background-color: #{$app-background-color-dark};
+	
+	--shadow-color: #{$shadow-dark};
+	--border-color: #{$border-color-dark};
+	
+	--default-text-color: #{$default-text-color-dark};
+	--disabled-text-color: #{$disabled-text-color-dark};
+	--secondary-text-color: #{$secondary-text-color-dark};
+}

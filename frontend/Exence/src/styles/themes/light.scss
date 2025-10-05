@@ -1,4 +1,3 @@
-@use 'sass:map';
 @use '@angular/material' as mat;
 @use '../variables/colors-light' as colors;
 
@@ -6,8 +5,8 @@ $theme: mat.define-theme(
 	(
 		color: (
 			theme-type: light,
-			primary: colors.$primary,
-			tertiary: colors.$tertiary,
+			primary: colors.$primary-palette,
+			tertiary: colors.$tertiary-palette,
 		),
 		typography: (
 			plain-family: 'Montserrat, sans-serif',

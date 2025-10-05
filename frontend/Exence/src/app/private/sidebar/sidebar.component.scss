@@ -1,11 +1,7 @@
 @import "../../../styles/imports.scss";
 
 :host {
-	--mat-sidenav-container-background-color: #{$app-card-color-light};
-	
-	.theme-dark {
-		--mat-sidenav-container-background-color: #{$app-card-color-dark};
-	}
+	--mat-sidenav-container-background-color: var(--app-card-color);
 }
 
 mat-drawer.mat-drawer-side {
@@ -14,11 +10,7 @@ mat-drawer.mat-drawer-side {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 
 	a.ex-nav-button.active {
-		background-color: #{$app-background-color-light};
-		
-		.theme-dark & {
-			background-color: #{$app-background-color-dark};
-		}
+		background-color: var(--app-background-color);
 	}
 
 	@include displayLg {
@@ -27,9 +19,5 @@ mat-drawer.mat-drawer-side {
 }
 
 mat-drawer-content.mat-drawer-content {
-	background-color: #{$app-background-color-light};
-
-	.theme-dark & {
-		background-color: #{$app-background-color-dark};
-	}
+	background-color: var(--app-background-color);
 }
