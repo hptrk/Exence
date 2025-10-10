@@ -1,14 +1,6 @@
-$menu-shadow: 0px 2px 20px -2px #0003;
+@import "../imports.scss";
 
-html {
-	--mat-menu-container-color: var(--mat-sys-surface);
-	--mat-menu-container-elevation-shadow: #{$menu-shadow};
-	--mat-select-panel-background-color: var(--mat-sys-surface);
-	--mat-select-container-elevation-shadow: #{$menu-shadow};
-	--mat-autocomplete-background-color: var(--mat-sys-surface);
-	--mat-autocomplete-container-elevation-shadow: #{$menu-shadow};
-	--mat-menu-item-label-text-color: var(--default-text-color);
-}
+$menu-shadow: 0px 1px 10px var(--shadow-color);
 
 .mat-mdc-menu-panel {
 	--mat-menu-container-shape: 16px;
@@ -16,6 +8,14 @@ html {
 }
 
 .mat-mdc-menu-panel {
+	--mat-menu-container-color: var(--app-card-color);
+	--mat-menu-container-elevation-shadow: #{$menu-shadow};
+	--mat-select-panel-background-color: var(--mat-sys-surface);
+	--mat-select-container-elevation-shadow: #{$menu-shadow};
+	--mat-autocomplete-background-color: var(--mat-sys-surface);
+	--mat-autocomplete-container-elevation-shadow: #{$menu-shadow};
+	--mat-menu-item-label-text-color: var(--default-text-color);
+
 	margin-left: 10px;
 	overflow-x: hidden;
 

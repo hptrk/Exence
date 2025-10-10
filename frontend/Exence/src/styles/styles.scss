@@ -56,7 +56,7 @@ a {
 }
 
 hr {
-	background-color: alpha(--secondary-color, 55);
+	background-color: lighten(--secondary-color, 55%);
 	height: 1px;
 	border: none;
 	opacity: 0.36;
@@ -80,6 +80,10 @@ hr {
 	}
 	
 	@include displayMd {
+		padding: 0.5rem;
+	}
+
+	@include displayXl {
 		padding: 8px 16px;
 	}
 }

@@ -1,23 +1,29 @@
 @if (display.isMd | async) {
-	<mat-drawer-container
-		class="h-100"
-	>
+	<mat-drawer-container class="h-100">
 		<mat-drawer
 			mode="side"
+			class="px-2"
 			opened
 			disableClose
 		>
 			<div class="d-flex flex-column align-items-center h-100 py-4 gap-5">
 				<a
-					class="px-2"
+					class="px-xl-2"
 					[routerLink]="navigationService.private().index()"
 				>
-					<mat-icon
-						class="h-auto w-auto m-0"
-						[svgIcon]="svgIcons.logoHorizontal"
-					/>
+					@if (display.isXl | async) {
+						<mat-icon
+							class="h-auto w-auto m-0"
+							[svgIcon]="svgIcons.logoHorizontal"
+						/>
+					} @else {
+						<mat-icon
+							class="m-0"
+							[svgIcon]="svgIcons.logo"
+						/>
+					}
 				</a>
-				<div class="d-flex flex-column w-100 h-100 fs-4 gap-4 flex-grow-1 fw-medium">
+				<div class="d-flex flex-column w-100 h-100 fs-4 gap-3 gap-xl-2 flex-grow-1 fw-medium">
 					<a
 						ex-nav-button
 						class="d-flex align-items-center gap-2"
@@ -25,7 +31,9 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>home</mat-icon>
-						Dashboard
+						@if (display.isXl | async) {
+							Dashboard
+						}
 					</a>
 
 					<a
@@ -35,7 +43,9 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>sync_alt</mat-icon>
-						Transactions
+						@if (display.isXl | async) {
+							Transactions
+						}
 					</a>
 					<a
 						ex-nav-button
@@ -44,7 +54,9 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>leaderboard</mat-icon>
-						Statistics
+						@if (display.isXl | async) {
+							Statistics
+						}
 					</a>
 					<a
 						ex-nav-button
@@ -53,7 +65,9 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>emoji_events</mat-icon>
-						Goals
+						@if (display.isXl | async) {
+							Goals
+						}
 					</a>
 					<a
 						ex-nav-button
@@ -62,23 +76,29 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>account_balance</mat-icon>
-						Debts
+						@if (display.isXl | async) {
+							Debts
+						}
 					</a>
 				</div>
-				<div class="d-flex gap-4">
-					<a [routerLink]="navigationService.private().profile().index()">
-						<mat-icon>person</mat-icon>
-					</a>
-					<a [routerLink]="navigationService.private().settings()">
-						<mat-icon>settings</mat-icon>
-					</a>
-					<button (click)="toggleTheme()">
-						<mat-icon>contrast</mat-icon>
-					</button>
-					<a [routerLink]="navigationService.account().logout()">
-						<mat-icon>logout</mat-icon>
-					</a>
-				</div>
+				@if (display.isXl | async) {
+					<div class="d-flex gap-4">
+						<a [routerLink]="navigationService.private().profile().index()">
+							<mat-icon>person</mat-icon>
+						</a>
+						<a [routerLink]="navigationService.private().settings()">
+							<mat-icon>settings</mat-icon>
+						</a>
+						<button (click)="toggleTheme()">
+							<mat-icon>contrast</mat-icon>
+						</button>
+						<a [routerLink]="navigationService.account().logout()">
+							<mat-icon>logout</mat-icon>
+						</a>
+					</div>
+				} @else {
+					<ng-container [ngTemplateOutlet]="actionsMenu"></ng-container>
+				}
 			</div>
 		</mat-drawer>
 		<mat-drawer-content>
@@ -96,6 +116,51 @@
 
 <ng-template #pageContent>
 	<ng-content />
+</ng-template>
+
+<ng-template #actionsMenu>
+	<button
+		[matMenuTriggerFor]="sidebarActionsMenu"
+		class="more-actions-button"
+	>
+		<mat-icon>more_horiz</mat-icon>
+	</button>
+	<mat-menu #sidebarActionsMenu="matMenu">
+		<div class="d-flex flex-column gap-0 actions-menu">
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.private().profile().index()"
+			>
+				<mat-icon>person</mat-icon>
+				Profile
+			</a>
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.private().settings()"
+			>
+				<mat-icon>settings</mat-icon>
+				Settings
+			</a>
+			<button
+				mat-menu-item
+				class="d-flex align-items-center gap-2 pointer-cursor"
+				(click)="toggleTheme()"
+			>
+				<mat-icon>contrast</mat-icon>
+				Dark/Light mode
+			</button>
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.account().logout()"
+			>
+				<mat-icon>logout</mat-icon>
+				Log out
+			</a>
+		</div>
+	</mat-menu>
 </ng-template>
 
 <ng-template #mobile>
