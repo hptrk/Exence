@@ -1,11 +1,18 @@
 @use '@angular/material' as mat;
 @use '../themes/light' as light-theme;
 @use '../themes/dark' as dark-theme;
+@use '../themes/blue-dolphin' as blue-dolphin-theme;
 @use '../variables/colors-light' as light-colors;
 @use '../variables/colors-dark' as dark-colors;
+@use '../variables/colors-blue-dolphin' as blue-dolphin-colors;
 
+@include mat.core();
 @include mat.elevation-classes();
 @include mat.app-background();
+
+mat-form-field {
+	@include mat.icon-button-density(-5);
+}
 
 html {
 	@include mat.all-component-themes(light-theme.$theme);
@@ -14,11 +21,13 @@ html {
 	@include mat.form-field-density(-5);
 }
 
+// add new theme here
 html.theme-dark {
 	@include mat.all-component-colors(dark-theme.$theme);
 	@include mat.system-level-colors(dark-theme.$theme);
 }
 
-mat-form-field {
-	@include mat.icon-button-density(-5);
+html.theme-blue-dolphin {
+	@include mat.all-component-colors(blue-dolphin-theme.$theme);
+	@include mat.system-level-colors(blue-dolphin-theme.$theme);
 }

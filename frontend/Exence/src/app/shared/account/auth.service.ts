@@ -30,7 +30,7 @@ interface LoginData {
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
-  private readonly baseUrl = 'http://localhost:8080';
+  private readonly baseUrl = 'http://localhost:8080/api';
   private readonly authUrl = `${this.baseUrl}/auth`;
 
   private readonly userData = signal<UserData | null>(null);
@@ -52,7 +52,7 @@ export class AuthService {
   }
 
   login(data: LoginData) {
-    return this.http.post<AuthResponse>(`${this.authUrl}/authenticate`, data).pipe(
+    return this.http.post<AuthResponse>(`${this.authUrl}/login`, data).pipe(
       tap(response => {
         this.handleAuthResponse(response);
       }),

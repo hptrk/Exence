@@ -1,27 +1,44 @@
-// only variables, no styles in this file
 @use '@angular/material' as mat;
 @use 'sass:map';
 
 $palettes: (
 	primary: (
 		0: #000000,
-		10: #121420,
-		20: #151828,
-		25: #22233a,
-		30: #2e2f46,
-		35: #3a3b52,
-		40: #46455e,
-		50: #5e5e7a,
-		60: #767796,
-		70: #8e8fb2,
-		80: #a6a7ce,
-		90: #c9c9f2,
-		95: #e4e4fa,
-		98: #f6f6fd,
-		99: #fcfcff,
+		10: #3d0029,
+		20: #5a003f,
+		25: #6b004d,
+		30: #7d005b,
+		35: #8f0069,
+		40: #a10077,
+		50: #c60094,
+		60: #ec00b2,
+		70: #ff6ec7,
+		80: #ff9dd9,
+		90: #f2c9f2,
+		95: #ffe0f5,
+		98: #fff0fa,
+		99: #fffbff,
 		100: #ffffff,
 	),
 	secondary: (
+		0: #000000,
+		10: #001f29,
+		20: #00323f,
+		25: #083b4c,
+		30: #08495c,
+		35: #0e5066,
+		40: #1a6278,
+		50: #2d7c95,
+		60: #4397b2,
+		70: #5ab2cf,
+		80: #7ccdec,
+		90: #b8e6ff,
+		95: #ddf3ff,
+		98: #f0f9ff,
+		99: #f9fcff,
+		100: #ffffff,
+	),
+	tertiary: (
 		0: #000000,
 		10: #00210c,
 		20: #003919,
@@ -37,24 +54,6 @@ $palettes: (
 		95: #c4ffcd,
 		98: #eaffe9,
 		99: #f5fff2,
-		100: #ffffff,
-	),
-	tertiary: (
-		0: #000000,
-		10: #410005,
-		20: #68000e,
-		25: #7d0012,
-		30: #8e111c,
-		35: #9f1f26,
-		40: #b02c31,
-		50: #d24546,
-		60: #f45e5d,
-		70: #ff8984,
-		80: #ffb3af,
-		90: #ffdad7,
-		95: #ffedeb,
-		98: #fff8f7,
-		99: #fffbff,
 		100: #ffffff,
 	),
 	neutral: (
@@ -137,20 +136,19 @@ $neutral-palette: map.merge(map.get($palettes, neutral), $_rest);
 $error-palette: map.merge(map.get($palettes, error), $_rest);
 
 // predefined variables
-$app-card-color-dark: map.get($primary-palette, 20);
-$app-background-color-dark: map.get($primary-palette, 10);
+$app-card-color-blue-dolphin: map.get($secondary-palette, 35);
+$app-background-color-blue-dolphin: map.get($secondary-palette, 25);
 
-$primary-color-dark: map.get($primary-palette, 90);
-$secondary-color-dark: map.get($secondary-palette, 90);
-$secondary-color-dark: map.get($secondary-palette, 80);
-$tertiary-color-dark: map.get($tertiary-palette, 60);
-$app-hover-color-dark: map.get($primary-palette, 60);
+$primary-color-blue-dolphin: map.get($primary-palette, 70);
+$secondary-color-blue-dolphin: map.get($secondary-palette, 25);
+$tertiary-color-blue-dolphin: map.get($tertiary-palette, 60);
+$app-hover-color-blue-dolphin: map.get($primary-palette, 70);
 
-$shadow-dark: map.get($neutral-palette, 40);
-$border-color-dark: map.get($primary-palette, 10);
+$shadow-blue-dolphin: map.get($neutral-palette, 40);
+$border-color-blue-dolphin: map.get($primary-palette, 20);
 
-$default-text-color-dark: map.get($neutral-palette, 95);
-$disabled-text-color-dark: map.get($neutral-palette, 85);
-$secondary-text-color-dark: map.get($neutral-palette, 90);
+$default-text-color-blue-dolphin: map.get($primary-palette, 90);
+$disabled-text-color-blue-dolphin: map.get($neutral-palette, 85);
+$secondary-text-color-blue-dolphin: map.get($secondary-palette, 25);
 
-$error-color-dark: map.get($error-palette, 50);
+$error-color-blue-dolphin: map.get($error-palette, 50);

@@ -7,8 +7,8 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
-import { TransactionService } from '../../private/transactions/transaction.service';
-import { CategoryService } from '../../private/category.service';
+// import { TransactionService } from '../../private/transactions/transaction.service';
+// import { CategoryService } from '../../private/category.service';
 
 @Component({
 	selector: 'ex-data-table',
@@ -18,8 +18,8 @@ import { CategoryService } from '../../private/category.service';
 })
 export class DataTableComponent {
 	private dialog = inject(MatDialog);
-	private transactionService = inject(TransactionService);
-	private categoryService = inject(CategoryService);
+	// private transactionService = inject(TransactionService);
+	// private categoryService = inject(CategoryService);
 
 	icon = input.required<string>();
 	label = input.required<string>();
@@ -27,16 +27,19 @@ export class DataTableComponent {
 
 	public displayedColumns = ['title', 'date', 'amount', 'category'];
 
-	public categories = computed(() => this.categoryService.getCategories()());
-	public filteredTransactions = computed(() =>
-		this.transactionService
-			.getTransactions()()
-			.filter(transaction => transaction.type === this.formType()),
-	);
+	// public categories = computed(() => this.categoryService.getCategories()());
+	public categories = computed(() => []);
+	// public filteredTransactions = computed(() =>
+	// 	this.transactionService
+	// 		.getTransactions()()
+	// 		.filter(transaction => transaction.type === this.formType()),
+	// );
+	public filteredTransactions = computed(() => []);
 
 	protected getCategoryEmoji(categoryId: number): string {
-		const category = this.categories()?.find(category => category.id === categoryId);
-		return category ? category.emoji : '';
+		// const category = this.categories()?.find(category => category.id === categoryId);
+		// return category ? category.emoji : '';
+		return '💀';
 	}
 
 	protected openDialog(): void {
@@ -59,6 +62,6 @@ export class DataTableComponent {
 	}
 
 	protected changeCategory(transactionId: number, newCategoryId: number): void {
-		this.transactionService.changeTransactionCategory(transactionId, newCategoryId).subscribe();
+		// this.transactionService.changeTransactionCategory(transactionId, newCategoryId).subscribe();
 	}
 }

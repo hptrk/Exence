@@ -1,4 +1,7 @@
-<mat-drawer-container class="h-100">
+<mat-drawer-container
+	class="h-100"
+	themeApplier
+>
 	<mat-drawer
 		mode="side"
 		opened
@@ -36,6 +39,7 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().transactions()"
+					routerLinkActive="active"
 				>
 					<mat-icon>sync_alt</mat-icon>
 					{{ (display.isLg | async) && 'Transactions' }}
@@ -44,6 +48,7 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().statistics()"
+					routerLinkActive="active"
 				>
 					<mat-icon>leaderboard</mat-icon>
 					{{ (display.isLg | async) && 'Statistics' }}
@@ -52,6 +57,7 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().goals()"
+					routerLinkActive="active"
 				>
 					<mat-icon>emoji_events</mat-icon>
 					{{ (display.isLg | async) && 'Goals' }}
@@ -60,6 +66,7 @@
 					ex-nav-button
 					class="d-flex align-items-center gap-2"
 					[routerLink]="navigationService.private().debts()"
+					routerLinkActive="active"
 				>
 					<mat-icon>account_balance</mat-icon>
 					{{ (display.isLg | async) && 'Debts' }}

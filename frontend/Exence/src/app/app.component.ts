@@ -1,8 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ThemeService } from './shared/theme.service';
-import { TransactionService } from './private/transactions/transaction.service';
-import { CategoryService } from './private/category.service';
-import { AuthService } from './shared/account/auth.service';
+// import { TransactionService } from './private/transactions/transaction.service';
+// import { CategoryService } from './private/category.service';
+import { AuthService } from './shared/account/auth.service'; 
 import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { MatIconRegistry } from '@angular/material/icon';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
@@ -15,26 +14,21 @@ import { DomSanitizer } from '@angular/platform-browser';
 	styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-	private themeService = inject(ThemeService);
 	private authService = inject(AuthService);
-	private transactionService = inject(TransactionService);
-	private categoryService = inject(CategoryService);
+	// private transactionService = inject(TransactionService);
+	// private categoryService = inject(CategoryService);
 	private matIconRegistry = inject(MatIconRegistry);
 	private domSanitizer = inject(DomSanitizer);
 
 	ngOnInit() {
-		// Set default theme
-		const themeClass = this.themeService.isDarkTheme() ? 'dark-theme' : 'light-theme';
-		document.body.classList.add(themeClass);
-
 		// Load user
-		this.authService.fetchUserData().subscribe();
+		// this.authService.fetchUserData().subscribe();
 
 		// Load transactions
-		this.transactionService.loadTransactions().subscribe();
+		// this.transactionService.loadTransactions().subscribe();
 
 		// Load categories
-		this.categoryService.loadCategories().subscribe();
+		// this.categoryService.loadCategories().subscribe();
 
 		// Icon set
 		for (let iconName of Object.values(SvgIcons)) {

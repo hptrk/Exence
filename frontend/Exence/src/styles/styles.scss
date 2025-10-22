@@ -20,21 +20,18 @@ html {
 }
 
 body {
-	background-color: $app-background-color-light;
-	color: $default-text-color-light;
+	background-color: var(--app-background-color);
+	color: var(--default-text-color);
 	font-weight: normal;
 	line-height: 1.5;
 	margin: 0;
 	text-align: left;
 	height: 100%;
-	scrollbar-color: $primary-color-light #c9c9f2;
+	scrollbar-color: var(--primary-color) #c9c9f2;
 }
 
 html.theme-dark body {
-	background-color: $app-background-color-dark;
-	color: $default-text-color-dark;
 	color-scheme: dark;
-	scrollbar-color: $primary-color-dark #c9c9f2;
 }
 
 a {
@@ -61,14 +58,10 @@ a {
 }
 
 hr {
-	background-color: #{$accent-color-light}55;
+	background-color: alpha(--secondary-color, 55);
 	height: 1px;
 	border: none;
 	opacity: 0.36;
-}
-
-html.theme-dark hr {
-	background-color: $accent-color-dark;
 }
 
 .pointer-cursor {
@@ -79,13 +72,12 @@ html.theme-dark hr {
 	width: 100%;
 	transition: background-color 0.25s;
 	text-decoration: none;
-	background-color: #{$app-background-color-light}20;
 	padding: 8px 16px;
 	border: none;
 	color: inherit;
 	cursor: pointer;
 
 	&:hover {
-		background-color: #{$app-background-color-light};
+		background-color: var(--app-background-color);
 	}
 }

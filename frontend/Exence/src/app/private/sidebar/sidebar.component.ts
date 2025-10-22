@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule, RouterLink } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -10,6 +10,8 @@ import { NavButtonDirective } from '../../shared/nav-button/nav-button.directive
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
+import { DisplayTheme, DisplayThemeService } from '../../shared/display-theme.service';
+import { ThemeApplierDirective } from '../../shared/theme-applier.directive';
 
 @Component({
 	selector: 'ex-sidebar',
@@ -23,13 +25,17 @@ import { MatMenuModule } from '@angular/material/menu';
 		NavButtonDirective,
 		CommonModule,
 		MatMenuModule,
+		ThemeApplierDirective
 	],
 	templateUrl: './sidebar.component.html',
 	styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent extends BaseComponent {
-	public navigationService = inject(NavigationService);
-	public display = inject(DisplaySizeService);
+	readonly navigationService = inject(NavigationService);
+	readonly display = inject(DisplaySizeService);
+	readonly themeService = inject(DisplayThemeService);
 
-	toggleTheme() {}
+	toggleTheme() {
+		this.themeService.toggleTheme();
+	}
 }
