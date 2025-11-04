@@ -34,93 +34,122 @@
 		}
 	</h3>
 
-	<table
-		mat-table
-		[dataSource]="dataSource"
-		multiTemplateDataRows
-	>
-		<ng-container matColumnDef="title">
-			<th
-				mat-header-cell
-				*matHeaderCellDef
-			>
-				Title
-			</th>
-			<td
-				mat-cell
-				*matCellDef="let row"
-				class="title text-truncate"
-			>
-				<div class="table-row-item">
-					<span
-						class="text-truncate"
-						[matTooltip]="row.title"
-					>
-						{{ row.title }}
-					</span>
-				</div>
-			</td>
-		</ng-container>
-
-		@if (display.isMd | async) {
-			<ng-container matColumnDef="date">
+	<div class="overflow-y-auto overflow-x-hidden px-2">
+		<table
+			mat-table
+			[dataSource]="dataSource"
+			multiTemplateDataRows
+		>
+			<ng-container matColumnDef="title">
 				<th
 					mat-header-cell
 					*matHeaderCellDef
 				>
-					Date
+					Title
+				</th>
+				<td
+					mat-cell
+					*matCellDef="let row"
+					class="title text-truncate"
+				>
+					<div class="table-row-item">
+						<span
+							class="text-truncate"
+							[matTooltip]="row.title"
+						>
+							{{ row.title }}
+						</span>
+					</div>
+				</td>
+			</ng-container>
+
+			@if (display.isMd | async) {
+				<ng-container matColumnDef="date">
+					<th
+						mat-header-cell
+						*matHeaderCellDef
+					>
+						Date
+					</th>
+					<td
+						mat-cell
+						*matCellDef="let row"
+					>
+						<div class="table-row-item">
+							{{ row.date | date: 'yy/MM/dd' }}
+						</div>
+					</td>
+				</ng-container>
+			}
+
+			<ng-container matColumnDef="amount">
+				<th
+					mat-header-cell
+					*matHeaderCellDef
+				>
+					Amount
 				</th>
 				<td
 					mat-cell
 					*matCellDef="let row"
 				>
-					<div class="table-row-item">
-						{{ row.date | date: 'yy/MM/dd' }}
+					<!-- TODO user's current locale code, custom currency pipe -->
+					<div class="table-row-item amount {{ row.amount > 0 ? 'income' : 'expense' }}">
+						{{ row.amount | currency: 'Ft' : 'symbol' : '1.0-0' }}
 					</div>
 				</td>
 			</ng-container>
-		}
 
-		<ng-container matColumnDef="amount">
-			<th
-				mat-header-cell
-				*matHeaderCellDef
-			>
-				Amount
-			</th>
-			<td
-				mat-cell
-				*matCellDef="let row"
-			>
-				<!-- TODO user's current locale code, custom currency pipe -->
-				<div class="table-row-item amount {{ row.amount > 0 ? 'income' : 'expense' }}">
-					{{ row.amount | currency: 'Ft' : 'symbol' : '1.0-0' }}
-				</div>
-			</td>
-		</ng-container>
-
-		<ng-container matColumnDef="category">
-			<th
-				mat-header-cell
-				*matHeaderCellDef
-			>
-				Category
-			</th>
-			<td
-				mat-cell
-				*matCellDef="let row"
-			>
-				<div
-					class="table-row-item text-center"
-					[matTooltip]="row.category?.name"
+			<ng-container matColumnDef="category">
+				<th
+					mat-header-cell
+					*matHeaderCellDef
 				>
-					{{ row.category?.emoji ?? '' }}
-				</div>
-			</td>
-		</ng-container>
+					Category
+				</th>
+				<td
+					mat-cell
+					*matCellDef="let row"
+				>
+					<div
+						class="table-row-item text-center"
+						[matTooltip]="row.category?.name"
+					>
+						{{ row.category?.emoji ?? '' }}
+					</div>
+				</td>
+			</ng-container>
 
-		@if (display.isMd | async) {
-			<ng-container matColumnDef="recurring">
+			@if (display.isMd | async) {
+				<ng-container matColumnDef="recurring">
+					<th
+						mat-header-cell
+						*matHeaderCellDef
+					></th>
+					<td
+						mat-cell
+						*matCellDef="let row"
+					>
+						<div class="table-row-item">
+							@if (row.recurring) {
+								<!-- TODO tooltip showing current recurring cycle -->
+								<div
+									matTooltip="Every 2nd day"
+									class="d-flex align-items-center justify-content-center"
+								>
+									<mat-icon
+										size="sm"
+										class="d-flex align-items-center justify-content-center"
+										>cached</mat-icon
+									>
+								</div>
+							}
+						</div>
+					</td>
+				</ng-container>
+			}
+
+			<ng-container matColumnDef="actions">
 				<th
 					mat-header-cell
 					*matHeaderCellDef
@@ -129,113 +158,86 @@
 					mat-cell
 					*matCellDef="let row"
 				>
-					<div class="table-row-item">
-						@if (row.recurring) {
-							<!-- TODO tooltip showing current recurring cycle -->
+					<div class="table-row-item d-flex gap-2 align-items-center justify-content-end actions">
+						@if (!nonExpandable()) {
 							<div
-								matTooltip="Every 2nd day"
+								matTooltip="Actions"
+								[class.hidden]="nonExpandable() || expandedElement !== row"
 								class="d-flex align-items-center justify-content-center"
 							>
-								<mat-icon
-									size="sm"
+								<mat-icon (click)="$event.stopPropagation()">more_vert</mat-icon>
+							</div>
+							@if (expandedElement === row) {
+								<div
+									matTooltip="Hide details"
 									class="d-flex align-items-center justify-content-center"
-									>cached</mat-icon
 								>
-							</div>
+									<mat-icon>expand_less</mat-icon>
+								</div>
+							} @else {
+								<div
+									matTooltip="Show details"
+									class="d-flex align-items-center justify-content-center"
+								>
+									<mat-icon>expand_more</mat-icon>
+								</div>
+							}
 						}
 					</div>
 				</td>
 			</ng-container>
-		}
 
-		<ng-container matColumnDef="actions">
-			<th
-				mat-header-cell
-				*matHeaderCellDef
-			></th>
-			<td
-				mat-cell
-				*matCellDef="let row"
-			>
-				<div class="table-row-item d-flex gap-2 align-items-center justify-content-end actions">
-					@if (!nonExpandable()) {
-						<div
-							matTooltip="Actions"
-							[class.hidden]="nonExpandable() || expandedElement !== row"
-							class="d-flex align-items-center justify-content-center"
-						>
-							<mat-icon (click)="$event.stopPropagation()">more_vert</mat-icon>
+			@if (!nonExpandable()) {
+				<ng-container matColumnDef="expandedRow">
+					<td
+						mat-cell
+						*matCellDef="let row"
+						[attr.colspan]="displayedColumns.length"
+					>
+						<div class="table-row-item">
+							<form
+								class="detail-container"
+								[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
+							>
+								<!-- TODO DETAILS -->
+								<div>
+									<mat-form-field>
+										<mat-label>Notes</mat-label>
+										<textarea
+											name="note"
+											id="note"
+											placeholder="Transaction notes..."
+											class="note"
+											matInput
+											[formControl]="note"
+										></textarea>
+									</mat-form-field>
+								</div>
+							</form>
 						</div>
-						@if (expandedElement === row) {
-							<div
-								matTooltip="Hide details"
-								class="d-flex align-items-center justify-content-center"
-							>
-								<mat-icon>expand_less</mat-icon>
-							</div>
-						} @else {
-							<div
-								matTooltip="Show details"
-								class="d-flex align-items-center justify-content-center"
-							>
-								<mat-icon>expand_more</mat-icon>
-							</div>
-						}
-					}
-				</div>
-			</td>
-		</ng-container>
+					</td>
+				</ng-container>
+			}
 
-		@if (!nonExpandable()) {
-			<ng-container matColumnDef="expandedRow">
-				<td
-					mat-cell
-					*matCellDef="let row"
-					[attr.colspan]="displayedColumns.length"
-				>
-					<div class="table-row-item">
-						<form
-							class="detail-container"
-							[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
-						>
-							<!-- TODO DETAILS -->
-							<div>
-								<mat-form-field>
-									<mat-label>Notes</mat-label>
-									<textarea
-										name="note"
-										id="note"
-										placeholder="Transaction notes..."
-										class="note"
-										matInput
-										[formControl]="note"
-									></textarea>
-								</mat-form-field>
-							</div>
-						</form>
-					</div>
-				</td>
-			</ng-container>
-		}
-
-		<tr
-			mat-header-row
-			*matHeaderRowDef="displayedColumns"
-		></tr>
-		<tr
-			mat-row
-			*matRowDef="let row; columns: displayedColumns"
-			class="table-row"
-			[class.expanded]="expandedElement === row"
-			(click)="toggleExpand(row)"
-		></tr>
-		@if (!nonExpandable()) {
+			<tr
+				mat-header-row
+				*matHeaderRowDef="displayedColumns"
+			></tr>
 			<tr
 				mat-row
-				*matRowDef="let row; columns: ['expandedRow']"
-				class="expanded-detail-row"
-				style="height: 0"
+				*matRowDef="let row; columns: displayedColumns"
+				class="table-row"
+				[class.expanded]="expandedElement === row"
+				(click)="toggleExpand(row)"
 			></tr>
-		}
-	</table>
+			@if (!nonExpandable()) {
+				<tr
+					mat-row
+					*matRowDef="let row; columns: ['expandedRow']"
+					class="expanded-detail-row"
+					style="height: 0"
+				></tr>
+			}
+		</table>
+	</div>
 </div>

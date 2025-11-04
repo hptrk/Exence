@@ -36,31 +36,6 @@
 	align-items: center;
 }
 
-@mixin scrollbar-base {
-	& {
-		scrollbar-color: var(--primary-color) #c9c9f2;
-		scrollbar-width: thin;
-	}
-
-	&::-webkit-scrollbar {
-		height: 8px;
-		width: 8px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background: #c9c9f2;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		border-radius: 3px;
-		background: var(--primary-color);
-	}
-
-	&::-webkit-scrollbar-thumb:hover {
-		background: black;
-	}
-}
-
 @mixin generate-bootstrap-theme($prefix, $primary, $secondary, $tertiary, $error, $bg, $text, $border, $card-bg) {
   
   .#{$prefix} {
