@@ -12,11 +12,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
-
-enum TransactionType {
-	INCOME = 'INCOME',
-	EXPENSE = 'EXPENSE'
-} 
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -25,6 +21,10 @@ enum TransactionType {
 	styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+
+	transacrionTypes = TransactionType;	
+
+
 	// private transactionService = inject(TransactionService);
 	// private categoryService = inject(CategoryService);
 	private authService = inject(AuthService);
@@ -56,8 +56,8 @@ export class DashboardComponent implements OnInit {
 			const categorySpending: Record<number, number> = {};
 
 			this.expenses().forEach(transaction => {
-				categorySpending[transaction.categoryId] =
-					(categorySpending[transaction.categoryId] || 0) + transaction.amount;
+				// categorySpending[transaction.categoryId] =
+				// 	(categorySpending[transaction.categoryId] || 0) + transaction.amount;
 			});
 
 			let highestId: number | null = null;

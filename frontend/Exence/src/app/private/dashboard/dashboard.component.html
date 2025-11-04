@@ -1,7 +1,7 @@
-<section class="d-flex flex-column h-100 justif-content-between px-3 py-4 p-md-5 gap-5">
+<section class="d-flex flex-column h-100 justif-content-between p-1 p-sm-3 p-md-4 gap-0">
 	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
 		<div>
-			<h1 class="fs-1 m-0 text-center text-md-start">
+			<h1 class="m-0 text-center text-md-start {{ (display.isSm | async) ? 'fs-1' : 'fs-2' }}">
 				Welcome back, <span class="username">{{ username() || 'PLACEHOLDER' }}</span
 				>!
 			</h1>
@@ -12,7 +12,7 @@
 		}
 	</div>
 
-	<div class="d-flex flex-column-reverse flex-md-column gap-5">
+	<div class="d-flex flex-column-reverse flex-md-column justify-content-between gap-4 h-100">
 		<div
 			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
 		>
@@ -48,7 +48,7 @@
 				<ex-summary-container
 					icon="receipt_long"
 					[label]="highestSpendingCategory().name"
-					[value]="92600"
+					[value]="-92600"
 				/>
 			</div>
 		}
@@ -56,24 +56,24 @@
 		@if (display.isMd | async) {
 			<div class="row">
 				<ex-data-table
-					formType="expense"
+					[type]="transacrionTypes.EXPENSE"
 					class="col-6"
-					icon="money_off"
-					label="Expenses"
+					matIcon="money_off"
+					[data]="[]"
 				/>
 				<ex-data-table
-					formType="income"
+					[type]="transacrionTypes.INCOME"
 					class="col-6"
-					icon="attach_money"
-					label="Incomes"
+					matIcon="attach_money"
+					[data]="[]"
 				/>
 			</div>
 		} @else {
 			<div class="d-flex flex-column gap-4 align-items-center">
 				<ex-data-table
 					class="w-100"
-					icon="attach_money"
-					label="Movements"
+					matIcon="attach_money"
+					[data]="[]"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
 			</div>

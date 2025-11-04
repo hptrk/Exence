@@ -5,6 +5,7 @@
 @import './bootstrap.scss';
 @import './components/icon.scss';
 @import './components/menu.scss';
+@import './components/tooltip.scss';
 @import './fonts/material-icons.scss';
 
 * {
@@ -56,7 +57,7 @@ a {
 }
 
 hr {
-	background-color: lighten(--secondary-color, 55%);
+	background-color: lighten(--secondary-color, 45%);
 	height: 1px;
 	border: none;
 	opacity: 0.36;
@@ -86,4 +87,13 @@ hr {
 	@include displayXl {
 		padding: 8px 16px;
 	}
+}
+
+.highlighted-icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
+	background-color: var(--app-background-color);
+	padding: 4px;
 }

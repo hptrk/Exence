@@ -145,7 +145,7 @@ $tertiary-color-blue-dolphin: map.get($tertiary-palette, 60);
 $app-hover-color-blue-dolphin: map.get($primary-palette, 70);
 
 $shadow-blue-dolphin: map.get($neutral-palette, 17);
-$border-color-blue-dolphin: map.get($primary-palette, 20);
+$border-color-blue-dolphin: map.get($secondary-palette, 30);
 
 $default-text-color-blue-dolphin: map.get($primary-palette, 90);
 $disabled-text-color-blue-dolphin: map.get($neutral-palette, 85);

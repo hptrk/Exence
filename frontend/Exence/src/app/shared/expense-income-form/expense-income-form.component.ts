@@ -75,7 +75,7 @@ export class ExpenseIncomeFormComponent implements OnInit {
 		const today = moment();
 		this.form = this.fb.group({
 			title: [this.transaction()?.title || '', Validators.required],
-			categoryId: [this.transaction()?.categoryId || '', Validators.required],
+			categoryId: ['', Validators.required],
 			amount: [
 				this.transaction() ? Math.abs(this.transaction()!.amount) : '',
 				[Validators.required, Validators.min(1)],

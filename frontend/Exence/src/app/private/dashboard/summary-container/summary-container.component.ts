@@ -20,7 +20,7 @@ export class SummaryContainerComponent {
 		return this.value() == 0
 			? 'var(--on-surface) '
 			: this.value()! > 0
-				? 'var(--mat-sys-secondary-fixed)'
-				: 'var(--mat-sys-tertiary-fixed)';
+				? 'var(--bs-success)'
+				: 'var(--bs-danger)';
 	}
 }

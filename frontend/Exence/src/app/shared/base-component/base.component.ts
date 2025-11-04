@@ -2,7 +2,9 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SvgIcons } from '../svg-icons/svg-icons';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export abstract class BaseComponent implements OnDestroy {
 	svgIcons = SvgIcons;
 

@@ -48,10 +48,10 @@ export class CategoriesComponent extends BaseComponent implements OnInit, OnChan
 		let totalSpent = 0;
 
 		this.expenses()?.forEach(transaction => {
-			const category =
-				this.categories()?.find(category => category.id === transaction.categoryId)?.name || 'Unknown';
-			categoryTotals[category] = (categoryTotals[category] || 0) + Math.abs(transaction.amount);
-			totalSpent += Math.abs(transaction.amount);
+			// const category =
+			// 	this.categories()?.find(category => category.id === transaction.categoryId)?.name || 'Unknown';
+			// categoryTotals[category] = (categoryTotals[category] || 0) + Math.abs(transaction.amount);
+			// totalSpent += Math.abs(transaction.amount);
 		});
 
 		this.categoryPercentages = Object.keys(categoryTotals)

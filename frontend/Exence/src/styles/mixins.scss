@@ -100,3 +100,10 @@
     --bs-link-hover-color: #{darken($primary, 15%)};
   }
 }
+
+@mixin card {
+	background-color: var(--app-card-color);
+	color: var(--default-text-color);
+	border-radius: 20px;
+	padding: 1rem;
+}
