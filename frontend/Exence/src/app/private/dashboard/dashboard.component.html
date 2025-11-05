@@ -1,4 +1,4 @@
-<section class="d-flex flex-column h-100 justif-content-between p-1 p-sm-3 p-md-4 gap-0">
+<section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
 	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
 		<div>
 			<h1 class="m-0 text-center text-md-start {{ (display.isSm | async) ? 'fs-1' : 'fs-2' }}">
@@ -12,7 +12,10 @@
 		}
 	</div>
 
-	<div class="d-flex flex-column-reverse flex-md-column justify-content-between gap-4 h-100 overflow-hidden">
+	<div
+		class="d-flex flex-column-reverse flex-md-column justify-content-between gap-4 h-100"
+		[class.overflow-hidden]="display.isLg | async"
+	>
 		<div
 			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
 		>
@@ -54,22 +57,22 @@
 		}
 
 		@if (display.isMd | async) {
-			<div class="row h-100">
+			<div class="row gap-4 gap-lg-0 h-100 overflow-hidden">
 				<ex-data-table
 					[type]="transacrionTypes.EXPENSE"
-					class="col-6"
+					class="col-12 col-lg-6"
 					matIcon="money_off"
 					[data]="[]"
 				/>
 				<ex-data-table
 					[type]="transacrionTypes.INCOME"
-					class="col-6"
+					class="col-12 col-lg-6"
 					matIcon="attach_money"
 					[data]="[]"
 				/>
 			</div>
 		} @else {
-			<div class="d-flex flex-column gap-4 align-items-center">
+			<div class="d-flex flex-column gap-4 align-items-center h-100">
 				<ex-data-table
 					class="w-100"
 					matIcon="attach_money"

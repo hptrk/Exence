@@ -2,6 +2,7 @@
 
 :host {
 	height: 100%;
+	
 }
 
 .table-container {
@@ -14,6 +15,11 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+
+	max-height: 500px;
+	@include displayLg {
+		max-height: unset;
+	}
 
 	@include card;
 }
@@ -34,39 +40,41 @@ table {
 		font-weight: 600;
 	}
 
+	tr.mat-mdc-header-row {
+		height: 0;
+
+		@include displaySm {
+			height: var(--mat-table-header-container-height);
+		}
+	}
+
 	@include displayMd {	
-		td:nth-child(1) {
-			width: auto;
-		}
-		td:nth-child(2) {
-			width: 20%;
-		}
-		td:nth-child(3) {
-			width: 15%;
-		}
-		td:nth-child(4) {
-			width: 5%;
-		}
-		td:nth-child(5) {
-			width: 5%;
+		th.mat-mdc-header-cell {
 			padding: 0;
 		}
-		td:nth-child(6) {
-			width: 5%;
-			padding-left: 0;
+		th.mat-column-title {
+			width: 35%;
+		}
+
+		th.mat-column-category {
+			width: 15%;
 		}
 	}
 }
 
-td[mat-cell].mdc-data-table__cell {
-	padding: 8px;
+td[mat-cell].mat-mdc-cell {
+	padding: 0;
 
 	&.title {
-		max-width: 15ch;
+		max-width: 10ch;
 	}
-	
-	@include displaySm {
-		padding: 0;		
+
+	.table-row-item {
+		padding: 0 4px;
+		
+		@include displaySm {
+			padding: 0;
+		}
 	}
 }
 
@@ -86,7 +94,7 @@ tr.mat-mdc-row.expanded-detail-row {
 }
 
 tr:not(.expanded-detail-row) td {
-	&:not(:first-of-type):not(:last-of-type) .table-row-item {
+	&:not(.title):not(.actions) .table-row-item {
 		justify-content: center;
 	}
 
@@ -118,8 +126,9 @@ tr:not(.expanded-detail-row) .table-row-item {
 	height: 50px;
 	display: flex;
 	align-items: center;
-	padding: 0 14px;
 }
+
+
 
 tr.table-row:nth-child(even of .table-row) {
 	.table-row-item {
@@ -206,4 +215,10 @@ tr.expanded + tr .detail-container {
 .hidden {
 	opacity: 0;
 	pointer-events: none;
+}
+
+.recurring {
+	height: 100%;
+	overflow: hidden;
+	background-color: var(--primary-color);
 }

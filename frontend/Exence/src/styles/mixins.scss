@@ -80,5 +80,9 @@
 	background-color: var(--app-card-color);
 	color: var(--default-text-color);
 	border-radius: 20px;
-	padding: 1rem;
+	padding: 0.5rem;
+
+	@include displaySm {
+		padding: 1rem;
+	}
 }

@@ -1,5 +1,13 @@
 @import "../../../styles/imports.scss";
 
+:host {
+	display: block;
+	height: unset;
+	@include displayLg {
+		height: 100%;
+	}
+}
+
 span.username {
 	font-weight: bold;
 	color: var(--primary-color);

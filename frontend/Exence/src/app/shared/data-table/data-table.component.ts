@@ -255,9 +255,9 @@ export class DataTableComponent extends BaseComponent {
 
 		this.addSubscription(this.display.isMd.subscribe(isMd => {
 			if (isMd) {
-				this.displayedColumns = ['title', 'date', 'amount', 'category', 'recurring', 'actions'];
+				this.displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
 			} else {
-				this.displayedColumns = ['title', 'amount', 'category', 'actions'];		
+				this.displayedColumns = ['title', 'date', 'amount', 'category'];		
 			}
 		}));
 
