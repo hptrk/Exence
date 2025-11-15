@@ -32,26 +32,48 @@
 		</div>
 
 		@if (display.isMd | async) {
-			<div class="summary-container">
+			<div
+				class="d-flex flex-row align-items-center gap-4"
+				ex-card-slider
+			>
 				<ex-summary-container
-					icon="attach_money"
-					label="Income"
-					[value]="856400"
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'attach_money',
+						title: 'Income',
+						value: 856400,
+						type: summaryTypes.INCOME
+					}"
 				/>
 				<ex-summary-container
-					icon="money_off"
-					label="Expenses"
-					[value]="210460"
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'money_off',
+						title: 'Expenses',
+						value: 210460,
+						type: summaryTypes.EXPENSE
+					}"
 				/>
 				<ex-summary-container
-					icon="savings"
-					label="Balance"
-					[value]="645940"
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'savings',
+						title: 'Balance',
+						value: 645940,
+						type: summaryTypes.BALANCE
+					}"
 				/>
 				<ex-summary-container
-					icon="receipt_long"
-					[label]="highestSpendingCategory().name"
-					[value]="-92600"
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'receipt_long',
+						title: highestSpendingCategory().name || 'Utilities',
+						value: 0,
+						type: summaryTypes.OTHER,
+						filterCondition: {
+							category: highestSpendingCategory().name || 'Utilities'
+						}
+					}"
 				/>
 			</div>
 		}

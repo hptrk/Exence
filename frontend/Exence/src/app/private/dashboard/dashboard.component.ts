@@ -1,6 +1,6 @@
 import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
-import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
+import { SummaryContainerComponent, SummaryType } from '../../private/dashboard/summary-container/summary-container.component';
 import { ChartComponent } from '../../shared/chart/chart.component';
 import { CategoriesComponent } from '../../private/dashboard/categories/categories.component';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
@@ -13,23 +13,29 @@ import { MatButton } from "@angular/material/button";
 import { MatDialog } from '@angular/material/dialog';
 import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { CardSliderDirective } from "../../shared/card-slider.directive";
+import { Router, RouterModule } from '@angular/router';
+import { NavigationService } from '../../shared/navigation/navigation.service';
 
 @Component({
 	selector: 'ex-dashboard',
-	imports: [SummaryContainerComponent, DataTableComponent, ChartComponent, CategoriesComponent, ViewToggleComponent, AsyncPipe, CommonModule, MatButton],
+	imports: [SummaryContainerComponent, DataTableComponent, ChartComponent, CategoriesComponent, ViewToggleComponent, AsyncPipe, CommonModule, MatButton, CardSliderDirective, RouterModule],
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+	private authService = inject(AuthService);
+	public display = inject(DisplaySizeService);
+	public dialog = inject(MatDialog);
+	public router = inject(Router);
+	public navigation = inject(NavigationService);
 
 	transacrionTypes = TransactionType;	
+	summaryTypes = SummaryType;
 
 
 	// private transactionService = inject(TransactionService);
 	// private categoryService = inject(CategoryService);
-	private authService = inject(AuthService);
-	public display = inject(DisplaySizeService);
-	public dialog = inject(MatDialog);
 
 	// public transactions = this.transactionService.getTransactions();
 	public transactions = computed(() => []);

@@ -1,17 +1,24 @@
-.summary {
-	display: flex;
+@import "../../../../styles/imports.scss";
+
+
+mat-card.mat-mdc-card {
 	flex-direction: row;
 	align-items: center;
 	justify-content: start;
-	background-color: var(--surface);
+	gap: 1rem;
+
 	height: auto;
 	width: 100%;
 	padding: 0.5rem 1.2rem 0.5rem 0.5rem;
-	border-radius: 2rem;
-	gap: 1rem;
+
 	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-	flex-grow: 1;
+	transition: background 0.3s ease-in-out;
+
+	&:hover {
+		background-color: lighten(var(--mat-card-elevated-container-color), 5%);
+	}
 }
+
 .icon-container {
 	width: 4.5rem;
 	height: 4.5rem;
@@ -21,24 +28,7 @@
 	align-items: center;
 	justify-content: center;
 }
-.text-container {
-	display: flex;
-	flex-direction: column;
-	align-items: start;
-	justify-content: center;
-	font-size: var(--size-lg);
-	gap: 0.5rem;
 
-	.label {
-		font-size: var(--size-md);
-	}
-	.value {
-		font-size: var(--size-lg);
-		font-weight: bold;
-	}
-}
-mat-icon {
-	font-size: 45px;
-	height: auto;
-	width: auto;
+.amount {
+	white-space: nowrap;
 }

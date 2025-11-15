@@ -1,0 +1,14 @@
+mat-card.mat-mdc-card {
+	--mat-card-elevated-container-color:  var(--app-card-color);
+	
+	border-radius: 20px;
+
+	[ex-card-icon] {
+		padding: 0.5rem;
+		background-color: var(--app-background-color);
+		border-radius: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}

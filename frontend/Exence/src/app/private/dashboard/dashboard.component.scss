@@ -26,23 +26,6 @@ ex-categories {
 	min-width: 250px;
 }
 
-ex-summary-container {
-	min-width: 200px;
-	flex-grow: 1;
-}
-
-.summary-container {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(200px, 1fr));
-	grid-template-rows: repeat(2, 1fr);
-	gap: 1.5rem;
-	
-	@include displayXl {
-		grid-template-columns: repeat(4, minmax(200px, 1fr));
-		grid-template-rows: 1fr;
-	}
-}
-
 button {
 	--mat-button-filled-container-shape: 12px;
 	--mat-button-filled-label-text-size: 14px;
