@@ -1,0 +1,43 @@
+@if (iconButton()) {
+	<button
+		class="d-flex justify-content-center align-items-center"
+		mat-icon-button
+		[disabled]="disabled()"
+		[type]="type()"
+		[color]="color()"
+	>
+		<ng-container [ngTemplateOutlet]="icon" />
+	</button>
+} @else {
+	<button
+		[matButton]="appearance"
+		[disabled]="disabled()"
+		[type]="type()"
+		[color]="color()"
+		[class.collapsed]="!shouldNotCollapse()"
+	>
+		<div class="d-flex flex-row flex-nowrap justify-content-center align-items-center gap-2">
+			@if (iconPositionEnd()) {
+				<ng-container [ngTemplateOutlet]="text" />
+				<ng-container [ngTemplateOutlet]="icon" />
+			} @else {
+				<ng-container [ngTemplateOutlet]="icon" />
+				<ng-container [ngTemplateOutlet]="text" />
+			}
+		</div>
+	</button>
+}
+
+<ng-template #text>
+	@if (shouldNotCollapse()) {
+		<ng-content />
+	}
+</ng-template>
+
+<ng-template #icon>
+	@if (svgIcon()) {
+		<mat-icon [svgIcon]="svgIcon()!" />
+	} @else if (matIcon()) {
+		<mat-icon>{{ matIcon() }}</mat-icon>
+	}
+</ng-template>

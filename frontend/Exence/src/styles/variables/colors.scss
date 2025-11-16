@@ -8,6 +8,7 @@
 	--secondary-color: #{$secondary-color-blue-dolphin};
 	--tertiary-color: #{$tertiary-color-blue-dolphin};
 	--error-color: #{$error-color-blue-dolphin};
+	--warn-color: #F1CD39;
 	
 	--app-hover-color: #{$app-hover-color-blue-dolphin};
 	
@@ -18,7 +19,7 @@
 	--border-color: #{$border-color-blue-dolphin};
 	
 	--default-text-color: #{$default-text-color-blue-dolphin};
-	--disabled-text-color: #{$disabled-text-color-blue-dolphin};
+	--accent-text-color: #{$accent-text-color-blue-dolphin};
 	--secondary-text-color: #{$secondary-text-color-blue-dolphin};
 }
 
@@ -37,7 +38,7 @@ html.theme-light {
 	--border-color: #{$border-color-light};
 	
 	--default-text-color: #{$default-text-color-light};
-	--disabled-text-color: #{$disabled-text-color-light};
+	--accent-text-color: #{$accent-text-color-light};
 	--secondary-text-color: #{$secondary-text-color-light};
 }
 
@@ -56,7 +57,7 @@ html.theme-dark {
 	--border-color: #{$border-color-dark};
 	
 	--default-text-color: #{$default-text-color-dark};
-	--disabled-text-color: #{$disabled-text-color-dark};
+	--accent-text-color: #{$accent-text-color-dark};
 	--secondary-text-color: #{$secondary-text-color-dark};
 }
 
@@ -75,6 +76,6 @@ html.theme-blue-dolphin {
 	--border-color: #{$border-color-blue-dolphin};
 	
 	--default-text-color: #{$default-text-color-blue-dolphin};
-	--disabled-text-color: #{$disabled-text-color-blue-dolphin};
+	--accent-text-color: #{$accent-text-color-blue-dolphin};
 	--secondary-text-color: #{$secondary-text-color-blue-dolphin};
 }
