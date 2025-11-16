@@ -53,7 +53,7 @@
 				<td
 					mat-cell
 					*matCellDef="let row"
-					class="title text-truncate"
+					class="text-truncate"
 				>
 					<div class="table-row-item ps-0 pe-3 overflow-hidden">
 						<div
@@ -104,7 +104,7 @@
 					*matCellDef="let row"
 				>
 					<!-- TODO user's current locale code, custom currency pipe -->
-					<div class="table-row-item amount {{ row.amount > 0 ? 'income' : 'expense' }}">
+					<div class="table-row-item fw-semibold amount {{ row.amount > 0 ? 'income' : 'expense' }}">
 						{{ row.amount | currency: 'Ft' : 'symbol' : '1.0-0' }}
 					</div>
 				</td>
@@ -142,11 +142,11 @@
 						mat-cell
 						*matCellDef="let row"
 					>
-						<div class="table-row-item d-flex gap-2 align-items-center justify-content-end pe-2 actions">
+						<div class="table-row-item d-flex gap-2 align-items-center justify-content-end pe-2">
 							@if (!nonExpandable()) {
 								<div
 									matTooltip="Actions"
-									[class.hidden]="nonExpandable() || expandedElement !== row"
+									[class.hidden]="expandedElement !== row"
 									class="d-flex align-items-center justify-content-center"
 								>
 									<mat-icon (click)="$event.stopPropagation()">more_vert</mat-icon>
@@ -179,7 +179,7 @@
 						*matCellDef="let row"
 						[attr.colspan]="displayedColumns.length"
 					>
-						<div class="table-row-item">
+						<div class="detail-row-item">
 							<form
 								class="detail-container"
 								[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
@@ -212,6 +212,7 @@
 				mat-row
 				*matRowDef="let row; columns: displayedColumns"
 				class="table-row"
+				[class.non-expandable]="nonExpandable()"
 				[class.expanded]="expandedElement === row"
 				(click)="toggleExpand(row)"
 			></tr>
