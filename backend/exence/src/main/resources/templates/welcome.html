@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Exence!</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #2196F3; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background-color: #f9f9f9; }
+        .button { display: inline-block; padding: 12px 24px; background-color: #2196F3; color: white; text-decoration: none; border-radius: 4px; margin: 20px 0; }
+        .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+        .features { background-color: white; padding: 15px; border-radius: 4px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎉 Welcome to Exence!</h1>
+    </div>
+    <div class="content">
+        <p>Hello <strong>{{username}}</strong>,</p>
+        <p>Welcome to Exence! Your email has been verified and your account is now active.</p>
+        <div class="features">
+            <h3>What you can do now:</h3>
+            <ul>
+                <li>📊 Track your income and expenses</li>
+                <li>📈 View detailed financial reports</li>
+                <li>🏷️ Organize transactions with categories</li>
+                <li>💡 Get insights into your spending habits</li>
+            </ul>
+        </div>
+        <p>Ready to take control of your finances?</p>
+        <a href="{{dashboardUrl}}" class="button">Get Started</a>
+    </div>
+    <div class="footer">
+        <p>Best regards,<br>The Exence Team</p>
+        <p>Need help? Contact us at support@exence.com</p>
+    </div>
+</div>
+</body>
+</html>

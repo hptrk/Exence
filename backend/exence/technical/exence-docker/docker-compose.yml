@@ -1,5 +1,3 @@
-version: '3.8'
-
 name: exence
 services:
   exence-pg:
@@ -7,13 +5,22 @@ services:
     container_name: exence-postgres
     restart: always
     ports:
-      - "6969:5432"
+      - "${DB_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: exencedev
-      POSTGRES_PASSWORD: exencepwd
-      POSTGRES_DB: exence_db
-    volumes:
-      - pgdata:/var/lib/postgresql/data
+      POSTGRES_USER: ${DB_USERNAME:-exencedev}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-exencepwd}
+      POSTGRES_DB: ${DB_NAME:-exence_db}
+
+  maildev:
+    image: maildev/maildev
+    container_name: exence-maildev
+    restart: always
+    ports:
+      - "6808:1080"  # Web UI
+      - "6800:1025"  # SMTP server
+    environment:
+      - MAILDEV_WEB_PORT=1080
+      - MAILDEV_SMTP_PORT=1025
 
 volumes:
   pgdata:

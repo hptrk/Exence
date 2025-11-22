@@ -1,36 +1,106 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.config.properties.ExenceProperties;
+import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.Token;
-import com.exence.finance.modules.auth.repository.TokenRepository;
+import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.auth.repository.UserRepository;
+import com.exence.finance.modules.auth.service.LogoutService;
+import com.exence.finance.modules.auth.service.RequestContextService;
+import com.exence.finance.modules.auth.service.TokenManagementService;
+import com.exence.finance.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class LogoutServiceImpl implements LogoutHandler {
-    private final TokenRepository tokenRepository;
+@Slf4j
+public class LogoutServiceImpl implements LogoutHandler, LogoutService {
+    private final JwtService jwtService;
+    private final UserRepository userRepository;
+    private final ExenceProperties exenceProperties;
+    private final TokenManagementService tokenManagementService;
+    private final RequestContextService requestContextService;
 
     @Override
+    @Transactional
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
-        final String authHeader = request.getHeader("Authorization");
-        final String jwt;
+        SecurityContextHolder.clearContext();
 
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            return;
+        final String jwt = requestContextService.extractBearerToken();
+        if (jwt == null) return;
+
+        try {
+            if (exenceProperties.isLogoutFromAllDevices()) {
+                logoutFromAllDevices(jwt);
+            } else {
+                logoutFromCurrentDevice(jwt);
+            }
+        } catch (Exception e) {
+            log.warn("Error during logout token cleanup: {}", e.getMessage());
         }
+    }
 
-        jwt = authHeader.substring(7);
-        Token storedToken = tokenRepository.findByToken(jwt).orElse(null);
-        if(storedToken != null){
-            storedToken.setExpired(true);
-            storedToken.setRevoked(true);
-            tokenRepository.save(storedToken);
-            SecurityContextHolder.clearContext();
+    private void logoutFromAllDevices(String jwt) {
+        try {
+            String userEmail = jwtService.extractUsername(jwt);
+            String jwtId = jwtService.extractJwtId(jwt);
+            if (userEmail == null || jwtId == null) {
+                return;
+            }
+
+            User user = userRepository.findByEmail(userEmail).orElse(null);
+            if (user == null) {
+                return;
+            }
+
+            int revokedTokens = tokenManagementService.revokeUserTokensByTypes(
+                    user,
+                    List.of(TokenType.ACCESS, TokenType.REFRESH)
+            );
+
+            log.info("Logout from all devices - User: {}, Revoked tokens: {}",
+                    userEmail, revokedTokens);
+        } catch (Exception e) {
+            log.warn("Error during logout from all devices: {}", e.getMessage());
+        }
+    }
+
+    private void logoutFromCurrentDevice(String jwt) {
+        try {
+            final String userEmail = jwtService.extractUsername(jwt);
+            final String jwtId = jwtService.extractJwtId(jwt);
+
+            if (userEmail == null || jwtId == null) {
+                return;
+            }
+
+            User user = userRepository.findByEmail(userEmail).orElse(null);
+            if (user == null) {
+                return;
+            }
+
+            Token currentToken = tokenManagementService.getTokenByJwtId(jwtId);
+            if (currentToken == null) {
+                return;
+            }
+
+            String sessionId = currentToken.getSessionId();
+            if (sessionId != null) {
+                tokenManagementService.revokeUserTokensBySessionId(user.getId(), sessionId);
+            }
+
+        } catch (Exception e) {
+            log.warn("Error during logout from current device: {}", e.getMessage());
         }
     }
 }

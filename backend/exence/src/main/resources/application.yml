@@ -1,21 +1,53 @@
 exence:
+  database:
+    host: ${DB_HOST:localhost}
+    port: ${DB_PORT:5432}
+    name: ${DB_NAME:exence_db}
   email:
-    whitelist-only: true
+    domain-whitelist-only: false
+    verification-required-paths:
+      - /api/statistics
+      - /api/goals
+    rate-limiting:
+      enabled: true
+      cooldown-minutes-between-sends: 2
+  frontend-url: ${FRONTEND_URL:http://localhost:4200}
+  logout-from-all-devices: true
+  password-history-count: 3
+
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:6969/exence_db
-    username: exencedev
-    password: exencepwd
+    url: jdbc:postgresql://${exence.database.host}:${exence.database.port}/${exence.database.name}
+    username: ${DB_USERNAME:exencedev}
+    password: ${DB_PASSWORD:exencepwd}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:6800}
+    username: ${MAIL_USERNAME:noreply@exence.com}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+            required: false
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
 
 # jwt configuration
 jwt:
-  secret: 1d2c3b4a5f6e7d8c9b0a1e2f3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2
-  expiration: 86400000
-  refreshExpiration: 604800000
+  secret: ${JWT_SECRET:1d2c3b4a5f6e7d8c9b0a1e2f3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2}
+  access-token-expiration: 30m
+  refresh-token-expiration: 14d
+  email-verification-token-expiration: 24h
+  password-reset-token-expiration: 15m
+  cleanup-interval: 3600000 # 1 hour in milliseconds
 
 # logging configuration
 logging:

@@ -51,13 +51,14 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Transactional
     public TransactionDTO createTransaction(TransactionDTO transactionDTO) {
+        User user = userService.getCurrentUser();
         Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
 
         Category category = categoryRepository.find(transactionDTO.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
 
         transaction.setCategory(category);
-        transaction.setUser(userService.getCurrentUser());
+        transaction.setUser(user);
 
         Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.mapToTransactionDTO(savedTransaction);

@@ -1,6 +1,7 @@
 package com.exence.finance.modules.auth.entity;
 
 import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.email.entity.EmailLog;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -38,8 +39,8 @@ import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LE
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false, exclude = { "transactions", "categories", "tokens" })
-@ToString(callSuper = true, exclude = { "transactions", "categories", "tokens", "password" })
+@EqualsAndHashCode(callSuper = false, exclude = { "transactions", "categories", "tokens", "emailLogs", "passwordHistories" })
+@ToString(callSuper = true, exclude = { "transactions", "categories", "tokens", "password", "emailLogs", "passwordHistories" })
 @Table(name = "_user",
         uniqueConstraints = {
                 @UniqueConstraint(name = "uk_user_email", columnNames = "EMAIL")
@@ -83,6 +84,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Token> tokens;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EmailLog> emailLogs;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<PasswordHistory> passwordHistories;
+
     // Spring Security UserDetails implementation
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -120,6 +127,12 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        // Users are enabled but some features may require email verification
+        // This allows unverified users to still access basic functionality
         return true;
+    }
+    
+    public boolean isFullyEnabled() {
+        return isEnabled() && emailVerified;
     }
 }
