@@ -1,4 +1,4 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from '@angular/material/dialog';
@@ -19,7 +19,7 @@ import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.compon
 
 @Component({
 	selector: 'ex-dashboard',
-	imports: [SummaryContainerComponent, DataTableComponent, ChartComponent, CategoriesComponent, ViewToggleComponent, AsyncPipe, CommonModule, MatButton, CardSliderDirective, RouterModule],
+	imports: [SummaryContainerComponent, DataTableComponent, ChartComponent, CategoriesComponent, ViewToggleComponent, CommonModule, MatButton, CardSliderDirective, RouterModule],
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',
 })

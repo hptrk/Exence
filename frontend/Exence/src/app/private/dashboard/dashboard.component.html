@@ -1,25 +1,25 @@
 <section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
 	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
 		<div>
-			<h1 class="m-0 text-center text-md-start {{ (display.isSm | async) ? 'fs-1' : 'fs-2' }}">
+			<h1 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
 				Welcome back, <span class="username">{{ username() || 'PLACEHOLDER' }}</span
 				>!
 			</h1>
 			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
 		</div>
-		@if (display.isMd | async) {
+		@if (display.isMd()) {
 			<ng-container [ngTemplateOutlet]="toggleFilter" />
 		}
 	</div>
 
 	<div
 		class="d-flex flex-column-reverse flex-md-column justify-content-between gap-4 h-100"
-		[class.overflow-hidden]="display.isLg | async"
+		[class.overflow-hidden]="display.isLg()"
 	>
 		<div
 			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
 		>
-			@if ((display.isMd | async) === false) {
+			@if (display.isMd() === false) {
 				<div class="mx-auto">
 					<ng-container [ngTemplateOutlet]="toggleFilter" />
 				</div>
@@ -35,7 +35,7 @@
 			/>
 		</div>
 
-		@if (display.isMd | async) {
+		@if (display.isMd()) {
 			<div
 				class="d-flex flex-row align-items-center gap-4"
 				ex-card-slider
@@ -82,7 +82,7 @@
 			</div>
 		}
 
-		@if (display.isMd | async) {
+		@if (display.isMd()) {
 			<div class="row gap-4 gap-lg-0 h-100 overflow-hidden">
 				<ex-data-table
 					[type]="transacrionTypes.EXPENSE"

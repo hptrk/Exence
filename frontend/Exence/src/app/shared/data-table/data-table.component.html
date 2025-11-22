@@ -46,7 +46,7 @@
 					*matHeaderCellDef
 					class="px-3"
 				>
-					@if (display.isSm | async) {
+					@if (display.isSm()) {
 						Title
 					}
 				</th>
@@ -75,7 +75,7 @@
 					mat-header-cell
 					*matHeaderCellDef
 				>
-					@if (display.isSm | async) {
+					@if (display.isSm()) {
 						Date
 					}
 				</th>
@@ -95,7 +95,7 @@
 					*matHeaderCellDef
 					class="px-3"
 				>
-					@if (display.isSm | async) {
+					@if (display.isSm()) {
 						Amount
 					}
 				</th>
@@ -115,7 +115,7 @@
 					mat-header-cell
 					*matHeaderCellDef
 				>
-					@if (display.isSm | async) {
+					@if (display.isSm()) {
 						Category
 					}
 				</th>
@@ -132,7 +132,7 @@
 				</td>
 			</ng-container>
 
-			@if (display.isMd | async) {
+			@if (display.isMd()) {
 				<ng-container matColumnDef="actions">
 					<th
 						mat-header-cell

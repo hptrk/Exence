@@ -1,4 +1,4 @@
-import { booleanAttribute, Component, inject, input } from '@angular/core';
+import { booleanAttribute, Component, effect, inject, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRowDef, MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -253,14 +253,11 @@ export class DataTableComponent extends BaseComponent {
 	constructor() {
 		super();
 
-		this.addSubscription(this.display.isMd.subscribe(isMd => {
-			if (isMd) {
-				this.displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
-			} else {
-				this.displayedColumns = ['title', 'date', 'amount', 'category'];		
-			}
-		}));
-
+		effect(() => {
+			this.displayedColumns = this.display.isMd()
+				? ['title', 'date', 'amount', 'category', 'actions']
+				: ['title', 'date', 'amount', 'category'];
+		});
 	}
 
 	toggleExpand(row: Transaction | null): void {

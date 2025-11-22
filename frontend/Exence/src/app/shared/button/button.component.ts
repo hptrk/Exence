@@ -1,9 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { booleanAttribute, Component, inject, input } from "@angular/core";
-import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonAppearance, MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { switchMap } from "rxjs";
 import { DisplaySizeBreakpoint, DisplaySizeService } from "../display-size.service";
 import { SvgIcons } from "../svg-icons/svg-icons";
 
@@ -25,10 +23,8 @@ export class ButtonComponent {
 	
 	collapsedStyle = input<'text' | 'outlined' | 'filled'>('filled');
 	collapseUnder = input<DisplaySizeBreakpoint>('sm');
-	private breakpoint$ = toObservable(this.collapseUnder).pipe(
-		switchMap(bp => this.display.getObservableByName(bp))
-	);
-	shouldNotCollapse = toSignal(this.breakpoint$);
+
+	shouldNotCollapse = this.display.getObserverByName(this.collapseUnder);
 	
 	iconButton = input(false, { transform: booleanAttribute });
 	matIcon = input<string>();

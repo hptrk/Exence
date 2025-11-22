@@ -1,4 +1,4 @@
-@if (display.isMd | async) {
+@if (display.isMd()) {
 	<mat-drawer-container class="h-100">
 		<mat-drawer
 			mode="side"
@@ -11,7 +11,7 @@
 					class="px-xl-2"
 					[routerLink]="navigationService.private().index()"
 				>
-					@if (display.isXl | async) {
+					@if (display.isXl()) {
 						<mat-icon
 							class="h-auto w-auto m-0"
 							[svgIcon]="svgIcons.logoHorizontal"
@@ -31,7 +31,7 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>home</mat-icon>
-						@if (display.isXl | async) {
+						@if (display.isXl()) {
 							Dashboard
 						}
 					</a>
@@ -43,7 +43,7 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>sync_alt</mat-icon>
-						@if (display.isXl | async) {
+						@if (display.isXl()) {
 							Transactions
 						}
 					</a>
@@ -54,7 +54,7 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>leaderboard</mat-icon>
-						@if (display.isXl | async) {
+						@if (display.isXl()) {
 							Statistics
 						}
 					</a>
@@ -65,7 +65,7 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>emoji_events</mat-icon>
-						@if (display.isXl | async) {
+						@if (display.isXl()) {
 							Goals
 						}
 					</a>
@@ -76,12 +76,12 @@
 						routerLinkActive="active"
 					>
 						<mat-icon>account_balance</mat-icon>
-						@if (display.isXl | async) {
+						@if (display.isXl()) {
 							Debts
 						}
 					</a>
 				</div>
-				@if (display.isXl | async) {
+				@if (display.isXl()) {
 					<div class="d-flex gap-4">
 						<a [routerLink]="navigationService.private().profile().index()">
 							<mat-icon>person</mat-icon>

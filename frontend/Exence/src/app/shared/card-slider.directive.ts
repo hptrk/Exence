@@ -10,16 +10,10 @@ export class CardSliderDirective implements AfterViewInit {
 	private display = inject(DisplaySizeService);
 	private resizeObserver?: ResizeObserver;
 
-	isLg?: boolean;
-
 	private isOverFlowing = false;
 	private minRequiredWidth = 0;
 	
 	shortCards = input(false, { transform: booleanAttribute });
-
-	constructor() {
-		this.display.isLg.subscribe(isLg => this.isLg = isLg);
-	}
 
 	ngAfterViewInit(): void {
 		this.calculateMinRequiredWidth();
