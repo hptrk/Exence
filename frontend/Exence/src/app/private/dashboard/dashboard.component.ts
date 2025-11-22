@@ -1,21 +1,21 @@
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
-import { DataTableComponent } from '../../shared/data-table/data-table.component';
-import { SummaryContainerComponent, SummaryType } from '../../private/dashboard/summary-container/summary-container.component';
-import { ChartComponent } from '../../shared/chart/chart.component';
-import { CategoriesComponent } from '../../private/dashboard/categories/categories.component';
-import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
-import { AuthService } from '../../shared/account/auth.service';
-import { Transaction } from '../../data-model/modules/transaction/Transaction';
-import { Category } from '../../data-model/modules/category/Category';
-import { DisplaySizeService } from '../../shared/display-size.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
+import { Component, computed, inject, OnInit, Signal } from '@angular/core';
 import { MatButton } from "@angular/material/button";
 import { MatDialog } from '@angular/material/dialog';
-import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
-import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { CardSliderDirective } from "../../shared/card-slider.directive";
 import { Router, RouterModule } from '@angular/router';
+import { Category } from '../../data-model/modules/category/Category';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
+import { SummaryContainerComponent, SummaryType } from '../../private/dashboard/summary-container/summary-container.component';
+import { AuthService } from '../../shared/account/auth.service';
+import { CardSliderDirective } from "../../shared/card-slider.directive";
+import { ChartComponent } from '../../shared/chart/chart.component';
+import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
+import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
+import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
 
 	transacrionTypes = TransactionType;	
 	summaryTypes = SummaryType;
+	dateIntervals = DateInterval;
 
 
 	// private transactionService = inject(TransactionService);
@@ -40,7 +41,14 @@ export class DashboardComponent implements OnInit {
 	// public transactions = this.transactionService.getTransactions();
 	public transactions = computed(() => []);
 	// public categories = this.categoryService.getCategories();
-	public categories = computed(() => [{id: 1, name: 'Utilities', emoji: '👎'}, {id: 1, name: 'Utilities', emoji: '👎'}]);
+	public categories = computed(() => [
+		{id: 1, name: 'Travel', emoji: '✈️'},
+		{id: 2, name: 'Groceries', emoji: '🥦'},
+		{id: 3, name: 'Takeout', emoji: '🍕'},
+		{id: 4, name: 'Housing', emoji: '🛖'},
+		{id: 5, name: 'Fitness', emoji: '🚲'},
+		{id: 6, name: 'Gifts', emoji: '🎁'},
+	]);
 	public username!: Signal<string>;
 	public expenses!: Signal<Transaction[]>;
 	public incomes!: Signal<Transaction[]>;
@@ -53,7 +61,63 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.username = computed(() => this.authService.getUserData()()?.username ?? '');
-		this.expenses = computed(() => []);
+		this.expenses = computed(() => [{
+				id: 1,
+				title: 'Taxi',
+				date: new Date().toISOString(),
+				amount: 30000,
+				type: TransactionType.EXPENSE,
+				recurring: false,
+				category: { id: 1, name: 'Travel', emoji: '✈️' },
+		}, {
+				id: 2,
+				title: 'Bérlet',
+				date: new Date().toISOString(),
+				amount: 2990,
+				type: TransactionType.EXPENSE,
+				recurring: true,
+				category: { id: 1, name: 'Travel', emoji: '✈️' },
+		}, {
+				id: 3,
+				title: 'lidl',
+				date: new Date().toISOString(),
+				amount: 36429,
+				type: TransactionType.EXPENSE,
+				recurring: false,
+				category: {id: 2, name: 'Groceries', emoji: '🥦'},
+		}, {
+				id: 4,
+				title: 'KFC',
+				date: new Date().toISOString(),
+				amount: 7690,
+				type: TransactionType.EXPENSE,
+				recurring: false,
+				category: {id: 3, name: 'Takeout', emoji: '🍕'},
+		}, {
+				id: 5,
+				title: 'Mosógép',
+				date: new Date().toISOString(),
+				amount: 249000,
+				type: TransactionType.EXPENSE,
+				recurring: false,
+				category: {id: 4, name: 'Housing', emoji: '🛖'},
+		}, {
+				id: 6,
+				title: 'Gym bérlet',
+				date: new Date().toISOString(),
+				amount: 21990,
+				type: TransactionType.EXPENSE,
+				recurring: true,
+				category: {id: 5, name: 'Fitness', emoji: '🚲'},
+		}, {
+				id: 6,
+				title: 'Karácsony',
+				date: new Date().toISOString(),
+				amount: 45000,
+				type: TransactionType.EXPENSE,
+				recurring: false,
+				category: {id: 6, name: 'Gifts', emoji: '🎁'},
+		}]);
 		this.incomes = computed(() => []);
 		this.totalIncome = computed(() => this.incomes().reduce((sum, t) => sum + t.amount, 0));
 		this.totalExpenses = computed(() => this.expenses().reduce((sum, t) => sum + t.amount, 0) * -1);

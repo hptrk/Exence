@@ -26,6 +26,10 @@
 			}
 			<ex-chart />
 			<ex-categories
+				[intervalFilter]="{
+					type: dateIntervals.MONTH,
+					value: 0
+				}"
 				[expenses]="expenses()"
 				[categories]="categories()"
 			/>
