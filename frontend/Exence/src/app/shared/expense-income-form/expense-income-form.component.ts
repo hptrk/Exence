@@ -2,7 +2,7 @@ import { Transaction } from './../../data-model/modules/transaction/Transaction'
 // import { CategoryService } from '../../private/category.service';
 // import { TransactionService } from '../../private/transactions/transaction.service';
 import { Component, inject, input, signal, OnInit, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -11,28 +11,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule, UntypedFormGroup, Validators } from '@angular/forms';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { provideMomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import * as _moment from 'moment';
-import { default as _rollupMoment } from 'moment';
 import { NewCategoryFormComponent } from './new-category-form/new-category-form.component';
 import { Category } from '../../data-model/modules/category/Category';
 import { emojis } from '@ctrl/ngx-emoji-mart/ngx-emoji';
-
-const moment = _rollupMoment || _moment;
-export const DATE_FORMATS = {
-	parse: {
-		dateInput: 'LL',
-	},
-	display: {
-		dateInput: 'LL',
-		monthYearLabel: 'MMM YYYY',
-		dateA11yLabel: 'LL',
-		monthYearA11yLabel: 'MMMM YYYY',
-	},
-};
+import { format } from 'date-fns';
 
 @Component({
 	selector: 'ex-expense-income-form',
@@ -48,7 +33,7 @@ export const DATE_FORMATS = {
 		MatIconModule,
 		NewCategoryFormComponent,
 	],
-	providers: [provideNativeDateAdapter(), provideMomentDateAdapter(DATE_FORMATS)],
+	providers: [provideNativeDateAdapter()],
 	templateUrl: './expense-income-form.component.html',
 	styleUrl: './expense-income-form.component.scss',
 })
@@ -69,10 +54,10 @@ export class ExpenseIncomeFormComponent implements OnInit {
 	public selectedCategory = signal<string | null>(null);
 
 	public form!: UntypedFormGroup;
-	public date = new FormControl(moment());
+	public date = new FormControl(new Date());
 
 	ngOnInit() {
-		const today = moment();
+		const today = new Date();
 		this.form = this.fb.group({
 			title: [this.transaction()?.title || '', Validators.required],
 			categoryId: ['', Validators.required],
@@ -82,7 +67,7 @@ export class ExpenseIncomeFormComponent implements OnInit {
 			],
 			date: [
 				{
-					value: this.transaction()?.date || today.format('YYYY-MM-DD'),
+					value: this.transaction()?.date || format(today, 'YYYY-MM-DD'),
 					disabled: false,
 				},
 				Validators.required,
