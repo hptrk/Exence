@@ -1,11 +1,10 @@
-import { Component, OnInit, OnDestroy, inject, computed, effect, viewChild } from '@angular/core';
+import { Component, ElementRef, computed, inject, viewChild } from '@angular/core';
 
+import { Chart } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { Chart, Plugin } from 'chart.js';
-import { DisplayTheme, DisplayThemeService } from '../display-theme.service';
-import { createCustomBackgroundPlugin, getLineChartData, lineChartOptions } from './chart-config';
 import { BaseComponent } from '../base-component/base.component';
-// import { TransactionService } from '../../private/transactions/transaction.service';
+import { DisplayThemeService } from '../display-theme.service';
+import { createCanvasBackgroundPlugin, getCssVariableValue, getLineChartData, hexToRgba, lineChartOptions } from './chart-config';
 
 @Component({
 	selector: 'ex-chart',
@@ -13,84 +12,68 @@ import { BaseComponent } from '../base-component/base.component';
 	templateUrl: './chart.component.html',
 	styleUrls: ['./chart.component.scss'],
 })
-export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
-	// private transactionService = inject(TransactionService);
+export class ChartComponent extends BaseComponent {
 	private themeService = inject(DisplayThemeService);
+	private canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
 
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
-	public lineChartOptions = lineChartOptions;
-	private customBackgroundPlugin!: Plugin;
-
-	// Computed properties
-	// public balanceData = computed(() => {
-	// 	let balance = 0;
-	// 	return this.transactionService
-	// 		.getTransactions()()
-	// 		.map(transaction => {
-	// 			balance += transaction.type === 'income' ? transaction.amount : -transaction.amount;
-	// 			return balance;
-	// 		});
-	// });
+	
 	public balanceData = computed(() => [10, 0, 100]);
-	// public chartLabels = computed(() =>
-	// 	this.transactionService
-	// 		.getTransactions()()
-	// 		.map(t => t.title),
-	// );
+	
 	public chartLabels = computed(() => ['dummylabel', 'dummylabel', 'dummylabel']);
 	public lineChartData = computed(() => getLineChartData(this.balanceData(), this.chartLabels()));
-
+	public lineChartOptions = lineChartOptions;
+	
 	constructor() {
 		super();
+		this.setThemeColors()
+		this.themeService.themeChangedEvent.subscribe(() => this.setThemeColors())
+	}
 
-		effect(() => {
-			if (this.chart()) {
-				this.updateChartColors();
-				this.registerCustomBackgroundPlugin();
+	private setThemeColors(): void {
+		if (!this.canvas) return;
+		const element = this.canvas()?.nativeElement;
+
+		// background
+		const canvasBgPlugin = createCanvasBackgroundPlugin();
+		Chart.register(canvasBgPlugin);
+
+		// grid colors
+		const color = getCssVariableValue('--default-text-color', element);
+		const colorGrid = getCssVariableValue('--border-color', element);
+		const gridColors = {
+			color: colorGrid,
+			borderColor: colorGrid
+		};
+
+		const gridData = {
+			grid: gridColors,
+			ticks: { color: color }
+		};
+		if (this.lineChartOptions?.scales) {
+			this.lineChartOptions.scales = {
+				x: gridData,
+				y: { beginAtZero: true, ...gridData }
 			}
-		});
-	}
-
-	ngOnInit() {
-		this.initializeChart();
-	}
-
-	override ngOnDestroy() {
-		super.ngOnDestroy();
-		if (this.customBackgroundPlugin) {
-			Chart.unregister(this.customBackgroundPlugin);
-		}
-	}
-
-	private initializeChart() {
-		// Create custom background plugin
-		this.customBackgroundPlugin = createCustomBackgroundPlugin(
-			this.themeService.currentTheme === DisplayTheme.DARK,
-		);
-		Chart.register(this.customBackgroundPlugin);
-		this.updateChartColors();
-	}
-
-	private updateChartColors() {
-		const backgroundColor =
-			this.themeService.currentTheme === DisplayTheme.DARK
-				? 'rgba(222, 222, 247, 0.1)'
-				: 'rgba(222, 222, 247, 0.4)';
-
-		if (this.lineChartData()) {
-			this.lineChartData().datasets[0].backgroundColor = backgroundColor;
-			this.chart()?.update();
 		}
 
-		this.chart()?.update();
-	}
-
-	private registerCustomBackgroundPlugin() {
-		Chart.unregister(this.customBackgroundPlugin);
-		this.customBackgroundPlugin = createCustomBackgroundPlugin(
-			this.themeService.currentTheme === DisplayTheme.DARK,
-		);
-		Chart.register(this.customBackgroundPlugin);
+		// line colors
+		const bgColor = getCssVariableValue('--primary-color', element);
+		
+		const pointColors = {
+			backgroundColor: hexToRgba(bgColor, 0.25),
+			borderColor: getCssVariableValue('--primary-color', element),
+			pointBackgroundColor: getCssVariableValue('--primary-color', element),
+			pointHoverBackgroundColor: getCssVariableValue('--app-hover-color', element)
+		};
+		if (this.lineChartData) {
+			const currDataset = this.lineChartData().datasets[0];
+			this.lineChartData().datasets[0] = {
+				...currDataset,
+				...pointColors
+			}; 
+		}
+	
 		this.chart()?.update();
 	}
 }

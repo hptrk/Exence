@@ -1,4 +1,4 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { EventEmitter, Injectable, signal, WritableSignal } from '@angular/core';
 
 // add new theme here
 export enum DisplayTheme {
@@ -24,6 +24,7 @@ export const themes: ThemeData[] = [
 })
 export class DisplayThemeService {
 	readonly displayThemeSignal: WritableSignal<DisplayTheme> = signal(this.getInitialTheme().name);
+	readonly themeChangedEvent = new EventEmitter<void>();
 
 	private _preferredThemes: Record<'primary' | 'secondary', ThemeData> = {
 		primary: themes.find(t => t.name === DisplayTheme.DARK)!,
@@ -52,6 +53,7 @@ export class DisplayThemeService {
 		} else {
 			this.setTheme(preferredThemes.primary.name);
 		}
+		this.themeChangedEvent.emit();
 	}
 
 	// used later in profile settings

@@ -16,6 +16,6 @@ bootstrapApplication(AppComponent, {
 		provideHttpClient(withInterceptors([authInterceptor])),
 		provideAnimations(),
 		provideCharts(withDefaultRegisterables()),
-		importProvidersFrom(LayoutModule),
+		importProvidersFrom(LayoutModule), provideCharts(withDefaultRegisterables()),
 	],
 }).catch(err => console.error(err));
