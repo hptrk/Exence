@@ -24,9 +24,11 @@
 				type="email"
 				required
 			/>
-			<mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-				Email is <strong>required</strong>
-			</mat-error>
+			@if (loginForm.get('email')?.hasError('required')) {
+				<mat-error>
+					Email is <strong>required</strong>
+				</mat-error>
+			}
 		</mat-form-field>
 		<mat-form-field
 			appearance="outline"
@@ -39,9 +41,11 @@
 				type="password"
 				required
 			/>
-			<mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-				Password is <strong>required</strong>
-			</mat-error>
+			@if (loginForm.get('password')?.hasError('required')) {
+				<mat-error >
+					Password is <strong>required</strong>
+				</mat-error>
+			}
 		</mat-form-field>
 		<button
 			mat-flat-button

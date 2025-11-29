@@ -14,24 +14,34 @@ import { SvgIcons } from '../svg-icons/svg-icons';
 import { DisplaySizeService } from '../display-size.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 // import { TransactionService } from '../../private/transactions/transaction.service';
 // import { CategoryService } from '../../private/category.service';
 
 @Component({
 	selector: 'ex-data-table',
-	imports: [MatCardModule, MatTableModule, MatIconModule, CommonModule, MatTooltipModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatInputModule],
+	imports: [
+		MatCardModule,
+		MatTableModule,
+		MatIconModule,
+		CommonModule,
+		MatTooltipModule,
+		MatFormFieldModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MatInputModule,
+	],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
 	animations: [
-	trigger('expandAnimation', [
-		state('collapsed', style({height: '0px', minHeight: '0'})),
-		state('expanded', style({height: '*'})),
-		transition('collapsed => expanded', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-		transition('expanded => collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-	]),
-  ],
+		trigger('expandAnimation', [
+			state('collapsed', style({ height: '0px', minHeight: '0' })),
+			state('expanded', style({ height: '*' })),
+			transition('collapsed => expanded', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+			transition('expanded => collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+		]),
+	],
 })
 export class DataTableComponent extends BaseComponent {
 	note = new FormControl();
@@ -44,14 +54,14 @@ export class DataTableComponent extends BaseComponent {
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
 	type = input<TransactionType>();
-	nonExpandable = input(false, {transform: booleanAttribute });
+	nonExpandable = input(false, { transform: booleanAttribute });
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
 
 	expandedElement: Transaction | null = null;
 
 	transactionTypes = TransactionType;
-	
+
 	dataSource = new MatTableDataSource<Transaction>([
 		{
 			id: 1,
@@ -63,8 +73,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Groceries',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -76,8 +86,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -89,8 +99,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🛖'
-			}
+				emoji: '🛖',
+			},
 		},
 		{
 			id: 1,
@@ -102,8 +112,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Groceries',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -115,8 +125,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -128,8 +138,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🛖'
-			}
+				emoji: '🛖',
+			},
 		},
 		{
 			id: 1,
@@ -141,8 +151,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Groceries',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -154,8 +164,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -167,8 +177,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🛖'
-			}
+				emoji: '🛖',
+			},
 		},
 		{
 			id: 1,
@@ -180,8 +190,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Groceries',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -193,8 +203,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -206,8 +216,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🛖'
-			}
+				emoji: '🛖',
+			},
 		},
 		{
 			id: 1,
@@ -219,8 +229,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Groceries',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -232,8 +242,8 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🥦'
-			}
+				emoji: '🥦',
+			},
 		},
 		{
 			id: 2,
@@ -245,11 +255,11 @@ export class DataTableComponent extends BaseComponent {
 			category: {
 				id: 1,
 				name: 'Test category',
-				emoji: '🛖'
-			}
+				emoji: '🛖',
+			},
 		},
 	]);
-	
+
 	constructor() {
 		super();
 
@@ -262,7 +272,7 @@ export class DataTableComponent extends BaseComponent {
 
 	toggleExpand(row: Transaction | null): void {
 		if (this.nonExpandable()) return;
-		this.expandedElement = this.expandedElement === row ? null : row
+		this.expandedElement = this.expandedElement === row ? null : row;
 	}
 
 	openDialog(): void {

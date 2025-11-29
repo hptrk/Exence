@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy, inject, computed, effect, viewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { BaseChartDirective } from 'ng2-charts';
 import { Chart, Plugin } from 'chart.js';
-import { DisplayTheme, DisplayThemeService } from '../display-theme.service'; 
+import { DisplayTheme, DisplayThemeService } from '../display-theme.service';
 import { createCustomBackgroundPlugin, getLineChartData, lineChartOptions } from './chart-config';
 import { BaseComponent } from '../base-component/base.component';
-// import { TransactionService } from '../../private/transactions/transaction.service'; 
+// import { TransactionService } from '../../private/transactions/transaction.service';
 
 @Component({
 	selector: 'ex-chart',
-	imports: [CommonModule, BaseChartDirective],
+	imports: [BaseChartDirective],
 	templateUrl: './chart.component.html',
 	styleUrls: ['./chart.component.scss'],
 })
@@ -31,7 +31,7 @@ export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 	// 			return balance;
 	// 		});
 	// });
-	public balanceData = computed(() => [10,0,100]);
+	public balanceData = computed(() => [10, 0, 100]);
 	// public chartLabels = computed(() =>
 	// 	this.transactionService
 	// 		.getTransactions()()
@@ -64,13 +64,18 @@ export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 
 	private initializeChart() {
 		// Create custom background plugin
-		this.customBackgroundPlugin = createCustomBackgroundPlugin(this.themeService.currentTheme === DisplayTheme.DARK);
+		this.customBackgroundPlugin = createCustomBackgroundPlugin(
+			this.themeService.currentTheme === DisplayTheme.DARK,
+		);
 		Chart.register(this.customBackgroundPlugin);
 		this.updateChartColors();
 	}
 
 	private updateChartColors() {
-		const backgroundColor = this.themeService.currentTheme === DisplayTheme.DARK ? 'rgba(222, 222, 247, 0.1)' : 'rgba(222, 222, 247, 0.4)';
+		const backgroundColor =
+			this.themeService.currentTheme === DisplayTheme.DARK
+				? 'rgba(222, 222, 247, 0.1)'
+				: 'rgba(222, 222, 247, 0.4)';
 
 		if (this.lineChartData()) {
 			this.lineChartData().datasets[0].backgroundColor = backgroundColor;
@@ -82,7 +87,9 @@ export class ChartComponent extends BaseComponent implements OnInit, OnDestroy {
 
 	private registerCustomBackgroundPlugin() {
 		Chart.unregister(this.customBackgroundPlugin);
-		this.customBackgroundPlugin = createCustomBackgroundPlugin(this.themeService.currentTheme === DisplayTheme.DARK);
+		this.customBackgroundPlugin = createCustomBackgroundPlugin(
+			this.themeService.currentTheme === DisplayTheme.DARK,
+		);
 		Chart.register(this.customBackgroundPlugin);
 		this.chart()?.update();
 	}

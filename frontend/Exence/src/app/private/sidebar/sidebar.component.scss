@@ -1,4 +1,4 @@
-@import "../../../styles/imports.scss";
+@import '../../../styles/imports.scss';
 
 :host {
 	--mat-sidenav-container-background-color: var(--app-card-color);
@@ -29,7 +29,7 @@ mat-drawer-content.mat-drawer-content {
 }
 
 .more-actions-button {
-	background-color: unset	;
+	background-color: unset;
 	border: none;
 	color: var(--default-text);
 }
@@ -53,5 +53,5 @@ mat-drawer-content.mat-drawer-content {
 .actions-menu {
 	mat-icon {
 		color: var(--default-text-color);
-	} 
+	}
 }

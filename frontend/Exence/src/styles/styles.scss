@@ -34,7 +34,6 @@ body {
 	margin: 0;
 	text-align: left;
 	height: 100%;
-
 }
 
 a {
@@ -83,7 +82,7 @@ hr {
 	&:hover {
 		background-color: var(--app-background-color);
 	}
-	
+
 	@include displayMd {
 		padding: 0.5rem;
 	}

@@ -16,19 +16,24 @@
 	flex-direction: column;
 
 	max-height: 500px;
-	
+
 	@include card;
-	@include displayLg { max-height: unset; }
+	@include displayLg {
+		max-height: unset;
+	}
 }
 
 table {
 	background-color: transparent;
 
-	th, tr, td {
+	th,
+	tr,
+	td {
 		border: none;
 	}
-	
-	th:not(.mat-column-title), td:not(.mat-column-title) {
+
+	th:not(.mat-column-title),
+	td:not(.mat-column-title) {
 		text-align: center;
 	}
 
@@ -45,7 +50,7 @@ table {
 		}
 	}
 
-	@include displayMd {	
+	@include displayMd {
 		th.mat-mdc-header-cell {
 			padding: 0;
 		}
@@ -67,7 +72,7 @@ td[mat-cell].mat-mdc-cell {
 
 	.table-row-item {
 		padding: 0 4px;
-		
+
 		@include displaySm {
 			padding: 0;
 		}
@@ -80,13 +85,14 @@ td[mat-cell].mat-mdc-cell {
 	align-items: center;
 
 	transition-delay: 200ms;
-    transition-duration: 0.1ms;
+	transition-duration: 0.1ms;
 	transition-behavior: ease-in;
 	transition-property: border-radius;
 }
 
 // gap between rows
-tr.mat-mdc-row.expanded-detail-row, tr.mat-mdc-row.non-expandable {
+tr.mat-mdc-row.expanded-detail-row,
+tr.mat-mdc-row.non-expandable {
 	border-bottom: 10px solid transparent;
 }
 
@@ -145,7 +151,7 @@ tr.mat-mdc-row.table-row.expanded .table-row-item {
 
 tr.table-row,
 tr.expanded-detail-row {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 // hide overflowing shadow on extended row
@@ -189,7 +195,7 @@ td.mat-column-actions mat-icon {
 	padding: 0.5rem;
 	border-radius: 10px;
 	resize: none;
-	
+
 	&:focus-visible {
 		outline: 2px solid var(--primary-color);
 	}

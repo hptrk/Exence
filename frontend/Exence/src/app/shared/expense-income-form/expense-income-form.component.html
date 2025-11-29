@@ -4,7 +4,7 @@
 		<span
 			class="form-header-title"
 			[ngStyle]="{
-				color: formType() === 'expense' ? 'var(--mat-sys-tertiary-fixed)' : 'var(--mat-sys-secondary-fixed)',
+				color: formType() === 'expense' ? 'var(--mat-sys-tertiary-fixed)' : 'var(--mat-sys-secondary-fixed)'
 			}"
 			>{{ formType() === 'income' ? 'income' : 'expense' }}</span
 		>
@@ -23,42 +23,47 @@
 				matInput
 				formControlName="title"
 			/>
-			<mat-error *ngIf="form.get('title')?.hasError('required')"> Title is <strong>required</strong> </mat-error>
+			@if (form.get('title')?.hasError('required')) {
+				<mat-error> Title is <strong>required</strong> </mat-error>
+			}
 		</mat-form-field>
 
 		<div class="category-selector">
 			<mat-label>Category</mat-label>
 			<mat-chip-set>
-				<mat-chip-option
-					*ngFor="let category of categories()"
-					[selected]="selectedCategory() === category.name"
-					(click)="selectCategory(category.id)"
-					selectable
-				>
-					{{ category.name }} {{ category.emoji }}
-				</mat-chip-option>
-				<mat-chip
-					*ngIf="!isAddingCategory()"
-					(click)="addCategory()"
-					class="add-chip"
-				>
-					<mat-icon
-						fontSet="material-symbols-outlined"
-						class="pointer-cursor"
-						>add_2</mat-icon
+				@for (category of categories(); track category) {
+					<mat-chip-option
+						[selected]="selectedCategory() === category.name"
+						(click)="selectCategory(category.id)"
+						selectable
 					>
-				</mat-chip>
+						{{ category.name }} {{ category.emoji }}
+					</mat-chip-option>
+				}
+				@if (!isAddingCategory()) {
+					<mat-chip
+						(click)="addCategory()"
+						class="add-chip"
+					>
+						<mat-icon
+							fontSet="material-symbols-outlined"
+							class="pointer-cursor"
+							>add_2</mat-icon
+						>
+					</mat-chip>
+				}
 
 				<!-- NEW CATEGORY FORM -->
-				<ex-new-category-form
-					*ngIf="isAddingCategory()"
-					(categoryAdded)="onCategoryAdded($event)"
-					(closeForm)="isAddingCategory.set(false)"
-				></ex-new-category-form>
+				@if (isAddingCategory()) {
+					<ex-new-category-form
+						(categoryAdded)="onCategoryAdded($event)"
+						(closeForm)="isAddingCategory.set(false)"
+					></ex-new-category-form>
+				}
 			</mat-chip-set>
-			<mat-error *ngIf="isFormSubmitted() && form.get('category')?.hasError('required')">
-				Category is <strong>required</strong>
-			</mat-error>
+			@if (isFormSubmitted() && form.get('category')?.hasError('required')) {
+				<mat-error> Category is <strong>required</strong> </mat-error>
+			}
 		</div>
 
 		<mat-form-field
@@ -71,9 +76,9 @@
 				formControlName="amount"
 				type="number"
 			/>
-			<mat-error *ngIf="form.get('amount')?.hasError('required')">
-				Amount is <strong>required</strong>
-			</mat-error>
+			@if (form.get('amount')?.hasError('required')) {
+				<mat-error> Amount is <strong>required</strong> </mat-error>
+			}
 		</mat-form-field>
 
 		<mat-form-field
@@ -95,7 +100,9 @@
 				disabled="false"
 				#picker
 			></mat-datepicker>
-			<mat-error *ngIf="form.get('date')?.hasError('required')"> Date is <strong>required</strong> </mat-error>
+			@if (form.get('date')?.hasError('required')) {
+				<mat-error> Date is <strong>required</strong> </mat-error>
+			}
 		</mat-form-field>
 		<button
 			mat-flat-button

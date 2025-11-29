@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild, Output, EventEmitter } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,7 +16,6 @@ import { MatButtonModule } from '@angular/material/button';
 		MatIconModule,
 		MatButtonModule,
 		MatInputModule,
-		CommonModule,
 	],
 	templateUrl: './new-category-form.component.html',
 	styleUrl: './new-category-form.component.scss',

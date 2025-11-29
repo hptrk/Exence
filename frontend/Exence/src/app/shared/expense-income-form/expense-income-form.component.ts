@@ -47,7 +47,7 @@ export class ExpenseIncomeFormComponent implements OnInit {
 	transaction = input<Transaction | null>();
 
 	// public categories = this.categoryService.getCategories();
-	public categories = computed(() => [{id: 1, name: 'dummycategory', emoji: '💀'}]);
+	public categories = computed(() => [{ id: 1, name: 'dummycategory', emoji: '💀' }]);
 
 	public isAddingCategory = signal(false);
 	public isFormSubmitted = signal(false);
@@ -102,10 +102,8 @@ export class ExpenseIncomeFormComponent implements OnInit {
 
 	onSubmit(): void {
 		// this.isFormSubmitted.set(true);
-
 		// if (this.form.valid) {
 		// 	const formValue = this.form.value;
-
 		// 	// TODO: most csak átírtam h működjön, ne any legyen
 		// 	const newTransaction: any = {
 		// 		id: this.transaction()?.id,
@@ -116,7 +114,6 @@ export class ExpenseIncomeFormComponent implements OnInit {
 		// 		recurring: false,
 		// 		categoryId: Number(formValue.categoryId),
 		// 	};
-
 		// 	if (this.transaction()) {
 		// 		// Update existing transaction
 		// 		this.transactionService.updateTransaction(this.transaction()!.id, newTransaction).subscribe({

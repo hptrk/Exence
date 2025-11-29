@@ -1,15 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit, Signal } from '@angular/core';
-import { MatButton } from "@angular/material/button";
+import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { Category } from '../../data-model/modules/category/Category';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
-import { SummaryContainerComponent, SummaryType } from '../../private/dashboard/summary-container/summary-container.component';
+import {
+	SummaryContainerComponent,
+	SummaryType,
+} from '../../private/dashboard/summary-container/summary-container.component';
 import { AuthService } from '../../shared/account/auth.service';
-import { CardSliderDirective } from "../../shared/card-slider.directive";
+import { CardSliderDirective } from '../../shared/card-slider.directive';
 import { ChartComponent } from '../../shared/chart/chart.component';
 import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
@@ -19,7 +22,17 @@ import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.compon
 
 @Component({
 	selector: 'ex-dashboard',
-	imports: [SummaryContainerComponent, DataTableComponent, ChartComponent, CategoriesComponent, ViewToggleComponent, CommonModule, MatButton, CardSliderDirective, RouterModule],
+	imports: [
+		SummaryContainerComponent,
+		DataTableComponent,
+		ChartComponent,
+		CategoriesComponent,
+		ViewToggleComponent,
+		CommonModule,
+		MatButton,
+		CardSliderDirective,
+		RouterModule,
+	],
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',
 })
@@ -30,10 +43,9 @@ export class DashboardComponent implements OnInit {
 	public router = inject(Router);
 	public navigation = inject(NavigationService);
 
-	transacrionTypes = TransactionType;	
+	transacrionTypes = TransactionType;
 	summaryTypes = SummaryType;
 	dateIntervals = DateInterval;
-
 
 	// private transactionService = inject(TransactionService);
 	// private categoryService = inject(CategoryService);
@@ -42,12 +54,12 @@ export class DashboardComponent implements OnInit {
 	public transactions = computed(() => []);
 	// public categories = this.categoryService.getCategories();
 	public categories = computed(() => [
-		{id: 1, name: 'Travel', emoji: '✈️'},
-		{id: 2, name: 'Groceries', emoji: '🥦'},
-		{id: 3, name: 'Takeout', emoji: '🍕'},
-		{id: 4, name: 'Housing', emoji: '🛖'},
-		{id: 5, name: 'Fitness', emoji: '🚲'},
-		{id: 6, name: 'Gifts', emoji: '🎁'},
+		{ id: 1, name: 'Travel', emoji: '✈️' },
+		{ id: 2, name: 'Groceries', emoji: '🥦' },
+		{ id: 3, name: 'Takeout', emoji: '🍕' },
+		{ id: 4, name: 'Housing', emoji: '🛖' },
+		{ id: 5, name: 'Fitness', emoji: '🚲' },
+		{ id: 6, name: 'Gifts', emoji: '🎁' },
 	]);
 	public username!: Signal<string>;
 	public expenses!: Signal<Transaction[]>;
@@ -61,7 +73,8 @@ export class DashboardComponent implements OnInit {
 
 	ngOnInit() {
 		this.username = computed(() => this.authService.getUserData()()?.username ?? '');
-		this.expenses = computed(() => [{
+		this.expenses = computed(() => [
+			{
 				id: 1,
 				title: 'Taxi',
 				date: new Date().toISOString(),
@@ -69,7 +82,8 @@ export class DashboardComponent implements OnInit {
 				type: TransactionType.EXPENSE,
 				recurring: false,
 				category: { id: 1, name: 'Travel', emoji: '✈️' },
-		}, {
+			},
+			{
 				id: 2,
 				title: 'Bérlet',
 				date: new Date().toISOString(),
@@ -77,47 +91,53 @@ export class DashboardComponent implements OnInit {
 				type: TransactionType.EXPENSE,
 				recurring: true,
 				category: { id: 1, name: 'Travel', emoji: '✈️' },
-		}, {
+			},
+			{
 				id: 3,
 				title: 'lidl',
 				date: new Date().toISOString(),
 				amount: 36429,
 				type: TransactionType.EXPENSE,
 				recurring: false,
-				category: {id: 2, name: 'Groceries', emoji: '🥦'},
-		}, {
+				category: { id: 2, name: 'Groceries', emoji: '🥦' },
+			},
+			{
 				id: 4,
 				title: 'KFC',
 				date: new Date().toISOString(),
 				amount: 7690,
 				type: TransactionType.EXPENSE,
 				recurring: false,
-				category: {id: 3, name: 'Takeout', emoji: '🍕'},
-		}, {
+				category: { id: 3, name: 'Takeout', emoji: '🍕' },
+			},
+			{
 				id: 5,
 				title: 'Mosógép',
 				date: new Date().toISOString(),
 				amount: 249000,
 				type: TransactionType.EXPENSE,
 				recurring: false,
-				category: {id: 4, name: 'Housing', emoji: '🛖'},
-		}, {
+				category: { id: 4, name: 'Housing', emoji: '🛖' },
+			},
+			{
 				id: 6,
 				title: 'Gym bérlet',
 				date: new Date().toISOString(),
 				amount: 21990,
 				type: TransactionType.EXPENSE,
 				recurring: true,
-				category: {id: 5, name: 'Fitness', emoji: '🚲'},
-		}, {
+				category: { id: 5, name: 'Fitness', emoji: '🚲' },
+			},
+			{
 				id: 6,
 				title: 'Karácsony',
 				date: new Date().toISOString(),
 				amount: 45000,
 				type: TransactionType.EXPENSE,
 				recurring: false,
-				category: {id: 6, name: 'Gifts', emoji: '🎁'},
-		}]);
+				category: { id: 6, name: 'Gifts', emoji: '🎁' },
+			},
+		]);
 		this.incomes = computed(() => []);
 		this.totalIncome = computed(() => this.incomes().reduce((sum, t) => sum + t.amount, 0));
 		this.totalExpenses = computed(() => this.expenses().reduce((sum, t) => sum + t.amount, 0) * -1);
@@ -145,7 +165,7 @@ export class DashboardComponent implements OnInit {
 			}
 
 			// const category = this.categories().find(c => c.id === highestId);
-			const category = { id: 1, name: 'dummyname', emoji: '💀'} as Category;
+			const category = { id: 1, name: 'dummyname', emoji: '💀' } as Category;
 			return {
 				name: category?.name ?? '',
 				amount: highestAmount * -1,

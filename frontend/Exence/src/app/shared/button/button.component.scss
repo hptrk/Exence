@@ -1,7 +1,7 @@
-@import "../../../styles/imports.scss";
+@import '../../../styles/imports.scss';
 
 :host.disabled {
-    pointer-events: none;
+	pointer-events: none;
 }
 
 :host {
@@ -19,36 +19,36 @@
 }
 
 $predefinedColors: (
-	"primary": (
+	'primary': (
 		filled-text: var(--secondary-color),
 		bg: var(--primary-color),
 		text: var(--primary-color),
-		outline: var(--primary-color)
+		outline: var(--primary-color),
 	),
-	"accent": (
+	'accent': (
 		filled-text: var(--default-text-color),
 		bg: var(--secondary-color),
 		text: var(--accent-text-color),
-		outline: var(--accent-text-color)
+		outline: var(--accent-text-color),
 	),
-	"success": (
+	'success': (
 		filled-text: lighten(var(--default-text-color), 80%),
 		bg: var(--tertiary-color),
 		text: var(--tertiary-color),
-		outline: var(--tertiary-color)
+		outline: var(--tertiary-color),
 	),
-	"error": (
+	'error': (
 		filled-text: lighten(var(--default-text-color), 80%),
 		bg: var(--error-color),
 		text: var(--error-color),
-		outline: var(--error-color)
+		outline: var(--error-color),
 	),
-	"warn": (
+	'warn': (
 		filled-text: var(--secondary-text-color),
 		bg: var(--warn-color),
 		text: var(--warn-color),
-		outline: var(--warn-color)
-	)
+		outline: var(--warn-color),
+	),
 );
 
 @each $name, $colors in $predefinedColors {
@@ -58,7 +58,7 @@ $predefinedColors: (
 
 		--mat-button-outlined-label-text-color: #{map-get($colors, text)};
 		--mat-button-outlined-outline-color: #{map-get($colors, outline)};
-		
+
 		--mat-button-text-label-text-color: #{map-get($colors, text)};
 	}
 }

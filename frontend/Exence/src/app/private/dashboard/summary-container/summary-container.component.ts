@@ -8,10 +8,10 @@ import { NavigationService } from '../../../shared/navigation/navigation.service
 import { Router, RouterModule } from '@angular/router';
 
 export enum SummaryType {
-	EXPENSE = 'EXPENSE', 
+	EXPENSE = 'EXPENSE',
 	INCOME = 'INCOME',
-	BALANCE = 'BALANCE', 
-	OTHER = 'OTHER' 
+	BALANCE = 'BALANCE',
+	OTHER = 'OTHER',
 }
 
 export type SummaryInfo = {
@@ -21,7 +21,7 @@ export type SummaryInfo = {
 	title: string;
 	type: SummaryType;
 	filterCondition?: { [key: string]: string }; // for type OTHER
-}
+};
 
 @Component({
 	selector: 'ex-summary-container',

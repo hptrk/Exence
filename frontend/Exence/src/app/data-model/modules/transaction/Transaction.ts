@@ -1,5 +1,5 @@
-import { Category } from "../category/Category";
-import { TransactionType } from "./TransactionType";
+import { Category } from '../category/Category';
+import { TransactionType } from './TransactionType';
 
 export interface Transaction {
 	id: number;

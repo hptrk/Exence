@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { SvgIcons } from '../svg-icons/svg-icons';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export abstract class BaseComponent implements OnDestroy {
 	svgIcons = SvgIcons;
