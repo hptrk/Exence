@@ -14,8 +14,8 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
-@EqualsAndHashCode(callSuper = false, exclude = { "" })
-@ToString(callSuper = true, exclude = { "" })
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 public class DeviceSessionDTO {
 
     private String sessionId;
