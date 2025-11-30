@@ -8,6 +8,9 @@ export class AccountRoutes {
 	register(): string {
 		return `/register`;
 	}
+	forgotPassword(): string {
+		return `/forgot-password`;
+	}
 }
 
 export class NavigationServiceForAccount {

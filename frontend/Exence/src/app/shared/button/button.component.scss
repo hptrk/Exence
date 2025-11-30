@@ -70,3 +70,13 @@ $predefinedColors: (
 	--mat-button-outlined-horizontal-padding: 0.5rem;
 	--mat-button-text-horizontal-padding: 0.5rem;
 }
+
+button {
+	padding: 0 24px;
+	padding-left: 18px;
+}
+
+button.icon-position-end {
+	padding: 0 24px;
+	padding-right: 16px;
+}

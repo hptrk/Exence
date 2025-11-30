@@ -17,8 +17,6 @@ mat-form-field {
 html {
 	@include mat.all-component-themes(light-theme.$theme);
 	@include mat.system-level-colors(light-theme.$theme);
-
-	@include mat.form-field-density(-5);
 }
 
 // add new theme here

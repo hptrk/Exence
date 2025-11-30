@@ -1,42 +1,26 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../shared/account/auth.service';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { NavigationService } from '../../shared/navigation/navigation.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
 	selector: 'ex-login',
-	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
+	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule, ButtonComponent, MatCardModule],
 })
-export class LoginComponent implements OnInit {
-	private fb = inject(FormBuilder);
-	private authService = inject(AuthService);
+export class LoginComponent {
+	public navigationService = inject(NavigationService);
+	private readonly fb = inject(NonNullableFormBuilder);
 
-	public loginForm!: FormGroup;
-
-	ngOnInit() {
-		this.loginForm = this.fb.group({
-			email: ['', [Validators.required, Validators.email]],
-			password: ['', Validators.required],
-		});
-	}
-
-	onSubmit(): void {
-		if (this.loginForm.valid) {
-			this.authService.login(this.loginForm.value).subscribe(
-				() => {
-					console.log('Login successful');
-				},
-				error => {
-					console.error('Login failed', error);
-				},
-			);
-		}
-	}
+	loginForm = this.fb.group({
+		email: this.fb.control<string | null>(null, [Validators.required, Validators.email]),
+		password: this.fb.control<string | null>(null, [Validators.required, Validators.maxLength(255)])
+	});
 }

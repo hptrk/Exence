@@ -1,58 +1,52 @@
-<div class="form-container">
-	<h1 class="form-header">Login</h1>
-	<p class="form-header-note">
-		Don't have an account?
-		<a
-			class="form-header-link"
-			routerLink="/register"
-			>Create one</a
-		>
-	</p>
-	<form
-		[formGroup]="loginForm"
-		class="auth-form"
-		(ngSubmit)="onSubmit()"
-	>
-		<mat-form-field
-			appearance="outline"
-			[hideRequiredMarker]="true"
-		>
+<mat-card class="flex-column justify-content-center align-items-center gap-5 p-5">
+	<mat-card-header class="flex-column gap-2 justify-content-center w-100">
+		<h2 class="fs-1">Log in to your account</h2>
+		<p class="m-0 fs-4">
+			Don't have an account?
+			<a class="fw-semibold" [routerLink]="navigationService.account().register()">Create one</a>
+		</p>
+	</mat-card-header>
+
+	<mat-card-content>
+		<mat-form-field appearance="outline">
 			<mat-label>Email</mat-label>
 			<input
 				matInput
 				formControlName="email"
 				type="email"
-				required
+				placeholder="asd"
+
 			/>
 			@if (loginForm.get('email')?.hasError('required')) {
 				<mat-error>
-					Email is <strong>required</strong>
+					Email is <strong>required</strong>!
 				</mat-error>
 			}
 		</mat-form-field>
-		<mat-form-field
-			appearance="outline"
-			[hideRequiredMarker]="true"
-		>
+		<mat-form-field appearance="outline">
 			<mat-label>Password</mat-label>
 			<input
 				matInput
 				formControlName="password"
 				type="password"
-				required
 			/>
 			@if (loginForm.get('password')?.hasError('required')) {
 				<mat-error >
-					Password is <strong>required</strong>
+					Password is <strong>required</strong>!
 				</mat-error>
 			}
 		</mat-form-field>
-		<button
-			mat-flat-button
-			color="primary"
-			type="submit"
+	</mat-card-content>
+	<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4">
+		<a class="forgot-password" [routerLink]="navigationService.account().forgotPassword()">Forgot password?</a>
+
+		<ex-button
+		filled
+		type="submit"
+		matIcon="arrow_right_alt"
+		iconPositionEnd
 		>
-			Login
-		</button>
-	</form>
-</div>
+		Log in
+		</ex-button>
+	</mat-card-actions>
+</mat-card>
