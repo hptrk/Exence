@@ -103,9 +103,7 @@ public class AuthServiceImpl implements AuthService {
             String sessionId = tokenManagementService.getSessionIdByToken(refreshToken);
 
             tokenManagementService.revokeUserTokensByTypeAndSession(user, TokenType.ACCESS, sessionId);
-
-            user.setLastLoginAt(Instant.now());
-            userRepository.save(user);
+            
             AuthenticationResponse authResponse = createAuthenticationResponse(user, sessionId, refreshToken);
 
             writeJsonResponse(response, authResponse);
