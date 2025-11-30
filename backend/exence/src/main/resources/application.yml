@@ -12,7 +12,7 @@ exence:
       enabled: true
       cooldown-minutes-between-sends: 2
   frontend-url: ${FRONTEND_URL:http://localhost:4200}
-  logout-from-all-devices: true
+  logout-from-all-devices: false
   password-history-count: 3
 
 spring:

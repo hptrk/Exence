@@ -43,7 +43,9 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
         }
 
         if (!SPECIAL_CHAR_PATTERN.matcher(password).matches()) {
-            violations.add("must contain at least one special character (" + SPECIAL_CHAR_PATTERN + ")");
+            violations.add("must contain at least one special character (" + SPECIAL_CHAR_PATTERN.toString()
+                    .replace("\\\\", "")
+                    .substring(3, SPECIAL_CHAR_PATTERN.toString().length() - 3) + ")");
         }
 
         if (!violations.isEmpty()) {
