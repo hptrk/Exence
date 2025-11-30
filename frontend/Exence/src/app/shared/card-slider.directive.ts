@@ -80,6 +80,7 @@ export class CardSliderDirective implements AfterViewInit {
 		} else {
 			el.classList.remove(...classes);
 			children.forEach(c => {
+				(c as HTMLElement).style.flex = '1 1 0';
 				(c as HTMLElement).style.minWidth = 'auto';
 			});
 		}
