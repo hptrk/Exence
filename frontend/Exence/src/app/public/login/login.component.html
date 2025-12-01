@@ -1,21 +1,24 @@
-<mat-card class="flex-column justify-content-center align-items-center gap-5 p-5">
-	<mat-card-header class="flex-column gap-2 justify-content-center w-100">
+<mat-card class="flex-column justify-content-center align-items-center gap-4 p-5">
+	<mat-card-header class="flex-column gap-2 justify-content-center w-100 mb-2">
+		<mat-icon
+			class="mx-auto mb-5"
+			size="2xxl"
+			[svgIcon]="svgIcons.logo"
+		/>
 		<h2 class="fs-1">Log in to your account</h2>
-		<p class="m-0 fs-4">
+		<p class="m-0 fs-5 fw-light">
 			Don't have an account?
 			<a class="fw-semibold" [routerLink]="navigationService.account().register()">Create one</a>
 		</p>
 	</mat-card-header>
 
-	<mat-card-content>
-		<mat-form-field appearance="outline">
+	<mat-card-content [formGroup]="loginForm" class="d-flex flex-column gap-3 w-100">
+		<mat-form-field>
 			<mat-label>Email</mat-label>
 			<input
 				matInput
 				formControlName="email"
 				type="email"
-				placeholder="asd"
-
 			/>
 			<ex-input-clear matSuffix [control]="loginForm.controls.email"/>
 			@if (loginForm.get('email')?.hasError('required')) {
@@ -24,7 +27,7 @@
 				</mat-error>
 			}
 		</mat-form-field>
-		<mat-form-field appearance="outline">
+		<mat-form-field>
 			<mat-label>Password</mat-label>
 			<input
 				matInput
@@ -39,7 +42,7 @@
 			}
 		</mat-form-field>
 	</mat-card-content>
-	<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4">
+	<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4 pt-0">
 		<a class="forgot-password" [routerLink]="navigationService.account().forgotPassword()">Forgot password?</a>
 		<ex-button
 		filled

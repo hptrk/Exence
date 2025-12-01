@@ -9,14 +9,16 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { MatCardModule } from '@angular/material/card';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
+import { MatIconModule } from '@angular/material/icon';
+import { BaseComponent } from '../../shared/base-component/base.component';
 
 @Component({
 	selector: 'ex-login',
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
-	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule, ButtonComponent, MatCardModule, InputClearButtonComponent],
+	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule, ButtonComponent, MatCardModule, InputClearButtonComponent, MatIconModule],
 })
-export class LoginComponent {
+export class LoginComponent extends BaseComponent {
 	public navigationService = inject(NavigationService);
 	private readonly fb = inject(NonNullableFormBuilder);
 
