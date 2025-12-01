@@ -10,9 +10,11 @@ import { SettingsComponent } from './private/settings/settings.component';
 import { GoalsComponent } from './private/goals/goals.component';
 import { StatisticsComponent } from './private/statistics/statistics.component';
 import { TransactionsComponent } from './private/transactions/transactions.component';
+import { ForgotPasswordComponent } from './public/forgot-password/forgot-password.component';
 
 export const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
+	{ path: 'forgot-password', component: ForgotPasswordComponent },
 	{ path: 'register', component: RegisterComponent },
 	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 	{
