@@ -261,7 +261,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EmailAlreadyVerifiedException.class)
-    public ResponseEntity<ProblemDetail> handleEmailAlreadyVerifiedException(InvalidTokenException ex, WebRequest request) {
+    public ResponseEntity<ProblemDetail> handleEmailAlreadyVerifiedException(EmailAlreadyVerifiedException ex, WebRequest request) {
         log.warn("Email already verified: {}", request.getDescription(false));
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
@@ -276,7 +276,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(TooManyEmailsException.class)
-    public ResponseEntity<ProblemDetail> handleTooManyEmailsException(InvalidTokenException ex, WebRequest request) {
+    public ResponseEntity<ProblemDetail> handleTooManyEmailsException(TooManyEmailsException ex, WebRequest request) {
         log.warn("Too many email requests for request: {}", request.getDescription(false));
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(

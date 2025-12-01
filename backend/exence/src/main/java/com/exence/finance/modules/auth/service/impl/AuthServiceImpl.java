@@ -179,7 +179,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
-    private void sendEmailVerification(User user) {
+    public void sendEmailVerification(User user) {
         Token verificationToken = tokenManagementService.createAndSaveToken(user, TokenType.EMAIL_VERIFICATION);
         emailService.sendVerificationEmail(user, verificationToken.getToken());
     }

@@ -2,7 +2,7 @@ package com.exence.finance.modules.category.service.impl;
 
 import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.service.impl.UserServiceImpl;
+import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
@@ -20,7 +20,7 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     public CategoryDTO getCategoryById(Long id) {
         Category category = categoryRepository.find(id)
@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
-        User user = userServiceImpl.getCurrentUser();
+        User user = userService.getCurrentUser();
 
         Category category = categoryMapper.mapToCategory(categoryDTO);
         category.setUser(user);

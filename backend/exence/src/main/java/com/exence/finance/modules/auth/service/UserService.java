@@ -18,5 +18,7 @@ public interface UserService {
 
     public void changePassword(ChangePasswordRequest request);
 
+    public void requestVerifyEmail();
+
     public void deleteUser();
 }
