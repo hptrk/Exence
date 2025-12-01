@@ -17,6 +17,7 @@
 				placeholder="asd"
 
 			/>
+			<ex-input-clear matSuffix [control]="loginForm.controls.email"/>
 			@if (loginForm.get('email')?.hasError('required')) {
 				<mat-error>
 					Email is <strong>required</strong>!
@@ -30,6 +31,7 @@
 				formControlName="password"
 				type="password"
 			/>
+			<ex-input-clear matSuffix [control]="loginForm.controls.password"/>
 			@if (loginForm.get('password')?.hasError('required')) {
 				<mat-error >
 					Password is <strong>required</strong>!
@@ -39,14 +41,13 @@
 	</mat-card-content>
 	<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4">
 		<a class="forgot-password" [routerLink]="navigationService.account().forgotPassword()">Forgot password?</a>
-
 		<ex-button
 		filled
 		type="submit"
 		matIcon="arrow_right_alt"
 		iconPositionEnd
 		>
-		Log in
+			Log in
 		</ex-button>
 	</mat-card-actions>
 </mat-card>

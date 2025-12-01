@@ -6,12 +6,13 @@ import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { BaseComponent } from "../../shared/base-component/base.component";
+import { InputClearButtonComponent } from "../../shared/input-clear-button/input-clear-button.component";
 
 @Component({
 	selector: 'ex-forgot-password',
 	templateUrl: './forgot-password.component.html',
 	styleUrl: './forgot-password.component.scss',
-	imports: [MatFormFieldModule, MatInputModule, ButtonComponent, ReactiveFormsModule, MatCardModule, MatIconModule]
+	imports: [MatFormFieldModule, MatInputModule, ButtonComponent, ReactiveFormsModule, MatCardModule, MatIconModule, InputClearButtonComponent]
 })
 export class ForgotPasswordComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);

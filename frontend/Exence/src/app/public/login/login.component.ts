@@ -8,12 +8,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { MatCardModule } from '@angular/material/card';
+import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 
 @Component({
 	selector: 'ex-login',
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
-	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule, ButtonComponent, MatCardModule],
+	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule, ButtonComponent, MatCardModule, InputClearButtonComponent],
 })
 export class LoginComponent {
 	public navigationService = inject(NavigationService);
