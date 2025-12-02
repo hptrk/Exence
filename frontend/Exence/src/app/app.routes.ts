@@ -1,21 +1,17 @@
 import { Routes } from '@angular/router';
 
-import { AuthGuard } from './shared/guards/auth.guard';
-import { LoginComponent } from './public/login/login.component';
-import { RegisterComponent } from './public/register/register.component';
 import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { DebtsComponent } from './private/debts/debts.component';
+import { GoalsComponent } from './private/goals/goals.component';
 import { ProfileComponent } from './private/profile/profile.component';
 import { SettingsComponent } from './private/settings/settings.component';
-import { GoalsComponent } from './private/goals/goals.component';
 import { StatisticsComponent } from './private/statistics/statistics.component';
 import { TransactionsComponent } from './private/transactions/transactions.component';
-import { ForgotPasswordComponent } from './public/forgot-password/forgot-password.component';
+import { publicRoutes } from './public/public.routes';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 export const routes: Routes = [
-	{ path: 'login', component: LoginComponent },
-	{ path: 'forgot-password', component: ForgotPasswordComponent },
-	{ path: 'register', component: RegisterComponent },
+	...publicRoutes,
 	{ path: '', redirectTo: '/dashboard', pathMatch: 'full' },
 	{
 		path: 'dashboard',

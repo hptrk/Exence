@@ -1,15 +1,17 @@
 export class AccountRoutes {
+	private baseUrl = '/public';
+
 	login(): string {
-		return `/login`;
+		return `${this.baseUrl}/login`;
 	}
 	logout(): string {
-		return `/logout`;
+		return `${this.baseUrl}/logout`;
 	}
 	register(): string {
-		return `/register`;
+		return `${this.baseUrl}/register`;
 	}
 	forgotPassword(): string {
-		return `/forgot-password`;
+		return `${this.baseUrl}/forgot-password`;
 	}
 }
 
