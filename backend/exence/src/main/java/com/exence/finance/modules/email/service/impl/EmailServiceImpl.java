@@ -41,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendPasswordResetEmail(User user, String token) {
         Map<String, String> variables = new HashMap<>();
         variables.put("username", user.getDisplayUsername());
-        variables.put("resetUrl", exenceProperties.getFrontendUrl() + "/auth/reset-password?token=" + token);
+        variables.put("resetUrl", exenceProperties.getFrontendUrl() + "/auth/forgot-password?token=" + token);
 
         sendTemplatedEmail(user, EmailType.PASSWORD_RESET, variables);
     }
