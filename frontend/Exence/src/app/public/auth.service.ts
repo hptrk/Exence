@@ -8,8 +8,10 @@ import { EmailVerificationRequest } from "../data-model/modules/auth/EmailVerifi
 import { ForgotPasswordRequest } from "../data-model/modules/auth/ForgotPasswordRequest";
 import { PasswordResetRequest } from "../data-model/modules/auth/PasswordResetRequest";
 
-@Injectable()
-export class AuthServiceComponent {
+@Injectable({
+	providedIn: 'root'
+})
+export class AuthService {
 	private readonly http = inject(HttpService);
 
 	private baseUrl = '/api/auth';
