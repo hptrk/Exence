@@ -41,7 +41,7 @@
 		</div>
 
 		@let pwdControl = form.controls.password;
-		<mat-form-field>
+		<mat-form-field matTooltip="Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*()_+-=[]{};':&quot;\|,.<>/?)">
 			<mat-label>Password</mat-label>
 			<input matInput [formControl]="pwdControl" type="password" />
 			<ex-input-clear matSuffix [control]="pwdControl"/>
@@ -65,7 +65,7 @@
 	</mat-card-content>
 
 	<mat-card-actions class="d-flex flex-column gap-3 w-100">
-		<ex-button class="w-100 mb-2" filled (click)="register()">
+		<ex-button class="w-100" [disabled]="form.invalid" filled (click)="register()">
 			Create Account
 		</ex-button>
 	</mat-card-actions>
