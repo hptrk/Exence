@@ -11,7 +11,6 @@ import {
 	SummaryContainerComponent,
 	SummaryType,
 } from '../../private/dashboard/summary-container/summary-container.component';
-import { AuthService } from '../../shared/account/auth.service';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
 import { ChartComponent } from '../../shared/chart/chart.component';
 import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
@@ -37,7 +36,6 @@ import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.compon
 	styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-	private authService = inject(AuthService);
 	public display = inject(DisplaySizeService);
 	public dialog = inject(MatDialog);
 	public router = inject(Router);
@@ -72,7 +70,7 @@ export class DashboardComponent implements OnInit {
 	transactionTypes = TransactionType;
 
 	ngOnInit() {
-		this.username = computed(() => this.authService.getUserData()()?.username ?? '');
+		this.username = computed(() => '');
 		this.expenses = computed(() => [
 			{
 				id: 1,
