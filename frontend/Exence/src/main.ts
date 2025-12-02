@@ -8,6 +8,7 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { authInterceptor } from './app/shared/interceptors/auth.interceptor';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 bootstrapApplication(AppComponent, {
 	providers: [
@@ -17,5 +18,9 @@ bootstrapApplication(AppComponent, {
 		provideAnimations(),
 		provideCharts(withDefaultRegisterables()),
 		importProvidersFrom(LayoutModule), provideCharts(withDefaultRegisterables()),
+		{
+			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+			useValue: { appearance: 'outline' }
+		}
 	],
 }).catch(err => console.error(err));

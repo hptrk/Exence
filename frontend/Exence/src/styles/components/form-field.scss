@@ -41,6 +41,10 @@ mat-form-field.mat-mdc-form-field {
 		min-height: 56px;
 		padding-top: 16px;
 	}
+
+	.mat-mdc-form-field-icon-suffix {
+		width: 40px; // space for clear button
+	}
 }
 
 mat-form-field.mat-form-field-appearance-outline {
