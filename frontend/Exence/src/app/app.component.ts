@@ -6,12 +6,16 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { HttpService } from './shared/http/http.service';
+import { AuthService } from './public/auth.service';
+import { CurrentUserService } from './private/current-user.service';
 
 @Component({
 	selector: 'ex-root',
-	imports: [SidebarComponent, RouterModule],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
+	imports: [SidebarComponent, RouterModule],
+	providers: [HttpService, AuthService, CurrentUserService]
 })
 export class AppComponent implements OnInit {
 	// private transactionService = inject(TransactionService);

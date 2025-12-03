@@ -21,9 +21,7 @@ export class HttpServiceError extends Error {
 
 class StackSnapshot extends Error { }
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable()
 export class HttpService {
 	private readonly httpClient = inject(HttpClient);
 

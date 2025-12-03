@@ -8,9 +8,7 @@ import { EmailVerificationRequest } from "../data-model/modules/auth/EmailVerifi
 import { ForgotPasswordRequest } from "../data-model/modules/auth/ForgotPasswordRequest";
 import { PasswordResetRequest } from "../data-model/modules/auth/PasswordResetRequest";
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
 	private readonly http = inject(HttpService);
 
