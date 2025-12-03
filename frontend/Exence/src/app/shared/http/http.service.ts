@@ -130,15 +130,10 @@ export class HttpService {
 			return null;
 		}
 		
-		// response.body may be null if the server returns an empty body
-		if (response.body === null || response.body === '') {
-			return null;
-		}
-
 		try {
-			return response.body as any as T;
+			return response as T;
 		} catch {
-			return response.body as any;
+			return response as any;
 		}
 	}
 
