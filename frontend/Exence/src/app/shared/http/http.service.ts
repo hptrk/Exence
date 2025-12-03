@@ -69,7 +69,7 @@ export class HttpService {
 		return response.pipe(
 			this.tapEventStream(),
 			catchError((err: HttpErrorResponse) => from(this.handleError(err, settings, stackSnapshot))),
-			map(resp => this.parseResponse<T>(resp)!),
+			map(resp => resp ? this.parseResponse<T>(resp)! : null as T),
 		);
 	}
 
@@ -125,7 +125,11 @@ export class HttpService {
 		}
 	}
 
-	private parseResponse<T>(response: HttpResponse<string>): T | null {
+	private parseResponse<T>(response: HttpResponse<string> | null): T | null {
+		if (!response) {
+			return null;
+		}
+		
 		// response.body may be null if the server returns an empty body
 		if (response.body === null || response.body === '') {
 			return null;
