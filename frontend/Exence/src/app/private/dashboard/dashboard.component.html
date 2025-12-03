@@ -2,7 +2,7 @@
 	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
 		<div>
 			<h1 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
-				Welcome back, <span class="username">{{ username() || 'PLACEHOLDER' }}</span
+				Welcome back, <span class="username">{{ user().username }}</span
 				>!
 			</h1>
 			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>

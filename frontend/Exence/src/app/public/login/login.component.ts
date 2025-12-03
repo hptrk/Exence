@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,7 @@ import { BaseComponent } from '../../shared/base-component/base.component';
 import { AuthService } from '../auth.service';
 import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
 import { ExtraValidators } from '../../shared/validators';
+import { CurrentUserService } from '../../private/current-user.service';
 
 @Component({
 	selector: 'ex-login',
@@ -24,6 +25,7 @@ export class LoginComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly authService = inject(AuthService);
 	private readonly router = inject(Router);
+	private readonly currentUserService = inject(CurrentUserService);
 	public navigationService = inject(NavigationService);
 
 	loginForm = this.fb.group({
@@ -38,6 +40,7 @@ export class LoginComponent extends BaseComponent {
 			password: formValue.password,
 		};
 		const resp = await this.authService.login(request);
+		this.currentUserService.setUser(resp.user);
 		// TODO show snackbar for successful registration
 
 		// TODO store tokens (refresh, access) in HttpOnly cookies (https://stackoverflow.com/questions/57650692/where-to-store-the-refresh-token-on-the-client)

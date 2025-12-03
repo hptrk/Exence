@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
@@ -18,6 +18,8 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
+import { CurrentUserService } from '../current-user.service';
+import { User } from '../../data-model/modules/auth/User';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -40,10 +42,13 @@ export class DashboardComponent implements OnInit {
 	public dialog = inject(MatDialog);
 	public router = inject(Router);
 	public navigation = inject(NavigationService);
+	private readonly currentUserService = inject(CurrentUserService);
 
 	transacrionTypes = TransactionType;
 	summaryTypes = SummaryType;
 	dateIntervals = DateInterval;
+
+	user = computed(() => this.currentUserService.user());
 
 	// private transactionService = inject(TransactionService);
 	// private categoryService = inject(CategoryService);
@@ -59,7 +64,6 @@ export class DashboardComponent implements OnInit {
 		{ id: 5, name: 'Fitness', emoji: '🚲' },
 		{ id: 6, name: 'Gifts', emoji: '🎁' },
 	]);
-	public username!: Signal<string>;
 	public expenses!: Signal<Transaction[]>;
 	public incomes!: Signal<Transaction[]>;
 	public totalIncome!: Signal<number>;
@@ -70,7 +74,6 @@ export class DashboardComponent implements OnInit {
 	transactionTypes = TransactionType;
 
 	ngOnInit() {
-		this.username = computed(() => '');
 		this.expenses = computed(() => [
 			{
 				id: 1,
