@@ -92,9 +92,9 @@
 						<button (click)="toggleTheme()">
 							<mat-icon>contrast</mat-icon>
 						</button>
-						<a [routerLink]="navigationService.account().logout()">
+						<button (click)="logout()">
 							<mat-icon>logout</mat-icon>
-						</a>
+						</button>
 					</div>
 				} @else {
 					<ng-container [ngTemplateOutlet]="actionsMenu"></ng-container>

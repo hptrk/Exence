@@ -39,4 +39,8 @@ export class AuthService {
 	public resetPassword(request: PasswordResetRequest): Promise<void> {
 		return lastValueFrom(this.http.post<void>(`${this.baseUrl}/reset-password`, request));
 	}
+
+	public logout(): Promise<void> {
+		return lastValueFrom(this.http.post<void>(`${this.baseUrl}/logout`));
+	}
 }
