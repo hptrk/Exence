@@ -10,6 +10,10 @@ import { InputClearButtonComponent } from "../../shared/input-clear-button/input
 import { Router, RouterLink } from "@angular/router";
 import { NavigationService } from "../../shared/navigation/navigation.service";
 import { A11yModule } from "@angular/cdk/a11y";
+import { AuthService } from "../auth.service";
+import { ForgotPasswordRequest } from "../../data-model/modules/auth/ForgotPasswordRequest";
+import { ExtraValidators } from "../../shared/validators";
+import { PasswordResetRequest } from "../../data-model/modules/auth/PasswordResetRequest";
 
 @Component({
 	selector: 'ex-forgot-password',
@@ -20,30 +24,33 @@ import { A11yModule } from "@angular/cdk/a11y";
 export class ForgotPasswordComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly router = inject(Router);
+	private readonly authService = inject(AuthService);
 	readonly navigation = inject(NavigationService);
 
-	emailControl = this.fb.control<string | null>(null, [Validators.required, Validators.email, Validators.maxLength(255)]);
+	emailControl = this.fb.control<string>('', [Validators.required, Validators.email, Validators.maxLength(255)]);
 	resetForm = this.fb.group({
-		password: this.fb.control<string | null>(null, [Validators.required, Validators.maxLength(255)]),
-		confirmPassword: this.fb.control<string | null>(null, [Validators.required, Validators.maxLength(255)])
+		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
+		confirmPassword: this.fb.control<string>('', [Validators.required, ExtraValidators.password, ExtraValidators.passwordMatch('password')])
 	});
 	
 	token = computed(() => this.router.routerState.root.snapshot.queryParams['token']);
 	emailSent = signal<boolean>(false);
-	
-	constructor() {
-		super();
-
-		effect(() => {
-		});
-	}
 
 	navigateToLogin(): void {
 		this.router.navigateByUrl(this.navigation.account().login());
 	}
 
-	send(): void {
+	async send(): Promise<void> {
+		const request: ForgotPasswordRequest = {
+			email: this.emailControl.getRawValue(),
+		};
+		const resp = await this.authService.forgotPassword(request);
 		this.emailSent.set(true);
+	}
+
+	resend(): void {
+		this.send();
+		// TODO snackbar
 	}
 
 	changeEmail(): void {
@@ -51,8 +58,16 @@ export class ForgotPasswordComponent extends BaseComponent {
 		this.emailControl.reset();
 	}
 
-	resetPassword(): void {
-		// TODO actual business logic
+	async resetPassword(): Promise<void> {
+		const formValue = this.resetForm.getRawValue();
+		const request: PasswordResetRequest = {
+			token: this.token(),
+			newPassword: formValue.password,
+			confirmNewPassword: formValue.confirmPassword,
+		};
+		const resp = await this.authService.resetPassword(request);
+		// TODO snackbar
+		// TODO store tokens in cookie
 		this.router.navigateByUrl(this.navigation.account().login());
 	}
 }

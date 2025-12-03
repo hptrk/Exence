@@ -32,7 +32,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendVerificationEmail(User user, String token) {
         Map<String, String> variables = new HashMap<>();
         variables.put("username", user.getDisplayUsername());
-        variables.put("verificationUrl", exenceProperties.getFrontendUrl() + "/auth/verify-email?token=" + token);
+        variables.put("verificationUrl", exenceProperties.getFrontendUrl() + "/public/verify-email?token=" + token);
 
         sendTemplatedEmail(user, EmailType.EMAIL_VERIFICATION, variables);
     }
@@ -41,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendPasswordResetEmail(User user, String token) {
         Map<String, String> variables = new HashMap<>();
         variables.put("username", user.getDisplayUsername());
-        variables.put("resetUrl", exenceProperties.getFrontendUrl() + "/auth/forgot-password?token=" + token);
+        variables.put("resetUrl", exenceProperties.getFrontendUrl() + "/public/forgot-password?token=" + token);
 
         sendTemplatedEmail(user, EmailType.PASSWORD_RESET, variables);
     }
