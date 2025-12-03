@@ -1,0 +1,20 @@
+@import "../../../styles/imports.scss";
+
+.icon-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+	background-color: lighten(var(--primary-color), 30%);
+	padding: 0.5rem;
+	margin-top: 0.25rem;
+
+	mat-icon {
+		color: var(--secondary-text-color);
+	}
+}
+
+.subtitle {
+	color: var(--accent-text-color);
+	max-width: 40ch;
+}
