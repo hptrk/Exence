@@ -29,7 +29,6 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "lastLoginAt", ignore = true)
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "categories", ignore = true)
@@ -43,7 +42,6 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "password", ignore = true)
-    @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "lastLoginAt", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUserFromRequest(UpdateUserRequest request, @MappingTarget User user);
