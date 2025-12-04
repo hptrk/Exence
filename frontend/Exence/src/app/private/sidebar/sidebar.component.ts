@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { MatMenuModule } from '@angular/material/menu';
 import { DisplayThemeService } from '../../shared/display-theme.service';
 import { ThemeApplierDirective } from '../../shared/theme-applier.directive';
-import { AuthService } from '../../public/auth.service';
+import { AuthService } from '../../shared/auth/auth.service';
 
 @Component({
 	selector: 'ex-sidebar',
@@ -42,7 +42,6 @@ export class SidebarComponent extends BaseComponent {
 	}
 
 	async logout(): Promise<void> {
-		await this.authService.logout();
-		this.router.navigateByUrl(this.navigationService.account().login());
+		this.router.navigateByUrl(this.navigationService.account().logout());
 	}
 }

@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { BaseComponent } from '../../shared/base-component/base.component';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../shared/auth/auth.service';
 import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
 import { ExtraValidators } from '../../shared/validators';
 import { CurrentUserService } from '../../private/current-user.service';

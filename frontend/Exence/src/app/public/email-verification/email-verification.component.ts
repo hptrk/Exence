@@ -4,7 +4,7 @@ import { ButtonComponent } from "../../shared/button/button.component";
 import { MatIconModule } from "@angular/material/icon";
 import { Router } from "@angular/router";
 import { NavigationService } from "../../shared/navigation/navigation.service";
-import { AuthService } from "../auth.service";
+import { AuthService } from "../../shared/auth/auth.service";
 import { EmailVerificationRequest } from "../../data-model/modules/auth/EmailVerificationRequest";
 
 @Component({

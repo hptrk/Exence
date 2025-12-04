@@ -1,6 +1,6 @@
 import { HttpClient, HttpContext, HttpErrorResponse, HttpEvent, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
-import { catchError, finalize, from, map, Observable, OperatorFunction, Subject, tap } from "rxjs";
+import { catchError, from, map, Observable, OperatorFunction, Subject, tap } from "rxjs";
 import { HttpSettings } from "./http-settings";
 
 interface HttpOptions {
@@ -21,7 +21,9 @@ export class HttpServiceError extends Error {
 
 class StackSnapshot extends Error { }
 
-@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
 export class HttpService {
 	private readonly httpClient = inject(HttpClient);
 
@@ -128,15 +130,21 @@ export class HttpService {
 			return null;
 		}
 		
+		if (typeof response.body !== 'string') {
+			return response as any as T;
+		}
+		
 		try {
-			return response as T;
+			return JSON.parse(response.body) as T;
 		} catch {
 			return response as any;
 		}
 	}
 
 	private createDefaultRequestOptions(params?: Record<string, string | undefined | null>): HttpOptions {
-		const headers = new HttpHeaders().set('Accept', 'application/json').set('Content-Type', 'application/json');
+		const headers = new HttpHeaders()
+			.set('Accept', 'application/json')
+			.set('Content-Type', 'application/json');
 
 		let httpParams = params ? this.filterParams(params) : undefined;
 

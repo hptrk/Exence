@@ -10,7 +10,7 @@ import { InputClearButtonComponent } from "../../shared/input-clear-button/input
 import { Router, RouterLink } from "@angular/router";
 import { NavigationService } from "../../shared/navigation/navigation.service";
 import { A11yModule } from "@angular/cdk/a11y";
-import { AuthService } from "../auth.service";
+import { AuthService } from "../../shared/auth/auth.service";
 import { ForgotPasswordRequest } from "../../data-model/modules/auth/ForgotPasswordRequest";
 import { ExtraValidators } from "../../shared/validators";
 import { PasswordResetRequest } from "../../data-model/modules/auth/PasswordResetRequest";

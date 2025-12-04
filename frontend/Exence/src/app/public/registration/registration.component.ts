@@ -12,7 +12,7 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ExtraValidators } from '../../shared/validators';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../shared/auth/auth.service';
 
 @Component({
 	selector: 'ex-registration',
