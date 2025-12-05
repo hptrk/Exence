@@ -9,5 +9,5 @@ export interface Transaction {
 	amount: number;
 	type: TransactionType;
 	recurring: boolean;
-	category?: Category;
+	category: Category;
 }
