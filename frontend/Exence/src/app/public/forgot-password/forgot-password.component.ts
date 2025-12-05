@@ -67,7 +67,6 @@ export class ForgotPasswordComponent extends BaseComponent {
 		};
 		const resp = await this.authService.resetPassword(request);
 		// TODO snackbar
-		// TODO store tokens in cookie
 		this.router.navigateByUrl(this.navigation.account().login());
 	}
 }

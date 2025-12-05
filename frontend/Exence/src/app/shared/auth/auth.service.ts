@@ -19,11 +19,7 @@ export class AuthService {
 	private baseUrl = '/api/auth';
 
 	public register(request: RegisterRequest): Promise<AuthenticationResponse> {
-		return lastValueFrom(this.http.post<AuthenticationResponse>(`${this.baseUrl}/register`, request))
-			.then(response => {
-				this.cookie.saveTokens(response.access_token, response.refresh_token);
-				return response;
-			});
+		return lastValueFrom(this.http.post<AuthenticationResponse>(`${this.baseUrl}/register`, request));
 	}
 
 	public login(request: LoginRequest): Promise<AuthenticationResponse> {

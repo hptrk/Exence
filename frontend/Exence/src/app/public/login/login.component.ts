@@ -43,7 +43,6 @@ export class LoginComponent extends BaseComponent {
 		this.currentUserService.setUser(resp.user);
 		// TODO show snackbar for successful registration
 
-		// TODO store tokens (refresh, access) in HttpOnly cookies (https://stackoverflow.com/questions/57650692/where-to-store-the-refresh-token-on-the-client)
 		this.router.navigateByUrl(this.navigationService.private().dashboard());
 	}
 }
