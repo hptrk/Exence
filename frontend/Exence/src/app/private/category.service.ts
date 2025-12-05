@@ -1,72 +1,33 @@
-// import { inject, Injectable, signal } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable, tap } from 'rxjs';
-// import { Category } from '../data-model/modules/category/Category';
+import { inject, Injectable } from "@angular/core";
+import { HttpService } from "../shared/http/http.service";
+import { Category } from "../data-model/modules/category/Category";
+import { identity, lastValueFrom } from "rxjs";
 
-// @Injectable({
-// 	providedIn: 'root',
-// })
-// export class CategoryService {
-// 	private readonly http = inject(HttpClient);
-// 	private readonly baseUrl = 'http://localhost:8080/api/categories';
+@Injectable({
+	providedIn: 'root'
+})
+export class CategoryService {
+	private readonly http = inject(HttpService);
 
-// 	private readonly categories = signal<Category[]>([]);
+	private baseUrl = '/api/categories';
 
-// 	loadCategories() {
-// 		return this.getCategoriesForLoggedInUser().pipe(tap(categories => this.categories.set(categories)));
-// 	}
+	public get(id: number): Promise<Category> {
+		return lastValueFrom(this.http.get<Category>(`${this.baseUrl}/${id}`));
+	}
 
-// 	getCategories() {
-// 		return this.categories;
-// 	}
+	public list(): Promise<Category[]> {
+		return lastValueFrom(this.http.get<Category[]>(this.baseUrl));
+	}
 
-// 	private getCategoriesForLoggedInUser(): Observable<Category[]> {
-// 		return this.http.get<Category[]>(this.baseUrl);
-// 	}
+	public create(request: Category): Promise<Category> {
+		return lastValueFrom(this.http.post<Category>(this.baseUrl, request));
+	}
 
-// 	createCategory(category: Category) {
-// 		return this.http.post<Category>(this.baseUrl, category).pipe(
-// 			tap(newCategory => {
-// 				const current = this.categories();
-// 				this.categories.set([...current, newCategory]);
-// 			}),
-// 		);
-// 	}
+	public update(request: Category): Promise<Category> {
+		return lastValueFrom(this.http.put<Category>(`${this.baseUrl}/${request.id}`, request));
+	}
 
-// 	updateCategory(id: number, category: Category) {
-// 		return this.http.put<Category>(`${this.baseUrl}/${id}`, category).pipe(
-// 			tap(updatedCategory => {
-// 				const current = this.categories();
-// 				const index = current.findIndex(c => c.id === id);
-// 				if (index !== -1) {
-// 					const updated = [...current];
-// 					updated[index] = updatedCategory;
-// 					this.categories.set(updated);
-// 				}
-// 			}),
-// 		);
-// 	}
-
-// 	patchCategory(id: number, updates: Partial<Category>) {
-// 		return this.http.patch<Category>(`${this.baseUrl}/${id}`, updates).pipe(
-// 			tap(patchedCategory => {
-// 				const current = this.categories();
-// 				const index = current.findIndex(c => c.id === id);
-// 				if (index !== -1) {
-// 					const updated = [...current];
-// 					updated[index] = patchedCategory;
-// 					this.categories.set(updated);
-// 				}
-// 			}),
-// 		);
-// 	}
-
-// 	deleteCategory(id: number) {
-// 		return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
-// 			tap(() => {
-// 				const current = this.categories();
-// 				this.categories.set(current.filter(c => c.id !== id));
-// 			}),
-// 		);
-// 	}
-// }
+	public delete(id: number): Promise<void> {
+		return lastValueFrom(this.http.delete(`${this.baseUrl}/${id}`));
+	}
+}
