@@ -1,1 +1,47 @@
-<p>transactions works!</p>
+<section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-2">
+	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
+		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">Transactions</h2>
+		@if (display.isMd()) {
+			<ng-container [ngTemplateOutlet]="tabs" />
+		}
+	</div>
+
+	<div class="d-flex flex-column-reverse flex-md-column justify-content-between gap-4 h-100">
+		<!-- TODO recurring row -->
+		<div class="d-flex flex-column flex-lg-row gap-4">
+			<ex-data-table
+				[data]="transactions"
+				[categories]="categories"
+				matIcon="money_off"
+				class="flex-grow-1"
+				nonExpandable
+			/>
+			<ex-data-table
+				[data]="transactions"
+				[categories]="categories"
+				matIcon="money_off"
+				class="flex-grow-1"
+				nonExpandable
+			/>
+		</div>
+
+		<!-- TODO main -->
+		<div class="d-flex flex-column h-100 gap-2">
+			<div class="d-flex flex-row flex-nowrap justif-content-between">
+				<ex-button
+					filled
+					(click)="openAddTransactionDialog()"
+				>
+					Add transaction
+				</ex-button>
+			</div>
+			<ex-data-table
+				[data]="transactions"
+				[categories]="categories"
+				matIcon="money_range"
+			/>
+		</div>
+	</div>
+</section>
+
+<ng-template #tabs></ng-template>

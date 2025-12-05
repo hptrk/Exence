@@ -11,6 +11,10 @@ import { routes } from './app.routes';
 import { authInterceptor } from './shared/auth/interceptors/auth.interceptor';
 import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-token.interceptor';
 import { unauthorizedInterceptor } from './shared/auth/interceptors/unauthorized.interceptor';
+import { MAT_DATE_FNS_FORMATS, provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { enUS } from 'date-fns/locale';
+
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -30,6 +34,8 @@ export const appConfig: ApplicationConfig = {
 			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
 			useValue: { appearance: 'outline' }
 		},
+		{ provide: MAT_DATE_LOCALE, useValue: enUS },
+		provideDateFnsAdapter(),
 		CookieService,
 	],
 };

@@ -1,21 +1,23 @@
-import { booleanAttribute, Component, effect, inject, input } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatRowDef, MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
+import { booleanAttribute, Component, effect, inject, input } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
-import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { BaseComponent } from '../base-component/base.component';
-import { MatIconModule } from '@angular/material/icon';
 import { TransactionService } from '../../private/transactions/transaction.service';
-import { SvgIcons } from '../svg-icons/svg-icons';
+import { BaseComponent } from '../base-component/base.component';
 import { DisplaySizeService } from '../display-size.service';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
+import { SvgIcons } from '../svg-icons/svg-icons';
+import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
+import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
+import { Category } from '../../data-model/modules/category/Category';
 // import { TransactionService } from '../../private/transactions/transaction.service';
 // import { CategoryService } from '../../private/category.service';
 
@@ -50,6 +52,9 @@ export class DataTableComponent extends BaseComponent {
 	private transactionService = inject(TransactionService);
 	public display = inject(DisplaySizeService);
 
+	// TODO remove after category caching, preloading is done
+	categories = input.required<Category[]>();
+
 	data = input.required<Transaction[]>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
@@ -62,203 +67,7 @@ export class DataTableComponent extends BaseComponent {
 
 	transactionTypes = TransactionType;
 
-	dataSource = new MatTableDataSource<Transaction>([
-		{
-			id: 1,
-			title: 'lidl',
-			date: new Date().toISOString(),
-			amount: 17600,
-			type: TransactionType.EXPENSE,
-			recurring: false,
-			category: {
-				id: 1,
-				name: 'Groceries',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Work Payment',
-			date: new Date().toISOString(),
-			amount: 1260000,
-			type: TransactionType.INCOME,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Rent',
-			date: new Date().toISOString(),
-			amount: -150000,
-			type: TransactionType.EXPENSE,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🛖',
-			},
-		},
-		{
-			id: 1,
-			title: 'lidl',
-			date: new Date().toISOString(),
-			amount: 17600,
-			type: TransactionType.EXPENSE,
-			recurring: false,
-			category: {
-				id: 1,
-				name: 'Groceries',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Work Payment for doing really nothing in the world',
-			date: new Date().toISOString(),
-			amount: 1260000,
-			type: TransactionType.INCOME,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Rent',
-			date: new Date().toISOString(),
-			amount: -150000,
-			type: TransactionType.EXPENSE,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🛖',
-			},
-		},
-		{
-			id: 1,
-			title: 'lidl',
-			date: new Date().toISOString(),
-			amount: 17600,
-			type: TransactionType.EXPENSE,
-			recurring: false,
-			category: {
-				id: 1,
-				name: 'Groceries',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Work Payment',
-			date: new Date().toISOString(),
-			amount: 1260000,
-			type: TransactionType.INCOME,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Rent',
-			date: new Date().toISOString(),
-			amount: -150000,
-			type: TransactionType.EXPENSE,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🛖',
-			},
-		},
-		{
-			id: 1,
-			title: 'lidl',
-			date: new Date().toISOString(),
-			amount: 17600,
-			type: TransactionType.EXPENSE,
-			recurring: false,
-			category: {
-				id: 1,
-				name: 'Groceries',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Work Payment',
-			date: new Date().toISOString(),
-			amount: 1260000,
-			type: TransactionType.INCOME,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Rent',
-			date: new Date().toISOString(),
-			amount: -150000,
-			type: TransactionType.EXPENSE,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🛖',
-			},
-		},
-		{
-			id: 1,
-			title: 'lidl',
-			date: new Date().toISOString(),
-			amount: 17600,
-			type: TransactionType.EXPENSE,
-			recurring: false,
-			category: {
-				id: 1,
-				name: 'Groceries',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Work Payment',
-			date: new Date().toISOString(),
-			amount: 1260000,
-			type: TransactionType.INCOME,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🥦',
-			},
-		},
-		{
-			id: 2,
-			title: 'Rent',
-			date: new Date().toISOString(),
-			amount: -150000,
-			type: TransactionType.EXPENSE,
-			recurring: true,
-			category: {
-				id: 1,
-				name: 'Test category',
-				emoji: '🛖',
-			},
-		},
-	]);
+	dataSource?: MatTableDataSource<TransactionModel>;
 
 	constructor() {
 		super();
@@ -268,6 +77,22 @@ export class DataTableComponent extends BaseComponent {
 				? ['title', 'date', 'amount', 'category', 'actions']
 				: ['title', 'date', 'amount', 'category'];
 		});
+
+		effect(() => {
+			const transactionsInput = this.data();
+			const categories = this.categories();
+			const transactions = transactionsInput
+				.map(transaction => this.mapToTransactionModel(transaction, categories));
+				this.dataSource = new MatTableDataSource(transactions);
+		});
+	}
+
+	mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {
+		const category = this.categories().find(c => c.id === transaction.categoryId);
+		return {
+			...transaction,
+			category: category!
+		};
 	}
 
 	toggleExpand(row: Transaction | null): void {

@@ -16,8 +16,8 @@ export class TransactionService {
 		return lastValueFrom(this.http.get<Transaction>(`${this.baseUrl}/${id}`));
 	}
 
-	public list(): Promise<PagedResponse<Transaction[]>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction[]>>(this.baseUrl));
+	public list(): Promise<PagedResponse<Transaction>> {
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl));
 	}
 
 	public create(request: Transaction): Promise<Transaction> {

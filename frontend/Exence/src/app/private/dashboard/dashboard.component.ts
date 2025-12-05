@@ -74,71 +74,7 @@ export class DashboardComponent implements OnInit {
 	transactionTypes = TransactionType;
 
 	ngOnInit() {
-		this.expenses = computed(() => [
-			{
-				id: 1,
-				title: 'Taxi',
-				date: new Date().toISOString(),
-				amount: 30000,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 1, name: 'Travel', emoji: '✈️' },
-			},
-			{
-				id: 2,
-				title: 'Bérlet',
-				date: new Date().toISOString(),
-				amount: 2990,
-				type: TransactionType.EXPENSE,
-				recurring: true,
-				category: { id: 1, name: 'Travel', emoji: '✈️' },
-			},
-			{
-				id: 3,
-				title: 'lidl',
-				date: new Date().toISOString(),
-				amount: 36429,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 2, name: 'Groceries', emoji: '🥦' },
-			},
-			{
-				id: 4,
-				title: 'KFC',
-				date: new Date().toISOString(),
-				amount: 7690,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 3, name: 'Takeout', emoji: '🍕' },
-			},
-			{
-				id: 5,
-				title: 'Mosógép',
-				date: new Date().toISOString(),
-				amount: 249000,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 4, name: 'Housing', emoji: '🛖' },
-			},
-			{
-				id: 6,
-				title: 'Gym bérlet',
-				date: new Date().toISOString(),
-				amount: 21990,
-				type: TransactionType.EXPENSE,
-				recurring: true,
-				category: { id: 5, name: 'Fitness', emoji: '🚲' },
-			},
-			{
-				id: 6,
-				title: 'Karácsony',
-				date: new Date().toISOString(),
-				amount: 45000,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 6, name: 'Gifts', emoji: '🎁' },
-			},
-		]);
+		this.expenses = computed(() => []);
 		this.incomes = computed(() => []);
 		this.totalIncome = computed(() => this.incomes().reduce((sum, t) => sum + t.amount, 0));
 		this.totalExpenses = computed(() => this.expenses().reduce((sum, t) => sum + t.amount, 0) * -1);

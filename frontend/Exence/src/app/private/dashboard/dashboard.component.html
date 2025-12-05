@@ -89,12 +89,14 @@
 					class="col-12 col-lg-6"
 					matIcon="money_off"
 					[data]="[]"
+					[categories]="[]"
 				/>
 				<ex-data-table
 					[type]="transacrionTypes.INCOME"
 					class="col-12 col-lg-6"
 					matIcon="attach_money"
 					[data]="[]"
+					[categories]="[]"
 				/>
 			</div>
 		} @else {
@@ -103,6 +105,7 @@
 					class="w-100"
 					matIcon="attach_money"
 					[data]="[]"
+					[categories]="[]"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
 			</div>

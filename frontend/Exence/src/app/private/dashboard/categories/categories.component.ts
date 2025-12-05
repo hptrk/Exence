@@ -44,7 +44,7 @@ export class CategoriesComponent extends BaseComponent {
 	calcPercentage(id: number): number | undefined {
 		const totalAmount = this.expenses().reduce((sum, expense) => sum + expense.amount, 0);
 
-		const expenses = this.expenses().filter(e => e.category?.id === id);
+		const expenses = this.expenses();
 		if (!expenses.length) return;
 		const categoryExpense = expenses.reduce((sum, ex) => sum + ex.amount, 0);
 		return Math.round((categoryExpense / totalAmount) * 100);
