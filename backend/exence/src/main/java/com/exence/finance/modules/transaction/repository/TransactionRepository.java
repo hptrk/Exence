@@ -1,6 +1,7 @@
 package com.exence.finance.modules.transaction.repository;
 
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import lombok.NonNull;
 import org.springframework.data.domain.Page;
@@ -33,6 +34,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "ORDER BY t.date DESC")
     Page<Transaction> findWithFilter(
             @Param("filter") TransactionFilter filter,
+            Pageable pageable
+    );
+
+    @Query("SELECT t FROM Transaction t WHERE " +
+            "t.recurring = true " +
+            "AND t.type = :type " +
+            "ORDER BY t.date DESC")
+    Page<Transaction> findRecurringByType(
+            @Param("type") TransactionType type,
             Pageable pageable
     );
 }

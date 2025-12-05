@@ -5,6 +5,7 @@ import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.transaction.controller.TransactionController;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
 import com.exence.finance.modules.transaction.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +43,12 @@ public class TransactionControllerImpl implements TransactionController {
                                                                         @PageableDefault(size = 20) Pageable pageable) {
         Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
         return ResponseFactory.page(page);
+    }
+
+    @GetMapping("/recurring")
+    public ResponseEntity<RecurringTransactionsResponse> getRecurringTransactions(@PageableDefault(size = 20) Pageable pageable) {
+        RecurringTransactionsResponse response = transactionService.getRecurringTransactions(pageable);
+        return ResponseFactory.ok(response);
     }
 
     @PostMapping()
