@@ -2,20 +2,54 @@
 	class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-2"
 	[class.overflow-hidden]="display.isMd()"
 >
-	<div
-		class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2 flex-grow-1 flex-shrink-1"
-	>
-		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">Transactions</h2>
-		@if (display.isMd()) {
-			<ng-container [ngTemplateOutlet]="tabs" />
-		}
+	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
+		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
+			@if (selectedIndex === 0) {
+				Transactions
+			} @else {
+				Categories
+			}
+		</h2>
+		<mat-tab-group
+			animationDuration="0ms"
+			mat-stretch-tabs="false"
+			[(selectedIndex)]="selectedIndex"
+			dynamicHeight="false"
+		>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+						<mat-icon size="md">payments</mat-icon>
+						@if (display.isMd()) {
+							Transactions
+						}
+					</div>
+				</ng-template>
+			</mat-tab>
+			<mat-tab>
+				<ng-template mat-tab-label>
+					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+						<mat-icon size="md">cached</mat-icon>
+						@if (display.isMd()) {
+							Categories
+						}
+					</div>
+				</ng-template>
+			</mat-tab>
+		</mat-tab-group>
 	</div>
+	@if (selectedIndex === 0) {
+		<ng-container [ngTemplateOutlet]="transactionsTab" />
+	} @else if (selectedIndex === 1) {
+		<ng-container [ngTemplateOutlet]="categoriesTab" />
+	}
+</section>
 
+<ng-template #transactionsTab>
 	<div
-		class="d-flex flex-column justify-content-between gap-4 h-100 flex-grow-1 flex-shrink-1"
+		class="d-flex flex-column justify-content-between gap-4 h-100"
 		[class.overflow-hidden]="display.isMd()"
 	>
-		<!-- TODO recurring row -->
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
@@ -49,7 +83,6 @@
 			}
 		</div>
 
-		<!-- TODO main -->
 		<div
 			class="d-flex flex-column h-100 gap-2 bigger-row"
 			[class.overflow-hidden]="display.isMd()"
@@ -57,6 +90,9 @@
 			<div class="d-flex flex-row flex-nowrap justif-content-between">
 				<ex-button
 					filled
+					matIcon="add"
+					collapsedStyle="filled"
+					collapseUnder="sm"
 					(click)="openAddTransactionDialog()"
 				>
 					Add transaction
@@ -71,6 +107,6 @@
 			/>
 		</div>
 	</div>
-</section>
+</ng-template>
 
-<ng-template #tabs></ng-template>
+<ng-template #categoriesTab> categories</ng-template>

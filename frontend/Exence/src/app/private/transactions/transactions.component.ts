@@ -10,14 +10,21 @@ import { DisplaySizeService } from '../../shared/display-size.service';
 import { CategoryService } from '../category.service';
 import { CreateTransactionDialogComponent, CreateTranslationDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import {MatTabsModule} from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'ex-transactions',
 	templateUrl: './transactions.component.html',
 	styleUrl: './transactions.component.scss',
-	imports: [CommonModule, DataTableComponent, MatDialogModule, ButtonComponent ],
+	imports: [
+		CommonModule,
+		MatDialogModule,
+		MatTabsModule,
+		MatIconModule,
+		DataTableComponent,
+		ButtonComponent,
+	],
 })
 export class TransactionsComponent implements OnInit {
 	private readonly transactionService = inject(TransactionService);
@@ -27,6 +34,8 @@ export class TransactionsComponent implements OnInit {
 
 	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
 	categories: Category[] = [];
+
+	selectedIndex = 0;
 
 	async ngOnInit(): Promise<void> {
 		Promise.all([
