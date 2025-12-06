@@ -45,6 +45,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             Pageable pageable
     );
 
+    @Query("SELECT t FROM Transaction t WHERE " +
+            "t.recurring = true " +
+            "ORDER BY t.date DESC")
+    Page<Transaction> findAllRecurring(Pageable pageable);
+
     @Query("SELECT COALESCE(SUM(t.amount), 0) FROM Transaction t WHERE t.type = :type")
     BigDecimal sumByType(@Param("type") TransactionType type);
 }

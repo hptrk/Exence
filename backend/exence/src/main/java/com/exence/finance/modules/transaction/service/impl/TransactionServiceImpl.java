@@ -63,16 +63,20 @@ public class TransactionServiceImpl implements TransactionService{
     public RecurringTransactionsResponse getRecurringTransactions(Pageable pageable) {
         Page<Transaction> incomeTransactions = transactionRepository.findRecurringByType(TransactionType.INCOME, pageable);
         Page<Transaction> expenseTransactions = transactionRepository.findRecurringByType(TransactionType.EXPENSE, pageable);
+        Page<Transaction> mergedTransactions = transactionRepository.findAllRecurring(pageable);
 
         Page<TransactionDTO> incomeDTOs = incomeTransactions.map(transactionMapper::mapToTransactionDTO);
         Page<TransactionDTO> expenseDTOs = expenseTransactions.map(transactionMapper::mapToTransactionDTO);
+        Page<TransactionDTO> mergedDTOs = mergedTransactions.map(transactionMapper::mapToTransactionDTO);
 
         PageResponse<TransactionDTO> incomes = PageResponse.from(incomeDTOs);
         PageResponse<TransactionDTO> expenses = PageResponse.from(expenseDTOs);
+        PageResponse<TransactionDTO> merged = PageResponse.from(mergedDTOs);
 
         return RecurringTransactionsResponse.builder()
                 .incomes(incomes)
                 .expenses(expenses)
+                .mergedTransactions(merged)
                 .build();
     }
 

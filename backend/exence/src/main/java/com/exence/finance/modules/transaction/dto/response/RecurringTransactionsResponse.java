@@ -14,5 +14,6 @@ import lombok.NoArgsConstructor;
 public class RecurringTransactionsResponse {
     private PageResponse<TransactionDTO> incomes;
     private PageResponse<TransactionDTO> expenses;
+    private PageResponse<TransactionDTO> mergedTransactions;
 }
 
