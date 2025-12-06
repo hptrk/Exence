@@ -11,7 +11,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { TransactionService } from '../../private/transactions/transaction.service';
+import { TransactionService } from '../../private/transactions-and-categories/transaction.service';
 import { BaseComponent } from '../base-component/base.component';
 import { DisplaySizeService } from '../display-size.service';
 import { SvgIcons } from '../svg-icons/svg-icons';

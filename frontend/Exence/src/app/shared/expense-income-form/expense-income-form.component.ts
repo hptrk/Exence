@@ -1,6 +1,4 @@
 import { Transaction } from './../../data-model/modules/transaction/Transaction';
-// import { CategoryService } from '../../private/category.service';
-// import { TransactionService } from '../../private/transactions/transaction.service';
 import { Component, inject, input, signal, OnInit, computed } from '@angular/core';
 import { CommonModule, formatDate } from '@angular/common';
 import { provideNativeDateAdapter } from '@angular/material/core';

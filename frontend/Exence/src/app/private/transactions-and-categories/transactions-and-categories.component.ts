@@ -14,9 +14,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-	selector: 'ex-transactions',
-	templateUrl: './transactions.component.html',
-	styleUrl: './transactions.component.scss',
+	selector: 'ex-transactions-and-categories',
+	templateUrl: './transactions-and-categories.component.html',
+	styleUrl: './transactions-and-categories.component.scss',
 	imports: [
 		CommonModule,
 		MatDialogModule,
@@ -26,7 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 		ButtonComponent,
 	],
 })
-export class TransactionsComponent implements OnInit {
+export class TransactionsAndCategoriesComponent implements OnInit {
 	private readonly transactionService = inject(TransactionService);
 	private readonly categoryService = inject(CategoryService);
 	private readonly dialog = inject(MatDialog);
