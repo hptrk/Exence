@@ -17,7 +17,9 @@ import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,7 +46,13 @@ public class TransactionServiceImpl implements TransactionService{
         if (filter == null || filter.hasActiveFilter()) {
             transactions = transactionRepository.findWithFilter(filter, pageable);
         } else {
-            transactions = transactionRepository.findAll(pageable);
+            Sort sortByDateDesc = Sort.by(Sort.Direction.DESC, "date");
+            Pageable sortedByDate = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    pageable.getSort().and(sortByDateDesc)
+            );
+            transactions = transactionRepository.findAll(sortedByDate);
         }
 
         return transactions.map(transactionMapper::mapToTransactionDTO);
