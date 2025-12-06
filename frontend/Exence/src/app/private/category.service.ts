@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { HttpService } from "../shared/http/http.service";
 import { Category } from "../data-model/modules/category/Category";
 import { identity, lastValueFrom } from "rxjs";
+import { CategorySummaryResponse } from "../data-model/modules/category/CategorySummaryResponse";
 
 @Injectable({
 	providedIn: 'root'
@@ -17,6 +18,10 @@ export class CategoryService {
 
 	public list(): Promise<Category[]> {
 		return lastValueFrom(this.http.get<Category[]>(this.baseUrl));
+	}
+
+	public listTop4(): Promise<CategorySummaryResponse[]> {
+		return lastValueFrom(this.http.get<CategorySummaryResponse[]>(`${this.baseUrl}/top4`));
 	}
 
 	public create(request: Category): Promise<Category> {

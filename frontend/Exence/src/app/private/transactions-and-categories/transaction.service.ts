@@ -3,6 +3,8 @@ import { HttpService } from '../../shared/http/http.service';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { last, lastValueFrom } from 'rxjs';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
+import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
+import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,6 +20,14 @@ export class TransactionService {
 
 	public list(): Promise<PagedResponse<Transaction>> {
 		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl));
+	}
+
+	public listRecurrings(): Promise<PagedResponse<RecurringTransactionsResponse>> {
+		return lastValueFrom(this.http.get<PagedResponse<RecurringTransactionsResponse>>(`${this.baseUrl}/recurring`));
+	}
+
+	public totals(): Promise<TransactionTotalsResponse> {
+		return lastValueFrom(this.http.get<TransactionTotalsResponse>(`${this.baseUrl}/totals`));
 	}
 
 	public create(request: Transaction): Promise<Transaction> {
