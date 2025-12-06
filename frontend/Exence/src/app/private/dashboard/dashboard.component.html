@@ -85,18 +85,18 @@
 		@if (display.isMd()) {
 			<div class="row gap-4 gap-lg-0 h-100 overflow-hidden">
 				<ex-data-table
-					[type]="transacrionTypes.EXPENSE"
 					class="col-12 col-lg-6"
 					matIcon="money_off"
-					[data]="[]"
+					[data]="transactions"
 					[categories]="[]"
+					title="Expenses"
 				/>
 				<ex-data-table
-					[type]="transacrionTypes.INCOME"
 					class="col-12 col-lg-6"
 					matIcon="attach_money"
-					[data]="[]"
+					[data]="transactions"
 					[categories]="[]"
+					title="Incomes"
 				/>
 			</div>
 		} @else {
@@ -104,8 +104,9 @@
 				<ex-data-table
 					class="w-100"
 					matIcon="attach_money"
-					[data]="[]"
+					[data]="transactions"
 					[categories]="[]"
+					title="Transactions"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
 			</div>

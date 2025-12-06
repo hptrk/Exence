@@ -9,6 +9,7 @@
 @import './components/form-field.scss';
 @import './components/progress.scss';
 @import './components/tooltip.scss';
+@import './components/paginator.scss';
 @import './fonts/material-icons.scss';
 
 * {
@@ -99,7 +100,7 @@ hr {
 	align-items: center;
 	border-radius: 100%;
 	background-color: var(--app-background-color);
-	padding: 4px;
+	padding: 0.5rem;
 }
 
 .income {

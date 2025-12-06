@@ -18,8 +18,8 @@ import { SvgIcons } from '../svg-icons/svg-icons';
 import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
 import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
 import { Category } from '../../data-model/modules/category/Category';
-// import { TransactionService } from '../../private/transactions/transaction.service';
-// import { CategoryService } from '../../private/category.service';
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 
 @Component({
 	selector: 'ex-data-table',
@@ -33,6 +33,7 @@ import { Category } from '../../data-model/modules/category/Category';
 		FormsModule,
 		ReactiveFormsModule,
 		MatInputModule,
+		MatPaginatorModule
 	],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
@@ -51,15 +52,16 @@ export class DataTableComponent extends BaseComponent {
 	private dialog = inject(MatDialog);
 	private transactionService = inject(TransactionService);
 	public display = inject(DisplaySizeService);
-
+	
 	// TODO remove after category caching, preloading is done
 	categories = input.required<Category[]>();
 
-	data = input.required<Transaction[]>();
+	data = input.required<PagedResponse<Transaction>>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
-	type = input<TransactionType>();
+	title = input<string>();
 	nonExpandable = input(false, { transform: booleanAttribute });
+	paginationDisabled = input(false, { transform: booleanAttribute });
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
 
@@ -68,6 +70,10 @@ export class DataTableComponent extends BaseComponent {
 	transactionTypes = TransactionType;
 
 	dataSource?: MatTableDataSource<TransactionModel>;
+	pageSize?: number;
+	pageIndex?: number;
+	pageLength?: number;
+	pageSizeOptions = [5, 10, 25, 100];
 
 	constructor() {
 		super();
@@ -81,9 +87,13 @@ export class DataTableComponent extends BaseComponent {
 		effect(() => {
 			const transactionsInput = this.data();
 			const categories = this.categories();
-			const transactions = transactionsInput
+			if (!transactionsInput?.content) return;
+			const transactions = transactionsInput.content
 				.map(transaction => this.mapToTransactionModel(transaction, categories));
 				this.dataSource = new MatTableDataSource(transactions);
+			this.pageSize = transactionsInput.size;
+			this.pageIndex = transactionsInput.page;
+			this.pageLength = transactionsInput.totalPages;
 		});
 	}
 
@@ -104,7 +114,7 @@ export class DataTableComponent extends BaseComponent {
 		this.dialog.open(DataTableDialogComponent, {
 			width: 'auto',
 			data: {
-				formType: this.type ?? undefined,
+				formType: this.transactionTypes.EXPENSE,
 			},
 		});
 	}

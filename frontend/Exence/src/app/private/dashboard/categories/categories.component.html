@@ -15,9 +15,9 @@
 								{{ category.name }}
 							</div>
 
-							<div class="fw-semibold">{{ calcPercentage(category.id) }}%</div>
+							<div class="fw-semibold">{{ calcPercentage(category.id!) }}%</div>
 						</div>
-						<mat-progress-bar [value]="calcPercentage(category.id)" />
+						<mat-progress-bar [value]="calcPercentage(category.id!)" />
 					</div>
 				}
 			</div>

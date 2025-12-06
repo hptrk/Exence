@@ -20,6 +20,7 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 import { CurrentUserService } from '../current-user.service';
 import { User } from '../../data-model/modules/auth/User';
+import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -54,7 +55,7 @@ export class DashboardComponent implements OnInit {
 	// private categoryService = inject(CategoryService);
 
 	// public transactions = this.transactionService.getTransactions();
-	public transactions = computed(() => []);
+	public transactions = {} as PagedResponse<Transaction>;
 	// public categories = this.categoryService.getCategories();
 	public categories = computed(() => [
 		{ id: 1, name: 'Travel', emoji: '✈️' },
@@ -83,8 +84,6 @@ export class DashboardComponent implements OnInit {
 			const categorySpending: Record<number, number> = {};
 
 			this.expenses().forEach(transaction => {
-				// categorySpending[transaction.categoryId] =
-				// 	(categorySpending[transaction.categoryId] || 0) + transaction.amount;
 			});
 
 			let highestId: number | null = null;
@@ -101,7 +100,6 @@ export class DashboardComponent implements OnInit {
 				return { name: '', amount: 0 };
 			}
 
-			// const category = this.categories().find(c => c.id === highestId);
 			const category = { id: 1, name: 'dummyname', emoji: '💀' } as Category;
 			return {
 				name: category?.name ?? '',

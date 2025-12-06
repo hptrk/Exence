@@ -25,7 +25,7 @@ export class TransactionsComponent implements OnInit {
 	private readonly dialog = inject(MatDialog);
 	readonly display = inject(DisplaySizeService);
 
-	transactions: Transaction[] = [];
+	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
 	categories: Category[] = [];
 
 	async ngOnInit(): Promise<void> {
@@ -33,7 +33,7 @@ export class TransactionsComponent implements OnInit {
 			this.getTransactions(),
 			this.getCategories(),
 		]).then(([transactions, categories]) => {
-			this.transactions = transactions.content;
+			this.transactions = transactions;
 			this.categories = categories;
 		});
 	}
@@ -46,7 +46,7 @@ export class TransactionsComponent implements OnInit {
 		this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(CreateTransactionDialogComponent, { data }).afterClosed().subscribe(async (newTransaction?: Transaction) => {
 			if (newTransaction) {
 				// TODO success snackbar
-				this.transactions = (await this.getTransactions()).content;
+				this.transactions = (await this.getTransactions());
 			}
 		});
 	}
