@@ -59,7 +59,7 @@
 			<mat-form-field>
 				<mat-label>Category</mat-label>
 				<mat-select [formControl]="categoryControl">
-					@for (category of data.categories; track category.id) {
+					@for (category of categories; track category.id) {
 						<mat-option [value]="category">{{ `${category.name} - ${category.emoji}` }}</mat-option>
 					}
 				</mat-select>

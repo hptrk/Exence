@@ -7,9 +7,9 @@
 			</h1>
 			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
 		</div>
-		@if (display.isMd()) {
-			<ng-container [ngTemplateOutlet]="toggleFilter" />
-		}
+		<!-- @if (display.isMd()) {
+		<ng-container [ngTemplateOutlet]="toggleFilter" />
+	} -->
 	</div>
 
 	<div
@@ -26,12 +26,9 @@
 			}
 			<ex-chart />
 			<ex-categories
-				[intervalFilter]="{
-					type: dateIntervals.MONTH,
-					value: 0
-				}"
-				[expenses]="expenses()"
-				[categories]="categories"
+				class="h-100"
+				[totalExpense]="totals.totalExpense"
+				[categories]="topCategories!"
 			/>
 		</div>
 
@@ -42,43 +39,33 @@
 			>
 				<ex-summary-container
 					class="flex-grow-1"
-					[data]="{
-						matIcon: 'attach_money',
-						title: 'Income',
-						value: 856400,
-						type: summaryTypes.INCOME
-					}"
+					matIcon="attach_money"
+					title="Income"
+					[value]="totals.totalIncome"
+					[type]="transactionTypes.INCOME"
 				/>
 				<ex-summary-container
 					class="flex-grow-1"
-					[data]="{
-						matIcon: 'money_off',
-						title: 'Expenses',
-						value: 210460,
-						type: summaryTypes.EXPENSE
-					}"
+					matIcon="money_off"
+					title="Expenses"
+					[value]="totals.totalExpense"
+					[type]="transactionTypes.EXPENSE"
 				/>
 				<ex-summary-container
 					class="flex-grow-1"
-					[data]="{
-						matIcon: 'savings',
-						title: 'Balance',
-						value: 645940,
-						type: summaryTypes.BALANCE
-					}"
+					matIcon="savings"
+					title="Balance"
+					[value]="balance ?? 0"
 				/>
-				<ex-summary-container
-					class="flex-grow-1"
-					[data]="{
-						matIcon: 'receipt_long',
-						title: highestSpendingCategory().name || 'Utilities',
-						value: 0,
-						type: summaryTypes.OTHER,
-						filterCondition: {
-							category: highestSpendingCategory().name || 'Utilities'
-						}
-					}"
-				/>
+				@if (topCategory) {
+					<ex-summary-container
+						class="flex-grow-1"
+						matIcon="receipt_long"
+						[title]="topCategory.name"
+						[value]="topCategory.totalAmount"
+						[type]="transactionTypes.EXPENSE"
+					/>
+				}
 			</div>
 		}
 
@@ -87,14 +74,18 @@
 				<ex-data-table
 					class="col-12 col-lg-6"
 					matIcon="money_off"
-					[data]="{ transactions, categories }"
+					[data]="{ transactions: expenses, categories }"
 					title="Expenses"
+					[type]="transactionTypes.EXPENSE"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ex-data-table
 					class="col-12 col-lg-6"
 					matIcon="attach_money"
-					[data]="{ transactions, categories }"
+					[data]="{ transactions: incomes, categories }"
 					title="Incomes"
+					[type]="transactionTypes.INCOME"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 			</div>
 		} @else {
@@ -104,6 +95,7 @@
 					matIcon="attach_money"
 					[data]="{ transactions, categories }"
 					title="Transactions"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
 			</div>

@@ -116,3 +116,7 @@ hr {
 .grayscaled {
 	filter: grayscale(1);
 }
+
+mat-card.mat-mdc-card.categories mat-card-header .mat-mdc-card-header-text {
+	width: 100%;	
+}

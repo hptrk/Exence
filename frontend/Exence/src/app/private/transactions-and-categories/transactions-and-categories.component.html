@@ -2,7 +2,9 @@
 	class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-2"
 	[class.overflow-hidden]="display.isMd()"
 >
-	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
+	<div
+		class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center gap-2"
+	>
 		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
 			@if (selectedIndex === 0) {
 				Transactions
@@ -59,6 +61,8 @@
 					nonExpandable
 					paginationDisabled
 					title="Recurring Incomes"
+					[type]="transactionTypes.INCOME"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ex-data-table
 					[data]="{ transactions, categories }"
@@ -67,6 +71,8 @@
 					nonExpandable
 					paginationDisabled
 					title="Recurring Expenses"
+					[type]="transactionTypes.EXPENSE"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 			} @else {
 				<ex-data-table
@@ -76,6 +82,7 @@
 					nonExpandable
 					paginationDisabled
 					title="Recurrings"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 			}
 		</div>
@@ -103,6 +110,7 @@
 				matIcon="payments"
 				[class.overflow-hidden]="display.isMd()"
 				title="Transactions"
+				(dataChangedEvent)="onDataChanged()"
 			/>
 		</div>
 	</div>
@@ -130,6 +138,8 @@
 			matIcon="category"
 			[data]="{ categories }"
 			title="Categories"
+			type="category"
+			(dataChangedEvent)="onDataChanged()"
 			paginationDisabled
 		/>
 	</div>

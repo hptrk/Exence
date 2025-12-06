@@ -1,15 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { Category } from '../../data-model/modules/category/Category';
+import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
+import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
 import {
-	SummaryContainerComponent,
-	SummaryType,
+	SummaryContainerComponent
 } from '../../private/dashboard/summary-container/summary-container.component';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
 import { ChartComponent } from '../../shared/chart/chart.component';
@@ -18,9 +20,9 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
+import { CategoryService } from '../category.service';
 import { CurrentUserService } from '../current-user.service';
-import { User } from '../../data-model/modules/auth/User';
-import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
+import { TransactionService } from '../transactions-and-categories/transaction.service';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -44,61 +46,73 @@ export class DashboardComponent implements OnInit {
 	public router = inject(Router);
 	public navigation = inject(NavigationService);
 	private readonly currentUserService = inject(CurrentUserService);
+	private readonly transactionService = inject(TransactionService);
+	private readonly categoryService = inject(CategoryService);
 
-	transacrionTypes = TransactionType;
-	summaryTypes = SummaryType;
+	transactionTypes = TransactionType;
 	dateIntervals = DateInterval;
 
 	user = computed(() => this.currentUserService.user());
 
-	// private transactionService = inject(TransactionService);
-	// private categoryService = inject(CategoryService);
+	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	expenses: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	incomes: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	categories: Category[] = [];
 
-	// public transactions = this.transactionService.getTransactions();
-	public transactions = {} as PagedResponse<Transaction>;
-	// public categories = this.categoryService.getCategories();
-	public categories: Category[] = [];
-	public expenses!: Signal<Transaction[]>;
-	public incomes!: Signal<Transaction[]>;
-	public totalIncome!: Signal<number>;
-	public totalExpenses!: Signal<number>;
-	public balance!: Signal<number>;
-	public highestSpendingCategory!: Signal<{ name: string; amount: number }>;
+	totals: TransactionTotalsResponse = {} as TransactionTotalsResponse;
+	balance?: number;
 
-	transactionTypes = TransactionType;
+	topCategories?: CategorySummaryResponse[];
+	topCategory?: CategorySummaryResponse;
 
-	ngOnInit() {
-		this.expenses = computed(() => []);
-		this.incomes = computed(() => []);
-		this.totalIncome = computed(() => this.incomes().reduce((sum, t) => sum + t.amount, 0));
-		this.totalExpenses = computed(() => this.expenses().reduce((sum, t) => sum + t.amount, 0) * -1);
-		this.balance = computed(() => this.totalIncome() + this.totalExpenses());
-		this.highestSpendingCategory = computed(() => {
-			const categorySpending: Record<number, number> = {};
+	async ngOnInit(): Promise<void> {
+		await this.initialize();
+	}
 
-			this.expenses().forEach(transaction => {
-			});
+	async initialize(): Promise<void> {
+		return Promise.all([
+			this.getTransactions(),
+			this.getCategories(),
+			this.getTop4Categories(),
+			this.getIncomes(),
+			this.getExpenses(),
+			this.getTotals(),
+		]).then(([transactions, categories, top4, incomes, expenses, totals]) => {
+			this.transactions = transactions;
+			this.categories = categories;
+			this.incomes = incomes;
+			this.expenses = expenses;
+			this.totals = totals;
+			
+			this.balance = totals.totalIncome - totals.totalExpense;
 
-			let highestId: number | null = null;
-			let highestAmount = 0;
-
-			Object.entries(categorySpending).forEach(([categoryId, amount]) => {
-				if (amount > highestAmount) {
-					highestAmount = amount;
-					highestId = +categoryId;
-				}
-			});
-
-			if (highestId === null) {
-				return { name: '', amount: 0 };
-			}
-
-			const category = { id: 1, name: 'dummyname', emoji: '💀' } as Category;
-			return {
-				name: category?.name ?? '',
-				amount: highestAmount * -1,
-			};
+			this.topCategories = top4;
+			this.topCategory = top4[0];
 		});
+	}
+
+	private getTransactions(): Promise<PagedResponse<Transaction>> {
+		return this.transactionService.list();
+	}
+
+	private getCategories(): Promise<Category[]> {
+		return this.categoryService.list();
+	}
+
+	private getTop4Categories(): Promise<CategorySummaryResponse[]> {
+		return this.categoryService.listTop4();
+	}
+
+	private getIncomes(): Promise<PagedResponse<Transaction>> {
+		return this.transactionService.incomes();
+	}
+
+	private getExpenses(): Promise<PagedResponse<Transaction>> {
+		return this.transactionService.expenses();
+	}
+
+	private getTotals(): Promise<TransactionTotalsResponse> {
+		return this.transactionService.totals();
 	}
 
 	public openTransactionDialog(transactionType: TransactionType): void {
@@ -124,5 +138,9 @@ export class DashboardComponent implements OnInit {
 				break;
 			}
 		}
+	}
+
+	async onDataChanged(): Promise<void> {
+		await this.initialize();
 	}
 }

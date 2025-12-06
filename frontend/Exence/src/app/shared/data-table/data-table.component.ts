@@ -1,25 +1,27 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, effect, inject, input } from '@angular/core';
+import { booleanAttribute, Component, effect, inject, input, output } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Category } from '../../data-model/modules/category/Category';
+import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
+import { CreateTransactionDialogComponent, CreateTranslationDialogData } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../../private/transactions-and-categories/transaction.service';
 import { BaseComponent } from '../base-component/base.component';
+import { ButtonComponent } from '../button/button.component';
 import { DisplaySizeService } from '../display-size.service';
 import { SvgIcons } from '../svg-icons/svg-icons';
-import { DataTableDialogComponent } from './data-table-dialog/data-table-dialog.component';
-import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
-import { Category } from '../../data-model/modules/category/Category';
-import { MatPaginatorModule } from "@angular/material/paginator";
-import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 
 export interface DataTableModel {
 	transactions?: PagedResponse<Transaction>;
@@ -38,7 +40,8 @@ export interface DataTableModel {
 		FormsModule,
 		ReactiveFormsModule,
 		MatInputModule,
-		MatPaginatorModule
+		MatPaginatorModule,
+		ButtonComponent,
 	],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
@@ -62,12 +65,14 @@ export class DataTableComponent extends BaseComponent {
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
 	title = input<string>();
+	type = input<TransactionType | 'category'>();
 	nonExpandable = input(false, { transform: booleanAttribute });
 	paginationDisabled = input(false, { transform: booleanAttribute });
+	
+	dataChangedEvent = output<void>();
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
 	displayedCategoryColumns = ['name', 'emoji'];
-
 
 	expandedElement: Transaction | null = null;
 
@@ -115,8 +120,6 @@ export class DataTableComponent extends BaseComponent {
 			this.pageSize = data.transactions.size;
 			this.pageIndex = data.transactions.page;
 			this.pageLength = data.transactions.totalPages;
-			console.log('transaction ', this.transactionDataSource.data)
-			console.log('category ', this.categoryDataSource?.data)
 		});
 	}
 
@@ -133,22 +136,43 @@ export class DataTableComponent extends BaseComponent {
 		this.expandedElement = this.expandedElement === row ? null : row;
 	}
 
-	openDialog(): void {
-		this.dialog.open(DataTableDialogComponent, {
-			width: 'auto',
-			data: {
-				formType: this.transactionTypes.EXPENSE,
-			},
-		});
-	}
+	// TODO refactor
+	openCreateDialog(): void {
+		// All transactions
+		if (!this.type()) {
+			this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
+				CreateTransactionDialogComponent, undefined
+			).afterClosed().subscribe(
+				async (newTransaction) => {
+					if (newTransaction) {
+						this.dataChangedEvent.emit();
+					}
+				}
+			)
+		// Income or expense
+		} else if (this.type() === TransactionType.EXPENSE ||this.type() === TransactionType.INCOME) {
+			const data = { type: this.type()! as TransactionType };
 
-	openEditDialog(transaction: Transaction): void {
-		this.dialog.open(DataTableDialogComponent, {
-			width: 'auto',
-			data: {
-				formType: transaction.type,
-				transaction,
-			},
-		});
+			this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
+				CreateTransactionDialogComponent, { data }
+			).afterClosed().subscribe(
+				async (newTransaction) => {
+					if (newTransaction) {
+						this.dataChangedEvent.emit();
+					}
+				}
+			);
+		// Categories
+		} else if (this.type() === 'category') {
+			this.dialog.open<CreateCategoryDialogComponent, undefined, Transaction>(
+				CreateCategoryDialogComponent, undefined
+			).afterClosed().subscribe(
+				async (newCategory) => {
+					if (newCategory) {
+						this.dataChangedEvent.emit();
+					}
+				}
+			);
+		}
 	}
 }

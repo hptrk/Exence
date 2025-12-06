@@ -14,6 +14,7 @@ import { CategoryService } from '../category.service';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent, CreateTranslationDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -40,12 +41,18 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 
 	selectedIndex = 0;
 
+	transactionTypes = TransactionType;
+
 	get canCreateTransaction(): boolean {
 		return !!this.categories.length;
 	}
 
 	async ngOnInit(): Promise<void> {
-		Promise.all([
+		await this.initialize();
+	}
+
+	async initialize(): Promise<void> {
+		return Promise.all([
 			this.getTransactions(),
 			this.getCategories(),
 		]).then(([transactions, categories]) => {
@@ -55,12 +62,8 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 	}
 
 	public openCreateTransactionDialog(): void {
-		const data: CreateTranslationDialogData = {
-			categories: this.categories,
-		};
-
 		this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
-			CreateTransactionDialogComponent, { data }
+			CreateTransactionDialogComponent, undefined
 		).afterClosed().subscribe(
 			async (newTransaction?: Transaction) => {
 				if (newTransaction) {
@@ -81,6 +84,10 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 				}
 			}
 		);
+	}
+
+	async onDataChanged(): Promise<void> {
+		await this.initialize();
 	}
 
 	private getTransactions(): Promise<PagedResponse<Transaction>> {

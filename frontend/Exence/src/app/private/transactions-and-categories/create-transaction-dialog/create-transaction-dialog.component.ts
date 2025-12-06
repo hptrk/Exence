@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -13,9 +13,10 @@ import { TransactionType } from "../../../data-model/modules/transaction/Transac
 import { ButtonComponent } from "../../../shared/button/button.component";
 import { InputClearButtonComponent } from "../../../shared/input-clear-button/input-clear-button.component";
 import { TransactionService } from "../transaction.service";
+import { CategoryService } from "../../category.service";
 
 export interface CreateTranslationDialogData {
-	categories: Category[];
+	type: TransactionType;
 }
 
 @Component({
@@ -24,14 +25,17 @@ export interface CreateTranslationDialogData {
 	styleUrl: './create-transaction-dialog.component.scss',
 	imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatCardModule, MatSelectModule, MatDatepickerModule, MatCheckboxModule, InputClearButtonComponent, ButtonComponent],
 })
-export class CreateTransactionDialogComponent {
+export class CreateTransactionDialogComponent implements OnInit {
 	private readonly dialogRef = inject(MatDialogRef<CreateTransactionDialogComponent>);
 	private readonly transactionService = inject(TransactionService);
 	private readonly fb = inject(NonNullableFormBuilder);
+	private readonly categoryService = inject(CategoryService);
 
 	data = inject(MAT_DIALOG_DATA);
 
 	transactionTypes: TransactionType[] = Object.values(TransactionType);
+
+	categories: Category[] = [];
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -42,6 +46,13 @@ export class CreateTransactionDialogComponent {
 		recurring: this.fb.control<boolean>(false),
 		category: this.fb.control<Category>({} as Category, [Validators.required]),
 	});
+
+	async ngOnInit(): Promise<void> {
+		this.categories = await this.categoryService.list();
+		if (this.data.type) {
+			this.form.controls.type.setValue(this.data.type)
+		}
+	}
 
 	close(): void {
 		this.dialogRef.close();
