@@ -26,6 +26,14 @@ export class TransactionService {
 		return lastValueFrom(this.http.get<PagedResponse<RecurringTransactionsResponse>>(`${this.baseUrl}/recurring`));
 	}
 
+	public incomes(): Promise<PagedResponse<Transaction>> {
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/income`));
+	}
+
+	public expenses(): Promise<PagedResponse<Transaction>> {
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/expense`));
+	}
+
 	public totals(): Promise<TransactionTotalsResponse> {
 		return lastValueFrom(this.http.get<TransactionTotalsResponse>(`${this.baseUrl}/totals`));
 	}

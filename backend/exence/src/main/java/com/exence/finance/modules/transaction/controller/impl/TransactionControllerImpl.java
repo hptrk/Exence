@@ -4,6 +4,7 @@ import com.exence.finance.common.dto.PageResponse;
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.transaction.controller.TransactionController;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
 import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
@@ -42,6 +43,24 @@ public class TransactionControllerImpl implements TransactionController {
     @GetMapping()
     public ResponseEntity<PageResponse<TransactionDTO>> getTransactions(@Valid @ModelAttribute TransactionFilter filter,
                                                                         @PageableDefault(size = 20) Pageable pageable) {
+        Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
+        return ResponseFactory.page(page);
+    }
+
+    @GetMapping("/income")
+    public ResponseEntity<PageResponse<TransactionDTO>> getIncomes(@Valid @ModelAttribute TransactionFilter filter,
+                                                                   @PageableDefault(size = 20) Pageable pageable) {
+        TransactionFilter incomeFilter = filter != null ? filter : new TransactionFilter();
+        filter.setType(TransactionType.INCOME);
+        Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
+        return ResponseFactory.page(page);
+    }
+
+    @GetMapping("/expense")
+    public ResponseEntity<PageResponse<TransactionDTO>> getExpenses(@Valid @ModelAttribute TransactionFilter filter,
+                                                                   @PageableDefault(size = 20) Pageable pageable) {
+        TransactionFilter incomeFilter = filter != null ? filter : new TransactionFilter();
+        filter.setType(TransactionType.EXPENSE);
         Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
         return ResponseFactory.page(page);
     }
