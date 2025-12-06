@@ -20,7 +20,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
         )
         FROM Category c
         LEFT JOIN c.transactions t
-        WHERE (t.type = 'EXPENSE' OR t.type IS NULL)
+        WHERE (t.type = 'EXPENSE')
         GROUP BY c.id, c.name, c.emoji
         ORDER BY COALESCE(SUM(t.amount), 0) DESC
         LIMIT 4

@@ -6,6 +6,7 @@ import com.exence.finance.modules.transaction.controller.TransactionController;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
+import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -71,4 +72,9 @@ public class TransactionControllerImpl implements TransactionController {
         return ResponseFactory.noContent();
     }
 
+    @GetMapping("/totals")
+    public ResponseEntity<TransactionTotalsResponse> getTransactionTotals() {
+        TransactionTotalsResponse response = transactionService.getTransactionTotals();
+        return ResponseFactory.ok(response);
+    }
 }

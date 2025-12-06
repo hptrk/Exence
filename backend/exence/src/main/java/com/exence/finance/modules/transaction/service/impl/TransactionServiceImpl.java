@@ -11,10 +11,12 @@ import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
+import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.mapper.TransactionMapper;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.transaction.service.TransactionService;
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -116,5 +118,15 @@ public class TransactionServiceImpl implements TransactionService{
                 .orElseThrow(TransactionNotFoundException::new);
 
         transactionRepository.delete(transaction);
+    }
+
+    public TransactionTotalsResponse getTransactionTotals() {
+        BigDecimal totalIncome = transactionRepository.sumByType(TransactionType.INCOME);
+        BigDecimal totalExpense = transactionRepository.sumByType(TransactionType.EXPENSE);
+
+        return TransactionTotalsResponse.builder()
+                .totalIncome(totalIncome)
+                .totalExpense(totalExpense)
+                .build();
     }
 }
