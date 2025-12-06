@@ -53,8 +53,7 @@
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
-					[data]="transactions"
-					[categories]="categories"
+					[data]="{ transactions, categories }"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -62,8 +61,7 @@
 					title="Recurring Incomes"
 				/>
 				<ex-data-table
-					[data]="transactions"
-					[categories]="categories"
+					[data]="{ transactions, categories }"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -72,8 +70,7 @@
 				/>
 			} @else {
 				<ex-data-table
-					[data]="transactions"
-					[categories]="categories"
+					[data]="{ transactions, categories }"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -88,19 +85,21 @@
 			[class.overflow-hidden]="display.isMd()"
 		>
 			<div class="d-flex flex-row flex-nowrap justif-content-between">
-				<ex-button
-					filled
-					matIcon="add"
-					collapsedStyle="filled"
-					collapseUnder="sm"
-					(click)="openAddTransactionDialog()"
-				>
-					Add transaction
-				</ex-button>
+				<div [matTooltip]="!canCreateTransaction ? 'First create a category!' : ''">
+					<ex-button
+						filled
+						matIcon="add"
+						collapsedStyle="filled"
+						collapseUnder="sm"
+						[disabled]="!canCreateTransaction"
+						(click)="openCreateTransactionDialog()"
+					>
+						Add transaction
+					</ex-button>
+				</div>
 			</div>
 			<ex-data-table
-				[data]="transactions"
-				[categories]="categories"
+				[data]="{ transactions, categories }"
 				matIcon="payments"
 				[class.overflow-hidden]="display.isMd()"
 				title="Transactions"
@@ -109,4 +108,29 @@
 	</div>
 </ng-template>
 
-<ng-template #categoriesTab> categories</ng-template>
+<ng-template #categoriesTab>
+	<div
+		class="d-flex flex-column justify-content-between gap-4 h-100 mt-4"
+		[class.overflow-hidden]="display.isMd()"
+	>
+		<div class="d-flex flex-row flex-norwap gap-2 align-items-center">
+			<ex-button
+				filled
+				matIcon="add"
+				collapsedStyle="filled"
+				collapseUnder="sm"
+				class="justify-self-end"
+				(click)="openCreateCategoryDialog()"
+			>
+				Add category
+			</ex-button>
+		</div>
+
+		<ex-data-table
+			matIcon="category"
+			[data]="{ categories }"
+			title="Categories"
+			paginationDisabled
+		/>
+	</div>
+</ng-template>

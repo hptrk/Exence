@@ -31,7 +31,7 @@
 					value: 0
 				}"
 				[expenses]="expenses()"
-				[categories]="categories()"
+				[categories]="categories"
 			/>
 		</div>
 
@@ -87,15 +87,13 @@
 				<ex-data-table
 					class="col-12 col-lg-6"
 					matIcon="money_off"
-					[data]="transactions"
-					[categories]="[]"
+					[data]="{ transactions, categories }"
 					title="Expenses"
 				/>
 				<ex-data-table
 					class="col-12 col-lg-6"
 					matIcon="attach_money"
-					[data]="transactions"
-					[categories]="[]"
+					[data]="{ transactions, categories }"
 					title="Incomes"
 				/>
 			</div>
@@ -104,8 +102,7 @@
 				<ex-data-table
 					class="w-100"
 					matIcon="attach_money"
-					[data]="transactions"
-					[categories]="[]"
+					[data]="{ transactions, categories }"
 					title="Transactions"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />

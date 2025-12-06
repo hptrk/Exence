@@ -1,0 +1,30 @@
+@import "../.././../../styles/imports.scss";
+
+textarea {
+	resize: none;
+}
+
+.selected-icon {
+	div {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0.5rem;
+		border-radius: 10px;
+		background-color: var(--app-background-color);
+	}
+
+	.hover-content {
+		display: none;
+		cursor: pointer;
+	}
+	&:hover {
+		.default-content { display: none; }
+		.hover-content { display: flex; }
+	}
+}
+
+.emoji-error {
+	color: var(--error-color);
+	padding: 0 20px;
+}

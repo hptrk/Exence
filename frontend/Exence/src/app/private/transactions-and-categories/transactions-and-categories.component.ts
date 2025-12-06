@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Category } from '../../data-model/modules/category/Category';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
@@ -8,10 +11,9 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { CategoryService } from '../category.service';
+import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent, CreateTranslationDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
-import {MatTabsModule} from '@angular/material/tabs';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -22,6 +24,7 @@ import { MatIconModule } from '@angular/material/icon';
 		MatDialogModule,
 		MatTabsModule,
 		MatIconModule,
+		MatTooltipModule,
 		DataTableComponent,
 		ButtonComponent,
 	],
@@ -37,6 +40,10 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 
 	selectedIndex = 0;
 
+	get canCreateTransaction(): boolean {
+		return !!this.categories.length;
+	}
+
 	async ngOnInit(): Promise<void> {
 		Promise.all([
 			this.getTransactions(),
@@ -47,17 +54,33 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 		});
 	}
 
-	public openAddTransactionDialog(): void {
+	public openCreateTransactionDialog(): void {
 		const data: CreateTranslationDialogData = {
 			categories: this.categories,
 		};
 
-		this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(CreateTransactionDialogComponent, { data }).afterClosed().subscribe(async (newTransaction?: Transaction) => {
-			if (newTransaction) {
-				// TODO success snackbar
-				this.transactions = (await this.getTransactions());
+		this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
+			CreateTransactionDialogComponent, { data }
+		).afterClosed().subscribe(
+			async (newTransaction?: Transaction) => {
+				if (newTransaction) {
+					// TODO success snackbar
+					this.transactions = (await this.getTransactions());
+				}
 			}
-		});
+		);
+	}
+
+	public openCreateCategoryDialog(): void {
+		this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
+			CreateCategoryDialogComponent, undefined
+		).afterClosed().subscribe(
+			async (newCategory?: Category) => {
+				if (newCategory) {
+					this.categories = (await this.getCategories());
+				}
+			}
+		);
 	}
 
 	private getTransactions(): Promise<PagedResponse<Transaction>> {

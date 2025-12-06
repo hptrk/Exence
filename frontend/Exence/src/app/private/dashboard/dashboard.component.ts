@@ -57,14 +57,7 @@ export class DashboardComponent implements OnInit {
 	// public transactions = this.transactionService.getTransactions();
 	public transactions = {} as PagedResponse<Transaction>;
 	// public categories = this.categoryService.getCategories();
-	public categories = computed(() => [
-		{ id: 1, name: 'Travel', emoji: '✈️' },
-		{ id: 2, name: 'Groceries', emoji: '🥦' },
-		{ id: 3, name: 'Takeout', emoji: '🍕' },
-		{ id: 4, name: 'Housing', emoji: '🛖' },
-		{ id: 5, name: 'Fitness', emoji: '🚲' },
-		{ id: 6, name: 'Gifts', emoji: '🎁' },
-	]);
+	public categories: Category[] = [];
 	public expenses!: Signal<Transaction[]>;
 	public incomes!: Signal<Transaction[]>;
 	public totalIncome!: Signal<number>;

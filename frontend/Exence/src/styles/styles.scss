@@ -10,6 +10,8 @@
 @import './components/progress.scss';
 @import './components/tooltip.scss';
 @import './components/paginator.scss';
+@import './components/tab.scss';
+@import './components/emoji-picker.scss';
 @import './fonts/material-icons.scss';
 
 * {
@@ -109,4 +111,8 @@ hr {
 
 .expense {
 	color: var(--bs-danger);
+}
+
+.grayscaled {
+	filter: grayscale(1);
 }

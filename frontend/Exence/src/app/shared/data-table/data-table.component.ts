@@ -21,6 +21,11 @@ import { Category } from '../../data-model/modules/category/Category';
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 
+export interface DataTableModel {
+	transactions?: PagedResponse<Transaction>;
+	categories: Category[];
+}
+
 @Component({
 	selector: 'ex-data-table',
 	imports: [
@@ -53,10 +58,7 @@ export class DataTableComponent extends BaseComponent {
 	private transactionService = inject(TransactionService);
 	public display = inject(DisplaySizeService);
 	
-	// TODO remove after category caching, preloading is done
-	categories = input.required<Category[]>();
-
-	data = input.required<PagedResponse<Transaction>>();
+	data = input.required<DataTableModel>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
 	title = input<string>();
@@ -64,17 +66,32 @@ export class DataTableComponent extends BaseComponent {
 	paginationDisabled = input(false, { transform: booleanAttribute });
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
+	displayedCategoryColumns = ['name', 'emoji'];
+
 
 	expandedElement: Transaction | null = null;
 
 	transactionTypes = TransactionType;
 
-	dataSource?: MatTableDataSource<TransactionModel>;
+	transactionDataSource?: MatTableDataSource<TransactionModel>;
+	categoryDataSource?: MatTableDataSource<Category>;
 	pageSize?: number;
 	pageIndex?: number;
 	pageLength?: number;
 	pageSizeOptions = [5, 10, 25, 100];
 
+	get emptyTransactionTable(): boolean {
+		return !this.transactionDataSource?.data?.length;
+	}
+
+	get emptyCategoryTable(): boolean {
+		return !this.categoryDataSource?.data?.length;
+	}
+	
+	get emptyTableData(): boolean {
+		return this.emptyTransactionTable && this.emptyCategoryTable;
+	}
+	
 	constructor() {
 		super();
 
@@ -85,20 +102,26 @@ export class DataTableComponent extends BaseComponent {
 		});
 
 		effect(() => {
-			const transactionsInput = this.data();
-			const categories = this.categories();
-			if (!transactionsInput?.content) return;
-			const transactions = transactionsInput.content
-				.map(transaction => this.mapToTransactionModel(transaction, categories));
-				this.dataSource = new MatTableDataSource(transactions);
-			this.pageSize = transactionsInput.size;
-			this.pageIndex = transactionsInput.page;
-			this.pageLength = transactionsInput.totalPages;
+			const data = this.data();
+
+			const categories = data.categories;
+			if (!data.transactions?.content) {
+				this.categoryDataSource = new MatTableDataSource(categories)
+				return;
+			}
+			const transactions = data.transactions.content
+				.map(transaction => this.mapToTransactionModel(transaction, categories!));
+				this.transactionDataSource = new MatTableDataSource(transactions);
+			this.pageSize = data.transactions.size;
+			this.pageIndex = data.transactions.page;
+			this.pageLength = data.transactions.totalPages;
+			console.log('transaction ', this.transactionDataSource.data)
+			console.log('category ', this.categoryDataSource?.data)
 		});
 	}
 
 	mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {
-		const category = this.categories().find(c => c.id === transaction.categoryId);
+		const category = categories.find(c => c.id === transaction.categoryId);
 		return {
 			...transaction,
 			category: category!

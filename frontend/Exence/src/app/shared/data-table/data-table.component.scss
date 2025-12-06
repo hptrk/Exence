@@ -92,7 +92,8 @@ td[mat-cell].mat-mdc-cell {
 
 // gap between rows
 tr.mat-mdc-row.expanded-detail-row,
-tr.mat-mdc-row.non-expandable {
+tr.mat-mdc-row.non-expandable,
+tr.mat-mdc-row.category-table-row {
 	border-bottom: 10px solid transparent;
 }
 
