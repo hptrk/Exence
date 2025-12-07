@@ -44,12 +44,10 @@ export const createPointerTooltipConfig = (data: Transaction[], balance: number)
         },
         label: (context: any) => {
 			const transaction = data[context.dataIndex];
-			// In your function:
 			return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
         },
         afterLabel: (context: any) => {
 			const transaction = data[context.dataIndex];
-			// TODO balance
 			return `Balance: ${formatCurrency(balance, 'en-US', 'Ft', 'hu-HU')}`;
         },
     },
@@ -88,22 +86,6 @@ export const lineChartOptions: ChartConfiguration['options'] = {
 	},
 	plugins: {
 		legend: { display: false },
-		tooltip: {
-            callbacks: {
-                title: (context) => {
-                    // Customize the title (usually the label)
-                    return `Date: ${context[0].label}`;
-                },
-                label: (context) => {
-                    // Customize the value display
-                    return `Amount: $${context.parsed.y.toFixed(2)}`;
-                },
-                // Optional: add more info
-                afterLabel: (context) => {
-                    return `Additional info here`;
-                },
-            },
-        },
 	},
 	scales: {
 		x: {

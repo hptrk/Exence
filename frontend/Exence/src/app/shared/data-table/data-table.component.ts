@@ -124,14 +124,6 @@ export class DataTableComponent extends BaseComponent {
 		});
 	}
 
-	mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {
-		const category = categories.find(c => c.id === transaction.categoryId);
-		return {
-			...transaction,
-			category: category!
-		};
-	}
-
 	toggleExpand(row: Transaction | null): void {
 		if (this.nonExpandable()) return;
 		this.expandedElement = this.expandedElement === row ? null : row;
@@ -178,5 +170,13 @@ export class DataTableComponent extends BaseComponent {
 				}
 			);
 		}
+	}
+
+	private mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {
+		const category = categories.find(c => c.id === transaction.categoryId);
+		return {
+			...transaction,
+			category: category!
+		};
 	}
 }

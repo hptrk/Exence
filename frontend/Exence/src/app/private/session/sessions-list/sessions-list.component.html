@@ -10,13 +10,6 @@
 					Last used <span class="emphasis">{{ currSession?.lastUsedAt | formatDateFromNow }}</span>
 				</div>
 			</div>
-			<ex-button
-				iconButton
-				color="error"
-				matIcon="delete"
-				class="flex-shrink-0"
-				(click)="deleteSession(currSession?.sessionId)"
-			/>
 		</li>
 
 		<mat-divider />
