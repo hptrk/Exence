@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, effect, inject, input, output } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { booleanAttribute, Component, effect, inject, input, output, signal } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -23,6 +23,12 @@ import { ButtonComponent } from '../button/button.component';
 import { DisplaySizeService } from '../display-size.service';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { SnackbarService } from '../snackbar/snackbar.service';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { CdkOverlayOrigin } from "@angular/cdk/overlay";
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { CategoryService } from '../../private/category.service';
 
 export interface DataTableModel {
 	transactions?: PagedResponse<Transaction>;
@@ -32,18 +38,22 @@ export interface DataTableModel {
 @Component({
 	selector: 'ex-data-table',
 	imports: [
-		MatCardModule,
-		MatTableModule,
-		MatIconModule,
-		CommonModule,
-		MatTooltipModule,
-		MatFormFieldModule,
-		FormsModule,
-		ReactiveFormsModule,
-		MatInputModule,
-		MatPaginatorModule,
-		ButtonComponent,
-	],
+    MatCardModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    CommonModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatMenuModule,
+	MatCheckboxModule,
+	MatSelectModule,
+    ButtonComponent,
+],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
 	animations: [
@@ -56,12 +66,17 @@ export interface DataTableModel {
 	],
 })
 export class DataTableComponent extends BaseComponent {
-	note = new FormControl();
-
-	private readonly dialog = inject(MatDialog);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly transactionService = inject(TransactionService);
+	private readonly categoryService = inject(CategoryService);
+	private readonly fb = inject(NonNullableFormBuilder);
+	private readonly dialog = inject(MatDialog);
 	readonly display = inject(DisplaySizeService);
 	
+	detailsForm!: FormGroup;
+	recurringForm!: FormGroup;
+	categoryForm!: FormGroup;
+
 	data = input.required<DataTableModel>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
@@ -73,7 +88,7 @@ export class DataTableComponent extends BaseComponent {
 	dataChangedEvent = output<void>();
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
-	displayedCategoryColumns = ['name', 'emoji'];
+	displayedCategoryColumns = ['name', 'emoji', 'actions'];
 
 	expandedElement: Transaction | null = null;
 
@@ -85,6 +100,9 @@ export class DataTableComponent extends BaseComponent {
 	pageIndex?: number;
 	pageLength?: number;
 	pageSizeOptions = [5, 10, 25, 100];
+
+	// TODO
+	// currentlyEditedRow = signal<number | undefined>(undefined);
 
 	get emptyTransactionTable(): boolean {
 		return !this.transactionDataSource?.data?.length;
@@ -121,12 +139,91 @@ export class DataTableComponent extends BaseComponent {
 			this.pageSize = data.transactions.size;
 			this.pageIndex = data.transactions.page;
 			this.pageLength = data.transactions.totalPages;
+
+			let detailsControls = {}; 
+			let recurringControls = {};
+			let categoryControls = {};
+			data.transactions.content.forEach(transaction => {
+				detailsControls = {
+					...detailsControls,
+					[transaction.id as number]: this.fb.control<string>('', [Validators.maxLength(500)]),
+				};
+				recurringControls = {
+					...recurringControls,
+					[transaction.id as number]: this.fb.control<boolean>(transaction.recurring, [Validators.required]),
+				};
+				categoryControls = {
+					...categoryControls,
+					[transaction.id as number]: this.fb.control<number>(transaction.categoryId, [Validators.required]),
+				};
+			});
+			this.detailsForm = this.fb.group(detailsControls);
+			this.recurringForm = this.fb.group(recurringControls);
+			this.categoryForm = this.fb.group(categoryControls);
 		});
 	}
 
+	// editRow(rowId: number): void {
+	// 	this.currentlyEditedRow.set(rowId);
+	// }
+
+	async deleteRow(rowId: number): Promise<void> {
+		await this.transactionService.delete(rowId);
+		this.snackbarService.showSuccess('Transaction deleted successfully!');
+		this.dataChangedEvent.emit();
+	}
+
+	async deleteCategoryRow(rowId: number): Promise<void> {
+		await this.categoryService.delete(rowId);
+		this.snackbarService.showSuccess('Category deleted successfully!');
+		this.dataChangedEvent.emit();
+	}
+
+	async saveRow(row: Transaction): Promise<void> {
+		const newDetailsValue = this.detailsForm.controls[row.id!].getRawValue();
+		const newRecurringValue = this.recurringForm.controls[row.id!].getRawValue();
+		const newCategoryValue = this.categoryForm.controls[row.id!].getRawValue();
+
+		const request: Transaction = {
+			id: row.id,
+			title: row.title,
+			date: row.date,
+			amount: row.amount,
+			type: row.type,
+			details: newDetailsValue,
+			recurring: newRecurringValue,
+			categoryId: newCategoryValue,
+		};
+		const updatedTransaction = await this.transactionService.update(request);
+		this.snackbarService.showSuccess(`Transaction '${updatedTransaction.title.slice(1, 10)}${updatedTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+		this.dataChangedEvent.emit();
+	}
+
+	cancelRowEdit(rowId: number): void {
+		this.detailsForm.controls[rowId].reset();
+		this.recurringForm.controls[rowId].reset();
+		this.categoryForm.controls[rowId].reset();
+	}
+
+	saveDetailsDisabled(rowId: number): boolean {
+		return (!this.detailsForm.controls[rowId].touched
+			&& !this.recurringForm.controls[rowId].touched
+			&& !this.categoryForm.controls[rowId].touched
+		) || this.detailsForm.controls[rowId].invalid
+			|| this.recurringForm.controls[rowId].invalid
+			|| this.categoryForm.controls[rowId].invalid;
+	}
+
+	// isRowEditing(rowId: number): boolean {
+	// 	return this.currentlyEditedRow() === rowId;
+	// }
+
 	toggleExpand(row: Transaction | null): void {
-		if (this.nonExpandable()) return;
+		if (this.nonExpandable() || !row) return;
 		this.expandedElement = this.expandedElement === row ? null : row;
+		// if (row.id === this.currentlyEditedRow()) {
+		// 	this.currentlyEditedRow.set(undefined);
+		// }
 	}
 
 	// TODO refactor

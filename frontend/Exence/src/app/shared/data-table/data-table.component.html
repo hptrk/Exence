@@ -142,7 +142,54 @@
 												[class.hidden]="expandedElement !== row"
 												class="d-flex align-items-center justify-content-center"
 											>
-												<mat-icon (click)="$event.stopPropagation()">more_vert</mat-icon>
+												<button
+													mat-icon-button
+													[matMenuTriggerFor]="actionsMenu"
+													(click)="$event.stopPropagation()"
+												>
+													<mat-icon>more_vert</mat-icon>
+												</button>
+
+												<mat-menu #actionsMenu="matMenu">
+													<!-- TODO -->
+													<!-- @if (!isRowEditing(row.id)) {
+														<button
+															mat-menu-item
+															class="edit-button"
+															(click)="editRow(row.id); $event.stopPropagation()"
+														>
+															<mat-icon color="primary">edit</mat-icon>
+															@if (display.isMd()) {
+																Edit
+															}
+														</button>
+													} @else {
+														<button
+															mat-menu-item
+															class="edit-button"
+															(click)="
+																currentlyEditedRow.set(undefined);
+																$event.stopPropagation()
+															"
+														>
+															<mat-icon color="primary">close</mat-icon>
+															@if (display.isMd()) {
+																Cancel
+															}
+														</button>
+													} -->
+
+													<button
+														mat-menu-item
+														class="delete-button"
+														(click)="deleteRow(row.id); $event.stopPropagation()"
+													>
+														<mat-icon color="warn">delete</mat-icon>
+														@if (display.isMd()) {
+															Delete
+														}
+													</button>
+												</mat-menu>
 											</div>
 											@if (expandedElement === row) {
 												<div
@@ -173,25 +220,78 @@
 									[attr.colspan]="displayedColumns.length"
 								>
 									<div class="detail-row-item">
-										<form
+										<div
 											class="detail-container"
 											[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
 										>
-											<!-- TODO DETAILS -->
-											<div>
-												<mat-form-field>
-													<mat-label>Notes</mat-label>
-													<textarea
-														name="note"
-														id="note"
-														placeholder="Transaction notes..."
-														class="note"
-														matInput
-														[formControl]="note"
-													></textarea>
-												</mat-form-field>
+											<div class="d-flex flex-column flex-md-row gap-4 p-4 w-100">
+												<div class="d-flex gap-4 w-100">
+													<mat-form-field>
+														<mat-label>Details</mat-label>
+														<textarea
+															matInput
+															cdkTextareaAutosize
+															cdkAutosizeMinRows="4"
+															[formControl]="$any(detailsForm.controls)[row.id]"
+														></textarea>
+													</mat-form-field>
+
+													<div class="d-flex flex-column justify-content-between pb-4">
+														<mat-form-field>
+															<mat-label>Category</mat-label>
+															<mat-select
+																[formControl]="$any(categoryForm.controls)[row.id]"
+															>
+																@for (
+																	category of data().categories;
+																	track category.id
+																) {
+																	<mat-option
+																		[value]="category.id"
+																		>{{ `${category.name} - ${category.emoji}` }}</mat-option
+																	>
+																}
+															</mat-select>
+															@if (
+																categoryForm.controls[row.id].touched &&
+																categoryForm.controls[row.id].invalid
+															) {
+																<mat-error>
+																	Category is <strong>required</strong>!
+																</mat-error>
+															}
+														</mat-form-field>
+
+														<mat-checkbox
+															[formControl]="$any(recurringForm.controls)[row.id]"
+															><span [class.nowrap]="display.isMd()"
+																>Automatically recurring?</span
+															></mat-checkbox
+														>
+													</div>
+												</div>
+												<div class="d-flex flex-column gap-2">
+													<!-- [disabled]="saveDetailsDisabled(row.id)" -->
+													<ex-button
+														filled
+														matIcon="check"
+														color="primary"
+														[disabled]="false"
+														(click)="saveRow(row)"
+													>
+														Save
+													</ex-button>
+													<ex-button
+														outlined
+														matIcon="close"
+														color="accent"
+														(click)="cancelRowEdit(row.id)"
+													>
+														Cancel
+													</ex-button>
+												</div>
 											</div>
-										</form>
+										</div>
 									</div>
 								</td>
 							</ng-container>
@@ -262,6 +362,27 @@
 							>
 								<div class="table-row-item justify-content-start">
 									{{ row.emoji }}
+								</div>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="actions">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+							></th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<div class="table-row-item justify-content-end">
+									<button
+										mat-icon-button
+										class="category-delete-icon"
+										(click)="$event.stopPropagation(); deleteCategoryRow(row.id)"
+									>
+										<mat-icon>delete</mat-icon>
+									</button>
 								</div>
 							</td>
 						</ng-container>
