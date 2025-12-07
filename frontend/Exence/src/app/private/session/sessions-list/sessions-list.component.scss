@@ -23,3 +23,10 @@ ul {
 
 	width: 75%;
 }
+
+.delete-all {
+	width: 100%;
+	@include displayMd {
+		width: auto;
+	}
+}

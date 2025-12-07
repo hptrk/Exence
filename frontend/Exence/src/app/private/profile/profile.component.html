@@ -1,7 +1,7 @@
 <section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
 	<!-- Profile data -->
 	<div class="d-flex flex-column gap-4">
-		<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+		<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-2">
 			<h3 class="m-0 text-center text-md-start fs-2">Profile data</h3>
 			<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center gap-2">
 				@if (isUserDataFormEditing()) {
@@ -114,16 +114,15 @@
 				</div>
 			</form>
 		}
-		<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+		<div class="d-flex flex-column flex-md-row flex-nowrap align-items-center gap-2">
 			@if (isPasswordFormEditing()) {
 				<ex-button
 					filled
 					color="primary"
 					matIcon="check"
-					collapsedStyle="filled"
-					collapseUnder="sm"
 					[disabled]="passwordForm.invalid"
 					type="button"
+					class="action-button"
 					(click)="savePassword()"
 				>
 					Save
@@ -132,9 +131,8 @@
 					outlined
 					color="accent"
 					matIcon="close"
-					collapsedStyle="outlined"
-					collapseUnder="sm"
 					type="button"
+					class="action-button"
 					(click)="cancelPasswordEditing()"
 				>
 					Cancel
@@ -144,6 +142,7 @@
 					filled
 					color="primary"
 					(click)="isPasswordFormEditing.set(true)"
+					class="action-button"
 				>
 					Change password
 				</ex-button>
