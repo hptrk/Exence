@@ -7,6 +7,7 @@ import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { BaseComponent } from '../base-component/base.component';
 import { DisplayThemeService } from '../display-theme.service';
 import { createCanvasBackgroundPlugin, createPointerTooltipConfig, getCssVariableValue, getLineChartData, hexToRgba, lineChartOptions } from './chart-config';
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 
 @Component({
 	selector: 'ex-chart',
@@ -23,10 +24,17 @@ export class ChartComponent extends BaseComponent {
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
 
 	balanceData = computed(() => 
-		this.data()?.map(transaction => transaction.amount)
+		this.data()?.sort((a, b) => a.date.localeCompare(b.date)).map(transaction => {
+			if (transaction.type === TransactionType.INCOME) {
+				return this.balance() + transaction.amount;
+			} else {
+				return this.balance() - transaction.amount;
+			}
+		})
+			
 	);
 	chartLabels = computed(() =>
-		this.data()?.map(transaction => format(new Date(transaction.date), 'dd/MM'))
+		this.data()?.sort((a, b) => a.date.localeCompare(b.date)).map(transaction => format(new Date(transaction.date), 'dd/MM'))
 	);
 	lineChartData = computed(() => 
 		getLineChartData(this.balanceData(), this.chartLabels())
