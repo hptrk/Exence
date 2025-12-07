@@ -1,0 +1,70 @@
+<div class="d-flex flex-column gap-4">
+	<ul>
+		@let currSession = currentSession();
+		<h3 class="m-0 text-center text-md-start fs-2">This session</h3>
+		<li class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-sm-start gap-4 ms-2 my-3">
+			<mat-icon class="flex-shrink-0" size="lg">desktop_windows</mat-icon>
+			<div class="flex-shink-1">
+				<div class="name text-truncate">{{ currSession?.operatingSystem }} - {{ currSession?.deviceName }}</div>
+				<div>
+					Last used <span class="emphasis">{{ currSession?.lastUsedAt | formatDateFromNow }}</span>
+				</div>
+			</div>
+			<ex-button
+				iconButton
+				color="error"
+				matIcon="delete"
+				class="flex-shrink-0"
+				(click)="deleteSession(currSession?.sessionId)"
+			/>
+		</li>
+
+		<mat-divider />
+		<p class="security-info text-center text-md-start mx-auto mx-md-0">If you think your account is being used without your permission, change your password before signing out.</p>
+		
+		@if (!!otherSessions().length) {
+			<mat-divider />
+			<h3 class="m-0 text-center text-md-start fs-2 mt-5">Other sessions</h3>
+			@for (session of otherSessions(); track session.sessionId; let last = $last) {
+				<li class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-sm-start gap-4 ms-2 my-4">
+					<mat-icon class="flex-shrink-0" size="lg">desktop_windows</mat-icon>
+					<div class="flex-shink-1">
+						<div class="name text-truncate">{{ session.operatingSystem }} - {{ session.deviceName }}</div>
+						<div>
+							Last used <span class="emphasis">{{ session.lastUsedAt | formatDateFromNow }}</span>
+						</div>
+					</div>
+					<ex-button
+						iconButton
+						color="error"
+						matIcon="delete"
+						class="flex-shrink-0"
+						(click)="deleteSession(session.sessionId)"
+					/>
+				</li>
+				@if (!last) {
+					<mat-divider />
+				}
+			}
+			<ex-button
+				outlined
+				color="primary"
+				matIcon="delete"
+				collapsedStyle="filled"
+				collapseUnder="sm"
+				class="mt-2"
+				(click)="deleteAllSessions()"
+			>
+				Delete all sessions
+			</ex-button>
+		}
+	</ul>
+</div>
+
+<!-- Icon names for later redesign in #EX-192
+	tv
+	laptop_mac
+	tablet
+	mobile_2
+	tv_gen
+-->

@@ -10,6 +10,7 @@ import { ChangePasswordRequest } from '../../data-model/modules/auth/ChangePassw
 import { UpdateUserRequest } from '../../data-model/modules/auth/UpdateUserRequest';
 import { UserService } from '../../shared/user/user.service';
 import { MatDividerModule } from '@angular/material/divider';
+import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
 
 @Component({
 	selector: 'ex-profile',
@@ -22,6 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
 		MatDividerModule,
 		ButtonComponent,
 		InputClearButtonComponent,
+		SessionsListComponent,
 	],
 })
 export class ProfileComponent {
