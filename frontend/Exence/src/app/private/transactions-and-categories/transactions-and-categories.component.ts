@@ -15,6 +15,7 @@ import { CreateCategoryDialogComponent } from './create-category-dialog/create-c
 import { CreateTransactionDialogComponent, CreateTranslationDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -34,6 +35,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 	private readonly transactionService = inject(TransactionService);
 	private readonly categoryService = inject(CategoryService);
 	private readonly dialog = inject(MatDialog);
+	private readonly snackbarService = inject(SnackbarService);
 	readonly display = inject(DisplaySizeService);
 
 	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
@@ -68,6 +70,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 			async (newTransaction?: Transaction) => {
 				if (newTransaction) {
 					this.transactions = (await this.getTransactions());
+					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(1, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 				}
 			}
 		);
@@ -80,6 +83,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 			async (newCategory?: Category) => {
 				if (newCategory) {
 					this.categories = (await this.getCategories());
+					this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
 				}
 			}
 		);

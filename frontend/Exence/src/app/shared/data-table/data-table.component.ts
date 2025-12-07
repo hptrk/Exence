@@ -22,6 +22,7 @@ import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
 import { DisplaySizeService } from '../display-size.service';
 import { SvgIcons } from '../svg-icons/svg-icons';
+import { SnackbarService } from '../snackbar/snackbar.service';
 
 export interface DataTableModel {
 	transactions?: PagedResponse<Transaction>;
@@ -57,9 +58,9 @@ export interface DataTableModel {
 export class DataTableComponent extends BaseComponent {
 	note = new FormControl();
 
-	private dialog = inject(MatDialog);
-	private transactionService = inject(TransactionService);
-	public display = inject(DisplaySizeService);
+	private readonly dialog = inject(MatDialog);
+	private readonly snackbarService = inject(SnackbarService);
+	readonly display = inject(DisplaySizeService);
 	
 	data = input.required<DataTableModel>();
 	matIcon = input<string>();
@@ -146,6 +147,7 @@ export class DataTableComponent extends BaseComponent {
 				async (newTransaction) => {
 					if (newTransaction) {
 						this.dataChangedEvent.emit();
+						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(1, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 					}
 				}
 			)
@@ -159,17 +161,19 @@ export class DataTableComponent extends BaseComponent {
 				async (newTransaction) => {
 					if (newTransaction) {
 						this.dataChangedEvent.emit();
+						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(1, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 					}
 				}
 			);
 		// Categories
 		} else if (this.type() === 'category') {
-			this.dialog.open<CreateCategoryDialogComponent, undefined, Transaction>(
+			this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
 				CreateCategoryDialogComponent, undefined
 			).afterClosed().subscribe(
 				async (newCategory) => {
 					if (newCategory) {
 						this.dataChangedEvent.emit();
+						this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
 					}
 				}
 			);

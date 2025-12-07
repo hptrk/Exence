@@ -10,6 +10,7 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { DisplaySizeService } from '../../../shared/display-size.service';
 import { NavigationService } from '../../../shared/navigation/navigation.service';
 import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 
 // TODO move to interval filter component when created
 export enum DateInterval {
@@ -31,8 +32,7 @@ export type IntervalInfo = {
 })
 export class CategoriesComponent extends BaseComponent {
 	public display = inject(DisplaySizeService);
-	private readonly navigation = inject(NavigationService);
-	private readonly router = inject(Router);
+	private readonly snackbarService = inject(SnackbarService);
 	private readonly dialog = inject(MatDialog);
 
 	totalExpense = input.required<number>();
@@ -41,7 +41,11 @@ export class CategoriesComponent extends BaseComponent {
 	openCreateCategoryDialog(): void {
 		this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
 			CreateCategoryDialogComponent, undefined
-		);
+		).afterClosed().subscribe((newCategory) => {
+			if (newCategory) {
+				this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
+			}
+		});
 	}
 
 	calcPercentage(amount: number): number {

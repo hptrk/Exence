@@ -14,6 +14,7 @@ import { AuthService } from "../../shared/auth/auth.service";
 import { ForgotPasswordRequest } from "../../data-model/modules/auth/ForgotPasswordRequest";
 import { ExtraValidators } from "../../shared/validators";
 import { PasswordResetRequest } from "../../data-model/modules/auth/PasswordResetRequest";
+import { SnackbarService } from "../../shared/snackbar/snackbar.service";
 
 @Component({
 	selector: 'ex-forgot-password',
@@ -25,6 +26,7 @@ export class ForgotPasswordComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly router = inject(Router);
 	private readonly authService = inject(AuthService);
+	private readonly snackbarService = inject(SnackbarService);
 	readonly navigation = inject(NavigationService);
 
 	emailControl = this.fb.control<string>('', [Validators.required, Validators.email, Validators.maxLength(255)]);
@@ -44,13 +46,13 @@ export class ForgotPasswordComponent extends BaseComponent {
 		const request: ForgotPasswordRequest = {
 			email: this.emailControl.getRawValue(),
 		};
-		const resp = await this.authService.forgotPassword(request);
+		await this.authService.forgotPassword(request);
 		this.emailSent.set(true);
+		this.snackbarService.showSuccess('Email sent!');
 	}
 
 	resend(): void {
 		this.send();
-		// TODO snackbar
 	}
 
 	changeEmail(): void {
@@ -65,8 +67,8 @@ export class ForgotPasswordComponent extends BaseComponent {
 			newPassword: formValue.password,
 			confirmNewPassword: formValue.confirmPassword,
 		};
-		const resp = await this.authService.resetPassword(request);
-		// TODO snackbar
+		await this.authService.resetPassword(request);
+		this.snackbarService.showSuccess('Password successfully updated!')
 		this.router.navigateByUrl(this.navigation.account().login());
 	}
 }

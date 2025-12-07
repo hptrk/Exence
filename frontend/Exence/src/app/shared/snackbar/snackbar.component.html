@@ -1,0 +1,46 @@
+<section [class]="'py-2 notification-' + getCssClass()">
+	<div class="d-flex justify-content-between align-items-center w-100">
+		<div class="d-flex justify-content-between align-items-center">
+			@switch (data.type) {
+				@case (errorType) {
+					<mat-icon>error</mat-icon>
+				}
+				@case (warnType) {
+					<mat-icon>warning</mat-icon>
+				}
+				@case (infoType) {
+					<mat-icon>info</mat-icon>
+				}
+				@case (successType) {
+					<mat-icon>check</mat-icon>
+				}
+			}
+			<div
+				[innerHTML]="data.message"
+				class="text-break ms-4"
+			></div>
+		</div>
+		@if (data.action) {
+			<button
+				mat-icon-button
+				matSnackBarAction
+				(click)="data.action.onClick(); onClose()"
+				[matTooltip]="data.action.tooltip"
+			>
+				@if (data.action.svgIcon) {
+					<mat-icon [svgIcon]="data.action.svgIcon" />
+				} @else {
+					<mat-icon>{{ data.action.matIcon }}</mat-icon>
+				}
+			</button>
+		}
+
+		<button
+			mat-icon-button
+			matSnackBarAction
+			(click)="onClose()"
+		>
+			<mat-icon>close</mat-icon>
+		</button>
+	</div>
+</section>

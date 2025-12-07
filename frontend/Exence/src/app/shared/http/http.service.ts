@@ -1,8 +1,9 @@
 import { HttpClient, HttpContext, HttpErrorResponse, HttpEvent, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { catchError, from, map, Observable, OperatorFunction, Subject, tap } from "rxjs";
+import { SnackbarService } from "../snackbar/snackbar.service";
 import { HttpSettings } from "./http-settings";
-
+import { ErrorResponse } from "../../data-model/modules/ErrorResponse";
 interface HttpOptions {
 	headers?: HttpHeaders | Record<string, string | string[]>;
 	context?: HttpContext;
@@ -26,6 +27,7 @@ class StackSnapshot extends Error { }
 })
 export class HttpService {
 	private readonly httpClient = inject(HttpClient);
+	private readonly snackbarService = inject(SnackbarService);
 
 	private responseEventStream: Subject<HttpResponseBase> = new Subject();
 
@@ -98,20 +100,26 @@ export class HttpService {
 
 	private async showErrorFromResponse(response: HttpErrorResponse): Promise<void> {
 		let errorMsg = await this.getErrorMessage(response);
-		// TODO snackbar to show error
+		console.log(errorMsg)
+		console.log(response)
+		this.snackbarService.showError(errorMsg.detail);
 	}
 
-	protected async getErrorMessage(response: HttpErrorResponse): Promise<string> {
+	protected async getErrorMessage(response: HttpErrorResponse): Promise<ErrorResponse> {
+		const error = response.error;
 		switch (response.status) {
 			case 0:
 			case 503:
 			case 504:
 				console.error('Http response status', response.status, response.error);
-				return 'No connection could be established between client and server!';
+				error.message = 'No connection could be established between client and server!'; 
+				return error;
 			case 403:
-				return 'You do not have sufficient permissions to perform this operation!';
+				error.message = 'You do not have sufficient permissions to perform this operation!'; 
+				return error;
 			case 404:
-				return 'The resource cannot be found!';
+				error.message = 'The resource cannot be found!'; 
+				return error;
 		}
 
 		try {

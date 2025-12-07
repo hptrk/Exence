@@ -5,6 +5,7 @@ import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { ButtonComponent } from "../../../shared/button/button.component";
 import { FormatDateFromNowPipe } from "../../../shared/pipes/format-date-from-now.pipe";
 import { MatDividerModule } from "@angular/material/divider";
+import { SnackbarService } from "../../../shared/snackbar/snackbar.service";
 
 @Component({
 	selector: 'ex-sessions-list',
@@ -19,6 +20,7 @@ import { MatDividerModule } from "@angular/material/divider";
 })
 export class SessionsListComponent implements OnInit {
 	private readonly sessionService = inject(SessionService);
+	private readonly snackbarService = inject(SnackbarService);
 	
 	otherSessions = signal<DeviceSession[]>([]);
 	currentSession = signal<DeviceSession | undefined>(undefined);
@@ -41,11 +43,12 @@ export class SessionsListComponent implements OnInit {
 		if (!sessionId) return;
 		await this.sessionService.deleteSession(sessionId);
 		await this.initialize();
-		// TODO snackbar
+		this.snackbarService.showSuccess('Successfully deleted session');
 	}
 
 	async deleteAllSessions(): Promise<void> {
 		await this.sessionService.deleteAllSessions();
 		await this.initialize();
+		this.snackbarService.showSuccess('Successfully deleted all sessions');
 	}
 }

@@ -41,8 +41,6 @@ export class LoginComponent extends BaseComponent {
 		};
 		const resp = await this.authService.login(request);
 		this.currentUserService.setUser(resp.user);
-		// TODO show snackbar for successful registration
-
 		this.router.navigateByUrl(this.navigationService.private().dashboard());
 	}
 }

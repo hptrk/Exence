@@ -23,6 +23,7 @@ import { CategoryService } from '../category.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { CreateTransactionDialogComponent, CreateTranslationDialogData } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../transactions-and-categories/transaction.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -41,13 +42,15 @@ import { TransactionService } from '../transactions-and-categories/transaction.s
 	styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-	public display = inject(DisplaySizeService);
-	public dialog = inject(MatDialog);
-	public router = inject(Router);
-	public navigation = inject(NavigationService);
 	private readonly currentUserService = inject(CurrentUserService);
 	private readonly transactionService = inject(TransactionService);
 	private readonly categoryService = inject(CategoryService);
+	private readonly snackbarService = inject(SnackbarService);
+	readonly display = inject(DisplaySizeService);
+	readonly dialog = inject(MatDialog);
+	readonly router = inject(Router);
+	readonly navigation = inject(NavigationService);
+	
 
 	transactionTypes = TransactionType;
 	dateIntervals = DateInterval;
@@ -125,6 +128,7 @@ export class DashboardComponent implements OnInit {
 			async (newTransaction?: Transaction) => {
 				if (newTransaction) {
 					this.transactions = (await this.getTransactions());
+					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(1, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 				}
 			});
 	}

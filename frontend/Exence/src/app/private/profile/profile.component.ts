@@ -11,6 +11,7 @@ import { UpdateUserRequest } from '../../data-model/modules/auth/UpdateUserReque
 import { UserService } from '../../shared/user/user.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
 	selector: 'ex-profile',
@@ -29,6 +30,7 @@ import { SessionsListComponent } from '../session/sessions-list/sessions-list.co
 export class ProfileComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly userService = inject(UserService);
+	private readonly snackbarService = inject(SnackbarService);
 	readonly currentUserService = inject(CurrentUserService);
 
 	user = computed(() => this.currentUserService.user());
@@ -68,7 +70,7 @@ export class ProfileComponent {
 		const updatedUser = await this.userService.updateUser(request);
 		this.currentUserService.setUser(updatedUser);
 		this.isUserDataFormEditing.set(false);
-		// TODO snackbar
+		this.snackbarService.showSuccess('Successfully saved!');
 	}
 
 	async savePassword(): Promise<void> {
@@ -81,7 +83,7 @@ export class ProfileComponent {
 		};
 		await this.userService.changePassword(request);
 		this.isPasswordFormEditing.set(false);
-		// TODO snackbar
+		this.snackbarService.showSuccess('Successfully saved!');
 	}
 
 	cancelDataEditing(): void {
