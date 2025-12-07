@@ -50,8 +50,8 @@ mat-drawer-content.mat-drawer-content {
 	flex-direction: column;
 }
 
-.actions-menu {
+.actions-menu, .actions {
 	mat-icon {
-		color: var(--default-text-color);
+		color: var(--accent-text-color);
 	}
 }
