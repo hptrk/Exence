@@ -7,8 +7,10 @@
 					size="xl"
 					[svgIcon]="svgIcon()!"
 				/>
-			} @else {
+			} @else if (matIcon()) {
 				<mat-icon size="xl">{{ matIcon() }}</mat-icon>
+			} @else {
+				<div class="emoji">{{ emoji() }}</div>
 			}
 		</div>
 	</mat-card-header>
@@ -18,12 +20,22 @@
 			<div
 				class="fw-bold amount"
 				[class]="{
-					expense: value() < 0 || type() === transactionTypes.EXPENSE,
-					income: value() > 0 || type() === transactionTypes.INCOME
+					expense: value() !== 0 && (value() < 0 || type() === transactionTypes.EXPENSE),
+					income: value() !== 0 && (value() > 0 || type() === transactionTypes.INCOME)
 				}"
 			>
 				@if (value() !== 0) {
-					{{ value() > 0 || type() === transactionTypes.INCOME ? '+' : '-' }}
+					@switch (type()) {
+						@case (transactionTypes.INCOME) {
+							+
+						}
+						@case (transactionTypes.EXPENSE) {
+							-
+						}
+						@default {
+							{{ value() > 0 ? '+' : '-' }}
+						}
+					}
 				}
 				{{ value() | currency: 'Ft' : 'symbol' : '1.0-0' }}
 			</div>

@@ -67,7 +67,6 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 		).afterClosed().subscribe(
 			async (newTransaction?: Transaction) => {
 				if (newTransaction) {
-					// TODO success snackbar
 					this.transactions = (await this.getTransactions());
 				}
 			}

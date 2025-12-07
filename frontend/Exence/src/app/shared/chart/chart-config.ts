@@ -1,5 +1,8 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 import { DisplayTheme } from '../display-theme.service';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { format } from 'date-fns';
+import { formatCurrency } from '@angular/common';
 
 export const getCssVariableValue = (variableName: string, element: HTMLElement | null = document.documentElement): string => {
     if (!element) return '';
@@ -30,6 +33,26 @@ export const createCanvasBackgroundPlugin = () => ({
 		ctx.fill();
 		ctx.restore();
 	},
+});
+
+export const createPointerTooltipConfig = (data: Transaction[], balance: number) => ({
+	 callbacks: {
+        title: (context: any) => {
+            const transaction = data[context[0].dataIndex];
+			const title = transaction.title ?? '';
+			return title.length > 15 ? title.slice(0, 15) + '...' : title;
+        },
+        label: (context: any) => {
+			const transaction = data[context.dataIndex];
+			// In your function:
+			return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
+        },
+        afterLabel: (context: any) => {
+			const transaction = data[context.dataIndex];
+			// TODO balance
+			return `Balance: ${formatCurrency(balance, 'en-US', 'Ft', 'hu-HU')}`;
+        },
+    },
 });
 
 export const getLineChartData = (data: number[], labels: string[]) => ({
@@ -65,6 +88,22 @@ export const lineChartOptions: ChartConfiguration['options'] = {
 	},
 	plugins: {
 		legend: { display: false },
+		tooltip: {
+            callbacks: {
+                title: (context) => {
+                    // Customize the title (usually the label)
+                    return `Date: ${context[0].label}`;
+                },
+                label: (context) => {
+                    // Customize the value display
+                    return `Amount: $${context.parsed.y.toFixed(2)}`;
+                },
+                // Optional: add more info
+                afterLabel: (context) => {
+                    return `Additional info here`;
+                },
+            },
+        },
 	},
 	scales: {
 		x: {

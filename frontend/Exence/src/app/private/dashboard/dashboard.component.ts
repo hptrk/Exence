@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { Category } from '../../data-model/modules/category/Category';
@@ -13,29 +12,30 @@ import { CategoriesComponent, DateInterval } from '../../private/dashboard/categ
 import {
 	SummaryContainerComponent
 } from '../../private/dashboard/summary-container/summary-container.component';
+import { ButtonComponent } from '../../shared/button/button.component';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
 import { ChartComponent } from '../../shared/chart/chart.component';
-import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 import { CategoryService } from '../category.service';
 import { CurrentUserService } from '../current-user.service';
+import { CreateTransactionDialogComponent, CreateTranslationDialogData } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../transactions-and-categories/transaction.service';
 
 @Component({
 	selector: 'ex-dashboard',
 	imports: [
+		CommonModule,
+		RouterModule,
+		CardSliderDirective,
 		SummaryContainerComponent,
 		DataTableComponent,
 		ChartComponent,
 		CategoriesComponent,
 		ViewToggleComponent,
-		CommonModule,
-		MatButton,
-		CardSliderDirective,
-		RouterModule,
+		ButtonComponent,
 	],
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',
@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
 	categories: Category[] = [];
 
 	totals: TransactionTotalsResponse = {} as TransactionTotalsResponse;
-	balance?: number;
+	balance: number = 0;
 
 	topCategories?: CategorySummaryResponse[];
 	topCategory?: CategorySummaryResponse;
@@ -84,7 +84,7 @@ export class DashboardComponent implements OnInit {
 			this.expenses = expenses;
 			this.totals = totals;
 			
-			this.balance = totals.totalIncome - totals.totalExpense;
+			this.balance = Math.round((totals.totalIncome - totals.totalExpense) * 100) / 100;
 
 			this.topCategories = top4;
 			this.topCategory = top4[0];
@@ -115,29 +115,18 @@ export class DashboardComponent implements OnInit {
 		return this.transactionService.totals();
 	}
 
-	public openTransactionDialog(transactionType: TransactionType): void {
-		switch (transactionType) {
-			case TransactionType.INCOME: {
-				// temp: open a dialog
-				this.dialog.open(DataTableDialogComponent, {
-					width: 'auto',
-					data: {
-						formType: TransactionType.INCOME,
-					},
-				});
-				break;
-			}
-			case TransactionType.EXPENSE: {
-				// temp: open a dialog
-				this.dialog.open(DataTableDialogComponent, {
-					width: 'auto',
-					data: {
-						formType: TransactionType.EXPENSE,
-					},
-				});
-				break;
-			}
-		}
+	public openCreateTransactionDialog(transactionType: TransactionType): void {
+		const data: CreateTranslationDialogData = {
+			type: transactionType,
+		};
+		this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
+			CreateTransactionDialogComponent, { data }
+		).afterClosed().subscribe(
+			async (newTransaction?: Transaction) => {
+				if (newTransaction) {
+					this.transactions = (await this.getTransactions());
+				}
+			});
 	}
 
 	async onDataChanged(): Promise<void> {

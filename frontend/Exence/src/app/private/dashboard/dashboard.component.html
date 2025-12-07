@@ -19,12 +19,15 @@
 		<div
 			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
 		>
-			@if (display.isMd() === false) {
+			<!-- @if (display.isMd() === false) {
 				<div class="mx-auto">
 					<ng-container [ngTemplateOutlet]="toggleFilter" />
 				</div>
-			}
-			<ex-chart />
+			} -->
+			<ex-chart
+				[data]="transactions.content"
+				[balance]="balance"
+			/>
 			<ex-categories
 				class="h-100"
 				[totalExpense]="totals.totalExpense"
@@ -55,12 +58,12 @@
 					class="flex-grow-1"
 					matIcon="savings"
 					title="Balance"
-					[value]="balance ?? 0"
+					[value]="balance"
 				/>
 				@if (topCategory) {
 					<ex-summary-container
 						class="flex-grow-1"
-						matIcon="receipt_long"
+						[emoji]="topCategory.emoji"
 						[title]="topCategory.name"
 						[value]="topCategory.totalAmount"
 						[type]="transactionTypes.EXPENSE"
@@ -108,22 +111,22 @@
 </ng-template>
 
 <ng-template #mobileButtons>
-	<div
-		class="d-flex flex-column-reverse flex-sm-row gap-2 gap-sm-4 justify-content-center align-items-md-center w-100"
-	>
-		<button
-			mat-flat-button
-			class="add-expense flex-grow-1"
-			(click)="openTransactionDialog(transactionTypes.EXPENSE)"
+	<div class="d-flex flex-column-reverse flex-sm-row gap-2 justify-content-center align-items-md-center w-100">
+		<ex-button
+			filled
+			color="error"
+			class="flex-grow-1"
+			(click)="openCreateTransactionDialog(transactionTypes.EXPENSE)"
 		>
 			Expense
-		</button>
-		<button
-			mat-flat-button
-			class="add-income flex-grow-1"
-			(click)="openTransactionDialog(transactionTypes.INCOME)"
+		</ex-button>
+		<ex-button
+			filled
+			color="success"
+			class="flex-grow-1"
+			(click)="openCreateTransactionDialog(transactionTypes.INCOME)"
 		>
 			Income
-		</button>
+		</ex-button>
 	</div>
 </ng-template>
