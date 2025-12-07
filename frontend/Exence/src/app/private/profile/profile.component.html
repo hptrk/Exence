@@ -1,1 +1,158 @@
-<p>profile works!</p>
+<section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
+	<!-- Profile data -->
+	<div class="d-flex flex-column gap-4">
+		<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+			<h3 class="m-0 text-center text-md-start fs-2">Profile data</h3>
+			<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center gap-2">
+				@if (isUserDataFormEditing()) {
+					<ex-button
+						filled
+						color="primary"
+						matIcon="check"
+						collapsedStyle="filled"
+						collapseUnder="sm"
+						[disabled]="userDataForm.invalid"
+						type="button"
+						(click)="saveUserData()"
+					>
+						Save
+					</ex-button>
+					<ex-button
+						outlined
+						color="accent"
+						matIcon="close"
+						collapsedStyle="outlined"
+						collapseUnder="sm"
+						type="button"
+						(click)="cancelDataEditing()"
+					>
+						Cancel
+					</ex-button>
+				} @else {
+					<ex-button 
+						iconButton
+						matIcon="edit"
+						color="primary"
+						(click)="isUserDataFormEditing.set(true)"
+					/>
+				}
+			</div>
+		</div>
+
+		<form [formGroup]="userDataForm">
+			<div class="d-flex flex-column flex-md-row gap-3 w-100">
+				@let nameControl = userDataForm.controls.username;
+				<mat-form-field>
+					<mat-label>Username</mat-label>
+					<input matInput [formControl]="nameControl" />
+					<ex-input-clear matSuffix [control]="nameControl"/>
+					@if (nameControl.touched && nameControl.invalid) {
+						<mat-error>
+							Username is <strong>required</strong>!
+						</mat-error>
+					}
+				</mat-form-field>
+
+				@let emailControl = userDataForm.controls.email;
+				<mat-form-field>
+					<mat-label>Email</mat-label>
+					<input matInput type="email" [formControl]="emailControl" />
+					<!-- <ex-input-clear matSuffix [control]="emailControl" />
+					@if (emailControl.touched && emailControl.invalid) {
+						<mat-error>
+							Email is <strong>required</strong>!
+						</mat-error>
+					} -->
+				</mat-form-field>
+			</div>
+		</form>
+	</div>
+
+	<!-- Password -->
+	<div class="d-flex flex-column gap-4">
+		@if (isPasswordFormEditing()) {
+			<h3 class="m-0 text-center text-md-start fs-2">Change password</h3>
+			<form [formGroup]="passwordForm">
+				<div class="d-flex flex-column gap-3 w-100">
+					@let pwdControl = passwordForm.controls.password;
+					<mat-form-field>
+						<mat-label>Old password</mat-label>
+						<input matInput type="password" [formControl]="pwdControl" />
+						<ex-input-clear matSuffix [control]="pwdControl" />
+						@if (pwdControl.touched && pwdControl.invalid) {
+							<mat-error>
+								Old password is <strong>required</strong>!
+							</mat-error>
+						}
+					</mat-form-field>
+
+					<div class="d-flex flex-column flex-md-row gap-3 w-100">
+						@let newPwdControl = passwordForm.controls.newPassword;
+						<mat-form-field>
+							<mat-label>New password</mat-label>
+							<input matInput type="password" [formControl]="newPwdControl" />
+							<ex-input-clear matSuffix [control]="newPwdControl" />
+							@if (newPwdControl.touched && newPwdControl.invalid) {
+								<mat-error>
+									New password is <strong>required</strong>!
+								</mat-error>
+							}
+						</mat-form-field>
+
+						@let confirmPwdControl = passwordForm.controls.confirmPassword;
+						<mat-form-field>
+							<mat-label>Confirm password</mat-label>
+							<input matInput type="password" [formControl]="confirmPwdControl" />
+							<ex-input-clear matSuffix [control]="confirmPwdControl" />
+							@if (confirmPwdControl.touched && confirmPwdControl.invalid) {
+								<mat-error>
+									Confirm password is <strong>required</strong>!
+								</mat-error>
+							}
+						</mat-form-field>
+					</div>
+				</div>
+			</form>
+		}
+		<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+			@if (isPasswordFormEditing()) {
+				<ex-button
+					filled
+					color="primary"
+					matIcon="check"
+					collapsedStyle="filled"
+					collapseUnder="sm"
+					[disabled]="passwordForm.invalid"
+					type="button"
+					(click)="savePassword()"
+				>
+					Save
+				</ex-button>
+				<ex-button
+					outlined
+					color="accent"
+					matIcon="close"
+					collapsedStyle="outlined"
+					collapseUnder="sm"
+					type="button"
+					(click)="cancelPasswordEditing()"
+				>
+					Cancel
+				</ex-button>
+			} @else {
+				<ex-button 
+					filled
+					color="primary"
+					(click)="isPasswordFormEditing.set(true)"
+				>
+					Change password
+				</ex-button>
+			}
+		</div>
+	</div>
+
+	<mat-divider />
+
+	<!-- Sessions -->
+
+</section>

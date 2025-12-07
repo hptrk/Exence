@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpService } from '../../shared/http/http.service';
-import { Transaction } from '../../data-model/modules/transaction/Transaction';
-import { last, lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
-import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
+import { HttpService } from '../../shared/http/http.service';
 
 @Injectable({
 	providedIn: 'root',

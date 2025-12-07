@@ -1,8 +1,8 @@
 import { inject, Injectable } from "@angular/core";
-import { HttpService } from "../shared/http/http.service";
+import { lastValueFrom } from "rxjs";
 import { Category } from "../data-model/modules/category/Category";
-import { identity, lastValueFrom } from "rxjs";
 import { CategorySummaryResponse } from "../data-model/modules/category/CategorySummaryResponse";
+import { HttpService } from "../shared/http/http.service";
 
 @Injectable({
 	providedIn: 'root'
