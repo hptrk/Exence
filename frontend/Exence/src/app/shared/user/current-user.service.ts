@@ -1,18 +1,19 @@
 import { inject, Injectable, Signal, signal, WritableSignal } from "@angular/core";
-import { User } from "../data-model/modules/auth/User";
-import { CookiesService } from "../shared/auth/cookies.service";
 import { jwtDecode } from "jwt-decode";
-import { HttpService } from "../shared/http/http.service";
 import { lastValueFrom } from "rxjs";
-import { AuthService } from "../shared/auth/auth.service";
+import { HttpService } from "../http/http.service";
+import { AuthService } from "../auth/auth.service";
+import { CookiesService } from "../auth/cookies.service";
+import { User } from "../../data-model/modules/auth/User";
+import { UserService } from "./user.service";
 
 @Injectable({
 	providedIn: 'root'
 })
 export class CurrentUserService {
 	private readonly cookies = inject(CookiesService);
-	private readonly http = inject(HttpService);
 	private readonly authService = inject(AuthService);
+	private readonly userService = inject(UserService);
 
 	private _user: WritableSignal<User | null> = signal(null);
 
@@ -20,14 +21,14 @@ export class CurrentUserService {
 	
 	async getIsLoggedIn(): Promise<boolean> {
 		if (this.cookies.hasAccessToken() && jwtDecode(this.cookies.getAccessToken()!, { header: false })) {
-			const user = await this.getUser();
+			const user = await this.userService.getUser();
 			this.setUser(user);
 			return true;
 		}
 		
 		if (this.cookies.hasRefreshToken()) {
 			const resp = await this.authService.refreshToken();
-			const user = await this.getUser();
+			const user = await this.userService.getUser();
 			this.setUser(user);
 			this.cookies.saveTokens(resp.access_token, resp.refresh_token);
 			return true;
@@ -44,9 +45,5 @@ export class CurrentUserService {
 	clearUser(): void {
 		this._user.set(null);
 		this.cookies.clearTokens();
-	}
-
-	getUser(): Promise<User> {
-		return lastValueFrom(this.http.get<User>('/api/user/me'));
 	}
 }

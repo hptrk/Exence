@@ -13,7 +13,7 @@ import { BaseComponent } from '../../shared/base-component/base.component';
 import { AuthService } from '../../shared/auth/auth.service';
 import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
 import { ExtraValidators } from '../../shared/validators';
-import { CurrentUserService } from '../../private/current-user.service';
+import { CurrentUserService } from '../../shared/user/current-user.service';
 
 @Component({
 	selector: 'ex-login',

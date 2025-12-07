@@ -1,6 +1,6 @@
 import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
-import { CurrentUserService } from "../../../private/current-user.service";
+import { CurrentUserService } from "../../user/current-user.service";
 import { NavigationService } from "../../navigation/navigation.service";
 
 export const loggedInGuard: CanActivateFn = async (

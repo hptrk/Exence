@@ -20,7 +20,7 @@ import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 import { CategoryService } from '../category.service';
-import { CurrentUserService } from '../current-user.service';
+import { CurrentUserService } from '../../shared/user/current-user.service';
 import { CreateTransactionDialogComponent, CreateTranslationDialogData } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../transactions-and-categories/transaction.service';
 
