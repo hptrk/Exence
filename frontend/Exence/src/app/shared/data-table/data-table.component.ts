@@ -150,7 +150,7 @@ export class DataTableComponent extends BaseComponent {
 				}
 			)
 		// Income or expense
-		} else if (this.type() === TransactionType.EXPENSE ||this.type() === TransactionType.INCOME) {
+		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
 			const data = { type: this.type()! as TransactionType };
 
 			this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
