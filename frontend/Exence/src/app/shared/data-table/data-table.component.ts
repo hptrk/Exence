@@ -73,7 +73,7 @@ export class DataTableComponent extends BaseComponent {
 	private readonly dialog = inject(MatDialog);
 	readonly display = inject(DisplaySizeService);
 	
-	detailsForm!: FormGroup;
+	noteForm!: FormGroup;
 	recurringForm!: FormGroup;
 	categoryForm!: FormGroup;
 
@@ -140,13 +140,13 @@ export class DataTableComponent extends BaseComponent {
 			this.pageIndex = data.transactions.page;
 			this.pageLength = data.transactions.totalPages;
 
-			let detailsControls = {}; 
+			let noteControls = {};
 			let recurringControls = {};
 			let categoryControls = {};
 			data.transactions.content.forEach(transaction => {
-				detailsControls = {
-					...detailsControls,
-					[transaction.id as number]: this.fb.control<string>('', [Validators.maxLength(500)]),
+				noteControls = {
+					...noteControls,
+					[transaction.id as number]: this.fb.control<string>(transaction.note ?? '', [Validators.maxLength(500)]),
 				};
 				recurringControls = {
 					...recurringControls,
@@ -157,7 +157,7 @@ export class DataTableComponent extends BaseComponent {
 					[transaction.id as number]: this.fb.control<number>(transaction.categoryId, [Validators.required]),
 				};
 			});
-			this.detailsForm = this.fb.group(detailsControls);
+			this.noteForm = this.fb.group(noteControls);
 			this.recurringForm = this.fb.group(recurringControls);
 			this.categoryForm = this.fb.group(categoryControls);
 		});
@@ -180,7 +180,7 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	async saveRow(row: Transaction): Promise<void> {
-		const newDetailsValue = this.detailsForm.controls[row.id!].getRawValue();
+		const newNoteValue = this.noteForm.controls[row.id!].getRawValue();
 		const newRecurringValue = this.recurringForm.controls[row.id!].getRawValue();
 		const newCategoryValue = this.categoryForm.controls[row.id!].getRawValue();
 
@@ -190,26 +190,26 @@ export class DataTableComponent extends BaseComponent {
 			date: row.date,
 			amount: row.amount,
 			type: row.type,
-			details: newDetailsValue,
+			note: newNoteValue,
 			recurring: newRecurringValue,
 			categoryId: newCategoryValue,
 		};
 		const updatedTransaction = await this.transactionService.update(request);
-		this.snackbarService.showSuccess(`Transaction '${updatedTransaction.title.slice(1, 10)}${updatedTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+		this.snackbarService.showSuccess(`Transaction '${updatedTransaction.title.slice(0, 10)}${updatedTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 		this.dataChangedEvent.emit();
 	}
 
 	cancelRowEdit(rowId: number): void {
-		this.detailsForm.controls[rowId].reset();
+		this.noteForm.controls[rowId].reset();
 		this.recurringForm.controls[rowId].reset();
 		this.categoryForm.controls[rowId].reset();
 	}
 
-	saveDetailsDisabled(rowId: number): boolean {
-		return (!this.detailsForm.controls[rowId].touched
+	saveNoteDisabled(rowId: number): boolean {
+		return (!this.noteForm.controls[rowId].touched
 			&& !this.recurringForm.controls[rowId].touched
 			&& !this.categoryForm.controls[rowId].touched
-		) || this.detailsForm.controls[rowId].invalid
+		) || this.noteForm.controls[rowId].invalid
 			|| this.recurringForm.controls[rowId].invalid
 			|| this.categoryForm.controls[rowId].invalid;
 	}
@@ -236,7 +236,7 @@ export class DataTableComponent extends BaseComponent {
 				async (newTransaction) => {
 					if (newTransaction) {
 						this.dataChangedEvent.emit();
-						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(1, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 					}
 				}
 			)
@@ -250,7 +250,7 @@ export class DataTableComponent extends BaseComponent {
 				async (newTransaction) => {
 					if (newTransaction) {
 						this.dataChangedEvent.emit();
-						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(1, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 					}
 				}
 			);

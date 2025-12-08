@@ -70,7 +70,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 			async (newTransaction?: Transaction) => {
 				if (newTransaction) {
 					this.transactions = (await this.getTransactions());
-					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(1, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 				}
 			}
 		);

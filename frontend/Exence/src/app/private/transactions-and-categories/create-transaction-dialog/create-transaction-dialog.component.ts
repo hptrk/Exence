@@ -39,7 +39,7 @@ export class CreateTransactionDialogComponent implements OnInit {
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
-		details: this.fb.control<string | undefined>(undefined, [Validators.maxLength(500)]),
+		note: this.fb.control<string | undefined>(undefined, [Validators.maxLength(500)]),
 		date: this.fb.control<Date>(new Date(), [Validators.required]),
 		amount: this.fb.control<number>(0, [Validators.required, Validators.min(1)]),
 		type: this.fb.control<TransactionType>(TransactionType.EXPENSE, [Validators.required]),
@@ -62,7 +62,7 @@ export class CreateTransactionDialogComponent implements OnInit {
 		const formValue = this.form.getRawValue();
 		const request: Transaction = {
 			title: formValue.title,
-			details: formValue?.details ?? undefined,
+			note: formValue?.note ?? undefined,
 			date: formValue.date.toISOString(),
 			amount: formValue.amount,
 			type: formValue.type,

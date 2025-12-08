@@ -4,7 +4,7 @@ import { TransactionType } from './TransactionType';
 export interface Transaction {
 	id?: number;
 	title: string;
-	details?: string;
+	note?: string;
 	date: string; // String to represent date in ISO format
 	amount: number;
 	type: TransactionType;

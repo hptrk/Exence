@@ -86,13 +86,13 @@
 			</mat-form-field>
 		</div>
 
-		@let detailsControl = form.controls.details;
+		@let noteControl = form.controls.note;
 		<mat-form-field>
-			<mat-label>Details</mat-label>
-			<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="detailsControl"></textarea>
-			@if (detailsControl.touched && detailsControl.invalid) {
+			<mat-label>Note</mat-label>
+			<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
+			@if (noteControl.touched && noteControl.invalid) {
 				<mat-error>
-					Detail is invalid (<strong>max 500 characters</strong>)!
+					Note is invalid (<strong>max 500 characters</strong>)!
 				</mat-error>
 			}
 		</mat-form-field>
