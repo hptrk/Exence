@@ -401,7 +401,7 @@
 				}
 			</div>
 		</div>
-		@if (!paginationDisabled()) {
+		<!-- @if (!paginationDisabled()) {
 			<mat-paginator
 				[length]="pageLength"
 				[pageSize]="pageSize"
@@ -409,7 +409,7 @@
 				[pageIndex]="pageIndex"
 			>
 			</mat-paginator>
-		}
+		} -->
 	} @else {
 		<ng-container [ngTemplateOutlet]="emptyTable" />
 	}

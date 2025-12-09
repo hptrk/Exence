@@ -14,6 +14,7 @@ import { ButtonComponent } from "../../../shared/button/button.component";
 import { InputClearButtonComponent } from "../../../shared/input-clear-button/input-clear-button.component";
 import { TransactionService } from "../transaction.service";
 import { CategoryService } from "../../category.service";
+import { BaseComponent } from "../../../shared/base-component/base.component";
 
 export interface CreateTranslationDialogData {
 	type: TransactionType;
@@ -25,7 +26,7 @@ export interface CreateTranslationDialogData {
 	styleUrl: './create-transaction-dialog.component.scss',
 	imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatCardModule, MatSelectModule, MatDatepickerModule, MatCheckboxModule, InputClearButtonComponent, ButtonComponent],
 })
-export class CreateTransactionDialogComponent implements OnInit {
+export class CreateTransactionDialogComponent extends BaseComponent implements OnInit {
 	private readonly dialogRef = inject(MatDialogRef<CreateTransactionDialogComponent>);
 	private readonly transactionService = inject(TransactionService);
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -41,10 +42,10 @@ export class CreateTransactionDialogComponent implements OnInit {
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		note: this.fb.control<string | undefined>(undefined, [Validators.maxLength(500)]),
 		date: this.fb.control<Date>(new Date(), [Validators.required]),
-		amount: this.fb.control<number>(0, [Validators.required, Validators.min(1)]),
+		amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)]),
 		type: this.fb.control<TransactionType>(TransactionType.EXPENSE, [Validators.required]),
 		recurring: this.fb.control<boolean>(false),
-		category: this.fb.control<Category>({} as Category, [Validators.required]),
+		category: this.fb.control<Category | null>(null, [Validators.required]),
 	});
 
 	async ngOnInit(): Promise<void> {
@@ -52,6 +53,11 @@ export class CreateTransactionDialogComponent implements OnInit {
 		if (this.data.type) {
 			this.form.controls.type.setValue(this.data.type)
 		}
+		this.addSubscription(this.form.controls.amount.valueChanges.subscribe(value => {
+			if (value !== null) {
+				this.form.controls.amount.setValue(parseFloat(value.toString()!));
+			}
+		}));
 	}
 
 	close(): void {
@@ -64,10 +70,10 @@ export class CreateTransactionDialogComponent implements OnInit {
 			title: formValue.title,
 			note: formValue?.note ?? undefined,
 			date: formValue.date.toISOString(),
-			amount: formValue.amount,
+			amount: formValue.amount!,
 			type: formValue.type,
 			recurring: formValue.recurring,
-			categoryId: formValue.category.id!,
+			categoryId: formValue.category!.id!,
 		};
 		try {
 			const newTransaction = await this.transactionService.create(request);

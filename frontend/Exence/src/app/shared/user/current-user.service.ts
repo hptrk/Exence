@@ -20,7 +20,7 @@ export class CurrentUserService {
 	get user(): Signal<User> { return this._user.asReadonly() as Signal<User>; }
 	
 	async getIsLoggedIn(): Promise<boolean> {
-		if (this.cookies.hasAccessToken() && jwtDecode(this.cookies.getAccessToken()!, { header: false })) {
+		if (this.cookies.hasAccessToken() && !this.cookies.isTokenExpired(this.cookies.getAccessToken()!)) {
 			const user = await this.userService.getUser();
 			this.setUser(user);
 			return true;
