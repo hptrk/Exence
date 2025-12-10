@@ -16,6 +16,7 @@ import { CreateTransactionDialogComponent, CreateTranslationDialogData } from '.
 import { TransactionService } from './transaction.service';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -39,6 +40,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 	readonly display = inject(DisplaySizeService);
 
 	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	recurringTransactions: RecurringTransactionsResponse = {} as RecurringTransactionsResponse;
 	categories: Category[] = [];
 
 	selectedIndex = 0;
@@ -56,9 +58,11 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 	async initialize(): Promise<void> {
 		return Promise.all([
 			this.getTransactions(),
+			this.getRecurringTransactions(),
 			this.getCategories(),
-		]).then(([transactions, categories]) => {
+		]).then(([transactions, recurringTransactions, categories]) => {
 			this.transactions = transactions;
+			this.recurringTransactions = recurringTransactions;
 			this.categories = categories;
 		});
 	}
@@ -95,6 +99,10 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 
 	private getTransactions(): Promise<PagedResponse<Transaction>> {
 		return this.transactionService.list();
+	}
+
+	private getRecurringTransactions(): Promise<RecurringTransactionsResponse> {
+		return this.transactionService.listRecurrings();
 	}
 
 	private getCategories(): Promise<Category[]> {

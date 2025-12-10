@@ -22,8 +22,8 @@ export class TransactionService {
 		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl));
 	}
 
-	public listRecurrings(): Promise<PagedResponse<RecurringTransactionsResponse>> {
-		return lastValueFrom(this.http.get<PagedResponse<RecurringTransactionsResponse>>(`${this.baseUrl}/recurring`));
+	public listRecurrings(): Promise<RecurringTransactionsResponse> {
+		return lastValueFrom(this.http.get<RecurringTransactionsResponse>(`${this.baseUrl}/recurring`));
 	}
 
 	public incomes(): Promise<PagedResponse<Transaction>> {

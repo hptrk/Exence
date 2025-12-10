@@ -55,7 +55,7 @@
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
-					[data]="{ transactions, categories }"
+					[data]="{ transactions: recurringTransactions.incomes, categories }"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -65,7 +65,7 @@
 					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ex-data-table
-					[data]="{ transactions, categories }"
+					[data]="{ transactions: recurringTransactions.expenses, categories }"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -76,7 +76,7 @@
 				/>
 			} @else {
 				<ex-data-table
-					[data]="{ transactions, categories }"
+					[data]="{ transactions: recurringTransactions.mergedTransactions, categories }"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
