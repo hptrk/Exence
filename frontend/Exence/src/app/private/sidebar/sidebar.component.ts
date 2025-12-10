@@ -13,22 +13,22 @@ import { MatMenuModule } from '@angular/material/menu';
 import { DisplayThemeService } from '../../shared/display-theme.service';
 import { ThemeApplierDirective } from '../../shared/theme-applier.directive';
 import { AuthService } from '../../shared/auth/auth.service';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
 	selector: 'ex-sidebar',
+	templateUrl: './sidebar.component.html',
+	styleUrl: './sidebar.component.scss',
 	imports: [
+		CommonModule,
 		RouterModule,
-		RouterLink,
 		MatSidenavModule,
 		MatListModule,
 		MatIconModule,
-		MatButtonModule,
-		NavButtonDirective,
-		CommonModule,
 		MatMenuModule,
+		NavButtonDirective,
+		ButtonComponent,
 	],
-	templateUrl: './sidebar.component.html',
-	styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent extends BaseComponent {
 	private readonly authService = inject(AuthService);

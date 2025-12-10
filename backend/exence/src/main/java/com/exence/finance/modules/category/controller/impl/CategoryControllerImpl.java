@@ -3,6 +3,7 @@ package com.exence.finance.modules.category.controller.impl;
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.category.controller.CategoryController;
 import com.exence.finance.modules.category.dto.CategoryDTO;
+import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,12 @@ public class CategoryControllerImpl implements CategoryController {
     public ResponseEntity<List<CategoryDTO>> getCategories() {
         List<CategoryDTO> categoryDTOs = categoryService.getCategories();
         return ResponseFactory.ok(categoryDTOs);
+    }
+
+    @GetMapping("/top4")
+    public ResponseEntity<List<CategorySummaryResponse>> getTop4CategoriesByTotalAmount() {
+        List<CategorySummaryResponse> top4Categories = categoryService.getTop4CategoriesByTotalAmount();
+        return ResponseFactory.ok(top4Categories);
     }
 
     @PostMapping()

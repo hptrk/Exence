@@ -1,0 +1,25 @@
+@if (errorKey) {
+	@switch (errorKey) {
+		@case ('required') {
+			Field required
+		}
+		@case ('password') {
+			Invalid password format!
+		}
+		@case ('passwordMismatch') {
+			Passwords should match!
+		}
+		@case ('email') {
+			Invalid email format!
+		}
+		@case ('maxlength') {
+			Max length is {{ errorValue.requiredLength }}!
+		}
+		@case ('min') {
+			Minimum value is {{ errorValue.min }}!
+		}
+		@case ('max') {
+			MaximumValue value is {{ errorValue.max }}!
+		}
+	}
+}

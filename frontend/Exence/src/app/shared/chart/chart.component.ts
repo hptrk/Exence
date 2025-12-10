@@ -1,10 +1,13 @@
-import { Component, ElementRef, computed, inject, viewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, afterNextRender, afterRenderEffect, computed, effect, inject, input, viewChild } from '@angular/core';
 
 import { Chart } from 'chart.js';
+import { format } from 'date-fns';
 import { BaseChartDirective } from 'ng2-charts';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { BaseComponent } from '../base-component/base.component';
 import { DisplayThemeService } from '../display-theme.service';
-import { createCanvasBackgroundPlugin, getCssVariableValue, getLineChartData, hexToRgba, lineChartOptions } from './chart-config';
+import { createCanvasBackgroundPlugin, createPointerTooltipConfig, getCssVariableValue, getLineChartData, hexToRgba, lineChartOptions } from './chart-config';
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 
 @Component({
 	selector: 'ex-chart',
@@ -14,25 +17,59 @@ import { createCanvasBackgroundPlugin, getCssVariableValue, getLineChartData, he
 })
 export class ChartComponent extends BaseComponent {
 	private themeService = inject(DisplayThemeService);
-	private canvas = viewChild<ElementRef<HTMLCanvasElement>>('canvas');
+
+	data = input.required<Transaction[]>();
+	balance = input.required<number>();
 
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
-	
-	public balanceData = computed(() => [10, 0, 100]);
-	
-	public chartLabels = computed(() => ['dummylabel', 'dummylabel', 'dummylabel']);
-	public lineChartData = computed(() => getLineChartData(this.balanceData(), this.chartLabels()));
-	public lineChartOptions = lineChartOptions;
+
+	balanceData = computed(() => {
+		// has to come from backend later
+    const sortedData = this.data()?.sort((a, b) => a.date.localeCompare(b.date));
+    if (!sortedData) return [];
+    
+    let currentBalance = 0;
+    return sortedData.map(transaction => {
+        if (transaction.type === TransactionType.INCOME) {
+            currentBalance += transaction.amount;
+        } else {
+            currentBalance -= transaction.amount;
+        }
+        return currentBalance;
+    });
+	});
+
+	chartLabels = computed(() =>
+		this.data()?.sort((a, b) => a.date.localeCompare(b.date)).map(transaction => format(new Date(transaction.date), 'dd/MM'))
+	);
+	lineChartData = computed(() => 
+		getLineChartData(this.balanceData(), this.chartLabels())
+	);
+
+	lineChartOptions = lineChartOptions;
+
+	get canvas(): HTMLCanvasElement | undefined {
+		return this.chart()?.chart?.canvas;
+	}
 	
 	constructor() {
 		super();
-		this.setThemeColors()
-		this.themeService.themeChangedEvent.subscribe(() => this.setThemeColors())
+
+		effect(() => {
+			const chart = this.chart();
+			const data = this.data();
+			
+			if (chart && this.canvas && data) {
+				this.setThemeColors();
+			}
+		});
+
+		this.addSubscription(this.themeService.themeChangedEvent.subscribe(() => this.setThemeColors()));
 	}
 
 	private setThemeColors(): void {
 		if (!this.canvas) return;
-		const element = this.canvas()?.nativeElement;
+		const element = this.canvas!;
 
 		// background
 		const canvasBgPlugin = createCanvasBackgroundPlugin();
@@ -57,6 +94,11 @@ export class ChartComponent extends BaseComponent {
 			}
 		}
 
+		// point tooltips
+		if (this.lineChartOptions?.plugins) {
+			this.lineChartOptions.plugins.tooltip = createPointerTooltipConfig(this.data(), this.balance());
+		}
+
 		// line colors
 		const bgColor = getCssVariableValue('--primary-color', element);
 		
@@ -66,9 +108,10 @@ export class ChartComponent extends BaseComponent {
 			pointBackgroundColor: getCssVariableValue('--primary-color', element),
 			pointHoverBackgroundColor: getCssVariableValue('--app-hover-color', element)
 		};
-		if (this.lineChartData) {
-			const currDataset = this.lineChartData().datasets[0];
-			this.lineChartData().datasets[0] = {
+		const lineData = this.lineChartData();
+		if (lineData) {
+			const currDataset = lineData.datasets[0];
+			lineData.datasets[0] = {
 				...currDataset,
 				...pointColors
 			}; 

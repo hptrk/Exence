@@ -1,229 +1,431 @@
 <div class="table-container grid-mode">
-	<h3 class="d-flex align-items-center gap-2">
-		@switch (type()) {
-			@case (transactionTypes.INCOME) {
-				<span class="highlighted-icon">
-					@if (svgIcon()) {
-						<mat-icon [svgIcon]="svgIcon()!"></mat-icon>
-					} @else {
-						<mat-icon>{{ matIcon() }}</mat-icon>
-					}
-				</span>
-				Income
-			}
-			@case (transactionTypes.EXPENSE) {
-				<span class="highlighted-icon">
-					@if (svgIcon()) {
-						<mat-icon [svgIcon]="svgIcon()!"></mat-icon>
-					} @else {
-						<mat-icon>{{ matIcon() }}</mat-icon>
-					}
-				</span>
-				Expense
-			}
-			@default {
-				<span class="highlighted-icon">
-					@if (svgIcon()) {
-						<mat-icon [svgIcon]="svgIcon()!"></mat-icon>
-					} @else {
-						<mat-icon>{{ matIcon() }}</mat-icon>
-					}
-				</span>
-				Movements
-			}
-		}
-	</h3>
-
-	<div class="overflow-y-auto overflow-x-hidden px-2 pt-2">
-		<table
-			mat-table
-			[dataSource]="dataSource"
-			multiTemplateDataRows
-		>
-			<ng-container matColumnDef="title">
-				<th
-					mat-header-cell
-					*matHeaderCellDef
-					class="px-3"
-				>
-					@if (display.isSm()) {
-						Title
-					}
-				</th>
-				<td
-					mat-cell
-					*matCellDef="let row"
-					class="text-truncate"
-				>
-					<div class="table-row-item ps-0 pe-3 overflow-hidden">
-						<div
-							style="min-width: 4px"
-							[class.recurring]="row.recurring"
-						></div>
-						<div
-							class="text-truncate ps-3"
-							[matTooltip]="row.title"
-						>
-							{{ row.title }}
-						</div>
-					</div>
-				</td>
-			</ng-container>
-
-			<ng-container matColumnDef="date">
-				<th
-					mat-header-cell
-					*matHeaderCellDef
-				>
-					@if (display.isSm()) {
-						Date
-					}
-				</th>
-				<td
-					mat-cell
-					*matCellDef="let row"
-				>
-					<div class="table-row-item">
-						{{ row.date | date: 'yy/MM/dd' }}
-					</div>
-				</td>
-			</ng-container>
-
-			<ng-container matColumnDef="amount">
-				<th
-					mat-header-cell
-					*matHeaderCellDef
-					class="px-3"
-				>
-					@if (display.isSm()) {
-						Amount
-					}
-				</th>
-				<td
-					mat-cell
-					*matCellDef="let row"
-				>
-					<!-- TODO user's current locale code, custom currency pipe -->
-					<div class="table-row-item fw-semibold amount {{ row.amount > 0 ? 'income' : 'expense' }}">
-						{{ row.amount | currency: 'Ft' : 'symbol' : '1.0-0' }}
-					</div>
-				</td>
-			</ng-container>
-
-			<ng-container matColumnDef="category">
-				<th
-					mat-header-cell
-					*matHeaderCellDef
-				>
-					@if (display.isSm()) {
-						Category
-					}
-				</th>
-				<td
-					mat-cell
-					*matCellDef="let row"
-				>
-					<div
-						class="table-row-item text-center"
-						[matTooltip]="row.category?.name"
-					>
-						{{ row.category?.emoji ?? '' }}
-					</div>
-				</td>
-			</ng-container>
-
-			@if (display.isMd()) {
-				<ng-container matColumnDef="actions">
-					<th
-						mat-header-cell
-						*matHeaderCellDef
-					></th>
-					<td
-						mat-cell
-						*matCellDef="let row"
-					>
-						<div class="table-row-item d-flex gap-2 align-items-center justify-content-end pe-2">
-							@if (!nonExpandable()) {
-								<div
-									matTooltip="Actions"
-									[class.hidden]="expandedElement !== row"
-									class="d-flex align-items-center justify-content-center"
-								>
-									<mat-icon (click)="$event.stopPropagation()">more_vert</mat-icon>
-								</div>
-								@if (expandedElement === row) {
-									<div
-										matTooltip="Hide details"
-										class="d-flex align-items-center justify-content-center"
-									>
-										<mat-icon>expand_less</mat-icon>
-									</div>
-								} @else {
-									<div
-										matTooltip="Show details"
-										class="d-flex align-items-center justify-content-center"
-									>
-										<mat-icon>expand_more</mat-icon>
-									</div>
-								}
-							}
-						</div>
-					</td>
-				</ng-container>
-			}
-
-			@if (!nonExpandable()) {
-				<ng-container matColumnDef="expandedRow">
-					<td
-						mat-cell
-						*matCellDef="let row"
-						[attr.colspan]="displayedColumns.length"
-					>
-						<div class="detail-row-item">
-							<form
-								class="detail-container"
-								[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
-							>
-								<!-- TODO DETAILS -->
-								<div>
-									<mat-form-field>
-										<mat-label>Notes</mat-label>
-										<textarea
-											name="note"
-											id="note"
-											placeholder="Transaction notes..."
-											class="note"
-											matInput
-											[formControl]="note"
-										></textarea>
-									</mat-form-field>
-								</div>
-							</form>
-						</div>
-					</td>
-				</ng-container>
-			}
-
-			<tr
-				mat-header-row
-				*matHeaderRowDef="displayedColumns"
-			></tr>
-			<tr
-				mat-row
-				*matRowDef="let row; columns: displayedColumns"
-				class="table-row"
-				[class.non-expandable]="nonExpandable()"
-				[class.expanded]="expandedElement === row"
-				(click)="toggleExpand(row)"
-			></tr>
-			@if (!nonExpandable()) {
-				<tr
-					mat-row
-					*matRowDef="let row; columns: ['expandedRow']"
-					class="expanded-detail-row"
-					style="height: 0"
-				></tr>
-			}
-		</table>
+	<div class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2 w100">
+		<h3 class="d-flex align-items-center gap-2">
+			<span class="highlighted-icon">
+				@if (svgIcon()) {
+					<mat-icon [svgIcon]="svgIcon()!"></mat-icon>
+				} @else {
+					<mat-icon>{{ matIcon() }}</mat-icon>
+				}
+			</span>
+			{{ title() }}
+		</h3>
+		<ex-button
+			iconButton
+			matIcon="add"
+			color="accent"
+			(click)="openCreateDialog()"
+		/>
 	</div>
+
+	@if (!emptyTableData) {
+		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1">
+			<div>
+				@if (!emptyTransactionTable) {
+					<table
+						mat-table
+						[dataSource]="transactionDataSource!"
+						multiTemplateDataRows
+					>
+						<ng-container matColumnDef="title">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								class="px-3"
+							>
+								@if (display.isSm()) {
+									Title
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+								class="text-truncate"
+							>
+								<div class="table-row-item ps-0 pe-3 overflow-hidden">
+									<div
+										style="min-width: 4px"
+										[class.recurring]="row.recurring"
+									></div>
+									<div
+										class="text-truncate ps-3"
+										[matTooltip]="row.title"
+									>
+										{{ row.title }}
+									</div>
+								</div>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="date">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+							>
+								@if (display.isSm()) {
+									Date
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<div class="table-row-item">
+									{{ row.date | date: 'yy/MM/dd' }}
+								</div>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="amount">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								class="px-3"
+							>
+								@if (display.isSm()) {
+									Amount
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<!-- TODO user's current locale code, custom currency pipe -->
+								<div
+									class="table-row-item fw-semibold amount {{
+										row.type === transactionTypes.INCOME ? 'income' : 'expense'
+									}}"
+								>
+									{{ row.amount | currency: 'Ft' : 'symbol' : '1.0-0' }}
+								</div>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="category">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+							>
+								@if (display.isSm()) {
+									Category
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<div
+									class="table-row-item text-center"
+									[matTooltip]="row.category?.name"
+								>
+									{{ row.category?.emoji ?? '' }}
+								</div>
+							</td>
+						</ng-container>
+
+						@if (display.isMd()) {
+							<ng-container matColumnDef="actions">
+								<th
+									mat-header-cell
+									*matHeaderCellDef
+								></th>
+								<td
+									mat-cell
+									*matCellDef="let row"
+								>
+									<div
+										class="table-row-item d-flex gap-2 align-items-center justify-content-end pe-2"
+									>
+										@if (!nonExpandable()) {
+											<div
+												matTooltip="Actions"
+												[class.hidden]="expandedElement !== row"
+												class="d-flex align-items-center justify-content-center"
+											>
+												<button
+													mat-icon-button
+													[matMenuTriggerFor]="actionsMenu"
+													(click)="$event.stopPropagation()"
+												>
+													<mat-icon>more_vert</mat-icon>
+												</button>
+
+												<mat-menu #actionsMenu="matMenu">
+													<!-- TODO -->
+													<!-- @if (!isRowEditing(row.id)) {
+														<button
+															mat-menu-item
+															class="edit-button"
+															(click)="editRow(row.id); $event.stopPropagation()"
+														>
+															<mat-icon color="primary">edit</mat-icon>
+															@if (display.isMd()) {
+																Edit
+															}
+														</button>
+													} @else {
+														<button
+															mat-menu-item
+															class="edit-button"
+															(click)="
+																currentlyEditedRow.set(undefined);
+																$event.stopPropagation()
+															"
+														>
+															<mat-icon color="primary">close</mat-icon>
+															@if (display.isMd()) {
+																Cancel
+															}
+														</button>
+													} -->
+
+													<button
+														mat-menu-item
+														class="delete-button"
+														(click)="deleteRow(row.id); $event.stopPropagation()"
+													>
+														<mat-icon color="warn">delete</mat-icon>
+														@if (display.isMd()) {
+															Delete
+														}
+													</button>
+												</mat-menu>
+											</div>
+											@if (expandedElement === row) {
+												<div
+													matTooltip="Hide details"
+													class="d-flex align-items-center justify-content-center"
+												>
+													<mat-icon>expand_less</mat-icon>
+												</div>
+											} @else {
+												<div
+													matTooltip="Show details"
+													class="d-flex align-items-center justify-content-center"
+												>
+													<mat-icon>expand_more</mat-icon>
+												</div>
+											}
+										}
+									</div>
+								</td>
+							</ng-container>
+						}
+
+						@if (!nonExpandable()) {
+							<ng-container matColumnDef="expandedRow">
+								<td
+									mat-cell
+									*matCellDef="let row"
+									[attr.colspan]="displayedColumns.length"
+								>
+									<div class="detail-row-item">
+										<div
+											class="detail-container"
+											[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
+										>
+											<div class="d-flex flex-column flex-md-row gap-4 p-4 w-100">
+												<div class="d-flex gap-4 w-100">
+													@let noteContol = $any(noteForm.controls)[row.id];
+													<mat-form-field>
+														<mat-label>Note</mat-label>
+														<textarea
+															matInput
+															cdkTextareaAutosize
+															cdkAutosizeMinRows="4"
+															[formControl]="noteContol"
+														></textarea>
+														<mat-error>
+															<ex-validator [control]="noteContol" />
+														</mat-error>
+													</mat-form-field>
+
+													<div class="d-flex flex-column justify-content-between pb-4">
+														@let categoryControl = $any(categoryForm.controls)[row.id];
+														<mat-form-field>
+															<mat-label>Category</mat-label>
+															<mat-select
+																[formControl]="categoryControl"
+															>
+																@for (
+																	category of data().categories;
+																	track category.id
+																) {
+																	<mat-option
+																		[value]="category.id"
+																		>{{ `${category.name} - ${category.emoji}` }}</mat-option
+																	>
+																}
+															</mat-select>
+															<mat-error>
+																<ex-validator [control]="categoryControl" />
+															</mat-error>
+														</mat-form-field>
+
+														@let recurringControl = $any(recurringForm.controls)[row.id];
+														<mat-checkbox
+															[formControl]="recurringControl"
+															><span [class.nowrap]="display.isMd()"
+																>Automatically recurring?</span
+															></mat-checkbox
+														>
+														<mat-error>
+															<ex-validator [control]="recurringControl" />
+														</mat-error>
+													</div>
+												</div>
+												<div class="d-flex flex-column gap-2">
+													<!-- [disabled]="saveNoteDisabled(row.id)" -->
+													<ex-button
+														filled
+														matIcon="check"
+														color="primary"
+														[disabled]="false"
+														(click)="saveRow(row)"
+													>
+														Save
+													</ex-button>
+													<ex-button
+														outlined
+														matIcon="close"
+														color="accent"
+														(click)="cancelRowEdit(row.id)"
+													>
+														Cancel
+													</ex-button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+							</ng-container>
+						}
+
+						<tr
+							mat-header-row
+							*matHeaderRowDef="displayedColumns"
+						></tr>
+						<tr
+							mat-row
+							*matRowDef="let row; columns: displayedColumns"
+							class="table-row"
+							[class.non-expandable]="nonExpandable()"
+							[class.expanded]="expandedElement === row"
+							(click)="toggleExpand(row)"
+						></tr>
+						@if (!nonExpandable()) {
+							<tr
+								mat-row
+								*matRowDef="let row; columns: ['expandedRow']"
+								class="expanded-detail-row"
+								style="height: 0"
+							></tr>
+						}
+					</table>
+				} @else if (!emptyCategoryTable) {
+					<table
+						mat-table
+						[dataSource]="categoryDataSource!"
+						multiTemplateDataRows
+					>
+						<ng-container matColumnDef="name">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+								class="px-3"
+							>
+								@if (display.isSm()) {
+									<div class="text-start">Name</div>
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+								class="text-truncate"
+							>
+								<div class="table-row-item ps-0 pe-3 justify-content-start">
+									<div class="text-truncate ps-3">
+										{{ row.name }}
+									</div>
+								</div>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="emoji">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+							>
+								@if (display.isSm()) {
+									<div class="text-start">Emoji</div>
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<div class="table-row-item justify-content-start">
+									{{ row.emoji }}
+								</div>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="actions">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+							></th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<div class="table-row-item justify-content-end">
+									<button
+										mat-icon-button
+										class="category-delete-icon"
+										(click)="$event.stopPropagation(); deleteCategoryRow(row.id)"
+									>
+										<mat-icon>delete</mat-icon>
+									</button>
+								</div>
+							</td>
+						</ng-container>
+
+						<tr
+							mat-header-row
+							*matHeaderRowDef="displayedCategoryColumns"
+						></tr>
+						<tr
+							mat-row
+							*matRowDef="let row; columns: displayedCategoryColumns"
+							class="table-row category-table-row"
+						></tr>
+					</table>
+				}
+			</div>
+		</div>
+		<!-- @if (!paginationDisabled()) {
+			<mat-paginator
+				[length]="pageLength"
+				[pageSize]="pageSize"
+				[pageSizeOptions]="pageSizeOptions"
+				[pageIndex]="pageIndex"
+			>
+			</mat-paginator>
+		} -->
+	} @else {
+		<ng-container [ngTemplateOutlet]="emptyTable" />
+	}
 </div>
+
+<ng-template #emptyTable>
+	<div class="overflow-y-auto h-100">
+		<div class="d-flex flex-column align-items-center justify-content-center gap-4">
+			<img src="assets/empty-table.svg" />
+			<div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+				<h3 class="fs-2 fw-bold">No items found</h3>
+				<p class="m-0 fs-5">Try adjusting or clearing your current filters.</p>
+			</div>
+		</div>
+	</div>
+</ng-template>

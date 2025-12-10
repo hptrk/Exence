@@ -9,6 +9,12 @@
 @import './components/form-field.scss';
 @import './components/progress.scss';
 @import './components/tooltip.scss';
+@import './components/paginator.scss';
+@import './components/tab.scss';
+@import './components/emoji-picker.scss';
+@import './components/dialog.scss';
+@import './components/divider.scss';
+@import './components/snackbar.scss';
 @import './fonts/material-icons.scss';
 
 * {
@@ -99,7 +105,7 @@ hr {
 	align-items: center;
 	border-radius: 100%;
 	background-color: var(--app-background-color);
-	padding: 4px;
+	padding: 0.5rem;
 }
 
 .income {
@@ -108,4 +114,12 @@ hr {
 
 .expense {
 	color: var(--bs-danger);
+}
+
+.grayscaled {
+	filter: grayscale(1);
+}
+
+mat-card.mat-mdc-card.categories mat-card-header .mat-mdc-card-header-text {
+	width: 100%;	
 }

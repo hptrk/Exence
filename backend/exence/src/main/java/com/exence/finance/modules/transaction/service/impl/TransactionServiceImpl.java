@@ -1,22 +1,27 @@
 package com.exence.finance.modules.transaction.service.impl;
 
+import com.exence.finance.common.dto.PageResponse;
 import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.common.exception.TransactionNotFoundException;
-import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
+import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.mapper.TransactionMapper;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.transaction.service.TransactionService;
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,10 +48,36 @@ public class TransactionServiceImpl implements TransactionService{
         if (filter == null || filter.hasActiveFilter()) {
             transactions = transactionRepository.findWithFilter(filter, pageable);
         } else {
-            transactions = transactionRepository.findAll(pageable);
+            Sort sortByDateDesc = Sort.by(Sort.Direction.DESC, "date");
+            Pageable sortedByDate = PageRequest.of(
+                    pageable.getPageNumber(),
+                    pageable.getPageSize(),
+                    pageable.getSort().and(sortByDateDesc)
+            );
+            transactions = transactionRepository.findAll(sortedByDate);
         }
 
         return transactions.map(transactionMapper::mapToTransactionDTO);
+    }
+
+    public RecurringTransactionsResponse getRecurringTransactions(Pageable pageable) {
+        Page<Transaction> incomeTransactions = transactionRepository.findRecurringByType(TransactionType.INCOME, pageable);
+        Page<Transaction> expenseTransactions = transactionRepository.findRecurringByType(TransactionType.EXPENSE, pageable);
+        Page<Transaction> mergedTransactions = transactionRepository.findAllRecurring(pageable);
+
+        Page<TransactionDTO> incomeDTOs = incomeTransactions.map(transactionMapper::mapToTransactionDTO);
+        Page<TransactionDTO> expenseDTOs = expenseTransactions.map(transactionMapper::mapToTransactionDTO);
+        Page<TransactionDTO> mergedDTOs = mergedTransactions.map(transactionMapper::mapToTransactionDTO);
+
+        PageResponse<TransactionDTO> incomes = PageResponse.from(incomeDTOs);
+        PageResponse<TransactionDTO> expenses = PageResponse.from(expenseDTOs);
+        PageResponse<TransactionDTO> merged = PageResponse.from(mergedDTOs);
+
+        return RecurringTransactionsResponse.builder()
+                .incomes(incomes)
+                .expenses(expenses)
+                .mergedTransactions(merged)
+                .build();
     }
 
     @Transactional
@@ -91,5 +122,15 @@ public class TransactionServiceImpl implements TransactionService{
                 .orElseThrow(TransactionNotFoundException::new);
 
         transactionRepository.delete(transaction);
+    }
+
+    public TransactionTotalsResponse getTransactionTotals() {
+        BigDecimal totalIncome = transactionRepository.sumByType(TransactionType.INCOME);
+        BigDecimal totalExpense = transactionRepository.sumByType(TransactionType.EXPENSE);
+
+        return TransactionTotalsResponse.builder()
+                .totalIncome(totalIncome)
+                .totalExpense(totalExpense)
+                .build();
     }
 }

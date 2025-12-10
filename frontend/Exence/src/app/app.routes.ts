@@ -6,7 +6,7 @@ import { GoalsComponent } from './private/goals/goals.component';
 import { ProfileComponent } from './private/profile/profile.component';
 import { SettingsComponent } from './private/settings/settings.component';
 import { StatisticsComponent } from './private/statistics/statistics.component';
-import { TransactionsComponent } from './private/transactions/transactions.component';
+import { TransactionsAndCategoriesComponent } from './private/transactions-and-categories/transactions-and-categories.component';
 import { publicRoutes } from './public/public.routes';
 import { loggedInGuard } from './shared/auth/guard/logged-in.guard';
 
@@ -34,7 +34,7 @@ export const routes: Routes = [
 	},
 	{
 		path: 'transactions',
-		component: TransactionsComponent,
+		component: TransactionsAndCategoriesComponent,
 		canActivate: [loggedInGuard],
 	},
 	{

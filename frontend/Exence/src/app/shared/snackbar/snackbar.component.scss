@@ -1,0 +1,21 @@
+@import '../../../styles/imports.scss';
+
+:host {
+	--mat-icon-button-icon-color: currentColor;
+}
+
+.notification {
+	&-error {
+		color: var(--error-color);
+	}
+	&-success {
+		color: var(--primary-color);
+	}
+	&-warning {
+		color: var(--warn-color);
+	}
+}
+
+mat-icon {
+	flex-shrink: 0;
+}

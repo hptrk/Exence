@@ -1,33 +1,43 @@
-<mat-card
-	class="flex-row flex-nowrap align-items-center pointer-cursor"
-	(click)="navigate()"
->
+<!-- TODO navigate with filter on click -->
+<mat-card class="flex-row flex-nowrap align-items-center">
 	<mat-card-header class="p-0">
 		<div ex-card-icon>
-			@if (data().svgIcon) {
+			@if (svgIcon()) {
 				<mat-icon
 					size="xl"
-					[svgIcon]="data().svgIcon!"
+					[svgIcon]="svgIcon()!"
 				/>
+			} @else if (matIcon()) {
+				<mat-icon size="xl">{{ matIcon() }}</mat-icon>
 			} @else {
-				<mat-icon size="xl">{{ data().matIcon }}</mat-icon>
+				<div class="emoji">{{ emoji() }}</div>
 			}
 		</div>
 	</mat-card-header>
 	<mat-card-content class="p-0">
 		<div class="d-flex flex-column justify-content-center fs-5">
-			<div class="fw-semibold">{{ data().title }}</div>
+			<div class="fw-semibold">{{ title() }}</div>
 			<div
 				class="fw-bold amount"
 				[class]="{
-					expense: data().value < 0,
-					income: data().value > 0
+					expense: value() !== 0 && (value() < 0 || type() === transactionTypes.EXPENSE),
+					income: value() !== 0 && (value() > 0 || type() === transactionTypes.INCOME)
 				}"
 			>
-				@if (data().value !== 0) {
-					{{ data().value > 0 ? '+' : '-' }}
+				@if (value() !== 0) {
+					@switch (type()) {
+						@case (transactionTypes.INCOME) {
+							+
+						}
+						@case (transactionTypes.EXPENSE) {
+							-
+						}
+						@default {
+							{{ value() > 0 ? '+' : '-' }}
+						}
+					}
 				}
-				{{ data().value | currency: 'Ft' : 'symbol' : '1.0-0' }}
+				{{ value() | absoluteValue | currency: 'Ft' : 'symbol' : '1.0-0' }}
 			</div>
 		</div>
 	</mat-card-content>

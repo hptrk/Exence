@@ -1,13 +1,16 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Category } from '../../../data-model/modules/category/Category';
-import { Transaction } from '../../../data-model/modules/transaction/Transaction';
-import { BaseComponent } from '../../../shared/base-component/base.component';
-import { DisplaySizeService } from '../../../shared/display-size.service';
-import { ButtonComponent } from '../../../shared/button/button.component';
-import { NavigationService } from '../../../shared/navigation/navigation.service';
 import { Router } from '@angular/router';
+import { Category } from '../../../data-model/modules/category/Category';
+import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
+import { BaseComponent } from '../../../shared/base-component/base.component';
+import { ButtonComponent } from '../../../shared/button/button.component';
+import { DisplaySizeService } from '../../../shared/display-size.service';
+import { NavigationService } from '../../../shared/navigation/navigation.service';
+import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 
 // TODO move to interval filter component when created
 export enum DateInterval {
@@ -29,32 +32,23 @@ export type IntervalInfo = {
 })
 export class CategoriesComponent extends BaseComponent {
 	public display = inject(DisplaySizeService);
-	private readonly navigation = inject(NavigationService);
-	private readonly router = inject(Router);
+	private readonly snackbarService = inject(SnackbarService);
+	private readonly dialog = inject(MatDialog);
 
-	expenses = input.required<Transaction[]>();
-	intervalFilter = input.required<IntervalInfo>();
-	// TODO get top 3 categories based on the filter
-	categories = input.required<Category[]>();
+	totalExpense = input.required<number>();
+	categories = input.required<CategorySummaryResponse[]>();
 
-	// TODO when date-fns installed
-	filteredExpenses = computed(() => this.expenses().filter(t => {}));
-	topCategories = computed(() => this.categories()?.slice(0, 3));
-
-	calcPercentage(id: number): number | undefined {
-		const totalAmount = this.expenses().reduce((sum, expense) => sum + expense.amount, 0);
-
-		const expenses = this.expenses().filter(e => e.category?.id === id);
-		if (!expenses.length) return;
-		const categoryExpense = expenses.reduce((sum, ex) => sum + ex.amount, 0);
-		return Math.round((categoryExpense / totalAmount) * 100);
+	openCreateCategoryDialog(): void {
+		this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
+			CreateCategoryDialogComponent, undefined
+		).afterClosed().subscribe((newCategory) => {
+			if (newCategory) {
+				this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
+			}
+		});
 	}
 
-	// TODO this will for sure change later, just a reminder implementation
-	// move to transacions -> categories, sign that on init create dialog should be openned
-	create(): void {
-		this.router.navigate([this.navigation.private().transactions()], {
-			queryParams: { new: true },
-		});
+	calcPercentage(amount: number): number {
+		return Math.floor((amount / this.totalExpense()) * 100);
 	}
 }

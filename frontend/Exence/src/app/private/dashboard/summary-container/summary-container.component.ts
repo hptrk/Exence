@@ -6,54 +6,55 @@ import { CurrencyPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { NavigationService } from '../../../shared/navigation/navigation.service';
 import { Router, RouterModule } from '@angular/router';
-
-export enum SummaryType {
-	EXPENSE = 'EXPENSE',
-	INCOME = 'INCOME',
-	BALANCE = 'BALANCE',
-	OTHER = 'OTHER',
-}
-
-export type SummaryInfo = {
-	svgIcon?: SvgIcons;
-	matIcon?: string;
-	value: number;
-	title: string;
-	type: SummaryType;
-	filterCondition?: { [key: string]: string }; // for type OTHER
-};
+import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
+import { AbsoluteValuePipe } from "../../../shared/pipes/absolute-value.pipe";
 
 @Component({
 	selector: 'ex-summary-container',
-	imports: [MatCardModule, MatIconModule, CurrencyPipe, MatButtonModule, RouterModule],
 	templateUrl: './summary-container.component.html',
 	styleUrl: './summary-container.component.scss',
+	imports: [
+    MatCardModule,
+    MatIconModule,
+    CurrencyPipe,
+    MatButtonModule,
+    RouterModule,
+    AbsoluteValuePipe
+],
 })
 export class SummaryContainerComponent {
 	private readonly navigation = inject(NavigationService);
 	private readonly router = inject(Router);
 
-	data = input.required<SummaryInfo>();
+	svgIcon = input<SvgIcons>();
+	matIcon = input<string>();
+	emoji = input<string>();
+	type = input<TransactionType>();
+	value = input.required<number>();
+	title = input.required<string>();
 
+	transactionTypes = TransactionType;
+
+	// TODO navigate with filter on click
 	navigate(): void {
 		const queryParams: { [key: string]: string } = {};
-		switch (this.data().type) {
-			case SummaryType.INCOME:
-				queryParams['amountFilter'] = 'gt';
-				queryParams['amountValue'] = '0';
-				break;
-			case SummaryType.EXPENSE:
-				queryParams['amountFilter'] = 'lt';
-				queryParams['amountValue'] = '0';
-				break;
-			case SummaryType.OTHER:
-				if (this.data().filterCondition) {
-					Object.entries(this.data().filterCondition!).forEach(([key, value]) => {
-						queryParams[key] = value;
-					});
-				}
-				break;
-		}
+		// switch (this.data().type) {
+		// 	case SummaryType.INCOME:
+		// 		queryParams['amountFilter'] = 'gt';
+		// 		queryParams['amountValue'] = '0';
+		// 		break;
+		// 	case SummaryType.EXPENSE:
+		// 		queryParams['amountFilter'] = 'lt';
+		// 		queryParams['amountValue'] = '0';
+		// 		break;
+		// 	case SummaryType.OTHER:
+		// 		if (this.filterCondition()) {
+		// 			Object.entries(this.filterCondition()!).forEach(([key, value]) => {
+		// 				queryParams[key] = value;
+		// 			});
+		// 		}
+		// 		break;
+		// }
 		this.router.navigate([this.navigation.private().transactions()], { queryParams });
 	}
 }

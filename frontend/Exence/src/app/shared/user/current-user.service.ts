@@ -1,0 +1,47 @@
+import { inject, Injectable, Signal, signal, WritableSignal } from "@angular/core";
+import { jwtDecode } from "jwt-decode";
+import { lastValueFrom } from "rxjs";
+import { HttpService } from "../http/http.service";
+import { AuthService } from "../auth/auth.service";
+import { CookiesService } from "../auth/cookies.service";
+import { User } from "../../data-model/modules/auth/User";
+import { UserService } from "./user.service";
+
+@Injectable({
+	providedIn: 'root'
+})
+export class CurrentUserService {
+	private readonly cookies = inject(CookiesService);
+	private readonly authService = inject(AuthService);
+	private readonly userService = inject(UserService);
+
+	private _user: WritableSignal<User | null> = signal(null);
+
+	get user(): Signal<User> { return this._user.asReadonly() as Signal<User>; }
+	
+	async getIsLoggedIn(): Promise<boolean> {
+		if (this.cookies.hasAccessToken() && !this.cookies.isTokenExpired('access')) {
+			const user = await this.userService.getUser();
+			this.setUser(user);
+			return true;
+		}
+		
+		if (this.cookies.hasRefreshToken()) {
+			const user = await this.userService.getUser();
+			this.setUser(user);
+			return true;
+		}
+		return false;
+	}
+
+	setUser(user: User | null): void {
+		if (!user) return;
+		
+		this._user.set(user);
+	}
+	
+	clearUser(): void {
+		this._user.set(null);
+		this.cookies.clearTokens();
+	}
+}

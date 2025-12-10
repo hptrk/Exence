@@ -7,9 +7,9 @@
 			</h1>
 			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
 		</div>
-		@if (display.isMd()) {
-			<ng-container [ngTemplateOutlet]="toggleFilter" />
-		}
+		<!-- @if (display.isMd()) {
+		<ng-container [ngTemplateOutlet]="toggleFilter" />
+	} -->
 	</div>
 
 	<div
@@ -19,19 +19,19 @@
 		<div
 			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
 		>
-			@if (display.isMd() === false) {
+			<!-- @if (display.isMd() === false) {
 				<div class="mx-auto">
 					<ng-container [ngTemplateOutlet]="toggleFilter" />
 				</div>
-			}
-			<ex-chart />
+			} -->
+			<ex-chart
+				[data]="transactions.content"
+				[balance]="balance"
+			/>
 			<ex-categories
-				[intervalFilter]="{
-					type: dateIntervals.MONTH,
-					value: 0
-				}"
-				[expenses]="expenses()"
-				[categories]="categories()"
+				class="h-100"
+				[totalExpense]="totals.totalExpense"
+				[categories]="topCategories!"
 			/>
 		</div>
 
@@ -42,59 +42,53 @@
 			>
 				<ex-summary-container
 					class="flex-grow-1"
-					[data]="{
-						matIcon: 'attach_money',
-						title: 'Income',
-						value: 856400,
-						type: summaryTypes.INCOME
-					}"
+					matIcon="attach_money"
+					title="Income"
+					[value]="totals.totalIncome"
+					[type]="transactionTypes.INCOME"
 				/>
 				<ex-summary-container
 					class="flex-grow-1"
-					[data]="{
-						matIcon: 'money_off',
-						title: 'Expenses',
-						value: 210460,
-						type: summaryTypes.EXPENSE
-					}"
+					matIcon="money_off"
+					title="Expenses"
+					[value]="totals.totalExpense"
+					[type]="transactionTypes.EXPENSE"
 				/>
 				<ex-summary-container
 					class="flex-grow-1"
-					[data]="{
-						matIcon: 'savings',
-						title: 'Balance',
-						value: 645940,
-						type: summaryTypes.BALANCE
-					}"
+					matIcon="savings"
+					title="Balance"
+					[value]="balance"
 				/>
-				<ex-summary-container
-					class="flex-grow-1"
-					[data]="{
-						matIcon: 'receipt_long',
-						title: highestSpendingCategory().name || 'Utilities',
-						value: 0,
-						type: summaryTypes.OTHER,
-						filterCondition: {
-							category: highestSpendingCategory().name || 'Utilities'
-						}
-					}"
-				/>
+				@if (topCategory) {
+					<ex-summary-container
+						class="flex-grow-1"
+						[emoji]="topCategory.emoji"
+						[title]="topCategory.name"
+						[value]="topCategory.totalAmount"
+						[type]="transactionTypes.EXPENSE"
+					/>
+				}
 			</div>
 		}
 
 		@if (display.isMd()) {
 			<div class="row gap-4 gap-lg-0 h-100 overflow-hidden">
 				<ex-data-table
-					[type]="transacrionTypes.EXPENSE"
 					class="col-12 col-lg-6"
 					matIcon="money_off"
-					[data]="[]"
+					[data]="{ transactions: expenses, categories }"
+					title="Expenses"
+					[type]="transactionTypes.EXPENSE"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ex-data-table
-					[type]="transacrionTypes.INCOME"
 					class="col-12 col-lg-6"
 					matIcon="attach_money"
-					[data]="[]"
+					[data]="{ transactions: incomes, categories }"
+					title="Incomes"
+					[type]="transactionTypes.INCOME"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 			</div>
 		} @else {
@@ -102,7 +96,9 @@
 				<ex-data-table
 					class="w-100"
 					matIcon="attach_money"
-					[data]="[]"
+					[data]="{ transactions, categories }"
+					title="Transactions"
+					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
 			</div>
@@ -115,22 +111,22 @@
 </ng-template>
 
 <ng-template #mobileButtons>
-	<div
-		class="d-flex flex-column-reverse flex-sm-row gap-2 gap-sm-4 justify-content-center align-items-md-center w-100"
-	>
-		<button
-			mat-flat-button
-			class="add-expense flex-grow-1"
-			(click)="openTransactionDialog(transactionTypes.EXPENSE)"
+	<div class="d-flex flex-column-reverse flex-sm-row gap-2 justify-content-center align-items-md-center w-100">
+		<ex-button
+			filled
+			color="error"
+			class="flex-grow-1"
+			(click)="openCreateTransactionDialog(transactionTypes.EXPENSE)"
 		>
 			Expense
-		</button>
-		<button
-			mat-flat-button
-			class="add-income flex-grow-1"
-			(click)="openTransactionDialog(transactionTypes.INCOME)"
+		</ex-button>
+		<ex-button
+			filled
+			color="success"
+			class="flex-grow-1"
+			(click)="openCreateTransactionDialog(transactionTypes.INCOME)"
 		>
 			Income
-		</button>
+		</ex-button>
 	</div>
 </ng-template>

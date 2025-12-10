@@ -4,6 +4,7 @@ import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.dto.CategoryDTO;
+import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
@@ -33,6 +34,10 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories = categoryRepository.findAll();
 
         return categoryMapper.mapToCategoryDTOList(categories);
+    }
+
+    public List<CategorySummaryResponse> getTop4CategoriesByTotalAmount() {
+        return categoryRepository.findTop4CategoriesByTotalAmount();
     }
 
     @Transactional

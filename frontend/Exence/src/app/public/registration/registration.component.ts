@@ -13,17 +13,31 @@ import { InputClearButtonComponent } from '../../shared/input-clear-button/input
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ExtraValidators } from '../../shared/validators';
 import { AuthService } from '../../shared/auth/auth.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { ValidatorComponent } from '../../shared/validator/validator.component';
 
 @Component({
 	selector: 'ex-registration',
 	templateUrl: './registration.component.html',
 	styleUrl: './registration.component.scss',
-	imports: [MatCardModule, MatIconModule, ReactiveFormsModule, MatFormFieldModule, MatInput, ButtonComponent, InputClearButtonComponent, RouterLink, MatTooltipModule]
+	imports: [
+		MatCardModule,
+		MatIconModule,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInput,
+		ButtonComponent,
+		InputClearButtonComponent,
+		RouterLink,
+		MatTooltipModule,
+		ValidatorComponent,
+	]
 })
 export class RegistrationComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly authService = inject(AuthService);
 	private readonly router = inject(Router);
+	private readonly snackbarService = inject(SnackbarService);
 	readonly navigate = inject(NavigationService);
 
 	form = this.fb.group({
@@ -41,11 +55,8 @@ export class RegistrationComponent extends BaseComponent {
 			password: formValue.password,
 			confirmPassword: formValue.confirmPassword
 		};
-		const resp = await this.authService.register(request);
-		// TODO show snackbar for successful registration
-
-		// TODO store tokens (refresh, access) in HttpOnly cookies (https://stackoverflow.com/questions/57650692/where-to-store-the-refresh-token-on-the-client)
-
+		await this.authService.register(request);
+		this.snackbarService.showSuccess('Successfull registration!');
 		this.router.navigateByUrl(this.navigate.account().login());
 	}
 }

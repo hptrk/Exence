@@ -1,0 +1,32 @@
+@import "../../../../styles/imports.scss";
+
+ul {
+	list-style: none;
+	padding: 0;
+
+	li {
+		color: var(--accent-text-color);
+	}
+}
+
+.emphasis {
+	font-weight: bold;
+	color: var(--default-text-color);
+}
+
+.security-info {
+	color: var(--accent-text-color);
+	opacity: 0.6;
+
+	margin: 0;
+	padding: 0 1rem;
+
+	width: 75%;
+}
+
+.delete-all {
+	width: 100%;
+	@include displayMd {
+		width: auto;
+	}
+}

@@ -82,19 +82,31 @@
 					</a>
 				</div>
 				@if (display.isXl()) {
-					<div class="d-flex gap-4">
-						<a [routerLink]="navigationService.private().profile().index()">
-							<mat-icon>person</mat-icon>
-						</a>
-						<a [routerLink]="navigationService.private().settings()">
-							<mat-icon>settings</mat-icon>
-						</a>
-						<button (click)="toggleTheme()">
-							<mat-icon>contrast</mat-icon>
-						</button>
-						<button (click)="logout()">
-							<mat-icon>logout</mat-icon>
-						</button>
+					<div class="d-flex gap-4 actions">
+						<ex-button
+							iconButton
+							matIcon="person"
+							color="accent"
+							[routerLink]="navigationService.private().profile().index()"
+						/>
+						<ex-button
+							iconButton
+							matIcon="settings"
+							color="accent"
+							[routerLink]="navigationService.private().settings()"
+						/>
+						<ex-button
+							iconButton
+							matIcon="contrast"
+							color="accent"
+							(click)="toggleTheme()"
+						/>
+						<ex-button
+							iconButton
+							matIcon="logout"
+							color="accent"
+							(click)="logout()"
+						/>
 					</div>
 				} @else {
 					<ng-container [ngTemplateOutlet]="actionsMenu"></ng-container>

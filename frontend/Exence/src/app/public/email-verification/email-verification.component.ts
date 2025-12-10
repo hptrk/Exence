@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { NavigationService } from "../../shared/navigation/navigation.service";
 import { AuthService } from "../../shared/auth/auth.service";
 import { EmailVerificationRequest } from "../../data-model/modules/auth/EmailVerificationRequest";
+import { SnackbarService } from "../../shared/snackbar/snackbar.service";
 
 @Component({
 	selector: '',
@@ -42,12 +43,13 @@ export class EmailVerificationComponent implements OnInit {
 	private readonly router = inject(Router);
 	private readonly navigate = inject(NavigationService);
 	private readonly authService = inject(AuthService);
+	private readonly snackbarService = inject(SnackbarService);
 
 	async ngOnInit(): Promise<void> {
 		const token = this.router.routerState.root.snapshot.queryParams['token'];
 		const request: EmailVerificationRequest = { token };
 		await this.authService.verifyEmail(request);
-		// TODO snackbar
+		this.snackbarService.showSuccess('Email successfully verified!');
 	}
 
 	navigateToLogin(): void {

@@ -1,0 +1,10 @@
+mat-snack-bar-container.mat-mdc-snack-bar-container.custom-snackbar {
+	.mdc-snackbar__label {
+		--mat-snack-bar-supporting-text-size: 16px;
+		--mat-snack-bar-supporting-text-weight: 700;
+	}
+
+	.mat-mdc-snackbar-surface {
+		--mat-snack-bar-container-color: var(--app-card-color);
+	} 
+}

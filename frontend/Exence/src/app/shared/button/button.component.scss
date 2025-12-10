@@ -61,6 +61,10 @@ $predefinedColors: (
 
 		--mat-button-text-label-text-color: #{map-get($colors, text)};
 	}
+
+	button.mat-mdc-icon-button.mat-#{$name} {
+		--mat-icon-button-icon-color: #{map-get($colors, text)};
+	}
 }
 
 .collapsed {

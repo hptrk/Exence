@@ -92,7 +92,8 @@ td[mat-cell].mat-mdc-cell {
 
 // gap between rows
 tr.mat-mdc-row.expanded-detail-row,
-tr.mat-mdc-row.non-expandable {
+tr.mat-mdc-row.non-expandable,
+tr.mat-mdc-row.category-table-row {
 	border-bottom: 10px solid transparent;
 }
 
@@ -188,7 +189,7 @@ td.mat-column-actions mat-icon {
 	}
 }
 
-.note {
+.details {
 	background-color: transparent;
 	border: none;
 	outline: 1px solid lighten(var(--primary-color), 40%);
@@ -204,4 +205,32 @@ td.mat-column-actions mat-icon {
 .hidden {
 	opacity: 0;
 	pointer-events: none;
+}
+
+button {
+	--mat-icon-button-icon-color: var(--secondary-color);
+	--mat-menu-item-label-text-weight: 700;
+
+	&.edit-button {
+		color: var(--accent-color);
+		mat-icon {
+			--mat-icon-color: var(--accent-color);
+		}
+	}
+
+	&.delete-button {
+		color: var(--error-color);
+		font-weight: bold;
+		mat-icon {
+			--mat-icon-color: var(--error-color);
+		}
+	}
+}
+
+.nowrap {
+	white-space: nowrap;
+}
+
+.category-delete-icon {
+	--mat-icon-color: var(--error-color);
 }

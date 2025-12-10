@@ -20,7 +20,7 @@ import java.time.Instant;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_DETAILS_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MIN_LENGTH;
 
@@ -40,9 +40,9 @@ public class TransactionDTO {
             message = "Transaction title must be between " + TRANSACTION_TITLE_MIN_LENGTH + " and " + TRANSACTION_TITLE_MAX_LENGTH + " characters")
     private String title;
 
-    @Size(max = TRANSACTION_DETAILS_MAX_LENGTH,
-            message = "Details can be a maximum of " + TRANSACTION_DETAILS_MAX_LENGTH + " characters.")
-    private String details;
+    @Size(max = TRANSACTION_NOTE_MAX_LENGTH,
+            message = "Note can be a maximum of " + TRANSACTION_NOTE_MAX_LENGTH + " characters.")
+    private String note;
 
     @NotNull(message = "Transaction date is required")
     private Instant date;

@@ -1,201 +1,114 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { Category } from '../../data-model/modules/category/Category';
+import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
+import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
 import {
-	SummaryContainerComponent,
-	SummaryType,
+	SummaryContainerComponent
 } from '../../private/dashboard/summary-container/summary-container.component';
+import { ButtonComponent } from '../../shared/button/button.component';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
 import { ChartComponent } from '../../shared/chart/chart.component';
-import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
-import { CurrentUserService } from '../current-user.service';
-import { User } from '../../data-model/modules/auth/User';
+import { CategoryService } from '../category.service';
+import { CurrentUserService } from '../../shared/user/current-user.service';
+import { CreateTransactionDialogComponent, CreateTransactionDialogData } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import { TransactionService } from '../transactions-and-categories/transaction.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
 	selector: 'ex-dashboard',
 	imports: [
+		CommonModule,
+		RouterModule,
+		CardSliderDirective,
 		SummaryContainerComponent,
 		DataTableComponent,
 		ChartComponent,
 		CategoriesComponent,
 		ViewToggleComponent,
-		CommonModule,
-		MatButton,
-		CardSliderDirective,
-		RouterModule,
+		ButtonComponent,
 	],
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-	public display = inject(DisplaySizeService);
-	public dialog = inject(MatDialog);
-	public router = inject(Router);
-	public navigation = inject(NavigationService);
 	private readonly currentUserService = inject(CurrentUserService);
+	private readonly transactionService = inject(TransactionService);
+	private readonly categoryService = inject(CategoryService);
+	private readonly snackbarService = inject(SnackbarService);
+	readonly display = inject(DisplaySizeService);
+	readonly dialog = inject(MatDialog);
+	readonly router = inject(Router);
+	readonly navigation = inject(NavigationService);
+	
 
-	transacrionTypes = TransactionType;
-	summaryTypes = SummaryType;
+	transactionTypes = TransactionType;
 	dateIntervals = DateInterval;
 
 	user = computed(() => this.currentUserService.user());
 
-	// private transactionService = inject(TransactionService);
-	// private categoryService = inject(CategoryService);
+	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	expenses: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	incomes: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	categories: Category[] = [];
 
-	// public transactions = this.transactionService.getTransactions();
-	public transactions = computed(() => []);
-	// public categories = this.categoryService.getCategories();
-	public categories = computed(() => [
-		{ id: 1, name: 'Travel', emoji: '✈️' },
-		{ id: 2, name: 'Groceries', emoji: '🥦' },
-		{ id: 3, name: 'Takeout', emoji: '🍕' },
-		{ id: 4, name: 'Housing', emoji: '🛖' },
-		{ id: 5, name: 'Fitness', emoji: '🚲' },
-		{ id: 6, name: 'Gifts', emoji: '🎁' },
-	]);
-	public expenses!: Signal<Transaction[]>;
-	public incomes!: Signal<Transaction[]>;
-	public totalIncome!: Signal<number>;
-	public totalExpenses!: Signal<number>;
-	public balance!: Signal<number>;
-	public highestSpendingCategory!: Signal<{ name: string; amount: number }>;
+	totals: TransactionTotalsResponse = {} as TransactionTotalsResponse;
+	balance: number = 0;
 
-	transactionTypes = TransactionType;
+	topCategories?: CategorySummaryResponse[];
+	topCategory?: CategorySummaryResponse;
 
-	ngOnInit() {
-		this.expenses = computed(() => [
-			{
-				id: 1,
-				title: 'Taxi',
-				date: new Date().toISOString(),
-				amount: 30000,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 1, name: 'Travel', emoji: '✈️' },
-			},
-			{
-				id: 2,
-				title: 'Bérlet',
-				date: new Date().toISOString(),
-				amount: 2990,
-				type: TransactionType.EXPENSE,
-				recurring: true,
-				category: { id: 1, name: 'Travel', emoji: '✈️' },
-			},
-			{
-				id: 3,
-				title: 'lidl',
-				date: new Date().toISOString(),
-				amount: 36429,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 2, name: 'Groceries', emoji: '🥦' },
-			},
-			{
-				id: 4,
-				title: 'KFC',
-				date: new Date().toISOString(),
-				amount: 7690,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 3, name: 'Takeout', emoji: '🍕' },
-			},
-			{
-				id: 5,
-				title: 'Mosógép',
-				date: new Date().toISOString(),
-				amount: 249000,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 4, name: 'Housing', emoji: '🛖' },
-			},
-			{
-				id: 6,
-				title: 'Gym bérlet',
-				date: new Date().toISOString(),
-				amount: 21990,
-				type: TransactionType.EXPENSE,
-				recurring: true,
-				category: { id: 5, name: 'Fitness', emoji: '🚲' },
-			},
-			{
-				id: 6,
-				title: 'Karácsony',
-				date: new Date().toISOString(),
-				amount: 45000,
-				type: TransactionType.EXPENSE,
-				recurring: false,
-				category: { id: 6, name: 'Gifts', emoji: '🎁' },
-			},
-		]);
-		this.incomes = computed(() => []);
-		this.totalIncome = computed(() => this.incomes().reduce((sum, t) => sum + t.amount, 0));
-		this.totalExpenses = computed(() => this.expenses().reduce((sum, t) => sum + t.amount, 0) * -1);
-		this.balance = computed(() => this.totalIncome() + this.totalExpenses());
-		this.highestSpendingCategory = computed(() => {
-			const categorySpending: Record<number, number> = {};
+	async ngOnInit(): Promise<void> {
+		await this.initialize();
+	}
 
-			this.expenses().forEach(transaction => {
-				// categorySpending[transaction.categoryId] =
-				// 	(categorySpending[transaction.categoryId] || 0) + transaction.amount;
-			});
-
-			let highestId: number | null = null;
-			let highestAmount = 0;
-
-			Object.entries(categorySpending).forEach(([categoryId, amount]) => {
-				if (amount > highestAmount) {
-					highestAmount = amount;
-					highestId = +categoryId;
-				}
-			});
-
-			if (highestId === null) {
-				return { name: '', amount: 0 };
-			}
-
-			// const category = this.categories().find(c => c.id === highestId);
-			const category = { id: 1, name: 'dummyname', emoji: '💀' } as Category;
-			return {
-				name: category?.name ?? '',
-				amount: highestAmount * -1,
-			};
+	async initialize(): Promise<void> {
+		return Promise.all([
+			this.transactionService.list(),
+			this.categoryService.list(),
+			this.categoryService.listTop4(),
+			this.transactionService.incomes(),
+			this.transactionService.expenses(),
+			this.transactionService.totals(),
+		]).then(([transactions, categories, top4, incomes, expenses, totals]) => {
+			this.transactions = transactions;
+			this.categories = categories;
+			this.incomes = incomes;
+			this.expenses = expenses;
+			this.totals = totals;
+			this.topCategories = top4;
+			
+			this.balance = Math.round((totals.totalIncome - totals.totalExpense) * 100) / 100;
+			this.topCategory = top4[0];
 		});
 	}
 
-	public openTransactionDialog(transactionType: TransactionType): void {
-		switch (transactionType) {
-			case TransactionType.INCOME: {
-				// temp: open a dialog
-				this.dialog.open(DataTableDialogComponent, {
-					width: 'auto',
-					data: {
-						formType: TransactionType.INCOME,
-					},
-				});
-				break;
-			}
-			case TransactionType.EXPENSE: {
-				// temp: open a dialog
-				this.dialog.open(DataTableDialogComponent, {
-					width: 'auto',
-					data: {
-						formType: TransactionType.EXPENSE,
-					},
-				});
-				break;
-			}
-		}
+	public openCreateTransactionDialog(transactionType: TransactionType): void {
+		const data: CreateTransactionDialogData = {
+			type: transactionType,
+		};
+		this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
+			CreateTransactionDialogComponent, { data }
+		).afterClosed().subscribe(
+			async (newTransaction?: Transaction) => {
+				if (newTransaction) {
+					this.transactions = (await this.transactionService.list());
+					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+				}
+			});
+	}
+
+	async onDataChanged(): Promise<void> {
+		await this.initialize();
 	}
 }

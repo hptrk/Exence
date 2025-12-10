@@ -25,18 +25,3 @@ ex-categories {
 	flex: 1 1 0;
 	min-width: 250px;
 }
-
-button {
-	--mat-button-filled-container-shape: 12px;
-	--mat-button-filled-label-text-size: 14px;
-	--mat-button-filled-label-text-color: var(--default-text-color);
-	--mat-button-filled-label-text-weight: 600;
-
-	&.add-expense {
-		--mat-button-filled-container-color: var(--tertiary-color);
-	}
-
-	&.add-income {
-		--mat-button-filled-container-color: var(--secondary-color);
-	}
-}

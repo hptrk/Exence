@@ -9,7 +9,11 @@ import { SvgIcons } from '../svg-icons/svg-icons';
 	selector: 'ex-button',
 	templateUrl: './button.component.html',
 	styleUrl: './button.component.scss',
-	imports: [CommonModule, MatButtonModule, MatIconModule],
+	imports: [
+		CommonModule,
+		MatButtonModule,
+		MatIconModule,
+	],
 	host: {
 		'[class.disabled]': 'disabled()',
 	},

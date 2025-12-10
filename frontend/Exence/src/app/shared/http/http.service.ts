@@ -1,8 +1,9 @@
 import { HttpClient, HttpContext, HttpErrorResponse, HttpEvent, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { catchError, from, map, Observable, OperatorFunction, Subject, tap } from "rxjs";
+import { SnackbarService } from "../snackbar/snackbar.service";
 import { HttpSettings } from "./http-settings";
-
+import { ErrorResponse } from "../../data-model/modules/ErrorResponse";
 interface HttpOptions {
 	headers?: HttpHeaders | Record<string, string | string[]>;
 	context?: HttpContext;
@@ -26,6 +27,7 @@ class StackSnapshot extends Error { }
 })
 export class HttpService {
 	private readonly httpClient = inject(HttpClient);
+	private readonly snackbarService = inject(SnackbarService);
 
 	private responseEventStream: Subject<HttpResponseBase> = new Subject();
 
@@ -80,49 +82,38 @@ export class HttpService {
 		});
 	}
 
-	private async handleError(response: HttpErrorResponse, settings?: HttpSettings, stackSnapshot?: StackSnapshot): Promise<never> {
+	private async handleError(errorResponse: HttpErrorResponse, settings?: HttpSettings, stackSnapshot?: StackSnapshot): Promise<void> {
+		console.log('entering handleError')
 		settings = settings || {};
 
-		switch (response.status) {
+		let error: ErrorResponse | null = null;
+		
+		try {
+			if (errorResponse.error) {
+				error = errorResponse.error as ErrorResponse;
+				console.log(error)
+			}
+		} catch (e) {
+			console.error('Failed to parse error response:', e);
+		}
+
+		switch (error?.status) {
 			case 401:
 				break;
 			default:
 				if (!settings.suppressErrorMessage) {
-					await this.showErrorFromResponse(response);
+					await this.showErrorFromResponse(error);
 				}
 				break;
 		}
-
-		throw new HttpServiceError(response, stackSnapshot);
 	}
 
-	private async showErrorFromResponse(response: HttpErrorResponse): Promise<void> {
-		let errorMsg = await this.getErrorMessage(response);
-		// TODO snackbar to show error
-	}
-
-	protected async getErrorMessage(response: HttpErrorResponse): Promise<string> {
-		switch (response.status) {
-			case 0:
-			case 503:
-			case 504:
-				console.error('Http response status', response.status, response.error);
-				return 'No connection could be established between client and server!';
-			case 403:
-				return 'You do not have sufficient permissions to perform this operation!';
-			case 404:
-				return 'The resource cannot be found!';
-		}
-
-		try {
-			let errorJson = response.error;
-			errorJson = await errorJson.text();
-
-			const err = JSON.parse(errorJson);
-			return err.message;
-		} catch (e) {
-			return (response.error || {}).message || response.error;
-		}
+	private async showErrorFromResponse(error: ErrorResponse | null): Promise<void> {
+		const errorMessage = error?.detail 
+			|| 'Unexpected error occurred';
+		
+		console.error('Error Response:', error);
+		this.snackbarService.showError(errorMessage);
 	}
 
 	private parseResponse<T>(response: HttpResponse<string> | null): T | null {

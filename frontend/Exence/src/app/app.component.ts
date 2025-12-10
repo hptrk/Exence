@@ -6,7 +6,7 @@ import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
 import { CookiesService } from './shared/auth/cookies.service';
 import { AuthService } from './shared/auth/auth.service';
-import { CurrentUserService } from './private/current-user.service';
+import { CurrentUserService } from './shared/user/current-user.service';
 
 @Component({
 	selector: 'ex-root',

@@ -1,5 +1,8 @@
 import { Chart, ChartConfiguration } from 'chart.js';
 import { DisplayTheme } from '../display-theme.service';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { format } from 'date-fns';
+import { formatCurrency } from '@angular/common';
 
 export const getCssVariableValue = (variableName: string, element: HTMLElement | null = document.documentElement): string => {
     if (!element) return '';
@@ -30,6 +33,20 @@ export const createCanvasBackgroundPlugin = () => ({
 		ctx.fill();
 		ctx.restore();
 	},
+});
+
+export const createPointerTooltipConfig = (data: Transaction[], balance: number) => ({
+	 callbacks: {
+        title: (context: any) => {
+          const transaction = data[context[0].dataIndex];
+					const title = transaction.title ?? '';
+					return title.length > 15 ? title.slice(0, 15) + '...' : title;
+        },
+        label: (context: any) => {
+					const transaction = data[context.dataIndex];
+					return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
+        },
+    },
 });
 
 export const getLineChartData = (data: number[], labels: string[]) => ({

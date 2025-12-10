@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { CurrentUserService } from "../../private/current-user.service";
+import { CurrentUserService } from "../../shared/user/current-user.service";
 import { AuthService } from "../../shared/auth/auth.service";
 import { Router } from "@angular/router";
 import { NavigationService } from "../../shared/navigation/navigation.service";

@@ -1,13 +1,21 @@
-<mat-card>
-	@if (categories().length) {
+<mat-card class="h-100 categories">
+	@if (categories() && categories().length) {
 		<mat-card-header>
-			<mat-card-title>
-				<h2 class="header-2 mb-3">Top categories</h2>
+			<mat-card-title
+				class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2 w-100"
+			>
+				<h2 class="header-2 m-0">Top categories</h2>
+				<ex-button
+					iconButton
+					matIcon="add"
+					color="accent"
+					(click)="openCreateCategoryDialog()"
+				/>
 			</mat-card-title>
 		</mat-card-header>
 		<mat-card-content>
 			<div class="d-flex flex-column gap-4">
-				@for (category of topCategories(); track category.id) {
+				@for (category of categories(); track category.id) {
 					<div class="d-flex flex-column gap-1 align-items-center">
 						<div class="d-flex flex-row flex-nowrap justify-content-between align-items-center w-100">
 							<div class="d-flex flex-row flex-nowrap gap-2">
@@ -15,9 +23,9 @@
 								{{ category.name }}
 							</div>
 
-							<div class="fw-semibold">{{ calcPercentage(category.id) }}%</div>
+							<div class="fw-semibold">{{ calcPercentage(category.totalAmount) }}%</div>
 						</div>
-						<mat-progress-bar [value]="calcPercentage(category.id)" />
+						<mat-progress-bar [value]="calcPercentage(category.totalAmount)" />
 					</div>
 				}
 			</div>
@@ -30,13 +38,12 @@
 		</mat-card-content>
 		<mat-card-actions class="justify-content-center">
 			<ex-button
-				[disabled]="false"
 				color="primary"
 				matIcon="add"
 				collapsedStyle="outlined"
 				collapseUnder="md"
 				filled
-				(click)="create()"
+				(click)="openCreateCategoryDialog()"
 				>Create</ex-button
 			>
 		</mat-card-actions>

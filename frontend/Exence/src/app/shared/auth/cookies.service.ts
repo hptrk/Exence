@@ -1,4 +1,5 @@
 import { inject, Injectable } from "@angular/core";
+import { jwtDecode } from "jwt-decode";
 import { CookieService } from "ngx-cookie-service";
 
 @Injectable({
@@ -54,4 +55,21 @@ export class CookiesService {
 			secure: false // TEST: dev value, make it true for prod
 		});
 	}
+
+	public isTokenExpired(type: 'access' | 'refresh'): boolean {
+		try {
+			const token = type === 'access' ? this.getAccessToken() : this.getRefreshToken();
+			if (!token) return true;
+			
+            const decoded = jwtDecode<{ exp: number }>(token);
+            if (!decoded.exp) {
+                return true;
+            }
+            const currentTime = Math.floor(Date.now() / 1000);
+            return decoded.exp < currentTime;
+        } catch (error) {
+            return true;
+        }
+	}
+		
 }

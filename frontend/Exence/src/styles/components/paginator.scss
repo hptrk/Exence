@@ -1,0 +1,28 @@
+mat-paginator.mat-mdc-paginator {
+	--mat-paginator-container-background-color: var(--app-card-color);
+
+	.mat-mdc-paginator-page-size-label {
+		white-space: nowrap;
+		margin: 0 0.5rem;
+	}
+
+	.mat-mdc-paginator-page-size-select {
+		margin: 0;
+
+		mat-select.mat-mdc-select .mat-mdc-select-trigger {
+			gap: 0.5rem;
+		}
+
+		.mat-mdc-form-field-infix {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			min-height: 0;
+			padding: 0.5rem 0;
+		}
+
+		.mat-mdc-text-field-wrapper {
+			align-items: center;
+		}
+	}
+}

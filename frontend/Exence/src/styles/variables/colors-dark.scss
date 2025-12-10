@@ -22,6 +22,24 @@ $palettes: (
 		100: #ffffff,
 	),
 	secondary: (
+        0: #000103,
+        10: #081a3d,
+        20: #0d285c,
+        25: #143477,
+        30: #1c4193,
+        35: #2852ae,
+        40: #3261c8,
+        50: #4f82ed,
+        60: #75a3ff,
+        70: #9dbdff,
+        80: #c2d6ff,
+        90: #e1edff,
+        95: #f0f6ff,
+        98: #f7faff,
+        99: #fafcff,
+        100: #ffffff,
+    ),
+	tertiary: (
 		0: #000000,
 		10: #00210c,
 		20: #003919,
@@ -37,24 +55,6 @@ $palettes: (
 		95: #c4ffcd,
 		98: #eaffe9,
 		99: #f5fff2,
-		100: #ffffff,
-	),
-	tertiary: (
-		0: #000000,
-		10: #410005,
-		20: #68000e,
-		25: #7d0012,
-		30: #8e111c,
-		35: #9f1f26,
-		40: #b02c31,
-		50: #d24546,
-		60: #f45e5d,
-		70: #ff8984,
-		80: #ffb3af,
-		90: #ffdad7,
-		95: #ffedeb,
-		98: #fff8f7,
-		99: #fffbff,
 		100: #ffffff,
 	),
 	neutral: (
@@ -142,15 +142,15 @@ $app-background-color-dark: map.get($primary-palette, 10);
 
 $primary-color-dark: map.get($primary-palette, 90);
 $secondary-color-dark: map.get($secondary-palette, 90);
-$secondary-color-dark: map.get($secondary-palette, 80);
+$secondary-color-dark: map.get($secondary-palette, 25);
 $tertiary-color-dark: map.get($tertiary-palette, 60);
-$app-hover-color-dark: map.get($primary-palette, 60);
+$app-hover-color-dark: map.get($primary-palette, 70);
 
 $shadow-dark: map.get($neutral-palette, 40);
 $border-color-dark: map.get($primary-palette, 10);
 
 $default-text-color-dark: map.get($neutral-palette, 95);
 $accent-text-color-dark: map.get($neutral-palette, 85);
-$secondary-text-color-dark: map.get($neutral-palette, 90);
+$secondary-text-color-dark: map.get($secondary-palette, 25);
 
 $error-color-dark: map.get($error-palette, 50);

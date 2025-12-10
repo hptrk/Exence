@@ -4,7 +4,10 @@ import com.exence.finance.common.dto.PageResponse;
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.transaction.controller.TransactionController;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
+import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +47,30 @@ public class TransactionControllerImpl implements TransactionController {
         return ResponseFactory.page(page);
     }
 
+    @GetMapping("/income")
+    public ResponseEntity<PageResponse<TransactionDTO>> getIncomes(@Valid @ModelAttribute TransactionFilter filter,
+                                                                   @PageableDefault(size = 20) Pageable pageable) {
+        TransactionFilter incomeFilter = filter != null ? filter : new TransactionFilter();
+        filter.setType(TransactionType.INCOME);
+        Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
+        return ResponseFactory.page(page);
+    }
+
+    @GetMapping("/expense")
+    public ResponseEntity<PageResponse<TransactionDTO>> getExpenses(@Valid @ModelAttribute TransactionFilter filter,
+                                                                   @PageableDefault(size = 20) Pageable pageable) {
+        TransactionFilter incomeFilter = filter != null ? filter : new TransactionFilter();
+        filter.setType(TransactionType.EXPENSE);
+        Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
+        return ResponseFactory.page(page);
+    }
+
+    @GetMapping("/recurring")
+    public ResponseEntity<RecurringTransactionsResponse> getRecurringTransactions(@PageableDefault(size = 20) Pageable pageable) {
+        RecurringTransactionsResponse response = transactionService.getRecurringTransactions(pageable);
+        return ResponseFactory.ok(response);
+    }
+
     @PostMapping()
     public ResponseEntity<TransactionDTO> createTransaction(@Valid @RequestBody TransactionDTO transactionDTO) {
         TransactionDTO created = transactionService.createTransaction(transactionDTO);
@@ -64,4 +91,9 @@ public class TransactionControllerImpl implements TransactionController {
         return ResponseFactory.noContent();
     }
 
+    @GetMapping("/totals")
+    public ResponseEntity<TransactionTotalsResponse> getTransactionTotals() {
+        TransactionTotalsResponse response = transactionService.getTransactionTotals();
+        return ResponseFactory.ok(response);
+    }
 }
