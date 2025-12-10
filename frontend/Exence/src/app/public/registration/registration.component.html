@@ -1,0 +1,72 @@
+<mat-card class="gap-4 p-5">
+	<mat-card-header class="flex-column gap-2 justify-content-center w-100 mb-2">
+		<mat-icon
+			class="mx-auto mb-5"
+			size="2xxl"
+			[svgIcon]="svgIcons.logo"
+		/>
+		<div>
+			<h2 class="fs-1">Create an Account</h2>
+			<p class="fs-6 login">
+				Already have an account?
+				<a class="fw-bold" [routerLink]="navigate.account().login()">Log In</a>
+			</p>
+		</div>
+	</mat-card-header>
+
+	<mat-card-content [formGroup]="form" class="d-flex flex-column gap-3">
+		<div class="d-flex flex-column flex-md-row gap-4">
+			@let nameControl = form.controls.username;
+			<mat-form-field>
+				<mat-label>Username</mat-label>
+				<input matInput [formControl]="nameControl" />
+				<ex-input-clear matSuffix [control]="nameControl"/>
+					@if (nameControl.touched && nameControl.invalid) {
+						<mat-error>
+							Username is <strong>required</strong>!
+						</mat-error>
+					}
+			</mat-form-field>
+			@let emailControl = form.controls.email;
+			<mat-form-field>
+				<mat-label>Email</mat-label>
+				<input matInput [formControl]="emailControl" type="email" />
+				<ex-input-clear matSuffix [control]="emailControl"/>
+					@if (emailControl.touched && emailControl.invalid) {
+						<mat-error>
+							Email is <strong>required</strong>!
+						</mat-error>
+					}
+			</mat-form-field>
+		</div>
+
+		@let pwdControl = form.controls.password;
+		<mat-form-field matTooltip="Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*()_+-=[]{};':&quot;\|,.<>/?)">
+			<mat-label>Password</mat-label>
+			<input matInput [formControl]="pwdControl" type="password" />
+			<ex-input-clear matSuffix [control]="pwdControl"/>
+				@if (pwdControl.touched && pwdControl.invalid) {
+					<mat-error>
+						Password is <strong>required</strong>!
+					</mat-error>
+				}
+		</mat-form-field>
+		@let confirmControl = form.controls.confirmPassword;
+		<mat-form-field>
+			<mat-label>Confirm password</mat-label>
+			<input matInput [formControl]="confirmControl" type="password" />
+			<ex-input-clear matSuffix [control]="confirmControl"/>
+				@if (confirmControl.touched && confirmControl.invalid) {
+					<mat-error>
+						Password is <strong>required</strong>!
+					</mat-error>
+				}
+		</mat-form-field>
+	</mat-card-content>
+
+	<mat-card-actions class="d-flex flex-column gap-3 w-100">
+		<ex-button class="w-100" [disabled]="form.invalid" filled (click)="register()">
+			Create Account
+		</ex-button>
+	</mat-card-actions>
+</mat-card>

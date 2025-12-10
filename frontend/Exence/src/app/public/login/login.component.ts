@@ -1,42 +1,49 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
-
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { AuthService } from '../../shared/account/auth.service';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { NavigationService } from '../../shared/navigation/navigation.service';
+import { MatCardModule } from '@angular/material/card';
+import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
+import { MatIconModule } from '@angular/material/icon';
+import { BaseComponent } from '../../shared/base-component/base.component';
+import { AuthService } from '../../shared/auth/auth.service';
+import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
+import { ExtraValidators } from '../../shared/validators';
+import { CurrentUserService } from '../../private/current-user.service';
 
 @Component({
 	selector: 'ex-login',
-	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule],
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
+	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule, ButtonComponent, MatCardModule, InputClearButtonComponent, MatIconModule],
 })
-export class LoginComponent implements OnInit {
-	private fb = inject(FormBuilder);
-	private authService = inject(AuthService);
+export class LoginComponent extends BaseComponent {
+	private readonly fb = inject(NonNullableFormBuilder);
+	private readonly authService = inject(AuthService);
+	private readonly router = inject(Router);
+	private readonly currentUserService = inject(CurrentUserService);
+	public navigationService = inject(NavigationService);
 
-	public loginForm!: FormGroup;
+	loginForm = this.fb.group({
+		email: this.fb.control<string>('', [Validators.required, Validators.email]),
+		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password])
+	});
 
-	ngOnInit() {
-		this.loginForm = this.fb.group({
-			email: ['', [Validators.required, Validators.email]],
-			password: ['', Validators.required],
-		});
-	}
+	async login(): Promise<void> {
+		const formValue = this.loginForm.getRawValue();
+		const request: LoginRequest = {
+			email: formValue.email,
+			password: formValue.password,
+		};
+		const resp = await this.authService.login(request);
+		this.currentUserService.setUser(resp.user);
+		// TODO show snackbar for successful registration
 
-	onSubmit(): void {
-		if (this.loginForm.valid) {
-			this.authService.login(this.loginForm.value).subscribe(
-				() => {
-					console.log('Login successful');
-				},
-				error => {
-					console.error('Login failed', error);
-				},
-			);
-		}
+		// TODO store tokens (refresh, access) in HttpOnly cookies (https://stackoverflow.com/questions/57650692/where-to-store-the-refresh-token-on-the-client)
+		this.router.navigateByUrl(this.navigationService.private().dashboard());
 	}
 }

@@ -37,7 +37,7 @@ export class ButtonComponent {
 	outlined = input(false, { transform: booleanAttribute });
 	text = input(false, { transform: booleanAttribute });
 	get appearance(): MatButtonAppearance {
-		if (!this.shouldNotCollapse()) {
+		if (!this.shouldNotCollapse() && (this.matIcon() || this.svgIcon())) {
 			return this.collapsedStyle();
 		} else {
 			if (this.outlined()) return 'outlined';

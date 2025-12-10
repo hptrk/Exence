@@ -64,9 +64,25 @@ $predefinedColors: (
 }
 
 .collapsed {
-	min-width: 0;
+	min-width: 40px;
 
 	--mat-button-filled-horizontal-padding: 0.5rem;
 	--mat-button-outlined-horizontal-padding: 0.5rem;
 	--mat-button-text-horizontal-padding: 0.5rem;
 }
+
+button.has-icon:not(.collapsed) {
+	padding: 0 24px;
+	padding-left: 18px;
+}
+
+button.has-icon.icon-position-end:not(.collapsed) {
+	padding: 0 24px;
+	padding-right: 16px;
+}
+
+.text-nowrap {
+	white-space: nowrap;
+}
+
+button { width: 100%; }

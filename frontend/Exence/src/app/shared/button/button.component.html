@@ -14,9 +14,11 @@
 		[disabled]="disabled()"
 		[type]="type()"
 		[color]="color()"
-		[class.collapsed]="!shouldNotCollapse()"
+		[class.collapsed]="!shouldNotCollapse() && (matIcon() || svgIcon())"
+		[class.icon-position-end]="iconPositionEnd()"
+		[class.has-icon]="matIcon() || svgIcon()"
 	>
-		<div class="d-flex flex-row flex-nowrap justify-content-center align-items-center gap-2">
+		<div class="d-flex flex-row flex-nowrap justify-content-center align-items-center gap-2 text-nowrap">
 			@if (iconPositionEnd()) {
 				<ng-container [ngTemplateOutlet]="text" />
 				<ng-container [ngTemplateOutlet]="icon" />
@@ -29,7 +31,7 @@
 }
 
 <ng-template #text>
-	@if (shouldNotCollapse()) {
+	@if (shouldNotCollapse() || (!matIcon() && !svgIcon())) {
 		<ng-content />
 	}
 </ng-template>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, OnInit, Signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
@@ -11,7 +11,6 @@ import {
 	SummaryContainerComponent,
 	SummaryType,
 } from '../../private/dashboard/summary-container/summary-container.component';
-import { AuthService } from '../../shared/account/auth.service';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
 import { ChartComponent } from '../../shared/chart/chart.component';
 import { DataTableDialogComponent } from '../../shared/data-table/data-table-dialog/data-table-dialog.component';
@@ -19,6 +18,8 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
+import { CurrentUserService } from '../current-user.service';
+import { User } from '../../data-model/modules/auth/User';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -37,15 +38,17 @@ import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.compon
 	styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-	private authService = inject(AuthService);
 	public display = inject(DisplaySizeService);
 	public dialog = inject(MatDialog);
 	public router = inject(Router);
 	public navigation = inject(NavigationService);
+	private readonly currentUserService = inject(CurrentUserService);
 
 	transacrionTypes = TransactionType;
 	summaryTypes = SummaryType;
 	dateIntervals = DateInterval;
+
+	user = computed(() => this.currentUserService.user());
 
 	// private transactionService = inject(TransactionService);
 	// private categoryService = inject(CategoryService);
@@ -61,7 +64,6 @@ export class DashboardComponent implements OnInit {
 		{ id: 5, name: 'Fitness', emoji: '🚲' },
 		{ id: 6, name: 'Gifts', emoji: '🎁' },
 	]);
-	public username!: Signal<string>;
 	public expenses!: Signal<Transaction[]>;
 	public incomes!: Signal<Transaction[]>;
 	public totalIncome!: Signal<number>;
@@ -72,7 +74,6 @@ export class DashboardComponent implements OnInit {
 	transactionTypes = TransactionType;
 
 	ngOnInit() {
-		this.username = computed(() => this.authService.getUserData()()?.username ?? '');
 		this.expenses = computed(() => [
 			{
 				id: 1,

@@ -1,36 +1,27 @@
 import { Component, inject, OnInit } from '@angular/core';
-// import { TransactionService } from './private/transactions/transaction.service';
-// import { CategoryService } from './private/category.service';
-import { AuthService } from './shared/account/auth.service';
-import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { MatIconRegistry } from '@angular/material/icon';
-import { SvgIcons } from './shared/svg-icons/svg-icons';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { SidebarComponent } from './private/sidebar/sidebar.component';
+import { SvgIcons } from './shared/svg-icons/svg-icons';
+import { CookiesService } from './shared/auth/cookies.service';
+import { AuthService } from './shared/auth/auth.service';
+import { CurrentUserService } from './private/current-user.service';
 
 @Component({
 	selector: 'ex-root',
-	imports: [SidebarComponent, RouterModule],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
+	imports: [SidebarComponent, RouterModule],
 })
 export class AppComponent implements OnInit {
-	private authService = inject(AuthService);
-	// private transactionService = inject(TransactionService);
-	// private categoryService = inject(CategoryService);
 	private matIconRegistry = inject(MatIconRegistry);
 	private domSanitizer = inject(DomSanitizer);
+	private cookies = inject(CookiesService);
+	private authService = inject(AuthService);
+	private currentUserService = inject(CurrentUserService);
 
 	ngOnInit() {
-		// Load user
-		// this.authService.fetchUserData().subscribe();
-
-		// Load transactions
-		// this.transactionService.loadTransactions().subscribe();
-
-		// Load categories
-		// this.categoryService.loadCategories().subscribe();
-
 		// Icon set
 		for (let iconName of Object.values(SvgIcons)) {
 			this.matIconRegistry.addSvgIcon(

@@ -26,4 +26,6 @@ public class UserDTO {
 
     @ValidStrictEmail
     private String email;
+
+    private boolean isVerified;
 }

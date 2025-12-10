@@ -7,13 +7,14 @@ import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
 import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.UserMapper;
-import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.AuthService;
 import com.exence.finance.modules.auth.service.PasswordHistoryService;
 import com.exence.finance.modules.auth.service.PasswordValidationService;
+import com.exence.finance.modules.auth.service.RequestContextService;
 import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.modules.auth.service.UserService;
+import com.exence.finance.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -36,8 +37,17 @@ public class UserServiceImpl implements UserService {
     private final TokenManagementService tokenManagementService;
     private final PasswordValidationService passwordValidationService;
     private final PasswordHistoryService passwordHistoryService;
-    private final AuthService authService;
+    private final JwtService jwtService;
+    private final RequestContextService requestContextService;
+     private final AuthService authService;
 
+    public UserDTO getUserFromToken() {
+        String token = requestContextService.extractBearerToken();
+        String email = jwtService.extractUsername(token);
+        User user = userRepository.findByEmail(email)
+            .orElseThrow(UserNotFoundException::new);
+        return userMapper.mapToUserDto(user);
+    }
 
     @Cacheable(value = "currentUser", key = "#root.methodName + '_' + T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()")
     public User getCurrentUser() {

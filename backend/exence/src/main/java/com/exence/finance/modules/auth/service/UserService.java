@@ -10,6 +10,8 @@ public interface UserService {
      * Request-scoped cached getCurrentUser
      * Caches the user in a request lifecycle to avoid multiple DB calls
      */
+    public UserDTO getUserFromToken();
+
     public User getCurrentUser();
 
     public Long getCurrentUserId();

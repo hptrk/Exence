@@ -1,0 +1,63 @@
+mat-form-field.mat-mdc-form-field {
+	.mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+		--mat-form-field-outlined-error-outline-color: var(--error-color);
+		--mat-form-field-outlined-error-focus-outline-color: var(--error-color);
+		--mat-form-field-outlined-focus-outline-color: var(--primary-color);
+	}
+
+
+	--mat-form-field-container-text-size: 16px;
+	--mat-form-field-outlined-label-text-size: 16px;
+	--mat-form-field-outlined-container-shape: 8px;
+	--mat-form-field-container-vertical-padding: 2px;
+	--mat-form-field-container-text-line-height: 28px;
+
+	--mat-form-field-error-text-color: var(--error-color);
+	
+	--mat-form-field-outlined-input-text-color: var(--default-text-color);
+	--mat-form-field-outlined-disabled-input-text-color: var(--default-text-color);
+	--mat-form-field-hover-state-layer-opacity: 0;
+	
+	--mat-form-field-outlined-label-text-color: var(--default-text-color);
+	--mat-form-field-outlined-error-label-text-color: var(--error-color);
+	--mat-form-field-outlined-disabled-label-text-color: var(--accent-color);
+	--mat-form-field-outlined-error-focus-label-text-color: var(--error-color);
+
+	--mat-form-field-subscript-text-size: 14px;
+	--mat-form-field-subscript-text-line-height: 16px;
+
+	width: 100%;
+
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	input:-webkit-autofill:active {
+		-webkit-text-fill-color: var(--default-text-color) !important;
+		box-shadow: 0 0 0 1000px var(--app-background-color) inset !important;
+	}
+
+	.mat-mdc-form-field-infix {
+		width: 100%;
+		min-height: 56px;
+		padding-top: 16px;
+	}
+
+	.mat-mdc-form-field-icon-suffix {
+		width: 40px; // space for clear button
+	}
+}
+
+mat-form-field.mat-form-field-appearance-outline {
+	.mat-mdc-text-field-wrapper {
+		background-color: var(--app-background-color);
+		border-radius: var(--mat-form-field-outlined-container-shape);
+	}
+}
+
+mat-error {
+	margin-top: 0.25rem;
+}
+
+.mat-mdc-form-field-icon-suffix {
+	margin-right: 0.5rem;
+}
