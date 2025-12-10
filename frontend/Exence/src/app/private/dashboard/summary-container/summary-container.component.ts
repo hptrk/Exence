@@ -7,18 +7,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { NavigationService } from '../../../shared/navigation/navigation.service';
 import { Router, RouterModule } from '@angular/router';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
+import { AbsoluteValuePipe } from "../../../shared/pipes/absolute-value.pipe";
 
 @Component({
 	selector: 'ex-summary-container',
 	templateUrl: './summary-container.component.html',
 	styleUrl: './summary-container.component.scss',
 	imports: [
-		MatCardModule,
-		MatIconModule,
-		CurrencyPipe,
-		MatButtonModule,
-		RouterModule
-	],
+    MatCardModule,
+    MatIconModule,
+    CurrencyPipe,
+    MatButtonModule,
+    RouterModule,
+    AbsoluteValuePipe
+],
 })
 export class SummaryContainerComponent {
 	private readonly navigation = inject(NavigationService);
