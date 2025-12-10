@@ -38,17 +38,13 @@ export const createCanvasBackgroundPlugin = () => ({
 export const createPointerTooltipConfig = (data: Transaction[], balance: number) => ({
 	 callbacks: {
         title: (context: any) => {
-            const transaction = data[context[0].dataIndex];
-			const title = transaction.title ?? '';
-			return title.length > 15 ? title.slice(0, 15) + '...' : title;
+          const transaction = data[context[0].dataIndex];
+					const title = transaction.title ?? '';
+					return title.length > 15 ? title.slice(0, 15) + '...' : title;
         },
         label: (context: any) => {
-			const transaction = data[context.dataIndex];
-			return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
-        },
-        afterLabel: (context: any) => {
-			const transaction = data[context.dataIndex];
-			return `Balance: ${formatCurrency(balance, 'en-US', 'Ft', 'hu-HU')}`;
+					const transaction = data[context.dataIndex];
+					return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
         },
     },
 });

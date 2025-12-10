@@ -23,16 +23,22 @@ export class ChartComponent extends BaseComponent {
 
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
 
-	balanceData = computed(() => 
-		this.data()?.sort((a, b) => a.date.localeCompare(b.date)).map(transaction => {
-			if (transaction.type === TransactionType.INCOME) {
-				return this.balance() + transaction.amount;
-			} else {
-				return this.balance() - transaction.amount;
-			}
-		})
-			
-	);
+	balanceData = computed(() => {
+		// has to come from backend later
+    const sortedData = this.data()?.sort((a, b) => a.date.localeCompare(b.date));
+    if (!sortedData) return [];
+    
+    let currentBalance = 0;
+    return sortedData.map(transaction => {
+        if (transaction.type === TransactionType.INCOME) {
+            currentBalance += transaction.amount;
+        } else {
+            currentBalance -= transaction.amount;
+        }
+        return currentBalance;
+    });
+	});
+
 	chartLabels = computed(() =>
 		this.data()?.sort((a, b) => a.date.localeCompare(b.date)).map(transaction => format(new Date(transaction.date), 'dd/MM'))
 	);

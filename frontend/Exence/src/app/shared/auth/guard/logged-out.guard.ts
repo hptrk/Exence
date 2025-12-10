@@ -11,6 +11,10 @@ export const loggedOutGuard: CanActivateFn = async (
 	const currentUserService = inject(CurrentUserService);
 	const navigationService = inject(NavigationService);
 
+	if (route.queryParams['password-changed'] === 'true') {
+		return true;
+	}
+
 	const isLoggedIn = await currentUserService.getIsLoggedIn();
 	if (!isLoggedIn) return true;
 	

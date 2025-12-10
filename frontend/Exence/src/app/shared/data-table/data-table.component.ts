@@ -16,7 +16,7 @@ import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
-import { CreateTransactionDialogComponent, CreateTranslationDialogData } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import { CreateTransactionDialogComponent, CreateTransactionDialogData } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../../private/transactions-and-categories/transaction.service';
 import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
@@ -82,6 +82,7 @@ export class DataTableComponent extends BaseComponent {
 	svgIcon = input<SvgIcons>();
 	title = input<string>();
 	type = input<TransactionType | 'category'>();
+	isRecurring = input<boolean | undefined>();
 	nonExpandable = input(false, { transform: booleanAttribute });
 	paginationDisabled = input(false, { transform: booleanAttribute });
 	
@@ -230,8 +231,9 @@ export class DataTableComponent extends BaseComponent {
 	openCreateDialog(): void {
 		// All transactions
 		if (!this.type()) {
-			this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
-				CreateTransactionDialogComponent, undefined
+			const data: CreateTransactionDialogData= { isRecurring: this.isRecurring() ?? false };
+			this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
+				CreateTransactionDialogComponent, { data }
 			).afterClosed().subscribe(
 				async (newTransaction) => {
 					if (newTransaction) {
@@ -242,9 +244,9 @@ export class DataTableComponent extends BaseComponent {
 			)
 		// Income or expense
 		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
-			const data = { type: this.type()! as TransactionType };
+			const data = { isRecurring: this.isRecurring() ?? false, type: this.type()! as TransactionType };
 
-			this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
+			this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
 				CreateTransactionDialogComponent, { data }
 			).afterClosed().subscribe(
 				async (newTransaction) => {

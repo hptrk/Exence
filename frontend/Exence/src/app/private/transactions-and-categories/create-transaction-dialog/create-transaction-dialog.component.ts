@@ -16,8 +16,9 @@ import { TransactionService } from "../transaction.service";
 import { CategoryService } from "../../category.service";
 import { BaseComponent } from "../../../shared/base-component/base.component";
 
-export interface CreateTranslationDialogData {
-	type: TransactionType;
+export interface CreateTransactionDialogData {
+	type?: TransactionType;
+	isRecurring?: boolean;
 }
 
 @Component({
@@ -52,6 +53,9 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 		this.categories = await this.categoryService.list();
 		if (this.data.type) {
 			this.form.controls.type.setValue(this.data.type)
+		}
+		if (this.data.isRecurring) {
+			this.form.controls.recurring.setValue(this.data.isRecurring);
 		}
 		this.addSubscription(this.form.controls.amount.valueChanges.subscribe(value => {
 			if (value !== null) {
