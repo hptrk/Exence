@@ -226,22 +226,26 @@
 										>
 											<div class="d-flex flex-column flex-md-row gap-4 p-4 w-100">
 												<div class="d-flex gap-4 w-100">
+													@let noteContol = $any(noteForm.controls)[row.id];
 													<mat-form-field>
 														<mat-label>Note</mat-label>
 														<textarea
 															matInput
 															cdkTextareaAutosize
 															cdkAutosizeMinRows="4"
-															[formControl]="$any(noteForm.controls)[row.id]"
-															
+															[formControl]="noteContol"
 														></textarea>
+														<mat-error>
+															<ex-validator [control]="noteContol" />
+														</mat-error>
 													</mat-form-field>
 
 													<div class="d-flex flex-column justify-content-between pb-4">
+														@let categoryControl = $any(categoryForm.controls)[row.id];
 														<mat-form-field>
 															<mat-label>Category</mat-label>
 															<mat-select
-																[formControl]="$any(categoryForm.controls)[row.id]"
+																[formControl]="categoryControl"
 															>
 																@for (
 																	category of data().categories;
@@ -253,22 +257,21 @@
 																	>
 																}
 															</mat-select>
-															@if (
-																categoryForm.controls[row.id].touched &&
-																categoryForm.controls[row.id].invalid
-															) {
-																<mat-error>
-																	Category is <strong>required</strong>!
-																</mat-error>
-															}
+															<mat-error>
+																<ex-validator [control]="categoryControl" />
+															</mat-error>
 														</mat-form-field>
 
+														@let recurringControl = $any(recurringForm.controls)[row.id];
 														<mat-checkbox
-															[formControl]="$any(recurringForm.controls)[row.id]"
+															[formControl]="recurringControl"
 															><span [class.nowrap]="display.isMd()"
 																>Automatically recurring?</span
 															></mat-checkbox
 														>
+														<mat-error>
+															<ex-validator [control]="recurringControl" />
+														</mat-error>
 													</div>
 												</div>
 												<div class="d-flex flex-column gap-2">

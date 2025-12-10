@@ -1,19 +1,21 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CurrentUserService } from '../../shared/user/current-user.service';
-import { ExtraValidators } from '../../shared/validators';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
+import { Router } from '@angular/router';
 import { ChangePasswordRequest } from '../../data-model/modules/auth/ChangePasswordRequest';
 import { UpdateUserRequest } from '../../data-model/modules/auth/UpdateUserRequest';
-import { UserService } from '../../shared/user/user.service';
-import { MatDividerModule } from '@angular/material/divider';
-import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
-import { Router } from '@angular/router';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 import { NavigationService } from '../../shared/navigation/navigation.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { CurrentUserService } from '../../shared/user/current-user.service';
+import { UserService } from '../../shared/user/user.service';
+import { ValidatorComponent } from '../../shared/validator/validator.component';
+import { ExtraValidators } from '../../shared/validators';
+import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
+import { BaseComponent } from '../../shared/base-component/base.component';
 
 @Component({
 	selector: 'ex-profile',
@@ -27,6 +29,7 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 		ButtonComponent,
 		InputClearButtonComponent,
 		SessionsListComponent,
+		ValidatorComponent,
 	],
 })
 export class ProfileComponent {

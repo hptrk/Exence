@@ -6,33 +6,32 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Category } from '../../data-model/modules/category/Category';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
+import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CategoryService } from '../category.service';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent, CreateTransactionDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
-import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
-import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
-import { A11yModule } from "@angular/cdk/a11y";
+import { ValidatorComponent } from '../../shared/validator/validator.component';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
 	templateUrl: './transactions-and-categories.component.html',
 	styleUrl: './transactions-and-categories.component.scss',
 	imports: [
-    CommonModule,
-    MatDialogModule,
-    MatTabsModule,
-    MatIconModule,
-    MatTooltipModule,
-    DataTableComponent,
-    ButtonComponent,
-    A11yModule
-],
+		CommonModule,
+		MatDialogModule,
+		MatTabsModule,
+		MatIconModule,
+		MatTooltipModule,
+		DataTableComponent,
+		ButtonComponent,
+	],
 })
 export class TransactionsAndCategoriesComponent implements OnInit {
 	private readonly transactionService = inject(TransactionService);

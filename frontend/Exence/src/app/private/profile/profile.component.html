@@ -40,29 +40,25 @@
 		</div>
 
 		<form [formGroup]="userDataForm">
-			<div class="d-flex flex-column flex-md-row gap-3 w-100">
+			<div class="d-flex flex-column flex-md-row gap-3 w-100 mb-2">
 				@let nameControl = userDataForm.controls.username;
 				<mat-form-field>
 					<mat-label>Username</mat-label>
 					<input matInput [formControl]="nameControl" />
 					<ex-input-clear matSuffix [control]="nameControl"/>
-					@if (nameControl.touched && nameControl.invalid) {
-						<mat-error>
-							Username is <strong>required</strong>!
-						</mat-error>
-					}
+					<mat-error>
+						<ex-validator [control]="nameControl" />
+					</mat-error>
 				</mat-form-field>
 
 				@let emailControl = userDataForm.controls.email;
 				<mat-form-field>
 					<mat-label>Email</mat-label>
 					<input matInput type="email" [formControl]="emailControl" />
-					<!-- <ex-input-clear matSuffix [control]="emailControl" />
-					@if (emailControl.touched && emailControl.invalid) {
-						<mat-error>
-							Email is <strong>required</strong>!
-						</mat-error>
-					} -->
+					<ex-input-clear matSuffix [control]="emailControl" />
+					<mat-error>
+						<ex-validator [control]="emailControl" />
+					</mat-error>
 				</mat-form-field>
 			</div>
 		</form>
@@ -79,11 +75,9 @@
 						<mat-label>Old password</mat-label>
 						<input matInput type="password" [formControl]="pwdControl" />
 						<ex-input-clear matSuffix [control]="pwdControl" />
-						@if (pwdControl.touched && pwdControl.invalid) {
-							<mat-error>
-								Old password is <strong>required</strong>!
-							</mat-error>
-						}
+						<mat-error>
+							<ex-validator [control]="pwdControl" />
+						</mat-error>
 					</mat-form-field>
 
 					<div class="d-flex flex-column flex-md-row gap-3 w-100">
@@ -92,11 +86,9 @@
 							<mat-label>New password</mat-label>
 							<input matInput type="password" [formControl]="newPwdControl" />
 							<ex-input-clear matSuffix [control]="newPwdControl" />
-							@if (newPwdControl.touched && newPwdControl.invalid) {
-								<mat-error>
-									New password is <strong>required</strong>!
-								</mat-error>
-							}
+							<mat-error>
+								<ex-validator [control]="newPwdControl" />
+							</mat-error>
 						</mat-form-field>
 
 						@let confirmPwdControl = passwordForm.controls.confirmPassword;
@@ -104,11 +96,9 @@
 							<mat-label>Confirm password</mat-label>
 							<input matInput type="password" [formControl]="confirmPwdControl" />
 							<ex-input-clear matSuffix [control]="confirmPwdControl" />
-							@if (confirmPwdControl.touched && confirmPwdControl.invalid) {
-								<mat-error>
-									Confirm password is <strong>required</strong>!
-								</mat-error>
-							}
+							<mat-error>
+								<ex-validator [control]="confirmPwdControl" />
+							</mat-error>
 						</mat-form-field>
 					</div>
 				</div>

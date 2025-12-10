@@ -3,16 +3,16 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angula
 import { MatCardModule } from "@angular/material/card";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatIconModule } from "@angular/material/icon";
 import { MatInputModule } from "@angular/material/input";
-import { Category } from "../../../data-model/modules/category/Category";
-import { TransactionType } from "../../../data-model/modules/transaction/TransactionType";
-import { ButtonComponent } from "../../../shared/button/button.component";
-import { InputClearButtonComponent } from "../../../shared/input-clear-button/input-clear-button.component";
-import { CategoryService } from "../../category.service";
 import { MatMenuModule } from "@angular/material/menu";
 import { PickerComponent } from "@ctrl/ngx-emoji-mart";
 import { EmojiEvent } from "@ctrl/ngx-emoji-mart/ngx-emoji";
-import { MatIconModule } from "@angular/material/icon";
+import { Category } from "../../../data-model/modules/category/Category";
+import { ButtonComponent } from "../../../shared/button/button.component";
+import { InputClearButtonComponent } from "../../../shared/input-clear-button/input-clear-button.component";
+import { ValidatorComponent } from "../../../shared/validator/validator.component";
+import { CategoryService } from "../../category.service";
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -28,6 +28,7 @@ import { MatIconModule } from "@angular/material/icon";
 		PickerComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
+		ValidatorComponent,
 	],
 })
 export class CreateCategoryDialogComponent {
@@ -71,7 +72,6 @@ export class CreateCategoryDialogComponent {
 			this.dialogRef.close(newCategory);
 		} catch (err) {
 			this.dialogRef.close();
-			throw err;
 		}
 	}
 }

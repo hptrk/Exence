@@ -14,12 +14,24 @@ import { AuthService } from '../../shared/auth/auth.service';
 import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
 import { ExtraValidators } from '../../shared/validators';
 import { CurrentUserService } from '../../shared/user/current-user.service';
+import { ValidatorComponent } from '../../shared/validator/validator.component';
 
 @Component({
 	selector: 'ex-login',
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
-	imports: [MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule, RouterModule, ButtonComponent, MatCardModule, InputClearButtonComponent, MatIconModule],
+	imports: [
+		MatFormFieldModule,
+		MatInputModule,
+		ReactiveFormsModule,
+		MatButtonModule,
+		RouterModule,
+		MatCardModule,
+		MatIconModule,
+		InputClearButtonComponent,
+		ButtonComponent,
+		ValidatorComponent,
+	],
 })
 export class LoginComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);

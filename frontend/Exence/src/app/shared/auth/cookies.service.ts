@@ -56,8 +56,11 @@ export class CookiesService {
 		});
 	}
 
-	public isTokenExpired(token: string): boolean {
+	public isTokenExpired(type: 'access' | 'refresh'): boolean {
 		try {
+			const token = type === 'access' ? this.getAccessToken() : this.getRefreshToken();
+			if (!token) return true;
+			
             const decoded = jwtDecode<{ exp: number }>(token);
             if (!decoded.exp) {
                 return true;

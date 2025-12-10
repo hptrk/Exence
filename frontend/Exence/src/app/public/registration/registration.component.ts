@@ -14,12 +14,24 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ExtraValidators } from '../../shared/validators';
 import { AuthService } from '../../shared/auth/auth.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { ValidatorComponent } from '../../shared/validator/validator.component';
 
 @Component({
 	selector: 'ex-registration',
 	templateUrl: './registration.component.html',
 	styleUrl: './registration.component.scss',
-	imports: [MatCardModule, MatIconModule, ReactiveFormsModule, MatFormFieldModule, MatInput, ButtonComponent, InputClearButtonComponent, RouterLink, MatTooltipModule]
+	imports: [
+		MatCardModule,
+		MatIconModule,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInput,
+		ButtonComponent,
+		InputClearButtonComponent,
+		RouterLink,
+		MatTooltipModule,
+		ValidatorComponent,
+	]
 })
 export class RegistrationComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);

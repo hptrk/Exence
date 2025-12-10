@@ -82,54 +82,38 @@ export class HttpService {
 		});
 	}
 
-	private async handleError(response: HttpErrorResponse, settings?: HttpSettings, stackSnapshot?: StackSnapshot): Promise<never> {
+	private async handleError(errorResponse: HttpErrorResponse, settings?: HttpSettings, stackSnapshot?: StackSnapshot): Promise<void> {
+		console.log('entering handleError')
 		settings = settings || {};
 
-		switch (response.status) {
+		let error: ErrorResponse | null = null;
+		
+		try {
+			if (errorResponse.error) {
+				error = errorResponse.error as ErrorResponse;
+				console.log(error)
+			}
+		} catch (e) {
+			console.error('Failed to parse error response:', e);
+		}
+
+		switch (error?.status) {
 			case 401:
 				break;
 			default:
 				if (!settings.suppressErrorMessage) {
-					await this.showErrorFromResponse(response);
+					await this.showErrorFromResponse(error);
 				}
 				break;
 		}
-
-		throw new HttpServiceError(response, stackSnapshot);
 	}
 
-	private async showErrorFromResponse(response: HttpErrorResponse): Promise<void> {
-		let errorMsg = await this.getErrorMessage(response);
-		console.log(errorMsg)
-		this.snackbarService.showError(errorMsg.detail);
-	}
-
-	protected async getErrorMessage(response: HttpErrorResponse): Promise<ErrorResponse> {
-		const error = response.error;
-		switch (response.status) {
-			case 0:
-			case 503:
-			case 504:
-				console.error('Http response status', response.status, response.error);
-				error.message = 'No connection could be established between client and server!'; 
-				return error;
-			case 403:
-				error.message = 'You do not have sufficient permissions to perform this operation!'; 
-				return error;
-			case 404:
-				error.message = 'The resource cannot be found!'; 
-				return error;
-		}
-
-		try {
-			let errorJson = response.error;
-			errorJson = await errorJson.text();
-
-			const err = JSON.parse(errorJson);
-			return err.message;
-		} catch (e) {
-			return (response.error || {}).message || response.error;
-		}
+	private async showErrorFromResponse(error: ErrorResponse | null): Promise<void> {
+		const errorMessage = error?.detail 
+			|| 'Unexpected error occurred';
+		
+		console.error('Error Response:', error);
+		this.snackbarService.showError(errorMessage);
 	}
 
 	private parseResponse<T>(response: HttpResponse<string> | null): T | null {

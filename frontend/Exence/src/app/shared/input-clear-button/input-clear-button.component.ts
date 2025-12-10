@@ -1,5 +1,5 @@
 import { Component, input } from "@angular/core";
-import { AbstractControl } from "@angular/forms";
+import { AbstractControl, FormControl } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 
@@ -19,9 +19,13 @@ import { MatIconModule } from "@angular/material/icon";
 	imports: [MatButtonModule, MatIconModule]
 })
 export class InputClearButtonComponent {
-	control = input.required<AbstractControl>();
+	control = input.required<FormControl>();
 
 	clear(): void {
-		this.control().reset();
+		if (this.control().defaultValue) {
+			this.control().setValue(null);
+		} else {
+			this.control().reset();
+		}
 	}
 }

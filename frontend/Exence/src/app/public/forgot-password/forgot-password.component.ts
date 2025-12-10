@@ -1,26 +1,36 @@
-import { Component, computed, effect, inject, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { ButtonComponent } from "../../shared/button/button.component";
-import { MatInputModule } from "@angular/material/input";
 import { MatCardModule } from "@angular/material/card";
+import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatIconModule } from "@angular/material/icon";
-import { BaseComponent } from "../../shared/base-component/base.component";
-import { InputClearButtonComponent } from "../../shared/input-clear-button/input-clear-button.component";
+import { MatInputModule } from "@angular/material/input";
 import { Router, RouterLink } from "@angular/router";
-import { NavigationService } from "../../shared/navigation/navigation.service";
-import { A11yModule } from "@angular/cdk/a11y";
-import { AuthService } from "../../shared/auth/auth.service";
 import { ForgotPasswordRequest } from "../../data-model/modules/auth/ForgotPasswordRequest";
-import { ExtraValidators } from "../../shared/validators";
 import { PasswordResetRequest } from "../../data-model/modules/auth/PasswordResetRequest";
+import { AuthService } from "../../shared/auth/auth.service";
+import { BaseComponent } from "../../shared/base-component/base.component";
+import { ButtonComponent } from "../../shared/button/button.component";
+import { InputClearButtonComponent } from "../../shared/input-clear-button/input-clear-button.component";
+import { NavigationService } from "../../shared/navigation/navigation.service";
 import { SnackbarService } from "../../shared/snackbar/snackbar.service";
+import { ExtraValidators } from "../../shared/validators";
+import { ValidatorComponent } from "../../shared/validator/validator.component";
 
 @Component({
 	selector: 'ex-forgot-password',
 	templateUrl: './forgot-password.component.html',
 	styleUrl: './forgot-password.component.scss',
-	imports: [MatFormFieldModule, MatInputModule, ButtonComponent, ReactiveFormsModule, MatCardModule, MatIconModule, InputClearButtonComponent, RouterLink, A11yModule]
+	imports: [
+		MatFormFieldModule,
+		MatInputModule,
+		ButtonComponent,
+		ReactiveFormsModule,
+		MatCardModule,
+		MatIconModule,
+		InputClearButtonComponent,
+		RouterLink,
+		ValidatorComponent,
+	]
 })
 export class ForgotPasswordComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);

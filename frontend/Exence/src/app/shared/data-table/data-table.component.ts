@@ -29,6 +29,7 @@ import { CdkOverlayOrigin } from "@angular/cdk/overlay";
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSelectModule } from '@angular/material/select';
 import { CategoryService } from '../../private/category.service';
+import { ValidatorComponent } from '../validator/validator.component';
 
 export interface DataTableModel {
 	transactions?: PagedResponse<Transaction>;
@@ -38,22 +39,23 @@ export interface DataTableModel {
 @Component({
 	selector: 'ex-data-table',
 	imports: [
-    MatCardModule,
-    MatTableModule,
-    MatIconModule,
-    MatButtonModule,
-    CommonModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatMenuModule,
-	MatCheckboxModule,
-	MatSelectModule,
-    ButtonComponent,
-],
+		MatCardModule,
+		MatTableModule,
+		MatIconModule,
+		MatButtonModule,
+		CommonModule,
+		MatTooltipModule,
+		MatFormFieldModule,
+		FormsModule,
+		ReactiveFormsModule,
+		MatInputModule,
+		MatPaginatorModule,
+		MatMenuModule,
+		MatCheckboxModule,
+		MatSelectModule,
+		ButtonComponent,
+		ValidatorComponent,
+	],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
 	animations: [

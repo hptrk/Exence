@@ -12,11 +12,9 @@
 				[formControl]="nameControl"
 			/>
 			<ex-input-clear matSuffix [control]="nameControl" />
-			@if (nameControl.touched && nameControl.invalid) {
-				<mat-error>
-					Name is <strong>required</strong>!
-				</mat-error>
-			}
+			<mat-error>
+				<ex-validator [control]="nameControl" />
+			</mat-error>
 		</mat-form-field>
 
 		<div class="d-flex flex-column gap-2">
@@ -42,12 +40,12 @@
 					</div>
 				</div>
 			</div>
+			<!-- TODO use validator -->
 			@if (emojiInvalid) {
 				<div class="emoji-error">
-					Emoji is <strong>required</strong>!
+					Emoji is required!
 				</div>
 			}
-
 			</div>
 	</mat-card-content>
 

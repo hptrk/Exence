@@ -15,6 +15,7 @@ import { InputClearButtonComponent } from "../../../shared/input-clear-button/in
 import { TransactionService } from "../transaction.service";
 import { CategoryService } from "../../category.service";
 import { BaseComponent } from "../../../shared/base-component/base.component";
+import { ValidatorComponent } from "../../../shared/validator/validator.component";
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -25,7 +26,17 @@ export interface CreateTransactionDialogData {
 	selector: 'ex-create-transaction-dialog',
 	templateUrl: './create-transaction-dialog.component.html',
 	styleUrl: './create-transaction-dialog.component.scss',
-	imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatCardModule, MatSelectModule, MatDatepickerModule, MatCheckboxModule, InputClearButtonComponent, ButtonComponent],
+	imports: [
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatCardModule,
+		MatSelectModule, MatDatepickerModule,
+		MatCheckboxModule,
+		InputClearButtonComponent,
+		ButtonComponent,
+		ValidatorComponent,
+	],
 })
 export class CreateTransactionDialogComponent extends BaseComponent implements OnInit {
 	private readonly dialogRef = inject(MatDialogRef<CreateTransactionDialogComponent>);
@@ -59,7 +70,7 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 		}
 		this.addSubscription(this.form.controls.amount.valueChanges.subscribe(value => {
 			if (value !== null) {
-				this.form.controls.amount.setValue(parseFloat(value.toString()!));
+				this.form.controls.amount.setValue(parseFloat(value.toString()!), { emitEvent: false });
 			}
 		}));
 	}
@@ -84,7 +95,6 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 			this.dialogRef.close(newTransaction);
 		} catch (err) {
 			this.dialogRef.close();
-			throw err;
 		}
 	}
 }
