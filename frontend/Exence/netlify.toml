@@ -7,7 +7,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = ":API_URL/api/:splat"
+  to = "https://exence.onrender.com/api/:splat"
   status = 200
   force = true
 

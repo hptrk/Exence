@@ -74,7 +74,7 @@ public class EmailServiceImpl implements EmailService {
             emailLogService.logEmailSent(user, emailType, subject, recipientEmail);
             log.info("Email sent successfully - Type: {}, To: {}", emailType, recipientEmail);
 
-        } catch (MessagingException e) {
+        } catch (Exception e) {
             emailLogService.logEmailFailed(user, emailType, subject, recipientEmail, e.getMessage());
             log.error("Failed to send email - Type: {}, To: {}", emailType, recipientEmail, e);
         }
