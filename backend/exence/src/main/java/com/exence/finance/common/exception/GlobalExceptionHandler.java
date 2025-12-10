@@ -244,4 +244,64 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
     }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<ProblemDetail> handleInvalidTokenException(InvalidTokenException ex, WebRequest request) {
+        log.warn("Invalid token for request: {}", request.getDescription(false));
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED,
+                "Invalid authentication token."
+        );
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "invalid-token"));
+        problemDetail.setTitle("Invalid Token");
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+    }
+
+    @ExceptionHandler(EmailAlreadyVerifiedException.class)
+    public ResponseEntity<ProblemDetail> handleEmailAlreadyVerifiedException(EmailAlreadyVerifiedException ex, WebRequest request) {
+        log.warn("Email already verified: {}", request.getDescription(false));
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED,
+                "Email has been already verified."
+        );
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "email-already-verified"));
+        problemDetail.setTitle("Email Already Verified");
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+    }
+
+    @ExceptionHandler(TooManyEmailsException.class)
+    public ResponseEntity<ProblemDetail> handleTooManyEmailsException(TooManyEmailsException ex, WebRequest request) {
+        log.warn("Too many email requests for request: {}", request.getDescription(false));
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.TOO_MANY_REQUESTS,
+                "You have requested too many emails in a short period."
+        );
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "too-many-emails"));
+        problemDetail.setTitle("Rate Limit Exceeded");
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(problemDetail);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ProblemDetail> handleInvalidPasswordException(InvalidPasswordException ex, WebRequest request) {
+        log.warn("Invalid password attempt for request: {}", request.getDescription(false));
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                ex.getMessage()
+        );
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "invalid-password"));
+        problemDetail.setTitle("Invalid Password");
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+    }
 }

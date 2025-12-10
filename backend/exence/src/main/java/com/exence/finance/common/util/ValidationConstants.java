@@ -4,6 +4,8 @@ import java.util.Set;
 
 public class ValidationConstants {
 
+    public static final int UUID_LENGTH = 36;
+
     // User validations
     public static final int USERNAME_MIN_LENGTH = 3;
     public static final int USERNAME_MAX_LENGTH = 25;

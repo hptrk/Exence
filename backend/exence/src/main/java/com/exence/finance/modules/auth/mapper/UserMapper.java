@@ -1,10 +1,13 @@
 package com.exence.finance.modules.auth.mapper;
 
 import com.exence.finance.modules.auth.dto.UserDTO;
+import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
 import com.exence.finance.modules.auth.entity.User;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
@@ -36,4 +39,12 @@ public interface UserMapper {
     List<UserDTO> mapToUserDtoList(List<User> users);
 
     List<User> mapToUserList(List<UserDTO> userDTOs);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "email", ignore = true)
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
+    @Mapping(target = "lastLoginAt", ignore = true)
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateUserFromRequest(UpdateUserRequest request, @MappingTarget User user);
 }

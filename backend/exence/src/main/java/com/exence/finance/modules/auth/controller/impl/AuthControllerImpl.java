@@ -2,7 +2,10 @@ package com.exence.finance.modules.auth.controller.impl;
 
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.auth.controller.AuthController;
+import com.exence.finance.modules.auth.dto.request.EmailVerificationRequest;
+import com.exence.finance.modules.auth.dto.request.ForgotPasswordRequest;
 import com.exence.finance.modules.auth.dto.request.LoginRequest;
+import com.exence.finance.modules.auth.dto.request.PasswordResetRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import com.exence.finance.modules.auth.service.AuthService;
@@ -36,15 +39,27 @@ public class AuthControllerImpl implements AuthController {
         return ResponseFactory.ok(response);
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/refresh-token")
     public ResponseEntity<Void> refreshToken(HttpServletRequest request, HttpServletResponse response) {
         authService.refreshToken(request, response);
         return ResponseFactory.noContent();
     }
-
-    @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletRequest request) {
-        authService.logout(request);
+    
+    @PostMapping("/verify-email")
+    public ResponseEntity<Void> verifyEmail(@Valid @RequestBody EmailVerificationRequest request) {
+        authService.verifyEmail(request);
+        return ResponseFactory.noContent();
+    }
+    
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        authService.forgotPassword(request);
+        return ResponseFactory.noContent();
+    }
+    
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@Valid @RequestBody PasswordResetRequest request) {
+        authService.resetPassword(request);
         return ResponseFactory.noContent();
     }
 }

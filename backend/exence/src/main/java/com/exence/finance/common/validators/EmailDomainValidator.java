@@ -1,19 +1,20 @@
 package com.exence.finance.common.validators;
 
 import com.exence.finance.common.annotations.ValidEmailDomain;
+import com.exence.finance.config.properties.EmailBusinessProperties;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import static com.exence.finance.common.util.ValidationConstants.BLACKLISTED_DOMAINS;
 import static com.exence.finance.common.util.ValidationConstants.WHITELISTED_DOMAINS;
 
 @Component
+@RequiredArgsConstructor
 public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomain, String> {
 
-    @Value("${exence.email.whitelist-only:false}")
-    private boolean whitelistOnly;
+    private final EmailBusinessProperties emailBusinessProperties;
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
@@ -34,7 +35,7 @@ public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomai
             return false;
         }
 
-        if (whitelistOnly && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
+        if (emailBusinessProperties.isDomainWhitelistOnly() && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(
                     "Only specific email providers are allowed"

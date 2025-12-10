@@ -1,18 +1,28 @@
 package com.exence.finance.config;
 
 import com.exence.finance.common.converter.StringToTransactionTypeConverter;
+import com.exence.finance.security.EmailVerificationInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final StringToTransactionTypeConverter stringToTransactionTypeConverter;
+    private final EmailVerificationInterceptor emailVerificationInterceptor;
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(stringToTransactionTypeConverter);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(emailVerificationInterceptor)
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("/api/auth/**");
     }
 }

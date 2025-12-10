@@ -1,11 +1,18 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.common.exception.EmailAlreadyVerifiedException;
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.modules.auth.dto.UserDTO;
 import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
+import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.UserMapper;
+import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
+import com.exence.finance.modules.auth.service.AuthService;
+import com.exence.finance.modules.auth.service.PasswordHistoryService;
+import com.exence.finance.modules.auth.service.PasswordValidationService;
+import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.modules.auth.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +33,11 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
+    private final TokenManagementService tokenManagementService;
+    private final PasswordValidationService passwordValidationService;
+    private final PasswordHistoryService passwordHistoryService;
+    private final AuthService authService;
+
 
     @Cacheable(value = "currentUser", key = "#root.methodName + '_' + T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()")
     public User getCurrentUser() {
@@ -45,22 +57,42 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @CacheEvict(value = {"currentUser", "currentUserId"}, allEntries = true)
-    public UserDTO updateUser(UserDTO userDTO){
+    public UserDTO updateUser(UpdateUserRequest request){
         User user = getCurrentUser();
-        userMapper.updateUserFromDto(userDTO, user);
-        User savedUser = userRepository.save(user);
+        userMapper.updateUserFromRequest(request, user);
+        user = userRepository.save(user);
 
-        return userMapper.mapToUserDto(savedUser);
+        return userMapper.mapToUserDto(user);
     }
 
     @Transactional
-    @CacheEvict(value = {"userSecurity", "currentUser", "currentUserId"}, allEntries = true)
+    @CacheEvict(value = {"currentUser", "currentUserId"}, allEntries = true)
     public void changePassword(ChangePasswordRequest request) {
         User user = getCurrentUser();
 
-        // TODO: validation for updating password (e.g currentPassword check, old passwords check, etc.)
+        passwordValidationService.validatePasswordChange(user, request.getOldPassword(), request.getNewPassword());
+
+        String oldPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
+
+        passwordHistoryService.savePasswordToHistory(user, oldPassword);
+        tokenManagementService.revokeAllUserTokens(user);
+    }
+
+    @Override
+    @Transactional
+    public void requestVerifyEmail() {
+        User user = getCurrentUser();
+
+        if (user.getEmailVerified()) {
+            throw new EmailAlreadyVerifiedException("asdasd");
+        }
+
+        authService.sendEmailVerification(user);
+
+        log.info("Email verification resent for user: {}", user.getEmail());
+
     }
 
     @Transactional

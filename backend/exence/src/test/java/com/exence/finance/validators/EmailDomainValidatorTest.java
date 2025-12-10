@@ -1,17 +1,23 @@
 package com.exence.finance.validators;
 
 import com.exence.finance.common.validators.EmailDomainValidator;
+import com.exence.finance.config.properties.EmailBusinessProperties;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class EmailDomainValidatorTest {
 
     @Mock
@@ -20,12 +26,15 @@ public class EmailDomainValidatorTest {
     @Mock
     private ConstraintValidatorContext.ConstraintViolationBuilder builder;
 
+    @Mock
+    private EmailBusinessProperties emailBusinessProperties;
+
+    @InjectMocks
     private EmailDomainValidator validator;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
-        validator = new EmailDomainValidator();
+        lenient().when(emailBusinessProperties.isDomainWhitelistOnly()).thenReturn(false);
 
         lenient().when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
         lenient().when(builder.addConstraintViolation()).thenReturn(context);

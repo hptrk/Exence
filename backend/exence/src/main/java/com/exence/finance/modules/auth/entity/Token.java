@@ -22,13 +22,13 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Filter;
 
 import java.time.Instant;
 
 import static com.exence.finance.common.util.ValidationConstants.IP_ADDRESS_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.TOKEN_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.USER_AGENT_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.UUID_LENGTH;
 
 @SuperBuilder
 @Entity
@@ -39,7 +39,6 @@ import static com.exence.finance.common.util.ValidationConstants.USER_AGENT_MAX_
 @ToString(callSuper = true, exclude = { "user", "token" })
 @Table(name = "TOKEN", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
 @SequenceGenerator(name = "token_gen", sequenceName = "token_id_seq", allocationSize = 1)
-@Filter(name = "userFilter", condition = "user_id = :userId")
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_gen")
@@ -49,11 +48,16 @@ public class Token {
     @Column(name = "TOKEN_VALUE", nullable = false, unique = true, length = TOKEN_MAX_LENGTH)
     private String token;
 
+    @Column(name = "JWT_ID", unique = true, length = UUID_LENGTH)
+    private String jwtId;
+
+    @Column(name = "SESSION_ID", length = UUID_LENGTH)
+    private String sessionId;
+
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "TOKEN_TYPE", nullable = false)
-    @Builder.Default
-    private TokenType tokenType = TokenType.BEARER;
+    private TokenType tokenType;
 
     @NotNull(message = "Revoked status is required")
     @Column(name = "REVOKED", nullable = false)
@@ -61,11 +65,12 @@ public class Token {
     private Boolean revoked = Boolean.FALSE;
 
     @NotNull
-    @Column(name = "EXPIRED", nullable = false)
+    @Column(name = "CREATED_AT", nullable = false)
     @Builder.Default
-    private Boolean expired = Boolean.FALSE;
+    private Instant createdAt = Instant.now();
 
-    @Column(name = "EXPIRES_AT")
+    @NotNull
+    @Column(name = "EXPIRES_AT", nullable = false)
     private Instant expiresAt;
 
     @Column(name = "LAST_USED_AT")
@@ -80,4 +85,12 @@ public class Token {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
+
+    public boolean isExpired() {
+        return expiresAt != null && expiresAt.isBefore(Instant.now());
+    }
+
+    public boolean isValid() {
+        return !revoked && !isExpired();
+    }
 }
