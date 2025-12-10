@@ -5,13 +5,20 @@
 @import './bootstrap.scss';
 @import './components/icon.scss';
 @import './components/menu.scss';
+@import './components/card.scss';
+@import './components/progress.scss';
+@import './components/tooltip.scss';
 @import './fonts/material-icons.scss';
 
 * {
 	box-sizing: border-box;
+	scrollbar-color: lighten(var(--secondary-color), 25%) lighten(var(--secondary-color), 65%);
+	scrollbar-width: thin;
 }
 
 html {
+	max-width: 100dvw;
+	min-height: 100dvh;
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -27,11 +34,6 @@ body {
 	margin: 0;
 	text-align: left;
 	height: 100%;
-	scrollbar-color: var(--primary-color) #c9c9f2;
-}
-
-html.theme-dark body {
-	color-scheme: dark;
 }
 
 a {
@@ -58,7 +60,7 @@ a {
 }
 
 hr {
-	background-color: alpha(--secondary-color, 55);
+	background-color: lighten(--secondary-color, 45%);
 	height: 1px;
 	border: none;
 	opacity: 0.36;
@@ -69,15 +71,40 @@ hr {
 }
 
 .ex-nav-button {
-	width: 100%;
 	transition: background-color 0.25s;
 	text-decoration: none;
-	padding: 8px 16px;
+	padding: 8px;
 	border: none;
+	border-radius: 1rem;
 	color: inherit;
 	cursor: pointer;
 
 	&:hover {
 		background-color: var(--app-background-color);
 	}
+
+	@include displayMd {
+		padding: 0.5rem;
+	}
+
+	@include displayXl {
+		padding: 8px 16px;
+	}
+}
+
+.highlighted-icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100%;
+	background-color: var(--app-background-color);
+	padding: 4px;
+}
+
+.income {
+	color: var(--bs-success);
+}
+
+.expense {
+	color: var(--bs-danger);
 }

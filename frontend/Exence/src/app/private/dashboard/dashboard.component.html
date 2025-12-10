@@ -1,64 +1,136 @@
-<div class="dashboard-container">
-	<div class="title-toggle-row">
-		<div class="title-toggle-row--welcome">
-			<h1>
-				Welcome back, <span>{{ username() }}!</span>
+<section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
+	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
+		<div>
+			<h1 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
+				Welcome back, <span class="username">{{ username() || 'PLACEHOLDER' }}</span
+				>!
 			</h1>
-			<p>Here's this month's finances:</p>
+			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
 		</div>
-		<div class="title-toggle-row--toggle">
-			<ex-view-toggle></ex-view-toggle>
-		</div>
+		@if (display.isMd()) {
+			<ng-container [ngTemplateOutlet]="toggleFilter" />
+		}
 	</div>
 
-	<div class="grid-container">
-		<div class="first-row">
-			<ex-chart class="chart-panel"></ex-chart>
+	<div
+		class="d-flex flex-column-reverse flex-md-column justify-content-between gap-4 h-100"
+		[class.overflow-hidden]="display.isLg()"
+	>
+		<div
+			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
+		>
+			@if (display.isMd() === false) {
+				<div class="mx-auto">
+					<ng-container [ngTemplateOutlet]="toggleFilter" />
+				</div>
+			}
+			<ex-chart />
 			<ex-categories
+				[intervalFilter]="{
+					type: dateIntervals.MONTH,
+					value: 0
+				}"
 				[expenses]="expenses()"
 				[categories]="categories()"
-				class="categories-panel"
-			></ex-categories>
+			/>
 		</div>
 
-		<!-- Summary panels -->
-		<div class="summary-container">
-			<ex-summary-container
-				icon="attach_money"
-				label="Income"
-				[value]="totalIncome()"
-			></ex-summary-container>
-			<ex-summary-container
-				icon="money_off"
-				label="Expenses"
-				[value]="totalExpenses()"
-			></ex-summary-container>
-			<ex-summary-container
-				icon="savings"
-				label="Balance"
-				[value]="balance()"
-			></ex-summary-container>
-			<ex-summary-container
-				icon="receipt_long"
-				[label]="highestSpendingCategory().name"
-				[value]="highestSpendingCategory().amount"
-			></ex-summary-container>
-		</div>
+		@if (display.isMd()) {
+			<div
+				class="d-flex flex-row align-items-center gap-4"
+				ex-card-slider
+			>
+				<ex-summary-container
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'attach_money',
+						title: 'Income',
+						value: 856400,
+						type: summaryTypes.INCOME
+					}"
+				/>
+				<ex-summary-container
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'money_off',
+						title: 'Expenses',
+						value: 210460,
+						type: summaryTypes.EXPENSE
+					}"
+				/>
+				<ex-summary-container
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'savings',
+						title: 'Balance',
+						value: 645940,
+						type: summaryTypes.BALANCE
+					}"
+				/>
+				<ex-summary-container
+					class="flex-grow-1"
+					[data]="{
+						matIcon: 'receipt_long',
+						title: highestSpendingCategory().name || 'Utilities',
+						value: 0,
+						type: summaryTypes.OTHER,
+						filterCondition: {
+							category: highestSpendingCategory().name || 'Utilities'
+						}
+					}"
+				/>
+			</div>
+		}
 
-		<!-- Detailed panels -->
-		<ex-data-table
-			formType="expense"
-			class="list expenses"
-			icon="money_off"
-			label="Expenses"
-		>
-		</ex-data-table>
-		<ex-data-table
-			formType="income"
-			class="list incomes"
-			icon="attach_money"
-			label="Incomes"
-		>
-		</ex-data-table>
+		@if (display.isMd()) {
+			<div class="row gap-4 gap-lg-0 h-100 overflow-hidden">
+				<ex-data-table
+					[type]="transacrionTypes.EXPENSE"
+					class="col-12 col-lg-6"
+					matIcon="money_off"
+					[data]="[]"
+				/>
+				<ex-data-table
+					[type]="transacrionTypes.INCOME"
+					class="col-12 col-lg-6"
+					matIcon="attach_money"
+					[data]="[]"
+				/>
+			</div>
+		} @else {
+			<div class="d-flex flex-column gap-4 align-items-center h-100">
+				<ex-data-table
+					class="w-100"
+					matIcon="attach_money"
+					[data]="[]"
+				/>
+				<ng-container [ngTemplateOutlet]="mobileButtons" />
+			</div>
+		}
 	</div>
-</div>
+</section>
+
+<ng-template #toggleFilter>
+	<ex-view-toggle />
+</ng-template>
+
+<ng-template #mobileButtons>
+	<div
+		class="d-flex flex-column-reverse flex-sm-row gap-2 gap-sm-4 justify-content-center align-items-md-center w-100"
+	>
+		<button
+			mat-flat-button
+			class="add-expense flex-grow-1"
+			(click)="openTransactionDialog(transactionTypes.EXPENSE)"
+		>
+			Expense
+		</button>
+		<button
+			mat-flat-button
+			class="add-income flex-grow-1"
+			(click)="openTransactionDialog(transactionTypes.INCOME)"
+		>
+			Income
+		</button>
+	</div>
+</ng-template>

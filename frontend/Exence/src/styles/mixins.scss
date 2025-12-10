@@ -36,67 +36,52 @@
 	align-items: center;
 }
 
-@mixin scrollbar-base {
-	& {
-		scrollbar-color: var(--primary-color) #c9c9f2;
-		scrollbar-width: thin;
-	}
+@mixin generate-bootstrap-theme($prefix, $primary, $secondary, $tertiary, $error, $bg, $text, $border, $card-bg) {
+	.#{$prefix} {
+		// Override Bootstrap's CSS custom properties directly
+		--bs-primary: #{$primary};
+		--bs-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
 
-	&::-webkit-scrollbar {
-		height: 8px;
-		width: 8px;
-	}
+		--bs-secondary: #{$secondary};
+		--bs-secondary-rgb: #{red($secondary)}, #{green($secondary)}, #{blue($secondary)};
 
-	&::-webkit-scrollbar-track {
-		background: #c9c9f2;
-	}
+		--bs-success: #{$tertiary};
+		--bs-success-rgb: #{red($tertiary)}, #{green($tertiary)}, #{blue($tertiary)};
 
-	&::-webkit-scrollbar-thumb {
-		border-radius: 3px;
-		background: var(--primary-color);
-	}
+		--bs-danger: #{$error};
+		--bs-danger-rgb: #{red($error)}, #{green($error)}, #{blue($error)};
 
-	&::-webkit-scrollbar-thumb:hover {
-		background: black;
+		--bs-body-bg: #{$bg};
+		--bs-body-color: #{$text};
+
+		--bs-border-color: #{$border};
+
+		// Card
+		--bs-card-bg: #{$card-bg};
+		--bs-card-border-color: #{$border};
+		--bs-card-color: #{$text};
+
+		// Forms
+		--bs-form-control-bg: #{$card-bg};
+		--bs-form-control-color: #{$text};
+
+		// Buttons - generate shades
+		--bs-btn-hover-bg: #{darken($primary, 7.5%)};
+		--bs-btn-active-bg: #{darken($primary, 10%)};
+
+		// Links
+		--bs-link-color: #{$primary};
+		--bs-link-hover-color: #{darken($primary, 15%)};
 	}
 }
 
-@mixin generate-bootstrap-theme($prefix, $primary, $secondary, $tertiary, $error, $bg, $text, $border, $card-bg) {
-  
-  .#{$prefix} {
-    // Override Bootstrap's CSS custom properties directly
-    --bs-primary: #{$primary};
-    --bs-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
-    
-    --bs-secondary: #{$secondary};
-    --bs-secondary-rgb: #{red($secondary)}, #{green($secondary)}, #{blue($secondary)};
-    
-    --bs-success: #{$tertiary};
-    --bs-success-rgb: #{red($tertiary)}, #{green($tertiary)}, #{blue($tertiary)};
-    
-    --bs-danger: #{$error};
-    --bs-danger-rgb: #{red($error)}, #{green($error)}, #{blue($error)};
-    
-    --bs-body-bg: #{$bg};
-    --bs-body-color: #{$text};
-    
-    --bs-border-color: #{$border};
-    
-    // Card
-    --bs-card-bg: #{$card-bg};
-    --bs-card-border-color: #{$border};
-    --bs-card-color: #{$text};
-    
-    // Forms
-    --bs-form-control-bg: #{$card-bg};
-    --bs-form-control-color: #{$text};
-    
-    // Buttons - generate shades
-    --bs-btn-hover-bg: #{darken($primary, 7.5%)};
-    --bs-btn-active-bg: #{darken($primary, 10%)};
-    
-    // Links
-    --bs-link-color: #{$primary};
-    --bs-link-hover-color: #{darken($primary, 15%)};
-  }
+@mixin card {
+	background-color: var(--app-card-color);
+	color: var(--default-text-color);
+	border-radius: 20px;
+	padding: 0.5rem;
+
+	@include displaySm {
+		padding: 1rem;
+	}
 }

@@ -1,11 +1,10 @@
-import { Injectable, signal, WritableSignal } from '@angular/core';
-
+import { EventEmitter, Injectable, signal, WritableSignal } from '@angular/core';
 
 // add new theme here
 export enum DisplayTheme {
 	LIGHT = 'LIGHT',
 	DARK = 'DARK',
-	BLUE_DOLPHIN = 'BLUE_DOLPHIN'
+	BLUE_DOLPHIN = 'BLUE_DOLPHIN',
 }
 
 interface ThemeData {
@@ -17,7 +16,7 @@ interface ThemeData {
 export const themes: ThemeData[] = [
 	{ name: DisplayTheme.LIGHT, cssClass: 'theme-light' },
 	{ name: DisplayTheme.DARK, cssClass: 'theme-dark' },
-	{ name: DisplayTheme.BLUE_DOLPHIN, cssClass: 'theme-blue-dolphin' }
+	{ name: DisplayTheme.BLUE_DOLPHIN, cssClass: 'theme-blue-dolphin' },
 ];
 
 @Injectable({
@@ -25,14 +24,19 @@ export const themes: ThemeData[] = [
 })
 export class DisplayThemeService {
 	readonly displayThemeSignal: WritableSignal<DisplayTheme> = signal(this.getInitialTheme().name);
+	readonly themeChangedEvent = new EventEmitter<void>();
 
-	private _preferredThemes: Record<'primary' | 'secondary', ThemeData> = { 
-		primary: themes.find(t => t.name === DisplayTheme.DARK)!, 
-		secondary: themes.find(t => t.name === DisplayTheme.BLUE_DOLPHIN)!
+	private _preferredThemes: Record<'primary' | 'secondary', ThemeData> = {
+		primary: themes.find(t => t.name === DisplayTheme.DARK)!,
+		secondary: themes.find(t => t.name === DisplayTheme.BLUE_DOLPHIN)!,
 	};
 
-	get currentTheme(): DisplayTheme { return this.displayThemeSignal(); }
-	get preferredThemes(): Record<'primary' | 'secondary', ThemeData> { return this._preferredThemes; }
+	get currentTheme(): DisplayTheme {
+		return this.displayThemeSignal();
+	}
+	get preferredThemes(): Record<'primary' | 'secondary', ThemeData> {
+		return this._preferredThemes;
+	}
 
 	constructor() {
 		let themeData = this.getInitialTheme();
@@ -42,13 +46,14 @@ export class DisplayThemeService {
 	public toggleTheme(): void {
 		const currentTheme = this.displayThemeSignal();
 		const preferredThemes = this._preferredThemes;
-		const currentIsPreferred = !!Object.values(preferredThemes).find(themeData => themeData.name === currentTheme)
+		const currentIsPreferred = !!Object.values(preferredThemes).find(themeData => themeData.name === currentTheme);
 
 		if (currentIsPreferred && currentTheme === preferredThemes.primary.name) {
 			this.setTheme(preferredThemes.secondary.name);
 		} else {
 			this.setTheme(preferredThemes.primary.name);
 		}
+		this.themeChangedEvent.emit();
 	}
 
 	// used later in profile settings
@@ -62,7 +67,7 @@ export class DisplayThemeService {
 		let theme = this.getInitialTheme();
 		this.setTheme(theme.name, false);
 	}
-	
+
 	private setTheme(theme: DisplayTheme, shouldSave = true): void {
 		let themeData = this.getThemeDataByName(theme);
 		if (themeData) {
@@ -73,7 +78,7 @@ export class DisplayThemeService {
 	}
 
 	private getInitialTheme(): ThemeData {
-		const preference = localStorage.getItem('displayTheme') as (DisplayTheme | null);
+		const preference = localStorage.getItem('displayTheme') as DisplayTheme | null;
 		return this.getThemeDataByName(preference) ?? this.getDefaultThemeData();
 	}
 

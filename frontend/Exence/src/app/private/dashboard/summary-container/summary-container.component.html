@@ -1,14 +1,34 @@
-<mat-card class="summary">
-	<div class="icon-container">
-		<mat-icon fontSet="material-symbols-outlined">{{ icon() }}</mat-icon>
-	</div>
-	<div class="text-container">
-		<div class="label">{{ label() }}</div>
-		<div
-			class="value"
-			[style.color]="valueColor"
-		>
-			{{ displayValue }}
+<mat-card
+	class="flex-row flex-nowrap align-items-center pointer-cursor"
+	(click)="navigate()"
+>
+	<mat-card-header class="p-0">
+		<div ex-card-icon>
+			@if (data().svgIcon) {
+				<mat-icon
+					size="xl"
+					[svgIcon]="data().svgIcon!"
+				/>
+			} @else {
+				<mat-icon size="xl">{{ data().matIcon }}</mat-icon>
+			}
 		</div>
-	</div>
+	</mat-card-header>
+	<mat-card-content class="p-0">
+		<div class="d-flex flex-column justify-content-center fs-5">
+			<div class="fw-semibold">{{ data().title }}</div>
+			<div
+				class="fw-bold amount"
+				[class]="{
+					expense: data().value < 0,
+					income: data().value > 0
+				}"
+			>
+				@if (data().value !== 0) {
+					{{ data().value > 0 ? '+' : '-' }}
+				}
+				{{ data().value | currency: 'Ft' : 'symbol' : '1.0-0' }}
+			</div>
+		</div>
+	</mat-card-content>
 </mat-card>

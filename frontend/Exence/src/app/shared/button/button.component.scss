@@ -1,0 +1,72 @@
+@import '../../../styles/imports.scss';
+
+:host.disabled {
+	pointer-events: none;
+}
+
+:host {
+	--mat-button-filled-container-shape: 20px;
+	--mat-button-outlined-container-shape: 20px;
+	--mat-button-text-container-shape: 20px;
+
+	--mat-button-filled-label-text-size: 14px;
+	--mat-button-outlined-label-text-size: 14px;
+	--mat-button-text-label-text-size: 14px;
+
+	--mat-button-filled-label-text-weight: 500;
+	--mat-button-outlined-label-text-weight: 500;
+	--mat-button-text-label-text-weight: 500;
+}
+
+$predefinedColors: (
+	'primary': (
+		filled-text: var(--secondary-color),
+		bg: var(--primary-color),
+		text: var(--primary-color),
+		outline: var(--primary-color),
+	),
+	'accent': (
+		filled-text: var(--default-text-color),
+		bg: var(--secondary-color),
+		text: var(--accent-text-color),
+		outline: var(--accent-text-color),
+	),
+	'success': (
+		filled-text: lighten(var(--default-text-color), 80%),
+		bg: var(--tertiary-color),
+		text: var(--tertiary-color),
+		outline: var(--tertiary-color),
+	),
+	'error': (
+		filled-text: lighten(var(--default-text-color), 80%),
+		bg: var(--error-color),
+		text: var(--error-color),
+		outline: var(--error-color),
+	),
+	'warn': (
+		filled-text: var(--secondary-text-color),
+		bg: var(--warn-color),
+		text: var(--warn-color),
+		outline: var(--warn-color),
+	),
+);
+
+@each $name, $colors in $predefinedColors {
+	button.mat-#{$name} {
+		--mat-button-filled-label-text-color: #{map-get($colors, filled-text)};
+		--mat-button-filled-container-color: #{map-get($colors, bg)};
+
+		--mat-button-outlined-label-text-color: #{map-get($colors, text)};
+		--mat-button-outlined-outline-color: #{map-get($colors, outline)};
+
+		--mat-button-text-label-text-color: #{map-get($colors, text)};
+	}
+}
+
+.collapsed {
+	min-width: 0;
+
+	--mat-button-filled-horizontal-padding: 0.5rem;
+	--mat-button-outlined-horizontal-padding: 0.5rem;
+	--mat-button-text-horizontal-padding: 0.5rem;
+}

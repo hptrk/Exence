@@ -1,3 +1,7 @@
-@function alpha($color-var, $alpha-percent) {
-	@return color-mix(in srgb, var($color-var) $alpha-percent, transparent);
+@function lighten($color, $percent) {
+	@return color-mix(in srgb, $color, #fff $percent);
+}
+
+@function darken($color, $percent) {
+	@return color-mix(in srgb, $color, #000 $percent);
 }

@@ -1,4 +1,4 @@
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -11,10 +11,11 @@ import { LayoutModule } from '@angular/cdk/layout';
 
 bootstrapApplication(AppComponent, {
 	providers: [
+		provideZoneChangeDetection(),
 		provideRouter(routes),
 		provideHttpClient(withInterceptors([authInterceptor])),
 		provideAnimations(),
 		provideCharts(withDefaultRegisterables()),
-		importProvidersFrom(LayoutModule),
+		importProvidersFrom(LayoutModule), provideCharts(withDefaultRegisterables()),
 	],
 }).catch(err => console.error(err));

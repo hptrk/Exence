@@ -1,16 +1,44 @@
-<mat-card class="categories-container">
-	<mat-card-title class="categories-title">Categories</mat-card-title>
-	<div
-		*ngFor="let category of categoryPercentages"
-		class="category"
-	>
-		<div class="category-info">
-			<span>{{ category.name }}</span>
-			<span>{{ category.percentage | number: '1.0-0' }}%</span>
-		</div>
-		<mat-progress-bar
-			mode="determinate"
-			[value]="category.percentage"
-		></mat-progress-bar>
-	</div>
+<mat-card>
+	@if (categories().length) {
+		<mat-card-header>
+			<mat-card-title>
+				<h2 class="header-2 mb-3">Top categories</h2>
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="d-flex flex-column gap-4">
+				@for (category of topCategories(); track category.id) {
+					<div class="d-flex flex-column gap-1 align-items-center">
+						<div class="d-flex flex-row flex-nowrap justify-content-between align-items-center w-100">
+							<div class="d-flex flex-row flex-nowrap gap-2">
+								<span class="">{{ category.emoji }}</span>
+								{{ category.name }}
+							</div>
+
+							<div class="fw-semibold">{{ calcPercentage(category.id) }}%</div>
+						</div>
+						<mat-progress-bar [value]="calcPercentage(category.id)" />
+					</div>
+				}
+			</div>
+		</mat-card-content>
+	} @else {
+		<mat-card-content>
+			<div class="d-flex align-items-center justify-content-center">
+				<h2 class="header-2 text-center">Add categories to discover your spending patterns!</h2>
+			</div>
+		</mat-card-content>
+		<mat-card-actions class="justify-content-center">
+			<ex-button
+				[disabled]="false"
+				color="primary"
+				matIcon="add"
+				collapsedStyle="outlined"
+				collapseUnder="md"
+				filled
+				(click)="create()"
+				>Create</ex-button
+			>
+		</mat-card-actions>
+	}
 </mat-card>

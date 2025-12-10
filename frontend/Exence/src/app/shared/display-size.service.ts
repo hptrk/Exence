@@ -1,74 +1,82 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { computed, DestroyRef, inject, Injectable, Signal, signal } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { bootstrapLg, bootstrapMd, bootstrapSm, bootstrapXl, bootstrapXxl } from './util/constants';
 
 export type DisplaySizeBreakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+const BREAKPOINT_VALUES: Readonly<Record<DisplaySizeBreakpoint, number>> = {
+	sm: bootstrapSm,
+	md: bootstrapMd,
+	lg: bootstrapLg,
+	xl: bootstrapXl,
+	xxl: bootstrapXxl,
+};
 
 @Injectable({
 	providedIn: 'root',
 })
 export class DisplaySizeService {
-	private _isSm?: Observable<boolean>;
-	private _isMd?: Observable<boolean>;
-	private _isLg?: Observable<boolean>;
-	private _isXl?: Observable<boolean>;
-	private _isXxl?: Observable<boolean>;
+	private breakpointObserver = inject(BreakpointObserver);
+	private destroyRef = inject(DestroyRef);
 
-	constructor(private readonly breakpointObserver: BreakpointObserver) {}
+	private initializedSignals = new Map<DisplaySizeBreakpoint, Signal<boolean>>();
+	private subscriptions: Subscription[] = [];
 
-	get isSm(): Observable<boolean> {
-		if (!this._isSm) {
-			this._isSm = this.getObservable(bootstrapSm);
-		}
-		return this._isSm;
+	constructor() {
+		this.destroyRef.onDestroy(() => {
+			this.subscriptions.forEach(sub => sub.unsubscribe());
+		});
 	}
 
-	get isMd(): Observable<boolean> {
-		if (!this._isMd) {
-			this._isMd = this.getObservable(bootstrapMd);
+	private createOrGetBreakPointSignal(breakpoint: DisplaySizeBreakpoint): Signal<boolean> {
+		if (this.initializedSignals.has(breakpoint)) {
+			return this.initializedSignals.get(breakpoint)!;
 		}
-		return this._isMd;
+
+		const breakpointPx = BREAKPOINT_VALUES[breakpoint];
+		const initialMatch = this.breakpointObserver.isMatched(`(min-width: ${breakpointPx}px)`);
+		const sig = signal<boolean>(initialMatch);
+
+		queueMicrotask(() => {
+			const subscription = this.breakpointObserver.observe(`(min-width: ${breakpointPx}px)`).subscribe(result => {
+				sig.set(result.matches);
+			});
+
+			this.subscriptions.push(subscription);
+		});
+
+		this.initializedSignals.set(breakpoint, sig.asReadonly());
+		return sig.asReadonly();
 	}
 
-	get isLg(): Observable<boolean> {
-		if (!this._isLg) {
-			this._isLg = this.getObservable(bootstrapLg);
-		}
-		return this._isLg;
+	get isSm(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('sm');
 	}
 
-	get isXl(): Observable<boolean> {
-		if (!this._isXl) {
-			this._isXl = this.getObservable(bootstrapXl);
-		}
-		return this._isXl;
+	get isMd(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('md');
 	}
 
-	get isXxl(): Observable<boolean> {
-		if (!this._isXxl) {
-			this._isXxl = this.getObservable(bootstrapXxl);
-		}
-		return this._isXxl;
+	get isLg(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('lg');
 	}
 
-	public getObservable(breakpoint: number): Observable<boolean> {
-		return this.breakpointObserver.observe(`(min-width: ${breakpoint}px)`).pipe(map(result => result.matches));
+	get isXl(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('xl');
 	}
 
-	public getObservableByName(breakpoint: DisplaySizeBreakpoint): Observable<boolean> {
-		switch (breakpoint) {
-			case 'sm':
-				return this.isSm;
-			case 'md':
-				return this.isMd;
-			case 'lg':
-				return this.isLg;
-			case 'xl':
-				return this.isXl;
-			case 'xxl':
-				return this.isXxl;
+	get isXxl(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('xxl');
+	}
+
+	public getObserverByName(breakpoint: DisplaySizeBreakpoint | Signal<DisplaySizeBreakpoint>): Signal<boolean> {
+		if (typeof breakpoint === 'function') {
+			return computed(() => {
+				const name = breakpoint();
+				return this.createOrGetBreakPointSignal(name)();
+			});
 		}
+		return this.createOrGetBreakPointSignal(breakpoint);
 	}
 }

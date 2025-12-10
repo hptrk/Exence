@@ -127,8 +127,8 @@ $_rest: (
 	neutral: map.get($palettes, neutral),
 	neutral-variant: map.get($palettes, neutral-variant),
 	error: map.get($palettes, error),
-	);
-	
+);
+
 $primary-palette: map.merge(map.get($palettes, primary), $_rest);
 $secondary-palette: map.merge(map.get($palettes, secondary), $_rest);
 $tertiary-palette: map.merge(map.get($palettes, tertiary), $_rest);
@@ -144,11 +144,11 @@ $secondary-color-blue-dolphin: map.get($secondary-palette, 25);
 $tertiary-color-blue-dolphin: map.get($tertiary-palette, 60);
 $app-hover-color-blue-dolphin: map.get($primary-palette, 70);
 
-$shadow-blue-dolphin: map.get($neutral-palette, 40);
-$border-color-blue-dolphin: map.get($primary-palette, 20);
+$shadow-blue-dolphin: map.get($neutral-palette, 17);
+$border-color-blue-dolphin: map.get($secondary-palette, 30);
 
 $default-text-color-blue-dolphin: map.get($primary-palette, 90);
-$disabled-text-color-blue-dolphin: map.get($neutral-palette, 85);
+$accent-text-color-blue-dolphin: map.get($neutral-palette, 85);
 $secondary-text-color-blue-dolphin: map.get($secondary-palette, 25);
 
 $error-color-blue-dolphin: map.get($error-palette, 50);

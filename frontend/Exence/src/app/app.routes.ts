@@ -5,7 +5,7 @@ import { LoginComponent } from './public/login/login.component';
 import { RegisterComponent } from './public/register/register.component';
 import { DashboardComponent } from './private/dashboard/dashboard.component';
 import { DebtsComponent } from './private/debts/debts.component';
-import { ProfileComponent } from './private/profile/profile.component'; 
+import { ProfileComponent } from './private/profile/profile.component';
 import { SettingsComponent } from './private/settings/settings.component';
 import { GoalsComponent } from './private/goals/goals.component';
 import { StatisticsComponent } from './private/statistics/statistics.component';
