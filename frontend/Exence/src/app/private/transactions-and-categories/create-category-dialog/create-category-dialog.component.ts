@@ -47,7 +47,6 @@ export class CreateCategoryDialogComponent {
 	ngOnInit(): void {
 		this.form.controls.emoji.valueChanges.subscribe(emoji => {
 			this.emojiInvalid = !emoji;
-			console.log(this.form.invalid, this.form.controls.name.invalid, this.form.controls.emoji.invalid)
 		})		
 	}
 
@@ -55,7 +54,6 @@ export class CreateCategoryDialogComponent {
 		const emoji = event.emoji.native;
 		if (!emoji) return;
 		this.form.controls.emoji.setValue(emoji);
-		console.log([this.form.value.emoji])
 	}
 
 	close(): void {

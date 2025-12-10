@@ -21,7 +21,7 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 import { CategoryService } from '../category.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
-import { CreateTransactionDialogComponent, CreateTranslationDialogData } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import { CreateTransactionDialogComponent, CreateTransactionDialogData } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../transactions-and-categories/transaction.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
@@ -74,60 +74,35 @@ export class DashboardComponent implements OnInit {
 
 	async initialize(): Promise<void> {
 		return Promise.all([
-			this.getTransactions(),
-			this.getCategories(),
-			this.getTop4Categories(),
-			this.getIncomes(),
-			this.getExpenses(),
-			this.getTotals(),
+			this.transactionService.list(),
+			this.categoryService.list(),
+			this.categoryService.listTop4(),
+			this.transactionService.incomes(),
+			this.transactionService.expenses(),
+			this.transactionService.totals(),
 		]).then(([transactions, categories, top4, incomes, expenses, totals]) => {
 			this.transactions = transactions;
 			this.categories = categories;
 			this.incomes = incomes;
 			this.expenses = expenses;
 			this.totals = totals;
+			this.topCategories = top4;
 			
 			this.balance = Math.round((totals.totalIncome - totals.totalExpense) * 100) / 100;
-
-			this.topCategories = top4;
 			this.topCategory = top4[0];
 		});
 	}
 
-	private getTransactions(): Promise<PagedResponse<Transaction>> {
-		return this.transactionService.list();
-	}
-
-	private getCategories(): Promise<Category[]> {
-		return this.categoryService.list();
-	}
-
-	private getTop4Categories(): Promise<CategorySummaryResponse[]> {
-		return this.categoryService.listTop4();
-	}
-
-	private getIncomes(): Promise<PagedResponse<Transaction>> {
-		return this.transactionService.incomes();
-	}
-
-	private getExpenses(): Promise<PagedResponse<Transaction>> {
-		return this.transactionService.expenses();
-	}
-
-	private getTotals(): Promise<TransactionTotalsResponse> {
-		return this.transactionService.totals();
-	}
-
 	public openCreateTransactionDialog(transactionType: TransactionType): void {
-		const data: CreateTranslationDialogData = {
+		const data: CreateTransactionDialogData = {
 			type: transactionType,
 		};
-		this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
+		this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
 			CreateTransactionDialogComponent, { data }
 		).afterClosed().subscribe(
 			async (newTransaction?: Transaction) => {
 				if (newTransaction) {
-					this.transactions = (await this.getTransactions());
+					this.transactions = (await this.transactionService.list());
 					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 				}
 			});

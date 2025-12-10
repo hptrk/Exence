@@ -12,6 +12,8 @@ import { UserService } from '../../shared/user/user.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { Router } from '@angular/router';
+import { NavigationService } from '../../shared/navigation/navigation.service';
 
 @Component({
 	selector: 'ex-profile',
@@ -31,6 +33,8 @@ export class ProfileComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly userService = inject(UserService);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly router = inject(Router);
+	private readonly navigationService = inject(NavigationService);
 	readonly currentUserService = inject(CurrentUserService);
 
 	user = computed(() => this.currentUserService.user());
@@ -83,6 +87,8 @@ export class ProfileComponent {
 		};
 		await this.userService.changePassword(request);
 		this.isPasswordFormEditing.set(false);
+		this.router.navigateByUrl(this.navigationService.account().login());
+		this.router.navigate([this.navigationService.account().login()], { queryParams: { ['password-changed']: 'true' } });
 		this.snackbarService.showSuccess('Successfully saved!');
 	}
 

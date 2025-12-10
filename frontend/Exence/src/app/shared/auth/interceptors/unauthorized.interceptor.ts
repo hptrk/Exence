@@ -1,3 +1,4 @@
+import { NavigationService } from './../../navigation/navigation.service';
 import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,6 +10,7 @@ import { ErrorResponse } from '../../../data-model/modules/ErrorResponse';
 export function unauthorizedInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
 	const cookie = inject(CookiesService);
 	const router = inject(Router);
+	const navigationService = inject(NavigationService);
 	const snackbarService = inject(SnackbarService);
 
 	return next(req).pipe(
@@ -19,7 +21,7 @@ export function unauthorizedInterceptor(req: HttpRequest<any>, next: HttpHandler
 
 			if (req.url.includes('/api/auth/refresh-token')) {
 				cookie.clearTokens();
-				router.navigate(['/login']);
+				router.navigateByUrl(navigationService.account().login());
 				return throwError(() => error);
 			}
 
@@ -30,7 +32,7 @@ export function unauthorizedInterceptor(req: HttpRequest<any>, next: HttpHandler
 				}),
 				catchError((refreshError: HttpErrorResponse) => {
 					cookie.clearTokens();
-					router.navigate(['/login']);
+					router.navigateByUrl(navigationService.account().login());
 					console.log(refreshError)
 					snackbarService.showError(refreshError.error.detail);
 					return throwError(() => refreshError);

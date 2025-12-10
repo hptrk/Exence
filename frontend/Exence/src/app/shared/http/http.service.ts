@@ -101,7 +101,6 @@ export class HttpService {
 	private async showErrorFromResponse(response: HttpErrorResponse): Promise<void> {
 		let errorMsg = await this.getErrorMessage(response);
 		console.log(errorMsg)
-		console.log(response)
 		this.snackbarService.showError(errorMsg.detail);
 	}
 

@@ -12,25 +12,27 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { CategoryService } from '../category.service';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
-import { CreateTransactionDialogComponent, CreateTranslationDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
+import { CreateTransactionDialogComponent, CreateTransactionDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
+import { A11yModule } from "@angular/cdk/a11y";
 
 @Component({
 	selector: 'ex-transactions-and-categories',
 	templateUrl: './transactions-and-categories.component.html',
 	styleUrl: './transactions-and-categories.component.scss',
 	imports: [
-		CommonModule,
-		MatDialogModule,
-		MatTabsModule,
-		MatIconModule,
-		MatTooltipModule,
-		DataTableComponent,
-		ButtonComponent,
-	],
+    CommonModule,
+    MatDialogModule,
+    MatTabsModule,
+    MatIconModule,
+    MatTooltipModule,
+    DataTableComponent,
+    ButtonComponent,
+    A11yModule
+],
 })
 export class TransactionsAndCategoriesComponent implements OnInit {
 	private readonly transactionService = inject(TransactionService);
@@ -57,9 +59,9 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 
 	async initialize(): Promise<void> {
 		return Promise.all([
-			this.getTransactions(),
-			this.getRecurringTransactions(),
-			this.getCategories(),
+			this.transactionService.list(),
+			this.transactionService.listRecurrings(),
+			this.categoryService.list(),
 		]).then(([transactions, recurringTransactions, categories]) => {
 			this.transactions = transactions;
 			this.recurringTransactions = recurringTransactions;
@@ -68,12 +70,12 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 	}
 
 	public openCreateTransactionDialog(): void {
-		this.dialog.open<CreateTransactionDialogComponent, CreateTranslationDialogData, Transaction>(
+		this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
 			CreateTransactionDialogComponent, undefined
 		).afterClosed().subscribe(
 			async (newTransaction?: Transaction) => {
 				if (newTransaction) {
-					this.transactions = (await this.getTransactions());
+					await this.initialize(); // to trigger data refresh in all tables (e.g. if a recurring transaction was created)
 					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 				}
 			}
@@ -86,7 +88,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 		).afterClosed().subscribe(
 			async (newCategory?: Category) => {
 				if (newCategory) {
-					this.categories = (await this.getCategories());
+					this.categories = (await this.categoryService.list());
 					this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
 				}
 			}
@@ -95,17 +97,5 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 
 	async onDataChanged(): Promise<void> {
 		await this.initialize();
-	}
-
-	private getTransactions(): Promise<PagedResponse<Transaction>> {
-		return this.transactionService.list();
-	}
-
-	private getRecurringTransactions(): Promise<RecurringTransactionsResponse> {
-		return this.transactionService.listRecurrings();
-	}
-
-	private getCategories(): Promise<Category[]> {
-		return this.categoryService.list();
 	}
 }
