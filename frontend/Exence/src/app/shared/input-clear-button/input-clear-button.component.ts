@@ -1,7 +1,7 @@
-import { Component, input } from "@angular/core";
-import { AbstractControl, FormControl } from "@angular/forms";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
+import { Component, input } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
 	selector: 'ex-input-clear',

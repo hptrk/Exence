@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router, RouterLink } from "@angular/router";
+import { Router, RouterLink } from '@angular/router';
 import { RegisterRequest } from '../../data-model/modules/auth/RegisterRequest';
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';

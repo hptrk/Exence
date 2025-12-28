@@ -1,5 +1,5 @@
-import { PagedResponse } from "../common/PagedResponse";
-import { Transaction } from "./Transaction";
+import { PagedResponse } from '../common/PagedResponse';
+import { Transaction } from './Transaction';
 
 export interface RecurringTransactionsResponse {
 	incomes: PagedResponse<Transaction>;

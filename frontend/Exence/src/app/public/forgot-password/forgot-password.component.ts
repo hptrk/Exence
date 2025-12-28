@@ -1,20 +1,20 @@
-import { Component, computed, inject, signal } from "@angular/core";
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatCardModule } from "@angular/material/card";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { Router, RouterLink } from "@angular/router";
-import { ForgotPasswordRequest } from "../../data-model/modules/auth/ForgotPasswordRequest";
-import { PasswordResetRequest } from "../../data-model/modules/auth/PasswordResetRequest";
-import { AuthService } from "../../shared/auth/auth.service";
-import { BaseComponent } from "../../shared/base-component/base.component";
-import { ButtonComponent } from "../../shared/button/button.component";
-import { InputClearButtonComponent } from "../../shared/input-clear-button/input-clear-button.component";
-import { NavigationService } from "../../shared/navigation/navigation.service";
-import { SnackbarService } from "../../shared/snackbar/snackbar.service";
-import { ExtraValidators } from "../../shared/validators";
-import { ValidatorComponent } from "../../shared/validator/validator.component";
+import { Component, computed, inject, signal } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { Router, RouterLink } from '@angular/router';
+import { ForgotPasswordRequest } from '../../data-model/modules/auth/ForgotPasswordRequest';
+import { PasswordResetRequest } from '../../data-model/modules/auth/PasswordResetRequest';
+import { AuthService } from '../../shared/auth/auth.service';
+import { BaseComponent } from '../../shared/base-component/base.component';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
+import { NavigationService } from '../../shared/navigation/navigation.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { ExtraValidators } from '../../shared/validators';
+import { ValidatorComponent } from '../../shared/validator/validator.component';
 
 @Component({
 	selector: 'ex-forgot-password',
@@ -45,7 +45,7 @@ export class ForgotPasswordComponent extends BaseComponent {
 		confirmPassword: this.fb.control<string>('', [Validators.required, ExtraValidators.password, ExtraValidators.passwordMatch('password')])
 	});
 	
-	token = computed(() => this.router.routerState.root.snapshot.queryParams['token']);
+	token = computed(() => this.router.routerState.root.snapshot.queryParams['token'] as string);
 	emailSent = signal<boolean>(false);
 
 	navigateToLogin(): void {
@@ -78,7 +78,7 @@ export class ForgotPasswordComponent extends BaseComponent {
 			confirmNewPassword: formValue.confirmPassword,
 		};
 		await this.authService.resetPassword(request);
-		this.snackbarService.showSuccess('Password successfully updated!')
+		this.snackbarService.showSuccess('Password successfully updated!');
 		this.router.navigateByUrl(this.navigation.account().login());
 	}
 }

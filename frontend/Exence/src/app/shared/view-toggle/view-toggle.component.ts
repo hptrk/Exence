@@ -12,7 +12,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 export class ViewToggleComponent {
 	public selectedView = 'year';
 
-	onViewChange() {
+	onViewChange(): void {
 		console.log('selected view:', this.selectedView);
 	}
 }

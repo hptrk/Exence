@@ -1,5 +1,4 @@
 import { AfterViewInit, booleanAttribute, DestroyRef, Directive, ElementRef, inject, input } from '@angular/core';
-import { DisplaySizeService } from './display-size.service';
 
 @Directive({
 	selector: '[ex-card-slider]',
@@ -7,7 +6,6 @@ import { DisplaySizeService } from './display-size.service';
 export class CardSliderDirective implements AfterViewInit {
 	private elementRef = inject(ElementRef<HTMLElement>);
 	private destroyRef = inject(DestroyRef);
-	private display = inject(DisplaySizeService);
 	private resizeObserver?: ResizeObserver;
 
 	private isOverFlowing = false;
@@ -23,7 +21,7 @@ export class CardSliderDirective implements AfterViewInit {
 			this.checkOverFlow();
 		});
 
-		const el = this.elementRef.nativeElement;
+		const el: HTMLElement = this.elementRef.nativeElement;
 		const parent = el.parentElement;
 
 		if (parent) {
@@ -35,10 +33,10 @@ export class CardSliderDirective implements AfterViewInit {
 	}
 
 	private calculateMinRequiredWidth(): void {
-		const el = this.elementRef.nativeElement;
+		const el: HTMLElement = this.elementRef.nativeElement;
 		const children = Array.from(el.children) as HTMLElement[];
 
-		if (!children) return;
+		if (!children.length) return;
 
 		const computedStyle = window.getComputedStyle(el);
 		const gap = parseFloat(computedStyle.gap) || 0;
@@ -57,7 +55,7 @@ export class CardSliderDirective implements AfterViewInit {
 	}
 
 	private checkOverFlow(): void {
-		const el = this.elementRef.nativeElement;
+		const el: HTMLElement = this.elementRef.nativeElement;
 		const parent = el.parentElement;
 
 		if (!parent) return;

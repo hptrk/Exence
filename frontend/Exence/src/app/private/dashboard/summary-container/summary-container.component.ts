@@ -1,26 +1,26 @@
-import { Component, EventEmitter, inject, input, output } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Component, inject, input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { SvgIcons } from '../../../shared/svg-icons/svg-icons';
-import { CurrencyPipe } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { NavigationService } from '../../../shared/navigation/navigation.service';
 import { Router, RouterModule } from '@angular/router';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
-import { AbsoluteValuePipe } from "../../../shared/pipes/absolute-value.pipe";
+import { NavigationService } from '../../../shared/navigation/navigation.service';
+import { AbsoluteValuePipe } from '../../../shared/pipes/absolute-value.pipe';
+import { SvgIcons } from '../../../shared/svg-icons/svg-icons';
 
 @Component({
 	selector: 'ex-summary-container',
 	templateUrl: './summary-container.component.html',
 	styleUrl: './summary-container.component.scss',
 	imports: [
-    MatCardModule,
-    MatIconModule,
-    CurrencyPipe,
-    MatButtonModule,
-    RouterModule,
-    AbsoluteValuePipe
-],
+		MatCardModule,
+		MatIconModule,
+		CurrencyPipe,
+		MatButtonModule,
+		RouterModule,
+		AbsoluteValuePipe
+	],
 })
 export class SummaryContainerComponent {
 	private readonly navigation = inject(NavigationService);
@@ -37,7 +37,7 @@ export class SummaryContainerComponent {
 
 	// TODO navigate with filter on click
 	navigate(): void {
-		const queryParams: { [key: string]: string } = {};
+		const queryParams: Record<string, string> = {};
 		// switch (this.data().type) {
 		// 	case SummaryType.INCOME:
 		// 		queryParams['amountFilter'] = 'gt';

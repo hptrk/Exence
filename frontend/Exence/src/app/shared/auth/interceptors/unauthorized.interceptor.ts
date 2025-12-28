@@ -6,7 +6,7 @@ import { AuthService } from '../auth.service';
 import { CookiesService } from '../cookies.service';
 import { NavigationService } from './../../navigation/navigation.service';
 
-export function unauthorizedInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
+export function unauthorizedInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const cookie = inject(CookiesService);
 	const router = inject(Router);
 	const navigationService = inject(NavigationService);

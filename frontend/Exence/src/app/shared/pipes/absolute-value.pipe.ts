@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class AbsoluteValuePipe implements PipeTransform {
 	transform(value?: number): number | undefined {
-		return value !== undefined && value !== null ? Math.abs(value) : value;
+		return value ? Math.abs(value) : value;
 	}
 }

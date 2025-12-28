@@ -1,21 +1,21 @@
-import { Component, inject, OnInit } from "@angular/core";
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatCardModule } from "@angular/material/card";
-import { MatCheckboxModule } from "@angular/material/checkbox";
-import { MatDatepickerModule } from "@angular/material/datepicker";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatSelectModule } from "@angular/material/select";
-import { Category } from "../../../data-model/modules/category/Category";
-import { Transaction } from "../../../data-model/modules/transaction/Transaction";
-import { TransactionType } from "../../../data-model/modules/transaction/TransactionType";
-import { ButtonComponent } from "../../../shared/button/button.component";
-import { InputClearButtonComponent } from "../../../shared/input-clear-button/input-clear-button.component";
-import { TransactionService } from "../transaction.service";
-import { CategoryService } from "../../category.service";
-import { BaseComponent } from "../../../shared/base-component/base.component";
-import { ValidatorComponent } from "../../../shared/validator/validator.component";
+import { Component, inject, OnInit } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { Category } from '../../../data-model/modules/category/Category';
+import { Transaction } from '../../../data-model/modules/transaction/Transaction';
+import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
+import { BaseComponent } from '../../../shared/base-component/base.component';
+import { ButtonComponent } from '../../../shared/button/button.component';
+import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { CategoryService } from '../../category.service';
+import { TransactionService } from '../transaction.service';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -44,7 +44,7 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
 
-	data = inject(MAT_DIALOG_DATA);
+	data: CreateTransactionDialogData = inject(MAT_DIALOG_DATA);
 
 	transactionTypes: TransactionType[] = Object.values(TransactionType);
 
@@ -63,7 +63,7 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 	async ngOnInit(): Promise<void> {
 		this.categories = await this.categoryService.list();
 		if (this.data.type) {
-			this.form.controls.type.setValue(this.data.type)
+			this.form.controls.type.setValue(this.data.type);
 		}
 		if (this.data.isRecurring) {
 			this.form.controls.recurring.setValue(this.data.isRecurring);
@@ -83,17 +83,17 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 		const formValue = this.form.getRawValue();
 		const request: Transaction = {
 			title: formValue.title,
-			note: formValue?.note ?? undefined,
+			note: formValue.note,
 			date: formValue.date.toISOString(),
 			amount: formValue.amount!,
 			type: formValue.type,
 			recurring: formValue.recurring,
 			categoryId: formValue.category!.id!,
-		};
+		} as Transaction;
 		try {
 			const newTransaction = await this.transactionService.create(request);
 			this.dialogRef.close(newTransaction);
-		} catch (err) {
+		} catch (_err) {
 			this.dialogRef.close();
 		}
 	}

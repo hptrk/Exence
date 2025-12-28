@@ -1,13 +1,13 @@
-import { inject, Injectable } from "@angular/core";
-import { RegisterRequest } from "../../data-model/modules/auth/RegisterRequest";
-import { AuthenticationResponse } from "../../data-model/modules/auth/AuthenticationResponse";
-import { lastValueFrom } from "rxjs";
-import { HttpService } from "../http/http.service";
-import { LoginRequest } from "../../data-model/modules/auth/LoginRequest";
-import { EmailVerificationRequest } from "../../data-model/modules/auth/EmailVerificationRequest";
-import { ForgotPasswordRequest } from "../../data-model/modules/auth/ForgotPasswordRequest";
-import { PasswordResetRequest } from "../../data-model/modules/auth/PasswordResetRequest";
-import { CookiesService } from "./cookies.service";
+import { inject, Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+import { AuthenticationResponse } from '../../data-model/modules/auth/AuthenticationResponse';
+import { EmailVerificationRequest } from '../../data-model/modules/auth/EmailVerificationRequest';
+import { ForgotPasswordRequest } from '../../data-model/modules/auth/ForgotPasswordRequest';
+import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
+import { PasswordResetRequest } from '../../data-model/modules/auth/PasswordResetRequest';
+import { RegisterRequest } from '../../data-model/modules/auth/RegisterRequest';
+import { HttpService } from '../http/http.service';
+import { CookiesService } from './cookies.service';
 
 @Injectable({
 	providedIn: 'root'

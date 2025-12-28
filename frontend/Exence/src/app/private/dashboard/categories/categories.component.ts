@@ -2,15 +2,13 @@ import { Component, inject, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Router } from '@angular/router';
 import { Category } from '../../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
 import { BaseComponent } from '../../../shared/base-component/base.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DisplaySizeService } from '../../../shared/display-size.service';
-import { NavigationService } from '../../../shared/navigation/navigation.service';
-import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
+import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
 
 // TODO move to interval filter component when created
 export enum DateInterval {
@@ -19,10 +17,10 @@ export enum DateInterval {
 	YEAR = 'YEAR',
 }
 
-export type IntervalInfo = {
+export interface IntervalInfo {
 	type: DateInterval;
 	value: number;
-};
+}
 
 @Component({
 	selector: 'ex-categories',
