@@ -87,8 +87,8 @@ export class ChartComponent extends BaseComponent {
 			grid: gridColors,
 			ticks: { color: color }
 		};
-		if (this.lineChartOptions?.scales) {
-			this.lineChartOptions.scales = {
+		if (this.chart()?.options) {
+			this.chart()!.chart!.options.scales = {
 				x: gridData,
 				y: { beginAtZero: true, ...gridData }
 			}
