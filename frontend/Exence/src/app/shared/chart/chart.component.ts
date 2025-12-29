@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnChanges, afterNextRender, afterRenderEffect, computed, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
 import { Chart } from 'chart.js';
 import { format } from 'date-fns';
@@ -87,17 +87,19 @@ export class ChartComponent extends BaseComponent {
 			grid: gridColors,
 			ticks: { color: color }
 		};
-		if (this.chart()?.options) {
-			this.chart()!.chart!.options.scales = {
+		
+		// new object reference is needed to trigger change detection
+		this.lineChartOptions = {
+			...this.lineChartOptions,
+			scales: {
 				x: gridData,
 				y: { beginAtZero: true, ...gridData }
+			},
+			plugins: {
+				...this.lineChartOptions?.plugins, // point tooltips
+				tooltip: createPointerTooltipConfig(this.data(), this.balance()),
 			}
-		}
-
-		// point tooltips
-		if (this.lineChartOptions?.plugins) {
-			this.lineChartOptions.plugins.tooltip = createPointerTooltipConfig(this.data(), this.balance());
-		}
+		};
 
 		// line colors
 		const bgColor = getCssVariableValue('--primary-color', element);
