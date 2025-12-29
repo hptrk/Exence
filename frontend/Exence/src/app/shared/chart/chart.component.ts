@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, inject, input, viewChild } from '@angular/core';
 
 import { Chart } from 'chart.js';
 import { format } from 'date-fns';
@@ -54,13 +54,8 @@ export class ChartComponent extends BaseComponent {
 	constructor() {
 		super();
 
-		effect(() => {
-			const chart = this.chart();
-			const data = this.data();
-			
-			if (chart && this.canvas && data.length) {
-				this.setThemeColors();
-			}
+		afterNextRender(() => {
+			this.setThemeColors();
 		});
 
 		this.addSubscription(this.themeService.themeChangedEvent.subscribe(() => this.setThemeColors()));
@@ -96,7 +91,7 @@ export class ChartComponent extends BaseComponent {
 			},
 			plugins: {
 				...this.lineChartOptions?.plugins, // point tooltips
-				tooltip: createPointerTooltipConfig(this.data(), this.balance()),
+				tooltip: createPointerTooltipConfig(this.data()),
 			}
 		};
 
