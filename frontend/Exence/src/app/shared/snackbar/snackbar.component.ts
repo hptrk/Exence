@@ -1,10 +1,10 @@
-import { Component, inject } from "@angular/core";
-import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from "@angular/material/snack-bar";
-import { SnackbarType } from "./snackbar.service";
-import { SvgIcons } from "../svg-icons/svg-icons";
-import { MatIconModule } from "@angular/material/icon";
-import { MatTooltipModule } from "@angular/material/tooltip";
-import { MatButtonModule } from "@angular/material/button";
+import { Component, inject } from '@angular/core';
+import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
+import { SnackbarType } from './snackbar.service';
+import { SvgIcons } from '../svg-icons/svg-icons';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 
 export interface SnackbarData {
 	message: string;
@@ -28,8 +28,8 @@ export interface SnackbarData {
 	],
 })
 export class SnackbarComponent {
-	readonly data = inject(MAT_SNACK_BAR_DATA);
 	private readonly snackbarRef = inject(MatSnackBarRef<SnackbarComponent>);
+	readonly data = inject<SnackbarData>(MAT_SNACK_BAR_DATA);
 
 	readonly errorType = SnackbarType.Error;
 	readonly warnType = SnackbarType.Warning;

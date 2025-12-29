@@ -1,22 +1,23 @@
-import { Chart, ChartConfiguration } from 'chart.js';
-import { DisplayTheme } from '../display-theme.service';
-import { Transaction } from '../../data-model/modules/transaction/Transaction';
-import { format } from 'date-fns';
 import { formatCurrency } from '@angular/common';
+import { Chart, ChartConfiguration, TooltipItem } from 'chart.js';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
 
 export const getCssVariableValue = (variableName: string, element: HTMLElement | null = document.documentElement): string => {
-    if (!element) return '';
-    return getComputedStyle(element).getPropertyValue(variableName).trim();
+	if (!element) return '';
+	return getComputedStyle(element).getPropertyValue(variableName).trim();
 };
 
-export const hexToRgba = (hex: string, alpha: number = 1): string => {
+export const hexToRgba = (hex: string, alpha = 1): string => {
 	const r = parseInt(hex.slice(1, 3), 16);
 	const g = parseInt(hex.slice(3, 5), 16);
 	const b = parseInt(hex.slice(5, 7), 16);
 	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export const createCanvasBackgroundPlugin = () => ({
+export const createCanvasBackgroundPlugin = (): {
+	id: string;
+	beforeDraw: (chart: Chart) => void;
+} => ({
 	id: 'customCanvasBackgroundColor',
 	beforeDraw: (chart: Chart) => {
 		const { ctx, canvas } = chart;
@@ -35,21 +36,38 @@ export const createCanvasBackgroundPlugin = () => ({
 	},
 });
 
-export const createPointerTooltipConfig = (data: Transaction[], balance: number) => ({
-	 callbacks: {
-        title: (context: any) => {
-          const transaction = data[context[0].dataIndex];
-					const title = transaction.title ?? '';
-					return title.length > 15 ? title.slice(0, 15) + '...' : title;
-        },
-        label: (context: any) => {
-					const transaction = data[context.dataIndex];
-					return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
-        },
-    },
+export const createPointerTooltipConfig = (data: Transaction[]): {
+	callbacks: {
+		title: (context: TooltipItem<'line'>[]) => string;
+		label: (context: TooltipItem<'line'>) => string;
+	};
+} => ({
+	callbacks: {
+		title: (context: TooltipItem<'line'>[]) => {
+			const dataIndex = context[0]?.dataIndex;
+			if (typeof dataIndex !== 'number') return '';
+			const transaction = data[dataIndex];
+			const title = transaction.title;
+			return title.length > 15 ? title.slice(0, 15) + '...' : title;
+		},
+		label: (context: TooltipItem<'line'>) => {
+			const dataIndex = context.dataIndex;
+			if (typeof dataIndex !== 'number') return '';
+			const transaction = data[dataIndex];
+			return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
+		},
+	},
 });
 
-export const getLineChartData = (data: number[], labels: string[]) => ({
+export const getLineChartData = (data: number[], labels: string[]): {
+	labels: string[];
+	datasets: {
+		data: number[];
+		fill: string;
+		pointRadius: number;
+		pointBorderWidth: number;
+	}[];
+} => ({
 	labels,
 	datasets: [
 		{

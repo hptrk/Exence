@@ -18,12 +18,12 @@ import { ChartComponent } from '../../shared/chart/chart.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { CurrentUserService } from '../../shared/user/current-user.service';
 import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 import { CategoryService } from '../category.service';
-import { CurrentUserService } from '../../shared/user/current-user.service';
 import { CreateTransactionDialogComponent, CreateTransactionDialogData } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../transactions-and-categories/transaction.service';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -63,7 +63,7 @@ export class DashboardComponent implements OnInit {
 	categories: Category[] = [];
 
 	totals: TransactionTotalsResponse = {} as TransactionTotalsResponse;
-	balance: number = 0;
+	balance = 0;
 
 	topCategories?: CategorySummaryResponse[];
 	topCategory?: CategorySummaryResponse;

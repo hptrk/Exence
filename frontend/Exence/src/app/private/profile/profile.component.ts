@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,7 +15,6 @@ import { UserService } from '../../shared/user/user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
-import { BaseComponent } from '../../shared/base-component/base.component';
 
 @Component({
 	selector: 'ex-profile',

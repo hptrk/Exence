@@ -1,6 +1,6 @@
-import { inject, Injectable } from "@angular/core";
-import { MatSnackBar, MatSnackBarConfig, SimpleSnackBar } from "@angular/material/snack-bar";
-import { SnackbarComponent, SnackbarData } from "./snackbar.component";
+import { inject, Injectable } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig, SimpleSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent, SnackbarData } from './snackbar.component';
 
 export const enum SnackbarType {
 	Error,

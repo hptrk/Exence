@@ -1,18 +1,18 @@
-import { Component, inject } from "@angular/core";
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MatCardModule } from "@angular/material/card";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
-import { MatInputModule } from "@angular/material/input";
-import { MatMenuModule } from "@angular/material/menu";
-import { PickerComponent } from "@ctrl/ngx-emoji-mart";
-import { EmojiEvent } from "@ctrl/ngx-emoji-mart/ngx-emoji";
-import { Category } from "../../../data-model/modules/category/Category";
-import { ButtonComponent } from "../../../shared/button/button.component";
-import { InputClearButtonComponent } from "../../../shared/input-clear-button/input-clear-button.component";
-import { ValidatorComponent } from "../../../shared/validator/validator.component";
-import { CategoryService } from "../../category.service";
+import { Component, inject } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { PickerComponent } from '@ctrl/ngx-emoji-mart';
+import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { Category } from '../../../data-model/modules/category/Category';
+import { ButtonComponent } from '../../../shared/button/button.component';
+import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { CategoryService } from '../../category.service';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -48,7 +48,7 @@ export class CreateCategoryDialogComponent {
 	ngOnInit(): void {
 		this.form.controls.emoji.valueChanges.subscribe(emoji => {
 			this.emojiInvalid = !emoji;
-		})		
+		});
 	}
 
 	onEmojiSelect(event: EmojiEvent): void {
@@ -70,7 +70,7 @@ export class CreateCategoryDialogComponent {
 		try {
 			const newCategory = await this.categoryService.create(request);
 			this.dialogRef.close(newCategory);
-		} catch (err) {
+		} catch (_err) {
 			this.dialogRef.close();
 		}
 	}

@@ -17,7 +17,6 @@ import { CategoryService } from '../category.service';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent, CreateTransactionDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
-import { ValidatorComponent } from '../../shared/validator/validator.component';
 
 @Component({
 	selector: 'ex-transactions-and-categories',

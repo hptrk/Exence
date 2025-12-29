@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
-export function refreshTokenInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
+export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	if (!req.url.includes('/api/auth/refresh-token')) {
 		return next(req);
 	}

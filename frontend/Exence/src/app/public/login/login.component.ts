@@ -1,20 +1,20 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
-import { MatButtonModule } from '@angular/material/button';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { NavigationService } from '../../shared/navigation/navigation.service';
-import { MatCardModule } from '@angular/material/card';
-import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
-import { MatIconModule } from '@angular/material/icon';
-import { BaseComponent } from '../../shared/base-component/base.component';
-import { AuthService } from '../../shared/auth/auth.service';
 import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
-import { ExtraValidators } from '../../shared/validators';
+import { AuthService } from '../../shared/auth/auth.service';
+import { BaseComponent } from '../../shared/base-component/base.component';
+import { ButtonComponent } from '../../shared/button/button.component';
+import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
+import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
+import { ExtraValidators } from '../../shared/validators';
 
 @Component({
 	selector: 'ex-login',

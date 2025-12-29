@@ -1,11 +1,21 @@
-<section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
-	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
+<section
+	class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0"
+>
+	<div
+		class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2"
+	>
 		<div>
-			<h1 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
+			<h1
+				class="m-0 text-center text-md-start {{
+					display.isSm() ? 'fs-1' : 'fs-2'
+				}}"
+			>
 				Welcome back, <span class="username">{{ user().username }}</span
 				>!
 			</h1>
-			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
+			<p class="fs-4 m-0 text-center text-md-start">
+				Snapshot of your finances
+			</p>
 		</div>
 		<!-- @if (display.isMd()) {
 		<ng-container [ngTemplateOutlet]="toggleFilter" />
@@ -24,10 +34,7 @@
 					<ng-container [ngTemplateOutlet]="toggleFilter" />
 				</div>
 			} -->
-			<ex-chart
-				[data]="transactions.content"
-				[balance]="balance"
-			/>
+			<ex-chart [data]="transactions.content" />
 			<ex-categories
 				class="h-100"
 				[totalExpense]="totals.totalExpense"
@@ -111,7 +118,9 @@
 </ng-template>
 
 <ng-template #mobileButtons>
-	<div class="d-flex flex-column-reverse flex-sm-row gap-2 justify-content-center align-items-md-center w-100">
+	<div
+		class="d-flex flex-column-reverse flex-sm-row gap-2 justify-content-center align-items-md-center w-100"
+	>
 		<ex-button
 			filled
 			color="error"

@@ -1,7 +1,6 @@
 import { Directive, effect, ElementRef, inject, Renderer2 } from '@angular/core';
 import { BaseComponent } from './base-component/base.component';
-import { DisplayTheme, DisplayThemeService } from './display-theme.service';
-import { themes } from './display-theme.service';
+import { DisplayTheme, DisplayThemeService, themes } from './display-theme.service';
 
 @Directive({
 	selector: '[themeApplier]',
