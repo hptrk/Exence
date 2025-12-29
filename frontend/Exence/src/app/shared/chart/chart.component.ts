@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, inject, input, viewChild } from '@angular/core';
 
 import { Chart } from 'chart.js';
 import { format } from 'date-fns';
@@ -54,13 +54,8 @@ export class ChartComponent extends BaseComponent {
 	constructor() {
 		super();
 
-		effect(() => {
-			const chart = this.chart();
-			const data = this.data();
-			
-			if (chart && this.canvas && data.length) {
-				this.setThemeColors();
-			}
+		afterNextRender(() => {
+			this.setThemeColors();
 		});
 
 		this.addSubscription(this.themeService.themeChangedEvent.subscribe(() => this.setThemeColors()));
@@ -86,17 +81,19 @@ export class ChartComponent extends BaseComponent {
 			grid: gridColors,
 			ticks: { color: color }
 		};
-		if (this.lineChartOptions?.scales) {
-			this.lineChartOptions.scales = {
+		
+		// new object reference is needed to trigger change detection
+		this.lineChartOptions = {
+			...this.lineChartOptions,
+			scales: {
 				x: gridData,
 				y: { beginAtZero: true, ...gridData }
-			};
-		}
-
-		// point tooltips
-		if (this.lineChartOptions?.plugins) {
-			this.lineChartOptions.plugins.tooltip = createPointerTooltipConfig(this.data());
-		}
+			},
+			plugins: {
+				...this.lineChartOptions?.plugins, // point tooltips
+				tooltip: createPointerTooltipConfig(this.data()),
+			}
+		};
 
 		// line colors
 		const bgColor = getCssVariableValue('--primary-color', element);
