@@ -23,10 +23,40 @@ export class DisplaySizeService {
 	private initializedSignals = new Map<DisplaySizeBreakpoint, Signal<boolean>>();
 	private subscriptions: Subscription[] = [];
 
+	get isSm(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('sm');
+	}
+
+	get isMd(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('md');
+	}
+
+	get isLg(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('lg');
+	}
+
+	get isXl(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('xl');
+	}
+
+	get isXxl(): Signal<boolean> {
+		return this.createOrGetBreakPointSignal('xxl');
+	}
+
 	constructor() {
 		this.destroyRef.onDestroy(() => {
 			this.subscriptions.forEach(sub => sub.unsubscribe());
 		});
+	}
+
+	public getObserverByName(breakpoint: DisplaySizeBreakpoint | Signal<DisplaySizeBreakpoint>): Signal<boolean> {
+		if (typeof breakpoint === 'function') {
+			return computed(() => {
+				const name = breakpoint();
+				return this.createOrGetBreakPointSignal(name)();
+			});
+		}
+		return this.createOrGetBreakPointSignal(breakpoint);
 	}
 
 	private createOrGetBreakPointSignal(breakpoint: DisplaySizeBreakpoint): Signal<boolean> {
@@ -48,35 +78,5 @@ export class DisplaySizeService {
 
 		this.initializedSignals.set(breakpoint, sig.asReadonly());
 		return sig.asReadonly();
-	}
-
-	get isSm(): Signal<boolean> {
-		return this.createOrGetBreakPointSignal('sm');
-	}
-
-	get isMd(): Signal<boolean> {
-		return this.createOrGetBreakPointSignal('md');
-	}
-
-	get isLg(): Signal<boolean> {
-		return this.createOrGetBreakPointSignal('lg');
-	}
-
-	get isXl(): Signal<boolean> {
-		return this.createOrGetBreakPointSignal('xl');
-	}
-
-	get isXxl(): Signal<boolean> {
-		return this.createOrGetBreakPointSignal('xxl');
-	}
-
-	public getObserverByName(breakpoint: DisplaySizeBreakpoint | Signal<DisplaySizeBreakpoint>): Signal<boolean> {
-		if (typeof breakpoint === 'function') {
-			return computed(() => {
-				const name = breakpoint();
-				return this.createOrGetBreakPointSignal(name)();
-			});
-		}
-		return this.createOrGetBreakPointSignal(breakpoint);
 	}
 }

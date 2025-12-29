@@ -2,29 +2,29 @@ import { NavigationServiceForProfile, ProfileRoutes } from './navigation-profile
 
 export class PrivateRoutes {
 	index(): string {
-		return `/`;
+		return '/';
 	}
 
 	dashboard(): string {
-		return `/dashboard`;
+		return '/dashboard';
 	}
 	transactions(): string {
-		return `/transactions`;
+		return '/transactions';
 	}
 	statistics(): string {
-		return `/statistics`;
+		return '/statistics';
 	}
 	goals(): string {
-		return `/goals`;
+		return '/goals';
 	}
 	debts(): string {
-		return `/debts`;
+		return '/debts';
 	}
 	profile(): ProfileRoutes {
 		return new NavigationServiceForProfile().getRoutes(this.index());
 	}
 	settings(): string {
-		return `/settings`;
+		return '/settings';
 	}
 }
 

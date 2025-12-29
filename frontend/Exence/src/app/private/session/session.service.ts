@@ -1,7 +1,7 @@
-import { inject, Injectable } from "@angular/core";
-import { lastValueFrom } from "rxjs";
-import { DeviceSession } from "../../data-model/modules/session/DeviceSession";
-import { HttpService } from "../../shared/http/http.service";
+import { inject, Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+import { DeviceSession } from '../../data-model/modules/session/DeviceSession';
+import { HttpService } from '../../shared/http/http.service';
 
 @Injectable({
 	providedIn: 'root'

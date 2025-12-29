@@ -1,19 +1,25 @@
-import { Component, input, OnInit } from "@angular/core";
-import { FormControl } from "@angular/forms";
-import { BaseComponent } from "../base-component/base.component";
-import { merge, of } from "rxjs";
+import { Component, input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { merge, of } from 'rxjs';
+import { BaseComponent } from '../base-component/base.component';
+
+interface ErrorInfo {
+	min?: number;
+	max?: number;
+	requiredLength?: number;
+}
 
 @Component({
 	selector: 'ex-validator',
 	templateUrl: './validator.component.html',
 	imports: [],
 })
-export class ValidatorComponent extends BaseComponent implements OnInit{
+export class ValidatorComponent extends BaseComponent implements OnInit {
 	control = input.required<FormControl>();
 	
 	errorKey?: string;
-	errorValue?: any;
-
+	errorValue?: ErrorInfo;
+	
 	ngOnInit(): void {
 		this.addSubscription(merge(of(this.control().dirty), this.control().statusChanges).subscribe(
 			() => {

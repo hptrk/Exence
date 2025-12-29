@@ -1,13 +1,13 @@
-import { Component, ElementRef, OnChanges, afterNextRender, afterRenderEffect, computed, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 
 import { Chart } from 'chart.js';
 import { format } from 'date-fns';
 import { BaseChartDirective } from 'ng2-charts';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { BaseComponent } from '../base-component/base.component';
 import { DisplayThemeService } from '../display-theme.service';
 import { createCanvasBackgroundPlugin, createPointerTooltipConfig, getCssVariableValue, getLineChartData, hexToRgba, lineChartOptions } from './chart-config';
-import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 
 @Component({
 	selector: 'ex-chart',
@@ -19,28 +19,27 @@ export class ChartComponent extends BaseComponent {
 	private themeService = inject(DisplayThemeService);
 
 	data = input.required<Transaction[]>();
-	balance = input.required<number>();
 
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
 
 	balanceData = computed(() => {
 		// has to come from backend later
-    const sortedData = this.data()?.sort((a, b) => a.date.localeCompare(b.date));
-    if (!sortedData) return [];
-    
-    let currentBalance = 0;
-    return sortedData.map(transaction => {
-        if (transaction.type === TransactionType.INCOME) {
-            currentBalance += transaction.amount;
-        } else {
-            currentBalance -= transaction.amount;
-        }
-        return currentBalance;
-    });
+		const sortedData = this.data().sort((a, b) => a.date.localeCompare(b.date));
+		if (!sortedData.length) return [];
+		
+		let currentBalance = 0;
+		return sortedData.map(transaction => {
+			if (transaction.type === TransactionType.INCOME) {
+				currentBalance += transaction.amount;
+			} else {
+				currentBalance -= transaction.amount;
+			}
+			return currentBalance;
+		});
 	});
 
 	chartLabels = computed(() =>
-		this.data()?.sort((a, b) => a.date.localeCompare(b.date)).map(transaction => format(new Date(transaction.date), 'dd/MM'))
+		this.data().sort((a, b) => a.date.localeCompare(b.date)).map(transaction => format(new Date(transaction.date), 'dd/MM'))
 	);
 	lineChartData = computed(() => 
 		getLineChartData(this.balanceData(), this.chartLabels())
@@ -59,7 +58,7 @@ export class ChartComponent extends BaseComponent {
 			const chart = this.chart();
 			const data = this.data();
 			
-			if (chart && this.canvas && data) {
+			if (chart && this.canvas && data.length) {
 				this.setThemeColors();
 			}
 		});
@@ -69,7 +68,7 @@ export class ChartComponent extends BaseComponent {
 
 	private setThemeColors(): void {
 		if (!this.canvas) return;
-		const element = this.canvas!;
+		const element = this.canvas;
 
 		// background
 		const canvasBgPlugin = createCanvasBackgroundPlugin();
@@ -91,12 +90,12 @@ export class ChartComponent extends BaseComponent {
 			this.lineChartOptions.scales = {
 				x: gridData,
 				y: { beginAtZero: true, ...gridData }
-			}
+			};
 		}
 
 		// point tooltips
 		if (this.lineChartOptions?.plugins) {
-			this.lineChartOptions.plugins.tooltip = createPointerTooltipConfig(this.data(), this.balance());
+			this.lineChartOptions.plugins.tooltip = createPointerTooltipConfig(this.data());
 		}
 
 		// line colors
@@ -109,13 +108,11 @@ export class ChartComponent extends BaseComponent {
 			pointHoverBackgroundColor: getCssVariableValue('--app-hover-color', element)
 		};
 		const lineData = this.lineChartData();
-		if (lineData) {
-			const currDataset = lineData.datasets[0];
-			lineData.datasets[0] = {
-				...currDataset,
-				...pointColors
-			}; 
-		}
+		const currDataset = lineData.datasets[0];
+		lineData.datasets[0] = {
+			...currDataset,
+			...pointColors
+		}; 
 	
 		this.chart()?.update();
 	}

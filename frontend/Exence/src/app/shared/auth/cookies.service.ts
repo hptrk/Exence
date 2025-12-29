@@ -1,6 +1,6 @@
-import { inject, Injectable } from "@angular/core";
-import { jwtDecode } from "jwt-decode";
-import { CookieService } from "ngx-cookie-service";
+import { inject, Injectable } from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
 	providedIn: 'root'
@@ -61,15 +61,15 @@ export class CookiesService {
 			const token = type === 'access' ? this.getAccessToken() : this.getRefreshToken();
 			if (!token) return true;
 			
-            const decoded = jwtDecode<{ exp: number }>(token);
-            if (!decoded.exp) {
-                return true;
-            }
-            const currentTime = Math.floor(Date.now() / 1000);
-            return decoded.exp < currentTime;
-        } catch (error) {
-            return true;
-        }
+			const decoded = jwtDecode<{ exp: number }>(token);
+			if (!decoded.exp) {
+				return true;
+			}
+			const currentTime = Math.floor(Date.now() / 1000);
+			return decoded.exp < currentTime;
+		} catch (_error) {
+			return true;
+		}
 	}
 		
 }

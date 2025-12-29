@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 
-export function authInterceptor(req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> {
+export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	if (req.url.includes('/api/auth')) {
 		return next(req);
 	}

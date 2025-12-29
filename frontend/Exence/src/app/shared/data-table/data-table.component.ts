@@ -1,13 +1,17 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, effect, inject, input, output, signal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { booleanAttribute, Component, effect, inject, input, output } from '@angular/core';
+import { FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatMenuModule } from '@angular/material/menu';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Category } from '../../data-model/modules/category/Category';
@@ -15,20 +19,15 @@ import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { CategoryService } from '../../private/category.service';
 import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent, CreateTransactionDialogData } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../../private/transactions-and-categories/transaction.service';
 import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
 import { DisplaySizeService } from '../display-size.service';
-import { SvgIcons } from '../svg-icons/svg-icons';
 import { SnackbarService } from '../snackbar/snackbar.service';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatButtonModule } from '@angular/material/button';
-import { CdkOverlayOrigin } from "@angular/cdk/overlay";
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSelectModule } from '@angular/material/select';
-import { CategoryService } from '../../private/category.service';
+import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
 
 export interface DataTableModel {
@@ -58,6 +57,8 @@ export interface DataTableModel {
 	],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
+	// TODO remove deprecated angular animations
+	/* eslint-disable */
 	animations: [
 		trigger('expandAnimation', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -66,6 +67,7 @@ export interface DataTableModel {
 			transition('expanded => collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
 		]),
 	],
+	/* eslint-enable */
 })
 export class DataTableComponent extends BaseComponent {
 	private readonly snackbarService = inject(SnackbarService);
@@ -108,11 +110,11 @@ export class DataTableComponent extends BaseComponent {
 	// currentlyEditedRow = signal<number | undefined>(undefined);
 
 	get emptyTransactionTable(): boolean {
-		return !this.transactionDataSource?.data?.length;
+		return !this.transactionDataSource?.data.length;
 	}
 
 	get emptyCategoryTable(): boolean {
-		return !this.categoryDataSource?.data?.length;
+		return !this.categoryDataSource?.data.length;
 	}
 	
 	get emptyTableData(): boolean {
@@ -133,12 +135,12 @@ export class DataTableComponent extends BaseComponent {
 
 			const categories = data.categories;
 			if (!data.transactions?.content) {
-				this.categoryDataSource = new MatTableDataSource(categories)
+				this.categoryDataSource = new MatTableDataSource(categories);
 				return;
 			}
 			const transactions = data.transactions.content
-				.map(transaction => this.mapToTransactionModel(transaction, categories!));
-				this.transactionDataSource = new MatTableDataSource(transactions);
+				.map(transaction => this.mapToTransactionModel(transaction, categories));
+			this.transactionDataSource = new MatTableDataSource(transactions);
 			this.pageSize = data.transactions.size;
 			this.pageIndex = data.transactions.page;
 			this.pageLength = data.transactions.totalPages;
@@ -149,15 +151,15 @@ export class DataTableComponent extends BaseComponent {
 			data.transactions.content.forEach(transaction => {
 				noteControls = {
 					...noteControls,
-					[transaction.id as number]: this.fb.control<string>(transaction.note ?? '', [Validators.maxLength(500)]),
+					[transaction.id!]: this.fb.control<string>(transaction.note ?? '', [Validators.maxLength(500)]),
 				};
 				recurringControls = {
 					...recurringControls,
-					[transaction.id as number]: this.fb.control<boolean>(transaction.recurring, [Validators.required]),
+					[transaction.id!]: this.fb.control<boolean>(transaction.recurring, [Validators.required]),
 				};
 				categoryControls = {
 					...categoryControls,
-					[transaction.id as number]: this.fb.control<number>(transaction.categoryId, [Validators.required]),
+					[transaction.id!]: this.fb.control<number>(transaction.categoryId, [Validators.required]),
 				};
 			});
 			this.noteForm = this.fb.group(noteControls);
@@ -183,9 +185,10 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	async saveRow(row: Transaction): Promise<void> {
-		const newNoteValue = this.noteForm.controls[row.id!].getRawValue();
-		const newRecurringValue = this.recurringForm.controls[row.id!].getRawValue();
-		const newCategoryValue = this.categoryForm.controls[row.id!].getRawValue();
+		if (!row.id) return;
+		const newNoteValue = this.noteForm.controls[row.id].getRawValue();
+		const newRecurringValue = this.recurringForm.controls[row.id].getRawValue();
+		const newCategoryValue = this.categoryForm.controls[row.id].getRawValue();
 
 		const request: Transaction = {
 			id: row.id,
@@ -212,9 +215,10 @@ export class DataTableComponent extends BaseComponent {
 		return (!this.noteForm.controls[rowId].touched
 			&& !this.recurringForm.controls[rowId].touched
 			&& !this.categoryForm.controls[rowId].touched
-		) || this.noteForm.controls[rowId].invalid
-			|| this.recurringForm.controls[rowId].invalid
-			|| this.categoryForm.controls[rowId].invalid;
+		)
+		|| this.noteForm.controls[rowId].invalid
+		|| this.recurringForm.controls[rowId].invalid
+		|| this.categoryForm.controls[rowId].invalid;
 	}
 
 	// isRowEditing(rowId: number): boolean {
@@ -233,17 +237,17 @@ export class DataTableComponent extends BaseComponent {
 	openCreateDialog(): void {
 		// All transactions
 		if (!this.type()) {
-			const data: CreateTransactionDialogData= { isRecurring: this.isRecurring() ?? false };
+			const data: CreateTransactionDialogData = { isRecurring: this.isRecurring() ?? false };
 			this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
 				CreateTransactionDialogComponent, { data }
 			).afterClosed().subscribe(
-				async (newTransaction) => {
+				(newTransaction) => {
 					if (newTransaction) {
 						this.dataChangedEvent.emit();
 						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 					}
 				}
-			)
+			);
 		// Income or expense
 		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
 			const data = { isRecurring: this.isRecurring() ?? false, type: this.type()! as TransactionType };
@@ -251,7 +255,7 @@ export class DataTableComponent extends BaseComponent {
 			this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
 				CreateTransactionDialogComponent, { data }
 			).afterClosed().subscribe(
-				async (newTransaction) => {
+				(newTransaction) => {
 					if (newTransaction) {
 						this.dataChangedEvent.emit();
 						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
@@ -263,7 +267,7 @@ export class DataTableComponent extends BaseComponent {
 			this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
 				CreateCategoryDialogComponent, undefined
 			).afterClosed().subscribe(
-				async (newCategory) => {
+				(newCategory) => {
 					if (newCategory) {
 						this.dataChangedEvent.emit();
 						this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);

@@ -1,18 +1,13 @@
-import { inject, Injectable, Signal, signal, WritableSignal } from "@angular/core";
-import { jwtDecode } from "jwt-decode";
-import { lastValueFrom } from "rxjs";
-import { HttpService } from "../http/http.service";
-import { AuthService } from "../auth/auth.service";
-import { CookiesService } from "../auth/cookies.service";
-import { User } from "../../data-model/modules/auth/User";
-import { UserService } from "./user.service";
+import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { User } from '../../data-model/modules/auth/User';
+import { CookiesService } from '../auth/cookies.service';
+import { UserService } from './user.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class CurrentUserService {
 	private readonly cookies = inject(CookiesService);
-	private readonly authService = inject(AuthService);
 	private readonly userService = inject(UserService);
 
 	private _user: WritableSignal<User | null> = signal(null);

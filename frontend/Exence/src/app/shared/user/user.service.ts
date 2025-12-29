@@ -1,9 +1,9 @@
-import { inject, Injectable } from "@angular/core";
-import { HttpService } from "../http/http.service";
-import { User } from "../../data-model/modules/auth/User";
-import { lastValueFrom } from "rxjs";
-import { UpdateUserRequest } from "../../data-model/modules/auth/UpdateUserRequest";
-import { ChangePasswordRequest } from "../../data-model/modules/auth/ChangePasswordRequest";
+import { inject, Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
+import { ChangePasswordRequest } from '../../data-model/modules/auth/ChangePasswordRequest';
+import { UpdateUserRequest } from '../../data-model/modules/auth/UpdateUserRequest';
+import { User } from '../../data-model/modules/auth/User';
+import { HttpService } from '../http/http.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,7 +11,7 @@ import { ChangePasswordRequest } from "../../data-model/modules/auth/ChangePassw
 export class UserService {
 	private readonly http = inject(HttpService);
 
-	private baseUrl = '/api/user'
+	private baseUrl = '/api/user';
 
 	public getUser(): Promise<User> {
 		return lastValueFrom(this.http.get<User>(`${this.baseUrl}/me`));

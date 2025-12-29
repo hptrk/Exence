@@ -39,7 +39,7 @@ export class DisplayThemeService {
 	}
 
 	constructor() {
-		let themeData = this.getInitialTheme();
+		const themeData = this.getInitialTheme();
 		this.setCssClassForHtmlElement(themeData);
 	}
 
@@ -57,19 +57,19 @@ export class DisplayThemeService {
 	}
 
 	// used later in profile settings
-	public setPreferredThemes(primary: DisplayTheme, secondary: DisplayTheme) {
+	public setPreferredThemes(primary: DisplayTheme, secondary: DisplayTheme): void {
 		// will be implemented with a mat-select so it can't be anything else
 		this._preferredThemes.primary = themes.find(t => t.name === primary)!;
 		this._preferredThemes.secondary = themes.find(t => t.name === secondary)!;
 	}
 
 	public setInitialTheme(): void {
-		let theme = this.getInitialTheme();
+		const theme = this.getInitialTheme();
 		this.setTheme(theme.name, false);
 	}
 
 	private setTheme(theme: DisplayTheme, shouldSave = true): void {
-		let themeData = this.getThemeDataByName(theme);
+		const themeData = this.getThemeDataByName(theme);
 		if (themeData) {
 			if (shouldSave) localStorage.setItem('displayTheme', themeData.name);
 			this.setCssClassForHtmlElement(themeData);
