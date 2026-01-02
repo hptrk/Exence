@@ -1,0 +1,18 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+exence:
+  secure-cookie: false # HTTP is allowed
+  frontend-url: ${FRONTEND_URL:http://localhost:4200}
+
+logging:
+  level:
+    root: INFO
+    com.exence.finance: DEBUG
+    com.exence.finance.security: DEBUG
+    org.springframework.security: WARN
+    org.springframework.web: INFO
+    org.springframework.transaction: DEBUG
+

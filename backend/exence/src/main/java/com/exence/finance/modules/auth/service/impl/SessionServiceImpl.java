@@ -3,13 +3,14 @@ package com.exence.finance.modules.auth.service.impl;
 import com.exence.finance.modules.auth.dto.DeviceSessionDTO;
 import com.exence.finance.modules.auth.dto.SessionSummaryProjection;
 import com.exence.finance.modules.auth.entity.Token;
-import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.SessionMapper;
+import com.exence.finance.modules.auth.service.CookieService;
 import com.exence.finance.modules.auth.service.RequestContextService;
 import com.exence.finance.modules.auth.service.SessionService;
 import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.security.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class SessionServiceImpl implements SessionService {
     private final UserService userService;
     private final JwtService jwtService;
     private final SessionMapper sessionMapper;
+    private final CookieService cookieService;
     private final RequestContextService requestContextService;
 
     @Override
@@ -57,7 +59,12 @@ public class SessionServiceImpl implements SessionService {
 
     private String getCurrentSessionId() {
         try {
-            String jwt = requestContextService.extractBearerToken();
+            HttpServletRequest request = requestContextService.getCurrentRequest();
+            if (request == null) return null;
+
+            String jwt = cookieService.extractAccessTokenFromCookie(request);
+            if (jwt == null) return null;
+
             String jwtId = jwtService.extractJwtId(jwt);
 
             if (jwtId == null) return null;

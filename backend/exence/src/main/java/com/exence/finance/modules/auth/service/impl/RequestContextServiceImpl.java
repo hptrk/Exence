@@ -2,14 +2,22 @@ package com.exence.finance.modules.auth.service.impl;
 
 import com.exence.finance.modules.auth.service.RequestContextService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class RequestContextServiceImpl implements RequestContextService {
+
+    @Override
+    public HttpServletRequest getCurrentRequest() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        return attributes != null ? attributes.getRequest() : null;
+    }
 
     @Override
     public String extractUserAgent() {
@@ -39,32 +47,5 @@ public class RequestContextServiceImpl implements RequestContextService {
             log.debug("Could not extract IP address: {}", e.getMessage());
         }
         return "Unknown";
-    }
-
-    @Override
-    public String extractAuthorizationHeader() {
-        try {
-            HttpServletRequest request = getCurrentRequest();
-            if (request != null) {
-                return request.getHeader("Authorization");
-            }
-        } catch (Exception e) {
-            log.debug("Could not extract authorization header: {}", e.getMessage());
-        }
-        return null;
-    }
-
-    @Override
-    public String extractBearerToken() {
-        String authHeader = extractAuthorizationHeader();
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
-        }
-        return null;
-    }
-
-    private HttpServletRequest getCurrentRequest() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return attributes != null ? attributes.getRequest() : null;
     }
 }

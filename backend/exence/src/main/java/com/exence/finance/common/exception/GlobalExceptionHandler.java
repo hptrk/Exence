@@ -250,14 +250,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.warn("Invalid token for request: {}", request.getDescription(false));
 
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.UNAUTHORIZED,
+                HttpStatus.FORBIDDEN,
                 "Invalid authentication token."
         );
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + "invalid-token"));
         problemDetail.setTitle("Invalid Token");
         problemDetail.setProperty("timestamp", Instant.now());
 
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problemDetail);
     }
 
     @ExceptionHandler(EmailAlreadyVerifiedException.class)
