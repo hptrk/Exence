@@ -7,14 +7,12 @@ import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
 import { PasswordResetRequest } from '../../data-model/modules/auth/PasswordResetRequest';
 import { RegisterRequest } from '../../data-model/modules/auth/RegisterRequest';
 import { HttpService } from '../http/http.service';
-import { CookiesService } from './cookies.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
 	private readonly http = inject(HttpService);
-	private readonly cookie = inject(CookiesService);
 
 	private baseUrl = '/api/auth';
 
@@ -23,19 +21,11 @@ export class AuthService {
 	}
 
 	public login(request: LoginRequest): Promise<AuthenticationResponse> {
-		return lastValueFrom(this.http.post<AuthenticationResponse>(`${this.baseUrl}/login`, request))
-			.then(response => {
-				this.cookie.saveTokens(response.access_token, response.refresh_token);
-				return response;
-			});
+		return lastValueFrom(this.http.post<AuthenticationResponse>(`${this.baseUrl}/login`, request));
 	}
 
 	public refreshToken(): Promise<AuthenticationResponse> {
-		return lastValueFrom(this.http.post<AuthenticationResponse>(`${this.baseUrl}/refresh-token`))
-			.then(response => {
-				this.cookie.saveTokens(response.access_token, response.refresh_token);
-				return response;
-			});
+		return lastValueFrom(this.http.post<AuthenticationResponse>(`${this.baseUrl}/refresh-token`));
 	}
 
 	public verifyEmail(request: EmailVerificationRequest): Promise<void> {
@@ -51,7 +41,6 @@ export class AuthService {
 	}
 
 	public logout(): Promise<void> {
-		return lastValueFrom(this.http.post<void>(`${this.baseUrl}/logout`))
-			.finally(() => this.cookie.clearTokens());
+		return lastValueFrom(this.http.post<void>(`${this.baseUrl}/logout`));
 	}
 }

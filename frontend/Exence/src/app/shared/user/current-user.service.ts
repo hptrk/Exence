@@ -1,32 +1,16 @@
-import { inject, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { User } from '../../data-model/modules/auth/User';
-import { CookiesService } from '../auth/cookies.service';
-import { UserService } from './user.service';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class CurrentUserService {
-	private readonly cookies = inject(CookiesService);
-	private readonly userService = inject(UserService);
-
 	private _user: WritableSignal<User | null> = signal(null);
 
 	get user(): Signal<User> { return this._user.asReadonly() as Signal<User>; }
 	
-	async getIsLoggedIn(): Promise<boolean> {
-		if (this.cookies.hasAccessToken() && !this.cookies.isTokenExpired('access')) {
-			const user = await this.userService.getUser();
-			this.setUser(user);
-			return true;
-		}
-		
-		if (this.cookies.hasRefreshToken()) {
-			const user = await this.userService.getUser();
-			this.setUser(user);
-			return true;
-		}
-		return false;
+	getIsLoggedIn(): boolean {
+		return this._user() ? true : false
 	}
 
 	setUser(user: User | null): void {
@@ -37,6 +21,5 @@ export class CurrentUserService {
 	
 	clearUser(): void {
 		this._user.set(null);
-		this.cookies.clearTokens();
 	}
 }
