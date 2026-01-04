@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { LayoutModule } from '@angular/cdk/layout';
@@ -13,6 +13,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { routes } from './app.routes';
 import { authInterceptor } from './shared/auth/interceptors/auth.interceptor';
 import { unauthorizedInterceptor } from './shared/auth/interceptors/unauthorized.interceptor';
+import { CurrentUserService } from './shared/user/current-user.service';
+import { UserService } from './shared/user/user.service';
 
 
 export const appConfig: ApplicationConfig = {
@@ -37,5 +39,11 @@ export const appConfig: ApplicationConfig = {
 		{ provide: MAT_DATE_LOCALE, useValue: enUS },
 		provideDateFnsAdapter(),
 		CookieService,
+		provideAppInitializer(async () => {
+			const userService = inject(UserService);
+			const currentUserService = inject(CurrentUserService);
+			const user = await userService.getUser();
+			currentUserService.setUser(user);
+		}),
 	],
 };

@@ -11,8 +11,7 @@ export const loggedInGuard: CanActivateFn = (
 	const currentUserService = inject(CurrentUserService);
 	const navigationService = inject(NavigationService);
 
-	const isLoggedIn = currentUserService.getIsLoggedIn();
-	if (isLoggedIn) return true;
+	if (currentUserService.isLoggedIn) return true;
 	
 	router.navigate([navigationService.account().login()], { queryParams: { returnUrl: state.url } });
 	return false;

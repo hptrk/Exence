@@ -4,11 +4,13 @@ import { Router } from '@angular/router';
 import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { NavigationService } from './../../navigation/navigation.service';
+import { CurrentUserService } from '../../user/current-user.service';
 
 export function unauthorizedInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const router = inject(Router);
 	const navigationService = inject(NavigationService);
 	const authService = inject(AuthService);
+	const currentUserService = inject(CurrentUserService);
 
 	return next(req).pipe(
 		catchError((error: HttpErrorResponse) => {
@@ -17,6 +19,7 @@ export function unauthorizedInterceptor(req: HttpRequest<unknown>, next: HttpHan
 			}
 
 			if (req.url.includes('/api/auth/refresh-token')) {
+				currentUserService.clearUser();
 				router.navigateByUrl(navigationService.account().login());
 				return throwError(() => error);
 			}

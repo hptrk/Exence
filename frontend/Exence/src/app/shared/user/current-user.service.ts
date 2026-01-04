@@ -8,14 +8,12 @@ export class CurrentUserService {
 	private _user: WritableSignal<User | null> = signal(null);
 
 	get user(): Signal<User> { return this._user.asReadonly() as Signal<User>; }
-	
-	getIsLoggedIn(): boolean {
-		return this._user() ? true : false
+
+	get isLoggedIn(): boolean {
+		return !!this._user();
 	}
 
-	setUser(user: User | null): void {
-		if (!user) return;
-		
+	setUser(user: User): void {
 		this._user.set(user);
 	}
 	
