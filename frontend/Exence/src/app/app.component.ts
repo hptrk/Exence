@@ -4,6 +4,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
+import { UserService } from './shared/user/user.service';
+import { CurrentUserService } from './shared/user/current-user.service';
 
 @Component({
 	selector: 'ex-root',
@@ -12,16 +14,25 @@ import { SvgIcons } from './shared/svg-icons/svg-icons';
 	imports: [SidebarComponent, RouterModule],
 })
 export class AppComponent implements OnInit {
-	private matIconRegistry = inject(MatIconRegistry);
-	private domSanitizer = inject(DomSanitizer);
+	private readonly userService = inject(UserService);
+	private readonly currentUserService = inject(CurrentUserService);
+	private readonly matIconRegistry = inject(MatIconRegistry);
+	private readonly domSanitizer = inject(DomSanitizer);
 
-	ngOnInit(): void {
+	async ngOnInit(): Promise<void> {
 		// Icon set
 		for (const iconName of Object.values(SvgIcons)) {
 			this.matIconRegistry.addSvgIcon(
 				iconName,
 				this.domSanitizer.bypassSecurityTrustResourceUrl(`assets/icons/${iconName}.svg`),
 			);
+		}
+
+		try {
+			const user = await this.userService.getUser();
+			this.currentUserService.setUser(user);
+		} catch {
+			this.currentUserService.clearUser();
 		}
 	}
 }
