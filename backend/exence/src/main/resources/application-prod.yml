@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+exence:
+  secure-cookie: true # HTTPS is required
+  frontend-url: ${FRONTEND_URL:https://exence.com}
+
+logging:
+  level:
+    root: WARN
+    com.exence.finance: INFO
+    com.exence.finance.security: INFO
+    org.springframework.security: WARN
+    org.springframework.web: WARN
+

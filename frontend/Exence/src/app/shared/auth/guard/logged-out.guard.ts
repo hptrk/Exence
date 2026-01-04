@@ -1,11 +1,10 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } from '@angular/router';
-import { CurrentUserService } from '../../user/current-user.service';
+import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
 import { NavigationService } from '../../navigation/navigation.service';
+import { CurrentUserService } from '../../user/current-user.service';
 
-export const loggedOutGuard: CanActivateFn = async (
+export const loggedOutGuard: CanActivateFn = (
 	route: ActivatedRouteSnapshot,
-	_state: RouterStateSnapshot
 ) => {
 	const router = inject(Router);
 	const currentUserService = inject(CurrentUserService);
@@ -15,8 +14,7 @@ export const loggedOutGuard: CanActivateFn = async (
 		return true;
 	}
 
-	const isLoggedIn = await currentUserService.getIsLoggedIn();
-	if (!isLoggedIn) return true;
+	if (!currentUserService.isLoggedIn) return true;
 	
 	router.navigate([navigationService.private().index()]);
 	return false;

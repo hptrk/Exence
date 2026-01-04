@@ -5,14 +5,15 @@ import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.UserRepository;
+import com.exence.finance.modules.auth.service.CookieService;
 import com.exence.finance.modules.auth.service.LogoutService;
-import com.exence.finance.modules.auth.service.RequestContextService;
 import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
@@ -29,24 +30,31 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
     private final UserRepository userRepository;
     private final ExenceProperties exenceProperties;
     private final TokenManagementService tokenManagementService;
-    private final RequestContextService requestContextService;
+    private final CookieService cookieService;
 
     @Override
     @Transactional
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
         SecurityContextHolder.clearContext();
 
-        final String jwt = requestContextService.extractBearerToken();
-        if (jwt == null) return;
+        final String jwt = cookieService.extractAccessTokenFromCookie(request);
 
         try {
-            if (exenceProperties.isLogoutFromAllDevices()) {
-                logoutFromAllDevices(jwt);
-            } else {
-                logoutFromCurrentDevice(jwt);
+            if (jwt != null) {
+                if (exenceProperties.isLogoutFromAllDevices()) {
+                    logoutFromAllDevices(jwt);
+                } else {
+                    logoutFromCurrentDevice(jwt);
+                }
             }
         } catch (Exception e) {
             log.warn("Error during logout token cleanup: {}", e.getMessage());
+        } finally {
+            ResponseCookie clearAccessToken = cookieService.createExpiredAccessTokenCookie();
+            ResponseCookie clearRefreshToken = cookieService.createExpiredRefreshTokenCookie();
+
+            response.addHeader("Set-Cookie", clearAccessToken.toString());
+            response.addHeader("Set-Cookie", clearRefreshToken.toString());
         }
     }
 

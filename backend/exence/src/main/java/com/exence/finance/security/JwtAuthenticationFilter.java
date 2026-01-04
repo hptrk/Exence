@@ -1,6 +1,7 @@
 package com.exence.finance.security;
 
 import com.exence.finance.modules.auth.dto.TokenType;
+import com.exence.finance.modules.auth.service.CookieService;
 import com.exence.finance.modules.auth.service.TokenValidationService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -26,6 +27,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
     private final TokenValidationService tokenValidationService;
+    private final CookieService cookieService;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -37,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String jwt = extractJwtToken(request);
+        String jwt = cookieService.extractAccessTokenFromCookie(request);
         if (jwt == null) {
             filterChain.doFilter(request, response);
             return;
@@ -56,14 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private boolean isAuthenticationPath(HttpServletRequest request) {
         return request.getServletPath().contains("/auth");
-    }
-
-    private String extractJwtToken(HttpServletRequest request) {
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.substring(7);
-        }
-        return null;
     }
 
     private void authenticateRequest(HttpServletRequest request, String jwt) {

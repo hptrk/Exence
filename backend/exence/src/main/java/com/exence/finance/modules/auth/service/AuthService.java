@@ -7,9 +7,7 @@ import com.exence.finance.modules.auth.dto.request.PasswordResetRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.category.dto.CategoryDTO;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
 
@@ -17,7 +15,7 @@ public interface AuthService {
 
     AuthenticationResponse login(LoginRequest request);
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse servletResponse);
+    String refreshToken(HttpServletRequest request);
 
     void verifyEmail(EmailVerificationRequest request);
     

@@ -13,11 +13,13 @@ import com.exence.finance.modules.auth.dto.request.LoginRequest;
 import com.exence.finance.modules.auth.dto.request.PasswordResetRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
+import com.exence.finance.modules.auth.dto.response.TokenPair;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.UserMapper;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.AuthService;
+import com.exence.finance.modules.auth.service.CookieService;
 import com.exence.finance.modules.auth.service.PasswordHistoryService;
 import com.exence.finance.modules.auth.service.PasswordValidationService;
 import com.exence.finance.modules.email.service.EmailLogService;
@@ -25,14 +27,10 @@ import com.exence.finance.modules.email.service.EmailService;
 import com.exence.finance.modules.auth.service.RequestContextService;
 import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.modules.auth.service.TokenValidationService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,7 +51,6 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
-    private final ObjectMapper objectMapper;
     private final EmailService emailService;
     private final EmailLogService emailLogService;
     private final TokenManagementService tokenManagementService;
@@ -62,6 +59,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordValidationService passwordValidationService;
     private final PasswordHistoryService passwordHistoryService;
     private final EmailBusinessProperties emailBusinessProperties;
+    private final CookieService cookieService;
 
     @Override
     @Transactional
@@ -95,22 +93,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String refreshToken = requestContextService.extractBearerToken();
+    public String refreshToken(HttpServletRequest request) {
+        String refreshToken = cookieService.extractRefreshTokenFromCookie(request);
 
-            User user = tokenValidationService.validateAndExtractUser(refreshToken, TokenType.REFRESH);
-            String sessionId = tokenManagementService.getSessionIdByToken(refreshToken);
+        User user = tokenValidationService.validateAndExtractUser(refreshToken, TokenType.REFRESH);
+        String sessionId = tokenManagementService.getSessionIdByToken(refreshToken);
 
-            tokenManagementService.revokeUserTokensByTypeAndSession(user, TokenType.ACCESS, sessionId);
-            
-            AuthenticationResponse authResponse = createAuthenticationResponse(user, sessionId, refreshToken);
+        tokenManagementService.revokeUserTokensByTypeAndSession(user, TokenType.ACCESS, sessionId);
 
-            writeJsonResponse(response, authResponse);
-        } catch (Exception e) {
-            log.error("Error during token refresh", e);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
+        Token newAccessToken = tokenManagementService.createAndSaveToken(user, TokenType.ACCESS, sessionId);
+        return newAccessToken.getToken();
     }
 
     @Override
@@ -186,27 +178,15 @@ public class AuthServiceImpl implements AuthService {
 
     private AuthenticationResponse createAuthenticationResponse(User user) {
         String sessionId = UUID.randomUUID().toString();
-        return createAuthenticationResponse(user, sessionId);
-    }
-
-    private AuthenticationResponse createAuthenticationResponse(User user, String sessionId) {
         Token accessToken = tokenManagementService.createAndSaveToken(user, TokenType.ACCESS, sessionId);
         Token refreshToken = tokenManagementService.createAndSaveToken(user, TokenType.REFRESH, sessionId);
 
         return AuthenticationResponse.builder()
                 .user(userMapper.mapToUserDto(user))
-                .accessToken(accessToken.getToken())
-                .refreshToken(refreshToken.getToken())
-                .build();
-    }
-
-    private AuthenticationResponse createAuthenticationResponse(User user, String sessionId, String refreshToken) {
-        Token accessToken = tokenManagementService.createAndSaveToken(user, TokenType.ACCESS, sessionId);
-
-        return AuthenticationResponse.builder()
-                .user(userMapper.mapToUserDto(user))
-                .accessToken(accessToken.getToken())
-                .refreshToken(refreshToken)
+                .tokens(TokenPair.builder()
+                        .accessToken(accessToken.getToken())
+                        .refreshToken(refreshToken.getToken())
+                        .build())
                 .build();
     }
 
@@ -218,17 +198,5 @@ public class AuthServiceImpl implements AuthService {
         } catch (BadCredentialsException e) {
             throw new AuthenticationFailedException();
         }
-    }
-
-    private void writeJsonResponse(HttpServletResponse response, Object object) throws Exception {
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(HttpStatus.OK.value());
-        objectMapper.writeValue(response.getOutputStream(), object);
-    }
-
-    private void writeErrorResponse(HttpServletResponse response, String message, HttpStatus status) throws Exception {
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(status.value());
-        objectMapper.writeValue(response.getOutputStream(), message);
     }
 }

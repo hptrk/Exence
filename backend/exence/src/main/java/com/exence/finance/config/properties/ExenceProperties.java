@@ -17,4 +17,6 @@ public class ExenceProperties {
 
     private int passwordHistoryCount;
 
+    private boolean secureCookie;
+
 }

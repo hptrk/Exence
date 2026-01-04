@@ -9,10 +9,11 @@ import com.exence.finance.modules.auth.dto.request.PasswordResetRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import com.exence.finance.modules.auth.service.AuthService;
+import com.exence.finance.modules.auth.service.CookieService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,23 +27,35 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "http://localhost:4200")
 public class AuthControllerImpl implements AuthController {
     private final AuthService authService;
+    private final CookieService cookieService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request){
-        AuthenticationResponse response = authService.register(request);
-        return ResponseFactory.ok(response);
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
+        AuthenticationResponse authResponse = authService.register(request);
+
+        ResponseCookie accessTokenCookie = cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
+        ResponseCookie refreshTokenCookie = cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
+
+        return ResponseFactory.okWithCookies(authResponse, accessTokenCookie, refreshTokenCookie);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request){
-        AuthenticationResponse response = authService.login(request);
-        return ResponseFactory.ok(response);
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request) {
+        AuthenticationResponse authResponse = authService.login(request);
+
+        ResponseCookie accessTokenCookie = cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
+        ResponseCookie refreshTokenCookie = cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
+
+        return ResponseFactory.okWithCookies(authResponse, accessTokenCookie, refreshTokenCookie);
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<Void> refreshToken(HttpServletRequest request, HttpServletResponse response) {
-        authService.refreshToken(request, response);
-        return ResponseFactory.noContent();
+    public ResponseEntity<Void> refreshToken(HttpServletRequest request) {
+        String newAccessToken = authService.refreshToken(request);
+
+        ResponseCookie accessTokenCookie = cookieService.createAccessTokenCookie(newAccessToken);
+
+        return ResponseFactory.noContentWithCookies(accessTokenCookie);
     }
     
     @PostMapping("/verify-email")

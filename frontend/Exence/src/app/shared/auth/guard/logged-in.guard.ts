@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivateFn, Router, RouterStateSnapshot } fr
 import { NavigationService } from '../../navigation/navigation.service';
 import { CurrentUserService } from '../../user/current-user.service';
 
-export const loggedInGuard: CanActivateFn = async (
+export const loggedInGuard: CanActivateFn = (
 	_route: ActivatedRouteSnapshot,
 	state: RouterStateSnapshot
 ) => {
@@ -11,8 +11,7 @@ export const loggedInGuard: CanActivateFn = async (
 	const currentUserService = inject(CurrentUserService);
 	const navigationService = inject(NavigationService);
 
-	const isLoggedIn = await currentUserService.getIsLoggedIn();
-	if (isLoggedIn) return true;
+	if (currentUserService.isLoggedIn) return true;
 	
 	router.navigate([navigationService.account().login()], { queryParams: { returnUrl: state.url } });
 	return false;
