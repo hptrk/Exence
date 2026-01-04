@@ -1,10 +1,12 @@
-import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { NavigationService } from '../../navigation/navigation.service';
 import { CurrentUserService } from '../../user/current-user.service';
+
+export const SUPPRESS_ERROR_SNACKBAR = new HttpContextToken<boolean>(() => false);
 
 export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const router = inject(Router);
@@ -21,7 +23,11 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 			if (error.status === 403 && req.url.includes('/api/auth/refresh-token')) {
 				currentUserService.clearUser();
 				router.navigateByUrl(navigationService.account().login());
-				return throwError(() => error);
+
+				const errorWithContext = { ...error };
+				setErrorContext(errorWithContext, req);
+
+				return throwError(() => errorWithContext);
 			}
 
 			return from(authService.refreshToken()).pipe(
@@ -31,10 +37,20 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 				}),
 				catchError((refreshError: HttpErrorResponse) => {
 					router.navigateByUrl(navigationService.account().login());
-					return throwError(() => refreshError);
+
+					const errorWithContext = { ...refreshError };
+					setErrorContext(errorWithContext, req);
+
+					return throwError(() => errorWithContext);
 				})
 			);
 		})
 	);
 }
 
+function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>) {
+	Object.defineProperty(errorWithContext, 'context', {
+		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
+		enumerable: false
+	});
+}
