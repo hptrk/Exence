@@ -28,6 +28,8 @@ import java.util.List;
 
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_EMOJI_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
 
 @SuperBuilder
 @Entity
@@ -52,6 +54,9 @@ public class Category extends BaseAuditableEntity {
 
     @Column(name = "emoji", length = CATEGORY_EMOJI_MAX_LENGTH)
     private String emoji;
+
+    @Column(name = "NOTE", length = CATEGORY_NOTE_MAX_LENGTH)
+    private String note;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
