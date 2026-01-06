@@ -38,7 +38,6 @@ export class ErrorService {
 			?? fallbackError.message
 			?? 'Unexpected error occurred';
 		
-		// TEST LEHET DUPLA ERROR LESZ CONSOLEBAN
 		console.error('Error Response:', error ?? fallbackError);
 		this.snackbarService.showError(errorMessage);
 	}
