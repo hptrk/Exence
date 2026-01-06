@@ -1,35 +1,24 @@
-import { HttpClient, HttpContext, HttpErrorResponse, HttpEvent, HttpHeaders, HttpParams, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, from, map, Observable, OperatorFunction, Subject, tap } from 'rxjs';
-import { SnackbarService } from '../snackbar/snackbar.service';
-import { HttpSettings } from './http-settings';
-import { ErrorResponse } from '../../data-model/modules/ErrorResponse';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { ErrorService } from '../error.service';
+
+export interface HttpSettings {
+	suppressErrorMessage?: boolean;
+}
+
 interface HttpOptions {
 	headers?: HttpHeaders | Record<string, string | string[]>;
 	context?: HttpContext;
 	params?: HttpParams | Record<string, string | string[]>;
 }
 
-export class HttpServiceError extends Error {
-	public override cause: HttpErrorResponse;
-	override name = 'HttpServiceError';
-	constructor(public error: HttpErrorResponse, stackSnapshot?: StackSnapshot) {
-		super(error.message);
-		this.cause = this.error;
-		if (stackSnapshot) this.stack = stackSnapshot.stack ?? '';
-	}
-}
-
-class StackSnapshot extends Error { }
-
 @Injectable({
 	providedIn: 'root'
 })
 export class HttpService {
 	private readonly httpClient = inject(HttpClient);
-	private readonly snackbarService = inject(SnackbarService);
-
-	private responseEventStream: Subject<HttpResponseBase> = new Subject();
+	private readonly errorService = inject(ErrorService);
 
 	get<T>(url: string, params?: Record<string, string | undefined | null>, settings?: HttpSettings): Observable<T> {
 		return this.call(
@@ -67,53 +56,13 @@ export class HttpService {
 	}
 
 	private call<T>(response: Observable<HttpResponse<string>>, settings: HttpSettings): Observable<T> {
-		const stackSnapshot = new StackSnapshot();
 		return response.pipe(
-			this.tapEventStream(),
-			catchError((err: HttpErrorResponse) => from(this.handleError(err, settings, stackSnapshot))),
 			map(resp => resp ? this.parseResponse<T>(resp)! : null as T),
+			catchError((err: HttpErrorResponse) => {
+				this.errorService.handleError(err, settings);
+				return throwError(() => err);
+			}),
 		);
-	}
-
-	private tapEventStream<T extends HttpEvent<unknown>>(): OperatorFunction<T, T> {
-		return tap({
-			next: resp => { if (resp instanceof HttpResponseBase) this.responseEventStream.next(resp); },
-			error: (resp: HttpErrorResponse) => this.responseEventStream.next(resp)
-		});
-	}
-
-	private async handleError(errorResponse: HttpErrorResponse, settings?: HttpSettings, _stackSnapshot?: StackSnapshot): Promise<void> {
-		settings = settings ?? {};
-
-		let error: ErrorResponse | null = null;
-		
-		try {
-			if (errorResponse.error) {
-				error = errorResponse.error as ErrorResponse;
-				console.log(error);
-			}
-		} catch (e) {
-			console.error('Failed to parse error response:', e);
-		}
-
-		switch (error?.status) {
-			case 401:
-				break;
-			default:
-				if (!settings.suppressErrorMessage) {
-					await this.showErrorFromResponse(error);
-				}
-				break;
-		}
-	}
-
-	private async showErrorFromResponse(error: ErrorResponse | null): Promise<void> {
-		await new Promise(() => new Date()); // TODO remove
-		const errorMessage = error?.detail 
-			?? 'Unexpected error occurred';
-		
-		console.error('Error Response:', error);
-		this.snackbarService.showError(errorMessage);
 	}
 
 	private parseResponse<T>(response: HttpResponse<string> | null): T | null {
