@@ -74,7 +74,7 @@ export class ProfileComponent {
 			username: formValue.username,
 		};
 		const updatedUser = await this.userService.updateUser(request);
-		this.currentUserService.setUser(updatedUser);
+		this.currentUserService.user = updatedUser;
 		this.isUserDataFormEditing.set(false);
 		this.snackbarService.showSuccess('Successfully saved!');
 	}
@@ -89,7 +89,6 @@ export class ProfileComponent {
 		};
 		await this.userService.changePassword(request);
 		this.isPasswordFormEditing.set(false);
-		this.router.navigateByUrl(this.navigationService.account().login());
 		this.router.navigate([this.navigationService.account().login()], { queryParams: { ['password-changed']: 'true' } });
 		this.snackbarService.showSuccess('Successfully saved!');
 	}

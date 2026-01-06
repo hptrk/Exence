@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
 
 		try {
 			const user = await this.userService.getUser();
-			this.currentUserService.setUser(user);
+			this.currentUserService.user = user;
 		} catch {
 			this.currentUserService.clearUser();
 		}
