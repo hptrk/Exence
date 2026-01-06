@@ -2,8 +2,11 @@ import { HttpClient, HttpContext, HttpErrorResponse, HttpEvent, HttpHeaders, Htt
 import { inject, Injectable } from '@angular/core';
 import { catchError, from, map, Observable, OperatorFunction, Subject, tap } from 'rxjs';
 import { SnackbarService } from '../snackbar/snackbar.service';
-import { HttpSettings } from './http-settings';
 import { ErrorResponse } from '../../data-model/modules/ErrorResponse';
+
+export interface HttpSettings {
+	suppressErrorMessage?: boolean;
+}
 interface HttpOptions {
 	headers?: HttpHeaders | Record<string, string | string[]>;
 	context?: HttpContext;
