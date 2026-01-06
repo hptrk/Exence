@@ -1,7 +1,7 @@
 import { HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
+import { catchError, from, Observable, switchMap, tap, throwError } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { NavigationService } from '../../navigation/navigation.service';
 import { CurrentUserService } from '../../user/current-user.service';
@@ -31,6 +31,7 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 			}
 
 			return from(authService.refreshToken()).pipe(
+				tap(() => console.warn('Access token expired. Requesting new access token!')),
 				switchMap(() => {
 					const request = req.clone({ withCredentials: true });
 					return next(request);
