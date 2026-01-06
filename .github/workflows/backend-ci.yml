@@ -9,7 +9,7 @@ on:
     paths: ['backend/**', '.github/workflows/backend-ci.yml']
 
 env:
-  MAVEN_OPTS: -Xmx1024m
+  GRADLE_OPTS: -Xmx1024m -XX:MaxMetaspaceSize=512m
 
 jobs:
   build-test:
@@ -24,8 +24,6 @@ jobs:
           POSTGRES_PASSWORD: test
         options: >-
           --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-
-
         ports:
           - 5432:5432
 
@@ -42,13 +40,13 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: maven
+          cache: gradle
 
-      - name: Verify Maven wrapper
-        run: chmod +x ./mvnw
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Run tests
-        run: ./mvnw -B clean test
+        run: ./gradlew test --no-daemon
         env:
           SPRING_PROFILES_ACTIVE: test
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/exence_test
@@ -56,4 +54,4 @@ jobs:
           SPRING_DATASOURCE_PASSWORD: test
 
       - name: Build application
-        run: ./mvnw -B clean package -DskipTests
+        run: ./gradlew build -x test --no-daemon

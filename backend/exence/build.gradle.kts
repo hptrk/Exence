@@ -16,6 +16,9 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
+    testCompileOnly {
+        extendsFrom(configurations.testAnnotationProcessor.get())
+    }
 }
 
 dependencies {
@@ -40,6 +43,7 @@ dependencies {
 
     // Lombok
     annotationProcessor(libs.lombok)
+    testAnnotationProcessor(libs.lombok)
     annotationProcessor(libs.lombok.mapstruct.binding)
 
     // Mapping libraries
