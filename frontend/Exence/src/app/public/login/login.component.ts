@@ -52,7 +52,7 @@ export class LoginComponent extends BaseComponent {
 			password: formValue.password,
 		};
 		const resp = await this.authService.login(request);
-		this.currentUserService.setUser(resp.user);
+		this.currentUserService.user = resp.user;
 		this.router.navigateByUrl(this.navigationService.private().dashboard());
 	}
 }
