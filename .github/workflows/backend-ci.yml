@@ -41,6 +41,7 @@ jobs:
           distribution: temurin
           java-version: '17'
           cache: gradle
+          cache-dependency-path: backend/exence/gradle/wrapper/gradle-wrapper.properties
 
       - name: Make gradlew executable
         run: chmod +x ./gradlew
