@@ -4,8 +4,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
-import { UserService } from './shared/user/user.service';
 import { CurrentUserService } from './shared/user/current-user.service';
+import { UserService } from './shared/user/user.service';
+import { from } from 'rxjs';
 
 @Component({
 	selector: 'ex-root',
@@ -14,10 +15,11 @@ import { CurrentUserService } from './shared/user/current-user.service';
 	imports: [SidebarComponent, RouterModule],
 })
 export class AppComponent implements OnInit {
-	private readonly userService = inject(UserService);
 	private readonly currentUserService = inject(CurrentUserService);
 	private readonly matIconRegistry = inject(MatIconRegistry);
 	private readonly domSanitizer = inject(DomSanitizer);
+	private readonly userService = inject(UserService);
+	
 
 	async ngOnInit(): Promise<void> {
 		// Icon set
@@ -28,11 +30,13 @@ export class AppComponent implements OnInit {
 			);
 		}
 
-		try {
-			const user = await this.userService.getUser();
-			this.currentUserService.user = user;
-		} catch {
-			this.currentUserService.clearUser();
-		}
+		from(this.userService.getUser()).subscribe({
+			next: (user) => {
+				this.currentUserService.user = user;
+			},
+			error: () => {
+				this.currentUserService.clearUser();
+			}
+		});
 	}
 }
