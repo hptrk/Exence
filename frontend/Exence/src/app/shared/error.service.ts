@@ -1,9 +1,9 @@
-import { inject, Injectable } from "@angular/core";
-import { SnackbarService } from "./snackbar/snackbar.service";
-import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorResponse } from "../data-model/modules/ErrorResponse";
-import { SUPPRESS_ERROR_SNACKBAR } from "./auth/interceptors/refresh-token.interceptor";
-import { HttpSettings } from "./http/http.service";
+import { inject, Injectable } from '@angular/core';
+import { SnackbarService } from './snackbar/snackbar.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorResponse } from '../data-model/modules/ErrorResponse';
+import { SUPPRESS_ERROR_SNACKBAR } from './auth/interceptors/refresh-token.interceptor';
+import { HttpSettings } from './http/http.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,6 +14,7 @@ export class ErrorService {
 	handleError(errorResponse: HttpErrorResponse, settings?: HttpSettings): void {
 		settings = settings ?? {};
 
+		// eslint-disable-next-line
 		const suppressFromInterceptor = (errorResponse as any).context?.get?.(SUPPRESS_ERROR_SNACKBAR) ?? false;
 
 		if (!settings.suppressErrorMessage && !suppressFromInterceptor) {

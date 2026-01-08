@@ -8,6 +8,13 @@ import { CurrentUserService } from '../../user/current-user.service';
 
 export const SUPPRESS_ERROR_SNACKBAR = new HttpContextToken<boolean>(() => false);
 
+function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>): void {
+	Object.defineProperty(errorWithContext, 'context', {
+		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
+		enumerable: false
+	});
+}
+
 export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const router = inject(Router);
 	const navigationService = inject(NavigationService);
@@ -48,11 +55,4 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 			);
 		})
 	);
-}
-
-function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>) {
-	Object.defineProperty(errorWithContext, 'context', {
-		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
-		enumerable: false
-	});
 }

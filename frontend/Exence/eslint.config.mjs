@@ -11,6 +11,7 @@ export default defineConfig([
 		languageOptions: {
 			parserOptions: {
 				projectService: true,
+				allowDefaultProject: ['eslint.config.mjs'],
 			},
 		},
 	},
@@ -56,6 +57,7 @@ export default defineConfig([
                 }
             ],
 			"@typescript-eslint/method-signature-style": ["error", "property"],
+			"@typescript-eslint/require-await": "off",
     		"@typescript-eslint/no-deprecated": "warn",
 			"@typescript-eslint/no-inferrable-types": "warn",
 			"@typescript-eslint/no-misused-promises": [
@@ -78,6 +80,7 @@ export default defineConfig([
 			"@typescript-eslint/no-floating-promises": "off",
 			"@typescript-eslint/unbound-method": "off",
 			"@typescript-eslint/no-unsafe-assignment": "off",
+			"@typescript-eslint/no-unsafe-arguments": "off",
 			"no-unused-vars": "off",
     		"@typescript-eslint/no-unused-vars": [
 				"warn",
