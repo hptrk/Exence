@@ -233,7 +233,6 @@ export class DataTableComponent extends BaseComponent {
 		// }
 	}
 
-	// TODO refactor
 	openCreateDialog(): void {
 		// All transactions
 		if (!this.type()) {

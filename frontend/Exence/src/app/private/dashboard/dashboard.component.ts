@@ -50,7 +50,6 @@ export class DashboardComponent implements OnInit {
 	readonly dialog = inject(MatDialog);
 	readonly router = inject(Router);
 	readonly navigation = inject(NavigationService);
-	
 
 	transactionTypes = TransactionType;
 	dateIntervals = DateInterval;

@@ -67,7 +67,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 		});
 	}
 
-	public openCreateTransactionDialog(): void {
+	openCreateTransactionDialog(): void {
 		this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
 			CreateTransactionDialogComponent, undefined
 		).afterClosed().subscribe(
@@ -80,7 +80,7 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 		);
 	}
 
-	public openCreateCategoryDialog(): void {
+	openCreateCategoryDialog(): void {
 		this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
 			CreateCategoryDialogComponent, undefined
 		).afterClosed().subscribe(
