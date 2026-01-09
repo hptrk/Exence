@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -39,10 +38,8 @@ public class TransactionFilter implements Serializable {
             message = "Keyword must be at most " + TRANSACTION_TITLE_MAX_LENGTH + " characters")
     private String keyword;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Instant dateFrom;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Instant dateTo;
 
     private Long categoryId;
