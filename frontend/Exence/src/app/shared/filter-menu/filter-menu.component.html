@@ -1,0 +1,35 @@
+<ex-button
+	color="primary"
+	filled
+	matIcon="filter_alt"
+	collapseUnder="md"
+	collapsedStyle="filled"
+	[matMenuTriggerFor]="filterMenu"
+	[matBadgeHidden]="!appliedFiltersCount()"
+	[matBadge]="appliedFiltersCount()"
+	matBadgePosition="before"
+>
+	Add filter
+</ex-button>
+
+<mat-menu #filterMenu>
+	<div
+		class="d-flex flex-column gap-3 p-4"
+		(click)="$event.stopPropagation()"
+	>
+		<div
+			class="d-flex flex-row align-items-center justify-content-between gap-2"
+		>
+			<h3 class="m-0">Filters</h3>
+			<ex-button
+				iconButton
+				color="primary"
+				matIcon="filter_alt_off"
+				[disabled]="!appliedFiltersCount()"
+				(click)="clearFilters()"
+			/>
+		</div>
+
+		<ng-content />
+	</div>
+</mat-menu>
