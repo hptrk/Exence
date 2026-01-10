@@ -1,7 +1,7 @@
 @import '../../../styles/imports.scss';
 
 :host {
-	height: 100%;
+	flex-grow: 1;
 }
 
 .table-container {

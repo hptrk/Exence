@@ -3,6 +3,7 @@ import { lastValueFrom } from 'rxjs';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { HttpService } from '../../shared/http/http.service';
 
@@ -18,7 +19,11 @@ export class TransactionService {
 		return lastValueFrom(this.http.get<Transaction>(`${this.baseUrl}/${id}`));
 	}
 
-	public list(): Promise<PagedResponse<Transaction>> {
+	public list(filters?: TransactionFilter): Promise<PagedResponse<Transaction>> {
+		if (filters) {
+			const request: Record<string, string> = filters as unknown as Record<string, string>;
+			return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, request));
+		}
 		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl));
 	}
 

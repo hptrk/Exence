@@ -5,7 +5,11 @@
 	<div
 		class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center gap-2"
 	>
-		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
+		<h2
+			class="m-0 text-center text-md-start {{
+				display.isSm() ? 'fs-1' : 'fs-2'
+			}}"
+		>
 			@if (selectedIndex === 0) {
 				Transactions
 			} @else {
@@ -20,7 +24,9 @@
 		>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+					<div
+						class="d-flex flex-row flex-nowrap align-items-center gap-2"
+					>
 						<mat-icon size="md">payments</mat-icon>
 						@if (display.isMd()) {
 							Transactions
@@ -30,7 +36,9 @@
 			</mat-tab>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+					<div
+						class="d-flex flex-row flex-nowrap align-items-center gap-2"
+					>
 						<mat-icon size="md">cached</mat-icon>
 						@if (display.isMd()) {
 							Categories
@@ -55,9 +63,11 @@
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
-					[data]="{ transactions: recurringTransactions.incomes, categories }"
+					[data]="{
+						transactions: recurringTransactions.incomes,
+						categories
+					}"
 					matIcon="money_off"
-					class="flex-grow-1"
 					nonExpandable
 					paginationDisabled
 					title="Recurring Incomes"
@@ -66,7 +76,10 @@
 					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ex-data-table
-					[data]="{ transactions: recurringTransactions.expenses, categories }"
+					[data]="{
+						transactions: recurringTransactions.expenses,
+						categories
+					}"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -78,9 +91,11 @@
 				/>
 			} @else {
 				<ex-data-table
-					[data]="{ transactions: recurringTransactions.mergedTransactions, categories }"
+					[data]="{
+						transactions: recurringTransactions.mergedTransactions,
+						categories
+					}"
 					matIcon="money_off"
-					class="flex-grow-1"
 					nonExpandable
 					paginationDisabled
 					title="Recurrings"
@@ -95,7 +110,12 @@
 			[class.overflow-hidden]="display.isMd()"
 		>
 			<div class="d-flex flex-row flex-nowrap justif-content-between">
-				<div [matTooltip]="!canCreateTransaction ? 'First create a category!' : ''">
+				<div
+					class="d-flex flex-row flex-nowrap justify-content-between gap-2 w-100"
+					[matTooltip]="
+						!canCreateTransaction ? 'First create a category!' : ''
+					"
+				>
 					<ex-button
 						filled
 						matIcon="add"
@@ -106,6 +126,90 @@
 					>
 						Add transaction
 					</ex-button>
+
+					<div class="d-flex flex-row flex-nowrap gap-2">
+						<mat-form-field subscriptSizing="dynamic" class="search">
+							<ex-button
+								iconButton
+								matPrefix
+								matIcon="search"
+								color="accent"
+							/>
+							<input [formControl]="transactionFilterForm.controls.searchText" matInput placeholder="Search..." autocomplete="off">
+							<ex-input-clear [control]="transactionFilterForm.controls.searchText" matSuffix />
+						</mat-form-field>
+						<ex-filter-menu class="align-self-end" [form]="transactionFilterForm" [appliedFiltersCount]="appliedFiltersCount">
+							@let dateRangeControl = transactionFilterForm.controls.dateRange; 
+							<mat-form-field subscriptSizing="dynamic">
+								<mat-label>Enter a date range</mat-label>
+								<mat-date-range-input
+									[formGroup]="dateRangeControl"
+									[rangePicker]="dateRangePicker"
+								>
+									<input
+										matStartDate
+										[formControl]="dateRangeControl.controls.dateFrom"
+									/>
+									<input
+										matEndDate
+										[formControl]="dateRangeControl.controls.dateTo"
+									/>
+								</mat-date-range-input>
+								<mat-datepicker-toggle
+									matIconSuffix
+									[for]="dateRangePicker"
+								></mat-datepicker-toggle>
+								<mat-date-range-picker
+									#dateRangePicker
+								></mat-date-range-picker>
+							</mat-form-field>
+
+							<div class="d-flex flex-column gap-1">
+								<div class="fs-6 ps-1">Amount</div>
+								@let amountRangeControl = transactionFilterForm.controls.amountRange;
+								<mat-form-field
+								class="mb-3" subscriptSizing="dynamic">
+									<mat-label>Min</mat-label>
+									<input matInput type="number" min="0" [formControl]="amountRangeControl.controls.min">
+								</mat-form-field>
+								<mat-form-field subscriptSizing="dynamic">
+									<mat-label>Max</mat-label>
+									<input matInput type="number" min="0" [formControl]="amountRangeControl.controls.max">
+								</mat-form-field>
+							</div>
+
+							@let categoryControl = transactionFilterForm.controls.category;
+							<mat-form-field subscriptSizing="dynamic">
+								<mat-label>Category</mat-label>
+								<mat-select [formControl]="categoryControl">
+									<mat-option [value]="null">All</mat-option>
+									@for (category of categories; track category.id) {
+										<mat-option [value]="category">{{ `${category.name} - ${category.emoji}` }}</mat-option>
+									}
+								</mat-select>
+								<mat-error>
+									<ex-validator [control]="categoryControl" />
+								</mat-error>
+							</mat-form-field>
+
+							@let typeControl = transactionFilterForm.controls.type;
+							<mat-form-field subscriptSizing="dynamic">
+								<mat-label>Type</mat-label>
+								<mat-select [formControl]="typeControl">
+									<mat-option [value]="null">All</mat-option>
+									@for (type of transactionTypesArr; track type) {
+										<mat-option [value]="type">{{ type }}</mat-option>
+									}
+								</mat-select>
+								<mat-error>
+									<ex-validator [control]="typeControl" />
+								</mat-error>
+							</mat-form-field>
+
+							@let recurringControl = transactionFilterForm.controls.recurring;
+							<mat-checkbox [formControl]="recurringControl">Recurring</mat-checkbox>
+						</ex-filter-menu>
+					</div>
 				</div>
 			</div>
 			<ex-data-table
