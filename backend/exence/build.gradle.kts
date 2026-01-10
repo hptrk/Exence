@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.emoji.java)
 
     // Database
+    implementation(libs.liquibase.core)
     runtimeOnly(libs.postgresql)
 
     // Development tools

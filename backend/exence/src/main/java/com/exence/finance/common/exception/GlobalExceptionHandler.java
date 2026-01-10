@@ -215,6 +215,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
     }
 
+    @ExceptionHandler(CategoryInUseException.class)
+    public ResponseEntity<ProblemDetail> handleCategoryInUseException(CategoryInUseException ex, WebRequest request) {
+        log.warn("Attempt to delete category with existing transactions");
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                "Cannot delete category with existing transactions. Please reassign or delete the transactions first."
+        );
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "category-in-use"));
+        problemDetail.setTitle("Category In Use");
+        problemDetail.setProperty("timestamp", Instant.now());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(problemDetail);
+    }
+
     @ExceptionHandler(TransactionNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleTransactionNotFoundException(TransactionNotFoundException ex, WebRequest request) {
         log.warn("Transaction not found for request: {}", request.getDescription(false));

@@ -1,5 +1,6 @@
 package com.exence.finance.modules.category.service.impl;
 
+import com.exence.finance.common.exception.CategoryInUseException;
 import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.service.UserService;
@@ -66,6 +67,10 @@ public class CategoryServiceImpl implements CategoryService {
     public void deleteCategory(Long id) {
         Category category = categoryRepository.find(id)
                 .orElseThrow(CategoryNotFoundException::new);
+
+        if (category.getTransactions() != null && !category.getTransactions().isEmpty()) {
+            throw new CategoryInUseException();
+        }
 
         categoryRepository.delete(category);
     }

@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,35 +31,36 @@ import java.time.Instant;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, exclude = { "user" })
 @ToString(callSuper = true, exclude = { "user" })
-@Table(name = "EMAIL_LOGS", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
+@Table(name = "email_log")
 public class EmailLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "recipient_email", nullable = false)
     private String recipientEmail;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "email_type", nullable = false)
     private EmailType emailType;
 
-    @Column(nullable = false)
+    @Column(name = "subject", nullable = false)
     private String subject;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private EmailStatus status;
 
-    @Column(length = 500)
+    @Column(name = "error_message", length = 500)
     private String errorMessage;
 
     @CreationTimestamp
-    @Column(nullable = false, updatable = false)
+    @Column(name = "sent_at", nullable = false, updatable = false)
     private Instant sentAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "user_id")
     private User user;
 }

@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-category-table
+      author: hptrk
+      comment: Create category table for transaction categorization
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_category
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(25)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: emoji
+                  type: VARCHAR(50)
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(100)
+
+        - addForeignKeyConstraint:
+            baseTableName: category
+            baseColumnNames: user_id
+            constraintName: fk_category_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: category
+            columnNames: user_id, name
+            constraintName: uk_category_user_name
+      rollback:
+        - dropTable:
+            tableName: category

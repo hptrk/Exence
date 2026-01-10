@@ -3,6 +3,7 @@ spring-boot = "3.4.1"
 spring-dependency-management = "1.1.7"
 spring-security-jwt = "1.1.1.RELEASE"
 jjwt = "0.11.2"
+liquibase = "4.30.0"
 modelmapper = "3.1.0"
 mapstruct = "1.5.5.Final"
 hibernate-validator = "8.0.0.Final"
@@ -26,6 +27,7 @@ spring-security-test = { module = "org.springframework.security:spring-security-
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 modelmapper = { module = "org.modelmapper:modelmapper", version.ref = "modelmapper" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
