@@ -1,16 +1,28 @@
-<ex-button
-	color="primary"
-	filled
-	matIcon="filter_alt"
-	collapseUnder="md"
-	collapsedStyle="filled"
-	[matMenuTriggerFor]="filterMenu"
-	[matBadgeHidden]="!appliedFiltersCount()"
-	[matBadge]="appliedFiltersCount()"
-	matBadgePosition="before"
->
-	Add filter
-</ex-button>
+@if (display.isMd()) {
+	<ex-button
+		color="primary"
+		filled
+		matIcon="filter_alt"
+		[matMenuTriggerFor]="filterMenu"
+		[matBadgeHidden]="!appliedFiltersCount()"
+		[matBadge]="appliedFiltersCount()"
+		matBadgePosition="before"
+	>
+		Add filter
+	</ex-button>
+} @else {
+	<ex-button
+		color="primary"
+		filled
+		matIcon="filter_alt"
+		collapseUnder="md"
+		collapsedStyle="filled"
+		(click)="openBottomSheet()"
+		[matBadgeHidden]="!appliedFiltersCount()"
+		[matBadge]="appliedFiltersCount()"
+		matBadgePosition="before"
+	/>
+}
 
 <mat-menu #filterMenu>
 	<div
@@ -30,6 +42,42 @@
 			/>
 		</div>
 
+		<!-- <ng-template #filterContent> -->
 		<ng-content />
+		<!-- </ng-template> -->
 	</div>
 </mat-menu>
+
+<ng-template #filterSheet>
+	<ex-button
+		iconButton
+		color="primary"
+		matIcon="clear"
+		(click)="closeSheet()"
+		class="position-absolute top-0 end-0"
+	/>
+	<div class="d-flex flex-column gap-3 p-4 h-100">
+		<h3 class="fs-1 m-0 text-center">Filters</h3>
+
+		<div class="d-flex flex-column gap-3 p-4 overflow-y-auto">
+			<ng-content />
+		</div>
+
+		<div class="d-flex flex-column gap-2">
+			<ex-button
+				matIcon="visibility"
+				(click)="closeSheet()"
+				[disabled]="!appliedFiltersCount()"
+			>
+				Show ({{ appliedFiltersCount() }})
+			</ex-button>
+			<ex-button
+				color="accent"
+				matIcon="filter_alt_off"
+				(click)="clearFilters(); closeSheet()"
+			>
+				Clear all
+			</ex-button>
+		</div>
+	</div>
+</ng-template>

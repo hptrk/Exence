@@ -10,6 +10,8 @@
 	}
 }
 
-mat-form-field {
-	width: 225px;
+@include displayMd {
+	mat-form-field {
+		width: 225px;
+	}
 }
