@@ -1,5 +1,5 @@
 import { Component, input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { merge, of } from 'rxjs';
 import { BaseComponent } from '../base-component/base.component';
 
@@ -15,7 +15,7 @@ interface ErrorInfo {
 	imports: [],
 })
 export class ValidatorComponent extends BaseComponent implements OnInit {
-	control = input.required<FormControl>();
+	control = input.required<AbstractControl>();
 	
 	errorKey?: string;
 	errorValue?: ErrorInfo;
