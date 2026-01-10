@@ -22,13 +22,13 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { FilterMenuComponent } from '../../shared/filter-menu/filter-menu.component';
+import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { CategoryService } from '../category.service';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent, CreateTransactionDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
-import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -65,7 +65,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	readonly display = inject(DisplaySizeService);
 
 	transactionFilterForm = this.fb.group({
-		searchText: this.fb.control<string>('', [Validators.maxLength(255)]),
+		searchText: this.fb.control<string>('', [Validators.maxLength(100)]),
 		dateRange: this.fb.group({
 			dateFrom: this.fb.control<Date | null>(null),
 			dateTo: this.fb.control<Date | null>(null),

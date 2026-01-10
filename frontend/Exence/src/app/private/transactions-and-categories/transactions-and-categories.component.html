@@ -111,7 +111,7 @@
 		>
 			<div class="d-flex flex-row flex-nowrap justif-content-between">
 				<div
-					class="d-flex flex-row flex-nowrap justify-content-between gap-2 w-100"
+					class="d-flex flex-row flex-nowrap justify-content-between gap-3 w-100"
 					[matTooltip]="
 						!canCreateTransaction ? 'First create a category!' : ''
 					"
@@ -127,7 +127,10 @@
 						Add transaction
 					</ex-button>
 
-					<div class="d-flex flex-row flex-nowrap gap-2">
+					<div class="d-flex flex-row flex-nowrap gap-3">
+						<mat-error class="align-self-center">
+							<ex-validator [control]="transactionFilterForm.controls.searchText" />
+						</mat-error>
 						<mat-form-field subscriptSizing="dynamic" class="search">
 							<ex-button
 								iconButton
@@ -225,7 +228,7 @@
 
 <ng-template #categoriesTab>
 	<div
-		class="d-flex flex-column justify-content-between gap-4 h-100 mt-4"
+		class="d-flex flex-column justify-content-between gap-2 h-100 mt-4"
 		[class.overflow-hidden]="display.isMd()"
 	>
 		<div class="d-flex flex-row flex-norwap gap-2 align-items-center">
