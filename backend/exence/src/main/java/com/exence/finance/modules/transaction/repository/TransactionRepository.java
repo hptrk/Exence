@@ -25,8 +25,8 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "LOWER(t.note) LIKE %:#{#filter.keyword?.toLowerCase()}%) " +
             "AND (:#{#filter.categoryId} IS NULL OR t.category.id = :#{#filter.categoryId}) " +
             "AND (:#{#filter.type} IS NULL OR t.type = :#{#filter.type}) " +
-            "AND (:#{#filter.dateFrom} IS NULL OR t.date >= :#{#filter.dateFrom}) " +
-            "AND (:#{#filter.dateTo} IS NULL OR t.date <= :#{#filter.dateTo}) " +
+            "AND (COALESCE(:#{#filter.dateFrom}, t.date) IS NULL OR t.date >= COALESCE(:#{#filter.dateFrom}, t.date)) " +
+            "AND (COALESCE(:#{#filter.dateTo}, t.date) IS NULL OR t.date <= COALESCE(:#{#filter.dateTo}, t.date)) " +
             "AND (:#{#filter.amountFrom} IS NULL OR t.amount >= :#{#filter.amountFrom}) " +
             "AND (:#{#filter.amountTo} IS NULL OR t.amount <= :#{#filter.amountTo}) " +
             "AND (:#{#filter.recurring} IS NULL OR t.recurring = :#{#filter.recurring}) " +
