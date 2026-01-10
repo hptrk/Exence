@@ -31,7 +31,7 @@ import java.time.Instant;
 public class PasswordHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "password_history_id_seq")
     @SequenceGenerator(name = "password_history_id_seq", sequenceName = "password_history_id_seq", allocationSize = 1)
     @Column(name = "id")
     private Long id;

@@ -29,6 +29,11 @@ databaseChangeLog:
             startValue: 1
             incrementBy: 1
 
+        - createSequence:
+            sequenceName: email_log_id_seq
+            startValue: 1
+            incrementBy: 1
+
       rollback:
         - dropSequence:
             sequenceName: user_id_seq
@@ -40,3 +45,5 @@ databaseChangeLog:
             sequenceName: category_id_seq
         - dropSequence:
             sequenceName: transaction_id_seq
+        - dropSequence:
+            sequenceName: email_log_id_seq
