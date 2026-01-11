@@ -1,19 +1,15 @@
 import { HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, from, Observable, switchMap, tap, throwError } from 'rxjs';
+import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { NavigationService } from '../../navigation/navigation.service';
 import { CurrentUserService } from '../../user/current-user.service';
 
 export const SUPPRESS_ERROR_SNACKBAR = new HttpContextToken<boolean>(() => false);
 
-function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>): void {
-	Object.defineProperty(errorWithContext, 'context', {
-		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
-		enumerable: false
-	});
-}
+// refresh token lock to prevent multiple token refreshes at the same time
+let refreshTokenInProgress: Promise<void> | null = null;
 
 export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const router = inject(Router);
@@ -37,8 +33,9 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 				return throwError(() => errorWithContext);
 			}
 
-			return from(authService.refreshToken()).pipe(
-				tap(() => console.warn('Access token expired. Requesting new access token!')),
+			const refreshPromise = refreshTokenInProgress ?? startTokenRefresh(authService);
+
+			return from(refreshPromise).pipe(
 				switchMap(() => {
 					const request = req.clone({ withCredentials: true });
 					return next(request);
@@ -55,4 +52,23 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 			);
 		})
 	);
+}
+
+function startTokenRefresh(authService: AuthService): Promise<void> {
+	console.warn('Access token expired. Requesting new access token!');
+	
+	refreshTokenInProgress = authService.refreshToken()
+		.then(() => {})
+		.finally(() => {
+			refreshTokenInProgress = null;
+		});
+
+	return refreshTokenInProgress;
+}
+
+function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>) {
+	Object.defineProperty(errorWithContext, 'context', {
+		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
+		enumerable: false
+	});
 }
