@@ -21,7 +21,7 @@ export class TransactionService {
 
 	public list(filters?: TransactionFilter): Promise<PagedResponse<Transaction>> {
 		if (filters) {
-			const request: Record<string, string> = filters as unknown as Record<string, string>;
+			const request: Record<string, string> = JSON.parse(JSON.stringify(filters));
 			return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, request));
 		}
 		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl));

@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 })
 export class FilterMenuComponent {
 	private readonly bottomSheet = inject(MatBottomSheet);
-	public display = inject(DisplaySizeService);
+	readonly display = inject(DisplaySizeService);
 
 	form = input.required<FormGroup>();
 	appliedFiltersCount = input.required<number>();

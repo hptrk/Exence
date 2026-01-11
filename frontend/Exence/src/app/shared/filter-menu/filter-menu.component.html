@@ -42,9 +42,7 @@
 			/>
 		</div>
 
-		<!-- <ng-template #filterContent> -->
-		<ng-content />
-		<!-- </ng-template> -->
+		<ng-container [ngTemplateOutlet]="content" />
 	</div>
 </mat-menu>
 
@@ -60,7 +58,7 @@
 		<h3 class="fs-1 m-0 text-center">Filters</h3>
 
 		<div class="d-flex flex-column gap-3 p-4 overflow-y-auto">
-			<ng-content />
+			<ng-container [ngTemplateOutlet]="content" />
 		</div>
 
 		<div class="d-flex flex-column gap-2">
@@ -80,4 +78,8 @@
 			</ex-button>
 		</div>
 	</div>
+</ng-template>
+
+<ng-template #content>
+	<ng-content />
 </ng-template>
