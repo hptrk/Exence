@@ -8,9 +8,7 @@
 	.bigger-row {
 		flex-basis: 70%;
 	}
-}
-
-@include displayMd {
+	
 	mat-form-field {
 		width: 225px;
 	}
