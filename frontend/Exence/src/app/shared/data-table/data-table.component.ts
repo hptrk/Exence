@@ -5,7 +5,6 @@ import { FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Va
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -21,10 +20,11 @@ import { TransactionModel } from '../../data-model/modules/transaction/Transacti
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoryService } from '../../private/category.service';
 import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
-import { CreateTransactionDialogComponent, CreateTransactionDialogData } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import { CreateTransactionDialogComponent } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from '../../private/transactions-and-categories/transaction.service';
 import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
+import { DialogService } from '../dialog/dialog.service';
 import { DisplaySizeService } from '../display-size.service';
 import { SnackbarService } from '../snackbar/snackbar.service';
 import { SvgIcons } from '../svg-icons/svg-icons';
@@ -76,7 +76,7 @@ export class DataTableComponent extends BaseComponent {
 	private readonly transactionService = inject(TransactionService);
 	private readonly categoryService = inject(CategoryService);
 	private readonly fb = inject(NonNullableFormBuilder);
-	private readonly dialog = inject(MatDialog);
+	private readonly dialog = inject(DialogService);
 	readonly display = inject(DisplaySizeService);
 	
 	noteForm!: FormGroup;
@@ -236,46 +236,33 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	// TODO refactor
-	openCreateDialog(): void {
+	async openCreateDialog(): Promise<void> {
 		// All transactions
 		if (!this.type()) {
-			const data: CreateTransactionDialogData = { isRecurring: this.isRecurring() ?? false };
-			this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
-				CreateTransactionDialogComponent, { data }
-			).afterClosed().subscribe(
-				(newTransaction) => {
-					if (newTransaction) {
-						this.dataChangedEvent.emit();
-						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-					}
-				}
+			const result = await this.dialog.openNonModal(
+				CreateTransactionDialogComponent,
+				{ isRecurring: this.isRecurring() ?? false }
 			);
+			if (!result) return;
+			this.dataChangedEvent.emit();
 		// Income or expense
 		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
-			const data = { isRecurring: this.isRecurring() ?? false, type: this.type()! as TransactionType };
-
-			this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
-				CreateTransactionDialogComponent, { data }
-			).afterClosed().subscribe(
-				(newTransaction) => {
-					if (newTransaction) {
-						this.dataChangedEvent.emit();
-						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-					}
+			const result = await this.dialog.openNonModal(
+				CreateTransactionDialogComponent,
+				{ 
+					isRecurring: this.isRecurring() ?? false,
+					type: this.type()! as TransactionType
 				}
 			);
+			if (!result) return;
+			this.dataChangedEvent.emit();
 		// Categories
 		} else if (this.type() === 'category') {
-			this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
+			const result = await this.dialog.openNonModal(
 				CreateCategoryDialogComponent, undefined
-			).afterClosed().subscribe(
-				(newCategory) => {
-					if (newCategory) {
-						this.dataChangedEvent.emit();
-						this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
-					}
-				}
 			);
+			if (!result) return;
+			this.dataChangedEvent.emit();
 		}
 	}
 

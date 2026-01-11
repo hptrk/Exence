@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,7 +9,9 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { Category } from '../../../data-model/modules/category/Category';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
 import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
@@ -33,12 +34,12 @@ import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
     AutoTrimDirective
 ],
 })
-export class CreateCategoryDialogComponent {
-	private readonly dialogRef = inject(MatDialogRef<CreateCategoryDialogComponent>);
+export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
 	private readonly categoryService = inject(CategoryService);
 	private readonly fb = inject(NonNullableFormBuilder);
+	private readonly snackbarService = inject(SnackbarService);
 
-	data = inject(MAT_DIALOG_DATA);
+	data = this.dialogRef.value;
 
 	form = this.fb.group({
 		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -60,7 +61,7 @@ export class CreateCategoryDialogComponent {
 	}
 
 	close(): void {
-		this.dialogRef.close();
+		this.dialogRef.close(false);
 	}
 
 	async create(): Promise<void> {
@@ -71,9 +72,10 @@ export class CreateCategoryDialogComponent {
 		};
 		try {
 			const newCategory = await this.categoryService.create(request);
-			this.dialogRef.close(newCategory);
+			this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
+			this.dialogRef.close(true);
 		} catch (_err) {
-			this.dialogRef.close();
+			this.dialogRef.close(false);
 		}
 	}
 }
