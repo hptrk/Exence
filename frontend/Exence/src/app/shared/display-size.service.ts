@@ -49,10 +49,11 @@ export class DisplaySizeService {
 		});
 	}
 
-	public getObserverByName(breakpoint: DisplaySizeBreakpoint | Signal<DisplaySizeBreakpoint>): Signal<boolean> {
+	public getObserverByName(breakpoint: DisplaySizeBreakpoint | Signal<DisplaySizeBreakpoint | undefined>): Signal<boolean> {
 		if (typeof breakpoint === 'function') {
 			return computed(() => {
 				const name = breakpoint();
+				if (!name) return true;
 				return this.createOrGetBreakPointSignal(name)();
 			});
 		}
