@@ -56,6 +56,3 @@ databaseChangeLog:
             tableName: category
             columnNames: user_id, name
             constraintName: uk_category_user_name
-      rollback:
-        - dropTable:
-            tableName: category
