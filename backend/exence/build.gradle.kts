@@ -33,6 +33,9 @@ dependencies {
     implementation(libs.spring.security.web)
     implementation(libs.spring.security.jwt)
 
+    // Password Hashing (Argon2)
+    implementation(libs.bouncycastle)
+
     // JWT
     implementation(libs.jjwt.api)
     runtimeOnly(libs.jjwt.impl)
