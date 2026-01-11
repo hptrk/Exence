@@ -13,23 +13,25 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
+import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
 
 @Component({
 	selector: 'ex-create-category-dialog',
 	templateUrl: './create-category-dialog.component.html',
 	styleUrl: './create-category-dialog.component.scss',
 	imports: [
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatCardModule,
-		MatMenuModule,
-		MatIconModule,
-		PickerComponent,
-		InputClearButtonComponent,
-		ButtonComponent,
-		ValidatorComponent,
-	],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatMenuModule,
+    MatIconModule,
+    PickerComponent,
+    InputClearButtonComponent,
+    ButtonComponent,
+    ValidatorComponent,
+    AutoTrimDirective
+],
 })
 export class CreateCategoryDialogComponent {
 	private readonly dialogRef = inject(MatDialogRef<CreateCategoryDialogComponent>);

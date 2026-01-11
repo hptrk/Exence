@@ -15,22 +15,24 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ExtraValidators } from '../../shared/validators';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
+import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
 
 @Component({
 	selector: 'ex-forgot-password',
 	templateUrl: './forgot-password.component.html',
 	styleUrl: './forgot-password.component.scss',
 	imports: [
-		MatFormFieldModule,
-		MatInputModule,
-		ButtonComponent,
-		ReactiveFormsModule,
-		MatCardModule,
-		MatIconModule,
-		InputClearButtonComponent,
-		RouterLink,
-		ValidatorComponent,
-	]
+    MatFormFieldModule,
+    MatInputModule,
+    ButtonComponent,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatIconModule,
+    InputClearButtonComponent,
+    RouterLink,
+    ValidatorComponent,
+    AutoTrimDirective
+]
 })
 export class ForgotPasswordComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);

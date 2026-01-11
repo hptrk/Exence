@@ -44,7 +44,7 @@
 				@let nameControl = userDataForm.controls.username;
 				<mat-form-field>
 					<mat-label>Username</mat-label>
-					<input matInput [formControl]="nameControl" />
+					<input matInput autoTrim [formControl]="nameControl" />
 					<ex-input-clear matSuffix [control]="nameControl"/>
 					<mat-error>
 						<ex-validator [control]="nameControl" />
@@ -54,7 +54,7 @@
 				@let emailControl = userDataForm.controls.email;
 				<mat-form-field>
 					<mat-label>Email</mat-label>
-					<input matInput type="email" [formControl]="emailControl" />
+					<input matInput autoTrim type="email" [formControl]="emailControl" />
 					<ex-input-clear matSuffix [control]="emailControl" />
 					<mat-error>
 						<ex-validator [control]="emailControl" />
