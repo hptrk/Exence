@@ -3,16 +3,16 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { Category } from '../../../data-model/modules/category/Category';
 import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
-import { BaseComponent } from '../../../shared/base-component/base.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
 import { TransactionService } from '../transaction.service';
@@ -38,13 +38,13 @@ export interface CreateTransactionDialogData {
 		ValidatorComponent,
 	],
 })
-export class CreateTransactionDialogComponent extends BaseComponent implements OnInit {
-	private readonly dialogRef = inject(MatDialogRef<CreateTransactionDialogComponent>);
+export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, boolean> implements OnInit {
 	private readonly transactionService = inject(TransactionService);
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
+	private readonly snackbarService = inject(SnackbarService);
 
-	data: CreateTransactionDialogData = inject(MAT_DIALOG_DATA);
+	data = this.dialogRef.value;
 
 	transactionTypes: TransactionType[] = Object.values(TransactionType);
 
@@ -62,10 +62,10 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 
 	async ngOnInit(): Promise<void> {
 		this.categories = await this.categoryService.list();
-		if (this.data.type) {
+		if (this.data?.type) {
 			this.form.controls.type.setValue(this.data.type);
 		}
-		if (this.data.isRecurring) {
+		if (this.data?.isRecurring) {
 			this.form.controls.recurring.setValue(this.data.isRecurring);
 		}
 		this.addSubscription(this.form.controls.amount.valueChanges.subscribe(value => {
@@ -76,7 +76,7 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 	}
 
 	close(): void {
-		this.dialogRef.close();
+		this.dialogRef.close(false);
 	}
 
 	async create(): Promise<void> {
@@ -92,9 +92,10 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 		} as Transaction;
 		try {
 			const newTransaction = await this.transactionService.create(request);
-			this.dialogRef.close(newTransaction);
+			this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+			this.dialogRef.close(true);
 		} catch (_err) {
-			this.dialogRef.close();
+			this.dialogRef.close(false);
 		}
 	}
 }
