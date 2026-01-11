@@ -47,6 +47,7 @@ export class LoginComponent extends BaseComponent {
 
 	async login(): Promise<void> {
 		const formValue = this.loginForm.getRawValue();
+		console.log('login', formValue)
 		const request: LoginRequest = {
 			email: formValue.email,
 			password: formValue.password,

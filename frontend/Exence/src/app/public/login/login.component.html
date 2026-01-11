@@ -12,45 +12,46 @@
 		</p>
 	</mat-card-header>
 
-	<mat-card-content [formGroup]="loginForm" class="d-flex flex-column gap-3 w-100">
-		@let emailControl = loginForm.controls.email;		
-		<mat-form-field>
-			<mat-label>Email</mat-label>
-			<input
-				matInput
-				[formControl]="emailControl"
-				type="email"
-			/>
-			<ex-input-clear matSuffix [control]="emailControl"/>
-			<mat-error>
-				<ex-validator [control]="emailControl" />
-			</mat-error>
-		</mat-form-field>
-		@let pwdControl = loginForm.controls.password;
-		<mat-form-field>
-			<mat-label>Password</mat-label>
-			<input
-				matInput
-				[formControl]="pwdControl"
-				type="password"
-			/>
-			<ex-input-clear matSuffix [control]="pwdControl"/>
-			<mat-error>
-				<ex-validator [control]="pwdControl" />
-			</mat-error>
-		</mat-form-field>
-	</mat-card-content>
-	<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4 pt-0">
-		<a class="forgot-password" [routerLink]="navigationService.account().forgotPassword()">Forgot password?</a>
-		<ex-button
-			filled
-			type="submit"
-			matIcon="arrow_right_alt"
-			iconPositionEnd
-			[disabled]="loginForm.invalid"
-			(click)="login()"
-		>
-			Log in
-		</ex-button>
-	</mat-card-actions>
+	<form class="d-flex flex-column w-100" (submit)="login(); $event.preventDefault()" [formGroup]="loginForm">
+		<mat-card-content class="d-flex flex-column gap-3 w-100">
+			@let emailControl = loginForm.controls.email;		
+			<mat-form-field>
+				<mat-label>Email</mat-label>
+				<input
+					matInput
+					[formControl]="emailControl"
+					type="email"
+				/>
+				<ex-input-clear matSuffix [control]="emailControl"/>
+				<mat-error>
+					<ex-validator [control]="emailControl" />
+				</mat-error>
+			</mat-form-field>
+			@let pwdControl = loginForm.controls.password;
+			<mat-form-field>
+				<mat-label>Password</mat-label>
+				<input
+					matInput
+					[formControl]="pwdControl"
+					type="password"
+				/>
+				<ex-input-clear matSuffix [control]="pwdControl"/>
+				<mat-error>
+					<ex-validator [control]="pwdControl" />
+				</mat-error>
+			</mat-form-field>
+		</mat-card-content>
+		<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4 pt-0">
+			<a class="forgot-password" [routerLink]="navigationService.account().forgotPassword()">Forgot password?</a>
+			<ex-button
+				filled
+				type="submit"
+				matIcon="arrow_right_alt"
+				iconPositionEnd
+				[disabled]="loginForm.invalid"
+			>
+				Log in
+			</ex-button>
+		</mat-card-actions>
+	</form>
 </mat-card>

@@ -3,71 +3,74 @@
 		<h3 class="fs-1 fw-bold">New category</h3>
 	</mat-card-header>
 
-	<mat-card-content class="d-flex flex-column gap-3">
-		@let nameControl = form.controls.name;
-		<mat-form-field>
-			<mat-label>Name</mat-label>
-			<input
-				matInput
-				[formControl]="nameControl"
-			/>
-			<ex-input-clear matSuffix [control]="nameControl" />
-			<mat-error>
-				<ex-validator [control]="nameControl" />
-			</mat-error>
-		</mat-form-field>
+	<form class="d-flex flex-column w-100" (submit)="create(); $event.preventDefault()" [formGroup]="form">
+		<mat-card-content class="d-flex flex-column gap-3">
+			@let nameControl = form.controls.name;
+			<mat-form-field>
+				<mat-label>Name</mat-label>
+				<input
+					matInput
+					[formControl]="nameControl"
+				/>
+				<ex-input-clear matSuffix [control]="nameControl" />
+				<mat-error>
+					<ex-validator [control]="nameControl" />
+				</mat-error>
+			</mat-form-field>
 
-		<div class="d-flex flex-column gap-2">
-		<div class="d-flex align-items-center gap-2">
-				<ex-button
-					filled
-					color="accent"
-					[matMenuTriggerFor]="emojiMenu"
-					class="w-100"
-				>
-					Select emoji
-				</ex-button>
-				<div class="selected-icon fs-5 position-relative">
-					<div class="default-content">
-						@if (form.value.emoji) {
-							{{ form.value.emoji }}
-						} @else {
-							<mat-icon class="grayscaled">do_not_disturb_none</mat-icon>
-						}
-					</div>
-					<div class="hover-content" (click)="form.controls.emoji.reset()">
-						<mat-icon>close</mat-icon>
+			<div class="d-flex flex-column gap-2">
+			<div class="d-flex align-items-center gap-2">
+					<ex-button
+						filled
+						color="accent"
+						[matMenuTriggerFor]="emojiMenu"
+						class="w-100"
+					>
+						Select emoji
+					</ex-button>
+					<div class="selected-icon fs-5 position-relative">
+						<div class="default-content">
+							@if (form.value.emoji) {
+								{{ form.value.emoji }}
+							} @else {
+								<mat-icon class="grayscaled">do_not_disturb_none</mat-icon>
+							}
+						</div>
+						<div class="hover-content" (click)="form.controls.emoji.reset()">
+							<mat-icon>close</mat-icon>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!-- TODO use validator -->
-			@if (emojiInvalid) {
-				<div class="emoji-error">
-					Emoji is required!
+				<!-- TODO use validator -->
+				@if (emojiInvalid) {
+					<div class="emoji-error">
+						Emoji is required!
+					</div>
+				}
 				</div>
-			}
-			</div>
-	</mat-card-content>
+		</mat-card-content>
 
-	<mat-card-actions class="justify-content-end align-items-center gap-2 w-100 px-4 pt-0">
-		<ex-button
-			outline
-			color="accent"
-			matIcon="close"
-			(click)="close()"
-		>
-			Cancel
-		</ex-button>
-		<ex-button
-			filled
-			color="primary"
-			matIcon="add"
-			[disabled]="form.invalid"
-			(click)="create()"
-		>
-			Create
-		</ex-button>
-	</mat-card-actions>
+		<mat-card-actions class="justify-content-end align-items-center gap-2 w-100 px-4 pt-4">
+			<ex-button
+				outline
+				color="accent"
+				matIcon="close"
+				type="button"
+				(click)="close()"
+			>
+				Cancel
+			</ex-button>
+			<ex-button
+				filled
+				color="primary"
+				matIcon="add"
+				[disabled]="form.invalid"
+				type="submit"
+			>
+				Create
+			</ex-button>
+		</mat-card-actions>
+	</form>
 </mat-card>
 
 <mat-menu
