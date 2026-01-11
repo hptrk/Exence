@@ -29,6 +29,7 @@ import { DisplaySizeService } from '../display-size.service';
 import { SnackbarService } from '../snackbar/snackbar.service';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
+import { StopPropagationDirective } from "../stop-propagation.directive";
 
 export interface DataTableModel {
 	transactions?: PagedResponse<Transaction>;
@@ -38,23 +39,24 @@ export interface DataTableModel {
 @Component({
 	selector: 'ex-data-table',
 	imports: [
-		MatCardModule,
-		MatTableModule,
-		MatIconModule,
-		MatButtonModule,
-		CommonModule,
-		MatTooltipModule,
-		MatFormFieldModule,
-		FormsModule,
-		ReactiveFormsModule,
-		MatInputModule,
-		MatPaginatorModule,
-		MatMenuModule,
-		MatCheckboxModule,
-		MatSelectModule,
-		ButtonComponent,
-		ValidatorComponent,
-	],
+    MatCardModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    CommonModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatMenuModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    ButtonComponent,
+    ValidatorComponent,
+    StopPropagationDirective,
+],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
 	// TODO remove deprecated angular animations

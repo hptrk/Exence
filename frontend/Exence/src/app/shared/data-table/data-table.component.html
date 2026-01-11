@@ -145,13 +145,13 @@
 												<button
 													mat-icon-button
 													[matMenuTriggerFor]="actionsMenu"
-													(click)="$event.stopPropagation()"
+													stopPropagation
 												>
 													<mat-icon>more_vert</mat-icon>
 												</button>
 
 												<mat-menu #actionsMenu="matMenu">
-													<!-- TODO -->
+													<!-- TODO move edit into the menu https://horanszkipatrik.atlassian.net/browse/EX-240 -->
 													<!-- @if (!isRowEditing(row.id)) {
 														<button
 															mat-menu-item
@@ -182,7 +182,7 @@
 													<button
 														mat-menu-item
 														class="delete-button"
-														(click)="deleteRow(row.id); $event.stopPropagation()"
+														(click)="deleteRow(row.id)"
 													>
 														<mat-icon color="warn">delete</mat-icon>
 														@if (display.isMd()) {
@@ -383,7 +383,7 @@
 									<button
 										mat-icon-button
 										class="category-delete-icon"
-										(click)="$event.stopPropagation(); deleteCategoryRow(row.id)"
+										(click)="deleteCategoryRow(row.id)"
 									>
 										<mat-icon>delete</mat-icon>
 									</button>
