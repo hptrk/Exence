@@ -2,6 +2,8 @@ spring:
   config:
     activate:
       on-profile: dev
+  liquibase:
+    contexts: dev
 
 exence:
   secure-cookie: false # HTTP is allowed
@@ -15,4 +17,5 @@ logging:
     org.springframework.security: WARN
     org.springframework.web: INFO
     org.springframework.transaction: DEBUG
+    liquibase: INFO
 

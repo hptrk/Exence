@@ -26,7 +26,11 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
   mail:
     host: ${MAIL_HOST:localhost}
     port: ${MAIL_PORT:6800}

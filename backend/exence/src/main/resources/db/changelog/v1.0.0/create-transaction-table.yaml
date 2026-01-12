@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-transaction-table
+      author: hptrk
+      comment: Create transaction table for financial transactions
+      preConditions:
+        - onFail: MARK_RAN
+        - not:
+            - tableExists:
+                tableName: transaction
+      changes:
+        - createTable:
+            tableName: transaction
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_transaction
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: note
+                  type: VARCHAR(500)
+              - column:
+                  name: date
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recurring
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(100)
+
+        - addForeignKeyConstraint:
+            baseTableName: transaction
+            baseColumnNames: category_id
+            constraintName: fk_transaction_category
+            referencedTableName: category
+            referencedColumnNames: id
+            onDelete: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: transaction
+            baseColumnNames: user_id
+            constraintName: fk_transaction_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE

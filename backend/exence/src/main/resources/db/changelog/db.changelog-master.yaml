@@ -1,0 +1,11 @@
+databaseChangeLog:
+  # Schema migrations
+  - include:
+      file: v1.0.0/changelog-v1.0.0.yaml
+      relativeToChangelogFile: true
+
+  # Test data
+  - include:
+      file: data/test-data.yaml
+      relativeToChangelogFile: true
+      context: dev or test

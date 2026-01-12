@@ -1,0 +1,20 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:postgresql://${exence.database.host}:${exence.database.port}/${exence.database.name}_test
+    username: ${DB_USERNAME:exencedev}
+    password: ${DB_PASSWORD:exencepwd}
+  liquibase:
+    contexts: test
+
+exence:
+  secure-cookie: false
+  frontend-url: http://localhost:4200
+
+logging:
+  level:
+    root: WARN
+    com.exence.finance: DEBUG
+    liquibase: INFO
