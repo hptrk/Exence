@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +9,7 @@ import { Category } from '../../../data-model/modules/category/Category';
 import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
@@ -17,7 +17,7 @@ import { ValidatorComponent } from '../../../shared/validator/validator.componen
 import { CategoryService } from '../../category.service';
 import { TransactionService } from '../transaction.service';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
-import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -32,14 +32,15 @@ export interface CreateTransactionDialogData {
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatCardModule,
-		MatSelectModule, MatDatepickerModule,
+		MatSelectModule,
+		MatDatepickerModule,
 		MatCheckboxModule,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
+		DialogCardComponent,
 		AutoTrimDirective,
-		StopPropagationDirective,
+		ConfirmExitDialogDirective,
 	],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, boolean> implements OnInit {
@@ -97,9 +98,9 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 		try {
 			const newTransaction = await this.transactionService.create(request);
 			this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-			this.dialogRef.close(true);
+			this.dialogRef.submit(true);
 		} catch (_err) {
-			this.dialogRef.close(false);
+			this.dialogRef.submit(false);
 		}
 	}
 }
