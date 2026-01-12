@@ -29,7 +29,6 @@ import java.util.List;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_EMOJI_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
 
 @SuperBuilder
 @Entity
