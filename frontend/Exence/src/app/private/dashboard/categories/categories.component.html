@@ -1,70 +1,80 @@
 <mat-card class="h-100 categories">
-	@if (hasCategories()) {
-		@if (hasTransactions()) {
-			<mat-card-header>
-				<mat-card-title
-					class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2 w-100"
-				>
-					<h2 class="header-2 m-0">Top categories</h2>
-					<ex-button
-						iconButton
-						matIcon="add"
-						color="accent"
-						(click)="openCreateCategoryDialog()"
-					/>
-				</mat-card-title>
-			</mat-card-header>
-			<mat-card-content>
-				<div class="d-flex flex-column gap-4">
-					@for (category of categorySummaries(); track category.id) {
-						<div class="d-flex flex-column gap-1 align-items-center">
-							<div class="d-flex flex-row flex-nowrap justify-content-between align-items-center w-100">
-								<div class="d-flex flex-row flex-nowrap gap-2">
-									<span class="">{{ category.emoji }}</span>
-									{{ category.name }}
-								</div>
-
-								<div class="fw-semibold">{{ calcPercentage(category.totalAmount) }}%</div>
+	@if (hasTransactions) {
+		<mat-card-header>
+			<mat-card-title
+				class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2 w-100"
+			>
+				<h2 class="header-2 m-0">Top categories</h2>
+				<ex-button
+					iconButton
+					matIcon="add"
+					color="accent"
+					(click)="openCreateCategoryDialog()"
+				/>
+			</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<div class="d-flex flex-column gap-4">
+				@for (category of categorySummaries(); track category.id) {
+					<div class="d-flex flex-column gap-1 align-items-center">
+						<div
+							class="d-flex flex-row flex-nowrap justify-content-between align-items-center w-100"
+						>
+							<div class="d-flex flex-row flex-nowrap gap-2">
+								<span class="">{{ category.emoji }}</span>
+								{{ category.name }}
 							</div>
-							<mat-progress-bar [value]="calcPercentage(category.totalAmount)" />
+
+							<div class="fw-semibold">
+								{{ calcPercentage(category.totalAmount) }}%
+							</div>
 						</div>
-					}
-				</div>
-			</mat-card-content>
-		} @else {
+						<mat-progress-bar
+							[value]="calcPercentage(category.totalAmount)"
+						/>
+					</div>
+				}
+			</div>
+		</mat-card-content>
+	} @else {
+		@if (hasCategories) {
 			<mat-card-content>
 				<div class="d-flex align-items-center justify-content-center">
-					<h2 class="header-2 text-center">Add transactions to discover your spending patterns!</h2>
+					<h2 class="header-2 text-center">
+						Add transactions to discover your spending patterns!
+					</h2>
 				</div>
 			</mat-card-content>
 			<mat-card-actions class="justify-content-center">
-			<ex-button
-				color="primary"
-				matIcon="add"
-				collapsedStyle="outlined"
-				collapseUnder="md"
-				filled
-				(click)="openCreateTransactionDialog()"
-				>Create transaction</ex-button
-			>
-		</mat-card-actions>
+				<ex-button
+					color="primary"
+					matIcon="add"
+					collapsedStyle="outlined"
+					collapseUnder="md"
+					filled
+					(click)="openCreateTransactionDialog()"
+					>Create transaction</ex-button
+				>
+			</mat-card-actions>
+		} @else {
+			<mat-card-content>
+				<div class="d-flex align-items-center justify-content-center">
+					<h2 class="header-2 text-center">
+						Add categories to discover your spending patterns!
+					</h2>
+				</div>
+			</mat-card-content>
+			<mat-card-actions class="justify-content-center">
+				<ex-button
+					color="primary"
+					matIcon="add"
+					collapsedStyle="outlined"
+					collapseUnder="md"
+					filled
+					(click)="openCreateCategoryDialog()"
+					>Create category</ex-button
+				>
+			</mat-card-actions>
 		}
-	} @else {
-		<mat-card-content>
-			<div class="d-flex align-items-center justify-content-center">
-				<h2 class="header-2 text-center">Add categories to discover your spending patterns!</h2>
-			</div>
-		</mat-card-content>
-		<mat-card-actions class="justify-content-center">
-			<ex-button
-				color="primary"
-				matIcon="add"
-				collapsedStyle="outlined"
-				collapseUnder="md"
-				filled
-				(click)="openCreateCategoryDialog()"
-				>Create category</ex-button
-			>
-		</mat-card-actions>
 	}
 </mat-card>

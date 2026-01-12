@@ -50,7 +50,7 @@ export class CategoriesComponent extends BaseComponent {
 			this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
 				CreateTransactionDialogComponent, undefined
 			).afterClosed().subscribe(
-				async (newTransaction?: Transaction) => {
+				 (newTransaction?: Transaction) => {
 					if (newTransaction) {
 						this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 						this.dataChangedEvent.emit();
@@ -63,11 +63,11 @@ export class CategoriesComponent extends BaseComponent {
 		return Math.floor((amount / this.totalExpense()) * 100);
 	}
 
-	hasCategories(): boolean {
+	get hasCategories(): boolean {
 		return this.categories().length > 0;
 	}
 
-	hasTransactions(): boolean {
+	get hasTransactions(): boolean {
 		return this.categorySummaries().length > 0;
 	}
 }
