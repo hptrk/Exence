@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -9,13 +8,14 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { Category } from '../../../data-model/modules/category/Category';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
-import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -25,15 +25,15 @@ import { StopPropagationDirective } from '../../../shared/stop-propagation.direc
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatCardModule,
 		MatMenuModule,
 		MatIconModule,
 		PickerComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
+		DialogCardComponent,
 		AutoTrimDirective,
-		StopPropagationDirective,
+		ConfirmExitDialogDirective,
 	],
 })
 export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
@@ -77,9 +77,9 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, bo
 		try {
 			const newCategory = await this.categoryService.create(request);
 			this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
-			this.dialogRef.close(true);
+			this.dialogRef.submit(true);
 		} catch (_err) {
-			this.dialogRef.close(false);
+			this.dialogRef.submit(false);
 		}
 	}
 }

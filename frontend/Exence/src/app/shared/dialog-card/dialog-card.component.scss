@@ -1,0 +1,14 @@
+@import "../../../styles/imports.scss";
+
+:host {
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	padding: 1.5rem;
+	
+	border-radius: 20px;
+	--bs-border-color: var(--secondary-text-color);
+	background-color: var(--border-color);
+
+	overflow-x: hidden;
+}
