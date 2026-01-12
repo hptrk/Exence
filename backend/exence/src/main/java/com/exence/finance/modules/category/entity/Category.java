@@ -55,7 +55,7 @@ public class Category extends BaseAuditableEntity {
     @Column(name = "emoji", length = CATEGORY_EMOJI_MAX_LENGTH)
     private String emoji;
 
-    @Column(name = "NOTE", length = CATEGORY_NOTE_MAX_LENGTH)
+    @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
     private String note;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
