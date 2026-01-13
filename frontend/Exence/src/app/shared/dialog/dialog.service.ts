@@ -34,6 +34,9 @@ import { BaseComponent } from '../base-component/base.component';
  */
 export class DialogRef<out I = undefined, in O = void> {
 	private _isLocked = false;
+	private _onCloseAttemptWhileLocked?: (closeValue: O) => Promise<boolean>;
+
+	get isLocked(): boolean { return this._isLocked; }
 
 	constructor(
 		private onClose: (value: O) => void,
@@ -44,8 +47,21 @@ export class DialogRef<out I = undefined, in O = void> {
 		this._isLocked = isLocked;
 	}
 
-	public close(value: O): void {
-		if (!this._isLocked) this.onClose(value);
+	public setOnCloseAttemptWhileLocked(callback: (closeValue: any) => Promise<boolean>): void {
+		this._onCloseAttemptWhileLocked = callback;
+	}
+
+	public async close(value: O): Promise<void> {
+		if (!this._isLocked) {
+			this.onClose(value);
+		} else if (this._onCloseAttemptWhileLocked) {
+			// Show confirmation dialog
+			const shouldClose = await this._onCloseAttemptWhileLocked(value);
+			if (shouldClose) {
+				this.setLocked(false);
+				this.onClose(value);
+			}
+		}
 	}
 
 	public submit(value: O): void {
@@ -290,14 +306,17 @@ export class DialogService extends BaseComponent {
 			);
 
 			const originalMatDialogClose = matDialogRef.close.bind(matDialogRef);
-			matDialogRef.close = (dialogResult?: any) => {
-				if (!locked) originalMatDialogClose(dialogResult);
+			matDialogRef.close = async (dialogResult?: any) => {
+				if (!dialogRef.isLocked) {
+					originalMatDialogClose(dialogResult);
+				} else {
+					await dialogRef.close(dialogResult);
+				}
 			};
 
 			const originalSetLocked = dialogRef.setLocked.bind(dialogRef);
 			dialogRef.setLocked = (value: boolean) => {
-				locked = value;
-				if (matDialogRef) matDialogRef.disableClose = value;
+				if (matDialogRef) matDialogRef.disableClose = locked || value;
 				originalSetLocked(value);
 			};
 
