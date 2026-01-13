@@ -11,9 +11,12 @@ export const hasChangesGuard: CanDeactivateFn<HasChangesComponent> = async (
 ) => {
 	const confirmExitService = inject(ConfirmExitService);
 	
-	console.log(component.hasChanges ? component.hasChanges() : 'undefined')
-	if (!component.hasChanges || !component.hasChanges()) return true;
+	const componentHasChanges = component.hasChanges && component.hasChanges();	
+	const serviceHasChanges = confirmExitService.hasChanges();
+	
+	if (componentHasChanges || serviceHasChanges) {
+		return await confirmExitService.showConfirmDialog();
+	}
 
-	const result = await confirmExitService.showConfirmDialog();
-	return result;
+	return true;
 }
