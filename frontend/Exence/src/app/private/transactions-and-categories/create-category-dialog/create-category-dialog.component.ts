@@ -1,9 +1,5 @@
 import { Component, inject } from '@angular/core';
-import {
-	NonNullableFormBuilder,
-	ReactiveFormsModule,
-	Validators,
-} from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -36,19 +32,14 @@ import { CategoryService } from '../../category.service';
 	],
 })
 export class CreateCategoryDialogComponent {
-	private readonly dialogRef = inject(
-		MatDialogRef<CreateCategoryDialogComponent>,
-	);
+	private readonly dialogRef = inject(MatDialogRef<CreateCategoryDialogComponent>);
 	private readonly categoryService = inject(CategoryService);
 	private readonly fb = inject(NonNullableFormBuilder);
 
 	data = inject(MAT_DIALOG_DATA);
 
 	form = this.fb.group({
-		name: this.fb.control<string>('', [
-			Validators.required,
-			Validators.maxLength(255),
-		]),
+		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		emoji: this.fb.control<string>('', [Validators.required]),
 		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
@@ -56,7 +47,7 @@ export class CreateCategoryDialogComponent {
 	emojiInvalid = false;
 
 	ngOnInit(): void {
-		this.form.controls.emoji.valueChanges.subscribe((emoji) => {
+		this.form.controls.emoji.valueChanges.subscribe(emoji => {
 			this.emojiInvalid = !emoji;
 		});
 	}
