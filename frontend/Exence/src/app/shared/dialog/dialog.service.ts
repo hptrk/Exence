@@ -3,7 +3,6 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { firstValueFrom } from 'rxjs';
 import { BaseComponent } from '../base-component/base.component';
 
-
 /**
  * Represents a reference to an open dialog instance.
  * 
@@ -33,14 +32,24 @@ import { BaseComponent } from '../base-component/base.component';
  * dialogRef.setLocked(true);
  * ```
  */
-class DialogRef<out I = undefined, in O = void> {
+export class DialogRef<out I = undefined, in O = void> {
+	private _isLocked = false;
+
 	constructor(
 		private onClose: (value: O) => void,
-		readonly setLocked: (isLocked: boolean) => void,
-		readonly value: I
+		readonly value: I,
 	) { }
 
+	public setLocked(isLocked: boolean): void {
+		this._isLocked = isLocked;
+	}
+
 	public close(value: O): void {
+		if (!this._isLocked) this.onClose(value);
+	}
+
+	public submit(value: O): void {
+		this.setLocked(false);
 		this.onClose(value);
 	}
 }
@@ -101,7 +110,6 @@ export abstract class DialogWithBaseComponent<out I = undefined, in O = void> ex
 type DialogConstructor<in I, out O, T = any> = 
 	new (dialogRef: DialogRef<I, O>, ...rest: any[]) => T;
 
-
 /**
  * Represents a dialog that can be opened in the application.
  * 
@@ -146,7 +154,6 @@ type DialogConstructor<in I, out O, T = any> =
  * ```
  */
 type Dialog<I, O> = DialogConstructor<I, O> | TemplateRef<any>;
-
 
 /**
  * Configuration settings for Exence's custom dialogs, excluding injector and disableClose properties.
@@ -263,11 +270,7 @@ export class DialogService extends BaseComponent {
 			let locked = settings.disableClose === true;
 			
 			const dialogRef = new DialogRef<I, O>(
-				(value) => matDialogRef?.close(value),
-				(value) => {
-					locked = value;
-					matDialogRef!.disableClose = value;
-				},
+				(value: O) => matDialogRef?.close(value),
 				settings.value,
 			);
 
@@ -285,6 +288,18 @@ export class DialogService extends BaseComponent {
 					injector,
 				}
 			);
+
+			const originalMatDialogClose = matDialogRef.close.bind(matDialogRef);
+			matDialogRef.close = (dialogResult?: any) => {
+				if (!locked) originalMatDialogClose(dialogResult);
+			};
+
+			const originalSetLocked = dialogRef.setLocked.bind(dialogRef);
+			dialogRef.setLocked = (value: boolean) => {
+				locked = value;
+				if (matDialogRef) matDialogRef.disableClose = value;
+				originalSetLocked(value);
+			};
 
 			if (settings.disableClose !== true) {
 				const value = settings.disableClose.defaultValue;
