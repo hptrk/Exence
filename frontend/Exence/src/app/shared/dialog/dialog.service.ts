@@ -43,9 +43,9 @@ export class DialogRef<out I = undefined, in O = void> {
 		readonly value: I,
 	) { }
 
-	public setLocked(isLocked: boolean): void {
+	public setLocked: (value: boolean) => void = (isLocked: boolean): void => {
 		this._isLocked = isLocked;
-	}
+	};
 
 	public setOnCloseAttemptWhileLocked(callback: (closeValue: any) => Promise<boolean>): void {
 		this._onCloseAttemptWhileLocked = callback;
@@ -55,15 +55,25 @@ export class DialogRef<out I = undefined, in O = void> {
 		if (!this._isLocked) {
 			this.onClose(value);
 		} else if (this._onCloseAttemptWhileLocked) {
-			// Show confirmation dialog
-			const shouldClose = await this._onCloseAttemptWhileLocked(value);
-			if (shouldClose) {
+			// show confirmation dialog if locked
+			if (await this._onCloseAttemptWhileLocked(value)) {
 				this.setLocked(false);
 				this.onClose(value);
 			}
 		}
 	}
 
+
+	/**
+	 * Submits the dialog form and closes the dialog.
+	 * 
+	 * This method should only be called when the dialog has the `confirmExitDialog` directive
+	 * applied to its form. It unlocks the dialog state and triggers the close callback with
+	 * the provided value. This method should be bound to the primary/submit button of the dialog.
+	 * 
+	 * @param value - The form value or result to be returned when closing the dialog
+	 * @returns void
+	 */
 	public submit(value: O): void {
 		this.setLocked(false);
 		this.onClose(value);
@@ -305,15 +315,16 @@ export class DialogService extends BaseComponent {
 				}
 			);
 
-			const originalMatDialogClose = matDialogRef.close.bind(matDialogRef);
+			const originalClose = matDialogRef.close.bind(matDialogRef);
 			matDialogRef.close = async (dialogResult?: any) => {
 				if (!dialogRef.isLocked) {
-					originalMatDialogClose(dialogResult);
+					originalClose(dialogResult); // not locked call original close
 				} else {
-					await dialogRef.close(dialogResult);
+					await dialogRef.close(dialogResult); // call close with lock handling
 				}
 			};
 
+			// overrides setLocked method
 			const originalSetLocked = dialogRef.setLocked.bind(dialogRef);
 			dialogRef.setLocked = (value: boolean) => {
 				if (matDialogRef) matDialogRef.disableClose = locked || value;
