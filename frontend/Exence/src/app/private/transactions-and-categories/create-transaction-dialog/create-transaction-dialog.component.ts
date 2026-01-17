@@ -16,6 +16,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
 import { TransactionService } from '../transaction.service';
+import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -27,16 +28,17 @@ export interface CreateTransactionDialogData {
 	templateUrl: './create-transaction-dialog.component.html',
 	styleUrl: './create-transaction-dialog.component.scss',
 	imports: [
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatCardModule,
-		MatSelectModule, MatDatepickerModule,
-		MatCheckboxModule,
-		InputClearButtonComponent,
-		ButtonComponent,
-		ValidatorComponent,
-	],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCardModule,
+    MatSelectModule, MatDatepickerModule,
+    MatCheckboxModule,
+    InputClearButtonComponent,
+    ButtonComponent,
+    ValidatorComponent,
+    AutoTrimDirective
+],
 })
 export class CreateTransactionDialogComponent extends BaseComponent implements OnInit {
 	private readonly dialogRef = inject(MatDialogRef<CreateTransactionDialogComponent>);

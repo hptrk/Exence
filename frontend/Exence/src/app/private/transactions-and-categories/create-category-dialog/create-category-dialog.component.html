@@ -9,6 +9,7 @@
 			<mat-label>Name</mat-label>
 			<input
 				matInput
+				autoTrim
 				[formControl]="nameControl"
 			/>
 			<ex-input-clear matSuffix [control]="nameControl" />
@@ -76,6 +77,5 @@
 	<emoji-mart
 		emoji=""
 		(emojiSelect)="onEmojiSelect($event); emojiMenu.closed.emit()"
-		(click)="$event.stopPropagation()"
 	/>
 </mat-menu>

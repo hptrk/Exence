@@ -15,21 +15,23 @@ import { UserService } from '../../shared/user/user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
+import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
 
 @Component({
 	selector: 'ex-profile',
 	templateUrl: './profile.component.html',
 	styleUrl: './profile.component.scss',
 	imports: [
-		ReactiveFormsModule,
-		MatFormFieldModule,
-		MatInputModule,
-		MatDividerModule,
-		ButtonComponent,
-		InputClearButtonComponent,
-		SessionsListComponent,
-		ValidatorComponent,
-	],
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDividerModule,
+    ButtonComponent,
+    InputClearButtonComponent,
+    SessionsListComponent,
+    ValidatorComponent,
+    AutoTrimDirective
+],
 })
 export class ProfileComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
