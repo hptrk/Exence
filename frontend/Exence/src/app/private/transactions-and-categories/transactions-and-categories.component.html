@@ -5,7 +5,11 @@
 	<div
 		class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center gap-2"
 	>
-		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
+		<h2
+			class="m-0 text-center text-md-start {{
+				display.isSm() ? 'fs-1' : 'fs-2'
+			}}"
+		>
 			@if (selectedIndex === 0) {
 				Transactions
 			} @else {
@@ -20,7 +24,9 @@
 		>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+					<div
+						class="d-flex flex-row flex-nowrap align-items-center gap-2"
+					>
 						<mat-icon size="md">payments</mat-icon>
 						@if (display.isMd()) {
 							Transactions
@@ -30,7 +36,9 @@
 			</mat-tab>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+					<div
+						class="d-flex flex-row flex-nowrap align-items-center gap-2"
+					>
 						<mat-icon size="md">cached</mat-icon>
 						@if (display.isMd()) {
 							Categories
@@ -55,7 +63,10 @@
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
-					[data]="{ transactions: recurringTransactions.incomes, categories }"
+					[data]="{
+						transactions: recurringTransactions.incomes,
+						categories
+					}"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -66,7 +77,10 @@
 					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ex-data-table
-					[data]="{ transactions: recurringTransactions.expenses, categories }"
+					[data]="{
+						transactions: recurringTransactions.expenses,
+						categories
+					}"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -78,7 +92,10 @@
 				/>
 			} @else {
 				<ex-data-table
-					[data]="{ transactions: recurringTransactions.mergedTransactions, categories }"
+					[data]="{
+						transactions: recurringTransactions.mergedTransactions,
+						categories
+					}"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -95,7 +112,11 @@
 			[class.overflow-hidden]="display.isMd()"
 		>
 			<div class="d-flex flex-row flex-nowrap justif-content-between">
-				<div [matTooltip]="!canCreateTransaction ? 'First create a category!' : ''">
+				<div
+					[matTooltip]="
+						!canCreateTransaction ? 'First create a category!' : ''
+					"
+				>
 					<ex-button
 						filled
 						matIcon="add"

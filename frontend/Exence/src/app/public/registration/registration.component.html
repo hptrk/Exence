@@ -19,7 +19,7 @@
 			@let nameControl = form.controls.username;
 			<mat-form-field>
 				<mat-label>Username</mat-label>
-				<input matInput [formControl]="nameControl" />
+				<input matInput autoTrim [formControl]="nameControl" />
 				<ex-input-clear matSuffix [control]="nameControl"/>
 				<mat-error>
 					<ex-validator [control]="nameControl" />
@@ -28,7 +28,7 @@
 			@let emailControl = form.controls.email;
 			<mat-form-field>
 				<mat-label>Email</mat-label>
-				<input matInput [formControl]="emailControl" type="email" />
+				<input matInput autoTrim [formControl]="emailControl" type="email" />
 				<ex-input-clear matSuffix [control]="emailControl"/>
 				<mat-error>
 					<ex-validator [control]="emailControl" />

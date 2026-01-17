@@ -9,6 +9,7 @@
 			<mat-label>Title</mat-label>
 			<input
 				matInput
+				autoTrim
 				[formControl]="titleControl"
 			/>
 			<ex-input-clear matSuffix [control]="titleControl" />
@@ -79,7 +80,7 @@
 		@let noteControl = form.controls.note;
 		<mat-form-field>
 			<mat-label>Note</mat-label>
-			<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
+			<textarea matInput autoTrim cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
 			<mat-error>
 				<ex-validator [control]="noteControl" />
 			</mat-error>
