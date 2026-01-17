@@ -13,6 +13,7 @@ emoji-java = "5.1.1"
 postgresql = "42.7.4"
 mockito = "5.5.0"
 bouncycastle = "1.70"
+querydsl = "5.1.0"
 
 [libraries]
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
@@ -39,6 +40,8 @@ emoji-java = { module = "com.vdurmont:emoji-java", version.ref = "emoji-java" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 bouncycastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
+querydsl-jpa = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
+querydsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

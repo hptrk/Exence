@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,9 +41,12 @@ public class TransactionControllerImpl implements TransactionController {
         return ResponseFactory.ok(transactionDTO);
     }
 
+    // TODO: EX-241: Pageable annotation refactor
     @GetMapping()
     public ResponseEntity<PageResponse<TransactionDTO>> getTransactions(@Valid @ModelAttribute TransactionFilter filter,
-                                                                        @PageableDefault(size = 20) Pageable pageable) {
+                                                                        @PageableDefault(sort = "date",
+                                                                                        direction = Sort.Direction.DESC,
+                                                                                        size = 20) Pageable pageable) {
         Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
         return ResponseFactory.page(page);
     }

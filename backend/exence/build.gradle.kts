@@ -61,6 +61,20 @@ dependencies {
     implementation(libs.liquibase.core)
     runtimeOnly(libs.postgresql)
 
+    // QueryDSL
+    implementation(libs.querydsl.jpa) {
+        artifact {
+            classifier = "jakarta"
+        }
+    }
+    annotationProcessor(libs.querydsl.apt) {
+        artifact {
+            classifier = "jakarta"
+        }
+    }
+    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+
     // Development tools
     developmentOnly(libs.spring.boot.devtools)
 
