@@ -62,7 +62,6 @@ export class CreateCategoryDialogComponent {
 	}
 
 	async create(): Promise<void> {
-		console.log('create')
 		const formValue = this.form.getRawValue();
 		const request: Category = {
 			name: formValue.name,
