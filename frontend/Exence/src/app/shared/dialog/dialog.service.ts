@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { firstValueFrom } from 'rxjs';
 import { BaseComponent } from '../base-component/base.component';
 
+/* eslint-disable */
 /**
  * Represents a reference to an open dialog instance.
  * 
@@ -14,14 +15,16 @@ import { BaseComponent } from '../base-component/base.component';
  * including the ability to close the dialog and lock/unlock its state.
  * 
  * @method onClose - Callback function invoked when the dialog closes, receiving the output value.
+ * @method setOnCloseAttemptWhileLocked - Function to set `_onCloseAttemptWhileLocked` value, that is used for non locked state close preventation (e.g. for showing confirm message on close event).
  * @method setLocked - Function to to set the locked state (availability to close the dialog) of dialog.
  * @field value - The input data passed to the dialog.
+ * @method close - Used to close the dialog with the given value as the argument.
+ * @method submit - Does the same as `close` method, but it works when `setOnCloseAttemptWhileLocked` was called.
  * 
  * @example
  * ```typescript
  * const dialogRef = new DialogRef<MyInputData, MyResult>(
  *   (result) => console.log('Dialog closed with:', result),
- *   (locked) => console.log('Dialog locked state:', locked),
  *   { inputData: 'example' }
  * );
  * 
@@ -47,7 +50,7 @@ export class DialogRef<out I = undefined, in O = void> {
 		this._isLocked = isLocked;
 	};
 
-	public setOnCloseAttemptWhileLocked(callback: (closeValue: any) => Promise<boolean>): void {
+	public setOnCloseAttemptWhileLocked(callback: (closeValue: unknown) => Promise<boolean>): void {
 		this._onCloseAttemptWhileLocked = callback;
 	}
 
@@ -62,7 +65,6 @@ export class DialogRef<out I = undefined, in O = void> {
 			}
 		}
 	}
-
 
 	/**
 	 * Submits the dialog form and closes the dialog.
@@ -133,8 +135,8 @@ export abstract class DialogWithBaseComponent<out I = undefined, in O = void> ex
  * 
  * @returns A new instance of the dialog component
  */
-type DialogConstructor<in I, out O, T = any> = 
-	new (dialogRef: DialogRef<I, O>, ...rest: any[]) => T;
+type DialogConstructor<in I, out O, T = unknown> = 
+	new (dialogRef: DialogRef<I, O>, ...rest: unknown[]) => T;
 
 /**
  * Represents a dialog that can be opened in the application.
@@ -293,7 +295,7 @@ export class DialogService extends BaseComponent {
 	): Promise<O> {
 		return new Promise((resolve) => {
 			let matDialogRef: MatDialogRef<any> | undefined;
-			let locked = settings.disableClose === true;
+			const locked = settings.disableClose === true;
 			
 			const dialogRef = new DialogRef<I, O>(
 				(value: O) => matDialogRef?.close(value),
