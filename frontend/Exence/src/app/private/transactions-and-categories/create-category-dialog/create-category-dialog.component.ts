@@ -44,6 +44,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, bo
 	form = this.fb.group({
 		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		emoji: this.fb.control<string>('', [Validators.required]),
+		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
 
 	emojiInvalid = false;
@@ -69,6 +70,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, bo
 		const request: Category = {
 			name: formValue.name,
 			emoji: formValue.emoji,
+			note: formValue.note,
 		};
 		try {
 			const newCategory = await this.categoryService.create(request);

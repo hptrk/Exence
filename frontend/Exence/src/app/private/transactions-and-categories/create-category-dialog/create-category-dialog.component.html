@@ -48,6 +48,15 @@
 				</div>
 			}
 			</div>
+
+		@let noteControl = form.controls.note;
+		<mat-form-field>
+			<mat-label>Note</mat-label>
+			<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
+			<mat-error>
+				<ex-validator [control]="noteControl" />
+			</mat-error>
+		</mat-form-field>
 	</mat-card-content>
 
 	<mat-card-actions class="justify-content-end align-items-center gap-2 w-100 px-4 pt-0">
