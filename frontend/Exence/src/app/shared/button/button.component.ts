@@ -26,7 +26,7 @@ export class ButtonComponent {
 	color = input<'primary' | 'accent' | 'success' | 'error' | 'warn'>('primary');
 
 	collapsedStyle = input<'text' | 'outlined' | 'filled'>('filled');
-	collapseUnder = input<DisplaySizeBreakpoint>('sm');
+	collapseUnder = input<DisplaySizeBreakpoint>();
 
 	shouldNotCollapse = this.display.getObserverByName(this.collapseUnder);
 
