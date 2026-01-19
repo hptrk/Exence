@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig, SimpleSnackBar } from '@angular/material/snack-bar';
-import { SnackbarComponent, SnackbarData } from './snackbar.component';
+import { SNACKBAR_DISMISS_DURATION, SnackbarComponent, SnackbarData } from './snackbar.component';
 
 export const enum SnackbarType {
 	Error,
@@ -20,7 +20,11 @@ export class SnackbarService {
 	};
 
 	showCustom(data: SnackbarData): void {
-		this.snackbar.openFromComponent(SnackbarComponent, { ...this.snackbarConfig, data });
+		this.snackbar.openFromComponent(SnackbarComponent, {
+			...this.snackbarConfig,
+			data,
+			duration: SNACKBAR_DISMISS_DURATION,
+		});
 	}
 
 	showError(message: string): void {
@@ -29,7 +33,8 @@ export class SnackbarService {
 			data: {
 				message,
 				type: SnackbarType.Error
-			} satisfies SnackbarData
+			} satisfies SnackbarData,
+			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 
@@ -39,29 +44,30 @@ export class SnackbarService {
 			data: {
 				message,
 				type: SnackbarType.Warning
-			} satisfies SnackbarData
+			} satisfies SnackbarData,
+			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 
 	showInfo(message: string): void {
 		this.snackbar.openFromComponent(SnackbarComponent, {
 			...this.snackbarConfig,
-			duration: 10000,
 			data: {
 				message,
 				type: SnackbarType.Info
-			} satisfies SnackbarData
+			} satisfies SnackbarData,
+			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 
 	showSuccess(message: string): void {
 		this.snackbar.openFromComponent(SnackbarComponent, {
 			...this.snackbarConfig,
-			duration: 10000,
 			data: {
 				message,
 				type: SnackbarType.Success
-			} satisfies SnackbarData
+			} satisfies SnackbarData,
+			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 }

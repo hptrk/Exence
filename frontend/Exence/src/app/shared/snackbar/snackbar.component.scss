@@ -19,3 +19,11 @@
 mat-icon {
 	flex-shrink: 0;
 }
+
+.progressbar {
+	height: 2px;
+	
+	div {
+		background-color: var(--primary-color);
+	}
+}

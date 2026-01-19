@@ -1,4 +1,4 @@
-<section [class]="'py-2 notification-' + getCssClass()">
+<section [class]="'py-2 position-relative notification-' + getCssClass()">
 	<div class="d-flex justify-content-between align-items-center w-100">
 		<div class="d-flex justify-content-between align-items-center">
 			@switch (data.type) {
@@ -42,5 +42,12 @@
 		>
 			<mat-icon>close</mat-icon>
 		</button>
+	</div>
+
+	<div class="position-absolute bottom-0 start-0 progressbar w-100">
+		<div
+			class="h-100"
+			style.width="{{ progressPercent() }}%"
+		></div>
 	</div>
 </section>
