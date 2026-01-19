@@ -90,6 +90,7 @@
 					title="Expenses"
 					[type]="transactionTypes.EXPENSE"
 					(dataChangedEvent)="onDataChanged()"
+					(onScroll)="onScroll($event, transactionTypes.EXPENSE)"
 				/>
 				<ex-data-table
 					class="col-12 col-lg-6"
@@ -98,6 +99,7 @@
 					title="Incomes"
 					[type]="transactionTypes.INCOME"
 					(dataChangedEvent)="onDataChanged()"
+					(onScroll)="onScroll($event, transactionTypes.INCOME)"
 				/>
 			</div>
 		} @else {
@@ -108,6 +110,7 @@
 					[data]="{ transactions, categories }"
 					title="Transactions"
 					(dataChangedEvent)="onDataChanged()"
+					(onScroll)="onScroll($event)"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
 			</div>

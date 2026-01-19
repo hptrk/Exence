@@ -9,10 +9,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { Category } from '../../data-model/modules/category/Category';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
@@ -27,9 +27,9 @@ import { ButtonComponent } from '../button/button.component';
 import { DialogService } from '../dialog/dialog.service';
 import { DisplaySizeService } from '../display-size.service';
 import { SnackbarService } from '../snackbar/snackbar.service';
+import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
-import { StopPropagationDirective } from '../stop-propagation.directive';
 
 export interface DataTableModel {
 	transactions?: PagedResponse<Transaction>;
@@ -49,13 +49,13 @@ export interface DataTableModel {
 		FormsModule,
 		ReactiveFormsModule,
 		MatInputModule,
-		MatPaginatorModule,
 		MatMenuModule,
 		MatCheckboxModule,
 		MatSelectModule,
 		ButtonComponent,
 		ValidatorComponent,
 		StopPropagationDirective,
+		InfiniteScrollDirective,
 	],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
@@ -90,9 +90,9 @@ export class DataTableComponent extends BaseComponent {
 	type = input<TransactionType | 'category'>();
 	isRecurring = input<boolean | undefined>();
 	nonExpandable = input(false, { transform: booleanAttribute });
-	paginationDisabled = input(false, { transform: booleanAttribute });
 	
 	dataChangedEvent = output<void>();
+	onScroll = output<number>();
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
 	displayedCategoryColumns = ['name', 'emoji', 'actions'];
@@ -104,7 +104,7 @@ export class DataTableComponent extends BaseComponent {
 	transactionDataSource?: MatTableDataSource<TransactionModel>;
 	categoryDataSource?: MatTableDataSource<Category>;
 	pageSize?: number;
-	pageIndex?: number;
+	pageIndex = 0;
 	pageLength?: number;
 	pageSizeOptions = [5, 10, 25, 100];
 
@@ -263,6 +263,11 @@ export class DataTableComponent extends BaseComponent {
 			if (!result) return;
 			this.dataChangedEvent.emit();
 		}
+	}
+
+	getNextPage(): number {
+		this.pageIndex++;
+		return this.pageIndex;
 	}
 
 	private mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {
