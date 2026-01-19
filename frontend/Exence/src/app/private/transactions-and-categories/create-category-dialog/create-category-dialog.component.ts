@@ -15,6 +15,7 @@ import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
 import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
+import { StopPropagationDirective } from "src/app/shared/stop-propagation.directive";
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -31,7 +32,8 @@ import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
     InputClearButtonComponent,
     ButtonComponent,
     ValidatorComponent,
-    AutoTrimDirective
+    AutoTrimDirective,
+    StopPropagationDirective,
 ],
 })
 export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
