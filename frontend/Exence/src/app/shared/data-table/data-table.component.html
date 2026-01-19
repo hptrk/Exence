@@ -188,7 +188,7 @@
 													<button
 														mat-menu-item
 														class="delete-button"
-														(click)="deleteRow(row.id)"
+														(click)="deleteRow(row.id, row.type)"
 													>
 														<mat-icon color="warn">delete</mat-icon>
 														@if (display.isMd()) {

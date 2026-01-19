@@ -174,8 +174,8 @@ export class DataTableComponent extends BaseComponent {
 	// 	this.currentlyEditedRow.set(rowId);
 	// }
 
-	async deleteRow(rowId: number): Promise<void> {
-		await this.transactionService.delete(rowId);
+	async deleteRow(rowId: number, type: TransactionType): Promise<void> {
+		await this.transactionService.delete(rowId, type);
 		this.snackbarService.showSuccess('Transaction deleted successfully!');
 		this.dataChangedEvent.emit();
 	}
