@@ -16,7 +16,10 @@ export class SnackbarService {
 	private readonly snackbar = inject(MatSnackBar);
 
 	private readonly snackbarConfig: MatSnackBarConfig<SimpleSnackBar> = {
-		panelClass: 'custom-snackbar'
+		panelClass: 'custom-snackbar',
+		duration: SNACKBAR_DISMISS_DURATION,
+		horizontalPosition: 'right',
+		verticalPosition: 'top',
 	};
 
 	showCustom(data: SnackbarData): void {
@@ -34,7 +37,6 @@ export class SnackbarService {
 				message,
 				type: SnackbarType.Error
 			} satisfies SnackbarData,
-			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 
@@ -45,7 +47,6 @@ export class SnackbarService {
 				message,
 				type: SnackbarType.Warning
 			} satisfies SnackbarData,
-			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 
@@ -56,7 +57,6 @@ export class SnackbarService {
 				message,
 				type: SnackbarType.Info
 			} satisfies SnackbarData,
-			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 
@@ -67,7 +67,6 @@ export class SnackbarService {
 				message,
 				type: SnackbarType.Success
 			} satisfies SnackbarData,
-			duration: SNACKBAR_DISMISS_DURATION,
 		});
 	}
 }

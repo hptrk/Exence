@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
@@ -35,7 +35,6 @@ export class SnackbarComponent {
 	readonly data = inject<SnackbarData>(MAT_SNACK_BAR_DATA);
 
 	private animationFrameId?: number;
-	private startTime?: number;
 
 	readonly errorType = SnackbarType.Error;
 	readonly warnType = SnackbarType.Warning;
@@ -43,8 +42,7 @@ export class SnackbarComponent {
 	readonly successType = SnackbarType.Success;
 	
 	progress = signal<number>(0);
-	progressPercent = computed(() => Math.floor((this.progress() / SNACKBAR_DISMISS_DURATION) * 100));
-
+	fadeOutStarted = signal<boolean>(false);
 
 	constructor() {
 		this.startProgressAnimation();
@@ -73,17 +71,22 @@ export class SnackbarComponent {
 	}
 
 	private startProgressAnimation(): void {
-		this.startTime = performance.now();
+		const startTime = performance.now();
 
 		const animate = (currentTime: number): void => {
-			if (!this.startTime) return;
+			if (!startTime) return;
 
-			const elapsed = currentTime - this.startTime;
-			const newProgress = Math.min(elapsed, SNACKBAR_DISMISS_DURATION);
+			const elapsed = currentTime - startTime;
+			const progressValue = Math.min(elapsed, SNACKBAR_DISMISS_DURATION);
+			const newProgress = Math.floor((progressValue / SNACKBAR_DISMISS_DURATION) * 100);
 
 			this.progress.set(newProgress);
 
-			if (newProgress < SNACKBAR_DISMISS_DURATION) {
+			if (progressValue >= SNACKBAR_DISMISS_DURATION - 300) {
+				this.fadeOutStarted.set(true);
+			}
+
+			if (progressValue < SNACKBAR_DISMISS_DURATION) {
 				this.animationFrameId = requestAnimationFrame(animate);
 			}
 		};

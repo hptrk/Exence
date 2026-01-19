@@ -1,3 +1,5 @@
+@import "../imports.scss";
+
 mat-snack-bar-container.mat-mdc-snack-bar-container.custom-snackbar {
 	.mdc-snackbar__label {
 		--mat-snack-bar-supporting-text-size: 16px;
@@ -5,6 +7,12 @@ mat-snack-bar-container.mat-mdc-snack-bar-container.custom-snackbar {
 	}
 
 	.mat-mdc-snackbar-surface {
-		--mat-snack-bar-container-color: var(--app-card-color);
-	} 
+		background-color: unset;
+		box-shadow: unset;
+		padding: 0;
+
+		.mat-mdc-snack-bar-label {
+			padding: 0;
+		}
+	}
 }

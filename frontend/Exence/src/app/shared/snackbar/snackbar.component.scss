@@ -4,12 +4,31 @@
 	--mat-icon-button-icon-color: currentColor;
 }
 
+section {
+	border-radius: 5px;
+	background-color: lighten(var(--app-card-color), 10%);
+	box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+
+	transition: opacity 300ms ease-out, box-shadow 300ms ease-out;
+	opacity: 1;
+
+	overflow: hidden;
+
+	&.fade-out {
+		opacity: 0;
+		box-shadow: unset;
+	}
+}
+
 .notification {
 	&-error {
 		color: var(--error-color);
 	}
-	&-success {
-		color: var(--primary-color);
+	&-success, &-info {
+		color: var(--default-text-color);
+		.close-button, .type-icon {
+			color: var(--primary-color);
+		}
 	}
 	&-warning {
 		color: var(--warn-color);
@@ -24,6 +43,7 @@ mat-icon {
 	height: 2px;
 	
 	div {
+		transition: width 0.1s;
 		background-color: var(--primary-color);
 	}
 }
