@@ -19,7 +19,13 @@
 	</div>
 
 	@if (!emptyTableData) {
-		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1">
+		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1"
+			infiniteScroll
+			[infiniteScrollDistance]="2"
+			[infiniteScrollThrottle]="50"
+			[scrollWindow]="false"
+			(scrolled)="onScroll.emit(getNextPage())"
+		>
 			<div>
 				@if (!emptyTransactionTable) {
 					<table
@@ -404,15 +410,6 @@
 				}
 			</div>
 		</div>
-		<!-- @if (!paginationDisabled()) {
-			<mat-paginator
-				[length]="pageLength"
-				[pageSize]="pageSize"
-				[pageSizeOptions]="pageSizeOptions"
-				[pageIndex]="pageIndex"
-			>
-			</mat-paginator>
-		} -->
 	} @else {
 		<ng-container [ngTemplateOutlet]="emptyTable" />
 	}

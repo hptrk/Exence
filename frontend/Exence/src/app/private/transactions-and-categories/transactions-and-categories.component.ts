@@ -81,6 +81,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	categories: Category[] = [];
 
 	selectedIndex = 0;
+	loading = false;
 
 	transactionTypes = TransactionType;
 	transactionTypesArr = Object.values(this.transactionTypes);
@@ -121,8 +122,8 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		const newTransaction = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
-		if (!newTransaction) return;
+		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		if (!result) return;
 		await this.initialize(); // to trigger data refresh in all tables (e.g. if a recurring transaction was created)
 	}
 
@@ -132,11 +133,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		this.categories = (await this.categoryService.list());
 	}
 
-	async onDataChanged(): Promise<void> {
-		await this.initialize();
-	}
-
-	getTransactions(): Promise<PagedResponse<Transaction>> {
+	async getTransactions(pageIndex?: number): Promise<PagedResponse<Transaction>> {
 		const formValue = this.transactionFilterForm.getRawValue();
 		const filters = {
 			keyword: formValue.searchText,
@@ -148,6 +145,21 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 			amountTo: formValue.amountRange.max,
 			recurring: formValue.recurring,
 		} as TransactionFilter;
-		return this.transactionService.list(filters);
+		return this.transactionService.list(filters, pageIndex);
 	}
+
+	async onDataChanged(): Promise<void> {
+		await this.initialize();
+	}
+
+	async onScroll(pageIndex: number): Promise<void> {
+		if (!this.loading && !this.transactions.last) {
+			this.loading = true;
+			try {
+				this.transactions = await this.getTransactions(pageIndex);
+			} finally {
+				this.loading = false;
+			}
+		}
+	} 
 }

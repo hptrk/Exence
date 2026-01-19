@@ -65,23 +65,25 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 	topCategories?: CategorySummaryResponse[];
 	topCategory?: CategorySummaryResponse;
 
+	loading = false;
+
 	async ngOnInit(): Promise<void> {
 		await this.initialize();
 	}
 
 	async initialize(): Promise<void> {
 		return Promise.all([
-			this.transactionService.list(),
+			this.getTransactions(),
+			this.getTransactions(0, TransactionType.INCOME),
+			this.getTransactions(0, TransactionType.EXPENSE),
 			this.categoryService.list(),
 			this.categoryService.listTop4(),
-			this.transactionService.incomes(),
-			this.transactionService.expenses(),
 			this.transactionService.totals(),
-		]).then(([transactions, categories, top4, incomes, expenses, totals]) => {
+		]).then(([transactions, incomes, expenses, categories, top4, totals]) => {
 			this.transactions = transactions;
-			this.categories = categories;
 			this.incomes = incomes;
 			this.expenses = expenses;
+			this.categories = categories;
 			this.totals = totals;
 			this.topCategories = top4;
 			
@@ -90,7 +92,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 		});
 	}
 
-	public async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
+	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
 		const result = await this.dialog.openNonModal(
 			CreateTransactionDialogComponent, { type: transactionType }
 		);
@@ -101,5 +103,27 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 
 	async onDataChanged(): Promise<void> {
 		await this.initialize();
+	}
+
+	async getTransactions(pageIndex = 0, type?: TransactionType): Promise<PagedResponse<Transaction>> {
+		switch (type) {
+			case TransactionType.INCOME:
+				return this.transactionService.listIncomes(pageIndex);
+			case TransactionType.EXPENSE:
+				return this.transactionService.listExpenses(pageIndex);
+			default:
+				return this.transactionService.list(undefined, pageIndex);
+		}
+	}
+
+	async onScroll(pageIndex: number, type?: TransactionType): Promise<void> {
+		if (!this.loading && !this.transactions.last) {
+			this.loading = true;
+			try {
+				this.transactions = await this.getTransactions(pageIndex, type);
+			} finally {
+				this.loading = false;
+			}
+		}
 	}
 }

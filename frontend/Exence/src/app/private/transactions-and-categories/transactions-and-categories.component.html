@@ -69,7 +69,6 @@
 					}"
 					matIcon="money_off"
 					nonExpandable
-					paginationDisabled
 					title="Recurring Incomes"
 					[type]="transactionTypes.INCOME"
 					[isRecurring]="true"
@@ -83,7 +82,6 @@
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
-					paginationDisabled
 					title="Recurring Expenses"
 					[type]="transactionTypes.EXPENSE"
 					[isRecurring]="true"
@@ -97,7 +95,6 @@
 					}"
 					matIcon="money_off"
 					nonExpandable
-					paginationDisabled
 					title="Recurrings"
 					[isRecurring]="true"
 					(dataChangedEvent)="onDataChanged()"
@@ -221,6 +218,7 @@
 				[class.overflow-hidden]="display.isMd()"
 				title="Transactions"
 				(dataChangedEvent)="onDataChanged()"
+				(onScroll)="onScroll($event)"
 			/>
 		</div>
 	</div>
@@ -250,7 +248,6 @@
 			title="Categories"
 			type="category"
 			(dataChangedEvent)="onDataChanged()"
-			paginationDisabled
 		/>
 	</div>
 </ng-template>
