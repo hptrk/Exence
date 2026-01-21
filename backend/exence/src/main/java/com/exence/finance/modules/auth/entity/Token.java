@@ -13,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,53 +36,54 @@ import static com.exence.finance.common.util.ValidationConstants.UUID_LENGTH;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, exclude = { "user" })
 @ToString(callSuper = true, exclude = { "user", "token" })
-@Table(name = "TOKEN", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
-@SequenceGenerator(name = "token_gen", sequenceName = "token_id_seq", allocationSize = 1)
+@Table(name = "token")
 public class Token {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "token_id_seq")
+    @SequenceGenerator(name = "token_id_seq", sequenceName = "token_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "TOKEN_VALUE", nullable = false, unique = true, length = TOKEN_MAX_LENGTH)
+    @Column(name = "token_value", nullable = false, unique = true, length = TOKEN_MAX_LENGTH)
     private String token;
 
-    @Column(name = "JWT_ID", unique = true, length = UUID_LENGTH)
+    @Column(name = "jwt_id", unique = true, length = UUID_LENGTH)
     private String jwtId;
 
-    @Column(name = "SESSION_ID", length = UUID_LENGTH)
+    @Column(name = "session_id", length = UUID_LENGTH)
     private String sessionId;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "TOKEN_TYPE", nullable = false)
+    @Column(name = "token_type", nullable = false)
     private TokenType tokenType;
 
     @NotNull(message = "Revoked status is required")
-    @Column(name = "REVOKED", nullable = false)
+    @Column(name = "revoked", nullable = false)
     @Builder.Default
     private Boolean revoked = Boolean.FALSE;
 
     @NotNull
-    @Column(name = "CREATED_AT", nullable = false)
+    @Column(name = "created_at", nullable = false)
     @Builder.Default
     private Instant createdAt = Instant.now();
 
     @NotNull
-    @Column(name = "EXPIRES_AT", nullable = false)
+    @Column(name = "expires_at", nullable = false)
     private Instant expiresAt;
 
-    @Column(name = "LAST_USED_AT")
+    @Column(name = "last_used_at")
     private Instant lastUsedAt;
 
-    @Column(name = "IP_ADDRESS", length = IP_ADDRESS_MAX_LENGTH)
+    @Column(name = "ip_address", length = IP_ADDRESS_MAX_LENGTH)
     private String ipAddress;
 
-    @Column(name = "USER_AGENT", length = USER_AGENT_MAX_LENGTH)
+    @Column(name = "user_agent", length = USER_AGENT_MAX_LENGTH)
     private String userAgent;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public boolean isExpired() {

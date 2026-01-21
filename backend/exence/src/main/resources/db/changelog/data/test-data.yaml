@@ -1,0 +1,5 @@
+# Test data ONLY for development and test environments
+# This file is included with context: "dev or test" in master changelog
+databaseChangeLog:
+# TODO #EX-220: Add test data for development and testing purposes
+

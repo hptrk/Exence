@@ -15,7 +15,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,13 +23,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
 
 import java.util.List;
 
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_EMOJI_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
 
 @SuperBuilder
 @Entity
@@ -39,26 +37,30 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_M
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, exclude = { "user", "transactions" })
 @ToString(callSuper = true, exclude = { "user", "transactions" })
-@Table(name = "CATEGORY", uniqueConstraints = { @UniqueConstraint(name = "uk_category_user_name", columnNames = {"USER_ID", "NAME"}) })
-@SequenceGenerator(name = "category_gen", sequenceName = "category_id_seq", allocationSize = 1)
+@Table(name = "category")
 @Filter(name = "userFilter", condition = "user_id = :userId")
 public class Category extends BaseAuditableEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_seq")
+    @SequenceGenerator(name = "category_id_seq", sequenceName = "category_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "NAME", nullable = false, length = CATEGORY_NAME_MAX_LENGTH)
+    @Column(name = "name", nullable = false, length = CATEGORY_NAME_MAX_LENGTH)
     private String name;
 
-    @Column(name = "EMOJI", length = CATEGORY_EMOJI_MAX_LENGTH)
+    @Column(name = "emoji", length = CATEGORY_EMOJI_MAX_LENGTH)
     private String emoji;
 
+    @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
+    private String note;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 }

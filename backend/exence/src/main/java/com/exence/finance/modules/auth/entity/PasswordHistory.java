@@ -8,8 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,19 +27,21 @@ import java.time.Instant;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, exclude = {"user"})
 @ToString(callSuper = true, exclude = {"user"})
-@Table(name = "PASSWORD_HISTORY", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
+@Table(name = "password_history")
 public class PasswordHistory {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "password_history_id_seq")
+    @SequenceGenerator(name = "password_history_id_seq", sequenceName = "password_history_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "password_hash", nullable = false)
     private String passwordHash;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)

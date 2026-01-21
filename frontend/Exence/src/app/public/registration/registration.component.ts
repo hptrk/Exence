@@ -15,6 +15,8 @@ import { ExtraValidators } from '../../shared/validators';
 import { AuthService } from '../../shared/auth/auth.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
+import { AutoTrimDirective } from '../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-registration',
@@ -31,6 +33,8 @@ import { ValidatorComponent } from '../../shared/validator/validator.component';
 		RouterLink,
 		MatTooltipModule,
 		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
 	]
 })
 export class RegistrationComponent extends BaseComponent {

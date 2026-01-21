@@ -1,6 +1,6 @@
 <section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
 	<!-- Profile data -->
-	<form class="d-flex flex-column gap-4" [formGroup]="userDataForm" (submit)="saveUserData(); $event.preventDefault()">
+	<form class="d-flex flex-column gap-4" [formGroup]="userDataForm" (submit)="saveUserData()" stopPropagation>
 		<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-2">
 			<h3 class="m-0 text-center text-md-start fs-2">Profile data</h3>
 			<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center gap-2">
@@ -43,7 +43,7 @@
 			@let nameControl = userDataForm.controls.username;
 			<mat-form-field>
 				<mat-label>Username</mat-label>
-				<input matInput [formControl]="nameControl" />
+				<input matInput autoTrim [formControl]="nameControl" />
 				<ex-input-clear matSuffix [control]="nameControl"/>
 				<mat-error>
 					<ex-validator [control]="nameControl" />
@@ -53,7 +53,7 @@
 			@let emailControl = userDataForm.controls.email;
 			<mat-form-field>
 				<mat-label>Email</mat-label>
-				<input matInput type="email" [formControl]="emailControl" />
+				<input matInput autoTrim type="email" [formControl]="emailControl" />
 				<ex-input-clear matSuffix [control]="emailControl" />
 				<mat-error>
 					<ex-validator [control]="emailControl" />
@@ -66,7 +66,7 @@
 	<div class="d-flex flex-column gap-4">
 		@if (isPasswordFormEditing()) {
 			<h3 class="m-0 text-center text-md-start fs-2">Change password</h3>
-			<form [formGroup]="passwordForm" (submit)="savePassword(); $event.preventDefault()">
+			<form [formGroup]="passwordForm" (submit)="savePassword()" stopPropagation>
 				<div class="d-flex flex-column gap-3 w-100">
 					@let pwdControl = passwordForm.controls.password;
 					<mat-form-field>
@@ -123,7 +123,6 @@
 						Cancel
 					</ex-button>
 				</div>
-
 			</form>
 		} @else {
 			<div class="d-flex">

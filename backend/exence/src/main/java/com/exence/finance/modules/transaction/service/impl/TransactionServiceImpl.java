@@ -14,8 +14,10 @@ import com.exence.finance.modules.transaction.dto.response.RecurringTransactions
 import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.mapper.TransactionMapper;
+import com.exence.finance.modules.transaction.repository.TransactionPredicateBuilder;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.transaction.service.TransactionService;
+import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,17 +46,12 @@ public class TransactionServiceImpl implements TransactionService{
 
     public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable){
         Page<Transaction> transactions;
+        Predicate predicate = TransactionPredicateBuilder.buildPredicate(filter);
 
-        if (filter == null || filter.hasActiveFilter()) {
-            transactions = transactionRepository.findWithFilter(filter, pageable);
+        if (predicate != null) {
+            transactions = transactionRepository.findAll(predicate, pageable);
         } else {
-            Sort sortByDateDesc = Sort.by(Sort.Direction.DESC, "date");
-            Pageable sortedByDate = PageRequest.of(
-                    pageable.getPageNumber(),
-                    pageable.getPageSize(),
-                    pageable.getSort().and(sortByDateDesc)
-            );
-            transactions = transactionRepository.findAll(sortedByDate);
+            transactions = transactionRepository.findAll(pageable);
         }
 
         return transactions.map(transactionMapper::mapToTransactionDTO);

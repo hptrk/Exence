@@ -14,6 +14,7 @@ import lombok.experimental.SuperBuilder;
 
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MIN_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
 
 @SuperBuilder
 @NoArgsConstructor
@@ -33,4 +34,8 @@ public class CategoryDTO {
 
     @ValidEmoji(allowEmpty = false, message = "Must contain exactly one emoji character")
     private String emoji;
+
+    @Size(max = CATEGORY_NOTE_MAX_LENGTH,
+            message = "Note can be a maximum of " + CATEGORY_NOTE_MAX_LENGTH + " characters.")
+    private String note;
 }

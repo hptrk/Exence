@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -11,12 +11,12 @@ import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CategoryService } from '../category.service';
-import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
-import { CreateTransactionDialogComponent, CreateTransactionDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
+import { CreateTransactionDialogComponent } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
+import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -35,8 +35,7 @@ import { TransactionService } from './transaction.service';
 export class TransactionsAndCategoriesComponent implements OnInit {
 	private readonly transactionService = inject(TransactionService);
 	private readonly categoryService = inject(CategoryService);
-	private readonly dialog = inject(MatDialog);
-	private readonly snackbarService = inject(SnackbarService);
+	private readonly dialog = inject(DialogService);
 	readonly display = inject(DisplaySizeService);
 
 	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
@@ -67,30 +66,16 @@ export class TransactionsAndCategoriesComponent implements OnInit {
 		});
 	}
 
-	public openCreateTransactionDialog(): void {
-		this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
-			CreateTransactionDialogComponent, undefined
-		).afterClosed().subscribe(
-			async (newTransaction?: Transaction) => {
-				if (newTransaction) {
-					await this.initialize(); // to trigger data refresh in all tables (e.g. if a recurring transaction was created)
-					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-				}
-			}
-		);
+	public async openCreateTransactionDialog(): Promise<void> {
+		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		if (!result) return;
+		await this.initialize(); // to trigger data refresh in all tables (e.g. if a recurring transaction was created)
 	}
 
-	public openCreateCategoryDialog(): void {
-		this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
-			CreateCategoryDialogComponent, undefined
-		).afterClosed().subscribe(
-			async (newCategory?: Category) => {
-				if (newCategory) {
-					this.categories = (await this.categoryService.list());
-					this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
-				}
-			}
-		);
+	public async openCreateCategoryDialog(): Promise<void> {
+		const result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
+		if (!result) return;
+		this.categories = (await this.categoryService.list());
 	}
 
 	async onDataChanged(): Promise<void> {

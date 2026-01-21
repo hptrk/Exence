@@ -15,6 +15,8 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ExtraValidators } from '../../shared/validators';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
+import { AutoTrimDirective } from '../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-forgot-password',
@@ -30,6 +32,8 @@ import { ValidatorComponent } from '../../shared/validator/validator.component';
 		InputClearButtonComponent,
 		RouterLink,
 		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
 	]
 })
 export class ForgotPasswordComponent extends BaseComponent {

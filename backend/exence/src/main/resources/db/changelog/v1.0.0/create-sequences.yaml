@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-sequences
+      author: hptrk
+      comment: Create all sequences for entity ID generation
+      changes:
+        - createSequence:
+            sequenceName: user_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: password_history_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: token_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: category_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: transaction_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: email_log_id_seq
+            startValue: 1
+            incrementBy: 1
+
+      rollback:
+        - dropSequence:
+            sequenceName: user_id_seq
+        - dropSequence:
+            sequenceName: password_history_id_seq
+        - dropSequence:
+            sequenceName: token_id_seq
+        - dropSequence:
+            sequenceName: category_id_seq
+        - dropSequence:
+            sequenceName: transaction_id_seq
+        - dropSequence:
+            sequenceName: email_log_id_seq

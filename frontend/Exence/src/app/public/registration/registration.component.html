@@ -14,13 +14,13 @@
 		</div>
 	</mat-card-header>
 	
-	<form class="d-flex flex-column w-100" (submit)="register(); $event.preventDefault()" [formGroup]="form">
-		<mat-card-content [formGroup]="form" class="d-flex flex-column gap-3">
+	<form [formGroup]="form" (submit)="register()" stopPropagation class="d-flex flex-column w-100">
+		<mat-card-content class="d-flex flex-column gap-3">
 			<div class="d-flex flex-column flex-md-row gap-4">
 				@let nameControl = form.controls.username;
 				<mat-form-field>
 					<mat-label>Username</mat-label>
-					<input matInput [formControl]="nameControl" />
+					<input matInput autoTrim [formControl]="nameControl" />
 					<ex-input-clear matSuffix [control]="nameControl"/>
 					<mat-error>
 						<ex-validator [control]="nameControl" />
@@ -29,7 +29,7 @@
 				@let emailControl = form.controls.email;
 				<mat-form-field>
 					<mat-label>Email</mat-label>
-					<input matInput [formControl]="emailControl" type="email" />
+					<input matInput autoTrim [formControl]="emailControl" type="email" />
 					<ex-input-clear matSuffix [control]="emailControl"/>
 					<mat-error>
 						<ex-validator [control]="emailControl" />

@@ -32,6 +32,7 @@ public class ValidationConstants {
     public static final int CATEGORY_NAME_MIN_LENGTH = 1;
     public static final int CATEGORY_NAME_MAX_LENGTH = 25;
     public static final int CATEGORY_EMOJI_MAX_LENGTH = 50;
+    public static final int CATEGORY_NOTE_MAX_LENGTH = 500;
 
     // Transaction validations
     public static final int TRANSACTION_TITLE_MIN_LENGTH = 1;

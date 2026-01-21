@@ -3,13 +3,14 @@
 		<h3 class="fs-1 fw-bold">New category</h3>
 	</mat-card-header>
 
-	<form class="d-flex flex-column w-100" (submit)="create(); $event.preventDefault()" [formGroup]="form">
+	<form class="d-flex flex-column w-100" (submit)="create()" stopPropagation [formGroup]="form">
 		<mat-card-content class="d-flex flex-column gap-3">
 			@let nameControl = form.controls.name;
 			<mat-form-field>
 				<mat-label>Name</mat-label>
 				<input
 					matInput
+					autoTrim
 					[formControl]="nameControl"
 				/>
 				<ex-input-clear matSuffix [control]="nameControl" />
@@ -48,6 +49,15 @@
 					</div>
 				}
 			</div>
+			
+			@let noteControl = form.controls.note;
+			<mat-form-field>
+				<mat-label>Note</mat-label>
+				<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
+				<mat-error>
+					<ex-validator [control]="noteControl" />
+				</mat-error>
+			</mat-form-field>
 		</mat-card-content>
 
 		<mat-card-actions class="justify-content-end align-items-center gap-2 w-100 px-4 pt-4">
@@ -79,6 +89,5 @@
 	<emoji-mart
 		emoji=""
 		(emojiSelect)="onEmojiSelect($event); emojiMenu.closed.emit()"
-		(click)="$event.stopPropagation()"
 	/>
 </mat-menu>

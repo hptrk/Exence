@@ -3,13 +3,14 @@
 		<h3 class="fs-1 fw-bold">New transaction</h3>
 	</mat-card-header>
 
-	<form class="d-flex flex-column w-100" (submit)="create(); $event.preventDefault()" [formGroup]="form">
+	<form class="d-flex flex-column w-100" (submit)="create()" stopPropagation [formGroup]="form">
 		<mat-card-content class="d-flex flex-column gap-3">
 			@let titleControl = form.controls.title;
 			<mat-form-field>
 				<mat-label>Title</mat-label>
 				<input
 					matInput
+					autoTrim
 					[formControl]="titleControl"
 				/>
 				<ex-input-clear matSuffix [control]="titleControl" />
@@ -80,13 +81,12 @@
 			@let noteControl = form.controls.note;
 			<mat-form-field>
 				<mat-label>Note</mat-label>
-				<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
+				<textarea matInput autoTrim cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
 				<mat-error>
 					<ex-validator [control]="noteControl" />
 				</mat-error>
 			</mat-form-field>
 
-			<!-- TODO change to textarea -->
 			@let recurringControl = form.controls.recurring;
 			<mat-checkbox [formControl]="recurringControl">Automatically recurring?</mat-checkbox>
 		</mat-card-content>

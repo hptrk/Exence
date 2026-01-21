@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-note-to-category
+      author: tamibalogh
+      comment: Create note column in category table
+      changes:
+        - addColumn:
+            tableName: category
+            columns:
+              - column:
+                  name: note
+                  type: VARCHAR(500)

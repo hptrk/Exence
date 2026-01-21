@@ -12,13 +12,14 @@
 		</p>
 	</mat-card-header>
 
-	<form class="d-flex flex-column w-100" (submit)="login(); $event.preventDefault()" [formGroup]="loginForm">
+	<form class="d-flex flex-column w-100" (submit)="login()" stopPropagation [formGroup]="loginForm">
 		<mat-card-content class="d-flex flex-column gap-3 w-100">
 			@let emailControl = loginForm.controls.email;		
 			<mat-form-field>
 				<mat-label>Email</mat-label>
 				<input
 					matInput
+					autoTrim
 					[formControl]="emailControl"
 					type="email"
 				/>
