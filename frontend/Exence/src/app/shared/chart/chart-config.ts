@@ -1,8 +1,11 @@
 import { formatCurrency } from '@angular/common';
-import { Chart, ChartConfiguration, TooltipItem } from 'chart.js';
+import { Chart, ChartConfiguration, ChartData, ChartTypeRegistry, PluginOptionsByType, TooltipItem, TooltipOptions } from 'chart.js';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 
-export const getCssVariableValue = (variableName: string, element: HTMLElement | null = document.documentElement): string => {
+export const getCssVariableValue = (
+	variableName: string,
+	element: HTMLElement | null | undefined = document.documentElement
+): string => {
 	if (!element) return '';
 	return getComputedStyle(element).getPropertyValue(variableName).trim();
 };
@@ -36,12 +39,10 @@ export const createCanvasBackgroundPlugin = (): {
 	},
 });
 
-export const createPointerTooltipConfig = (data: Transaction[]): {
-	callbacks: {
-		title: (context: TooltipItem<'line'>[]) => string;
-		label: (context: TooltipItem<'line'>) => string;
-	};
-} => ({
+export const createPointerTooltipConfig = (
+	data: Transaction[]
+): TooltipOptions<'line'> => ({
+	enabled: true,
 	callbacks: {
 		title: (context: TooltipItem<'line'>[]) => {
 			const dataIndex = context[0]?.dataIndex;
@@ -56,56 +57,64 @@ export const createPointerTooltipConfig = (data: Transaction[]): {
 			const transaction = data[dataIndex];
 			return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
 		},
-	},
-});
+	}
+} as TooltipOptions<'line'>);
 
-export const getLineChartData = (data: number[], labels: string[]): {
-	labels: string[];
-	datasets: {
-		data: number[];
-		fill: string;
-		pointRadius: number;
-		pointBorderWidth: number;
-	}[];
-} => ({
-	labels,
-	datasets: [
-		{
-			data,
+export const getLineChartOptions = (
+	color?: string,
+	gridColor?: string,
+	plugins?: Omit<Partial<PluginOptionsByType<keyof ChartTypeRegistry>>, 'legend'>
+): ChartConfiguration['options'] => {
+	return {
+		responsive: true,
+		maintainAspectRatio: false,
+		layout: {
+			padding: { top: 30, left: 30, right: 30, bottom: 30 },
+		},
+		animations: {
+			tension: { duration: 2000 },
+			backgroundClor: { duration: 0 }
+		},
+		elements: {
+			line: { tension: 0.3 },
+		},
+		plugins: {
+			legend: { display: false },
+			...plugins
+		},
+		scales: {
+			x: {
+				grid: { color: gridColor },
+				border: { color: gridColor },
+				ticks: { color },
+			},
+			y: {
+				beginAtZero: true,
+				grid: { color: gridColor },
+				border: { color: gridColor },
+				ticks: { color },
+			}
+		}
+	};
+};
+
+export const getLineChartData = (
+	data?: number[],
+	labels?: string[],
+	bgColor?: string,
+	hoverColor?: string,
+): ChartData<'line'> => {
+	return {
+		labels: labels ?? [],
+		datasets: [{
+			data: data ?? [],
 			fill: 'origin',
 			pointRadius: 4,
 			pointBorderWidth: 0,
-		},
-	],
-});
-
-export const lineChartOptions: ChartConfiguration['options'] = {
-	responsive: true,
-	maintainAspectRatio: false,
-	layout: {
-		padding: { top: 30, left: 30, right: 30, bottom: 30 },
-	},
-	animations: {
-		tension: {
-			duration: 2000,
-		},
-		backgroundColor: {
-			duration: 0,
-		},
-	},
-	elements: {
-		line: {
-			tension: 0.3, // Smoothen the line
-		},
-	},
-	plugins: {
-		legend: { display: false },
-	},
-	scales: {
-		x: {
-		},
-		y: {
-			beginAtZero: true,
-		},
-	},
+			backgroundColor: hexToRgba(bgColor ?? '', 0.25),
+			borderColor: bgColor,
+			pointBackgroundColor: bgColor,
+			pointHoverBackgroundColor: hoverColor,
+		}]
+	};
 };
