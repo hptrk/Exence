@@ -16,6 +16,7 @@ import { ValidatorComponent } from '../../../shared/validator/validator.componen
 import { CategoryService } from '../../category.service';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { StopPropagationDirective } from "src/app/shared/stop-propagation.directive";
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -34,6 +35,7 @@ import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
+		StopPropagationDirective,
 	],
 })
 export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
