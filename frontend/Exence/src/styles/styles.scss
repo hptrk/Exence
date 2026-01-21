@@ -123,3 +123,7 @@ hr {
 mat-card.mat-mdc-card.categories mat-card-header .mat-mdc-card-header-text {
 	width: 100%;	
 }
+
+mat-checkbox {
+	--mat-checkbox-touch-target-display: none;
+}

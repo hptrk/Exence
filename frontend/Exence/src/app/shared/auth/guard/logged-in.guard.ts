@@ -17,7 +17,6 @@ export const loggedInGuard: CanActivateFn = (
 		filter(user => user !== null),
 		take(1),
 		map((user) => {
-			console.log(user)
 			if (user && currentUserService.isAuthenticated()) {
 				return true;
 			} else {

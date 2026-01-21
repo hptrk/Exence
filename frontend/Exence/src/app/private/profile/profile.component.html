@@ -1,6 +1,6 @@
 <section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
 	<!-- Profile data -->
-	<div class="d-flex flex-column gap-4">
+	<form class="d-flex flex-column gap-4" [formGroup]="userDataForm" (submit)="saveUserData()" stopPropagation>
 		<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-2">
 			<h3 class="m-0 text-center text-md-start fs-2">Profile data</h3>
 			<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center gap-2">
@@ -12,8 +12,7 @@
 						collapsedStyle="filled"
 						collapseUnder="sm"
 						[disabled]="userDataForm.invalid"
-						type="button"
-						(click)="saveUserData()"
+						type="submit"
 					>
 						Save
 					</ex-button>
@@ -33,42 +32,41 @@
 						iconButton
 						matIcon="edit"
 						color="primary"
+						type="button"
 						(click)="isUserDataFormEditing.set(true)"
 					/>
 				}
 			</div>
 		</div>
 
-		<form [formGroup]="userDataForm">
-			<div class="d-flex flex-column flex-md-row gap-3 w-100 mb-2">
-				@let nameControl = userDataForm.controls.username;
-				<mat-form-field>
-					<mat-label>Username</mat-label>
-					<input matInput autoTrim [formControl]="nameControl" />
-					<ex-input-clear matSuffix [control]="nameControl"/>
-					<mat-error>
-						<ex-validator [control]="nameControl" />
-					</mat-error>
-				</mat-form-field>
+		<div class="d-flex flex-column flex-md-row gap-3 w-100 mb-2">
+			@let nameControl = userDataForm.controls.username;
+			<mat-form-field>
+				<mat-label>Username</mat-label>
+				<input matInput autoTrim [formControl]="nameControl" />
+				<ex-input-clear matSuffix [control]="nameControl"/>
+				<mat-error>
+					<ex-validator [control]="nameControl" />
+				</mat-error>
+			</mat-form-field>
 
-				@let emailControl = userDataForm.controls.email;
-				<mat-form-field>
-					<mat-label>Email</mat-label>
-					<input matInput autoTrim type="email" [formControl]="emailControl" />
-					<ex-input-clear matSuffix [control]="emailControl" />
-					<mat-error>
-						<ex-validator [control]="emailControl" />
-					</mat-error>
-				</mat-form-field>
-			</div>
-		</form>
-	</div>
+			@let emailControl = userDataForm.controls.email;
+			<mat-form-field>
+				<mat-label>Email</mat-label>
+				<input matInput autoTrim type="email" [formControl]="emailControl" />
+				<ex-input-clear matSuffix [control]="emailControl" />
+				<mat-error>
+					<ex-validator [control]="emailControl" />
+				</mat-error>
+			</mat-form-field>
+		</div>
+	</form>
 
 	<!-- Password -->
 	<div class="d-flex flex-column gap-4">
 		@if (isPasswordFormEditing()) {
 			<h3 class="m-0 text-center text-md-start fs-2">Change password</h3>
-			<form [formGroup]="passwordForm">
+			<form [formGroup]="passwordForm" (submit)="savePassword()" stopPropagation>
 				<div class="d-flex flex-column gap-3 w-100">
 					@let pwdControl = passwordForm.controls.password;
 					<mat-form-field>
@@ -102,42 +100,42 @@
 						</mat-form-field>
 					</div>
 				</div>
+
+				<div class="d-flex flex-column flex-md-row flex-nowrap align-items-center gap-2">
+					<ex-button
+						filled
+						color="primary"
+						matIcon="check"
+						[disabled]="passwordForm.invalid"
+						type="submit"
+						class="action-button"
+					>
+						Save
+					</ex-button>
+					<ex-button
+						outlined
+						color="accent"
+						matIcon="close"
+						type="button"
+						class="action-button"
+						(click)="cancelPasswordEditing()"
+					>
+						Cancel
+					</ex-button>
+				</div>
 			</form>
-		}
-		<div class="d-flex flex-column flex-md-row flex-nowrap align-items-center gap-2">
-			@if (isPasswordFormEditing()) {
-				<ex-button
-					filled
-					color="primary"
-					matIcon="check"
-					[disabled]="passwordForm.invalid"
-					type="button"
-					class="action-button"
-					(click)="savePassword()"
-				>
-					Save
-				</ex-button>
-				<ex-button
-					outlined
-					color="accent"
-					matIcon="close"
-					type="button"
-					class="action-button"
-					(click)="cancelPasswordEditing()"
-				>
-					Cancel
-				</ex-button>
-			} @else {
+		} @else {
+			<div class="d-flex">
 				<ex-button 
 					filled
 					color="primary"
 					(click)="isPasswordFormEditing.set(true)"
 					class="action-button"
-				>
+					>
 					Change password
 				</ex-button>
-			}
-		</div>
+			</div>
+		}
 	</div>
 
 	<mat-divider />
