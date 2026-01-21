@@ -1,23 +1,26 @@
-<section [class]="'py-2 notification-' + getCssClass()">
-	<div class="d-flex justify-content-between align-items-center w-100">
+<section
+	[class]="'py-2 position-relative notification-' + getCssClass()"
+	[class.fade-out]="fadeOutStarted()"
+>
+	<div class="d-flex justify-content-between align-items-center w-100 p-3">
 		<div class="d-flex justify-content-between align-items-center">
 			@switch (data.type) {
 				@case (errorType) {
-					<mat-icon>error</mat-icon>
+					<mat-icon class="type-icon">error</mat-icon>
 				}
 				@case (warnType) {
-					<mat-icon>warning</mat-icon>
+					<mat-icon class="type-icon">warning</mat-icon>
 				}
 				@case (infoType) {
-					<mat-icon>info</mat-icon>
+					<mat-icon class="type-icon">info</mat-icon>
 				}
 				@case (successType) {
-					<mat-icon>check</mat-icon>
+					<mat-icon class="type-icon">check</mat-icon>
 				}
 			}
 			<div
 				[innerHTML]="data.message"
-				class="text-break ms-4"
+				class="text-break ms-4 me-2"
 			></div>
 		</div>
 		@if (data.action) {
@@ -39,8 +42,16 @@
 			mat-icon-button
 			matSnackBarAction
 			(click)="onClose()"
+			class="close-button"
 		>
 			<mat-icon>close</mat-icon>
 		</button>
+	</div>
+
+	<div class="position-absolute bottom-0 start-0 progressbar w-100">
+		<div
+			class="h-100"
+			style.width="{{ progress() }}%"
+		></div>
 	</div>
 </section>
