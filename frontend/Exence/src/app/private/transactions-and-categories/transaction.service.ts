@@ -6,6 +6,7 @@ import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { HttpService } from '../../shared/http/http.service';
+import { getFilters } from '../../shared/util/http-request-utils';
 
 @Injectable({
 	providedIn: 'root',
@@ -20,8 +21,7 @@ export class TransactionService {
 	}
 
 	public list(filters?: TransactionFilter): Promise<PagedResponse<Transaction>> {
-		const request: Record<string, string> = filters !== undefined ? JSON.parse(JSON.stringify(filters)) : {};
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, request));
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, getFilters(filters)));
 	}
 
 	public listRecurrings(): Promise<RecurringTransactionsResponse> {
