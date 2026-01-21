@@ -14,25 +14,27 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
-import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
+import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-create-category-dialog',
 	templateUrl: './create-category-dialog.component.html',
 	styleUrl: './create-category-dialog.component.scss',
 	imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    PickerComponent,
-    InputClearButtonComponent,
-    ButtonComponent,
-    ValidatorComponent,
-    AutoTrimDirective
-],
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatCardModule,
+		MatMenuModule,
+		MatIconModule,
+		PickerComponent,
+		InputClearButtonComponent,
+		ButtonComponent,
+		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
+	],
 })
 export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
 	private readonly categoryService = inject(CategoryService);

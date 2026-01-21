@@ -15,25 +15,27 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
-import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
+import { AutoTrimDirective } from '../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-login',
 	templateUrl: './login.component.html',
 	styleUrl: './login.component.scss',
 	imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    RouterModule,
-    MatCardModule,
-    MatIconModule,
-    InputClearButtonComponent,
-    ButtonComponent,
-    ValidatorComponent,
-    AutoTrimDirective
-],
+		MatFormFieldModule,
+		MatInputModule,
+		ReactiveFormsModule,
+		MatButtonModule,
+		RouterModule,
+		MatCardModule,
+		MatIconModule,
+		InputClearButtonComponent,
+		ButtonComponent,
+		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
+	],
 })
 export class LoginComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);

@@ -16,7 +16,8 @@ import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
 import { TransactionService } from '../transaction.service';
-import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
+import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -28,17 +29,18 @@ export interface CreateTransactionDialogData {
 	templateUrl: './create-transaction-dialog.component.html',
 	styleUrl: './create-transaction-dialog.component.scss',
 	imports: [
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatCardModule,
-    MatSelectModule, MatDatepickerModule,
-    MatCheckboxModule,
-    InputClearButtonComponent,
-    ButtonComponent,
-    ValidatorComponent,
-    AutoTrimDirective
-],
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInputModule,
+		MatCardModule,
+		MatSelectModule, MatDatepickerModule,
+		MatCheckboxModule,
+		InputClearButtonComponent,
+		ButtonComponent,
+		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
+	],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, boolean> implements OnInit {
 	private readonly transactionService = inject(TransactionService);
