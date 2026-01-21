@@ -28,3 +28,10 @@ textarea {
 	color: var(--error-color);
 	padding: 0 20px;
 }
+
+ex-button {
+	width: 100%;
+	@include displaySm {
+		width: auto;
+	}
+}

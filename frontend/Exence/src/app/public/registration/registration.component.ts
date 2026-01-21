@@ -15,25 +15,27 @@ import { ExtraValidators } from '../../shared/validators';
 import { AuthService } from '../../shared/auth/auth.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
-import { AutoTrimDirective } from "src/app/shared/auto-trim.directive";
+import { AutoTrimDirective } from '../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-registration',
 	templateUrl: './registration.component.html',
 	styleUrl: './registration.component.scss',
 	imports: [
-    MatCardModule,
-    MatIconModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInput,
-    ButtonComponent,
-    InputClearButtonComponent,
-    RouterLink,
-    MatTooltipModule,
-    ValidatorComponent,
-    AutoTrimDirective
-]
+		MatCardModule,
+		MatIconModule,
+		ReactiveFormsModule,
+		MatFormFieldModule,
+		MatInput,
+		ButtonComponent,
+		InputClearButtonComponent,
+		RouterLink,
+		MatTooltipModule,
+		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
+	]
 })
 export class RegistrationComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);

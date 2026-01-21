@@ -67,7 +67,7 @@ a {
 }
 
 hr {
-	background-color: lighten(--secondary-color, 45%);
+	background-color: lighten(var(--secondary-color), 45%);
 	height: 1px;
 	border: none;
 	opacity: 0.36;
@@ -138,4 +138,8 @@ mat-form-field.mat-mdc-form-field.search-with-select {
 		padding: 0;
 		padding-top: 5px;
 	}
+}
+
+mat-checkbox {
+	--mat-checkbox-touch-target-display: none;
 }

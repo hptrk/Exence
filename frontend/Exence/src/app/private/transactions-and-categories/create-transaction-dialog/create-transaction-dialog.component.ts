@@ -1,7 +1,6 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +12,8 @@ import { Transaction } from '../../../data-model/modules/transaction/Transaction
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
@@ -33,14 +34,15 @@ export interface CreateTransactionDialogData {
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatCardModule,
 		MatSelectModule,
 		MatDatepickerModule,
 		MatCheckboxModule,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
+		DialogCardComponent,
 		AutoTrimDirective,
+		ConfirmExitDialogDirective,
 	],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, boolean> implements OnInit {
@@ -111,9 +113,9 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 		try {
 			const newTransaction = await this.transactionService.create(request);
 			this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-			this.dialogRef.close(true);
+			this.dialogRef.submit(true);
 		} catch (_err) {
-			this.dialogRef.close(false);
+			this.dialogRef.submit(false);
 		}
 	}
 }
