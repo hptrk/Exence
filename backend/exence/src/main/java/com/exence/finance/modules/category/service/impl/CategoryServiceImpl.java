@@ -10,11 +10,10 @@ import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +24,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final UserService userService;
 
     public CategoryDTO getCategoryById(Long id) {
-        Category category = categoryRepository.find(id)
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category = categoryRepository.find(id).orElseThrow(CategoryNotFoundException::new);
 
         return categoryMapper.mapToCategoryDTO(category);
     }
@@ -54,8 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
-        Category category = categoryRepository.find(categoryDTO.getId())
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category = categoryRepository.find(categoryDTO.getId()).orElseThrow(CategoryNotFoundException::new);
 
         categoryMapper.updateCategoryFromDto(categoryDTO, category);
         Category updatedCategory = categoryRepository.save(category);
@@ -65,8 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Transactional
     public void deleteCategory(Long id) {
-        Category category = categoryRepository.find(id)
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category = categoryRepository.find(id).orElseThrow(CategoryNotFoundException::new);
 
         if (category.getTransactions() != null && !category.getTransactions().isEmpty()) {
             throw new CategoryInUseException();

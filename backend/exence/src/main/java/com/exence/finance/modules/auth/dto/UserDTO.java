@@ -15,9 +15,16 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
-@EqualsAndHashCode(callSuper = false, exclude = { "" })
-@ToString(callSuper = true, exclude = { "" })
-@JsonIdentityInfo(generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = UserDTO.class)
+@EqualsAndHashCode(
+        callSuper = false,
+        exclude = {""})
+@ToString(
+        callSuper = true,
+        exclude = {""})
+@JsonIdentityInfo(
+        generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class,
+        property = "id",
+        scope = UserDTO.class)
 public class UserDTO {
     private Long id;
 

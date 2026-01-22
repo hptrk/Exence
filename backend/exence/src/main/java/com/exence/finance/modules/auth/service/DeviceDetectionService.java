@@ -7,5 +7,4 @@ public interface DeviceDetectionService {
     String parseBrowser(String userAgent);
 
     String parseOperatingSystem(String userAgent);
-
 }

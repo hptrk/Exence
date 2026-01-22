@@ -1,18 +1,22 @@
 package com.exence.finance.common.util;
 
 import java.util.Set;
+import lombok.experimental.UtilityClass;
 
-public class ValidationConstants {
+@UtilityClass
+public final class ValidationConstants {
 
     public static final int UUID_LENGTH = 36;
 
     // User validations
     public static final int USERNAME_MIN_LENGTH = 3;
     public static final int USERNAME_MAX_LENGTH = 25;
-    public static final String USERNAME_PATTERN = "^(?!.* {2})[a-zA-Z0-9_áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+( [a-zA-Z0-9_áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)*$";
+    public static final String USERNAME_PATTERN =
+            "^(?!.* {2})[a-zA-Z0-9_áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+( [a-zA-Z0-9_áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)*$";
     public static final String USERNAME_PATTERN_MESSAGE = "Username can only contain letters, numbers and underscores";
     public static final int EMAIL_MAX_LENGTH = 100;
-    public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"; // extra strict regex
+    public static final String EMAIL_PATTERN =
+            "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"; // extra strict regex
 
     // Token validations
     public static final int TOKEN_MAX_LENGTH = 512;
@@ -40,9 +44,10 @@ public class ValidationConstants {
     public static final String TRANSACTION_AMOUNT_MIN = "0.01";
     public static final int TRANSACTION_AMOUNT_INTEGER_DIGITS = 17;
     public static final int TRANSACTION_AMOUNT_FRACTION_DIGITS = 2;
+    public static final int TRANSACTION_AMOUNT_PRECISION = 19; // integer + fraction
     public static final int TRANSACTION_NOTE_MAX_LENGTH = 500;
 
-    // Email domain lists
+    // Email
     public static final Set<String> WHITELISTED_DOMAINS = Set.of(
             "gmail.com",
             "yahoo.com",
@@ -53,8 +58,7 @@ public class ValidationConstants {
             "protonmail.com",
             "zoho.com",
             "yandex.com",
-            "mail.com"
-    );
+            "mail.com");
     public static final Set<String> BLACKLISTED_DOMAINS = Set.of(
             "10minutemail.com",
             "tempmail.org",
@@ -65,8 +69,6 @@ public class ValidationConstants {
             "getnada.com",
             "dispostable.com",
             "trashmail.com",
-            "maildrop.cc"
-    );
-
-    private ValidationConstants() {}
+            "maildrop.cc");
+    public static final int ERROR_MESSAGE_MAX_LENGTH = 500;
 }

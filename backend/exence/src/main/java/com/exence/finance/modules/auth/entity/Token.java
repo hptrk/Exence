@@ -1,5 +1,10 @@
 package com.exence.finance.modules.auth.entity;
 
+import static com.exence.finance.common.util.ValidationConstants.IP_ADDRESS_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.TOKEN_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.USER_AGENT_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.UUID_LENGTH;
+
 import com.exence.finance.modules.auth.dto.TokenType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,20 +28,17 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.time.Instant;
-
-import static com.exence.finance.common.util.ValidationConstants.IP_ADDRESS_MAX_LENGTH;
-import static com.exence.finance.common.util.ValidationConstants.TOKEN_MAX_LENGTH;
-import static com.exence.finance.common.util.ValidationConstants.USER_AGENT_MAX_LENGTH;
-import static com.exence.finance.common.util.ValidationConstants.UUID_LENGTH;
-
 @SuperBuilder
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false, exclude = { "user" })
-@ToString(callSuper = true, exclude = { "user", "token" })
+@EqualsAndHashCode(
+        callSuper = false,
+        exclude = {"user"})
+@ToString(
+        callSuper = true,
+        exclude = {"user", "token"})
 @Table(name = "token")
 public class Token {
     @Id

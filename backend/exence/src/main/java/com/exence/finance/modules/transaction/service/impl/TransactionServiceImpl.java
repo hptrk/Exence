@@ -21,30 +21,26 @@ import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class TransactionServiceImpl implements TransactionService{
+public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
     private final UserService userService;
     private final TransactionMapper transactionMapper;
 
     public TransactionDTO getTransactionById(Long id) {
-        Transaction transaction = transactionRepository.find(id)
-                .orElseThrow(TransactionNotFoundException::new);
+        Transaction transaction = transactionRepository.find(id).orElseThrow(TransactionNotFoundException::new);
 
         return transactionMapper.mapToTransactionDTO(transaction);
     }
 
-    public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable){
+    public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable) {
         Page<Transaction> transactions;
         Predicate predicate = TransactionPredicateBuilder.buildPredicate(filter);
 
@@ -58,8 +54,10 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     public RecurringTransactionsResponse getRecurringTransactions(Pageable pageable) {
-        Page<Transaction> incomeTransactions = transactionRepository.findRecurringByType(TransactionType.INCOME, pageable);
-        Page<Transaction> expenseTransactions = transactionRepository.findRecurringByType(TransactionType.EXPENSE, pageable);
+        Page<Transaction> incomeTransactions =
+                transactionRepository.findRecurringByType(TransactionType.INCOME, pageable);
+        Page<Transaction> expenseTransactions =
+                transactionRepository.findRecurringByType(TransactionType.EXPENSE, pageable);
         Page<Transaction> mergedTransactions = transactionRepository.findAllRecurring(pageable);
 
         Page<TransactionDTO> incomeDTOs = incomeTransactions.map(transactionMapper::mapToTransactionDTO);
@@ -82,8 +80,8 @@ public class TransactionServiceImpl implements TransactionService{
         User user = userService.getCurrentUser();
         Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
 
-        Category category = categoryRepository.find(transactionDTO.getCategoryId())
-                .orElseThrow(CategoryNotFoundException::new);
+        Category category =
+                categoryRepository.find(transactionDTO.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
 
         transaction.setCategory(category);
         transaction.setUser(user);
@@ -94,18 +92,19 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Transactional
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
-        Transaction transaction = transactionRepository.find(transactionDTO.getId())
-                .orElseThrow(TransactionNotFoundException::new);
+        Transaction transaction =
+                transactionRepository.find(transactionDTO.getId()).orElseThrow(TransactionNotFoundException::new);
 
-        if (transactionDTO.getCategoryId() != null &&
-            !transactionDTO.getCategoryId().equals(transaction.getCategory().getId())){
+        if (transactionDTO.getCategoryId() != null
+                && !transactionDTO
+                        .getCategoryId()
+                        .equals(transaction.getCategory().getId())) {
 
-            Category category = categoryRepository.find(transactionDTO.getCategoryId())
-                    .orElseThrow(CategoryNotFoundException::new);
+            Category category =
+                    categoryRepository.find(transactionDTO.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
 
             transaction.setCategory(category);
         }
-
 
         transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
 
@@ -115,8 +114,7 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Transactional
     public void deleteTransaction(Long id) {
-        Transaction transaction = transactionRepository.find(id)
-                .orElseThrow(TransactionNotFoundException::new);
+        Transaction transaction = transactionRepository.find(id).orElseThrow(TransactionNotFoundException::new);
 
         transactionRepository.delete(transaction);
     }

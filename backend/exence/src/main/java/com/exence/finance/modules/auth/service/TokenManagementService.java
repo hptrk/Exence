@@ -4,7 +4,6 @@ import com.exence.finance.modules.auth.dto.SessionSummaryProjection;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
-
 import java.util.List;
 
 public interface TokenManagementService {

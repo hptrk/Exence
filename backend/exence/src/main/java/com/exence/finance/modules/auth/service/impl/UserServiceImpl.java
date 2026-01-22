@@ -56,12 +56,15 @@ public class UserServiceImpl implements UserService {
         }
 
         String email = jwtService.extractUsername(token);
-        User user = userRepository.findByEmail(email)
-            .orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         return userMapper.mapToUserDto(user);
     }
 
-    @Cacheable(value = "currentUser", key = "#root.methodName + '_' + T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()")
+    @Cacheable(
+            value = "currentUser",
+            key = "#root.methodName + '_' + "
+                    + "T(org.springframework.security.core.context.SecurityContextHolder)"
+                    + ".getContext().getAuthentication().getName()")
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -72,14 +75,19 @@ public class UserServiceImpl implements UserService {
         return loadUserFromAuthentication(authentication);
     }
 
-    @Cacheable(value = "currentUserId", key = "T(org.springframework.security.core.context.SecurityContextHolder).getContext().getAuthentication().getName()")
+    @Cacheable(
+            value = "currentUserId",
+            key = "T(org.springframework.security.core.context.SecurityContextHolder)"
+                    + ".getContext().getAuthentication().getName()")
     public Long getCurrentUserId() {
         return getCurrentUser().getId();
     }
 
     @Transactional
-    @CacheEvict(value = {"currentUser", "currentUserId"}, allEntries = true)
-    public UserDTO updateUser(UpdateUserRequest request){
+    @CacheEvict(
+            value = {"currentUser", "currentUserId"},
+            allEntries = true)
+    public UserDTO updateUser(UpdateUserRequest request) {
         User user = getCurrentUser();
         userMapper.updateUserFromRequest(request, user);
         user = userRepository.save(user);
@@ -88,7 +96,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    @CacheEvict(value = {"currentUser", "currentUserId"}, allEntries = true)
+    @CacheEvict(
+            value = {"currentUser", "currentUserId"},
+            allEntries = true)
     public void changePassword(ChangePasswordRequest request) {
         User user = getCurrentUser();
 
@@ -114,7 +124,6 @@ public class UserServiceImpl implements UserService {
         authService.sendEmailVerification(user);
 
         log.info("Email verification resent for user: {}", user.getEmail());
-
     }
 
     @Transactional
@@ -130,13 +139,11 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         if (principal instanceof String email) {
-            return userRepository.findByEmail(email)
-                    .orElseThrow(UserNotFoundException::new);
+            return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         }
         if (principal instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
-            return userRepository.findByEmail(email)
-                    .orElseThrow(UserNotFoundException::new);
+            return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         }
 
         throw new UserNotFoundException();

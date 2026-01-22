@@ -1,6 +1,6 @@
 package com.exence.finance.common.exception;
 
-public class AuthenticationFailedException extends RuntimeException{
+public class AuthenticationFailedException extends RuntimeException {
     public AuthenticationFailedException() {
         super();
     }

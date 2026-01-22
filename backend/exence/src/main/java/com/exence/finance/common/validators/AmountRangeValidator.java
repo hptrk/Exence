@@ -3,10 +3,9 @@ package com.exence.finance.common.validators;
 import com.exence.finance.common.annotations.ValidAmountRange;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.stereotype.Component;
-
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import org.springframework.stereotype.Component;
 
 @Component
 public class AmountRangeValidator implements ConstraintValidator<ValidAmountRange, Object> {

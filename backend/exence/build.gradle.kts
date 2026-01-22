@@ -1,7 +1,9 @@
 plugins {
     java
+    checkstyle
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.spotless)
 }
 
 group = "com.exence"
@@ -10,6 +12,47 @@ version = "1.0.0"
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
+}
+
+spotless {
+    java {
+        target("src/**/*.java")
+
+        palantirJavaFormat(
+            libs.versions.palantir.java.format
+                .get(),
+        ) // Google Java Format based formatter
+        importOrder()
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+
+        // spotless:off and // spotless:on can be used to disable/enable formatting for specific code blocks
+        toggleOffOn()
+    }
+
+    kotlinGradle {
+        target("*.gradle.kts")
+        ktlint(libs.versions.ktlint.get())
+    }
+}
+
+tasks.named("check") {
+    dependsOn("spotlessCheck")
+}
+
+checkstyle {
+    toolVersion = libs.versions.checkstyle.get()
+    // Use Google Java Style checks with custom suppressions
+    configDirectory = file("config/checkstyle")
+    isIgnoreFailures = false
+}
+
+tasks.withType<Checkstyle> {
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }
 
 configurations {

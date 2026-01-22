@@ -1,5 +1,7 @@
 package com.exence.finance.modules.email.entity;
 
+import static com.exence.finance.common.util.ValidationConstants.ERROR_MESSAGE_MAX_LENGTH;
+
 import com.exence.finance.modules.auth.dto.EmailType;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.email.dto.EmailStatus;
@@ -15,6 +17,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,15 +26,17 @@ import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.Instant;
-
 @SuperBuilder
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false, exclude = { "user" })
-@ToString(callSuper = true, exclude = { "user" })
+@EqualsAndHashCode(
+        callSuper = false,
+        exclude = {"user"})
+@ToString(
+        callSuper = true,
+        exclude = {"user"})
 @Table(name = "email_log")
 public class EmailLog {
 
@@ -55,7 +60,7 @@ public class EmailLog {
     @Column(name = "status", nullable = false)
     private EmailStatus status;
 
-    @Column(name = "error_message", length = 500)
+    @Column(name = "error_message", length = ERROR_MESSAGE_MAX_LENGTH)
     private String errorMessage;
 
     @CreationTimestamp

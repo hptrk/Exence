@@ -1,19 +1,19 @@
 package com.exence.finance.validators;
 
-import com.exence.finance.common.validators.EmojiValidator;
-import com.exence.finance.common.annotations.ValidEmoji;
-import jakarta.validation.ConstraintValidatorContext;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import com.exence.finance.common.annotations.ValidEmoji;
+import com.exence.finance.common.validators.EmojiValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class EmojiValidatorTest {
 
@@ -31,7 +31,9 @@ public class EmojiValidatorTest {
         validator = new EmojiValidator();
 
         // lenient stubbing to avoid unnecessary strictness in tests
-        lenient().when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
+        lenient()
+                .when(context.buildConstraintViolationWithTemplate(anyString()))
+                .thenReturn(builder);
         lenient().when(builder.addConstraintViolation()).thenReturn(context);
         lenient().doNothing().when(context).disableDefaultConstraintViolation();
 

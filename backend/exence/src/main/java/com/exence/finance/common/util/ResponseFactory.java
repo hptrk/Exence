@@ -1,14 +1,13 @@
 package com.exence.finance.common.util;
 
 import com.exence.finance.common.dto.PageResponse;
+import java.net.URI;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
 
 @UtilityClass
 public final class ResponseFactory {
@@ -22,8 +21,7 @@ public final class ResponseFactory {
     }
 
     public static <T> ResponseEntity<T> created(Object id, T body) {
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(id)
                 .toUri();

@@ -1,22 +1,21 @@
 package com.exence.finance.validators;
 
-import com.exence.finance.common.validators.AmountRangeValidator;
-import com.exence.finance.common.annotations.ValidAmountRange;
-import jakarta.validation.ConstraintValidatorContext;
-import lombok.Data;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
-import java.math.BigDecimal;
-
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import com.exence.finance.common.annotations.ValidAmountRange;
+import com.exence.finance.common.validators.AmountRangeValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.math.BigDecimal;
+import lombok.Data;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class AmountRangeValidatorTest {
 
@@ -36,7 +35,9 @@ public class AmountRangeValidatorTest {
         MockitoAnnotations.openMocks(this);
         validator = new AmountRangeValidator();
 
-        lenient().when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
+        lenient()
+                .when(context.buildConstraintViolationWithTemplate(anyString()))
+                .thenReturn(builder);
         lenient().when(builder.addPropertyNode(anyString())).thenReturn(nodeBuilder);
         lenient().when(nodeBuilder.addConstraintViolation()).thenReturn(context);
         lenient().doNothing().when(context).disableDefaultConstraintViolation();

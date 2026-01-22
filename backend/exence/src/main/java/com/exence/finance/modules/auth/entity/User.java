@@ -1,5 +1,8 @@
 package com.exence.finance.modules.auth.entity;
 
+import static com.exence.finance.common.util.ValidationConstants.EMAIL_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LENGTH;
+
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.email.entity.EmailLog;
 import com.exence.finance.modules.transaction.entity.Transaction;
@@ -14,6 +17,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,21 +31,17 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-
-import static com.exence.finance.common.util.ValidationConstants.EMAIL_MAX_LENGTH;
-import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LENGTH;
-
 @SuperBuilder
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false, exclude = { "transactions", "categories", "tokens", "emailLogs", "passwordHistories" })
-@ToString(callSuper = true, exclude = { "transactions", "categories", "tokens", "password", "emailLogs", "passwordHistories" })
+@EqualsAndHashCode(
+        callSuper = false,
+        exclude = {"transactions", "categories", "tokens", "emailLogs", "passwordHistories"})
+@ToString(
+        callSuper = true,
+        exclude = {"transactions", "categories", "tokens", "password", "emailLogs", "passwordHistories"})
 @Table(name = "_user")
 public class User implements UserDetails {
 
@@ -123,7 +126,7 @@ public class User implements UserDetails {
         // This allows unverified users to still access basic functionality
         return true;
     }
-    
+
     public boolean isFullyEnabled() {
         return isEnabled() && emailVerified;
     }

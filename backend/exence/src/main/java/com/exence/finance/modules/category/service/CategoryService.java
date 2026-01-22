@@ -2,20 +2,19 @@ package com.exence.finance.modules.category.service;
 
 import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
+import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
 public interface CategoryService {
-    public CategoryDTO getCategoryById(@PathVariable Long id);
+    CategoryDTO getCategoryById(@PathVariable Long id);
 
-    public List<CategoryDTO> getCategories();
+    List<CategoryDTO> getCategories();
 
-    public List<CategorySummaryResponse> getTop4CategoriesByTotalAmount();
+    List<CategorySummaryResponse> getTop4CategoriesByTotalAmount();
 
-    public CategoryDTO createCategory(CategoryDTO categoryDTO);
+    CategoryDTO createCategory(CategoryDTO categoryDTO);
 
-    public CategoryDTO updateCategory(CategoryDTO categoryDTO);
+    CategoryDTO updateCategory(CategoryDTO categoryDTO);
 
-    public void deleteCategory(Long id);
+    void deleteCategory(Long id);
 }

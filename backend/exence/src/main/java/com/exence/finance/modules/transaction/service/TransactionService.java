@@ -7,19 +7,18 @@ import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResp
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-
 public interface TransactionService {
-    public TransactionDTO getTransactionById(Long id);
+    TransactionDTO getTransactionById(Long id);
 
-    public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable);
+    Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable);
 
-    public RecurringTransactionsResponse getRecurringTransactions(Pageable pageable);
+    RecurringTransactionsResponse getRecurringTransactions(Pageable pageable);
 
-    public TransactionDTO createTransaction(TransactionDTO transactionDTO);
+    TransactionDTO createTransaction(TransactionDTO transactionDTO);
 
-    public TransactionDTO updateTransaction(TransactionDTO transactionDTO);
+    TransactionDTO updateTransaction(TransactionDTO transactionDTO);
 
-    public void deleteTransaction(Long id);
+    void deleteTransaction(Long id);
 
-    public TransactionTotalsResponse getTransactionTotals();
+    TransactionTotalsResponse getTransactionTotals();
 }

@@ -1,9 +1,8 @@
 package com.exence.finance.modules.auth.controller;
 
 import com.exence.finance.modules.auth.dto.DeviceSessionDTO;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface SessionController {
 
@@ -12,5 +11,4 @@ public interface SessionController {
     ResponseEntity<Void> revokeSession(String sessionId);
 
     ResponseEntity<Void> revokeAllOtherSessions();
-
 }
