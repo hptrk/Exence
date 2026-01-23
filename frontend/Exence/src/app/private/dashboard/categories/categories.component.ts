@@ -49,7 +49,7 @@ export class CategoriesComponent extends BaseComponent {
 		);
 	}
 
-	public async openCreateTransactionDialog(): Promise<void> {
+	async openCreateTransactionDialog(): Promise<void> {
 		await this.dialog.openNonModal(
 			CreateTransactionDialogComponent, undefined
 		);
