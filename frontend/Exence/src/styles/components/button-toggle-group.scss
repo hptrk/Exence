@@ -1,0 +1,46 @@
+mat-button-toggle-group.mat-button-toggle-group {
+	$pill-radius: 999px;
+	
+	border: none;
+	background-color: var(--secondary-color);
+	border-radius: $pill-radius;
+	padding: 4px;
+
+	mat-button-toggle.mat-button-toggle {
+		flex: 1;
+		color: var(--default-text-color);
+		border: none !important;
+		background-color: transparent;
+		border-radius: $pill-radius;
+		font-weight: 500;
+
+		button.mat-button-toggle-button {
+			background-color: transparent;
+			border-radius: $pill-radius;
+			padding: 0 12px;
+			height: 32px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.mat-button-toggle-ripple {
+			border-radius: $pill-radius;
+		}
+	}
+
+	mat-button-toggle.mat-button-toggle-checked {
+		color: var(--app-background-color);
+		font-weight: 500;
+
+		&.type-expense button.mat-button-toggle-button {
+			background-color: var(--bs-danger);
+		}
+		&.type-income button.mat-button-toggle-button {
+			background-color: var(--bs-success);
+		}
+		&.type-mixed button.mat-button-toggle-button {
+			background-color: var(--bs-warning);
+		}
+	}
+}

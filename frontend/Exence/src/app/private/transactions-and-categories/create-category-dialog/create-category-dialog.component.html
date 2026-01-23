@@ -2,6 +2,13 @@
 	<div ex-dialog-card-title>New category</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3">
+		@let typeControl = form.controls.type;
+		<mat-button-toggle-group [formControl]="typeControl" [hideSingleSelectionIndicator]="true">
+			@for (type of categoryTypes; track type) {
+					<mat-button-toggle [value]="type" [class]="'type-' + type.toLowerCase()">{{ type }}</mat-button-toggle>
+				}
+		</mat-button-toggle-group>
+		
 		@let nameControl = form.controls.name;
 		<mat-form-field>
 			<mat-label>Name</mat-label>

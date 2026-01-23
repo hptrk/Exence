@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +17,9 @@ import { CategoryService } from '../../category.service';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { StopPropagationDirective } from "src/app/shared/stop-propagation.directive";
+import { CategoryType } from 'src/app/data-model/modules/category/CategoryType';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -36,6 +39,10 @@ import { StopPropagationDirective } from "src/app/shared/stop-propagation.direct
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
 		StopPropagationDirective,
+		MatSelectModule,
+		MatButtonToggleModule, 
+		FormsModule, 
+		ReactiveFormsModule
 	],
 })
 export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
@@ -45,9 +52,12 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, bo
 
 	data = this.dialogRef.value;
 
+	categoryTypes: CategoryType[] = Object.values(CategoryType);
+
 	form = this.fb.group({
 		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		emoji: this.fb.control<string>('', [Validators.required]),
+		type: this.fb.control<CategoryType>(CategoryType.EXPENSE, [Validators.required]),
 		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
 
@@ -74,6 +84,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, bo
 		const request: Category = {
 			name: formValue.name,
 			emoji: formValue.emoji,
+			type: formValue.type,
 			note: formValue.note,
 		};
 		try {

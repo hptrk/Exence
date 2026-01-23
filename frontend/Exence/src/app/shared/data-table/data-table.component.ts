@@ -95,7 +95,7 @@ export class DataTableComponent extends BaseComponent {
 	dataChangedEvent = output<void>();
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
-	displayedCategoryColumns = ['name', 'emoji', 'actions'];
+	displayedCategoryColumns = ['name', 'emoji', 'type', 'actions'];
 
 	expandedElement: Transaction | null = null;
 
