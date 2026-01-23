@@ -2,10 +2,13 @@ package com.exence.finance.modules.category.entity;
 
 import com.exence.finance.common.entity.BaseAuditableEntity;
 import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.category.dto.CategoryType;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -53,6 +56,11 @@ public class Category extends BaseAuditableEntity {
 
     @Column(name = "emoji", length = CATEGORY_EMOJI_MAX_LENGTH)
     private String emoji;
+
+    @NotNull
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CategoryType type;
 
     @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
     private String note;

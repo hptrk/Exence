@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-type-to-category
+      author: tamibalogh
+      comment: Create type column in category table
+      changes:
+        - addColumn:
+            tableName: category
+            columns:
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false

@@ -1,8 +1,10 @@
 package com.exence.finance.modules.category.dto;
 
 import com.exence.finance.common.annotations.ValidEmoji;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,6 +36,9 @@ public class CategoryDTO {
 
     @ValidEmoji(allowEmpty = false, message = "Must contain exactly one emoji character")
     private String emoji;
+
+    @NotNull(message = "Category type is required")
+    private CategoryType type;
 
     @Size(max = CATEGORY_NOTE_MAX_LENGTH,
             message = "Note can be a maximum of " + CATEGORY_NOTE_MAX_LENGTH + " characters.")

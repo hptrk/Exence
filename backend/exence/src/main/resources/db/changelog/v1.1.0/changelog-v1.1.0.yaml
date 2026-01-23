@@ -2,3 +2,7 @@ databaseChangeLog:
   - include:
       file: add-note-to-category.yaml
       relativeToChangelogFile: true
+
+  - include:
+      file: add-type-to-category.yaml
+      relativeToChangelogFile: true
