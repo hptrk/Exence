@@ -75,10 +75,10 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthenticationResponse login(LoginRequest request) {
-        authenticateUser(request);
-
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(UserNotFoundException::new);
+                .orElseThrow(AuthenticationFailedException::new);
+
+        authenticateUser(request);
 
         // Revoke previous tokens from the same device to prevent multiple active sessions per device
         String userAgent = requestContextService.extractUserAgent();
@@ -131,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(UserNotFoundException::new);
 
         if (emailBusinessProperties.getRateLimiting().isEnabled() &&
-                emailLogService.hasRecentEmail(user, EmailType.EMAIL_VERIFICATION, emailBusinessProperties.getRateLimiting().getCooldownMinutesBetweenSends())) {
+                emailLogService.hasRecentEmail(user, EmailType.PASSWORD_RESET, emailBusinessProperties.getRateLimiting().getCooldownMinutesBetweenSends())) {
             throw new TooManyEmailsException();
         }
 
