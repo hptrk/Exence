@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-email-log-table
+      author: hptrk
+      comment: Create email_log table for tracking sent emails
+      changes:
+        - createTable:
+            tableName: email_log
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_email_log
+                    nullable: false
+              - column:
+                  name: recipient_email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email_type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: subject
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: error_message
+                  type: VARCHAR(500)
+              - column:
+                  name: sent_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+
+        - addForeignKeyConstraint:
+            baseTableName: email_log
+            baseColumnNames: user_id
+            constraintName: fk_email_log_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: SET NULL

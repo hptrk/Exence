@@ -1,19 +1,21 @@
-import { afterNextRender, Component, computed, inject, input, viewChild } from '@angular/core';
+import { afterNextRender, Component, computed, effect, inject, input, signal, viewChild } from '@angular/core';
 
-import { Chart } from 'chart.js';
+import { Chart, ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { format } from 'date-fns';
 import { BaseChartDirective } from 'ng2-charts';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { BaseComponent } from '../base-component/base.component';
 import { DisplayThemeService } from '../display-theme.service';
-import { createCanvasBackgroundPlugin, createPointerTooltipConfig, getCssVariableValue, getLineChartData, hexToRgba, lineChartOptions } from './chart-config';
+import { createCanvasBackgroundPlugin, createPointerTooltipConfig, getCssVariableValue, getLineChartData, getLineChartOptions } from './chart-config';
 
 @Component({
 	selector: 'ex-chart',
-	imports: [BaseChartDirective],
 	templateUrl: './chart.component.html',
 	styleUrls: ['./chart.component.scss'],
+	imports: [
+		BaseChartDirective,
+	],
 })
 export class ChartComponent extends BaseComponent {
 	private themeService = inject(DisplayThemeService);
@@ -22,6 +24,7 @@ export class ChartComponent extends BaseComponent {
 
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
 
+	lineChartType: ChartType = 'line';
 	balanceData = computed(() => {
 		// has to come from backend later
 		const sortedData = this.data().sort((a, b) => a.date.localeCompare(b.date));
@@ -37,80 +40,68 @@ export class ChartComponent extends BaseComponent {
 			return currentBalance;
 		});
 	});
-
 	chartLabels = computed(() =>
-		this.data().sort((a, b) => a.date.localeCompare(b.date)).map(transaction => format(new Date(transaction.date), 'dd/MM'))
+		this.data()
+			.sort((a, b) => a.date.localeCompare(b.date))
+			.map(transaction => format(new Date(transaction.date), 'dd/MM'))
 	);
-	lineChartData = computed(() => 
-		getLineChartData(this.balanceData(), this.chartLabels())
-	);
+	lineChartData = signal<ChartData<'line'>>(getLineChartData());
+	lineChartOptions = signal<ChartConfiguration['options']>(getLineChartOptions()); // colors, font style, etc.
 
-	lineChartOptions = lineChartOptions;
-
-	get canvas(): HTMLCanvasElement | undefined {
-		return this.chart()?.chart?.canvas;
-	}
+	get canvas(): HTMLCanvasElement | undefined { return this.chart()?.chart?.canvas; }
 	
 	constructor() {
 		super();
 
+		// initial
 		afterNextRender(() => {
+			this.registerCanvasBackground();
 			this.setThemeColors();
 		});
 
+		// when data changes
+		effect(() => {
+			this.data();
+			this.balanceData();
+			this.chartLabels();
+
+			if (this.canvas) {
+				this.setThemeColors();
+			}
+		});
+
+		// when theme changes
 		this.addSubscription(this.themeService.themeChangedEvent.subscribe(() => this.setThemeColors()));
+	}
+
+	private registerCanvasBackground(): void {
+		const canvasBgPlugin = createCanvasBackgroundPlugin();
+		Chart.register(canvasBgPlugin);
 	}
 
 	private setThemeColors(): void {
 		if (!this.canvas) return;
 		const element = this.canvas;
 
-		// background
-		const canvasBgPlugin = createCanvasBackgroundPlugin();
-		Chart.register(canvasBgPlugin);
-
-		// grid colors
+		// get colors
 		const color = getCssVariableValue('--default-text-color', element);
 		const colorGrid = getCssVariableValue('--border-color', element);
-		const gridColors = {
-			color: colorGrid,
-			borderColor: colorGrid
-		};
-
-		const gridData = {
-			grid: gridColors,
-			ticks: { color: color }
-		};
-		
-		// new object reference is needed to trigger change detection
-		this.lineChartOptions = {
-			...this.lineChartOptions,
-			scales: {
-				x: gridData,
-				y: { beginAtZero: true, ...gridData }
-			},
-			plugins: {
-				...this.lineChartOptions?.plugins, // point tooltips
-				tooltip: createPointerTooltipConfig(this.data()),
-			}
-		};
-
-		// line colors
 		const bgColor = getCssVariableValue('--primary-color', element);
-		
-		const pointColors = {
-			backgroundColor: hexToRgba(bgColor, 0.25),
-			borderColor: getCssVariableValue('--primary-color', element),
-			pointBackgroundColor: getCssVariableValue('--primary-color', element),
-			pointHoverBackgroundColor: getCssVariableValue('--app-hover-color', element)
-		};
-		const lineData = this.lineChartData();
-		const currDataset = lineData.datasets[0];
-		lineData.datasets[0] = {
-			...currDataset,
-			...pointColors
-		}; 
-	
-		this.chart()?.update();
+		const hoverColor = getCssVariableValue('--app-hover-color', element);
+
+		// update chart options with new colors
+		this.lineChartOptions.set(getLineChartOptions(
+			color,
+			colorGrid,
+			{ tooltip: createPointerTooltipConfig(this.data()) },
+		));
+
+		// update chart data with new colors
+		this.lineChartData.set(getLineChartData(
+			this.balanceData(),
+			this.chartLabels(),
+			bgColor,
+			hoverColor,
+		));
 	}
 }

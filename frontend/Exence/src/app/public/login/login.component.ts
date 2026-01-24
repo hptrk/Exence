@@ -15,6 +15,8 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
+import { AutoTrimDirective } from '../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-login',
@@ -31,6 +33,8 @@ import { ExtraValidators } from '../../shared/validators';
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
 	],
 })
 export class LoginComponent extends BaseComponent {

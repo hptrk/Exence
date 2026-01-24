@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: add-note-to-category.yaml
+      relativeToChangelogFile: true

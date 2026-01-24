@@ -1,7 +1,5 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,9 +8,15 @@ import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { Category } from '../../../data-model/modules/category/Category';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
+import { DialogComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
+import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { StopPropagationDirective } from "src/app/shared/stop-propagation.directive";
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -22,25 +26,29 @@ import { CategoryService } from '../../category.service';
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatCardModule,
 		MatMenuModule,
 		MatIconModule,
 		PickerComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
+		DialogCardComponent,
+		AutoTrimDirective,
+		ConfirmExitDialogDirective,
+		StopPropagationDirective,
 	],
 })
-export class CreateCategoryDialogComponent {
-	private readonly dialogRef = inject(MatDialogRef<CreateCategoryDialogComponent>);
+export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
 	private readonly categoryService = inject(CategoryService);
 	private readonly fb = inject(NonNullableFormBuilder);
+	private readonly snackbarService = inject(SnackbarService);
 
-	data = inject(MAT_DIALOG_DATA);
+	data = this.dialogRef.value;
 
 	form = this.fb.group({
 		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		emoji: this.fb.control<string>('', [Validators.required]),
+		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
 
 	emojiInvalid = false;
@@ -58,7 +66,7 @@ export class CreateCategoryDialogComponent {
 	}
 
 	close(): void {
-		this.dialogRef.close();
+		this.dialogRef.close(false);
 	}
 
 	async create(): Promise<void> {
@@ -66,12 +74,14 @@ export class CreateCategoryDialogComponent {
 		const request: Category = {
 			name: formValue.name,
 			emoji: formValue.emoji,
+			note: formValue.note,
 		};
 		try {
 			const newCategory = await this.categoryService.create(request);
-			this.dialogRef.close(newCategory);
+			this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
+			this.dialogRef.submit(true);
 		} catch (_err) {
-			this.dialogRef.close();
+			this.dialogRef.submit(false);
 		}
 	}
 }

@@ -1,14 +1,14 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatDialog } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Category } from '../../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
 import { BaseComponent } from '../../../shared/base-component/base.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogService } from '../../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../../shared/display-size.service';
-import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
+import { CreateTransactionDialogComponent } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import { Category } from 'src/app/data-model/modules/category/Category';
 
 // TODO move to interval filter component when created
 export enum DateInterval {
@@ -24,26 +24,35 @@ export interface IntervalInfo {
 
 @Component({
 	selector: 'ex-categories',
-	imports: [MatProgressBarModule, MatCardModule, ButtonComponent],
+	imports: [
+		MatProgressBarModule,
+		MatCardModule,
+		ButtonComponent
+	],
 	templateUrl: './categories.component.html',
 	styleUrl: './categories.component.scss',
 })
 export class CategoriesComponent extends BaseComponent {
 	public display = inject(DisplaySizeService);
-	private readonly snackbarService = inject(SnackbarService);
-	private readonly dialog = inject(MatDialog);
+	private readonly dialog = inject(DialogService);
 
 	totalExpense = input.required<number>();
-	categories = input.required<CategorySummaryResponse[]>();
+	topCategories = input.required<CategorySummaryResponse[]>();
+	categories = input.required<Category[]>();
 
-	openCreateCategoryDialog(): void {
-		this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
+	hasCategories = computed(() => !!this.categories().length)
+	hasTransactions = computed(() => !!this.topCategories().length)
+
+	async openCreateCategoryDialog(): Promise<void> {
+		await this.dialog.openNonModal(
 			CreateCategoryDialogComponent, undefined
-		).afterClosed().subscribe((newCategory) => {
-			if (newCategory) {
-				this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
-			}
-		});
+		);
+	}
+
+	async openCreateTransactionDialog(): Promise<void> {
+		await this.dialog.openNonModal(
+			CreateTransactionDialogComponent, undefined
+		);
 	}
 
 	calcPercentage(amount: number): number {

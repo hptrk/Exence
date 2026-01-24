@@ -1,0 +1,33 @@
+# Initial schema setup
+databaseChangeLog:
+  - include:
+      file: create-sequences.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-user-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-token-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-password-history-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-category-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-transaction-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-email-log-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-indexes.yaml
+      relativeToChangelogFile: true

@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 		@if (control().value) {
 			<button
 				mat-icon-button
+				type="button"
 				[disabled]="control().disabled"
 				(click)="clear()" tabindex="-1"
 			>

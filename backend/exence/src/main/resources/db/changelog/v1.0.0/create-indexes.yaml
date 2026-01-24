@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-basic-fk-indexes
+      author: hptrk
+      comment: Create basic indexes for foreign keys
+      changes:
+        - createIndex:
+            tableName: token
+            indexName: idx_token_user_id
+            columns:
+              - column:
+                  name: user_id
+
+        - createIndex:
+            tableName: password_history
+            indexName: idx_password_history_user_id
+            columns:
+              - column:
+                  name: user_id
+
+        - createIndex:
+            tableName: category
+            indexName: idx_category_user_id
+            columns:
+              - column:
+                  name: user_id
+
+        - createIndex:
+            tableName: transaction
+            indexName: idx_transaction_user_id
+            columns:
+              - column:
+                  name: user_id
+
+        - createIndex:
+            tableName: transaction
+            indexName: idx_transaction_category_id
+            columns:
+              - column:
+                  name: category_id
+
+        - createIndex:
+            tableName: email_log
+            indexName: idx_email_log_user_id
+            columns:
+              - column:
+                  name: user_id

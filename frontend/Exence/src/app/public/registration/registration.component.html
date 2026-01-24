@@ -7,58 +7,60 @@
 		/>
 		<div>
 			<h2 class="fs-1">Create an Account</h2>
-			<p class="fs-6 login">
+			<p class="m-0 fs-5 fw-light">
 				Already have an account?
 				<a class="fw-bold" [routerLink]="navigate.account().login()">Log In</a>
 			</p>
 		</div>
 	</mat-card-header>
+	
+	<form [formGroup]="form" (submit)="register()" stopPropagation class="d-flex flex-column w-100">
+		<mat-card-content class="d-flex flex-column gap-3">
+			<div class="d-flex flex-column flex-md-row gap-4">
+				@let nameControl = form.controls.username;
+				<mat-form-field>
+					<mat-label>Username</mat-label>
+					<input matInput autoTrim [formControl]="nameControl" />
+					<ex-input-clear matSuffix [control]="nameControl"/>
+					<mat-error>
+						<ex-validator [control]="nameControl" />
+					</mat-error>
+				</mat-form-field>
+				@let emailControl = form.controls.email;
+				<mat-form-field>
+					<mat-label>Email</mat-label>
+					<input matInput autoTrim [formControl]="emailControl" type="email" />
+					<ex-input-clear matSuffix [control]="emailControl"/>
+					<mat-error>
+						<ex-validator [control]="emailControl" />
+					</mat-error>
+				</mat-form-field>
+			</div>
 
-	<mat-card-content [formGroup]="form" class="d-flex flex-column gap-3">
-		<div class="d-flex flex-column flex-md-row gap-4">
-			@let nameControl = form.controls.username;
-			<mat-form-field>
-				<mat-label>Username</mat-label>
-				<input matInput [formControl]="nameControl" />
-				<ex-input-clear matSuffix [control]="nameControl"/>
+			@let pwdControl = form.controls.password;
+			<mat-form-field matTooltip="Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*()_+-=[]{};':&quot;\|,.<>/?)">
+				<mat-label>Password</mat-label>
+				<input matInput [formControl]="pwdControl" type="password" />
+				<ex-input-clear matSuffix [control]="pwdControl"/>
 				<mat-error>
-					<ex-validator [control]="nameControl" />
+					<ex-validator [control]="pwdControl" />
 				</mat-error>
 			</mat-form-field>
-			@let emailControl = form.controls.email;
+			@let confirmControl = form.controls.confirmPassword;
 			<mat-form-field>
-				<mat-label>Email</mat-label>
-				<input matInput [formControl]="emailControl" type="email" />
-				<ex-input-clear matSuffix [control]="emailControl"/>
+				<mat-label>Confirm password</mat-label>
+				<input matInput [formControl]="confirmControl" type="password" />
+				<ex-input-clear matSuffix [control]="confirmControl"/>
 				<mat-error>
-					<ex-validator [control]="emailControl" />
+					<ex-validator [control]="confirmControl" />
 				</mat-error>
 			</mat-form-field>
-		</div>
+		</mat-card-content>
 
-		@let pwdControl = form.controls.password;
-		<mat-form-field matTooltip="Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*()_+-=[]{};':&quot;\|,.<>/?)">
-			<mat-label>Password</mat-label>
-			<input matInput [formControl]="pwdControl" type="password" />
-			<ex-input-clear matSuffix [control]="pwdControl"/>
-			<mat-error>
-				<ex-validator [control]="pwdControl" />
-			</mat-error>
-		</mat-form-field>
-		@let confirmControl = form.controls.confirmPassword;
-		<mat-form-field>
-			<mat-label>Confirm password</mat-label>
-			<input matInput [formControl]="confirmControl" type="password" />
-			<ex-input-clear matSuffix [control]="confirmControl"/>
-			<mat-error>
-				<ex-validator [control]="confirmControl" />
-			</mat-error>
-		</mat-form-field>
-	</mat-card-content>
-
-	<mat-card-actions class="d-flex flex-column gap-3 w-100">
-		<ex-button class="w-100" [disabled]="form.invalid" filled (click)="register()">
-			Create Account
-		</ex-button>
-	</mat-card-actions>
+		<mat-card-actions class="d-flex flex-column gap-3 w-100">
+			<ex-button class="w-100" [disabled]="form.invalid" filled type="submit">
+				Create Account
+			</ex-button>
+		</mat-card-actions>
+	</form>
 </mat-card>

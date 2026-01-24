@@ -1,14 +1,13 @@
-<mat-card [formGroup]="form" class="gap-4 p-4">
-	<mat-card-header class="justify-content-center">
-		<h3 class="fs-1 fw-bold">New category</h3>
-	</mat-card-header>
+<ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
+	<div ex-dialog-card-title>New category</div>
 
-	<mat-card-content class="d-flex flex-column gap-3">
+	<form ex-dialog-card-content class="d-flex flex-column gap-3">
 		@let nameControl = form.controls.name;
 		<mat-form-field>
 			<mat-label>Name</mat-label>
 			<input
 				matInput
+				autoTrim
 				[formControl]="nameControl"
 			/>
 			<ex-input-clear matSuffix [control]="nameControl" />
@@ -18,7 +17,7 @@
 		</mat-form-field>
 
 		<div class="d-flex flex-column gap-2">
-		<div class="d-flex align-items-center gap-2">
+			<div class="d-flex align-items-center gap-2">
 				<ex-button
 					filled
 					color="accent"
@@ -46,14 +45,23 @@
 					Emoji is required!
 				</div>
 			}
-			</div>
-	</mat-card-content>
+		</div>
+		@let noteControl = form.controls.note;
+		<mat-form-field>
+			<mat-label>Note</mat-label>
+			<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
+			<mat-error>
+				<ex-validator [control]="noteControl" />
+			</mat-error>
+		</mat-form-field>
+	</form>
 
-	<mat-card-actions class="justify-content-end align-items-center gap-2 w-100 px-4 pt-0">
+	<div ex-dialog-card-actions class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100">
 		<ex-button
 			outline
 			color="accent"
 			matIcon="close"
+			type="button"
 			(click)="close()"
 		>
 			Cancel
@@ -67,8 +75,8 @@
 		>
 			Create
 		</ex-button>
-	</mat-card-actions>
-</mat-card>
+	</div>
+</ex-dialog-card>
 
 <mat-menu
 	#emojiMenu="matMenu"
@@ -76,6 +84,6 @@
 	<emoji-mart
 		emoji=""
 		(emojiSelect)="onEmojiSelect($event); emojiMenu.closed.emit()"
-		(click)="$event.stopPropagation()"
+		stopPropagation
 	/>
 </mat-menu>

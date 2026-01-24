@@ -10,11 +10,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,38 +39,32 @@ import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LE
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false, exclude = { "transactions", "categories", "tokens", "emailLogs", "passwordHistories" })
 @ToString(callSuper = true, exclude = { "transactions", "categories", "tokens", "password", "emailLogs", "passwordHistories" })
-@Table(name = "_user",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_user_email", columnNames = "EMAIL")
-        },
-        indexes = {
-                @Index(name = "idx_user_email", columnList = "EMAIL"),
-                @Index(name = "idx_user_username", columnList = "USERNAME"),
-        })
-@SequenceGenerator(name = "user_gen", sequenceName = "user_id_seq", allocationSize = 1)
+@Table(name = "_user")
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "USERNAME", nullable = false, length = USERNAME_MAX_LENGTH)
+    @Column(name = "username", nullable = false, length = USERNAME_MAX_LENGTH)
     private String username;
 
     @NotNull
-    @Column(name = "EMAIL", nullable = false, unique = true, length = EMAIL_MAX_LENGTH)
+    @Column(name = "email", nullable = false, unique = true, length = EMAIL_MAX_LENGTH)
     private String email;
 
     @NotNull
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "EMAIL_VERIFIED", nullable = false)
+    @Column(name = "email_verified", nullable = false)
     @Builder.Default
     private Boolean emailVerified = Boolean.FALSE;
 
-    @Column(name = "LAST_LOGIN_AT")
+    @Column(name = "last_login_at")
     private Instant lastLoginAt;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

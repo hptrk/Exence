@@ -1,5 +1,6 @@
 package com.exence.finance.config;
 
+import com.exence.finance.modules.auth.service.LogoutService;
 import com.exence.finance.security.JwtAuthenticationEntryPoint;
 import com.exence.finance.security.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +27,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-    private final LogoutHandler logoutHandler;
+    private final LogoutService logoutService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,7 +40,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exceptions -> exceptions.authenticationEntryPoint(jwtAuthenticationEntryPoint))
                 .logout(logout -> logout.logoutUrl("/api/auth/logout")
-                        .addLogoutHandler(logoutHandler)
+                        .addLogoutHandler(logoutService)
                         .logoutSuccessHandler((request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK)));
 
         return http.build();

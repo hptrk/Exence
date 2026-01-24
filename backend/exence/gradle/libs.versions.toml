@@ -3,6 +3,7 @@ spring-boot = "3.4.1"
 spring-dependency-management = "1.1.7"
 spring-security-jwt = "1.1.1.RELEASE"
 jjwt = "0.11.2"
+liquibase = "4.30.0"
 modelmapper = "3.1.0"
 mapstruct = "1.5.5.Final"
 hibernate-validator = "8.0.0.Final"
@@ -11,6 +12,8 @@ lombok-mapstruct-binding = "0.2.0"
 emoji-java = "5.1.1"
 postgresql = "42.7.4"
 mockito = "5.5.0"
+bouncycastle = "1.70"
+querydsl = "5.1.0"
 
 [libraries]
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
@@ -26,6 +29,7 @@ spring-security-test = { module = "org.springframework.security:spring-security-
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
+liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
 modelmapper = { module = "org.modelmapper:modelmapper", version.ref = "modelmapper" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
@@ -35,6 +39,9 @@ lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-bindin
 emoji-java = { module = "com.vdurmont:emoji-java", version.ref = "emoji-java" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
+bouncycastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
+querydsl-jpa = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
+querydsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }

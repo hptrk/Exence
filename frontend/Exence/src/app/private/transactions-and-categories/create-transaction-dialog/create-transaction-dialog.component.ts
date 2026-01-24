@@ -1,18 +1,22 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { startWith } from 'rxjs';
 import { Category } from '../../../data-model/modules/category/Category';
 import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
-import { BaseComponent } from '../../../shared/base-component/base.component';
+import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
+import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../category.service';
 import { TransactionService } from '../transaction.service';
@@ -30,25 +34,26 @@ export interface CreateTransactionDialogData {
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
-		MatCardModule,
-		MatSelectModule, MatDatepickerModule,
+		MatSelectModule,
+		MatDatepickerModule,
 		MatCheckboxModule,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
+		DialogCardComponent,
+		AutoTrimDirective,
+		ConfirmExitDialogDirective,
 	],
 })
-export class CreateTransactionDialogComponent extends BaseComponent implements OnInit {
-	private readonly dialogRef = inject(MatDialogRef<CreateTransactionDialogComponent>);
+export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, boolean> implements OnInit {
 	private readonly transactionService = inject(TransactionService);
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
+	private readonly snackbarService = inject(SnackbarService);
 
-	data: CreateTransactionDialogData = inject(MAT_DIALOG_DATA);
+	data = this.dialogRef.value;
 
-	transactionTypes: TransactionType[] = Object.values(TransactionType);
-
-	categories: Category[] = [];
+	transactionTypes: TransactionType[] = Object.values(TransactionType);	
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -57,15 +62,30 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 		amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)]),
 		type: this.fb.control<TransactionType>(TransactionType.EXPENSE, [Validators.required]),
 		recurring: this.fb.control<boolean>(false),
-		category: this.fb.control<Category | null>(null, [Validators.required]),
+		category: this.fb.group({
+			category: this.fb.control<Category | null>(null, [Validators.required]),
+			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
+		}),
+	});
+
+	private categories = signal<Category[]>([]);
+	private searchText = toSignal(this.form.controls.category.controls.searchText.valueChanges.pipe(startWith('')), { initialValue: '' });
+	
+	filteredCategories = computed(() => {
+		const categories = this.categories();
+		const search = this.searchText();
+		if (!search) return categories;
+		return categories.filter(category => 
+			category.name.toLowerCase().includes(search.toLowerCase())
+		);
 	});
 
 	async ngOnInit(): Promise<void> {
-		this.categories = await this.categoryService.list();
-		if (this.data.type) {
+		this.categories.set(await this.categoryService.list());
+		if (this.data?.type) {
 			this.form.controls.type.setValue(this.data.type);
 		}
-		if (this.data.isRecurring) {
+		if (this.data?.isRecurring) {
 			this.form.controls.recurring.setValue(this.data.isRecurring);
 		}
 		this.addSubscription(this.form.controls.amount.valueChanges.subscribe(value => {
@@ -76,7 +96,7 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 	}
 
 	close(): void {
-		this.dialogRef.close();
+		this.dialogRef.close(false);
 	}
 
 	async create(): Promise<void> {
@@ -88,13 +108,14 @@ export class CreateTransactionDialogComponent extends BaseComponent implements O
 			amount: formValue.amount!,
 			type: formValue.type,
 			recurring: formValue.recurring,
-			categoryId: formValue.category!.id!,
+			categoryId: formValue.category!.category!.id!,
 		} as Transaction;
 		try {
 			const newTransaction = await this.transactionService.create(request);
-			this.dialogRef.close(newTransaction);
+			this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
+			this.dialogRef.submit(true);
 		} catch (_err) {
-			this.dialogRef.close();
+			this.dialogRef.submit(false);
 		}
 	}
 }

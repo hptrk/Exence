@@ -15,6 +15,8 @@ import { UserService } from '../../shared/user/user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
+import { AutoTrimDirective } from '../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-profile',
@@ -29,6 +31,8 @@ import { SessionsListComponent } from '../session/sessions-list/sessions-list.co
 		InputClearButtonComponent,
 		SessionsListComponent,
 		ValidatorComponent,
+		AutoTrimDirective,
+		StopPropagationDirective,
 	],
 })
 export class ProfileComponent {

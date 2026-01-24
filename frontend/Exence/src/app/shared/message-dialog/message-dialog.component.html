@@ -1,0 +1,30 @@
+<ex-dialog-card [hideCloseButton]="dialogRef.value.hideCloseIcon">
+	<div ex-dialog-card-title>{{ dialogRef.value.title }}</div>
+
+	<div
+		ex-dialog-card-content
+		class="fs-5"
+	>
+		{{ dialogRef.value.message }}
+	</div>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		@for (button of actions.buttons; track button.text) {
+			<ex-button
+				[svgIcon]="button.svgIcon"
+				[matIcon]="button.matIcon"
+				[mat-dialog-close]="button.value"
+				[color]="button.color"
+				[iconPositionEnd]="button.iconPositionEnd"
+				collapseUnder="sm"
+				collapsedStyle="filled"
+				filled
+			>
+				{{ button.text }}
+			</ex-button>
+		}
+	</div>
+</ex-dialog-card>

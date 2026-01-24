@@ -16,7 +16,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
@@ -25,10 +24,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
-import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.ParamDef;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -43,50 +41,52 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOT
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldNameConstants
 @EqualsAndHashCode(callSuper = false, exclude = { "user", "category" })
 @ToString(callSuper = true, exclude = { "user", "category" })
-@Table(name = "TRANSACTION", uniqueConstraints = { @UniqueConstraint(columnNames = "ID") })
-@SequenceGenerator(name = "transaction_gen", sequenceName = "transaction_id_seq", allocationSize = 1)
+@Table(name = "transaction")
 @Filter(name = "userFilter", condition = "user_id = :userId")
 public class Transaction extends BaseAuditableEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_gen")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_id_seq")
+    @SequenceGenerator(name = "transaction_id_seq", sequenceName = "transaction_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
 
     @NotNull
-    @Column(name = "TITLE", nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "NOTE", length = TRANSACTION_NOTE_MAX_LENGTH)
+    @Column(name = "note", length = TRANSACTION_NOTE_MAX_LENGTH)
     private String note;
 
     @NotNull
-    @Column(name = "DATE", nullable = false)
+    @Column(name = "date", nullable = false)
     private Instant date;
 
     @NotNull
     @DecimalMin(value = TRANSACTION_AMOUNT_MIN)
     @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
             fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS)
-    @Column(name = "AMOUNT", nullable = false, precision = 19, scale = 2)
+    @Column(name = "amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
     @NotNull
-    @Column(name = "TYPE", nullable = false)
+    @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
     @NotNull
-    @Column(name = "RECURRING", nullable = false)
+    @Column(name = "recurring", nullable = false)
     private Boolean recurring;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "CATEGORY_ID", nullable = false)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "USER_ID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 }

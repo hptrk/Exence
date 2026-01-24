@@ -4,7 +4,6 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatError, MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -20,14 +19,14 @@ import { TransactionType } from '../../data-model/modules/transaction/Transactio
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { FilterMenuComponent } from '../../shared/filter-menu/filter-menu.component';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { CategoryService } from '../category.service';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
-import { CreateTransactionDialogComponent, CreateTransactionDialogData } from './create-transaction-dialog/create-transaction-dialog.component';
+import { CreateTransactionDialogComponent } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionService } from './transaction.service';
 
 @Component({
@@ -38,7 +37,6 @@ import { TransactionService } from './transaction.service';
 		CommonModule,
 		ReactiveFormsModule,
 		MatFormFieldModule,
-		MatDialogModule,
 		MatTabsModule,
 		MatIconModule,
 		MatTooltipModule,
@@ -59,9 +57,8 @@ import { TransactionService } from './transaction.service';
 export class TransactionsAndCategoriesComponent extends BaseComponent implements OnInit {
 	private readonly transactionService = inject(TransactionService);
 	private readonly categoryService = inject(CategoryService);
-	private readonly dialog = inject(MatDialog);
-	private readonly snackbarService = inject(SnackbarService);
 	private readonly fb = inject(NonNullableFormBuilder);
+	private readonly dialog = inject(DialogService);
 	readonly display = inject(DisplaySizeService);
 
 	transactionFilterForm = this.fb.group({
@@ -123,30 +120,16 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		});
 	}
 
-	openCreateTransactionDialog(): void {
-		this.dialog.open<CreateTransactionDialogComponent, CreateTransactionDialogData, Transaction>(
-			CreateTransactionDialogComponent, undefined
-		).afterClosed().subscribe(
-			async (newTransaction?: Transaction) => {
-				if (newTransaction) {
-					await this.initialize(); // to trigger data refresh in all tables (e.g. if a recurring transaction was created)
-					this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-				}
-			}
-		);
+	async openCreateTransactionDialog(): Promise<void> {
+		const newTransaction = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		if (!newTransaction) return;
+		await this.initialize(); // to trigger data refresh in all tables (e.g. if a recurring transaction was created)
 	}
 
-	openCreateCategoryDialog(): void {
-		this.dialog.open<CreateCategoryDialogComponent, undefined, Category>(
-			CreateCategoryDialogComponent, undefined
-		).afterClosed().subscribe(
-			async (newCategory?: Category) => {
-				if (newCategory) {
-					this.categories = (await this.categoryService.list());
-					this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
-				}
-			}
-		);
+	async openCreateCategoryDialog(): Promise<void> {
+		const result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
+		if (!result) return;
+		this.categories = (await this.categoryService.list());
 	}
 
 	async onDataChanged(): Promise<void> {

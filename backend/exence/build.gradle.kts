@@ -33,6 +33,9 @@ dependencies {
     implementation(libs.spring.security.web)
     implementation(libs.spring.security.jwt)
 
+    // Password Hashing (Argon2)
+    implementation(libs.bouncycastle)
+
     // JWT
     implementation(libs.jjwt.api)
     runtimeOnly(libs.jjwt.impl)
@@ -55,7 +58,22 @@ dependencies {
     implementation(libs.emoji.java)
 
     // Database
+    implementation(libs.liquibase.core)
     runtimeOnly(libs.postgresql)
+
+    // QueryDSL
+    implementation(libs.querydsl.jpa) {
+        artifact {
+            classifier = "jakarta"
+        }
+    }
+    annotationProcessor(libs.querydsl.apt) {
+        artifact {
+            classifier = "jakarta"
+        }
+    }
+    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
 
     // Development tools
     developmentOnly(libs.spring.boot.devtools)

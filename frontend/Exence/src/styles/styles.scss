@@ -70,7 +70,7 @@ a {
 }
 
 hr {
-	background-color: lighten(--secondary-color, 45%);
+	background-color: lighten(var(--secondary-color), 45%);
 	height: 1px;
 	border: none;
 	opacity: 0.36;
@@ -125,4 +125,24 @@ hr {
 
 mat-card.mat-mdc-card.categories mat-card-header .mat-mdc-card-header-text {
 	width: 100%;	
+}
+
+mat-form-field.mat-mdc-form-field.search-with-select {
+	padding: 0 0.5rem;
+	padding-bottom: 0.5rem;
+
+	.mat-mdc-text-field-wrapper {
+        background-color: transparent;
+    }
+
+	.mat-mdc-form-field-infix {
+		display: flex;
+		align-items: center;
+		padding: 0;
+		padding-top: 5px;
+	}
+}
+
+mat-checkbox {
+	--mat-checkbox-touch-target-display: none;
 }
