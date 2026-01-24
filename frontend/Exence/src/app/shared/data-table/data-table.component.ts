@@ -235,7 +235,6 @@ export class DataTableComponent extends BaseComponent {
 		// }
 	}
 
-	// TODO refactor
 	async openCreateDialog(): Promise<void> {
 		// All transactions
 		if (!this.type()) {

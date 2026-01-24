@@ -1,5 +1,5 @@
-@if (errorKey) {
-	@switch (errorKey) {
+@if (errorKey()) {
+	@switch (errorKey()) {
 		@case ('required') {
 			Field required
 		}
@@ -13,13 +13,13 @@
 			Invalid email format!
 		}
 		@case ('maxlength') {
-			Max length is {{ errorValue?.requiredLength }}!
+			Max length is {{ errorValue()?.requiredLength }}!
 		}
 		@case ('min') {
-			Minimum value is {{ errorValue?.min }}!
+			Minimum value is {{ errorValue()?.min }}!
 		}
 		@case ('max') {
-			MaximumValue value is {{ errorValue?.max }}!
+			Maximum value is {{ errorValue()?.max }}!
 		}
 	}
 }
