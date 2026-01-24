@@ -24,6 +24,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
 
@@ -40,6 +41,7 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOT
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldNameConstants
 @EqualsAndHashCode(callSuper = false, exclude = { "user", "category" })
 @ToString(callSuper = true, exclude = { "user", "category" })
 @Table(name = "transaction")
