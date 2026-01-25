@@ -34,7 +34,7 @@ export class TransactionService {
 	}
 
 	public async list(filters?: TransactionFilter, pageIndex = 0): Promise<PagedResponse<Transaction>> {
-		if (this.transactions?.page !== pageIndex) {
+		if (this.transactions?.page !== pageIndex || filters) {
 			const newPage = await lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, { ...getFilters(filters), page: pageIndex.toString() }));
 			this.transactions = this.getDataToCache(this.transactions, newPage, pageIndex);
 		}

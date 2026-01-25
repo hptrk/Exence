@@ -254,7 +254,7 @@
 																[formControl]="categoryControl"
 															>
 																@for (
-																	category of data().categories;
+																	category of categoryStore.categoryResource.value();
 																	track category.id
 																) {
 																	<mat-option
@@ -331,7 +331,7 @@
 				} @else if (!emptyCategoryTable) {
 					<table
 						mat-table
-						[dataSource]="categoryDataSource!"
+						[dataSource]="categoryStore.categoryResource.value() ?? []"
 						multiTemplateDataRows
 					>
 						<ng-container matColumnDef="name">
