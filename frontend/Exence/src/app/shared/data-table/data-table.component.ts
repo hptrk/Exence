@@ -18,23 +18,17 @@ import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { CategoryService } from '../../private/category.service';
+import { CategoryStore } from '../../private/transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
-import { TransactionService } from '../../private/transactions-and-categories/transaction.service';
+import { TransactionStore } from '../../private/transactions-and-categories/transaction.store';
 import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
 import { DialogService } from '../dialog/dialog.service';
 import { DisplaySizeService } from '../display-size.service';
-import { SnackbarService } from '../snackbar/snackbar.service';
 import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
-
-export interface DataTableModel {
-	transactions?: PagedResponse<Transaction>;
-	categories: Category[];
-}
 
 @Component({
 	selector: 'ex-data-table',
@@ -72,18 +66,17 @@ export interface DataTableModel {
 	/* eslint-enable */
 })
 export class DataTableComponent extends BaseComponent {
-	private readonly snackbarService = inject(SnackbarService);
-	private readonly transactionService = inject(TransactionService);
-	private readonly categoryService = inject(CategoryService);
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly dialog = inject(DialogService);
+	private readonly transactionStore = inject(TransactionStore);
 	readonly display = inject(DisplaySizeService);
+	readonly categoryStore = inject(CategoryStore);
 	
 	noteForm!: FormGroup;
 	recurringForm!: FormGroup;
 	categoryForm!: FormGroup;
 
-	data = input.required<DataTableModel>();
+	transactions = input<PagedResponse<Transaction> | undefined>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
 	title = input<string>();
@@ -133,24 +126,20 @@ export class DataTableComponent extends BaseComponent {
 		});
 
 		effect(() => {
-			const data = this.data();
+			const transactions = this.transactions();
+			if (!this.categoryStore.categoryResource.value() || !transactions) return;
 
-			const categories = data.categories;
-			if (!data.transactions?.content) {
-				this.categoryDataSource = new MatTableDataSource(categories);
-				return;
-			}
-			const transactions = data.transactions.content
-				.map(transaction => this.mapToTransactionModel(transaction, categories));
-			this.transactionDataSource = new MatTableDataSource(transactions);
-			this.pageSize = data.transactions.size;
-			this.pageIndex = data.transactions.page;
-			this.pageLength = data.transactions.totalPages;
+			const transactionDataSource = transactions.content
+				.map(transaction => this.mapToTransactionModel(transaction, this.categoryStore.categoryResource.value()!));
+			this.transactionDataSource = new MatTableDataSource(transactionDataSource);
+			this.pageSize = transactions.size;
+			this.pageIndex = transactions.page;
+			this.pageLength = transactions.totalPages;
 
 			let noteControls = {};
 			let recurringControls = {};
 			let categoryControls = {};
-			data.transactions.content.forEach(transaction => {
+			transactions.content.forEach(transaction => {
 				noteControls = {
 					...noteControls,
 					[transaction.id!]: this.fb.control<string>(transaction.note ?? '', [Validators.maxLength(500)]),
@@ -174,19 +163,15 @@ export class DataTableComponent extends BaseComponent {
 	// 	this.currentlyEditedRow.set(rowId);
 	// }
 
-	async deleteRow(rowId: number, type: TransactionType): Promise<void> {
-		await this.transactionService.delete(rowId, type);
-		this.snackbarService.showSuccess('Transaction deleted successfully!');
-		this.dataChangedEvent.emit();
+	deleteRow(id: number, type: TransactionType): void {
+		this.transactionStore.deleteTransaction(id, type);
 	}
 
-	async deleteCategoryRow(rowId: number): Promise<void> {
-		await this.categoryService.delete(rowId);
-		this.snackbarService.showSuccess('Category deleted successfully!');
-		this.dataChangedEvent.emit();
+	deleteCategoryRow(id: number): void {
+		this.categoryStore.deleteCategory(id);
 	}
 
-	async saveRow(row: Transaction): Promise<void> {
+	saveRow(row: Transaction): void {
 		if (!row.id) return;
 		const newNoteValue = this.noteForm.controls[row.id].getRawValue();
 		const newRecurringValue = this.recurringForm.controls[row.id].getRawValue();
@@ -202,9 +187,7 @@ export class DataTableComponent extends BaseComponent {
 			recurring: newRecurringValue,
 			categoryId: newCategoryValue,
 		};
-		const updatedTransaction = await this.transactionService.update(request);
-		this.snackbarService.showSuccess(`Transaction '${updatedTransaction.title.slice(0, 10)}${updatedTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-		this.dataChangedEvent.emit();
+		this.transactionStore.updateTransaction(request);
 	}
 
 	cancelRowEdit(rowId: number): void {
@@ -238,30 +221,24 @@ export class DataTableComponent extends BaseComponent {
 	async openCreateDialog(): Promise<void> {
 		// All transactions
 		if (!this.type()) {
-			const result = await this.dialog.openNonModal(
+			await this.dialog.openNonModal(
 				CreateTransactionDialogComponent,
 				{ isRecurring: this.isRecurring() ?? false }
 			);
-			if (!result) return;
-			this.dataChangedEvent.emit();
 		// Income or expense
 		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
-			const result = await this.dialog.openNonModal(
+			await this.dialog.openNonModal(
 				CreateTransactionDialogComponent,
 				{ 
 					isRecurring: this.isRecurring() ?? false,
 					type: this.type()! as TransactionType
 				}
 			);
-			if (!result) return;
-			this.dataChangedEvent.emit();
 		// Categories
 		} else if (this.type() === 'category') {
-			const result = await this.dialog.openNonModal(
+			await this.dialog.openNonModal(
 				CreateCategoryDialogComponent, undefined
 			);
-			if (!result) return;
-			this.dataChangedEvent.emit();
 		}
 	}
 
