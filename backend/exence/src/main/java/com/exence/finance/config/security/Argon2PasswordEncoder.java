@@ -22,7 +22,8 @@ public class Argon2PasswordEncoder implements PasswordEncoder {
 
     @Override
     public String encode(CharSequence rawPassword) {
-        return argon2.hash(ITERATIONS, MEMORY, PARALLELISM, rawPassword.toString().toCharArray());
+        return argon2.hash(
+                ITERATIONS, MEMORY, PARALLELISM, rawPassword.toString().toCharArray());
     }
 
     @Override
