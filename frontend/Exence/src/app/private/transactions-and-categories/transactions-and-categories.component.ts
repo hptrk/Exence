@@ -25,6 +25,7 @@ import { CreateTransactionDialogComponent } from './create-transaction-dialog/cr
 import { CategoryStore } from './category.store';
 import { TransactionStore } from './transaction.store';
 import { Category } from '../../data-model/modules/category/Category';
+import { TransactionService } from './transaction.service';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -50,6 +51,7 @@ import { Category } from '../../data-model/modules/category/Category';
 		ValidatorComponent,
 		InputClearButtonComponent,
 	],
+	providers: [TransactionService, TransactionStore],
 })
 export class TransactionsAndCategoriesComponent extends BaseComponent implements OnInit {
 	private readonly dialog = inject(DialogService);

@@ -19,9 +19,12 @@ import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.compon
 import { CategoryStore } from '../transactions-and-categories/category.store';
 import { CreateTransactionDialogComponent } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
+import { TransactionService } from '../transactions-and-categories/transaction.service';
 
 @Component({
 	selector: 'ex-dashboard',
+	templateUrl: './dashboard.component.html',
+	styleUrl: './dashboard.component.scss',
 	imports: [
 		CommonModule,
 		RouterModule,
@@ -33,8 +36,7 @@ import { TransactionStore } from '../transactions-and-categories/transaction.sto
 		ViewToggleComponent,
 		ButtonComponent,
 	],
-	templateUrl: './dashboard.component.html',
-	styleUrl: './dashboard.component.scss',
+	providers: [TransactionService, TransactionStore],
 })
 export class DashboardComponent extends BaseComponent {
 	private readonly currentUserService = inject(CurrentUserService);
