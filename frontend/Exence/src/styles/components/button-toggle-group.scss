@@ -1,21 +1,24 @@
+$type-colors: (
+			'expense': var(--error-color),
+			'income': var(--tertiary-color),
+			'mixed': var(--warn-color)
+		);
+
 mat-button-toggle-group.mat-button-toggle-group {
 	$pill-radius: 999px;
 	
 	border: none;
 	background-color: var(--secondary-color);
-	border-radius: $pill-radius;
 	padding: 4px;
 
-	mat-button-toggle.mat-button-toggle {
+	mat-button-toggle.mat-button-toggle.mat-button-toggle-appearance-standard {
 		flex: 1;
 		color: var(--default-text-color);
-		border: none !important;
-		background-color: transparent;
+		border: none;
 		border-radius: $pill-radius;
-		font-weight: 500;
+		--mat-button-toggle-label-text-weight: 500;
 
 		button.mat-button-toggle-button {
-			background-color: transparent;
 			border-radius: $pill-radius;
 			padding: 0 12px;
 			height: 32px;
@@ -29,18 +32,14 @@ mat-button-toggle-group.mat-button-toggle-group {
 		}
 	}
 
-	mat-button-toggle.mat-button-toggle-checked {
+	mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standard {
 		color: var(--app-background-color);
-		font-weight: 500;
+		--mat-button-toggle-label-text-weight: 500;
 
-		&.type-expense button.mat-button-toggle-button {
-			background-color: var(--bs-danger);
-		}
-		&.type-income button.mat-button-toggle-button {
-			background-color: var(--bs-success);
-		}
-		&.type-mixed button.mat-button-toggle-button {
-			background-color: var(--bs-warning);
+		@each $type, $color in $type-colors {
+			&.type-#{$type} button.mat-button-toggle-button {
+				background-color: $color;
+			}
 		}
 	}
 }

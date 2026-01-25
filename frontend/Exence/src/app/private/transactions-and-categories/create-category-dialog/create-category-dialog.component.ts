@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -16,10 +16,10 @@ import { ValidatorComponent } from '../../../shared/validator/validator.componen
 import { CategoryService } from '../../category.service';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
-import { StopPropagationDirective } from "src/app/shared/stop-propagation.directive";
-import { CategoryType } from 'src/app/data-model/modules/category/CategoryType';
-import { MatSelectModule } from '@angular/material/select';
+import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
+import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -31,6 +31,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 		MatInputModule,
 		MatMenuModule,
 		MatIconModule,
+		MatButtonToggleModule,
 		PickerComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
@@ -38,11 +39,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
+		EnumValuePipe,
 		StopPropagationDirective,
-		MatSelectModule,
-		MatButtonToggleModule, 
-		FormsModule, 
-		ReactiveFormsModule
 	],
 })
 export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
@@ -52,7 +50,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, bo
 
 	data = this.dialogRef.value;
 
-	categoryTypes: CategoryType[] = Object.values(CategoryType);
+	categoryTypes = CategoryType;
 
 	form = this.fb.group({
 		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),

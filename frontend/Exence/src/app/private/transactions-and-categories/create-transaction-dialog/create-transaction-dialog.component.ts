@@ -18,6 +18,7 @@ import { CategoryService } from '../../category.service';
 import { TransactionService } from '../transaction.service';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { EnumValuePipe } from "../../../shared/pipes/enum-value.pipe";
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -41,7 +42,8 @@ export interface CreateTransactionDialogData {
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
-	],
+		EnumValuePipe
+],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, boolean> implements OnInit {
 	private readonly transactionService = inject(TransactionService);
@@ -51,7 +53,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 
 	data = this.dialogRef.value;
 
-	transactionTypes: TransactionType[] = Object.values(TransactionType);
+	transactionTypes = TransactionType;
 
 	categories: Category[] = [];
 

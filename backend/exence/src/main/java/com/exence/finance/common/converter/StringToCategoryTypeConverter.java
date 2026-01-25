@@ -1,7 +1,6 @@
 package com.exence.finance.common.converter;
 
 import com.exence.finance.modules.category.dto.CategoryType;
-import com.exence.finance.modules.transaction.dto.TransactionType;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

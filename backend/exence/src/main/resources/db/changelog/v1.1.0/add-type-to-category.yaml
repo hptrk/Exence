@@ -9,6 +9,6 @@ databaseChangeLog:
             columns:
               - column:
                   name: type
-                  type: VARCHAR(50)
+                  type: VARCHAR(7)
                   constraints:
                     nullable: false
