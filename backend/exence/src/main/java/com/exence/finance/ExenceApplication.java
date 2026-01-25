@@ -6,10 +6,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 public class ExenceApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ExenceApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(ExenceApplication.class, args);
+    }
 }

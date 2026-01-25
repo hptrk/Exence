@@ -1,16 +1,16 @@
 package com.exence.finance.validators;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
+
 import com.exence.finance.common.validators.PasswordValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
 
 public class PasswordValidatorTest {
 
@@ -27,7 +27,9 @@ public class PasswordValidatorTest {
         MockitoAnnotations.openMocks(this);
         validator = new PasswordValidator();
 
-        lenient().when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
+        lenient()
+                .when(context.buildConstraintViolationWithTemplate(anyString()))
+                .thenReturn(builder);
         lenient().when(builder.addConstraintViolation()).thenReturn(context);
         lenient().doNothing().when(context).disableDefaultConstraintViolation();
     }

@@ -7,6 +7,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
-
-import java.io.IOException;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -29,8 +28,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     }
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-                         AuthenticationException authException) throws IOException, ServletException {
+    public void commence(
+            HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
 
         ServletWebRequest webRequest = new ServletWebRequest(request, response);
         ResponseEntity<ProblemDetail> responseEntity;
@@ -48,12 +48,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
             if (jwtProcessingException != null) {
                 // delegate to GlobalExceptionHandler for authentication failure
                 responseEntity = globalExceptionHandler.handleAuthenticationFailedException(
-                        new AuthenticationFailedException("JWT processing failed: " + jwtProcessingException.getMessage()),
+                        new AuthenticationFailedException(
+                                "JWT processing failed: " + jwtProcessingException.getMessage()),
                         webRequest);
             } else {
                 responseEntity = globalExceptionHandler.handleAuthenticationFailedException(
-                        new AuthenticationFailedException(authException.getMessage()),
-                        webRequest);
+                        new AuthenticationFailedException(authException.getMessage()), webRequest);
             }
         }
 

@@ -2,14 +2,13 @@ package com.exence.finance.modules.email.service.impl;
 
 import com.exence.finance.modules.auth.dto.EmailType;
 import com.exence.finance.modules.email.service.EmailTemplateService;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -40,5 +39,4 @@ public class EmailTemplateServiceImpl implements EmailTemplateService {
             return null;
         }
     }
-
 }

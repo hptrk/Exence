@@ -4,11 +4,10 @@ import com.exence.finance.modules.auth.entity.PasswordHistory;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.PasswordHistoryRepository;
 import com.exence.finance.modules.auth.service.PasswordHistoryService;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor

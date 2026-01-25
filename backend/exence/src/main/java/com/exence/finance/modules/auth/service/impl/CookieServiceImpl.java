@@ -5,13 +5,12 @@ import com.exence.finance.config.properties.JwtProperties;
 import com.exence.finance.modules.auth.service.CookieService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.Duration;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
-
-import java.time.Duration;
-import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor

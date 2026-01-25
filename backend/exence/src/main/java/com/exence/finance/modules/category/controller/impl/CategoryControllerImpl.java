@@ -6,6 +6,7 @@ import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.service.CategoryService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -52,8 +51,8 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(@PathVariable Long id,
-                                                      @Valid @RequestBody CategoryDTO categoryDTO) {
+    public ResponseEntity<CategoryDTO> updateCategory(
+            @PathVariable Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
         categoryDTO.setId(id);
         CategoryDTO updated = categoryService.updateCategory(categoryDTO);
         return ResponseFactory.ok(updated);
@@ -64,5 +63,4 @@ public class CategoryControllerImpl implements CategoryController {
         categoryService.deleteCategory(id);
         return ResponseFactory.noContent();
     }
-
 }

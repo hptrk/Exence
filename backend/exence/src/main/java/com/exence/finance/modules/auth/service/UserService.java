@@ -10,17 +10,17 @@ public interface UserService {
      * Request-scoped cached getCurrentUser
      * Caches the user in a request lifecycle to avoid multiple DB calls
      */
-    public UserDTO getUserFromToken();
+    UserDTO getUserFromToken();
 
-    public User getCurrentUser();
+    User getCurrentUser();
 
-    public Long getCurrentUserId();
+    Long getCurrentUserId();
 
-    public UserDTO updateUser(UpdateUserRequest request);
+    UserDTO updateUser(UpdateUserRequest request);
 
-    public void changePassword(ChangePasswordRequest request);
+    void changePassword(ChangePasswordRequest request);
 
-    public void requestVerifyEmail();
+    void requestVerifyEmail();
 
-    public void deleteUser();
+    void deleteUser();
 }

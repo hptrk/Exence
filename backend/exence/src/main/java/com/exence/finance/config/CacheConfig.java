@@ -1,5 +1,8 @@
 package com.exence.finance.config;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
@@ -9,10 +12,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Configuration
 @EnableCaching
 public class CacheConfig {
@@ -21,10 +20,7 @@ public class CacheConfig {
     public CacheManager cacheManager() {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
 
-        cacheManager.setCacheNames(List.of(
-                "currentUser",
-                "currentUserId"
-        ));
+        cacheManager.setCacheNames(List.of("currentUser", "currentUserId"));
 
         return cacheManager;
     }

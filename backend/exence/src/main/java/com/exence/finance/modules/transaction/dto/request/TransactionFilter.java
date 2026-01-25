@@ -1,11 +1,21 @@
 package com.exence.finance.modules.transaction.dto.request;
 
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MAX_LENGTH;
+
 import com.exence.finance.common.annotations.ValidAmountRange;
 import com.exence.finance.common.annotations.ValidDateRange;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.Objects;
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,17 +23,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Objects;
-import java.util.stream.Stream;
-
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MAX_LENGTH;
 
 @SuperBuilder
 @NoArgsConstructor
@@ -34,7 +33,8 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TIT
 @ValidDateRange(from = "dateFrom", to = "dateTo", message = "Date from cannot be after date to")
 @ValidAmountRange(from = "amountFrom", to = "amountTo", message = "Amount from cannot be greater than amount to")
 public class TransactionFilter implements Serializable {
-    @Size(max = TRANSACTION_TITLE_MAX_LENGTH,
+    @Size(
+            max = TRANSACTION_TITLE_MAX_LENGTH,
             message = "Keyword must be at most " + TRANSACTION_TITLE_MAX_LENGTH + " characters")
     private String keyword;
 
@@ -46,16 +46,19 @@ public class TransactionFilter implements Serializable {
 
     private TransactionType type;
 
-    @DecimalMin(value = TRANSACTION_AMOUNT_MIN,
-            message = "Minimum amount must be at least " + TRANSACTION_AMOUNT_MIN)
-    @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
+    @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "Minimum amount must be at least " + TRANSACTION_AMOUNT_MIN)
+    @Digits(
+            integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
             fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-            message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and " + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
+            message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and "
+                    + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
     private BigDecimal amountFrom;
 
-    @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
+    @Digits(
+            integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
             fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-            message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and " + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
+            message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and "
+                    + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
     private BigDecimal amountTo;
 
     private Boolean recurring;

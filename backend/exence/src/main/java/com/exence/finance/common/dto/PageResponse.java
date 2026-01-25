@@ -1,10 +1,9 @@
 package com.exence.finance.common.dto;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.domain.Page;
-
-import java.util.List;
 
 // This class represents a paginated response for API endpoints.
 // We can customize the fields as needed for our application.
@@ -20,7 +19,7 @@ public class PageResponse<T> {
     private boolean last;
     private int numberOfElements;
 
-    public static <T> PageResponse<T> from(Page<T> page){
+    public static <T> PageResponse<T> from(Page<T> page) {
         return new PageResponse<>(
                 page.getContent(),
                 page.getNumber(),
@@ -29,7 +28,6 @@ public class PageResponse<T> {
                 page.getTotalPages(),
                 page.isFirst(),
                 page.isLast(),
-                page.getNumberOfElements()
-        );
+                page.getNumberOfElements());
     }
 }

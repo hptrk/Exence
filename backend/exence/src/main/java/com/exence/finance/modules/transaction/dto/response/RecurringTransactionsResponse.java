@@ -16,4 +16,3 @@ public class RecurringTransactionsResponse {
     private PageResponse<TransactionDTO> expenses;
     private PageResponse<TransactionDTO> mergedTransactions;
 }
-

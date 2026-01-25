@@ -8,12 +8,11 @@ import com.exence.finance.modules.auth.repository.TokenRepository;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.TokenValidationService;
 import com.exence.finance.security.JwtService;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +30,7 @@ public class TokenValidationServiceImpl implements TokenValidationService {
         }
 
         String userEmail = jwtService.extractUsername(token);
-        return userRepository.findByEmail(userEmail)
-                .orElseThrow(UserNotFoundException::new);
+        return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
     }
 
     @Override
@@ -44,7 +42,10 @@ public class TokenValidationServiceImpl implements TokenValidationService {
             }
 
             if (!jwtService.isTokenOfType(token, expectedType)) {
-                log.debug("Token type mismatch. Expected: {}, Found: {}", expectedType, jwtService.extractTokenType(token));
+                log.debug(
+                        "Token type mismatch. Expected: {}, Found: {}",
+                        expectedType,
+                        jwtService.extractTokenType(token));
                 return false;
             }
 
@@ -82,5 +83,4 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     public boolean isTokenActive(String jwtId) {
         return tokenRepository.existsByJwtIdAndNotRevokedAndNotExpired(jwtId, Instant.now());
     }
-
 }

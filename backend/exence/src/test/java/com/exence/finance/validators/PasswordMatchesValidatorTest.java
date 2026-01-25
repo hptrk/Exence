@@ -1,5 +1,12 @@
 package com.exence.finance.validators;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.exence.finance.common.annotations.PasswordMatches;
 import com.exence.finance.common.validators.PasswordMatchesValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -8,13 +15,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class PasswordMatchesValidatorTest {
     @Data
@@ -39,7 +39,9 @@ public class PasswordMatchesValidatorTest {
         MockitoAnnotations.openMocks(this);
         validator = new PasswordMatchesValidator();
 
-        lenient().when(context.buildConstraintViolationWithTemplate(anyString())).thenReturn(builder);
+        lenient()
+                .when(context.buildConstraintViolationWithTemplate(anyString()))
+                .thenReturn(builder);
         lenient().when(builder.addPropertyNode(anyString())).thenReturn(nodeBuilder);
         lenient().when(nodeBuilder.addConstraintViolation()).thenReturn(context);
         lenient().doNothing().when(context).disableDefaultConstraintViolation();

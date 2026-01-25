@@ -5,16 +5,15 @@ import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
 import com.exence.finance.modules.transaction.entity.QTransaction;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.springframework.util.StringUtils;
-
 import java.math.BigDecimal;
 import java.time.Instant;
+import lombok.experimental.UtilityClass;
+import org.springframework.util.StringUtils;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class TransactionPredicateBuilder {
 
+    @SuppressWarnings("checkstyle:ConstantName")
     private static final QTransaction qTransaction = QTransaction.transaction;
 
     public static Predicate buildPredicate(TransactionFilter filter) {
@@ -37,10 +36,11 @@ public final class TransactionPredicateBuilder {
     private static void addKeywordFilter(BooleanBuilder builder, String keyword) {
         if (StringUtils.hasText(keyword)) {
             String lowerKeyword = keyword.toLowerCase();
-            builder.and(
-                    qTransaction.title.lower().contains(lowerKeyword)
-                            .or(qTransaction.note.lower().contains(lowerKeyword))
-            );
+            builder.and(qTransaction
+                    .title
+                    .lower()
+                    .contains(lowerKeyword)
+                    .or(qTransaction.note.lower().contains(lowerKeyword)));
         }
     }
 

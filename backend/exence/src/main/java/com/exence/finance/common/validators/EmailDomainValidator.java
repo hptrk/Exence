@@ -1,14 +1,14 @@
 package com.exence.finance.common.validators;
 
+import static com.exence.finance.common.util.ValidationConstants.BLACKLISTED_DOMAINS;
+import static com.exence.finance.common.util.ValidationConstants.WHITELISTED_DOMAINS;
+
 import com.exence.finance.common.annotations.ValidEmailDomain;
 import com.exence.finance.config.properties.EmailBusinessProperties;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-
-import static com.exence.finance.common.util.ValidationConstants.BLACKLISTED_DOMAINS;
-import static com.exence.finance.common.util.ValidationConstants.WHITELISTED_DOMAINS;
 
 @Component
 @RequiredArgsConstructor
@@ -29,17 +29,15 @@ public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomai
 
         if (BLACKLISTED_DOMAINS.contains(domain.toLowerCase())) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                    "Temporary email addresses are not allowed"
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Temporary email addresses are not allowed")
+                    .addConstraintViolation();
             return false;
         }
 
         if (emailBusinessProperties.isDomainWhitelistOnly() && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                    "Only specific email providers are allowed"
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Only specific email providers are allowed")
+                    .addConstraintViolation();
             return false;
         }
 
@@ -47,8 +45,6 @@ public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomai
     }
 
     private String extractDomain(String email) {
-        return email != null && email.matches("^[^@]+@[^@]+$")
-                ? email.substring(email.indexOf('@') + 1)
-                : null;
+        return email != null && email.matches("^[^@]+@[^@]+$") ? email.substring(email.indexOf('@') + 1) : null;
     }
 }

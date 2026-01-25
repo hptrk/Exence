@@ -1,19 +1,18 @@
 package com.exence.finance.modules.category.controller;
 
 import com.exence.finance.modules.category.dto.CategoryDTO;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
 public interface CategoryController {
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id);
+    ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id);
 
-    public ResponseEntity<List<CategoryDTO>> getCategories();
+    ResponseEntity<List<CategoryDTO>> getCategories();
 
-    public ResponseEntity<CategoryDTO> createCategory(CategoryDTO categoryDTO);
+    ResponseEntity<CategoryDTO> createCategory(CategoryDTO categoryDTO);
 
-    public ResponseEntity<CategoryDTO> updateCategory(Long id, CategoryDTO categoryDTO);
+    ResponseEntity<CategoryDTO> updateCategory(Long id, CategoryDTO categoryDTO);
 
-    public ResponseEntity<Void> deleteCategory(Long id);
+    ResponseEntity<Void> deleteCategory(Long id);
 }
