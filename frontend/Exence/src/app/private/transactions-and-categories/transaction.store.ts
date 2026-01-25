@@ -29,8 +29,6 @@ const initialState: TransactionStoreData = {
 };
 
 export const TransactionStore = signalStore(
-	{ providedIn: 'root' },
-	
 	withState(initialState),
 
 	withProps(store => {
@@ -94,6 +92,8 @@ export const TransactionStore = signalStore(
 			store.totalResource.reload();
 			store.recurringResource.reload();
 			categoryStore.topCategoriesResource.reload();
+			patchState(store, initialState);
+
 		}
 
 		function triggerFullReload(): void {
@@ -103,6 +103,7 @@ export const TransactionStore = signalStore(
 			store.totalResource.reload();
 			store.recurringResource.reload();
 			categoryStore.topCategoriesResource.reload();
+			patchState(store, initialState);
 		}
 
 		return {

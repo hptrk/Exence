@@ -10,9 +10,7 @@ import { getFilters } from '../../shared/util/http-request-utils';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class TransactionService {
 	private readonly http = inject(HttpService);
 
