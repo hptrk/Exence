@@ -18,7 +18,7 @@ import { CategoryService } from '../../category.service';
 import { TransactionService } from '../transaction.service';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
-import { EnumValuePipe } from "../../../shared/pipes/enum-value.pipe";
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
