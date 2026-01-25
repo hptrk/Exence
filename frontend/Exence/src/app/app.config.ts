@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { LayoutModule } from '@angular/cdk/layout';
@@ -17,7 +17,7 @@ import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-toke
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		provideZoneChangeDetection({ eventCoalescing: true }),
+		provideZonelessChangeDetection(),
 		provideRouter(routes),
 		// TODO remove depracated angular animations
 		// eslint-disable-next-line
