@@ -19,7 +19,7 @@ export class ErrorService {
 
 		if (!settings.suppressErrorMessage && !suppressFromInterceptor) {
 			const error = this.extractErrorResponse(errorResponse);
-			this.showErrorFromResponse(error, errorResponse);
+			this.showErrorFromResponse(error);
 		}
 	}
 
@@ -34,12 +34,11 @@ export class ErrorService {
 		return null;
 	}
 
-	private showErrorFromResponse(error: ErrorResponse | null, fallbackError: HttpErrorResponse): void {
+	private showErrorFromResponse(error: ErrorResponse | null): void {
 		const errorMessage = error?.detail 
-			?? fallbackError.message
 			?? 'Unexpected error occurred';
 		
-		console.error('Error Response:', error ?? fallbackError);
+		console.error('Error Response:', error ?? 'Undexpected error occurred');
 		this.snackbarService.showError(errorMessage);
 	}
 }

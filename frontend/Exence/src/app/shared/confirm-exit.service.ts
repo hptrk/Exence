@@ -1,7 +1,7 @@
-import { inject, Injectable } from "@angular/core";
-import { FormGroup } from "@angular/forms";
-import { DialogService } from "./dialog/dialog.service";
-import { MessageDialogButtonConfig, MessageDialogComponent, PredefiedButtons } from "./message-dialog/message-dialog.component";
+import { inject, Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { DialogService } from './dialog/dialog.service';
+import { MessageDialogButtonConfig, MessageDialogComponent, PredefiedButtons } from './message-dialog/message-dialog.component';
 
 @Injectable({
 	providedIn: 'root'

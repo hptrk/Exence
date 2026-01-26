@@ -11,6 +11,25 @@ export const SUPPRESS_ERROR_SNACKBAR = new HttpContextToken<boolean>(() => false
 // refresh token lock to prevent multiple token refreshes at the same time
 let refreshTokenInProgress: Promise<void> | null = null;
 
+function startTokenRefresh(authService: AuthService): Promise<void> {
+	console.warn('Access token expired. Requesting new access token!');
+	
+	// eslint-disable-next-line
+	refreshTokenInProgress = authService.refreshToken().then(() => {})
+		.finally(() => {
+			refreshTokenInProgress = null;
+		});
+
+	return refreshTokenInProgress;
+}
+
+function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>): void {
+	Object.defineProperty(errorWithContext, 'context', {
+		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
+		enumerable: false
+	});
+}
+
 export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
 	const router = inject(Router);
 	const navigationService = inject(NavigationService);
@@ -52,23 +71,4 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 			);
 		})
 	);
-}
-
-function startTokenRefresh(authService: AuthService): Promise<void> {
-	console.warn('Access token expired. Requesting new access token!');
-	
-	refreshTokenInProgress = authService.refreshToken()
-		.then(() => {})
-		.finally(() => {
-			refreshTokenInProgress = null;
-		});
-
-	return refreshTokenInProgress;
-}
-
-function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>) {
-	Object.defineProperty(errorWithContext, 'context', {
-		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
-		enumerable: false
-	});
 }

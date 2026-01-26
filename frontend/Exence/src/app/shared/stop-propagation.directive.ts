@@ -1,4 +1,4 @@
-import { Directive, effect, ElementRef, inject, input, Renderer2 } from "@angular/core";
+import { Directive, effect, ElementRef, inject, input, Renderer2 } from '@angular/core';
 
 @Directive({
 	selector: '[stopPropagation]'
@@ -24,7 +24,7 @@ export class StopPropagationDirective {
 
 			onCleanup(() => {
 				unlisteners.forEach(unlisten => unlisten());
-			})
+			});
 		});
 	}
 }
