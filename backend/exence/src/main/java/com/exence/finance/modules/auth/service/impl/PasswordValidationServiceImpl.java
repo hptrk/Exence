@@ -51,8 +51,8 @@ public class PasswordValidationServiceImpl implements PasswordValidationService 
                 recentPasswords.stream().anyMatch(ph -> passwordEncoder.matches(newPassword, ph.getPasswordHash()));
 
         if (isPasswordReused) {
-            throw new InvalidPasswordException(String.format(
-                    "Password cannot be one of your last %d passwords", exenceProperties.getPasswordHistoryCount()));
+            throw new InvalidPasswordException("Password cannot be one of your last %d passwords"
+                    .formatted(exenceProperties.getPasswordHistoryCount()));
         }
     }
 }

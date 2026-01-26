@@ -59,8 +59,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     }
 
     private boolean isNullOrEmpty(Object value) {
-        return value == null
-                || (value instanceof String && ((String) value).trim().isEmpty());
+        return value == null || (value instanceof String s && s.trim().isEmpty());
     }
 
     private void addConstraintViolation(ConstraintValidatorContext context) {
