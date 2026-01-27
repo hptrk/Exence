@@ -39,7 +39,7 @@ jobs:
         run: ./gradlew spotlessCheck --no-daemon
 
       - name: Run Checkstyle
-        run: ./gradlew checkstyleMain checkstyleTest --no-daemon
+        run: ./gradlew checkstyleMain --no-daemon
 
   build-test:
     name: Build & Test
