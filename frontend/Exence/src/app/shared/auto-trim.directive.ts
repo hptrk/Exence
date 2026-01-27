@@ -1,5 +1,16 @@
-import { Directive, inject } from "@angular/core";
-import { ControlValueAccessor, NgControl } from "@angular/forms";
+import { Directive, inject } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
+
+function trimValueAccessor(valueAccessor: ControlValueAccessor): void {
+	const original = valueAccessor.registerOnChange;
+
+	// overrides angular's formControl updation function to first validate strings
+	valueAccessor.registerOnChange = (fn: (_: unknown) => void) => {
+		return original.call(valueAccessor, (value: unknown) => {
+			return fn(typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : value);
+		});
+	};
+}
 
 @Directive({
 	selector: '[autoTrim]',
@@ -13,13 +24,3 @@ export class AutoTrimDirective {
 	}
 }
 
-function trimValueAccessor(valueAccessor: ControlValueAccessor) {
-	const original = valueAccessor.registerOnChange;
-
-	// overrides angular's formControl updation function to first validate strings
-	valueAccessor.registerOnChange = (fn: (_: unknown) => void) => {
-		return original.call(valueAccessor, (value: unknown) => {
-			return fn(typeof value === 'string' ? value.replace(/\s+/g, ' ').trim() : value);
-		});
-	}
-}

@@ -1,6 +1,6 @@
-import { Directive, inject, OnDestroy, OnInit } from "@angular/core";
-import { FormGroupDirective } from "@angular/forms";
-import { ConfirmExitService } from "./confirm-exit.service";
+import { Directive, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormGroupDirective } from '@angular/forms';
+import { ConfirmExitService } from './confirm-exit.service';
 
 @Directive({
 	selector: '[confirmExit][formGroup]',

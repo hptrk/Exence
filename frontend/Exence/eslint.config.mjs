@@ -73,7 +73,7 @@ export default defineConfig([
 				}
 			],
 			"@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
-			"@typescript-eslint/no-unnecessary-condition": "off",
+			"@typescript-eslint/no-unnecessary-condition": "warn",
 			"@typescript-eslint/no-unnecessary-qualifier": "error",
 			"@typescript-eslint/no-unnecessary-template-expression": "warn",
 			"@typescript-eslint/no-unnecessary-type-assertion": "off",

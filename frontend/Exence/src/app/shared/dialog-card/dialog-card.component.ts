@@ -1,6 +1,6 @@
-import { booleanAttribute, Component, inject, input } from "@angular/core";
-import { ButtonComponent } from "../button/button.component";
-import { MatDialogRef } from "@angular/material/dialog";
+import { booleanAttribute, Component, inject, input } from '@angular/core';
+import { ButtonComponent } from '../button/button.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
 	selector: 'ex-dialog-card',

@@ -40,8 +40,8 @@ export class CategoriesComponent extends BaseComponent {
 	topCategories = input.required<CategorySummaryResponse[]>();
 	categories = input.required<Category[]>();
 
-	hasCategories = computed(() => !!this.categories().length)
-	hasTransactions = computed(() => !!this.topCategories().length)
+	hasCategories = computed(() => !!this.categories().length);
+	hasTransactions = computed(() => !!this.topCategories().length);
 
 	async openCreateCategoryDialog(): Promise<void> {
 		await this.dialog.openNonModal(
