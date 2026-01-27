@@ -2,3 +2,8 @@ databaseChangeLog:
   - include:
       file: add-note-to-category.yaml
       relativeToChangelogFile: true
+
+  - include:
+      file: switch-to-native-enums.yaml
+      relativeToChangelogFile: true
+

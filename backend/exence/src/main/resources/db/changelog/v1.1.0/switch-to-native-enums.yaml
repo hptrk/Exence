@@ -1,0 +1,67 @@
+databaseChangeLog:
+  # Create native PostgreSQL enum types
+  - changeSet:
+      id: create-token-type-enum
+      author: hptrk
+      comment: Create native PostgreSQL enum type for token_type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE token_type AS ENUM ('ACCESS', 'REFRESH', 'PASSWORD_RESET', 'EMAIL_VERIFICATION')
+
+  - changeSet:
+      id: create-email-status-enum
+      author: hptrk
+      comment: Create native PostgreSQL enum type for email_status
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE email_status AS ENUM ('SENT', 'FAILED', 'PENDING')
+
+  - changeSet:
+      id: create-transaction-type-enum
+      author: hptrk
+      comment: Create native PostgreSQL enum type for transaction_type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE transaction_type AS ENUM ('EXPENSE', 'INCOME')
+
+  # Convert token.token_type column to use native enum
+  - changeSet:
+      id: convert-token-type-to-native-enum
+      author: hptrk
+      comment: Convert token_type column from VARCHAR to native PostgreSQL enum
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE token
+              ALTER COLUMN token_type TYPE token_type
+              USING token_type::token_type
+
+  # Convert email_log.status column to use native enum
+  - changeSet:
+      id: convert-email-status-to-native-enum
+      author: hptrk
+      comment: Convert email_log status column from VARCHAR to native PostgreSQL enum
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE email_log
+              ALTER COLUMN status TYPE email_status
+              USING status::email_status
+
+  # Convert transaction.type column to use native enum
+  - changeSet:
+      id: convert-transaction-type-to-native-enum
+      author: hptrk
+      comment: Convert transaction type column from VARCHAR to native PostgreSQL enum
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE transaction
+              ALTER COLUMN type TYPE transaction_type
+              USING type::transaction_type

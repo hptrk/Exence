@@ -35,6 +35,8 @@ import lombok.ToString;
 import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @SuperBuilder
 @Entity
@@ -80,6 +82,7 @@ public class Transaction extends BaseAuditableEntity {
     private BigDecimal amount;
 
     @NotNull
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TransactionType type;
