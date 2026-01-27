@@ -1,14 +1,12 @@
-import { signalStore, withMethods, withProps, withState } from '@ngrx/signals';
-import { Category } from '../../data-model/modules/category/Category';
 import { inject, resource } from '@angular/core';
-import { CategoryService } from './category.service';
+import { signalStore, withMethods, withProps } from '@ngrx/signals';
+import { Category } from '../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { CategoryService } from './category.service';
 
 export const CategoryStore = signalStore(
 	{ providedIn: 'root' },
-	
-	withState({}),
 
 	withProps(() => {
 		const categoryService = inject(CategoryService);
