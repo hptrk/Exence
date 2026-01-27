@@ -109,7 +109,7 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	get emptyCategoryTable(): boolean {
-		return !this.categoryDataSource?.data.length;
+		return !this.categoryStore.categoryResource.value()?.length;
 	}
 	
 	get emptyTableData(): boolean {
@@ -127,7 +127,7 @@ export class DataTableComponent extends BaseComponent {
 
 		effect(() => {
 			const transactions = this.transactions();
-			if (!this.categoryStore.categoryResource.value() || !transactions) return;
+			if (this.emptyCategoryTable || !transactions) return;
 
 			const transactionDataSource = transactions.content
 				.map(transaction => this.mapToTransactionModel(transaction, this.categoryStore.categoryResource.value()!));
