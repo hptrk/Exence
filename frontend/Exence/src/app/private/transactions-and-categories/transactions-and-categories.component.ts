@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Category } from '../../data-model/modules/category/Category';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { BaseComponent } from '../../shared/base-component/base.component';
@@ -20,12 +21,10 @@ import { DisplaySizeService } from '../../shared/display-size.service';
 import { FilterMenuComponent } from '../../shared/filter-menu/filter-menu.component';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
+import { CategoryStore } from './category.store';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from './create-transaction-dialog/create-transaction-dialog.component';
-import { CategoryStore } from './category.store';
 import { TransactionStore } from './transaction.store';
-import { Category } from '../../data-model/modules/category/Category';
-import { TransactionService } from './transaction.service';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -51,7 +50,6 @@ import { TransactionService } from './transaction.service';
 		ValidatorComponent,
 		InputClearButtonComponent,
 	],
-	providers: [TransactionService, TransactionStore],
 })
 export class TransactionsAndCategoriesComponent extends BaseComponent implements OnInit {
 	private readonly dialog = inject(DialogService);
@@ -61,6 +59,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	readonly transactionStore = inject(TransactionStore);
 
 	categories = computed(() => this.categoryStore.categoryResource.value());
+	transactions = computed(() => this.transactionStore.data.transactions());
 
 	selectedIndex = 0;
 	loading = false;
@@ -95,12 +94,13 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		}, 0);
 	}
 
-
 	get canCreateTransaction(): boolean {
 		return !!this.categoryStore.categoryResource.value();
 	}
 
 	async ngOnInit(): Promise<void> {
+		this.transactionStore.resetState();
+
 		this.addSubscription(this.transactionFilterForm.valueChanges.subscribe(async (newFilters) => {
 			if (this.transactionFilterForm.invalid) return;
 			this.transactionStore.updateFilters(newFilters as TransactionFilter);

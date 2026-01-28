@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
@@ -19,7 +19,6 @@ import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.compon
 import { CategoryStore } from '../transactions-and-categories/category.store';
 import { CreateTransactionDialogComponent } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
-import { TransactionService } from '../transactions-and-categories/transaction.service';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -36,9 +35,8 @@ import { TransactionService } from '../transactions-and-categories/transaction.s
 		ViewToggleComponent,
 		ButtonComponent,
 	],
-	providers: [TransactionService, TransactionStore],
 })
-export class DashboardComponent extends BaseComponent {
+export class DashboardComponent extends BaseComponent implements OnInit {
 	private readonly currentUserService = inject(CurrentUserService);
 	private readonly dialog = inject(DialogService);
 	readonly display = inject(DisplaySizeService);
@@ -51,6 +49,13 @@ export class DashboardComponent extends BaseComponent {
 
 	user = computed(() => this.currentUserService.user());
 	categories = computed(() => this.categoryStore.categoryResource.value());
+	transactions = computed(() => this.transactionStore.data.transactions());
+	incomes = computed(() => this.transactionStore.data.incomes());
+	expenses = computed(() => this.transactionStore.data.expenses());
+
+	ngOnInit(): void {
+		if (this.transactionStore.data.transactions().content?.length) this.transactionStore.resetState();
+	}
 
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
 		await this.dialog.openNonModal(

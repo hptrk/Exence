@@ -145,3 +145,9 @@ mat-form-field.mat-mdc-form-field.search-with-select {
 mat-checkbox {
 	--mat-checkbox-touch-target-display: none;
 }
+
+// TODO make own component https://horanszkipatrik.atlassian.net/browse/EX-274
+.loader {
+	background-color: rgba(0, 0, 0, 0.1);;
+	border-radius: 20px;
+}
