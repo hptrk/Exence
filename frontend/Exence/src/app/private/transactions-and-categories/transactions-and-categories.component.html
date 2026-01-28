@@ -64,6 +64,7 @@
 			@if (display.isLg()) {
 				<ex-data-table
 					[transactions]="transactionStore.recurringIncomes()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
 					nonExpandable
 					title="Recurring Incomes"
@@ -72,6 +73,7 @@
 				/>
 				<ex-data-table
 					[transactions]="transactionStore.recurringExpenses()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
@@ -82,6 +84,7 @@
 			} @else {
 				<ex-data-table
 					[transactions]="transactionStore.recurrings()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
 					nonExpandable
 					title="Recurrings"
@@ -201,7 +204,8 @@
 				</div>
 			</div>
 			<ex-data-table
-				[transactions]="transactionStore.transactionResource.value()"
+				[transactions]="transactionStore.transactions()"
+				[isDataLoading]="transactionStore.transactionResource.isLoading()"
 				matIcon="payments"
 				[class.overflow-hidden]="display.isMd()"
 				title="Transactions"

@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, effect, inject, input, output } from '@angular/core';
+import { booleanAttribute, Component, effect, ElementRef, inject, input, output, viewChild } from '@angular/core';
 import { FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -46,6 +47,7 @@ import { ValidatorComponent } from '../validator/validator.component';
 		MatMenuModule,
 		MatCheckboxModule,
 		MatSelectModule,
+		MatProgressSpinnerModule,
 		ButtonComponent,
 		ValidatorComponent,
 		StopPropagationDirective,
@@ -72,11 +74,14 @@ export class DataTableComponent extends BaseComponent {
 	readonly display = inject(DisplaySizeService);
 	readonly categoryStore = inject(CategoryStore);
 	
+	private scrollContainer = viewChild<ElementRef<HTMLElement>>('scrollContainer');
+
 	noteForm!: FormGroup;
 	recurringForm!: FormGroup;
 	categoryForm!: FormGroup;
 
 	transactions = input<PagedResponse<Transaction> | undefined>();
+	isDataLoading = input<boolean | undefined>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
 	title = input<string>();
@@ -105,7 +110,8 @@ export class DataTableComponent extends BaseComponent {
 	// currentlyEditedRow = signal<number | undefined>(undefined);
 
 	get emptyTransactionTable(): boolean {
-		return !this.transactionDataSource?.data.length;
+		if (this.type() === undefined) console.log(!this.transactions()?.content?.length, !this.transactionDataSource?.data.length, !this.transactionStore.data.transactions.content?.length, !this.transactionStore.transactionResource.isLoading())
+		return !this.transactions()?.content?.length || (!this.transactionDataSource?.data.length && !this.transactionStore.data.transactions.content?.length && !this.transactionStore.transactionResource.isLoading());
 	}
 
 	get emptyCategoryTable(): boolean {
@@ -113,7 +119,8 @@ export class DataTableComponent extends BaseComponent {
 	}
 	
 	get emptyTableData(): boolean {
-		return this.emptyTransactionTable && this.emptyCategoryTable;
+		// if (this.type() === undefined) console.log(this.emptyTransactionTable && this.emptyCategoryTable)
+		return this.emptyTransactionTable && (this.emptyCategoryTable || this.type() !== 'category');
 	}
 	
 	constructor() {
@@ -127,7 +134,9 @@ export class DataTableComponent extends BaseComponent {
 
 		effect(() => {
 			const transactions = this.transactions();
-			if (this.emptyCategoryTable || !transactions) return;
+			if (this.emptyCategoryTable || !transactions?.content?.length) return;
+
+			if (transactions.content.length <= 20) this.scrollToTop();
 
 			const transactionDataSource = transactions.content
 				.map(transaction => this.mapToTransactionModel(transaction, this.categoryStore.categoryResource.value()!));
@@ -253,5 +262,16 @@ export class DataTableComponent extends BaseComponent {
 			...transaction,
 			category: category!
 		};
+	}
+
+	private scrollToTop(): void {
+		const container = this.scrollContainer()?.nativeElement;
+		if (container) {
+			container.scrollTop = 0;
+
+			setTimeout(() => {
+				container.scrollTop = 1;
+			}, 0);
+		}
 	}
 }

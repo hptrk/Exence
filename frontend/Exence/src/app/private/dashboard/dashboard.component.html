@@ -34,16 +34,15 @@
 					<ng-container [ngTemplateOutlet]="toggleFilter" />
 				</div>
 			} -->
-			<ex-chart
-				[data]="
-					transactionStore.transactionResource.value()?.content ?? []
-				"
-			/>
+			<!-- eslint-disable-next-line -->
+			<ex-chart [data]="transactions().content ?? []" />
 			<ex-categories
 				class="h-100"
 				[totalExpense]="transactionStore.totalExpense()"
-				[categories]="categoryStore.categoryResource.value()!"
-				[topCategories]="categoryStore.topCategoriesResource.value()!"
+				[categories]="categoryStore.categoryResource.value() ?? []"
+				[topCategories]="
+					categoryStore.topCategoriesResource.value() ?? []
+				"
 			/>
 		</div>
 
@@ -80,7 +79,10 @@
 				<ex-data-table
 					class="col-12 col-lg-6"
 					matIcon="money_off"
-					[transactions]="transactionStore.expenseResource.value()"
+					[transactions]="transactionStore.expenses()"
+					[isDataLoading]="
+						transactionStore.expenseResource.isLoading()
+					"
 					title="Expenses"
 					[type]="transactionTypes.EXPENSE"
 					(onScroll)="onScroll(transactionTypes.EXPENSE)"
@@ -88,7 +90,10 @@
 				<ex-data-table
 					class="col-12 col-lg-6"
 					matIcon="attach_money"
-					[transactions]="transactionStore.incomeResource.value()"
+					[transactions]="transactionStore.incomes()"
+					[isDataLoading]="
+						transactionStore.incomeResource.isLoading()
+					"
 					title="Incomes"
 					[type]="transactionTypes.INCOME"
 					(onScroll)="onScroll(transactionTypes.INCOME)"
@@ -99,8 +104,9 @@
 				<ex-data-table
 					class="w-100"
 					matIcon="attach_money"
-					[transactions]="
-						transactionStore.transactionResource.value()
+					[transactions]="transactionStore.transactions()"
+					[isDataLoading]="
+						transactionStore.transactionResource.isLoading()
 					"
 					title="Transactions"
 					(onScroll)="onScroll()"
