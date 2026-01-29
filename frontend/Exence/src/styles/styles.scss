@@ -146,3 +146,8 @@ mat-form-field.mat-mdc-form-field.search-with-select {
 mat-checkbox {
 	--mat-checkbox-touch-target-display: none;
 }
+
+::selection {
+	background-color: var(--primary-color);
+	color: var(--secondary-text-color);
+}
