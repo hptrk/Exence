@@ -1,26 +1,27 @@
-$type-colors: (
-	'expense': var(--error-color),
-	'income': var(--tertiary-color),
-	'mixed': var(--warn-color)
-);
-
-$type-transforms: (
-	'expense': null,
-	'income': calc(100% - 1px),
-	'mixed': calc(200% - 2px)
+$type-settings: (
+	'expense': (
+		color: var(--error-color),
+		transform: null
+	),
+	'income': (
+		color: var(--tertiary-color),
+		transform: calc(100% - 1px)
+	),
+	'mixed': (
+		color: var(--warn-color),
+		transform: calc(200% - 2px)
+	)
 );
 
 mat-button-toggle-group.mat-button-toggle-group {
-	$pill-radius: 999px;
 	$transition-speed: 200ms;
 	
 	display: flex;
 	width: 100%;
 	border: none;
-	border-radius: $pill-radius;
+	border-radius: var(--mat-button-toggle-shape); 
 	background-color: var(--secondary-color);
 	padding: 4px;
-	position: relative;
 
 	// Default sliding background for 3 buttons
 	&::before {
@@ -29,7 +30,7 @@ mat-button-toggle-group.mat-button-toggle-group {
 		top: 4px;
 		bottom: 4px;
 		width: calc(100% / 3 - 2px);
-		border-radius: $pill-radius;
+		border-radius: var(--mat-button-toggle-shape);
 		background-color: var(--error-color);
 		transition: transform $transition-speed ease-in-out, background-color $transition-speed ease-in-out;
 		z-index: 1;
@@ -46,21 +47,18 @@ mat-button-toggle-group.mat-button-toggle-group {
 		transform: translateX(calc(100%));
 	}
 
-	@each $type, $color in $type-colors {
+	@each $type, $settings in $type-settings {
 		&:has(.type-#{$type}.mat-button-toggle-checked)::before {
-			background-color: $color;
-			@if map-get($type-transforms, $type) {
-				transform: translateX(#{map-get($type-transforms, $type)});
-			}
+			background-color: map-get($settings, color);
+			transform: translateX(map-get($settings, transform));
 		}
 	}
 
 	mat-button-toggle.mat-button-toggle.mat-button-toggle-appearance-standard {
 		flex: 1 1 0;
 		min-width: 0;
-		position: relative;
 		border: none;
-		border-radius: $pill-radius;
+		border-radius: var(--mat-button-toggle-shape);
 		color: var(--default-text-color);
 		--mat-button-toggle-label-text-weight: 500;
 		transition: color $transition-speed ease-in-out;
@@ -70,9 +68,7 @@ mat-button-toggle-group.mat-button-toggle-group {
 			align-items: center;
 			justify-content: center;
 			height: 32px;
-			padding: 0 12px;
-			border-radius: $pill-radius;
-			position: relative;
+			border-radius: var(--mat-button-toggle-shape);
 
 			.mat-button-toggle-label-content {
 				z-index: 2;
@@ -80,7 +76,7 @@ mat-button-toggle-group.mat-button-toggle-group {
 		}
 
 		.mat-button-toggle-ripple {
-			border-radius: $pill-radius;
+			border-radius: var(--mat-button-toggle-shape);
 		}
 	}
 

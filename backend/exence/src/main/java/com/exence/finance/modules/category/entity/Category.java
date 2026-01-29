@@ -26,6 +26,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.List;
 
@@ -58,6 +60,7 @@ public class Category extends BaseAuditableEntity {
     private String emoji;
 
     @NotNull
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private CategoryType type;
