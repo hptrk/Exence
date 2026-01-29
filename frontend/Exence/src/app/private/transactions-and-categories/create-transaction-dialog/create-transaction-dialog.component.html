@@ -49,7 +49,7 @@
 			@let categoryControl = form.controls.category.controls;
 			<mat-form-field>
 				<mat-label>Category</mat-label>
-				<mat-select [formControl]="categoryControl.category" (closed)="categoryControl.searchText.reset()">
+				<mat-select [formControl]="categoryControl.category" (closed)="categoryControl.searchText.reset()" (opened)="focusCategorySearch()">
 					<mat-form-field subscriptSizing="dynamic" class="search-with-select">
 						<mat-label>Search</mat-label>
 						<input autoTrim matInput [formControl]="categoryControl.searchText" #searchCategoryInput>

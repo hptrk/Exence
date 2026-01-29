@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -80,6 +80,8 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 		);
 	});
 
+	categorySearchRef = viewChild<ElementRef<HTMLInputElement>>('searchCategoryInput');
+
 	async ngOnInit(): Promise<void> {
 		this.categories.set(await this.categoryService.list());
 		if (this.data?.type) {
@@ -93,6 +95,13 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 				this.form.controls.amount.setValue(parseFloat(value.toString()!), { emitEvent: false });
 			}
 		}));
+	}
+
+	focusCategorySearch(): void {
+		const input = this.categorySearchRef()?.nativeElement;
+		if (input) {
+			setTimeout(() => input.focus(), 0);
+		}
 	}
 
 	close(): void {
