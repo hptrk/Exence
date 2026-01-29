@@ -3,8 +3,10 @@ import { lastValueFrom } from 'rxjs';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
+import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { HttpService } from '../../shared/http/http.service';
+import { getFilters } from '../../shared/util/http-request-utils';
 
 @Injectable({
 	providedIn: 'root',
@@ -18,8 +20,8 @@ export class TransactionService {
 		return lastValueFrom(this.http.get<Transaction>(`${this.baseUrl}/${id}`));
 	}
 
-	public list(): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl));
+	public list(filters?: TransactionFilter): Promise<PagedResponse<Transaction>> {
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, getFilters(filters)));
 	}
 
 	public listRecurrings(): Promise<RecurringTransactionsResponse> {

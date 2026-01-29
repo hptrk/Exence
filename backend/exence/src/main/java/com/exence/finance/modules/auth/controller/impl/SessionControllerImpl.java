@@ -4,6 +4,7 @@ import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.auth.controller.SessionController;
 import com.exence.finance.modules.auth.dto.DeviceSessionDTO;
 import com.exence.finance.modules.auth.service.SessionService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/sessions")

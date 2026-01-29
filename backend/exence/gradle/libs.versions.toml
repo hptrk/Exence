@@ -1,49 +1,47 @@
 [versions]
 spring-boot = "3.4.1"
 spring-dependency-management = "1.1.7"
-spring-security-jwt = "1.1.1.RELEASE"
-jjwt = "0.11.2"
-liquibase = "4.30.0"
-modelmapper = "3.1.0"
-mapstruct = "1.5.5.Final"
-hibernate-validator = "8.0.0.Final"
+spotless = "7.0.2"
+checkstyle = "10.20.2"
+palantir-java-format = "2.50.0"
+ktlint = "1.5.0"
+jjwt = "0.12.6"
+liquibase = "4.31.0"
+mapstruct = "1.6.3"
 lombok = "1.18.38"
 lombok-mapstruct-binding = "0.2.0"
 emoji-java = "5.1.1"
-postgresql = "42.7.4"
-mockito = "5.5.0"
-bouncycastle = "1.70"
+postgresql = "42.7.7"
+mockito = "5.15.2"
 querydsl = "5.1.0"
+argon2-jvm = "2.11"
 
 [libraries]
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-starter-mail = { module = "org.springframework.boot:spring-boot-starter-mail" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
-spring-security-config = { module = "org.springframework.security:spring-security-config" }
-spring-security-web = { module = "org.springframework.security:spring-security-web" }
-spring-security-jwt = { module = "org.springframework.security:spring-security-jwt", version.ref = "spring-security-jwt" }
 spring-security-test = { module = "org.springframework.security:spring-security-test" }
 jjwt-api = { module = "io.jsonwebtoken:jjwt-api", version.ref = "jjwt" }
 jjwt-impl = { module = "io.jsonwebtoken:jjwt-impl", version.ref = "jjwt" }
 jjwt-jackson = { module = "io.jsonwebtoken:jjwt-jackson", version.ref = "jjwt" }
 liquibase-core = { module = "org.liquibase:liquibase-core", version.ref = "liquibase" }
-modelmapper = { module = "org.modelmapper:modelmapper", version.ref = "modelmapper" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
-hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version.ref = "hibernate-validator" }
 lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 lombok-mapstruct-binding = { module = "org.projectlombok:lombok-mapstruct-binding", version.ref = "lombok-mapstruct-binding" }
 emoji-java = { module = "com.vdurmont:emoji-java", version.ref = "emoji-java" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-bouncycastle = { module = "org.bouncycastle:bcprov-jdk15on", version.ref = "bouncycastle" }
 querydsl-jpa = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
 querydsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
+argon2-jvm = { module = "de.mkammerer:argon2-jvm", version.ref = "argon2-jvm" }
 
 [plugins]
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 

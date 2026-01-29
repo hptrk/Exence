@@ -17,15 +17,11 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-@PasswordMatches(
-        password = "newPassword",
-        confirmPassword = "confirmNewPassword",
-        message = "Passwords do not match!"
-)
+@PasswordMatches(password = "newPassword", confirmPassword = "confirmNewPassword", message = "Passwords do not match!")
 public class PasswordResetRequest {
     @NotBlank(message = "Token is required")
     private String token;
-    
+
     @ValidPassword
     private String newPassword;
 

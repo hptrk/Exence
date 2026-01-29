@@ -1,5 +1,5 @@
-import { Component, input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, input, OnInit, signal } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { merge, of } from 'rxjs';
 import { BaseComponent } from '../base-component/base.component';
 
@@ -15,17 +15,21 @@ interface ErrorInfo {
 	imports: [],
 })
 export class ValidatorComponent extends BaseComponent implements OnInit {
-	control = input.required<FormControl>();
+	control = input.required<AbstractControl>();
 	
-	errorKey?: string;
-	errorValue?: ErrorInfo;
+	errorKey = signal<string>('');
+	errorValue = signal<ErrorInfo | null>(null);
 	
 	ngOnInit(): void {
 		this.addSubscription(merge(of(this.control().dirty), this.control().statusChanges).subscribe(
 			() => {
-				if (!this.control().errors) return;
-				this.errorKey = Object.keys(this.control().errors!)[0];
-				this.errorValue = this.control().errors![this.errorKey];
+				if (!this.control().errors) {
+					this.errorKey.set('');
+					this.errorValue.set(null);
+					return;
+				}
+				this.errorKey.set(Object.keys(this.control().errors!)[0]);
+				this.errorValue.set(this.control().errors![this.errorKey()] as ErrorInfo);
 			}
 		));
 	}

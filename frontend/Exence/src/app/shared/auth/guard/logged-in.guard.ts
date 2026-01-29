@@ -13,6 +13,7 @@ export const loggedInGuard: CanActivateFn = (
 	const currentUserService = inject(CurrentUserService);
 	const navigationService = inject(NavigationService);
 
+	/* eslint-disable */
 	return toObservable(currentUserService.user).pipe(
 		filter(user => user !== null),
 		take(1),

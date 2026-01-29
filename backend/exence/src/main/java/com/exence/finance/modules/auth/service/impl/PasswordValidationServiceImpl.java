@@ -6,11 +6,10 @@ import com.exence.finance.modules.auth.entity.PasswordHistory;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.PasswordHistoryRepository;
 import com.exence.finance.modules.auth.service.PasswordValidationService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -45,16 +44,15 @@ public class PasswordValidationServiceImpl implements PasswordValidationService 
     }
 
     private void validatePasswordNotInHistory(User user, String newPassword) {
-        List<PasswordHistory> recentPasswords = passwordHistoryRepository
-                .findRecentPasswordsByUserId(user.getId(), exenceProperties.getPasswordHistoryCount());
+        List<PasswordHistory> recentPasswords = passwordHistoryRepository.findRecentPasswordsByUserId(
+                user.getId(), exenceProperties.getPasswordHistoryCount());
 
-        boolean isPasswordReused = recentPasswords.stream()
-                .anyMatch(ph -> passwordEncoder.matches(newPassword, ph.getPasswordHash()));
+        boolean isPasswordReused =
+                recentPasswords.stream().anyMatch(ph -> passwordEncoder.matches(newPassword, ph.getPasswordHash()));
 
         if (isPasswordReused) {
-            throw new InvalidPasswordException(
-                    String.format("Password cannot be one of your last %d passwords", exenceProperties.getPasswordHistoryCount())
-            );
+            throw new InvalidPasswordException("Password cannot be one of your last %d passwords"
+                    .formatted(exenceProperties.getPasswordHistoryCount()));
         }
     }
 }

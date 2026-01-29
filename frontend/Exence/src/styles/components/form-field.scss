@@ -65,3 +65,22 @@ mat-error {
 .mat-mdc-form-field-icon-suffix {
 	margin-right: 0.5rem;
 }
+
+mat-form-field.mat-mdc-form-field.search {
+	--mat-form-field-container-height: 32px;
+	--mat-form-field-outlined-outline-width: 1px;
+	--mat-form-field-container-vertical-padding: 1px;
+	--mat-form-field-outlined-container-shape: 20px;
+	
+	.mat-mdc-form-field-infix {
+		min-height: unset;
+		padding: unset;
+	}
+
+	.mat-mdc-form-field-flex {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		padding-left: 0.5rem;
+	}
+}

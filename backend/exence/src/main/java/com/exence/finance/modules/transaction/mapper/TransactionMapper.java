@@ -2,11 +2,10 @@ package com.exence.finance.modules.transaction.mapper;
 
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.entity.Transaction;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
-import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
@@ -35,5 +34,4 @@ public interface TransactionMapper {
     List<TransactionDTO> mapToTransactionDTOList(List<Transaction> transactions);
 
     List<Transaction> mapToTransactionList(List<TransactionDTO> transactionDTOs);
-
 }

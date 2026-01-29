@@ -33,8 +33,10 @@ public class AuthControllerImpl implements AuthController {
     public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody RegisterRequest request) {
         AuthenticationResponse authResponse = authService.register(request);
 
-        ResponseCookie accessTokenCookie = cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
-        ResponseCookie refreshTokenCookie = cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
+        ResponseCookie accessTokenCookie =
+                cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
+        ResponseCookie refreshTokenCookie =
+                cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
 
         return ResponseFactory.okWithCookies(authResponse, accessTokenCookie, refreshTokenCookie);
     }
@@ -43,8 +45,10 @@ public class AuthControllerImpl implements AuthController {
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginRequest request) {
         AuthenticationResponse authResponse = authService.login(request);
 
-        ResponseCookie accessTokenCookie = cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
-        ResponseCookie refreshTokenCookie = cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
+        ResponseCookie accessTokenCookie =
+                cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
+        ResponseCookie refreshTokenCookie =
+                cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
 
         return ResponseFactory.okWithCookies(authResponse, accessTokenCookie, refreshTokenCookie);
     }
@@ -57,19 +61,19 @@ public class AuthControllerImpl implements AuthController {
 
         return ResponseFactory.noContentWithCookies(accessTokenCookie);
     }
-    
+
     @PostMapping("/verify-email")
     public ResponseEntity<Void> verifyEmail(@Valid @RequestBody EmailVerificationRequest request) {
         authService.verifyEmail(request);
         return ResponseFactory.noContent();
     }
-    
+
     @PostMapping("/forgot-password")
     public ResponseEntity<Void> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
         authService.forgotPassword(request);
         return ResponseFactory.noContent();
     }
-    
+
     @PostMapping("/reset-password")
     public ResponseEntity<Void> resetPassword(@Valid @RequestBody PasswordResetRequest request) {
         authService.resetPassword(request);

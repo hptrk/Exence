@@ -16,6 +16,7 @@ export const loggedOutGuard: CanActivateFn = (
 		return true;
 	}
 
+	/* eslint-disable */
 	return toObservable(currentUserService.user).pipe(
 		filter(user => user !== null),
 		take(1),

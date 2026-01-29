@@ -1,10 +1,9 @@
 package com.exence.finance.config.properties;
 
+import java.time.Duration;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-
-import java.time.Duration;
 
 @Component
 @Data
@@ -22,5 +21,4 @@ public class JwtProperties {
     private Duration emailVerificationTokenExpiration;
 
     private String cleanupInterval;
-
 }

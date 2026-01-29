@@ -10,5 +10,4 @@ public interface TokenValidationService {
     boolean isTokenValid(String token, TokenType expectedType);
 
     boolean isTokenActive(String jwtId);
-
 }

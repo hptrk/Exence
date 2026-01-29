@@ -1,5 +1,6 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.common.exception.AuthenticationFailedException;
 import com.exence.finance.config.properties.ExenceProperties;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.Token;
@@ -11,6 +12,7 @@ import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseCookie;
@@ -19,8 +21,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
 
     @Override
     @Transactional
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication){
+    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         SecurityContextHolder.clearContext();
 
         final String jwt = cookieService.extractAccessTokenFromCookie(request);
@@ -46,9 +46,9 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
                 } else {
                     logoutFromCurrentDevice(jwt);
                 }
+            } else {
+                throw new AuthenticationFailedException();
             }
-        } catch (Exception e) {
-            log.warn("Error during logout token cleanup: {}", e.getMessage());
         } finally {
             ResponseCookie clearAccessToken = cookieService.createExpiredAccessTokenCookie();
             ResponseCookie clearRefreshToken = cookieService.createExpiredRefreshTokenCookie();
@@ -71,13 +71,10 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
                 return;
             }
 
-            int revokedTokens = tokenManagementService.revokeUserTokensByTypes(
-                    user,
-                    List.of(TokenType.ACCESS, TokenType.REFRESH)
-            );
+            int revokedTokens =
+                    tokenManagementService.revokeUserTokensByTypes(user, List.of(TokenType.ACCESS, TokenType.REFRESH));
 
-            log.info("Logout from all devices - User: {}, Revoked tokens: {}",
-                    userEmail, revokedTokens);
+            log.info("Logout from all devices - User: {}, Revoked tokens: {}", userEmail, revokedTokens);
         } catch (Exception e) {
             log.warn("Error during logout from all devices: {}", e.getMessage());
         }

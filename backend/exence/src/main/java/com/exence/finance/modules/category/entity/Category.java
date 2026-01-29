@@ -1,10 +1,13 @@
 package com.exence.finance.modules.category.entity;
 
+import static com.exence.finance.common.util.ValidationConstants.CATEGORY_EMOJI_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
+
 import com.exence.finance.common.entity.BaseAuditableEntity;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.category.dto.CategoryType;
 import com.exence.finance.modules.transaction.entity.Transaction;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,6 +22,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -29,19 +33,17 @@ import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import java.util.List;
-
-import static com.exence.finance.common.util.ValidationConstants.CATEGORY_EMOJI_MAX_LENGTH;
-import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
-import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
-
 @SuperBuilder
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false, exclude = { "user", "transactions" })
-@ToString(callSuper = true, exclude = { "user", "transactions" })
+@EqualsAndHashCode(
+        callSuper = false,
+        exclude = {"user", "transactions"})
+@ToString(
+        callSuper = true,
+        exclude = {"user", "transactions"})
 @Table(name = "category")
 @Filter(name = "userFilter", condition = "user_id = :userId")
 public class Category extends BaseAuditableEntity {

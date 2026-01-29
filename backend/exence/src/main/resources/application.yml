@@ -19,6 +19,9 @@ exence:
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
+  threads:
+    virtual:
+      enabled: true
   datasource:
     url: jdbc:postgresql://${exence.database.host}:${exence.database.port}/${exence.database.name}
     username: ${DB_USERNAME:exencedev}

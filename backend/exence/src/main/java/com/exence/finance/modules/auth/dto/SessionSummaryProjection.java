@@ -1,10 +1,9 @@
 package com.exence.finance.modules.auth.dto;
 
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -20,5 +19,4 @@ public class SessionSummaryProjection {
     private Instant lastUsedAt;
 
     private Instant createdAt;
-
 }

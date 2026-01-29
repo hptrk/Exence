@@ -6,6 +6,7 @@ import com.exence.finance.common.annotations.ValidPassword;
 import com.exence.finance.common.annotations.ValidStrictEmail;
 import com.exence.finance.common.annotations.ValidUsername;
 import jakarta.validation.constraints.NotBlank;
+import java.io.Serializable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,19 +15,18 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
-import java.io.Serializable;
-
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true, exclude = { "password", "confirmPassword" })
+@ToString(
+        callSuper = true,
+        exclude = {"password", "confirmPassword"})
 @PasswordMatches(
         password = "password",
         confirmPassword = "confirmPassword",
-        message = "Password and confirmation password do not match"
-)
+        message = "Password and confirmation password do not match")
 public class RegisterRequest implements Serializable {
 
     @ValidUsername

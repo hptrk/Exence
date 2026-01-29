@@ -1,9 +1,9 @@
-import { inject, Injectable } from "@angular/core";
-import { SnackbarService } from "./snackbar/snackbar.service";
-import { HttpErrorResponse } from "@angular/common/http";
-import { ErrorResponse } from "../data-model/modules/ErrorResponse";
-import { SUPPRESS_ERROR_SNACKBAR } from "./auth/interceptors/refresh-token.interceptor";
-import { HttpSettings } from "./http/http.service";
+import { inject, Injectable } from '@angular/core';
+import { SnackbarService } from './snackbar/snackbar.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ErrorResponse } from '../data-model/modules/ErrorResponse';
+import { SUPPRESS_ERROR_SNACKBAR } from './auth/interceptors/refresh-token.interceptor';
+import { HttpSettings } from './http/http.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,11 +14,12 @@ export class ErrorService {
 	handleError(errorResponse: HttpErrorResponse, settings?: HttpSettings): void {
 		settings = settings ?? {};
 
+		// eslint-disable-next-line
 		const suppressFromInterceptor = (errorResponse as any).context?.get?.(SUPPRESS_ERROR_SNACKBAR) ?? false;
 
 		if (!settings.suppressErrorMessage && !suppressFromInterceptor) {
 			const error = this.extractErrorResponse(errorResponse);
-			this.showErrorFromResponse(error, errorResponse);
+			this.showErrorFromResponse(error);
 		}
 	}
 
@@ -33,12 +34,11 @@ export class ErrorService {
 		return null;
 	}
 
-	private showErrorFromResponse(error: ErrorResponse | null, fallbackError: HttpErrorResponse): void {
+	private showErrorFromResponse(error: ErrorResponse | null): void {
 		const errorMessage = error?.detail 
-			?? fallbackError.message
 			?? 'Unexpected error occurred';
 		
-		console.error('Error Response:', error ?? fallbackError);
+		console.error('Error Response:', error ?? 'Undexpected error occurred');
 		this.snackbarService.showError(errorMessage);
 	}
 }

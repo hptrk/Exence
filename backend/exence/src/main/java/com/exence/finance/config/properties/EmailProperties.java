@@ -1,10 +1,9 @@
 package com.exence.finance.config.properties;
 
+import java.util.Map;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 @Component
 @Data
@@ -20,5 +19,4 @@ public class EmailProperties {
     private String password;
 
     private Map<String, Object> properties;
-
 }

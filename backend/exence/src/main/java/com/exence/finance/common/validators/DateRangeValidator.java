@@ -3,10 +3,9 @@ package com.exence.finance.common.validators;
 import com.exence.finance.common.annotations.ValidDateRange;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.stereotype.Component;
-
 import java.lang.reflect.Field;
 import java.time.Instant;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DateRangeValidator implements ConstraintValidator<ValidDateRange, Object> {
@@ -34,10 +33,7 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, O
                 return true;
             }
 
-            if (fromValue instanceof Instant && toValue instanceof Instant) {
-                Instant fromDate = (Instant) fromValue;
-                Instant toDate = (Instant) toValue;
-
+            if (fromValue instanceof Instant fromDate && toValue instanceof Instant toDate) {
                 if (fromDate.isAfter(toDate)) {
                     addConstraintViolation(context, "Date from cannot be after date to");
                     return false;

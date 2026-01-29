@@ -11,6 +11,7 @@ import { CategoriesComponent, DateInterval } from '../../private/dashboard/categ
 import {
 	SummaryContainerComponent
 } from '../../private/dashboard/summary-container/summary-container.component';
+import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
 import { ChartComponent } from '../../shared/chart/chart.component';
@@ -40,14 +41,13 @@ import { TransactionService } from '../transactions-and-categories/transaction.s
 	templateUrl: './dashboard.component.html',
 	styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent extends BaseComponent implements OnInit {
 	private readonly currentUserService = inject(CurrentUserService);
 	private readonly transactionService = inject(TransactionService);
 	private readonly categoryService = inject(CategoryService);
 	private readonly dialog = inject(DialogService);
 	readonly display = inject(DisplaySizeService);
 	readonly navigation = inject(NavigationService);
-	
 
 	transactionTypes = TransactionType;
 	dateIntervals = DateInterval;

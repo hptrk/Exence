@@ -4,9 +4,8 @@ import com.exence.finance.common.annotations.ValidEmoji;
 import com.vdurmont.emoji.EmojiParser;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class EmojiValidator implements ConstraintValidator<ValidEmoji, String> {
@@ -28,9 +27,8 @@ public class EmojiValidator implements ConstraintValidator<ValidEmoji, String> {
 
         if (!isExactlyOneEmoji(trimmed)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate(
-                    "Must contain exactly one emoji character"
-            ).addConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Must contain exactly one emoji character")
+                    .addConstraintViolation();
             return false;
         }
 

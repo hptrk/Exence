@@ -5,18 +5,17 @@ import com.exence.finance.config.properties.ExenceProperties;
 import com.exence.finance.modules.auth.dto.EmailType;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.email.service.EmailLogService;
-import com.exence.finance.modules.email.service.EmailTemplateService;
 import com.exence.finance.modules.email.service.EmailService;
+import com.exence.finance.modules.email.service.EmailTemplateService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

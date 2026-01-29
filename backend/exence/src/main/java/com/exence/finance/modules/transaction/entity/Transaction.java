@@ -1,5 +1,11 @@
 package com.exence.finance.modules.transaction.entity;
 
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_PRECISION;
+import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
+
 import com.exence.finance.common.entity.BaseAuditableEntity;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.category.entity.Category;
@@ -19,29 +25,31 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.FieldNameConstants;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
-
-import java.math.BigDecimal;
-import java.time.Instant;
-
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
-import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @SuperBuilder
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false, exclude = { "user", "category" })
-@ToString(callSuper = true, exclude = { "user", "category" })
+@FieldNameConstants
+@EqualsAndHashCode(
+        callSuper = false,
+        exclude = {"user", "category"})
+@ToString(
+        callSuper = true,
+        exclude = {"user", "category"})
 @Table(name = "transaction")
 @Filter(name = "userFilter", condition = "user_id = :userId")
 public class Transaction extends BaseAuditableEntity {
@@ -65,12 +73,16 @@ public class Transaction extends BaseAuditableEntity {
 
     @NotNull
     @DecimalMin(value = TRANSACTION_AMOUNT_MIN)
-    @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
-            fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS)
-    @Column(name = "amount", nullable = false, precision = 19, scale = 2)
+    @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS, fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS)
+    @Column(
+            name = "amount",
+            nullable = false,
+            precision = TRANSACTION_AMOUNT_PRECISION,
+            scale = TRANSACTION_AMOUNT_FRACTION_DIGITS)
     private BigDecimal amount;
 
     @NotNull
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     private TransactionType type;
@@ -86,5 +98,4 @@ public class Transaction extends BaseAuditableEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
 }

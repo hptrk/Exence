@@ -1,22 +1,22 @@
 package com.exence.finance.common.validators;
 
-import com.exence.finance.common.annotations.ValidPassword;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import static com.exence.finance.common.util.ValidationConstants.PASSWORD_DIGIT_PATTERN;
 import static com.exence.finance.common.util.ValidationConstants.PASSWORD_LOWERCASE_PATTERN;
 import static com.exence.finance.common.util.ValidationConstants.PASSWORD_SPECIAL_CHAR_PATTERN;
 import static com.exence.finance.common.util.ValidationConstants.PASSWORD_UPPERCASE_PATTERN;
 
+import com.exence.finance.common.annotations.ValidPassword;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+import org.springframework.stereotype.Component;
+
 @Component
 public class PasswordValidator implements ConstraintValidator<ValidPassword, String> {
 
+    private static final int SPECIAL_CHAR_DISPLAY_OFFSET = 3;
     private static final Pattern LOWERCASE_PATTERN = Pattern.compile(PASSWORD_LOWERCASE_PATTERN);
     private static final Pattern UPPERCASE_PATTERN = Pattern.compile(PASSWORD_UPPERCASE_PATTERN);
     private static final Pattern DIGIT_PATTERN = Pattern.compile(PASSWORD_DIGIT_PATTERN);
@@ -43,9 +43,14 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
         }
 
         if (!SPECIAL_CHAR_PATTERN.matcher(password).matches()) {
-            violations.add("must contain at least one special character (" + SPECIAL_CHAR_PATTERN.toString()
-                    .replace("\\\\", "")
-                    .substring(3, SPECIAL_CHAR_PATTERN.toString().length() - 3) + ")");
+            violations.add("must contain at least one special character ("
+                    + SPECIAL_CHAR_PATTERN
+                            .toString()
+                            .replace("\\\\", "")
+                            .substring(
+                                    SPECIAL_CHAR_DISPLAY_OFFSET,
+                                    SPECIAL_CHAR_PATTERN.toString().length() - SPECIAL_CHAR_DISPLAY_OFFSET)
+                    + ")");
         }
 
         if (!violations.isEmpty()) {
@@ -57,5 +62,4 @@ public class PasswordValidator implements ConstraintValidator<ValidPassword, Str
 
         return true;
     }
-
 }

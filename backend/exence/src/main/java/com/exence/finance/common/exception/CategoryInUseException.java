@@ -4,8 +4,8 @@ public class CategoryInUseException extends RuntimeException {
     public CategoryInUseException() {
         super();
     }
+
     public CategoryInUseException(String message) {
         super(message);
     }
 }
-

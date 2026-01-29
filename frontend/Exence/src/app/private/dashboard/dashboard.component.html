@@ -38,7 +38,9 @@
 			<ex-categories
 				class="h-100"
 				[totalExpense]="totals.totalExpense"
-				[categories]="topCategories!"
+				[topCategories]="topCategories!"
+				[categories]="categories"
+				(dataChangedEvent)="onDataChanged()"
 			/>
 		</div>
 

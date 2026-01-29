@@ -68,7 +68,6 @@
 						categories
 					}"
 					matIcon="money_off"
-					class="flex-grow-1"
 					nonExpandable
 					paginationDisabled
 					title="Recurring Incomes"
@@ -97,7 +96,6 @@
 						categories
 					}"
 					matIcon="money_off"
-					class="flex-grow-1"
 					nonExpandable
 					paginationDisabled
 					title="Recurrings"
@@ -113,6 +111,7 @@
 		>
 			<div class="d-flex flex-row flex-nowrap justif-content-between">
 				<div
+					class="d-flex flex-row flex-nowrap justify-content-between gap-3 w-100"
 					[matTooltip]="
 						!canCreateTransaction ? 'First create a category!' : ''
 					"
@@ -127,6 +126,93 @@
 					>
 						Add transaction
 					</ex-button>
+
+					<div class="d-flex flex-row flex-nowrap gap-3">
+						<mat-error class="align-self-center">
+							<ex-validator [control]="transactionFilterForm.controls.searchText" />
+						</mat-error>
+						<mat-form-field subscriptSizing="dynamic" class="search">
+							<ex-button
+								iconButton
+								matPrefix
+								matIcon="search"
+								color="accent"
+							/>
+							<input [formControl]="transactionFilterForm.controls.searchText" matInput placeholder="Search..." autocomplete="off">
+							<ex-input-clear [control]="transactionFilterForm.controls.searchText" matSuffix />
+						</mat-form-field>
+						<ex-filter-menu class="align-self-end" [form]="transactionFilterForm" [appliedFiltersCount]="appliedFiltersCount">
+							@let dateRangeControl = transactionFilterForm.controls.dateRange; 
+							<mat-form-field subscriptSizing="dynamic">
+								<mat-label>Enter a date range</mat-label>
+								<mat-date-range-input
+									[formGroup]="dateRangeControl"
+									[rangePicker]="dateRangePicker"
+								>
+									<input
+										matStartDate
+										[formControl]="dateRangeControl.controls.dateFrom"
+									/>
+									<input
+										matEndDate
+										[formControl]="dateRangeControl.controls.dateTo"
+									/>
+								</mat-date-range-input>
+								<mat-datepicker-toggle
+									matIconSuffix
+									[for]="dateRangePicker"
+								></mat-datepicker-toggle>
+								<mat-date-range-picker
+									#dateRangePicker
+								></mat-date-range-picker>
+							</mat-form-field>
+
+							<div class="d-flex flex-column gap-1">
+								<div class="fs-6 ps-1">Amount</div>
+								@let amountRangeControl = transactionFilterForm.controls.amountRange;
+								<mat-form-field
+								class="mb-3" subscriptSizing="dynamic">
+									<mat-label>Min</mat-label>
+									<input matInput type="number" min="0" [formControl]="amountRangeControl.controls.min">
+								</mat-form-field>
+								<mat-form-field subscriptSizing="dynamic">
+									<mat-label>Max</mat-label>
+									<input matInput type="number" min="0" [formControl]="amountRangeControl.controls.max">
+								</mat-form-field>
+							</div>
+
+							@let categoryControl = transactionFilterForm.controls.category;
+							<mat-form-field subscriptSizing="dynamic">
+								<mat-label>Category</mat-label>
+								<mat-select [formControl]="categoryControl">
+									<mat-option [value]="null">All</mat-option>
+									@for (category of categories; track category.id) {
+										<mat-option [value]="category">{{ `${category.name} - ${category.emoji}` }}</mat-option>
+									}
+								</mat-select>
+								<mat-error>
+									<ex-validator [control]="categoryControl" />
+								</mat-error>
+							</mat-form-field>
+
+							@let typeControl = transactionFilterForm.controls.type;
+							<mat-form-field subscriptSizing="dynamic">
+								<mat-label>Type</mat-label>
+								<mat-select [formControl]="typeControl">
+									<mat-option [value]="null">All</mat-option>
+									@for (type of transactionTypesArr; track type) {
+										<mat-option [value]="type">{{ type }}</mat-option>
+									}
+								</mat-select>
+								<mat-error>
+									<ex-validator [control]="typeControl" />
+								</mat-error>
+							</mat-form-field>
+
+							@let recurringControl = transactionFilterForm.controls.recurring;
+							<mat-checkbox [formControl]="recurringControl">Recurring</mat-checkbox>
+						</ex-filter-menu>
+					</div>
 				</div>
 			</div>
 			<ex-data-table
@@ -142,7 +228,7 @@
 
 <ng-template #categoriesTab>
 	<div
-		class="d-flex flex-column justify-content-between gap-4 h-100 mt-4"
+		class="d-flex flex-column justify-content-between gap-2 h-100 mt-4"
 		[class.overflow-hidden]="display.isMd()"
 	>
 		<div class="d-flex flex-row flex-norwap gap-2 align-items-center">

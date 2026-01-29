@@ -3,9 +3,8 @@ package com.exence.finance.common.validators;
 import com.exence.finance.common.annotations.PasswordMatches;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.springframework.stereotype.Component;
-
 import java.lang.reflect.Field;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PasswordMatchesValidator implements ConstraintValidator<PasswordMatches, Object> {
@@ -60,7 +59,7 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordMat
     }
 
     private boolean isNullOrEmpty(Object value) {
-        return value == null || (value instanceof String && ((String) value).trim().isEmpty());
+        return value == null || (value instanceof String s && s.trim().isEmpty());
     }
 
     private void addConstraintViolation(ConstraintValidatorContext context) {

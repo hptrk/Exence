@@ -46,16 +46,24 @@
 			</mat-form-field>
 		</div>
 		<div class="d-flex flex-column flex-md-row gap-3">
-			@let categoryControl = form.controls.category;
+			@let categoryControl = form.controls.category.controls;
 			<mat-form-field>
 				<mat-label>Category</mat-label>
-				<mat-select [formControl]="categoryControl">
-					@for (category of categories; track category.id) {
+				<mat-select [formControl]="categoryControl.category" (closed)="categoryControl.searchText.reset()">
+					<mat-form-field subscriptSizing="dynamic" class="search-with-select">
+						<mat-label>Search</mat-label>
+						<input autoTrim matInput [formControl]="categoryControl.searchText" #searchCategoryInput>
+						<ex-input-clear [control]="categoryControl.searchText" />
+						<mat-error>
+							<ex-validator [control]="categoryControl.searchText"/>
+						</mat-error>
+					</mat-form-field>
+					@for (category of filteredCategories(); track category.id) {
 						<mat-option [value]="category">{{ `${category.name} - ${category.emoji}` }}</mat-option>
 					}
 				</mat-select>
 				<mat-error>
-					<ex-validator [control]="categoryControl" />
+					<ex-validator [control]="categoryControl.category" />
 				</mat-error>
 			</mat-form-field>
 

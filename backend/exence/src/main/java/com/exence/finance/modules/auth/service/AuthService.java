@@ -18,11 +18,10 @@ public interface AuthService {
     String refreshToken(HttpServletRequest request);
 
     void verifyEmail(EmailVerificationRequest request);
-    
+
     void forgotPassword(ForgotPasswordRequest request);
-    
+
     void resetPassword(PasswordResetRequest request);
 
     void sendEmailVerification(User user);
-
 }

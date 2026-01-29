@@ -22,12 +22,15 @@ import com.exence.finance.modules.auth.service.AuthService;
 import com.exence.finance.modules.auth.service.CookieService;
 import com.exence.finance.modules.auth.service.PasswordHistoryService;
 import com.exence.finance.modules.auth.service.PasswordValidationService;
-import com.exence.finance.modules.email.service.EmailLogService;
-import com.exence.finance.modules.email.service.EmailService;
 import com.exence.finance.modules.auth.service.RequestContextService;
 import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.modules.auth.service.TokenValidationService;
+import com.exence.finance.modules.email.service.EmailLogService;
+import com.exence.finance.modules.email.service.EmailService;
 import jakarta.servlet.http.HttpServletRequest;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -37,10 +40,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -75,15 +74,15 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthenticationResponse login(LoginRequest request) {
-        authenticateUser(request);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(AuthenticationFailedException::new);
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(UserNotFoundException::new);
+        authenticateUser(request);
 
         // Revoke previous tokens from the same device to prevent multiple active sessions per device
         String userAgent = requestContextService.extractUserAgent();
         String ipAddress = requestContextService.extractIpAddress();
-        tokenManagementService.revokeUserTokensByDevice(user, List.of(TokenType.ACCESS, TokenType.REFRESH), userAgent, ipAddress);
+        tokenManagementService.revokeUserTokensByDevice(
+                user, List.of(TokenType.ACCESS, TokenType.REFRESH), userAgent, ipAddress);
 
         user.setLastLoginAt(Instant.now());
         user = userRepository.save(user);
@@ -107,7 +106,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    @CacheEvict(value = {"currentUser", "currentUserId"}, allEntries = true)
+    @CacheEvict(
+            value = {"currentUser", "currentUserId"},
+            allEntries = true)
     public void verifyEmail(EmailVerificationRequest request) {
         User user = tokenValidationService.validateAndExtractUser(request.getToken(), TokenType.EMAIL_VERIFICATION);
 
@@ -123,15 +124,17 @@ public class AuthServiceImpl implements AuthService {
 
         log.info("Email verified for user: {}", user.getEmail());
     }
-    
+
     @Override
     @Transactional
     public void forgotPassword(ForgotPasswordRequest request) {
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(UserNotFoundException::new);
 
-        if (emailBusinessProperties.getRateLimiting().isEnabled() &&
-                emailLogService.hasRecentEmail(user, EmailType.EMAIL_VERIFICATION, emailBusinessProperties.getRateLimiting().getCooldownMinutesBetweenSends())) {
+        if (emailBusinessProperties.getRateLimiting().isEnabled()
+                && emailLogService.hasRecentEmail(
+                        user,
+                        EmailType.PASSWORD_RESET,
+                        emailBusinessProperties.getRateLimiting().getCooldownMinutesBetweenSends())) {
             throw new TooManyEmailsException();
         }
 
@@ -142,10 +145,12 @@ public class AuthServiceImpl implements AuthService {
 
         log.info("Password reset email sent to: {}", user.getEmail());
     }
-    
+
     @Override
     @Transactional
-    @CacheEvict(value = {"currentUser", "currentUserId"}, allEntries = true)
+    @CacheEvict(
+            value = {"currentUser", "currentUserId"},
+            allEntries = true)
     public void resetPassword(PasswordResetRequest request) {
         User user = tokenValidationService.validateAndExtractUser(request.getToken(), TokenType.PASSWORD_RESET);
 
@@ -193,8 +198,7 @@ public class AuthServiceImpl implements AuthService {
     private void authenticateUser(LoginRequest request) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (BadCredentialsException e) {
             throw new AuthenticationFailedException();
         }

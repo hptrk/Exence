@@ -1,5 +1,7 @@
 package com.exence.finance.modules.transaction.controller.impl;
 
+import static com.exence.finance.common.util.ApplicationConstants.DEFAULT_PAGE_SIZE;
+
 import com.exence.finance.common.dto.PageResponse;
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.transaction.controller.TransactionController;
@@ -8,6 +10,7 @@ import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
 import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
+import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.service.TransactionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/api/transactions")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -41,36 +43,41 @@ public class TransactionControllerImpl implements TransactionController {
         return ResponseFactory.ok(transactionDTO);
     }
 
-    // TODO: EX-241: Pageable annotation refactor
     @GetMapping()
-    public ResponseEntity<PageResponse<TransactionDTO>> getTransactions(@Valid @ModelAttribute TransactionFilter filter,
-                                                                        @PageableDefault(sort = "date",
-                                                                                        direction = Sort.Direction.DESC,
-                                                                                        size = 20) Pageable pageable) {
+    public ResponseEntity<PageResponse<TransactionDTO>> getTransactions(
+            @Valid @ModelAttribute TransactionFilter filter,
+            @PageableDefault(size = DEFAULT_PAGE_SIZE, sort = Transaction.Fields.date, direction = Sort.Direction.DESC)
+                    Pageable pageable) {
         Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
         return ResponseFactory.page(page);
     }
 
     @GetMapping("/income")
-    public ResponseEntity<PageResponse<TransactionDTO>> getIncomes(@Valid @ModelAttribute TransactionFilter filter,
-                                                                   @PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<PageResponse<TransactionDTO>> getIncomes(
+            @Valid @ModelAttribute TransactionFilter filter,
+            @PageableDefault(size = DEFAULT_PAGE_SIZE, sort = Transaction.Fields.date, direction = Sort.Direction.DESC)
+                    Pageable pageable) {
         TransactionFilter incomeFilter = filter != null ? filter : new TransactionFilter();
-        filter.setType(TransactionType.INCOME);
-        Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
+        incomeFilter.setType(TransactionType.INCOME);
+        Page<TransactionDTO> page = transactionService.getTransactions(incomeFilter, pageable);
         return ResponseFactory.page(page);
     }
 
     @GetMapping("/expense")
-    public ResponseEntity<PageResponse<TransactionDTO>> getExpenses(@Valid @ModelAttribute TransactionFilter filter,
-                                                                   @PageableDefault(size = 20) Pageable pageable) {
-        TransactionFilter incomeFilter = filter != null ? filter : new TransactionFilter();
-        filter.setType(TransactionType.EXPENSE);
-        Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
+    public ResponseEntity<PageResponse<TransactionDTO>> getExpenses(
+            @Valid @ModelAttribute TransactionFilter filter,
+            @PageableDefault(size = DEFAULT_PAGE_SIZE, sort = Transaction.Fields.date, direction = Sort.Direction.DESC)
+                    Pageable pageable) {
+        TransactionFilter expenseFilter = filter != null ? filter : new TransactionFilter();
+        expenseFilter.setType(TransactionType.EXPENSE);
+        Page<TransactionDTO> page = transactionService.getTransactions(expenseFilter, pageable);
         return ResponseFactory.page(page);
     }
 
     @GetMapping("/recurring")
-    public ResponseEntity<RecurringTransactionsResponse> getRecurringTransactions(@PageableDefault(size = 20) Pageable pageable) {
+    public ResponseEntity<RecurringTransactionsResponse> getRecurringTransactions(
+            @PageableDefault(size = DEFAULT_PAGE_SIZE, sort = Transaction.Fields.date, direction = Sort.Direction.DESC)
+                    Pageable pageable) {
         RecurringTransactionsResponse response = transactionService.getRecurringTransactions(pageable);
         return ResponseFactory.ok(response);
     }
@@ -82,8 +89,8 @@ public class TransactionControllerImpl implements TransactionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TransactionDTO> updateTransaction(@PathVariable("id") Long id,
-                                                            @Valid @RequestBody TransactionDTO transactionDTO) {
+    public ResponseEntity<TransactionDTO> updateTransaction(
+            @PathVariable Long id, @Valid @RequestBody TransactionDTO transactionDTO) {
         transactionDTO.setId(id);
         TransactionDTO updated = transactionService.updateTransaction(transactionDTO);
         return ResponseFactory.ok(updated);

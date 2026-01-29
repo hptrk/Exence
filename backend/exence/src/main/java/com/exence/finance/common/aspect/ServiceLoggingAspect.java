@@ -2,15 +2,15 @@ package com.exence.finance.common.aspect;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Arrays;
 
 @Slf4j
 @Aspect
@@ -24,8 +24,9 @@ public class ServiceLoggingAspect {
         this.jacksonObjectMapper = jacksonObjectMapper;
     }
 
+    @SneakyThrows
     @Around(value = "within(*..*ServiceImpl)")
-    public Object logServiceMethod(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logServiceMethod(ProceedingJoinPoint joinPoint) {
         ServiceLogDocument doc = new ServiceLogDocument();
         doc.setTimeOfRequest(Instant.now());
         doc.setServiceClass(joinPoint.getSignature().getDeclaringTypeName());
@@ -45,7 +46,8 @@ public class ServiceLoggingAspect {
             throw e;
         } finally {
             doc.setTimeOfResponse(Instant.now());
-            Long elapsedTime = Duration.between(doc.getTimeOfRequest(), doc.getTimeOfResponse()).toMillis();
+            Long elapsedTime = Duration.between(doc.getTimeOfRequest(), doc.getTimeOfResponse())
+                    .toMillis();
             doc.setElapsedTime(elapsedTime.toString());
             handleLog(doc);
         }
@@ -57,7 +59,8 @@ public class ServiceLoggingAspect {
             Throwable exception = document.getException();
             try {
                 document.setException(null);
-                int documentLength = jacksonObjectMapper.writeValueAsString(document).length();
+                int documentLength =
+                        jacksonObjectMapper.writeValueAsString(document).length();
                 if (documentLength > MAX_LOG_DOCUMENT_LENGTH) {
                     documentLength = MAX_LOG_DOCUMENT_LENGTH;
                 }
