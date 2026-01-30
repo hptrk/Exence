@@ -1,7 +1,7 @@
 <ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
 	<div ex-dialog-card-title>New transaction</div>
 
-	<form ex-dialog-card-content class="d-flex flex-column gap-3">
+	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
 		@let titleControl = form.controls.title;
 		<mat-form-field>
 			<mat-label>Title</mat-label>
