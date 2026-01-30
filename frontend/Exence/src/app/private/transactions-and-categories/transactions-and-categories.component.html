@@ -63,15 +63,6 @@
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
-					[transactions]="transactionStore.recurringIncomes()"
-					[isDataLoading]="transactionStore.recurringResource.isLoading()"
-					matIcon="money_off"
-					nonExpandable
-					title="Recurring Incomes"
-					[type]="transactionTypes.INCOME"
-					[isRecurring]="true"
-				/>
-				<ex-data-table
 					[transactions]="transactionStore.recurringExpenses()"
 					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
@@ -81,11 +72,20 @@
 					[type]="transactionTypes.EXPENSE"
 					[isRecurring]="true"
 				/>
+				<ex-data-table
+					[transactions]="transactionStore.recurringIncomes()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
+					matIcon="attach_money"
+					nonExpandable
+					title="Recurring Incomes"
+					[type]="transactionTypes.INCOME"
+					[isRecurring]="true"
+				/>
 			} @else {
 				<ex-data-table
 					[transactions]="transactionStore.recurrings()"
 					[isDataLoading]="transactionStore.recurringResource.isLoading()"
-					matIcon="money_off"
+					matIcon="attach_money"
 					nonExpandable
 					title="Recurrings"
 					[isRecurring]="true"

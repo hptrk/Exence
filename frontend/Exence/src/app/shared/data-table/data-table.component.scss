@@ -20,7 +20,17 @@
 	@include card;
 }
 
+.table-container {
+	max-height: 600px;
+
+	@include displayMd {
+		max-height: unset;
+	}
+}
+
 table {
+	width: 100%;
+	table-layout: fixed;
 	background-color: transparent;
 
 	th,
@@ -47,15 +57,20 @@ table {
 		}
 	}
 
+	th.mat-column-amount{
+		max-width: 35%;
+	}
+
+	th.mat-column-category {
+		max-width: 15%;
+	}
+
 	@include displayMd {
 		th.mat-mdc-header-cell {
 			padding: 0;
 		}
 		th.mat-column-title {
-			width: 35%;
-		}
-		th.mat-column-category {
-			width: 15%;
+			max-width: 35%;
 		}
 	}
 }
