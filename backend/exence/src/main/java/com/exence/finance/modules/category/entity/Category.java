@@ -1,11 +1,12 @@
 package com.exence.finance.modules.category.entity;
 
-import static com.exence.finance.common.util.ValidationConstants.CATEGORY_EMOJI_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.CATEGORY_COLOR_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
 
 import com.exence.finance.common.entity.BaseAuditableEntity;
 import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.category.dto.MaterialIcon;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,6 +28,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @SuperBuilder
 @Entity
@@ -53,8 +56,14 @@ public class Category extends BaseAuditableEntity {
     @Column(name = "name", nullable = false, length = CATEGORY_NAME_MAX_LENGTH)
     private String name;
 
-    @Column(name = "emoji", length = CATEGORY_EMOJI_MAX_LENGTH)
-    private String emoji;
+    @NotNull
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "icon", nullable = false)
+    private MaterialIcon icon;
+
+    @NotNull
+    @Column(name = "color", nullable = false, length = CATEGORY_COLOR_MAX_LENGTH)
+    private String color;
 
     @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
     private String note;

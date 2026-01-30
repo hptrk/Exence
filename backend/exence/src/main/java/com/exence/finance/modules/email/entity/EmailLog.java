@@ -58,7 +58,6 @@ public class EmailLog {
     @Column(name = "subject", nullable = false)
     private String subject;
 
-    @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", nullable = false)
     private EmailStatus status;

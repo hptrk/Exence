@@ -7,3 +7,7 @@ databaseChangeLog:
       file: switch-to-native-enums.yaml
       relativeToChangelogFile: true
 
+  - include:
+      file: migrate-from-emoji-to-icon.yaml
+      relativeToChangelogFile: true
+

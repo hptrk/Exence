@@ -90,9 +90,6 @@ dependencies {
     implementation(libs.mapstruct)
     annotationProcessor(libs.mapstruct.processor)
 
-    // Utilities
-    implementation(libs.emoji.java)
-
     // Database
     implementation(libs.liquibase.core)
     runtimeOnly(libs.postgresql)

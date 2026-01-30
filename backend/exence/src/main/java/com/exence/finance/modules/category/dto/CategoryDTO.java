@@ -4,7 +4,8 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_M
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MIN_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
 
-import com.exence.finance.common.annotations.ValidEmoji;
+import com.exence.finance.common.annotations.ValidColor;
+import com.exence.finance.common.annotations.ValidMaterialIcon;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -41,8 +42,11 @@ public class CategoryDTO {
                     + " characters")
     private String name;
 
-    @ValidEmoji(allowEmpty = false, message = "Must contain exactly one emoji character")
-    private String emoji;
+    @ValidMaterialIcon(message = "Material icon is required and must be valid")
+    private String icon;
+
+    @ValidColor(message = "Color is required and must be a valid hex color code")
+    private String color;
 
     @Size(
             max = CATEGORY_NOTE_MAX_LENGTH,

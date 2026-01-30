@@ -12,8 +12,6 @@ import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -84,7 +82,6 @@ public class Transaction extends BaseAuditableEntity {
     @NotNull
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
     private TransactionType type;
 
     @NotNull
