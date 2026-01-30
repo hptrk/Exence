@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, effect, inject, input, output } from '@angular/core';
+import { booleanAttribute, Component, effect, ElementRef, inject, input, output, viewChild } from '@angular/core';
 import { FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,32 +9,27 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { Category } from '../../data-model/modules/category/Category';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { CategoryService } from '../../private/category.service';
+import { CategoryStore } from '../../private/transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
-import { TransactionService } from '../../private/transactions-and-categories/transaction.service';
+import { TransactionStore } from '../../private/transactions-and-categories/transaction.store';
 import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
 import { DialogService } from '../dialog/dialog.service';
 import { DisplaySizeService } from '../display-size.service';
-import { SnackbarService } from '../snackbar/snackbar.service';
+import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
-import { StopPropagationDirective } from '../stop-propagation.directive';
-
-export interface DataTableModel {
-	transactions?: PagedResponse<Transaction>;
-	categories: Category[];
-}
 
 @Component({
 	selector: 'ex-data-table',
@@ -49,13 +44,14 @@ export interface DataTableModel {
 		FormsModule,
 		ReactiveFormsModule,
 		MatInputModule,
-		MatPaginatorModule,
 		MatMenuModule,
 		MatCheckboxModule,
 		MatSelectModule,
+		MatProgressSpinnerModule,
 		ButtonComponent,
 		ValidatorComponent,
 		StopPropagationDirective,
+		InfiniteScrollDirective,
 	],
 	templateUrl: './data-table.component.html',
 	styleUrl: './data-table.component.scss',
@@ -72,27 +68,29 @@ export interface DataTableModel {
 	/* eslint-enable */
 })
 export class DataTableComponent extends BaseComponent {
-	private readonly snackbarService = inject(SnackbarService);
-	private readonly transactionService = inject(TransactionService);
-	private readonly categoryService = inject(CategoryService);
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly dialog = inject(DialogService);
+	private readonly transactionStore = inject(TransactionStore);
 	readonly display = inject(DisplaySizeService);
+	readonly categoryStore = inject(CategoryStore);
 	
+	private scrollContainer = viewChild<ElementRef<HTMLElement>>('scrollContainer');
+
 	noteForm!: FormGroup;
 	recurringForm!: FormGroup;
 	categoryForm!: FormGroup;
 
-	data = input.required<DataTableModel>();
+	transactions = input<PagedResponse<Transaction> | undefined>();
+	isDataLoading = input<boolean | undefined>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
 	title = input<string>();
 	type = input<TransactionType | 'category'>();
 	isRecurring = input<boolean | undefined>();
 	nonExpandable = input(false, { transform: booleanAttribute });
-	paginationDisabled = input(false, { transform: booleanAttribute });
 	
 	dataChangedEvent = output<void>();
+	onScroll = output<number>();
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
 	displayedCategoryColumns = ['name', 'emoji', 'actions'];
@@ -104,7 +102,7 @@ export class DataTableComponent extends BaseComponent {
 	transactionDataSource?: MatTableDataSource<TransactionModel>;
 	categoryDataSource?: MatTableDataSource<Category>;
 	pageSize?: number;
-	pageIndex?: number;
+	pageIndex = 0;
 	pageLength?: number;
 	pageSizeOptions = [5, 10, 25, 100];
 
@@ -112,15 +110,17 @@ export class DataTableComponent extends BaseComponent {
 	// currentlyEditedRow = signal<number | undefined>(undefined);
 
 	get emptyTransactionTable(): boolean {
-		return !this.transactionDataSource?.data.length;
+		if (this.type() === undefined) console.log(!this.transactions()?.content?.length, !this.transactionDataSource?.data.length, !this.transactionStore.data.transactions.content?.length, !this.transactionStore.transactionResource.isLoading())
+		return !this.transactions()?.content?.length || (!this.transactionDataSource?.data.length && !this.transactionStore.data.transactions.content?.length && !this.transactionStore.transactionResource.isLoading());
 	}
 
 	get emptyCategoryTable(): boolean {
-		return !this.categoryDataSource?.data.length;
+		return !this.categoryStore.categoryResource.value()?.length;
 	}
 	
 	get emptyTableData(): boolean {
-		return this.emptyTransactionTable && this.emptyCategoryTable;
+		// if (this.type() === undefined) console.log(this.emptyTransactionTable && this.emptyCategoryTable)
+		return this.emptyTransactionTable && (this.emptyCategoryTable || this.type() !== 'category');
 	}
 	
 	constructor() {
@@ -133,24 +133,22 @@ export class DataTableComponent extends BaseComponent {
 		});
 
 		effect(() => {
-			const data = this.data();
+			const transactions = this.transactions();
+			if (this.emptyCategoryTable || !transactions?.content?.length) return;
 
-			const categories = data.categories;
-			if (!data.transactions?.content) {
-				this.categoryDataSource = new MatTableDataSource(categories);
-				return;
-			}
-			const transactions = data.transactions.content
-				.map(transaction => this.mapToTransactionModel(transaction, categories));
-			this.transactionDataSource = new MatTableDataSource(transactions);
-			this.pageSize = data.transactions.size;
-			this.pageIndex = data.transactions.page;
-			this.pageLength = data.transactions.totalPages;
+			if (transactions.content.length <= 20) this.scrollToTop();
+
+			const transactionDataSource = transactions.content
+				.map(transaction => this.mapToTransactionModel(transaction, this.categoryStore.categoryResource.value()!));
+			this.transactionDataSource = new MatTableDataSource(transactionDataSource);
+			this.pageSize = transactions.size;
+			this.pageIndex = transactions.page;
+			this.pageLength = transactions.totalPages;
 
 			let noteControls = {};
 			let recurringControls = {};
 			let categoryControls = {};
-			data.transactions.content.forEach(transaction => {
+			transactions.content.forEach(transaction => {
 				noteControls = {
 					...noteControls,
 					[transaction.id!]: this.fb.control<string>(transaction.note ?? '', [Validators.maxLength(500)]),
@@ -174,19 +172,15 @@ export class DataTableComponent extends BaseComponent {
 	// 	this.currentlyEditedRow.set(rowId);
 	// }
 
-	async deleteRow(rowId: number): Promise<void> {
-		await this.transactionService.delete(rowId);
-		this.snackbarService.showSuccess('Transaction deleted successfully!');
-		this.dataChangedEvent.emit();
+	deleteRow(id: number, type: TransactionType): void {
+		this.transactionStore.deleteTransaction(id, type);
 	}
 
-	async deleteCategoryRow(rowId: number): Promise<void> {
-		await this.categoryService.delete(rowId);
-		this.snackbarService.showSuccess('Category deleted successfully!');
-		this.dataChangedEvent.emit();
+	deleteCategoryRow(id: number): void {
+		this.categoryStore.deleteCategory(id);
 	}
 
-	async saveRow(row: Transaction): Promise<void> {
+	saveRow(row: Transaction): void {
 		if (!row.id) return;
 		const newNoteValue = this.noteForm.controls[row.id].getRawValue();
 		const newRecurringValue = this.recurringForm.controls[row.id].getRawValue();
@@ -202,9 +196,7 @@ export class DataTableComponent extends BaseComponent {
 			recurring: newRecurringValue,
 			categoryId: newCategoryValue,
 		};
-		const updatedTransaction = await this.transactionService.update(request);
-		this.snackbarService.showSuccess(`Transaction '${updatedTransaction.title.slice(0, 10)}${updatedTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-		this.dataChangedEvent.emit();
+		this.transactionStore.updateTransaction(request);
 	}
 
 	cancelRowEdit(rowId: number): void {
@@ -238,31 +230,30 @@ export class DataTableComponent extends BaseComponent {
 	async openCreateDialog(): Promise<void> {
 		// All transactions
 		if (!this.type()) {
-			const result = await this.dialog.openNonModal(
+			await this.dialog.openNonModal(
 				CreateTransactionDialogComponent,
 				{ isRecurring: this.isRecurring() ?? false }
 			);
-			if (!result) return;
-			this.dataChangedEvent.emit();
 		// Income or expense
 		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
-			const result = await this.dialog.openNonModal(
+			await this.dialog.openNonModal(
 				CreateTransactionDialogComponent,
 				{ 
 					isRecurring: this.isRecurring() ?? false,
 					type: this.type()! as TransactionType
 				}
 			);
-			if (!result) return;
-			this.dataChangedEvent.emit();
 		// Categories
 		} else if (this.type() === 'category') {
-			const result = await this.dialog.openNonModal(
+			await this.dialog.openNonModal(
 				CreateCategoryDialogComponent, undefined
 			);
-			if (!result) return;
-			this.dataChangedEvent.emit();
 		}
+	}
+
+	getNextPage(): number {
+		this.pageIndex++;
+		return this.pageIndex;
 	}
 
 	private mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {
@@ -271,5 +262,16 @@ export class DataTableComponent extends BaseComponent {
 			...transaction,
 			category: category!
 		};
+	}
+
+	private scrollToTop(): void {
+		const container = this.scrollContainer()?.nativeElement;
+		if (container) {
+			container.scrollTop = 0;
+
+			setTimeout(() => {
+				container.scrollTop = 1;
+			}, 0);
+		}
 	}
 }

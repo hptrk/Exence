@@ -9,7 +9,6 @@
 @import './components/form-field.scss';
 @import './components/progress.scss';
 @import './components/tooltip.scss';
-@import './components/paginator.scss';
 @import './components/tab.scss';
 @import './components/emoji-picker.scss';
 @import './components/dialog.scss';
@@ -145,6 +144,12 @@ mat-form-field.mat-mdc-form-field.search-with-select {
 
 mat-checkbox {
 	--mat-checkbox-touch-target-display: none;
+}
+
+// TODO make own component https://horanszkipatrik.atlassian.net/browse/EX-274
+.loader {
+	background-color: rgba(0, 0, 0, 0.1);;
+	border-radius: 20px;
 }
 
 ::selection {

@@ -7,33 +7,32 @@ import { TransactionFilter } from '../../data-model/modules/transaction/Transact
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { HttpService } from '../../shared/http/http.service';
 import { getFilters } from '../../shared/util/http-request-utils';
-
 @Injectable({
-	providedIn: 'root',
+	providedIn: 'root'
 })
 export class TransactionService {
 	private readonly http = inject(HttpService);
 
 	private baseUrl = '/api/transactions';
-	
+
 	public get(id: number): Promise<Transaction> {
 		return lastValueFrom(this.http.get<Transaction>(`${this.baseUrl}/${id}`));
 	}
 
-	public list(filters?: TransactionFilter): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, getFilters(filters)));
+	public list(filters?: TransactionFilter, pageIndex = 0): Promise<PagedResponse<Transaction>> {
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, { ...getFilters(filters), page: pageIndex.toString() }));
 	}
 
 	public listRecurrings(): Promise<RecurringTransactionsResponse> {
 		return lastValueFrom(this.http.get<RecurringTransactionsResponse>(`${this.baseUrl}/recurring`));
 	}
 
-	public incomes(): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/income`));
+	public listIncomes(pageIndex = 0): Promise<PagedResponse<Transaction>> {
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/income`, { page: pageIndex.toString() }));
 	}
 
-	public expenses(): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/expense`));
+	public listExpenses(pageIndex = 0): Promise<PagedResponse<Transaction>> {
+		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/expense`, { page: pageIndex.toString() }));
 	}
 
 	public totals(): Promise<TransactionTotalsResponse> {

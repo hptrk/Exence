@@ -63,44 +63,32 @@
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
-					[data]="{
-						transactions: recurringTransactions.incomes,
-						categories
-					}"
+					[transactions]="transactionStore.recurringIncomes()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
 					nonExpandable
-					paginationDisabled
 					title="Recurring Incomes"
 					[type]="transactionTypes.INCOME"
 					[isRecurring]="true"
-					(dataChangedEvent)="onDataChanged()"
 				/>
 				<ex-data-table
-					[data]="{
-						transactions: recurringTransactions.expenses,
-						categories
-					}"
+					[transactions]="transactionStore.recurringExpenses()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
 					class="flex-grow-1"
 					nonExpandable
-					paginationDisabled
 					title="Recurring Expenses"
 					[type]="transactionTypes.EXPENSE"
 					[isRecurring]="true"
-					(dataChangedEvent)="onDataChanged()"
 				/>
 			} @else {
 				<ex-data-table
-					[data]="{
-						transactions: recurringTransactions.mergedTransactions,
-						categories
-					}"
+					[transactions]="transactionStore.recurrings()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
 					nonExpandable
-					paginationDisabled
 					title="Recurrings"
 					[isRecurring]="true"
-					(dataChangedEvent)="onDataChanged()"
 				/>
 			}
 		</div>
@@ -186,7 +174,7 @@
 								<mat-label>Category</mat-label>
 								<mat-select [formControl]="categoryControl">
 									<mat-option [value]="null">All</mat-option>
-									@for (category of categories; track category.id) {
+									@for (category of categories(); track category.id) {
 										<mat-option [value]="category">{{ `${category.name} - ${category.emoji}` }}</mat-option>
 									}
 								</mat-select>
@@ -216,11 +204,12 @@
 				</div>
 			</div>
 			<ex-data-table
-				[data]="{ transactions, categories }"
+				[transactions]="transactionStore.transactions()"
+				[isDataLoading]="transactionStore.transactionResource.isLoading()"
 				matIcon="payments"
 				[class.overflow-hidden]="display.isMd()"
 				title="Transactions"
-				(dataChangedEvent)="onDataChanged()"
+				(onScroll)="onScroll()"
 			/>
 		</div>
 	</div>
@@ -246,11 +235,8 @@
 
 		<ex-data-table
 			matIcon="category"
-			[data]="{ categories }"
 			title="Categories"
 			type="category"
-			(dataChangedEvent)="onDataChanged()"
-			paginationDisabled
 		/>
 	</div>
 </ng-template>
