@@ -5,7 +5,6 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_M
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
 
 import com.exence.finance.common.annotations.ValidEmoji;
-import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
