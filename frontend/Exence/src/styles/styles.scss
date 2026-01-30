@@ -151,3 +151,8 @@ mat-checkbox {
 	background-color: rgba(0, 0, 0, 0.1);;
 	border-radius: 20px;
 }
+
+::selection {
+	background-color: var(--primary-color);
+	color: var(--secondary-text-color);
+}
