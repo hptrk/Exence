@@ -3,10 +3,12 @@
 @include displayMd {
 	.smaller-row {
 		flex-basis: 30%;
+		max-height: 30%;
 	}
 
 	.bigger-row {
 		flex-basis: 70%;
+		max-height: 70%;
 	}
 	
 	mat-form-field {

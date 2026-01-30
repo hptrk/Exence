@@ -1,5 +1,5 @@
 export interface PagedResponse<T> {
-	content: T[];
+	content?: T[];
 	page: number;
 	size: number;
 	totalElements: number;
