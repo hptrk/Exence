@@ -55,10 +55,6 @@
     <!-- Class design -->
     <module name="FinalClass"/>
     <module name="HideUtilityClassConstructor"/>
-    <module name="SuppressionXpathSingleFilter">
-      <property name="checks" value="HideUtilityClassConstructor"/>
-      <property name="query" value="//*[MODIFIERS//*[@text = 'UtilityClass']]"/>
-    </module>
     <module name="InterfaceIsType"/>
     <module name="OneTopLevelClass"/>
 
@@ -77,6 +73,21 @@
     </module>
     <module name="MethodLength">
       <property name="max" value="60"/>
+    </module>
+
+    <!-- Suppressions -->
+    <module name="SuppressionXpathSingleFilter">
+      <property name="checks" value="HideUtilityClassConstructor"/>
+      <property name="query" value="//*[MODIFIERS//*[@text = 'UtilityClass']]"/>
+    </module>
+    <module name="SuppressionXpathSingleFilter">
+      <property name="checks" value="MagicNumber"/>
+      <property name="files" value=".*[\\/]src[\\/]test[\\/].*"/>
+    </module>
+
+    <module name="SuppressionXpathSingleFilter">
+      <property name="checks" value="MethodName"/>
+      <property name="files" value=".*[\\/]src[\\/]test[\\/].*"/>
     </module>
 
 
