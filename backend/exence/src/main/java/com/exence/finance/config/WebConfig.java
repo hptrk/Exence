@@ -1,5 +1,6 @@
 package com.exence.finance.config;
 
+import com.exence.finance.common.converter.StringToCategoryTypeConverter;
 import com.exence.finance.common.converter.StringToTransactionTypeConverter;
 import com.exence.finance.security.EmailVerificationInterceptor;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
     private final StringToTransactionTypeConverter stringToTransactionTypeConverter;
+    private final StringToCategoryTypeConverter stringToCategoryTypeConverter;
     private final EmailVerificationInterceptor emailVerificationInterceptor;
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(stringToTransactionTypeConverter);
+        registry.addConverter(stringToCategoryTypeConverter);
     }
 
     @Override

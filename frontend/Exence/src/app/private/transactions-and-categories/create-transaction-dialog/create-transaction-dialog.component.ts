@@ -16,9 +16,10 @@ import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.com
 import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { CategoryService } from '../category.service';
 import { TransactionStore } from '../transaction.store';
-import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -42,7 +43,8 @@ export interface CreateTransactionDialogData {
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
-	],
+		EnumValuePipe
+],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void> implements OnInit {
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -51,7 +53,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 
 	data = this.dialogRef.value;
 
-	transactionTypes: TransactionType[] = Object.values(TransactionType);	
+	transactionTypes = TransactionType;
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
