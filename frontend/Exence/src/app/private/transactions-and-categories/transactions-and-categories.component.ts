@@ -12,6 +12,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Category } from '../../data-model/modules/category/Category';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
+import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
@@ -76,9 +77,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	});
 
 	transactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
-	recurringTransactions: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
-	recurringIncomes: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
-	recurringExpenses: PagedResponse<Transaction> = {} as PagedResponse<Transaction>;
+	recurringTransactions: RecurringTransactionsResponse = {} as RecurringTransactionsResponse;
 	categories: Category[] = [];
 
 	selectedIndex = 0;
@@ -112,15 +111,11 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	async initialize(): Promise<void> {
 		return Promise.all([
 			this.transactionService.list(),
-			this.transactionService.listRecurringTransactions(),
-			this.transactionService.listRecurringIncomes(),
-			this.transactionService.listRecurringExpenses(),
+			this.transactionService.listRecurrings(),
 			this.categoryService.list(),
-		]).then(([transactions, recurringTransactions, recurringIncomes, recurringExpenses, categories]) => {
+		]).then(([transactions, recurringTransactions, categories]) => {
 			this.transactions = transactions;
 			this.recurringTransactions = recurringTransactions;
-			this.recurringIncomes = recurringIncomes;
-			this.recurringExpenses = recurringExpenses;
 			this.categories = categories;
 		});
 	}

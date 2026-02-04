@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
+import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
@@ -23,24 +24,16 @@ export class TransactionService {
 		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, getFilters(filters)));
 	}
 
-	public listRecurringTransactions(): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/recurring`));
+	public listRecurrings(): Promise<RecurringTransactionsResponse> {
+		return lastValueFrom(this.http.get<RecurringTransactionsResponse>(`${this.baseUrl}/recurring`));
 	}
 
 	public incomes(): Promise<PagedResponse<Transaction>> {
 		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/income`));
 	}
 
-	public listRecurringIncomes(): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/income/recurring`));
-	}
-
 	public expenses(): Promise<PagedResponse<Transaction>> {
 		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/expense`));
-	}
-
-	public listRecurringExpenses(): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(`${this.baseUrl}/expense/recurring`));
 	}
 
 	public totals(): Promise<TransactionTotalsResponse> {

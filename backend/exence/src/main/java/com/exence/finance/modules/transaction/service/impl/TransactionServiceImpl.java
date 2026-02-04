@@ -1,5 +1,6 @@
 package com.exence.finance.modules.transaction.service.impl;
 
+import com.exence.finance.common.dto.PageResponse;
 import com.exence.finance.common.exception.CategoryNotFoundException;
 import com.exence.finance.common.exception.TransactionNotFoundException;
 import com.exence.finance.modules.auth.entity.User;
@@ -9,6 +10,7 @@ import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.response.RecurringTransactionsResponse;
 import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.mapper.TransactionMapper;
@@ -49,6 +51,28 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         return transactions.map(transactionMapper::mapToTransactionDTO);
+    }
+
+    public RecurringTransactionsResponse getRecurringTransactions(Pageable pageable) {
+        Page<Transaction> incomeTransactions =
+                transactionRepository.findRecurringByType(TransactionType.INCOME, pageable);
+        Page<Transaction> expenseTransactions =
+                transactionRepository.findRecurringByType(TransactionType.EXPENSE, pageable);
+        Page<Transaction> mergedTransactions = transactionRepository.findAllRecurring(pageable);
+
+        Page<TransactionDTO> incomeDTOs = incomeTransactions.map(transactionMapper::mapToTransactionDTO);
+        Page<TransactionDTO> expenseDTOs = expenseTransactions.map(transactionMapper::mapToTransactionDTO);
+        Page<TransactionDTO> mergedDTOs = mergedTransactions.map(transactionMapper::mapToTransactionDTO);
+
+        PageResponse<TransactionDTO> incomes = PageResponse.from(incomeDTOs);
+        PageResponse<TransactionDTO> expenses = PageResponse.from(expenseDTOs);
+        PageResponse<TransactionDTO> merged = PageResponse.from(mergedDTOs);
+
+        return RecurringTransactionsResponse.builder()
+                .incomes(incomes)
+                .expenses(expenses)
+                .mergedTransactions(merged)
+                .build();
     }
 
     @Transactional

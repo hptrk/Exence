@@ -64,7 +64,7 @@
 			@if (display.isLg()) {
 				<ex-data-table
 					[data]="{
-						transactions: recurringIncomes,
+						transactions: recurringTransactions.incomes,
 						categories
 					}"
 					matIcon="money_off"
@@ -77,7 +77,7 @@
 				/>
 				<ex-data-table
 					[data]="{
-						transactions: recurringExpenses,
+						transactions: recurringTransactions.expenses,
 						categories
 					}"
 					matIcon="money_off"
@@ -92,7 +92,7 @@
 			} @else {
 				<ex-data-table
 					[data]="{
-						transactions: recurringTransactions,
+						transactions: recurringTransactions.mergedTransactions,
 						categories
 					}"
 					matIcon="money_off"
