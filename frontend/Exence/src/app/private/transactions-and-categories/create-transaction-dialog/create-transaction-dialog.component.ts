@@ -20,6 +20,7 @@ import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.
 import { CategoryService } from '../category.service';
 import { TransactionStore } from '../transaction.store';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
+import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -43,8 +44,9 @@ export interface CreateTransactionDialogData {
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
-		EnumValuePipe
-],
+		EnumValuePipe,
+		SelectAutoFocusDirective,
+	],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void> implements OnInit {
 	private readonly fb = inject(NonNullableFormBuilder);
