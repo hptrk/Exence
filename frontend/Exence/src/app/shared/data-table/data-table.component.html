@@ -1,5 +1,7 @@
+<ng-container [ngTemplateOutlet]="loader" />
+
 <div class="table-container grid-mode">
-	<div class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2 w100">
+	<div class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2">
 		<h3 class="d-flex align-items-center gap-2">
 			<span class="highlighted-icon">
 				@if (svgIcon()) {
@@ -17,9 +19,16 @@
 			(click)="openCreateDialog()"
 		/>
 	</div>
-
 	@if (!emptyTableData) {
-		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1">
+		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1 table-container"
+			#scrollContainer
+			infiniteScroll
+			[infiniteScrollDistance]="2"
+			[infiniteScrollThrottle]="50"
+			[infiniteScrollDisabled]="!!isDataLoading()"
+			[scrollWindow]="false"
+			(scrolled)="onScroll.emit(getNextPage())"
+		>
 			<div>
 				@if (!emptyTransactionTable) {
 					<table
@@ -182,7 +191,7 @@
 													<button
 														mat-menu-item
 														class="delete-button"
-														(click)="deleteRow(row.id)"
+														(click)="deleteRow(row.id, row.type)"
 													>
 														<mat-icon color="warn">delete</mat-icon>
 														@if (display.isMd()) {
@@ -248,7 +257,7 @@
 																[formControl]="categoryControl"
 															>
 																@for (
-																	category of data().categories;
+																	category of categoryStore.categoryResource.value();
 																	track category.id
 																) {
 																	<mat-option
@@ -322,10 +331,10 @@
 							></tr>
 						}
 					</table>
-				} @else if (!emptyCategoryTable) {
+				} @else if (!emptyCategoryTable && type() === 'category') {
 					<table
 						mat-table
-						[dataSource]="categoryDataSource!"
+						[dataSource]="categoryStore.categoryResource.value() ?? []"
 						multiTemplateDataRows
 					>
 						<ng-container matColumnDef="name">
@@ -370,6 +379,25 @@
 							</td>
 						</ng-container>
 
+						<ng-container matColumnDef="type">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+							>
+								@if (display.isSm()) {
+									<div class="text-start">Type</div>
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<div class="table-row-item justify-content-start">
+									{{ row.type }}
+								</div>
+							</td>
+						</ng-container>
+
 						<ng-container matColumnDef="actions">
 							<th
 								mat-header-cell
@@ -404,15 +432,6 @@
 				}
 			</div>
 		</div>
-		<!-- @if (!paginationDisabled()) {
-			<mat-paginator
-				[length]="pageLength"
-				[pageSize]="pageSize"
-				[pageSizeOptions]="pageSizeOptions"
-				[pageIndex]="pageIndex"
-			>
-			</mat-paginator>
-		} -->
 	} @else {
 		<ng-container [ngTemplateOutlet]="emptyTable" />
 	}
@@ -429,3 +448,13 @@
 		</div>
 	</div>
 </ng-template>
+
+<!-- TODO make own component https://horanszkipatrik.atlassian.net/browse/EX-274 -->
+<ng-template #loader>
+	@if (!!isDataLoading()) {
+		<div class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 h-100 w-100 z-2 loader">
+			<mat-spinner />
+		</div>
+	}
+</ng-template>
+

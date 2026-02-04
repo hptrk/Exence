@@ -7,3 +7,10 @@ databaseChangeLog:
       file: switch-to-native-enums.yaml
       relativeToChangelogFile: true
 
+  - include:
+      file: add-type-to-category.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: change-transaction-type-size.yaml
+      relativeToChangelogFile: true

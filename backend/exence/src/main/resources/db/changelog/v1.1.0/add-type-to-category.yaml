@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-transaction-type-enum
+      author: tamibalogh
+      comment: Create native PostgreSQL enum type for category_type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE category_type AS ENUM ('EXPENSE', 'INCOME', 'MIXED')
+  - changeSet:
+      id: add-type-to-category
+      author: tamibalogh
+      comment: Create type column in category table
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE category
+              ADD COLUMN type category_type

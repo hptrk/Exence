@@ -7,16 +7,18 @@ import { MatMenuModule } from '@angular/material/menu';
 import { PickerComponent } from '@ctrl/ngx-emoji-mart';
 import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { Category } from '../../../data-model/modules/category/Category';
+import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
-import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
-import { ValidatorComponent } from '../../../shared/validator/validator.component';
-import { CategoryService } from '../../category.service';
-import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
-import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
+import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { CategoryStore } from '../category.store';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { CategoryType } from '../../../data-model/modules/category/CategoryType';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -28,6 +30,7 @@ import { StopPropagationDirective } from '../../../shared/stop-propagation.direc
 		MatInputModule,
 		MatMenuModule,
 		MatIconModule,
+		MatButtonToggleModule,
 		PickerComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
@@ -35,19 +38,24 @@ import { StopPropagationDirective } from '../../../shared/stop-propagation.direc
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
+		EnumValuePipe,
 		StopPropagationDirective,
+		AutoTrimDirective,
+		ConfirmExitDialogDirective,
 	],
 })
-export class CreateCategoryDialogComponent extends DialogComponent<undefined, boolean> {
-	private readonly categoryService = inject(CategoryService);
+export class CreateCategoryDialogComponent extends DialogComponent<undefined, void> {
 	private readonly fb = inject(NonNullableFormBuilder);
-	private readonly snackbarService = inject(SnackbarService);
-
+	private readonly store = inject(CategoryStore);
+	
 	data = this.dialogRef.value;
+
+	categoryTypes = CategoryType;
 
 	form = this.fb.group({
 		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		emoji: this.fb.control<string>('', [Validators.required]),
+		type: this.fb.control<CategoryType>(CategoryType.EXPENSE, [Validators.required]),
 		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
 
@@ -66,22 +74,18 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, bo
 	}
 
 	close(): void {
-		this.dialogRef.close(false);
+		this.dialogRef.close();
 	}
 
-	async create(): Promise<void> {
+	create(): void {
 		const formValue = this.form.getRawValue();
 		const request: Category = {
 			name: formValue.name,
 			emoji: formValue.emoji,
+			type: formValue.type,
 			note: formValue.note,
 		};
-		try {
-			const newCategory = await this.categoryService.create(request);
-			this.snackbarService.showSuccess(`Category '${newCategory.emoji}' created successfully!`);
-			this.dialogRef.submit(true);
-		} catch (_err) {
-			this.dialogRef.submit(false);
-		}
+		this.store.createCategory(request);
+		this.dialogRef.submit();
 	}
 }

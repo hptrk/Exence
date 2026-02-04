@@ -12,14 +12,14 @@ import { Transaction } from '../../../data-model/modules/transaction/Transaction
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
-import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
-import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
-import { CategoryService } from '../../category.service';
-import { TransactionService } from '../transaction.service';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { CategoryService } from '../category.service';
+import { TransactionStore } from '../transaction.store';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -43,17 +43,17 @@ export interface CreateTransactionDialogData {
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
-	],
+		EnumValuePipe
+],
 })
-export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, boolean> implements OnInit {
-	private readonly transactionService = inject(TransactionService);
+export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void> implements OnInit {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
-	private readonly snackbarService = inject(SnackbarService);
+	private readonly store = inject(TransactionStore);
 
 	data = this.dialogRef.value;
 
-	transactionTypes: TransactionType[] = Object.values(TransactionType);	
+	transactionTypes = TransactionType;
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -96,10 +96,10 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 	}
 
 	close(): void {
-		this.dialogRef.close(false);
+		this.dialogRef.close();
 	}
 
-	async create(): Promise<void> {
+	create(): void {
 		const formValue = this.form.getRawValue();
 		const request: Transaction = {
 			title: formValue.title,
@@ -110,12 +110,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 			recurring: formValue.recurring,
 			categoryId: formValue.category!.category!.id!,
 		} as Transaction;
-		try {
-			const newTransaction = await this.transactionService.create(request);
-			this.snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-			this.dialogRef.submit(true);
-		} catch (_err) {
-			this.dialogRef.submit(false);
-		}
+		this.store.createTransaction(request);
+		this.dialogRef.submit();
 	}
 }

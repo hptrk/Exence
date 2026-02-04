@@ -6,9 +6,12 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_M
 
 import com.exence.finance.common.entity.BaseAuditableEntity;
 import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.category.dto.CategoryType;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +30,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @SuperBuilder
 @Entity
@@ -55,6 +60,12 @@ public class Category extends BaseAuditableEntity {
 
     @Column(name = "emoji", length = CATEGORY_EMOJI_MAX_LENGTH)
     private String emoji;
+
+    @NotNull
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private CategoryType type;
 
     @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
     private String note;
