@@ -1,10 +1,18 @@
 import { formatCurrency } from '@angular/common';
-import { Chart, ChartConfiguration, ChartData, ChartTypeRegistry, PluginOptionsByType, TooltipItem, TooltipOptions } from 'chart.js';
+import {
+	Chart,
+	ChartConfiguration,
+	ChartData,
+	ChartTypeRegistry,
+	PluginOptionsByType,
+	TooltipItem,
+	TooltipOptions,
+} from 'chart.js';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 
 export const getCssVariableValue = (
 	variableName: string,
-	element: HTMLElement | null | undefined = document.documentElement
+	element: HTMLElement | null | undefined = document.documentElement,
 ): string => {
 	if (!element) return '';
 	return getComputedStyle(element).getPropertyValue(variableName).trim();
@@ -27,7 +35,7 @@ export const createCanvasBackgroundPlugin = (): {
 		const radius = 20;
 		ctx.save();
 		ctx.globalCompositeOperation = 'destination-over';
-		
+
 		ctx.fillStyle = getCssVariableValue('--app-card-color', canvas);
 
 		// Draw rounded rectangle
@@ -39,31 +47,30 @@ export const createCanvasBackgroundPlugin = (): {
 	},
 });
 
-export const createPointerTooltipConfig = (
-	data: Transaction[]
-): TooltipOptions<'line'> => ({
-	enabled: true,
-	callbacks: {
-		title: (context: TooltipItem<'line'>[]) => {
-			const dataIndex = context[0]?.dataIndex;
-			if (typeof dataIndex !== 'number') return '';
-			const transaction = data[dataIndex];
-			const title = transaction.title;
-			return title.length > 15 ? title.slice(0, 15) + '...' : title;
+export const createPointerTooltipConfig = (data: Transaction[]): TooltipOptions<'line'> =>
+	({
+		enabled: true,
+		callbacks: {
+			title: (context: TooltipItem<'line'>[]) => {
+				const dataIndex = context[0]?.dataIndex;
+				if (typeof dataIndex !== 'number') return '';
+				const transaction = data[dataIndex];
+				const title = transaction.title;
+				return title.length > 15 ? title.slice(0, 15) + '...' : title;
+			},
+			label: (context: TooltipItem<'line'>) => {
+				const dataIndex = context.dataIndex;
+				if (typeof dataIndex !== 'number') return '';
+				const transaction = data[dataIndex];
+				return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
+			},
 		},
-		label: (context: TooltipItem<'line'>) => {
-			const dataIndex = context.dataIndex;
-			if (typeof dataIndex !== 'number') return '';
-			const transaction = data[dataIndex];
-			return `Amount: ${formatCurrency(transaction.amount, 'en-US', 'Ft', 'hu-HU')}`;
-		},
-	}
-} as TooltipOptions<'line'>);
+	}) as TooltipOptions<'line'>;
 
 export const getLineChartOptions = (
 	color?: string,
 	gridColor?: string,
-	plugins?: Omit<Partial<PluginOptionsByType<keyof ChartTypeRegistry>>, 'legend'>
+	plugins?: Omit<Partial<PluginOptionsByType<keyof ChartTypeRegistry>>, 'legend'>,
 ): ChartConfiguration['options'] => {
 	return {
 		responsive: true,
@@ -73,14 +80,14 @@ export const getLineChartOptions = (
 		},
 		animations: {
 			tension: { duration: 2000 },
-			backgroundClor: { duration: 0 }
+			backgroundClor: { duration: 0 },
 		},
 		elements: {
 			line: { tension: 0.3 },
 		},
 		plugins: {
 			legend: { display: false },
-			...plugins
+			...plugins,
 		},
 		scales: {
 			x: {
@@ -93,8 +100,8 @@ export const getLineChartOptions = (
 				grid: { color: gridColor },
 				border: { color: gridColor },
 				ticks: { color },
-			}
-		}
+			},
+		},
 	};
 };
 
@@ -106,15 +113,17 @@ export const getLineChartData = (
 ): ChartData<'line'> => {
 	return {
 		labels: labels ?? [],
-		datasets: [{
-			data: data ?? [],
-			fill: 'origin',
-			pointRadius: 4,
-			pointBorderWidth: 0,
-			backgroundColor: hexToRgba(bgColor ?? '', 0.25),
-			borderColor: bgColor,
-			pointBackgroundColor: bgColor,
-			pointHoverBackgroundColor: hoverColor,
-		}]
+		datasets: [
+			{
+				data: data ?? [],
+				fill: 'origin',
+				pointRadius: 4,
+				pointBorderWidth: 0,
+				backgroundColor: hexToRgba(bgColor ?? '', 0.25),
+				borderColor: bgColor,
+				pointBackgroundColor: bgColor,
+				pointHoverBackgroundColor: hoverColor,
+			},
+		],
 	};
 };

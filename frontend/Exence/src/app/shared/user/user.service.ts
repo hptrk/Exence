@@ -6,7 +6,7 @@ import { User } from '../../data-model/modules/auth/User';
 import { HttpService } from '../http/http.service';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class UserService {
 	private readonly http = inject(HttpService);

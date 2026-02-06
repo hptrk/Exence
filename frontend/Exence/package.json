@@ -3,14 +3,18 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "playwright test",
-    "e2e:headed": "playwright test --headed",
-    "e2e:ui": "playwright test --ui"
+	"start": "ng serve",
+	"build": "ng build",
+	"watch": "ng build --watch --configuration development",
+	"test": "ng test",
+	"format:check": "prettier . --check",
+	"format:apply": "prettier . --write",
+	"lint:check": "ng lint",
+	"lint:apply": "ng lint --fix",
+	"e2e": "playwright test",
+	"e2e:headed": "playwright test --headed",
+	"e2e:ui": "playwright test --ui",
+	"prepare": "husky && husky install"
   },
   "private": true,
   "dependencies": {

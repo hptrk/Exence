@@ -11,7 +11,7 @@ export abstract class BaseComponent implements OnDestroy {
 	private readonly _subscriptions: Subscription[] = [];
 
 	ngOnDestroy(): void {
-		this._subscriptions.forEach(a => a.unsubscribe());
+		this._subscriptions.forEach((a) => a.unsubscribe());
 	}
 
 	addSubscription(s: Subscription): void {

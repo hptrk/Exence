@@ -4,11 +4,11 @@ import { DeviceSession } from '../../data-model/modules/session/DeviceSession';
 import { HttpService } from '../../shared/http/http.service';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class SessionService {
 	private readonly http = inject(HttpService);
-	
+
 	private baseUrl = '/api/sessions';
 
 	public list(): Promise<DeviceSession[]> {

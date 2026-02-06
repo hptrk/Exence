@@ -1,10 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { DialogService } from './dialog/dialog.service';
-import { MessageDialogButtonConfig, MessageDialogComponent, PredefiedButtons } from './message-dialog/message-dialog.component';
+import {
+	MessageDialogButtonConfig,
+	MessageDialogComponent,
+	PredefiedButtons,
+} from './message-dialog/message-dialog.component';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class ConfirmExitService {
 	private readonly dialog = inject(DialogService);
@@ -19,7 +23,7 @@ export class ConfirmExitService {
 	}
 
 	hasChanges(): boolean {
-		return Array.from(this.trackedForms).some(form => form.dirty);
+		return Array.from(this.trackedForms).some((form) => form.dirty);
 	}
 
 	async showConfirmDialog(): Promise<boolean> {
@@ -36,7 +40,7 @@ export class ConfirmExitService {
 					matIcon: 'chevron_forward',
 				},
 				PredefiedButtons.CANCEL,
-			)
+			),
 		});
 	}
 }

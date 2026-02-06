@@ -1,15 +1,16 @@
 mat-form-field.mat-mdc-form-field {
-	.mdc-notched-outline__leading, .mdc-notched-outline__notch, .mdc-notched-outline__trailing {
+	.mdc-notched-outline__leading,
+	.mdc-notched-outline__notch,
+	.mdc-notched-outline__trailing {
 		--mat-form-field-outlined-error-outline-color: var(--error-color);
 		--mat-form-field-outlined-error-focus-outline-color: var(--error-color);
 		--mat-form-field-outlined-error-hover-outline-color: var(--error-color);
 		--mat-form-field-outlined-focus-outline-color: var(--primary-color);
 	}
-	
+
 	.mat-mdc-form-field-subscript-wrapper {
 		--mat-form-field-subscript-text-weight: 600;
 	}
-
 
 	--mat-form-field-container-text-size: 16px;
 	--mat-form-field-outlined-label-text-size: 16px;
@@ -19,10 +20,10 @@ mat-form-field.mat-mdc-form-field {
 
 	--mat-form-field-error-text-color: var(--error-color);
 	--mat-form-field-outlined-error-hover-label-text-color: var(--error-color);
-	
+
 	--mat-form-field-outlined-input-text-color: var(--default-text-color);
 	--mat-form-field-hover-state-layer-opacity: 0;
-	
+
 	--mat-form-field-outlined-label-text-color: var(--default-text-color);
 	--mat-form-field-outlined-error-label-text-color: var(--error-color);
 	--mat-form-field-outlined-error-focus-label-text-color: var(--error-color);
@@ -71,7 +72,7 @@ mat-form-field.mat-mdc-form-field.search {
 	--mat-form-field-outlined-outline-width: 1px;
 	--mat-form-field-container-vertical-padding: 1px;
 	--mat-form-field-outlined-container-shape: 20px;
-	
+
 	.mat-mdc-form-field-infix {
 		min-height: unset;
 		padding: unset;

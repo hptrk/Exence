@@ -9,7 +9,7 @@ import { DialogRef } from './dialog/dialog.service';
 })
 export class ConfirmExitDialogDirective extends BaseComponent implements OnInit {
 	private readonly formGroupDirective = inject(FormGroupDirective);
-	private readonly confirmExitService = inject(ConfirmExitService);	
+	private readonly confirmExitService = inject(ConfirmExitService);
 
 	// eslint-disable-next-line
 	confirmExitDialog = input.required<DialogRef<any, any>>();
@@ -17,11 +17,15 @@ export class ConfirmExitDialogDirective extends BaseComponent implements OnInit 
 	ngOnInit(): void {
 		const form = this.formGroupDirective.form;
 
-		this.addSubscription(form.valueChanges.subscribe(() => {
-			this.confirmExitDialog().setLocked(form.dirty);
-		}));
-		
+		this.addSubscription(
+			form.valueChanges.subscribe(() => {
+				this.confirmExitDialog().setLocked(form.dirty);
+			}),
+		);
+
 		this.confirmExitDialog().setLocked(form.dirty);
-		this.confirmExitDialog().setOnCloseAttemptWhileLocked(async () => await this.confirmExitService.showConfirmDialog());
+		this.confirmExitDialog().setOnCloseAttemptWhileLocked(
+			async () => await this.confirmExitService.showConfirmDialog(),
+		);
 	}
 }

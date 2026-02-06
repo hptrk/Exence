@@ -21,7 +21,7 @@ export const CategoryStore = signalStore(
 		};
 	}),
 
-	withMethods(store => {
+	withMethods((store) => {
 		const categoryService = inject(CategoryService);
 		const snackbarService = inject(SnackbarService);
 
@@ -40,7 +40,7 @@ export const CategoryStore = signalStore(
 				await categoryService.delete(id);
 				snackbarService.showSuccess('Category deleted successfully!');
 				triggerReload();
-			}
+			},
 		};
-	})
+	}),
 );

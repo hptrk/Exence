@@ -6,14 +6,12 @@ export interface HasChangesComponent {
 	hasChanges: () => boolean;
 }
 
-export const hasChangesGuard: CanDeactivateFn<HasChangesComponent> = async (
-	component: HasChangesComponent
-) => {
+export const hasChangesGuard: CanDeactivateFn<HasChangesComponent> = async (component: HasChangesComponent) => {
 	const confirmExitService = inject(ConfirmExitService);
-	
-	const componentHasChanges = component.hasChanges();	
+
+	const componentHasChanges = component.hasChanges();
 	const serviceHasChanges = confirmExitService.hasChanges();
-	
+
 	if (componentHasChanges || serviceHasChanges) {
 		return await confirmExitService.showConfirmDialog();
 	}

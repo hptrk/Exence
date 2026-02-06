@@ -122,7 +122,7 @@ hr {
 }
 
 mat-card.mat-mdc-card.categories mat-card-header .mat-mdc-card-header-text {
-	width: 100%;	
+	width: 100%;
 }
 
 mat-form-field.mat-mdc-form-field.search-with-select {
@@ -130,8 +130,8 @@ mat-form-field.mat-mdc-form-field.search-with-select {
 	padding-bottom: 0.5rem;
 
 	.mat-mdc-text-field-wrapper {
-        background-color: transparent;
-    }
+		background-color: transparent;
+	}
 
 	.mat-mdc-form-field-infix {
 		display: flex;
@@ -147,7 +147,7 @@ mat-checkbox {
 
 // TODO make own component https://horanszkipatrik.atlassian.net/browse/EX-274
 .loader {
-	background-color: rgba(0, 0, 0, 0.1);;
+	background-color: rgba(0, 0, 0, 0.1);
 	border-radius: 20px;
 }
 

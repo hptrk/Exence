@@ -46,7 +46,7 @@ export class LoginComponent extends BaseComponent {
 
 	loginForm = this.fb.group({
 		email: this.fb.control<string>('', [Validators.required, Validators.email]),
-		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password])
+		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
 	});
 
 	async login(): Promise<void> {

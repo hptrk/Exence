@@ -1,21 +1,11 @@
-<section
-	class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0"
->
-	<div
-		class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2"
-	>
+<section class="d-flex flex-column h-100 justif-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
+	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
 		<div>
-			<h1
-				class="m-0 text-center text-md-start {{
-					display.isSm() ? 'fs-1' : 'fs-2'
-				}}"
-			>
+			<h1 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
 				Welcome back, <span class="username">{{ user().username }}</span
 				>!
 			</h1>
-			<p class="fs-4 m-0 text-center text-md-start">
-				Snapshot of your finances
-			</p>
+			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
 		</div>
 		<!-- @if (display.isMd()) {
 		<ng-container [ngTemplateOutlet]="toggleFilter" />
@@ -40,17 +30,12 @@
 				class="h-100"
 				[totalExpense]="transactionStore.totalExpense()"
 				[categories]="categoryStore.categoryResource.value() ?? []"
-				[topCategories]="
-					categoryStore.topCategoriesResource.value() ?? []
-				"
+				[topCategories]="categoryStore.topCategoriesResource.value() ?? []"
 			/>
 		</div>
 
 		@if (display.isMd()) {
-			<div
-				class="d-flex flex-row align-items-center gap-4"
-				ex-card-slider
-			>
+			<div class="d-flex flex-row align-items-center gap-4" ex-card-slider>
 				<ex-summary-container
 					class="flex-grow-1"
 					matIcon="attach_money"
@@ -80,9 +65,7 @@
 					class="col-12 col-lg-6"
 					matIcon="money_off"
 					[transactions]="transactionStore.expenses()"
-					[isDataLoading]="
-						transactionStore.expenseResource.isLoading()
-					"
+					[isDataLoading]="transactionStore.expenseResource.isLoading()"
 					title="Expenses"
 					[type]="transactionTypes.EXPENSE"
 					(onScroll)="onScroll(transactionTypes.EXPENSE)"
@@ -91,9 +74,7 @@
 					class="col-12 col-lg-6"
 					matIcon="attach_money"
 					[transactions]="transactionStore.incomes()"
-					[isDataLoading]="
-						transactionStore.incomeResource.isLoading()
-					"
+					[isDataLoading]="transactionStore.incomeResource.isLoading()"
 					title="Incomes"
 					[type]="transactionTypes.INCOME"
 					(onScroll)="onScroll(transactionTypes.INCOME)"
@@ -105,9 +86,7 @@
 					class="w-100"
 					matIcon="attach_money"
 					[transactions]="transactionStore.transactions()"
-					[isDataLoading]="
-						transactionStore.transactionResource.isLoading()
-					"
+					[isDataLoading]="transactionStore.transactionResource.isLoading()"
 					title="Transactions"
 					(onScroll)="onScroll()"
 				/>
@@ -122,9 +101,7 @@
 </ng-template>
 
 <ng-template #mobileButtons>
-	<div
-		class="d-flex flex-column-reverse flex-sm-row gap-2 justify-content-center align-items-md-center w-100"
-	>
+	<div class="d-flex flex-column-reverse flex-sm-row gap-2 justify-content-center align-items-md-center w-100">
 		<ex-button
 			filled
 			color="error"

@@ -13,14 +13,7 @@ import { SvgIcons } from '../../../shared/svg-icons/svg-icons';
 	selector: 'ex-summary-container',
 	templateUrl: './summary-container.component.html',
 	styleUrl: './summary-container.component.scss',
-	imports: [
-		MatCardModule,
-		MatIconModule,
-		CurrencyPipe,
-		MatButtonModule,
-		RouterModule,
-		AbsoluteValuePipe
-	],
+	imports: [MatCardModule, MatIconModule, CurrencyPipe, MatButtonModule, RouterModule, AbsoluteValuePipe],
 })
 export class SummaryContainerComponent {
 	private readonly navigation = inject(NavigationService);
@@ -54,6 +47,8 @@ export class SummaryContainerComponent {
 		// 		}
 		// 		break;
 		// }
-		this.router.navigate([this.navigation.private().transactions()], { queryParams });
+		this.router.navigate([this.navigation.private().transactions()], {
+			queryParams,
+		});
 	}
 }

@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
 	private readonly matIconRegistry = inject(MatIconRegistry);
 	private readonly domSanitizer = inject(DomSanitizer);
 	private readonly userService = inject(UserService);
-	
 
 	async ngOnInit(): Promise<void> {
 		// Icon set
@@ -36,7 +35,7 @@ export class AppComponent implements OnInit {
 			},
 			error: () => {
 				this.currentUserService.clearUser();
-			}
+			},
 		});
 	}
 }

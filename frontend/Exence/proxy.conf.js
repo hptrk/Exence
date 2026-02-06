@@ -5,13 +5,13 @@ const PROXY_CONFIG = [
 		secure: false,
 		changeOrigin: true,
 		logLevel: 'debug',
-		bypass: function(_req, _res, _proxyOptions) {
+		bypass: function (_req, _res, _proxyOptions) {
 			// console.log(req.url);
 		},
 		pathRewrite: {
-			'/dist': ''
-		}
-	}
+			'/dist': '',
+		},
+	},
 ];
 
 module.exports = PROXY_CONFIG;

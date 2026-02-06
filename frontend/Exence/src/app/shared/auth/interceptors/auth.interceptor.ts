@@ -7,7 +7,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn):
 	}
 
 	const request = req.clone({
-		withCredentials: true
+		withCredentials: true,
 	});
 
 	return next(request);

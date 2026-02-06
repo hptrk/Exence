@@ -1,4 +1,4 @@
-@import "../../../styles/imports.scss";
+@import '../../../styles/imports.scss';
 
 @include displayMd {
 	.smaller-row {
@@ -10,7 +10,7 @@
 		flex-basis: 70%;
 		max-height: 70%;
 	}
-	
+
 	mat-form-field {
 		width: 225px;
 	}

@@ -19,12 +19,12 @@
 		"noPropertyAccessFromIndexSignature": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"useUnknownInCatchVariables": false,
+		"useUnknownInCatchVariables": false
 	},
-		"angularCompilerOptions": {
+	"angularCompilerOptions": {
 		"strictTemplates": true,
 		"strictInjectionParameters": true,
 		"strictStandalone": true,
-		"strictInputAccessModifiers": true,
+		"strictInputAccessModifiers": true
 	}
 }

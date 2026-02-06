@@ -1,4 +1,11 @@
-import { HttpClient, HttpContext, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import {
+	HttpClient,
+	HttpContext,
+	HttpErrorResponse,
+	HttpHeaders,
+	HttpParams,
+	HttpResponse,
+} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ErrorService } from '../error.service';
@@ -14,7 +21,7 @@ interface HttpOptions {
 }
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class HttpService {
 	private readonly httpClient = inject(HttpClient);
@@ -23,11 +30,16 @@ export class HttpService {
 	get<T>(url: string, params?: Record<string, string | undefined | null>, settings?: HttpSettings): Observable<T> {
 		return this.call(
 			this.httpClient.get<HttpResponse<string>>(url, this.createDefaultRequestOptions(params)),
-			settings ?? {});
-
+			settings ?? {},
+		);
 	}
 
-	post<T>(url: string, data?: unknown, params?: Record<string, string | undefined | null>, settings?: HttpSettings): Observable<T> {
+	post<T>(
+		url: string,
+		data?: unknown,
+		params?: Record<string, string | undefined | null>,
+		settings?: HttpSettings,
+	): Observable<T> {
 		return this.call(
 			this.httpClient.post<HttpResponse<string>>(url, data, this.createDefaultRequestOptions(params)),
 			settings ?? {},
@@ -57,7 +69,7 @@ export class HttpService {
 
 	private call<T>(response: Observable<HttpResponse<string>>, settings: HttpSettings): Observable<T> {
 		return response.pipe(
-			map(resp => this.parseResponse<T>(resp)!),
+			map((resp) => this.parseResponse<T>(resp)!),
 			catchError((err: HttpErrorResponse) => {
 				this.errorService.handleError(err, settings);
 				return throwError(() => err);
@@ -69,11 +81,11 @@ export class HttpService {
 		if (!response) {
 			return null;
 		}
-		
+
 		if (typeof response.body !== 'string') {
 			return response as T;
 		}
-		
+
 		try {
 			return JSON.parse(response.body) as T;
 		} catch {
@@ -82,9 +94,7 @@ export class HttpService {
 	}
 
 	private createDefaultRequestOptions(params?: Record<string, string | undefined | null>): HttpOptions {
-		const headers = new HttpHeaders()
-			.set('Accept', 'application/json')
-			.set('Content-Type', 'application/json');
+		const headers = new HttpHeaders().set('Accept', 'application/json').set('Content-Type', 'application/json');
 
 		const httpParams = params ? this.filterParams(params) : undefined;
 
@@ -96,7 +106,7 @@ export class HttpService {
 			context,
 		} as HttpOptions;
 	}
-	
+
 	private filterParams(params: Record<string, string | undefined | null>): Record<string, string> {
 		const filteredParams: Record<string, string> = {};
 		for (const key in params) {

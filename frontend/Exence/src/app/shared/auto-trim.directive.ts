@@ -14,7 +14,7 @@ function trimValueAccessor(valueAccessor: ControlValueAccessor): void {
 
 @Directive({
 	selector: '[autoTrim]',
-	standalone: true
+	standalone: true,
 })
 export class AutoTrimDirective {
 	private control = inject(NgControl);
@@ -23,4 +23,3 @@ export class AutoTrimDirective {
 		trimValueAccessor(this.control.valueAccessor!);
 	}
 }
-

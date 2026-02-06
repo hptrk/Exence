@@ -16,13 +16,13 @@ interface ErrorInfo {
 })
 export class ValidatorComponent extends BaseComponent implements OnInit {
 	control = input.required<AbstractControl>();
-	
+
 	errorKey = signal<string>('');
 	errorValue = signal<ErrorInfo | null>(null);
-	
+
 	ngOnInit(): void {
-		this.addSubscription(merge(of(this.control().dirty), this.control().statusChanges).subscribe(
-			() => {
+		this.addSubscription(
+			merge(of(this.control().dirty), this.control().statusChanges).subscribe(() => {
 				if (!this.control().errors) {
 					this.errorKey.set('');
 					this.errorValue.set(null);
@@ -30,7 +30,7 @@ export class ValidatorComponent extends BaseComponent implements OnInit {
 				}
 				this.errorKey.set(Object.keys(this.control().errors!)[0]);
 				this.errorValue.set(this.control().errors![this.errorKey()] as ErrorInfo);
-			}
-		));
+			}),
+		);
 	}
 }

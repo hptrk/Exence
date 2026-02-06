@@ -23,11 +23,7 @@ export const SNACKBAR_DISMISS_DURATION = 5000;
 	selector: 'ex-snackbar',
 	templateUrl: './snackbar.component.html',
 	styleUrl: './snackbar.component.scss',
-	imports: [
-		MatIconModule,
-		MatButtonModule,
-		MatTooltipModule,
-	],
+	imports: [MatIconModule, MatButtonModule, MatTooltipModule],
 })
 export class SnackbarComponent {
 	private readonly snackbarRef = inject(MatSnackBarRef<SnackbarComponent>);
@@ -40,7 +36,7 @@ export class SnackbarComponent {
 	readonly warnType = SnackbarType.Warning;
 	readonly infoType = SnackbarType.Info;
 	readonly successType = SnackbarType.Success;
-	
+
 	progress = signal<number>(0);
 	fadeOutStarted = signal<boolean>(false);
 
@@ -50,7 +46,7 @@ export class SnackbarComponent {
 			if (this.animationFrameId) {
 				cancelAnimationFrame(this.animationFrameId);
 			}
-		});	
+		});
 	}
 
 	getCssClass(): string {
@@ -94,5 +90,3 @@ export class SnackbarComponent {
 		this.animationFrameId = requestAnimationFrame(animate);
 	}
 }
-
-

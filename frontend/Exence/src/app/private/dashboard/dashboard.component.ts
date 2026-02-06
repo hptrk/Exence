@@ -3,9 +3,7 @@ import { Component, computed, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
-import {
-	SummaryContainerComponent
-} from '../../private/dashboard/summary-container/summary-container.component';
+import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
@@ -43,7 +41,7 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 	readonly navigation = inject(NavigationService);
 	readonly transactionStore = inject(TransactionStore);
 	readonly categoryStore = inject(CategoryStore);
-	
+
 	transactionTypes = TransactionType;
 	dateIntervals = DateInterval;
 
@@ -58,9 +56,9 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 	}
 
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
-		await this.dialog.openNonModal(
-			CreateTransactionDialogComponent, { type: transactionType }
-		);
+		await this.dialog.openNonModal(CreateTransactionDialogComponent, {
+			type: transactionType,
+		});
 	}
 
 	onScroll(type?: TransactionType): void {

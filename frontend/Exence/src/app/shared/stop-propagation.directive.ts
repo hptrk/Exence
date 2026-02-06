@@ -1,7 +1,7 @@
 import { Directive, effect, ElementRef, inject, input, Renderer2 } from '@angular/core';
 
 @Directive({
-	selector: '[stopPropagation]'
+	selector: '[stopPropagation]',
 })
 export class StopPropagationDirective {
 	private readonly element = inject(ElementRef);
@@ -10,20 +10,16 @@ export class StopPropagationDirective {
 	readonly events = input<string | string[]>(['click']);
 
 	constructor() {
-		effect(onCleanup => {
+		effect((onCleanup) => {
 			const events = this.events();
 			const eventList = Array.isArray(events) ? events : [events];
 
-			const unlisteners = eventList.map(eventName => 
-				this.renderer.listen(
-					this.element.nativeElement,
-					eventName,
-					(event: Event) => event.stopPropagation()
-				)
+			const unlisteners = eventList.map((eventName) =>
+				this.renderer.listen(this.element.nativeElement, eventName, (event: Event) => event.stopPropagation()),
 			);
 
 			onCleanup(() => {
-				unlisteners.forEach(unlisten => unlisten());
+				unlisteners.forEach((unlisten) => unlisten());
 			});
 		});
 	}

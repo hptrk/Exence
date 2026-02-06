@@ -1,151 +1,125 @@
 import eslint from '@eslint/js';
-import stylistic from '@stylistic/eslint-plugin';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
+import angular from 'angular-eslint';
+import prettierPlugin from 'eslint-plugin-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
+	{
+		ignores: ['dist', 'node_modules', '.angular', 'eslint.config.mjs'],
+	},
+
 	eslint.configs.recommended,
 	...tseslint.configs.recommendedTypeChecked,
 	...tseslint.configs.stylisticTypeChecked,
+	...angular.configs.tsRecommended,
+
 	{
+		files: ['**/*.ts'],
+		processor: angular.processInlineTemplates,
 		languageOptions: {
 			parserOptions: {
 				projectService: true,
 				allowDefaultProject: ['eslint.config.mjs'],
+				tsconfigRootDir: import.meta.dirname,
 			},
 		},
-	},
-	{
-		ignores: ['eslint.config.mjs'],
-		plugins: {
-			'@stylistic': stylistic,
-		},
 		rules: {
-			"no-duplicate-imports": "error",
-			"no-self-compare": "error",
-			"no-unassigned-vars": "warn",
+			// --- Prettier Integration ---
+			'prettier/prettier': 'error',
 
-			"@typescript-eslint/consistent-indexed-object-style": "warn",
-			"default-param-last": "off",
-  			"@typescript-eslint/default-param-last": "error",
-			"@typescript-eslint/explicit-function-return-type": [
-				"error",
+			// --- Angular Specifics ---
+			'@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'ex', style: 'kebab-case' }],
+			'@angular-eslint/directive-selector': ['error', { type: 'attribute', style: 'camelCase' }],
+			'@angular-eslint/component-class-suffix': ['error', { suffixes: ['Component'] }],
+			'@angular-eslint/directive-class-suffix': ['error', { suffixes: ['Directive'] }],
+			'@angular-eslint/prefer-output-emitter-ref': 'warn',
+			'@angular-eslint/prefer-output-readonly': 'error',
+			'@angular-eslint/prefer-signals': 'warn',
+			'@angular-eslint/no-uncalled-signals': 'warn',
+			'@angular-eslint/prefer-signal-model': 'warn',
+			'@angular-eslint/prefer-inject': 'warn',
+			'@angular-eslint/prefer-host-metadata-property': 'warn',
+			'@angular-eslint/no-async-lifecycle-method': 'warn',
+			'@angular-eslint/consistent-component-styles': ['error', 'string'],
+			'@angular-eslint/contextual-decorator': 'error',
+			'@angular-eslint/no-duplicates-in-metadata-arrays': 'error',
+			'@angular-eslint/no-experimental': 'warn',
+			'@angular-eslint/no-lifecycle-call': 'error',
+			'@angular-eslint/relative-url-prefix': 'warn',
+			'@angular-eslint/sort-keys-in-type-decorator': [
+				'error',
 				{
-					"allowExpressions": true,
-					"allowTypedFunctionExpressions": true,
-					"allowHigherOrderFunctions": true,
-				}
+					Component: ['selector', 'templateUrl', 'template', 'styleUrl', 'imports', 'providers', 'host'],
+					Directive: ['selector', 'providers', 'host'],
+					Pipe: ['name', 'pure'],
+				},
 			],
-			"@typescript-eslint/member-ordering": [
-                "warn",
-                {
-                    "default": {
-                        "memberTypes": [
-                            "field",
+			'@angular-eslint/sort-lifecycle-methods': 'error',
+			'@angular-eslint/use-component-selector': 'error',
 
-                            ["get", "set"],
-							
-                            "constructor",
-							
-                            "public-instance-method",
-                            "public-decorated-method",
+			'no-duplicate-imports': 'error',
+			'no-self-compare': 'error',
+			'no-unassigned-vars': 'warn',
+			complexity: ['warn', 10], // might need adjustments
 
-                            "private-decorated-method",
-                            "private-instance-method"
-                        ],
-                    }
-                }
-            ],
-			"@typescript-eslint/method-signature-style": ["error", "property"],
-			"@typescript-eslint/require-await": "off",
-    		"@typescript-eslint/no-deprecated": "warn",
-			"@typescript-eslint/no-inferrable-types": "warn",
-			"@typescript-eslint/no-misused-promises": [
-				"error",
-				{
-					"checksVoidReturn": false
-				}
-			],
-			"@typescript-eslint/no-shadow": [
-				"error",
-				{
-					"hoist": "all"
-				}
-			],
-			"@typescript-eslint/no-unnecessary-boolean-literal-compare": "error",
-			"@typescript-eslint/no-unnecessary-condition": "warn",
-			"@typescript-eslint/no-unnecessary-qualifier": "error",
-			"@typescript-eslint/no-unnecessary-template-expression": "warn",
-			"@typescript-eslint/no-unnecessary-type-assertion": "off",
-			"@typescript-eslint/no-floating-promises": "off",
-			"@typescript-eslint/unbound-method": "off",
-			"@typescript-eslint/no-unsafe-assignment": "off",
-			"@typescript-eslint/no-unsafe-arguments": "off",
-			"no-unused-vars": "off",
-    		"@typescript-eslint/no-unused-vars": [
-				"warn",
-				{
-					"argsIgnorePattern": "^_",
-					"varsIgnorePattern": "^_",
-					"caughtErrorsIgnorePattern": "^_",
-				}
-			],
-			"no-use-before-define": "off",
-    		"@typescript-eslint/no-use-before-define": "error",
-			"@typescript-eslint/consistent-generic-constructors": "off",
+			// conflicts with ts version of these configs
+			'default-param-last': 'off',
+			'no-use-before-define': 'off',
+			'no-unused-vars': 'off',
 
-			"@stylistic/brace-style": [
-				"error",
-				"1tbs",
+			'@typescript-eslint/consistent-indexed-object-style': 'warn',
+			'@typescript-eslint/default-param-last': 'error',
+			'@typescript-eslint/explicit-function-return-type': [
+				'error',
 				{
-					"allowSingleLine": true
-				}
+					allowExpressions: true,
+					allowTypedFunctionExpressions: true,
+					allowHigherOrderFunctions: true,
+				},
 			],
-			"@stylistic/comma-dangle": ["error", "only-multiline"],
-			"@stylistic/comma-spacing": [
-				"error",
+			'@typescript-eslint/member-ordering': [
+				'warn',
 				{
-					"before": false,
-					"after": true
-				}
+					default: {
+						memberTypes: [
+							'field',
+							['get', 'set'],
+							'constructor',
+							'public-instance-method',
+							'public-decorated-method',
+							'private-decorated-method',
+							'private-instance-method',
+						],
+					},
+				},
 			],
-			"@stylistic/indent": ["error", "tab"],
-  			"@stylistic/indent-binary-ops": ["error", "tab"],
-			"@stylistic/keyword-spacing": [
-				"error",
-				{
-					"before": true,
-					"after": true,
-
-				}
-			],
-			"@stylistic/member-delimiter-style": "error",
-			"@stylistic/no-extra-semi": "error",
-			"@stylistic/no-floating-decimal": "error",
-			"@stylistic/no-mixed-spaces-and-tabs": "error",
-			"@stylistic/no-multi-spaces": "error",
-			"@stylistic/object-curly-spacing": ["error", "always"],
-			"@stylistic/quotes": ["error", "single"],
-			"@stylistic/semi": ["error", "always"],
-			"@stylistic/semi-spacing": "error",
-			"@stylistic/space-before-blocks": "error",
-			"@stylistic/space-before-function-paren": [
-				"error",
-				{
-					"anonymous": "always",
-					"named": "never",
-					"asyncArrow": "always",
-					"catch": "always",
-				}
-			],
-			"@stylistic/space-infix-ops": "error",
-			"@stylistic/space-unary-ops": "error",
-			"@stylistic/spaced-comment": ["error", "always"],
-			"@stylistic/switch-colon-spacing": "error",
-			"@stylistic/template-curly-spacing": "error",
-			"@stylistic/type-annotation-spacing": "error",
-			"@stylistic/type-generic-spacing": ["error"],
-			"@stylistic/type-named-tuple-spacing": ["error"],
+			'@typescript-eslint/method-signature-style': ['error', 'property'],
+			'@typescript-eslint/no-deprecated': 'warn',
+			'@typescript-eslint/no-inferrable-types': 'warn',
+			'@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
+			'@typescript-eslint/no-shadow': ['error', { hoist: 'all' }],
+			'@typescript-eslint/no-unnecessary-boolean-literal-compare': 'error',
+			'@typescript-eslint/no-unnecessary-condition': 'warn',
+			'@typescript-eslint/no-unnecessary-qualifier': 'error',
+			'@typescript-eslint/no-unnecessary-template-expression': 'warn',
+			'@typescript-eslint/no-use-before-define': 'error',
 		},
 	},
+
+	{
+		files: ['**/*.html'],
+		extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
+		rules: {
+			'@angular-eslint/template/no-negated-async': 'warn',
+			'@angular-eslint/template/use-track-by-function': 'warn',
+			'@angular-eslint/template/prefer-control-flow': 'warn',
+			'@angular-eslint/template/prefer-self-closing-tags': 'error',
+		},
+	},
+
+	eslintPluginPrettierRecommended,
+	eslintConfigPrettier,
 ]);

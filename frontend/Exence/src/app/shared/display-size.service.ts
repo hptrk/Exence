@@ -45,11 +45,13 @@ export class DisplaySizeService {
 
 	constructor() {
 		this.destroyRef.onDestroy(() => {
-			this.subscriptions.forEach(sub => sub.unsubscribe());
+			this.subscriptions.forEach((sub) => sub.unsubscribe());
 		});
 	}
 
-	public getObserverByName(breakpoint: DisplaySizeBreakpoint | Signal<DisplaySizeBreakpoint | undefined>): Signal<boolean> {
+	public getObserverByName(
+		breakpoint: DisplaySizeBreakpoint | Signal<DisplaySizeBreakpoint | undefined>,
+	): Signal<boolean> {
 		if (typeof breakpoint === 'function') {
 			return computed(() => {
 				const name = breakpoint();
@@ -70,9 +72,11 @@ export class DisplaySizeService {
 		const sig = signal<boolean>(initialMatch);
 
 		queueMicrotask(() => {
-			const subscription = this.breakpointObserver.observe(`(min-width: ${breakpointPx}px)`).subscribe(result => {
-				sig.set(result.matches);
-			});
+			const subscription = this.breakpointObserver
+				.observe(`(min-width: ${breakpointPx}px)`)
+				.subscribe((result) => {
+					sig.set(result.matches);
+				});
 
 			this.subscriptions.push(subscription);
 		});
