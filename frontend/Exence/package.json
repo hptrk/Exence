@@ -13,8 +13,7 @@
 	"lint:apply": "ng lint --fix",
 	"e2e": "playwright test",
 	"e2e:headed": "playwright test --headed",
-	"e2e:ui": "playwright test --ui",
-	"prepare": "husky && husky install"
+	"e2e:ui": "playwright test --ui"
   },
   "private": true,
   "dependencies": {

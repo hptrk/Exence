@@ -32,10 +32,10 @@ export class SnackbarComponent {
 
 	private animationFrameId?: number;
 
-	readonly errorType = SnackbarType.Error;
-	readonly warnType = SnackbarType.Warning;
-	readonly infoType = SnackbarType.Info;
-	readonly successType = SnackbarType.Success;
+	errorType = SnackbarType.Error;
+	warnType = SnackbarType.Warning;
+	infoType = SnackbarType.Info;
+	successType = SnackbarType.Success;
 
 	progress = signal<number>(0);
 	fadeOutStarted = signal<boolean>(false);

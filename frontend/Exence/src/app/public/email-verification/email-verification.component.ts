@@ -9,7 +9,7 @@ import { EmailVerificationRequest } from '../../data-model/modules/auth/EmailVer
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
-	selector: '',
+	selector: 'ex-email-verification',
 	template: `
 		<mat-card class="d-flex flex-column justify-content-center align-items-center gap-4 p-5">
 			<mat-card-content class="d-flex flex-row flex-nowrap gap-4 w-100 p-0">
@@ -41,11 +41,12 @@ export class EmailVerificationComponent implements OnInit {
 	private readonly authService = inject(AuthService);
 	private readonly snackbarService = inject(SnackbarService);
 
-	async ngOnInit(): Promise<void> {
+	ngOnInit(): void {
 		const token = this.router.routerState.root.snapshot.queryParams['token'];
 		const request: EmailVerificationRequest = { token };
-		await this.authService.verifyEmail(request);
-		this.snackbarService.showSuccess('Email successfully verified!');
+		this.authService.verifyEmail(request).then(() => {
+			this.snackbarService.showSuccess('Email successfully verified!');
+		});
 	}
 
 	navigateToLogin(): void {

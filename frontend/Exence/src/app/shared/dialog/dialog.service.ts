@@ -289,7 +289,7 @@ export class DialogService extends BaseComponent {
 			disableClose: true | { defaultValue: O };
 		},
 	): Promise<O> {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			let matDialogRef: MatDialogRef<any> | undefined;
 			const locked = settings.disableClose === true;
 

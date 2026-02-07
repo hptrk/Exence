@@ -15,7 +15,7 @@ export const enum SnackbarType {
 export class SnackbarService {
 	private readonly snackbar = inject(MatSnackBar);
 
-	private readonly snackbarConfig: MatSnackBarConfig<SimpleSnackBar> = {
+	private snackbarConfig: MatSnackBarConfig<SimpleSnackBar> = {
 		panelClass: 'custom-snackbar',
 		duration: SNACKBAR_DISMISS_DURATION,
 		horizontalPosition: 'right',

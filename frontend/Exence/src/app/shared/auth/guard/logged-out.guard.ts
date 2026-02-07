@@ -16,9 +16,9 @@ export const loggedOutGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => 
 
 	/* eslint-disable */
 	return toObservable(currentUserService.user).pipe(
-		filter((user) => user !== null),
+		filter(user => user !== null),
 		take(1),
-		map((user) => {
+		map(user => {
 			if (user && currentUserService.isAuthenticated()) {
 				router.navigate([navigationService.private().index()]);
 				return false;

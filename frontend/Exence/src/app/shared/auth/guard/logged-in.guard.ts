@@ -12,9 +12,9 @@ export const loggedInGuard: CanActivateFn = (_route: ActivatedRouteSnapshot, sta
 
 	/* eslint-disable */
 	return toObservable(currentUserService.user).pipe(
-		filter((user) => user !== null),
+		filter(user => user !== null),
 		take(1),
-		map((user) => {
+		map(user => {
 			if (user && currentUserService.isAuthenticated()) {
 				return true;
 			} else {

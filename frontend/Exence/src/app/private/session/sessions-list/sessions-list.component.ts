@@ -20,8 +20,8 @@ export class SessionsListComponent implements OnInit {
 	otherSessions = signal<DeviceSession[]>([]);
 	currentSession = signal<DeviceSession | undefined>(undefined);
 
-	async ngOnInit(): Promise<void> {
-		await this.initialize();
+	ngOnInit(): void {
+		this.initialize();
 	}
 
 	async deleteSession(sessionId?: string): Promise<void> {
@@ -39,8 +39,8 @@ export class SessionsListComponent implements OnInit {
 
 	private async initialize(): Promise<void> {
 		return Promise.all([this.sessionService.list()]).then(([sessions]) => {
-			this.otherSessions.set(sessions.filter((session) => !session.currentSession));
-			this.currentSession.set(sessions.find((session) => session.currentSession));
+			this.otherSessions.set(sessions.filter(session => !session.currentSession));
+			this.currentSession.set(sessions.find(session => session.currentSession));
 		});
 	}
 }

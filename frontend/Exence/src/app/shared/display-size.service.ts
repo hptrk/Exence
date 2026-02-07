@@ -45,7 +45,7 @@ export class DisplaySizeService {
 
 	constructor() {
 		this.destroyRef.onDestroy(() => {
-			this.subscriptions.forEach((sub) => sub.unsubscribe());
+			this.subscriptions.forEach(sub => sub.unsubscribe());
 		});
 	}
 
@@ -72,11 +72,9 @@ export class DisplaySizeService {
 		const sig = signal<boolean>(initialMatch);
 
 		queueMicrotask(() => {
-			const subscription = this.breakpointObserver
-				.observe(`(min-width: ${breakpointPx}px)`)
-				.subscribe((result) => {
-					sig.set(result.matches);
-				});
+			const subscription = this.breakpointObserver.observe(`(min-width: ${breakpointPx}px)`).subscribe(result => {
+				sig.set(result.matches);
+			});
 
 			this.subscriptions.push(subscription);
 		});

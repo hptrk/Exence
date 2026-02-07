@@ -5,9 +5,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @Component({
 	selector: 'ex-view-toggle',
-	imports: [MatButtonToggleModule, CommonModule, FormsModule],
 	templateUrl: './view-toggle.component.html',
 	styleUrl: './view-toggle.component.scss',
+	imports: [MatButtonToggleModule, CommonModule, FormsModule],
 })
 export class ViewToggleComponent {
 	public selectedView = 'year';

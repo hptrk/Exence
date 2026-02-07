@@ -69,7 +69,7 @@ export class HttpService {
 
 	private call<T>(response: Observable<HttpResponse<string>>, settings: HttpSettings): Observable<T> {
 		return response.pipe(
-			map((resp) => this.parseResponse<T>(resp)!),
+			map(resp => this.parseResponse<T>(resp)!),
 			catchError((err: HttpErrorResponse) => {
 				this.errorService.handleError(err, settings);
 				return throwError(() => err);

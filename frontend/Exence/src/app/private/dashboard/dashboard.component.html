@@ -24,7 +24,7 @@
 					<ng-container [ngTemplateOutlet]="toggleFilter" />
 				</div>
 			} -->
-			<!-- eslint-disable-next-line -->
+
 			<ex-chart [data]="transactions().content ?? []" />
 			<ex-categories
 				class="h-100"
@@ -35,7 +35,7 @@
 		</div>
 
 		@if (display.isMd()) {
-			<div class="d-flex flex-row align-items-center gap-4" ex-card-slider>
+			<div class="d-flex flex-row align-items-center gap-4" cardSlider>
 				<ex-summary-container
 					class="flex-grow-1"
 					matIcon="attach_money"

@@ -7,6 +7,6 @@
 	"semi": true,
 	"trailingComma": "all",
 	"bracketSpacing": true,
-	"allowParens": "avoid",
+	"arrowParens": "avoid",
 	"singleAttributePerLine": false
 }

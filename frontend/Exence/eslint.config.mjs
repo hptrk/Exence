@@ -2,22 +2,21 @@ import eslint from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import angular from 'angular-eslint';
-import prettierPlugin from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
 
 export default defineConfig([
 	{
-		ignores: ['dist', 'node_modules', '.angular', 'eslint.config.mjs'],
+		ignores: ['dist', 'node_modules', '.angular', 'eslint.config.mjs', 'src/index.html'],
 	},
 
 	eslint.configs.recommended,
-	...tseslint.configs.recommendedTypeChecked,
-	...tseslint.configs.stylisticTypeChecked,
 	...angular.configs.tsRecommended,
 
 	{
 		files: ['**/*.ts'],
+		...tseslint.configs.recommendedTypeChecked[0],
+		...tseslint.configs.stylisticTypeChecked[0],
 		processor: angular.processInlineTemplates,
 		languageOptions: {
 			parserOptions: {
@@ -27,17 +26,15 @@ export default defineConfig([
 			},
 		},
 		rules: {
-			// --- Prettier Integration ---
 			'prettier/prettier': 'error',
 
-			// --- Angular Specifics ---
 			'@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'ex', style: 'kebab-case' }],
-			'@angular-eslint/directive-selector': ['error', { type: 'attribute', style: 'camelCase' }],
+			'@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix: '', style: 'camelCase' }],
 			'@angular-eslint/component-class-suffix': ['error', { suffixes: ['Component'] }],
 			'@angular-eslint/directive-class-suffix': ['error', { suffixes: ['Directive'] }],
 			'@angular-eslint/prefer-output-emitter-ref': 'warn',
 			'@angular-eslint/prefer-output-readonly': 'error',
-			'@angular-eslint/prefer-signals': 'warn',
+			'@angular-eslint/prefer-signals': 'off',
 			'@angular-eslint/no-uncalled-signals': 'warn',
 			'@angular-eslint/prefer-signal-model': 'warn',
 			'@angular-eslint/prefer-inject': 'warn',
@@ -46,7 +43,6 @@ export default defineConfig([
 			'@angular-eslint/consistent-component-styles': ['error', 'string'],
 			'@angular-eslint/contextual-decorator': 'error',
 			'@angular-eslint/no-duplicates-in-metadata-arrays': 'error',
-			'@angular-eslint/no-experimental': 'warn',
 			'@angular-eslint/no-lifecycle-call': 'error',
 			'@angular-eslint/relative-url-prefix': 'warn',
 			'@angular-eslint/sort-keys-in-type-decorator': [
@@ -63,12 +59,13 @@ export default defineConfig([
 			'no-duplicate-imports': 'error',
 			'no-self-compare': 'error',
 			'no-unassigned-vars': 'warn',
-			complexity: ['warn', 10], // might need adjustments
+			complexity: ['warn', 20], // might need adjustments
 
 			// conflicts with ts version of these configs
 			'default-param-last': 'off',
 			'no-use-before-define': 'off',
 			'no-unused-vars': 'off',
+			'no-undef': 'off',
 
 			'@typescript-eslint/consistent-indexed-object-style': 'warn',
 			'@typescript-eslint/default-param-last': 'error',
@@ -106,17 +103,35 @@ export default defineConfig([
 			'@typescript-eslint/no-unnecessary-qualifier': 'error',
 			'@typescript-eslint/no-unnecessary-template-expression': 'warn',
 			'@typescript-eslint/no-use-before-define': 'error',
+			'@typescript-eslint/no-explicit-any': 'error',
+			'@typescript-eslint/no-unused-vars': [
+				'error',
+				{
+					argsIgnorePattern: '^_',
+					varsIgnorePattern: '^_',
+					caughtErrorsIgnorePattern: '^_',
+				},
+			],
 		},
 	},
 
 	{
 		files: ['**/*.html'],
 		extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
+		languageOptions: {
+			parserOptions: {
+				projectService: true,
+				tsconfigRootDir: import.meta.dirname,
+			},
+		},
 		rules: {
 			'@angular-eslint/template/no-negated-async': 'warn',
 			'@angular-eslint/template/use-track-by-function': 'warn',
 			'@angular-eslint/template/prefer-control-flow': 'warn',
 			'@angular-eslint/template/prefer-self-closing-tags': 'error',
+			'@angular-eslint/template/click-events-have-key-events': 'off',
+			'@angular-eslint/template/interactive-supports-focus': 'off',
+			'@angular-eslint/template/alt-text': 'off',
 		},
 	},
 

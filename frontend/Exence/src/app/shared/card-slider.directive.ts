@@ -1,7 +1,7 @@
 import { AfterViewInit, booleanAttribute, DestroyRef, Directive, ElementRef, inject, input } from '@angular/core';
 
 @Directive({
-	selector: '[ex-card-slider]',
+	selector: '[cardSlider]',
 })
 export class CardSliderDirective implements AfterViewInit {
 	private elementRef = inject(ElementRef<HTMLElement>);
@@ -42,7 +42,7 @@ export class CardSliderDirective implements AfterViewInit {
 		const gap = parseFloat(computedStyle.gap) || 0;
 
 		let minWidthForNoScroll = 0;
-		children.forEach((child) => {
+		children.forEach(child => {
 			const childStyle = window.getComputedStyle(child);
 			const minWidth = parseFloat(childStyle.minWidth) || child.offsetWidth;
 			minWidthForNoScroll += minWidth;
@@ -68,7 +68,7 @@ export class CardSliderDirective implements AfterViewInit {
 
 		if (this.isOverFlowing && !canFitNaturally) {
 			el.classList.add(...classes);
-			children.forEach((c) => {
+			children.forEach(c => {
 				if (this.shortCards()) {
 					(c as HTMLElement).style.minWidth = '90%';
 				} else {
@@ -77,7 +77,7 @@ export class CardSliderDirective implements AfterViewInit {
 			});
 		} else {
 			el.classList.remove(...classes);
-			children.forEach((c) => {
+			children.forEach(c => {
 				(c as HTMLElement).style.flex = '1 1 0';
 				(c as HTMLElement).style.minWidth = 'auto';
 			});

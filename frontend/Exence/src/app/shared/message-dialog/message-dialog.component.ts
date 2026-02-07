@@ -39,7 +39,7 @@ export class MessageDialogButtonConfig {
 	public static delete = new MessageDialogButtonConfig(PredefiedButtons.DELETE);
 	public static deleteCancel = new MessageDialogButtonConfig(PredefiedButtons.CANCEL, PredefiedButtons.DELETE);
 
-	readonly buttons: MessageDialogButtonData[];
+	buttons: MessageDialogButtonData[];
 	constructor(...buttons: MessageDialogButtonData[]) {
 		this.buttons = buttons;
 	}

@@ -14,7 +14,6 @@ let refreshTokenInProgress: Promise<void> | null = null;
 function startTokenRefresh(authService: AuthService): Promise<void> {
 	console.warn('Access token expired. Requesting new access token!');
 
-	// eslint-disable-next-line
 	refreshTokenInProgress = authService
 		.refreshToken()
 		.then(() => {})

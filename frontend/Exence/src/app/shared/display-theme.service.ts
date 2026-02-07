@@ -27,8 +27,8 @@ export class DisplayThemeService {
 	readonly themeChangedEvent = new EventEmitter<void>();
 
 	private _preferredThemes: Record<'primary' | 'secondary', ThemeData> = {
-		primary: themes.find((t) => t.name === DisplayTheme.DARK)!,
-		secondary: themes.find((t) => t.name === DisplayTheme.BLUE_DOLPHIN)!,
+		primary: themes.find(t => t.name === DisplayTheme.DARK)!,
+		secondary: themes.find(t => t.name === DisplayTheme.BLUE_DOLPHIN)!,
 	};
 
 	get currentTheme(): DisplayTheme {
@@ -46,9 +46,7 @@ export class DisplayThemeService {
 	public toggleTheme(): void {
 		const currentTheme = this.displayThemeSignal();
 		const preferredThemes = this._preferredThemes;
-		const currentIsPreferred = !!Object.values(preferredThemes).find(
-			(themeData) => themeData.name === currentTheme,
-		);
+		const currentIsPreferred = !!Object.values(preferredThemes).find(themeData => themeData.name === currentTheme);
 
 		if (currentIsPreferred && currentTheme === preferredThemes.primary.name) {
 			this.setTheme(preferredThemes.secondary.name);
@@ -61,8 +59,8 @@ export class DisplayThemeService {
 	// used later in profile settings
 	public setPreferredThemes(primary: DisplayTheme, secondary: DisplayTheme): void {
 		// will be implemented with a mat-select so it can't be anything else
-		this._preferredThemes.primary = themes.find((t) => t.name === primary)!;
-		this._preferredThemes.secondary = themes.find((t) => t.name === secondary)!;
+		this._preferredThemes.primary = themes.find(t => t.name === primary)!;
+		this._preferredThemes.secondary = themes.find(t => t.name === secondary)!;
 	}
 
 	public setInitialTheme(): void {
@@ -86,12 +84,12 @@ export class DisplayThemeService {
 
 	private setCssClassForHtmlElement(themeData: ThemeData): void {
 		const htmlElement = document.getElementsByTagName('html')[0];
-		themes.forEach((t) => htmlElement.classList.remove(t.cssClass));
+		themes.forEach(t => htmlElement.classList.remove(t.cssClass));
 		htmlElement.classList.add(themeData.cssClass);
 	}
 
 	private getThemeDataByName(name: DisplayTheme | null): ThemeData | null {
-		return themes.find((a) => a.name === name) ?? null;
+		return themes.find(a => a.name === name) ?? null;
 	}
 
 	private getDefaultThemeData(): ThemeData {

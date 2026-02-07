@@ -18,15 +18,15 @@ import {
 @Component({
 	selector: 'ex-chart',
 	templateUrl: './chart.component.html',
-	styleUrls: ['./chart.component.scss'],
+	styleUrl: './chart.component.scss',
 	imports: [BaseChartDirective],
 })
 export class ChartComponent extends BaseComponent {
 	private themeService = inject(DisplayThemeService);
 
-	data = input.required<Transaction[]>();
-
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
+
+	data = input.required<Transaction[]>();
 
 	lineChartType: ChartType = 'line';
 	balanceData = computed(() => {
@@ -35,7 +35,7 @@ export class ChartComponent extends BaseComponent {
 		if (!sortedData.length) return [];
 
 		let currentBalance = 0;
-		return sortedData.map((transaction) => {
+		return sortedData.map(transaction => {
 			if (transaction.type === TransactionType.INCOME) {
 				currentBalance += transaction.amount;
 			} else {
@@ -47,7 +47,7 @@ export class ChartComponent extends BaseComponent {
 	chartLabels = computed(() =>
 		this.data()
 			.sort((a, b) => a.date.localeCompare(b.date))
-			.map((transaction) => format(new Date(transaction.date), 'dd/MM')),
+			.map(transaction => format(new Date(transaction.date), 'dd/MM')),
 	);
 	lineChartData = signal<ChartData<'line'>>(getLineChartData());
 	lineChartOptions = signal<ChartConfiguration['options']>(getLineChartOptions()); // colors, font style, etc.

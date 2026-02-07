@@ -9,7 +9,6 @@ import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { DisplayThemeService } from '../../shared/display-theme.service';
-import { NavButtonDirective } from '../../shared/nav-button/nav-button.directive';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 
 @Component({
@@ -23,7 +22,6 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 		MatListModule,
 		MatIconModule,
 		MatMenuModule,
-		NavButtonDirective,
 		ButtonComponent,
 	],
 })

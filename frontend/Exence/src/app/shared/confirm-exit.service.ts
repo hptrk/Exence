@@ -23,7 +23,7 @@ export class ConfirmExitService {
 	}
 
 	hasChanges(): boolean {
-		return Array.from(this.trackedForms).some((form) => form.dirty);
+		return Array.from(this.trackedForms).some(form => form.dirty);
 	}
 
 	async showConfirmDialog(): Promise<boolean> {

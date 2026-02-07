@@ -19,7 +19,7 @@ export class ThemeApplierDirective extends BaseComponent {
 			const currentTheme = this.themeService.currentTheme;
 			const preferredThemes = this.themeService.preferredThemes;
 			const currentIsPreferred = !!Object.values(preferredThemes).find(
-				(themeData) => themeData.name === currentTheme,
+				themeData => themeData.name === currentTheme,
 			);
 
 			if (!currentIsPreferred || currentTheme === preferredThemes.secondary.name) {
@@ -27,7 +27,7 @@ export class ThemeApplierDirective extends BaseComponent {
 				if (this.previousTheme) {
 					this.renderer.removeClass(
 						this.element.nativeElement,
-						themes.find((t) => t.name === this.previousTheme)!.cssClass,
+						themes.find(t => t.name === this.previousTheme)!.cssClass,
 					);
 				}
 				this.renderer.addClass(this.element.nativeElement, preferredThemes.secondary.cssClass);

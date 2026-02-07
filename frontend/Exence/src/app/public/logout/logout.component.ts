@@ -6,6 +6,7 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 
 @Component({
+	selector: 'ex-logout',
 	template: `
 		<mat-progress-spinner
 			[diameter]="150"
@@ -13,7 +14,7 @@ import { CurrentUserService } from '../../shared/user/current-user.service';
 			defaultColor="accent"
 			color="primary"
 			[mode]="'indeterminate'"
-		></mat-progress-spinner>
+		/>
 	`,
 	imports: [MatProgressSpinner],
 })
