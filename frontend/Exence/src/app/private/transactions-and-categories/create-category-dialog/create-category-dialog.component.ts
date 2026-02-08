@@ -16,6 +16,9 @@ import { StopPropagationDirective } from '../../../shared/stop-propagation.direc
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryStore } from '../category.store';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { CategoryType } from '../../../data-model/modules/category/CategoryType';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -27,12 +30,15 @@ import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.
 		MatInputModule,
 		MatMenuModule,
 		MatIconModule,
+		MatButtonToggleModule,
 		PickerComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
 		DialogCardComponent,
 		AutoTrimDirective,
+		ConfirmExitDialogDirective,
+		EnumValuePipe,
 		StopPropagationDirective,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
@@ -44,9 +50,12 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, vo
 	
 	data = this.dialogRef.value;
 
+	categoryTypes = CategoryType;
+
 	form = this.fb.group({
 		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		emoji: this.fb.control<string>('', [Validators.required]),
+		type: this.fb.control<CategoryType>(CategoryType.EXPENSE, [Validators.required]),
 		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
 
@@ -73,6 +82,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, vo
 		const request: Category = {
 			name: formValue.name,
 			emoji: formValue.emoji,
+			type: formValue.type,
 			note: formValue.note,
 		};
 		this.store.createCategory(request);

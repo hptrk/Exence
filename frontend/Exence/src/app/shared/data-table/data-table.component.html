@@ -1,7 +1,7 @@
 <ng-container [ngTemplateOutlet]="loader" />
 
 <div class="table-container grid-mode">
-	<div class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2 w100">
+	<div class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2">
 		<h3 class="d-flex align-items-center gap-2">
 			<span class="highlighted-icon">
 				@if (svgIcon()) {
@@ -20,7 +20,7 @@
 		/>
 	</div>
 	@if (!emptyTableData) {
-		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1"
+		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1 table-container"
 			#scrollContainer
 			infiniteScroll
 			[infiniteScrollDistance]="2"
@@ -375,6 +375,25 @@
 							>
 								<div class="table-row-item justify-content-start">
 									{{ row.emoji }}
+								</div>
+							</td>
+						</ng-container>
+
+						<ng-container matColumnDef="type">
+							<th
+								mat-header-cell
+								*matHeaderCellDef
+							>
+								@if (display.isSm()) {
+									<div class="text-start">Type</div>
+								}
+							</th>
+							<td
+								mat-cell
+								*matCellDef="let row"
+							>
+								<div class="table-row-item justify-content-start">
+									{{ row.type }}
 								</div>
 							</td>
 						</ng-container>

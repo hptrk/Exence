@@ -8,6 +8,7 @@ import com.exence.finance.common.annotations.ValidColor;
 import com.exence.finance.common.annotations.ValidMaterialIcon;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,9 @@ public class CategoryDTO {
 
     @ValidColor(message = "Color is required and must be a valid hex color code")
     private String color;
+
+    @NotNull(message = "Category type is required")
+    private CategoryType type;
 
     @Size(
             max = CATEGORY_NOTE_MAX_LENGTH,

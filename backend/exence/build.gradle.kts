@@ -1,6 +1,7 @@
 plugins {
     java
     checkstyle
+    jacoco
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.spotless)
@@ -123,4 +124,48 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy(tasks.named("jacocoTestReport"))
 }
+
+// JaCoCo configuration for code coverage
+tasks.named<JacocoReport>("jacocoTestReport") {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
+
+    val excludes = listOf(
+        "**/dto/**",
+        "**/entity/**",
+        "**/config/**",
+        "**/ExenceApplication.class",
+        "**/*MapperImpl.class",
+        "**/Q*.class"
+    )
+
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            exclude(excludes)
+        }
+    )
+}
+
+tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    dependsOn(tasks.named("jacocoTestReport"))
+
+    violationRules {
+        rule {
+            enabled = true
+            limit {
+                minimum = "0.70".toBigDecimal()
+            }
+        }
+    }
+}
+
+// we don't want to fail the build on low coverage yet
+//tasks.check {
+//    dependsOn(tasks.named("jacocoTestCoverageVerification"))
+//}
+

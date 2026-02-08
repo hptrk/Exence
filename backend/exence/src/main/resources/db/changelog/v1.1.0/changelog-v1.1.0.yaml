@@ -8,6 +8,14 @@ databaseChangeLog:
       relativeToChangelogFile: true
 
   - include:
+      file: add-type-to-category.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: change-transaction-type-size.yaml
+      relativeToChangelogFile: true
+  
+  - include:
       file: migrate-from-emoji-to-icon.yaml
       relativeToChangelogFile: true
 
