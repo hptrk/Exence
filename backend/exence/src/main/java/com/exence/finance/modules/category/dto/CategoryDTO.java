@@ -5,7 +5,6 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_M
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
 
 import com.exence.finance.common.annotations.ValidColor;
-import com.exence.finance.common.annotations.ValidMaterialIcon;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -43,8 +42,8 @@ public class CategoryDTO {
                     + " characters")
     private String name;
 
-    @ValidMaterialIcon(message = "Material icon is required and must be valid")
-    private String icon;
+    @NotNull(message = "Icon is required")
+    private MaterialIcon icon;
 
     @ValidColor(message = "Color is required and must be a valid hex color code")
     private String color;

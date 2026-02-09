@@ -11,8 +11,6 @@ import com.exence.finance.modules.category.dto.MaterialIcon;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -71,7 +69,6 @@ public class Category extends BaseAuditableEntity {
     @NotNull
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "type", nullable = false)
-    @Enumerated(EnumType.STRING)
     private CategoryType type;
 
     @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
