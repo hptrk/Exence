@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -20,6 +20,7 @@ import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.
 import { CategoryService } from '../category.service';
 import { TransactionStore } from '../transaction.store';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
+import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -43,8 +44,9 @@ export interface CreateTransactionDialogData {
 		DialogCardComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
-		EnumValuePipe
-],
+		EnumValuePipe,
+		SelectAutoFocusDirective,
+	],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void> implements OnInit {
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -79,6 +81,8 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 			category.name.toLowerCase().includes(search.toLowerCase())
 		);
 	});
+
+	categorySearchRef = viewChild<ElementRef<HTMLInputElement>>('searchCategoryInput');
 
 	async ngOnInit(): Promise<void> {
 		this.categories.set(await this.categoryService.list());
