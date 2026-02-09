@@ -115,7 +115,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
 	}
 
-	onScroll(): void {
-		this.transactionStore.loadNextPage();
+	onScroll(type?: TransactionType, recurring?: boolean): void {
+		this.transactionStore.loadNextPage(type, recurring);
 	} 
 }
