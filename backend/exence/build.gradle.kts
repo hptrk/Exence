@@ -138,19 +138,20 @@ tasks.named<JacocoReport>("jacocoTestReport") {
         html.required.set(true)
     }
 
-    val excludes = listOf(
-        "**/dto/**",
-        "**/entity/**",
-        "**/config/**",
-        "**/ExenceApplication.class",
-        "**/*MapperImpl.class",
-        "**/Q*.class"
-    )
+    val excludes =
+        listOf(
+            "**/dto/**",
+            "**/entity/**",
+            "**/config/**",
+            "**/ExenceApplication.class",
+            "**/*MapperImpl.class",
+            "**/Q*.class",
+        )
 
     classDirectories.setFrom(
         sourceSets.main.get().output.asFileTree.matching {
             exclude(excludes)
-        }
+        },
     )
 }
 
@@ -168,7 +169,6 @@ tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
 }
 
 // we don't want to fail the build on low coverage yet
-//tasks.check {
+// tasks.check {
 //    dependsOn(tasks.named("jacocoTestCoverageVerification"))
-//}
-
+// }
