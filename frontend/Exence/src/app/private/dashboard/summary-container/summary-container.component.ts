@@ -28,7 +28,6 @@ export class SummaryContainerComponent {
 
 	svgIcon = input<SvgIcons>();
 	matIcon = input<string>();
-	emoji = input<string>();
 	type = input<TransactionType>();
 	value = input.required<number>();
 	title = input.required<string>();

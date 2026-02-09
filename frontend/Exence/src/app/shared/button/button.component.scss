@@ -67,6 +67,16 @@ $predefinedColors: (
 	}
 }
 
+button.has-custom-color {
+	--mat-button-filled-label-text-color: var(--custom-color);
+	--mat-button-filled-container-color: color-mix(in srgb, var(--custom-color), transparent 60%);
+
+	--mat-button-outlined-label-text-color: var(--custom-color);
+	--mat-button-outlined-outline-color: color-mix(in srgb, var(--custom-color) , transparent 60%);
+	
+	--mat-button-text-label-text-color: var(--custom-color);
+}
+
 .collapsed {
 	min-width: 40px;
 
@@ -74,6 +84,8 @@ $predefinedColors: (
 	--mat-button-outlined-horizontal-padding: 0.5rem;
 	--mat-button-text-horizontal-padding: 0.5rem;
 }
+
+button { width: 100%; }
 
 button.has-icon:not(.collapsed) {
 	padding: 0 24px;
@@ -85,8 +97,8 @@ button.has-icon.icon-position-end:not(.collapsed) {
 	padding-right: 16px;
 }
 
-.text-nowrap {
-	white-space: nowrap;
+button.has-icon.primary-icon-button {
+	--mat-button-filled-container-height: 100%;
+	padding: 0;
+	min-width: 0;
 }
-
-button { width: 100%; }

@@ -7,10 +7,8 @@
 					size="xl"
 					[svgIcon]="svgIcon()!"
 				/>
-			} @else if (matIcon()) {
-				<mat-icon size="xl">{{ matIcon() }}</mat-icon>
 			} @else {
-				<div class="emoji">{{ emoji() }}</div>
+				<mat-icon size="xl">{{ matIcon() }}</mat-icon>
 			}
 		</div>
 	</mat-card-header>

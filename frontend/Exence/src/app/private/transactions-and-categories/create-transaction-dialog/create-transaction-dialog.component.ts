@@ -20,6 +20,7 @@ import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.
 import { CategoryService } from '../category.service';
 import { TransactionStore } from '../transaction.store';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
+import { MatIconModule } from '@angular/material/icon';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -37,6 +38,7 @@ export interface CreateTransactionDialogData {
 		MatSelectModule,
 		MatDatepickerModule,
 		MatCheckboxModule,
+		MatIconModule,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
@@ -44,7 +46,7 @@ export interface CreateTransactionDialogData {
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
 		EnumValuePipe
-],
+	],
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void> implements OnInit {
 	private readonly fb = inject(NonNullableFormBuilder);

@@ -1,7 +1,11 @@
+import { CategoryType } from './CategoryType';
+import { MaterialIcon } from './MaterialIcon';
+
 export interface Category {
 	id?: number;
-	type: string;
+	type: CategoryType;
 	name: string;
-	emoji: string;
+	icon: MaterialIcon;
+	color: string;
 	note?: string;
 }

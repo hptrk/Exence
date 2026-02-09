@@ -16,6 +16,7 @@ import { SvgIcons } from '../svg-icons/svg-icons';
 	],
 	host: {
 		'[class.disabled]': 'disabled()',
+		'[style.--custom-color]': 'customColor()'
 	},
 })
 export class ButtonComponent {
@@ -24,6 +25,7 @@ export class ButtonComponent {
 	disabled = input<boolean>(false);
 	type = input<'button' | 'submit' | 'reset'>('button');
 	color = input<'primary' | 'accent' | 'success' | 'error' | 'warn'>('primary');
+	customColor = input<string>(); // this wins over color
 
 	collapsedStyle = input<'text' | 'outlined' | 'filled'>('filled');
 	collapseUnder = input<DisplaySizeBreakpoint>();
@@ -31,6 +33,7 @@ export class ButtonComponent {
 	shouldNotCollapse = this.display.getObserverByName(this.collapseUnder);
 
 	iconButton = input(false, { transform: booleanAttribute });
+	primaryIconButton = input(false, { transform: booleanAttribute });
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
 

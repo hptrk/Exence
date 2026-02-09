@@ -93,7 +93,7 @@ export class DataTableComponent extends BaseComponent {
 	onScroll = output<number>();
 
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
-	displayedCategoryColumns = ['name', 'emoji', 'type', 'actions'];
+	displayedCategoryColumns = ['name', 'icon', 'type', 'actions'];
 
 	expandedElement: Transaction | null = null;
 

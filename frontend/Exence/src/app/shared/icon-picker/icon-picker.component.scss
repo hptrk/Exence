@@ -1,0 +1,47 @@
+@import "../../../styles/imports.scss";
+
+.menu-btn {
+	display: block;
+	height: 55px;
+	width: 55px;
+	--mat-button-filled-container-shape: 10px;
+}
+
+.menu {
+	max-height: 400px;
+}
+
+ul {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(24px, 1fr));
+	gap: 0.5rem;
+}
+
+li {
+	list-style-type: none;
+	cursor: pointer;
+}
+
+.color-square {
+	width: 35px;
+	height: 35px;
+	border-radius: 10px;
+	cursor: pointer;
+
+	&.selected {
+		outline: 2px solid #fff; // TODO create outline variable
+		outline-offset: 1px;
+	}
+}
+
+.custom-color {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+}
+
+.color-picker {
+	width: 0;
+	height: 0;
+}
