@@ -244,9 +244,9 @@ export const TransactionStore = signalStore(
 			effect(() => merge('transactions', store.transactionResource, store.pages.transaction()));
 			effect(() => merge('incomes', store.incomeResource, store.pages.income()));
 			effect(() => merge('expenses', store.expenseResource, store.pages.expense()));
-			effect(() => merge('recurrings', store.expenseResource, store.pages.recurring()));
-			effect(() => merge('recurringIncomes', store.expenseResource, store.pages.recurringIncome()));
-			effect(() => merge('recurringExpenses', store.expenseResource, store.pages.recurringExpense()));
+			effect(() => merge('recurrings', store.recurringResource, store.pages.recurring()));
+			effect(() => merge('recurringIncomes', store.recurringIncomeResource, store.pages.recurringIncome()));
+			effect(() => merge('recurringExpenses', store.recurringExpenseResource, store.pages.recurringExpense()));
 		}
 	}),
 );
