@@ -99,13 +99,6 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 		}));
 	}
 
-	focusCategorySearch(): void {
-		const input = this.categorySearchRef()?.nativeElement;
-		if (input) {
-			setTimeout(() => input.focus(), 0);
-		}
-	}
-
 	close(): void {
 		this.dialogRef.close();
 	}
