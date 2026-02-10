@@ -98,13 +98,15 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		return !!this.categoryStore.categoryResource.value();
 	}
 
-	async ngOnInit(): Promise<void> {
+	ngOnInit(): void {
 		this.transactionStore.resetState();
 
-		this.addSubscription(this.transactionFilterForm.valueChanges.subscribe(async (newFilters) => {
-			if (this.transactionFilterForm.invalid) return;
-			this.transactionStore.updateFilters(newFilters as TransactionFilter);
-		}));
+		this.addSubscription(
+			this.transactionFilterForm.valueChanges.subscribe(newFilters => {
+				if (this.transactionFilterForm.invalid) return;
+				this.transactionStore.updateFilters(newFilters as TransactionFilter);
+			}),
+		);
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
@@ -117,5 +119,5 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 
 	onScroll(type?: TransactionType, recurring?: boolean): void {
 		this.transactionStore.loadNextPage(type, recurring);
-	} 
+	}
 }

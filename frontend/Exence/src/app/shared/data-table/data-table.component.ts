@@ -1,6 +1,18 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, computed, effect, ElementRef, inject, input, output, viewChild } from '@angular/core';
+import {
+	booleanAttribute,
+	Component,
+	computed,
+	effect,
+	ElementRef,
+	inject,
+	input,
+	output,
+	signal,
+	viewChild,
+	WritableSignal,
+} from '@angular/core';
 import { FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -33,6 +45,8 @@ import { ValidatorComponent } from '../validator/validator.component';
 
 @Component({
 	selector: 'ex-data-table',
+	templateUrl: './data-table.component.html',
+	styleUrl: './data-table.component.scss',
 	imports: [
 		MatCardModule,
 		MatTableModule,
@@ -53,8 +67,6 @@ import { ValidatorComponent } from '../validator/validator.component';
 		StopPropagationDirective,
 		InfiniteScrollDirective,
 	],
-	templateUrl: './data-table.component.html',
-	styleUrl: './data-table.component.scss',
 	// TODO remove deprecated angular animations
 	/* eslint-disable */
 	animations: [
@@ -65,7 +77,6 @@ import { ValidatorComponent } from '../validator/validator.component';
 			transition('expanded => collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
 		]),
 	],
-	/* eslint-enable */
 })
 export class DataTableComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -73,7 +84,7 @@ export class DataTableComponent extends BaseComponent {
 	private readonly transactionStore = inject(TransactionStore);
 	readonly display = inject(DisplaySizeService);
 	readonly categoryStore = inject(CategoryStore);
-	
+
 	private scrollContainer = viewChild<ElementRef<HTMLElement>>('scrollContainer');
 
 	noteForm!: FormGroup;
@@ -88,7 +99,7 @@ export class DataTableComponent extends BaseComponent {
 	type = input<TransactionType | 'category'>();
 	isRecurring = input<boolean | undefined>();
 	nonExpandable = input(false, { transform: booleanAttribute });
-	
+
 	dataChangedEvent = output<void>();
 	onScroll = output<number>();
 
@@ -99,7 +110,9 @@ export class DataTableComponent extends BaseComponent {
 
 	transactionTypes = TransactionType;
 
-	transactionDataSource?: MatTableDataSource<TransactionModel>;
+	transactionDataSource: WritableSignal<MatTableDataSource<TransactionModel>> = signal(
+		new MatTableDataSource<TransactionModel>(),
+	);
 	categoryDataSource?: MatTableDataSource<Category>;
 	pageSize?: number;
 	pageIndex = 0;
@@ -110,19 +123,27 @@ export class DataTableComponent extends BaseComponent {
 	// currentlyEditedRow = signal<number | undefined>(undefined);
 
 	emptyTransactionTable = computed(() => {
-		if (this.type() === this.transactionTypes.EXPENSE && this.isRecurring())
-			console.log(this.transactionStore.data.recurringExpenses().content?.length, this.transactions()?.content?.length, !this.transactionDataSource?.data.length,  !this.transactionStore.data.transactions.content?.length, !this.transactionStore.transactionResource.isLoading())
-		return !this.transactions()?.content?.length || (!this.transactionDataSource?.data.length && !this.transactionStore.data.transactions.content?.length && !this.transactionStore.transactionResource.isLoading());
+		const transactions = this.transactions();
+		return (
+			!transactions?.content?.length ||
+			(!this.transactionDataSource()?.data.length &&
+				!this.transactionStore.data.transactions.content?.length &&
+				!this.transactionStore.transactionResource.isLoading())
+		);
 	});
 
 	emptyCategoryTable = computed(() => {
-		return !this.categoryStore.categoryResource.value()?.length;
+		const categories = this.categoryStore.categoryResource.value();
+		return !categories?.length;
 	});
-	
+
 	emptyTableData = computed(() => {
-		return this.emptyTransactionTable() && (this.emptyCategoryTable() || this.type() !== 'category');
+		const emptyTransactionTable = this.emptyTransactionTable();
+		const emptyCategoryTable = this.emptyCategoryTable();
+		const type = this.type();
+		return emptyTransactionTable && (emptyCategoryTable || type !== 'category');
 	});
-	
+
 	constructor() {
 		super();
 
@@ -134,13 +155,16 @@ export class DataTableComponent extends BaseComponent {
 
 		effect(() => {
 			const transactions = this.transactions();
-			if (this.emptyCategoryTable() || !transactions?.content?.length) return;
+			const categories = this.categoryStore.categoryResource.value();
+
+			if (!categories?.length || !transactions?.content?.length) return;
 
 			if (transactions.content.length <= 20) this.scrollToTop();
 
-			const transactionDataSource = transactions.content
-				.map(transaction => this.mapToTransactionModel(transaction, this.categoryStore.categoryResource.value()!));
-			this.transactionDataSource = new MatTableDataSource(transactionDataSource);
+			const transactionDataSource = transactions.content.map(transaction =>
+				this.mapToTransactionModel(transaction, this.categoryStore.categoryResource.value()!),
+			);
+			this.transactionDataSource?.set(new MatTableDataSource(transactionDataSource));
 			this.pageSize = transactions.size;
 			this.pageIndex = transactions.page;
 			this.pageLength = transactions.totalPages;
@@ -206,13 +230,14 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	saveNoteDisabled(rowId: number): boolean {
-		return (!this.noteForm.controls[rowId].touched
-			&& !this.recurringForm.controls[rowId].touched
-			&& !this.categoryForm.controls[rowId].touched
-		)
-		|| this.noteForm.controls[rowId].invalid
-		|| this.recurringForm.controls[rowId].invalid
-		|| this.categoryForm.controls[rowId].invalid;
+		return (
+			(!this.noteForm.controls[rowId].touched &&
+				!this.recurringForm.controls[rowId].touched &&
+				!this.categoryForm.controls[rowId].touched) ||
+			this.noteForm.controls[rowId].invalid ||
+			this.recurringForm.controls[rowId].invalid ||
+			this.categoryForm.controls[rowId].invalid
+		);
 	}
 
 	// isRowEditing(rowId: number): boolean {
@@ -230,24 +255,18 @@ export class DataTableComponent extends BaseComponent {
 	async openCreateDialog(): Promise<void> {
 		// All transactions
 		if (!this.type()) {
-			await this.dialog.openNonModal(
-				CreateTransactionDialogComponent,
-				{ isRecurring: this.isRecurring() ?? false }
-			);
-		// Income or expense
+			await this.dialog.openNonModal(CreateTransactionDialogComponent, {
+				isRecurring: this.isRecurring() ?? false,
+			});
+			// Income or expense
 		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
-			await this.dialog.openNonModal(
-				CreateTransactionDialogComponent,
-				{ 
-					isRecurring: this.isRecurring() ?? false,
-					type: this.type()! as TransactionType
-				}
-			);
-		// Categories
+			await this.dialog.openNonModal(CreateTransactionDialogComponent, {
+				isRecurring: this.isRecurring() ?? false,
+				type: this.type()! as TransactionType,
+			});
+			// Categories
 		} else if (this.type() === 'category') {
-			await this.dialog.openNonModal(
-				CreateCategoryDialogComponent, undefined
-			);
+			await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
 		}
 	}
 
@@ -260,7 +279,7 @@ export class DataTableComponent extends BaseComponent {
 		const category = categories.find(c => c.id === transaction.categoryId);
 		return {
 			...transaction,
-			category: category!
+			category: category!,
 		};
 	}
 

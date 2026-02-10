@@ -51,7 +51,10 @@ export interface CreateTransactionDialogData {
 		SelectAutoFocusDirective,
 	],
 })
-export class CreateTransactionDialogComponent extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void> implements OnInit {
+export class CreateTransactionDialogComponent
+	extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void>
+	implements OnInit
+{
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
 	private readonly store = inject(TransactionStore);
@@ -75,8 +78,10 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 
 	private selectedType = toSignal(this.form.controls.type.valueChanges.pipe(startWith(null)), { initialValue: null });
 	private categories = signal<Category[]>([]);
-	private searchText = toSignal(this.form.controls.category.controls.searchText.valueChanges.pipe(startWith('')), { initialValue: '' });
-	
+	private searchText = toSignal(this.form.controls.category.controls.searchText.valueChanges.pipe(startWith('')), {
+		initialValue: '',
+	});
+
 	filteredCategories = computed(() => {
 		const type = this.selectedType();
 		const categories = this.categories().filter(c => {
@@ -91,26 +96,28 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 		});
 		const search = this.searchText();
 		if (!search) return categories;
-		return categories.filter(category => 
-			category.name.toLowerCase().includes(search.toLowerCase())
-		);
+		return categories.filter(category => category.name.toLowerCase().includes(search.toLowerCase()));
 	});
 
 	categorySearchRef = viewChild<ElementRef<HTMLInputElement>>('searchCategoryInput');
 
-	async ngOnInit(): Promise<void> {
-		this.categories.set(await this.categoryService.list());
+	ngOnInit(): void {
+		this.categoryService.list().then(categories => {
+			this.categories.set(categories);
+		});
 		if (this.data?.type) {
 			this.form.controls.type.setValue(this.data.type);
 		}
 		if (this.data?.isRecurring) {
 			this.form.controls.recurring.setValue(this.data.isRecurring);
 		}
-		this.addSubscription(this.form.controls.amount.valueChanges.subscribe(value => {
-			if (value !== null) {
-				this.form.controls.amount.setValue(parseFloat(value.toString()!), { emitEvent: false });
-			}
-		}));
+		this.addSubscription(
+			this.form.controls.amount.valueChanges.subscribe(value => {
+				if (value !== null) {
+					this.form.controls.amount.setValue(parseFloat(value.toString()!), { emitEvent: false });
+				}
+			}),
+		);
 	}
 
 	close(): void {

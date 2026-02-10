@@ -67,6 +67,7 @@ export default defineConfig([
 			'no-unused-vars': 'off',
 			'no-undef': 'off',
 
+			'@typescript-eslint/no-unnecessary-type-arguments': 'off',
 			'@typescript-eslint/consistent-indexed-object-style': 'warn',
 			'@typescript-eslint/default-param-last': 'error',
 			'@typescript-eslint/explicit-function-return-type': [

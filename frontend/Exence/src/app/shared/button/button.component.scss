@@ -72,8 +72,8 @@ button.has-custom-color {
 	--mat-button-filled-container-color: color-mix(in srgb, var(--custom-color), transparent 60%);
 
 	--mat-button-outlined-label-text-color: var(--custom-color);
-	--mat-button-outlined-outline-color: color-mix(in srgb, var(--custom-color) , transparent 60%);
-	
+	--mat-button-outlined-outline-color: color-mix(in srgb, var(--custom-color), transparent 60%);
+
 	--mat-button-text-label-text-color: var(--custom-color);
 }
 
@@ -85,7 +85,9 @@ button.has-custom-color {
 	--mat-button-text-horizontal-padding: 0.5rem;
 }
 
-button { width: 100%; }
+button {
+	width: 100%;
+}
 
 button.has-icon:not(.collapsed) {
 	padding: 0 24px;

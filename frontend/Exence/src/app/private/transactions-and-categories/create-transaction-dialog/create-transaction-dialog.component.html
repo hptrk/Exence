@@ -37,7 +37,12 @@
 			@let categoryControl = form.controls.category.controls;
 			<mat-form-field>
 				<mat-label>Category</mat-label>
-				<mat-select selectAutoFocus [focusedInput]="searchCategoryInput" [formControl]="categoryControl.category" (closed)="categoryControl.searchText.reset()">
+				<mat-select
+					selectAutoFocus
+					[focusedInput]="searchCategoryInput"
+					[formControl]="categoryControl.category"
+					(closed)="categoryControl.searchText.reset()"
+				>
 					<mat-form-field subscriptSizing="dynamic" class="search-with-select">
 						<mat-label>Search</mat-label>
 						<input autoTrim matInput [formControl]="categoryControl.searchText" #searchCategoryInput />
@@ -48,7 +53,7 @@
 					</mat-form-field>
 					@for (category of filteredCategories(); track category.id) {
 						<mat-option [value]="category">
-							<mat-icon [style.color]="category.color">{{category.icon }}</mat-icon>
+							<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
 							{{ category.name }}
 						</mat-option>
 					}

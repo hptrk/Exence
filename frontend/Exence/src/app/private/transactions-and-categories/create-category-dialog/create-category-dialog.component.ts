@@ -38,14 +38,12 @@ import { CategoryStore } from '../category.store';
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
 		EnumValuePipe,
-		AutoTrimDirective,
-		ConfirmExitDialogDirective,
 	],
 })
 export class CreateCategoryDialogComponent extends DialogComponent<undefined, void> {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly store = inject(CategoryStore);
-	
+
 	data = this.dialogRef.value;
 
 	categoryTypes = CategoryType;
@@ -81,7 +79,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, vo
 	onIconSelected(iconInfo: CategoryIconInfo): void {
 		this.form.controls.icon.patchValue({
 			icon: iconInfo.icon,
-			color: iconInfo.color, 
+			color: iconInfo.color,
 		});
 	}
 }

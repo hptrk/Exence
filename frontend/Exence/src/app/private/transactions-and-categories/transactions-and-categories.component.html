@@ -5,11 +5,7 @@
 	<div
 		class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center gap-2"
 	>
-		<h2
-			class="m-0 text-center text-md-start {{
-				display.isSm() ? 'fs-1' : 'fs-2'
-			}}"
-		>
+		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
 			@if (selectedIndex === 0) {
 				Transactions
 			} @else {
@@ -24,9 +20,7 @@
 		>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div
-						class="d-flex flex-row flex-nowrap align-items-center gap-2"
-					>
+					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
 						<mat-icon size="md">payments</mat-icon>
 						@if (display.isMd()) {
 							Transactions
@@ -36,9 +30,7 @@
 			</mat-tab>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div
-						class="d-flex flex-row flex-nowrap align-items-center gap-2"
-					>
+					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
 						<mat-icon size="md">cached</mat-icon>
 						@if (display.isMd()) {
 							Categories
@@ -56,10 +48,7 @@
 </section>
 
 <ng-template #transactionsTab>
-	<div
-		class="d-flex flex-column justify-content-between gap-4 h-100"
-		[class.overflow-hidden]="display.isMd()"
-	>
+	<div class="d-flex flex-column justify-content-between gap-4 h-100" [class.overflow-hidden]="display.isMd()">
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
@@ -95,16 +84,11 @@
 			}
 		</div>
 
-		<div
-			class="d-flex flex-column h-100 gap-2 bigger-row"
-			[class.overflow-hidden]="display.isMd()"
-		>
+		<div class="d-flex flex-column h-100 gap-2 bigger-row" [class.overflow-hidden]="display.isMd()">
 			<div class="d-flex flex-row flex-nowrap justif-content-between">
 				<div
 					class="d-flex flex-row flex-nowrap justify-content-between gap-3 w-100"
-					[matTooltip]="
-						!canCreateTransaction ? 'First create a category!' : ''
-					"
+					[matTooltip]="!canCreateTransaction ? 'First create a category!' : ''"
 				>
 					<ex-button
 						filled
@@ -122,52 +106,51 @@
 							<ex-validator [control]="transactionFilterForm.controls.searchText" />
 						</mat-error>
 						<mat-form-field subscriptSizing="dynamic" class="search">
-							<ex-button
-								iconButton
-								matPrefix
-								matIcon="search"
-								color="accent"
+							<ex-button iconButton matPrefix matIcon="search" color="accent" />
+							<input
+								[formControl]="transactionFilterForm.controls.searchText"
+								matInput
+								placeholder="Search..."
+								autocomplete="off"
 							/>
-							<input [formControl]="transactionFilterForm.controls.searchText" matInput placeholder="Search..." autocomplete="off">
 							<ex-input-clear [control]="transactionFilterForm.controls.searchText" matSuffix />
 						</mat-form-field>
-						<ex-filter-menu class="align-self-end" [form]="transactionFilterForm" [appliedFiltersCount]="appliedFiltersCount">
-							@let dateRangeControl = transactionFilterForm.controls.dateRange; 
+						<ex-filter-menu
+							class="align-self-end"
+							[form]="transactionFilterForm"
+							[appliedFiltersCount]="appliedFiltersCount"
+						>
+							@let dateRangeControl = transactionFilterForm.controls.dateRange;
 							<mat-form-field subscriptSizing="dynamic">
 								<mat-label>Enter a date range</mat-label>
-								<mat-date-range-input
-									[formGroup]="dateRangeControl"
-									[rangePicker]="dateRangePicker"
-								>
-									<input
-										matStartDate
-										[formControl]="dateRangeControl.controls.dateFrom"
-									/>
-									<input
-										matEndDate
-										[formControl]="dateRangeControl.controls.dateTo"
-									/>
+								<mat-date-range-input [formGroup]="dateRangeControl" [rangePicker]="dateRangePicker">
+									<input matStartDate [formControl]="dateRangeControl.controls.dateFrom" />
+									<input matEndDate [formControl]="dateRangeControl.controls.dateTo" />
 								</mat-date-range-input>
-								<mat-datepicker-toggle
-									matIconSuffix
-									[for]="dateRangePicker"
-								></mat-datepicker-toggle>
-								<mat-date-range-picker
-									#dateRangePicker
-								></mat-date-range-picker>
+								<mat-datepicker-toggle matIconSuffix [for]="dateRangePicker" />
+								<mat-date-range-picker #dateRangePicker />
 							</mat-form-field>
 
 							<div class="d-flex flex-column gap-1">
 								<div class="fs-6 ps-1">Amount</div>
 								@let amountRangeControl = transactionFilterForm.controls.amountRange;
-								<mat-form-field
-								class="mb-3" subscriptSizing="dynamic">
+								<mat-form-field class="mb-3" subscriptSizing="dynamic">
 									<mat-label>Min</mat-label>
-									<input matInput type="number" min="0" [formControl]="amountRangeControl.controls.min">
+									<input
+										matInput
+										type="number"
+										min="0"
+										[formControl]="amountRangeControl.controls.min"
+									/>
 								</mat-form-field>
 								<mat-form-field subscriptSizing="dynamic">
 									<mat-label>Max</mat-label>
-									<input matInput type="number" min="0" [formControl]="amountRangeControl.controls.max">
+									<input
+										matInput
+										type="number"
+										min="0"
+										[formControl]="amountRangeControl.controls.max"
+									/>
 								</mat-form-field>
 							</div>
 
@@ -179,7 +162,7 @@
 									@for (category of categories(); track category.id) {
 										<mat-option [value]="category">
 											<mat-icon [style.color]="category.color">
-												{{category.icon }}
+												{{ category.icon }}
 											</mat-icon>
 											{{ category.name }}
 										</mat-option>
@@ -223,10 +206,7 @@
 </ng-template>
 
 <ng-template #categoriesTab>
-	<div
-		class="d-flex flex-column justify-content-between gap-2 h-100 mt-4"
-		[class.overflow-hidden]="display.isMd()"
-	>
+	<div class="d-flex flex-column justify-content-between gap-2 h-100 mt-4" [class.overflow-hidden]="display.isMd()">
 		<div class="d-flex flex-row flex-norwap gap-2 align-items-center">
 			<ex-button
 				filled
@@ -240,10 +220,6 @@
 			</ex-button>
 		</div>
 
-		<ex-data-table
-			matIcon="category"
-			title="Categories"
-			type="category"
-		/>
+		<ex-data-table matIcon="category" title="Categories" type="category" />
 	</div>
 </ng-template>

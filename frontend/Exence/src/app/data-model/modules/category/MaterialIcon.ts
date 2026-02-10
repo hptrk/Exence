@@ -269,7 +269,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.RECYCLING, tooltip: 'recycling' },
 			{ icon: MaterialIcon.ROUTER, tooltip: 'router' },
 			{ icon: MaterialIcon.WIFI, tooltip: 'wifi' },
-		]
+		],
 	},
 	{
 		name: MaterialIconCategory.TRANSPORT_AND_TRAVEL,
@@ -319,7 +319,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.SMARTPHONE, tooltip: 'smartphone' },
 			{ icon: MaterialIcon.LAPTOP, tooltip: 'laptop' },
 			{ icon: MaterialIcon.PRINT, tooltip: 'printer' },
-		]
+		],
 	},
 	{
 		name: MaterialIconCategory.HEALTH_AND_BEAUTY,
@@ -344,7 +344,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.SELF_IMPROVEMENT, tooltip: 'mediation' },
 			{ icon: MaterialIcon.FITNESS_CENTER, tooltip: 'dumbbell' },
 			{ icon: MaterialIcon.POOL, tooltip: 'swim' },
-		]
+		],
 	},
 	{
 		name: MaterialIconCategory.FAMILY_AND_EDUCATION,
@@ -369,7 +369,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.SCHOOL, tooltip: 'education' },
 			{ icon: MaterialIcon.MENU_BOOK, tooltip: 'book' },
 			{ icon: MaterialIcon.HISTORY_2, tooltip: 'time' },
-		]
+		],
 	},
 	{
 		name: MaterialIconCategory.ENTERTAINMENT_AND_HOBBIES,
@@ -394,7 +394,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.KAYAKING, tooltip: 'kayaking' },
 			{ icon: MaterialIcon.DECK, tooltip: 'deck' },
 			{ icon: MaterialIcon.EVENT_SEAT, tooltip: 'event seat' },
-		]
+		],
 	},
 	{
 		name: MaterialIconCategory.FINANCES,
@@ -419,7 +419,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.CALCULATE, tooltip: 'calculate' },
 			{ icon: MaterialIcon.RECEIPT_LONG, tooltip: 'receipt long' },
 			{ icon: MaterialIcon.REQUEST_QUOTE, tooltip: 'request quote' },
-		]
+		],
 	},
 	{
 		name: MaterialIconCategory.OTHERS,
@@ -444,6 +444,6 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.BUILD, tooltip: 'build' },
 			{ icon: MaterialIcon.KEYBOARD, tooltip: 'keyboard' },
 			{ icon: MaterialIcon.CANCEL, tooltip: 'cancel' },
-		]
-	}
+		],
+	},
 ];

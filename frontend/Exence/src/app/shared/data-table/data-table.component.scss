@@ -58,7 +58,7 @@ table {
 		}
 	}
 
-	th.mat-column-amount{
+	th.mat-column-amount {
 		max-width: 35%;
 	}
 
@@ -255,8 +255,8 @@ button {
 	height: 40px;
 	padding: 0.5rem;
 	border-radius: 100%;
-	background-color: color-mix(in srgb, var(--icon-color) , transparent 60%);
-	
+	background-color: color-mix(in srgb, var(--icon-color), transparent 60%);
+
 	mat-icon {
 		color: var(--icon-color);
 	}

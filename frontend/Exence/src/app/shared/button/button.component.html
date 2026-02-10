@@ -20,9 +20,7 @@
 		[class.has-custom-color]="customColor()"
 		[class.primary-icon-button]="primaryIconButton()"
 	>
-		<div
-			class="d-flex flex-row flex-nowrap justify-content-center align-items-center gap-2 text-nowrap"
-		>
+		<div class="d-flex flex-row flex-nowrap justify-content-center align-items-center gap-2 text-nowrap">
 			@if (iconPositionEnd()) {
 				<ng-container [ngTemplateOutlet]="text" />
 				<ng-container [ngTemplateOutlet]="icon" />

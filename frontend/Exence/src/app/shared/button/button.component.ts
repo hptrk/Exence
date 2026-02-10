@@ -12,7 +12,7 @@ import { SvgIcons } from '../svg-icons/svg-icons';
 	imports: [CommonModule, MatButtonModule, MatIconModule],
 	host: {
 		'[class.disabled]': 'disabled()',
-		'[style.--custom-color]': 'customColor()'
+		'[style.--custom-color]': 'customColor()',
 	},
 })
 export class ButtonComponent {
