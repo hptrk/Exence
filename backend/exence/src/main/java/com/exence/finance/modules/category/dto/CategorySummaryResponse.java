@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class CategorySummaryResponse {
     private Long id;
     private String name;
-    private String emoji;
+    private String icon;
+    private String color;
     private BigDecimal totalAmount;
 }

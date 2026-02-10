@@ -8,49 +8,26 @@
 				}
 		</mat-button-toggle-group>
 		
-		@let nameControl = form.controls.name;
-		<mat-form-field>
-			<mat-label>Name</mat-label>
-			<input
-				matInput
-				autoTrim
-				[formControl]="nameControl"
-			/>
-			<ex-input-clear matSuffix [control]="nameControl" />
-			<mat-error>
-				<ex-validator [control]="nameControl" />
-			</mat-error>
-		</mat-form-field>
+		<div class="d-flex flex-row flex-nowrap gap-2 align-items-start">
+			@let nameControl = form.controls.name;
+			<mat-form-field>
+				<mat-label>Name</mat-label>
+				<input
+					matInput
+					autoTrim
+					[formControl]="nameControl"
+				/>
+				<ex-input-clear matSuffix [control]="nameControl" />
+				<mat-error>
+					<ex-validator [control]="nameControl" />
+				</mat-error>
+			</mat-form-field>
 
-		<div class="d-flex flex-column gap-2">
-			<div class="d-flex align-items-center gap-2">
-				<ex-button
-					filled
-					color="accent"
-					[matMenuTriggerFor]="emojiMenu"
-					class="w-100"
-				>
-					Select emoji
-				</ex-button>
-				<div class="selected-icon fs-5 position-relative">
-					<div class="default-content">
-						@if (form.value.emoji) {
-							{{ form.value.emoji }}
-						} @else {
-							<mat-icon class="grayscaled">do_not_disturb_none</mat-icon>
-						}
-					</div>
-					<div class="hover-content" (click)="form.controls.emoji.reset()">
-						<mat-icon>close</mat-icon>
-					</div>
-				</div>
-			</div>
-			<!-- TODO use validator -->
-			@if (emojiInvalid) {
-				<div class="emoji-error">
-					Emoji is required!
-				</div>
-			}
+			<ex-icon-picker
+				(closed)="onIconSelected($event)"
+				[icon]="form.value.icon?.icon ?? undefined"
+				[color]="form.value.icon?.color"
+			/>
 		</div>
 		@let noteControl = form.controls.note;
 		<mat-form-field>
@@ -83,13 +60,3 @@
 		</ex-button>
 	</div>
 </ex-dialog-card>
-
-<mat-menu
-	#emojiMenu="matMenu"
->
-	<emoji-mart
-		emoji=""
-		(emojiSelect)="onEmojiSelect($event); emojiMenu.closed.emit()"
-		stopPropagation
-	/>
-</mat-menu>

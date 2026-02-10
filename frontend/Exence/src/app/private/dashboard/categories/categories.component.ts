@@ -9,6 +9,7 @@ import { DisplaySizeService } from '../../../shared/display-size.service';
 import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { Category } from 'src/app/data-model/modules/category/Category';
+import { MatIconModule } from '@angular/material/icon';
 
 // TODO move to interval filter component when created
 export enum DateInterval {
@@ -27,7 +28,8 @@ export interface IntervalInfo {
 	imports: [
 		MatProgressBarModule,
 		MatCardModule,
-		ButtonComponent
+		MatIconModule,
+		ButtonComponent,
 	],
 	templateUrl: './categories.component.html',
 	styleUrl: './categories.component.scss',

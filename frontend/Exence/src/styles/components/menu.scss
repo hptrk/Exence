@@ -2,9 +2,10 @@
 
 $menu-shadow: 0px 1px 10px var(--shadow-color);
 
-.mat-mdc-menu-panel {
+div.mat-mdc-menu-panel {
 	--mat-menu-container-shape: 16px;
 	height: fit-content;
+	max-width: unset;
 }
 
 .mat-mdc-menu-panel {

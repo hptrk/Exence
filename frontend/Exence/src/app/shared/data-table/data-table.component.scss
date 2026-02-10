@@ -246,3 +246,18 @@ button {
 .category-delete-icon {
 	--mat-icon-color: var(--error-color);
 }
+
+.icon-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 40px;
+	height: 40px;
+	padding: 0.5rem;
+	border-radius: 100%;
+	background-color: color-mix(in srgb, var(--icon-color) , transparent 60%);
+	
+	mat-icon {
+		color: var(--icon-color);
+	}
+}

@@ -1,24 +1,23 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { PickerComponent } from '@ctrl/ngx-emoji-mart';
-import { EmojiEvent } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { Category } from '../../../data-model/modules/category/Category';
+import { CategoryType } from '../../../data-model/modules/category/CategoryType';
+import { MaterialIcon } from '../../../data-model/modules/category/MaterialIcon';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogComponent } from '../../../shared/dialog/dialog.service';
+import { CategoryIconInfo, IconPickerComponent } from '../../../shared/icon-picker/icon-picker.component';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
-import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryStore } from '../category.store';
-import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
-import { CategoryType } from '../../../data-model/modules/category/CategoryType';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -31,15 +30,14 @@ import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 		MatMenuModule,
 		MatIconModule,
 		MatButtonToggleModule,
-		PickerComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
 		DialogCardComponent,
+		IconPickerComponent,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
 		EnumValuePipe,
-		StopPropagationDirective,
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
 	],
@@ -53,39 +51,37 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, vo
 	categoryTypes = CategoryType;
 
 	form = this.fb.group({
-		name: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
-		emoji: this.fb.control<string>('', [Validators.required]),
+		name: this.fb.control<string>('', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]),
+		icon: this.fb.group({
+			icon: this.fb.control<MaterialIcon | null>(null, [Validators.required]),
+			color: this.fb.control<string>('', [Validators.required]),
+		}),
 		type: this.fb.control<CategoryType>(CategoryType.EXPENSE, [Validators.required]),
 		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
-
-	emojiInvalid = false;
-
-	ngOnInit(): void {
-		this.form.controls.emoji.valueChanges.subscribe(emoji => {
-			this.emojiInvalid = !emoji;
-		});
-	}
-
-	onEmojiSelect(event: EmojiEvent): void {
-		const emoji = event.emoji.native;
-		if (!emoji) return;
-		this.form.controls.emoji.setValue(emoji);
-	}
 
 	close(): void {
 		this.dialogRef.close();
 	}
 
 	create(): void {
+		if (this.form.invalid) return;
 		const formValue = this.form.getRawValue();
 		const request: Category = {
 			name: formValue.name,
-			emoji: formValue.emoji,
+			icon: formValue.icon.icon!,
+			color: formValue.icon.color,
 			type: formValue.type,
 			note: formValue.note,
 		};
 		this.store.createCategory(request);
 		this.dialogRef.submit();
+	}
+
+	onIconSelected(iconInfo: CategoryIconInfo): void {
+		this.form.controls.icon.patchValue({
+			icon: iconInfo.icon,
+			color: iconInfo.color, 
+		});
 	}
 }

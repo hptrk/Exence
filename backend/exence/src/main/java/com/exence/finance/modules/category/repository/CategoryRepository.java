@@ -15,15 +15,15 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query(
             """
-        SELECT new com.exence.finance.modules.category.dto.CategorySummaryResponse(
-            c.id, c.name, c.emoji, COALESCE(SUM(t.amount), 0)
-        )
-        FROM Category c
-        LEFT JOIN c.transactions t
-        WHERE (t.type = 'EXPENSE')
-        GROUP BY c.id, c.name, c.emoji
-        ORDER BY COALESCE(SUM(t.amount), 0) DESC
-        LIMIT 4
-    """)
+            SELECT new com.exence.finance.modules.category.dto.CategorySummaryResponse(
+                c.id, c.name, CAST(c.icon AS string), c.color, COALESCE(SUM(t.amount), 0)
+            )
+            FROM Category c
+            LEFT JOIN c.transactions t
+            WHERE (t.type = 'EXPENSE')
+            GROUP BY c.id, c.name, c.icon, c.color
+            ORDER BY COALESCE(SUM(t.amount), 0) DESC
+            LIMIT 4
+        """)
     List<CategorySummaryResponse> findTop4CategoriesByTotalAmount();
 }

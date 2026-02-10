@@ -20,6 +20,8 @@ import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.
 import { CategoryService } from '../category.service';
 import { TransactionStore } from '../transaction.store';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
 
 export interface CreateTransactionDialogData {
@@ -38,6 +40,7 @@ export interface CreateTransactionDialogData {
 		MatSelectModule,
 		MatDatepickerModule,
 		MatCheckboxModule,
+		MatIconModule,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
@@ -62,7 +65,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 		note: this.fb.control<string | undefined>(undefined, [Validators.maxLength(500)]),
 		date: this.fb.control<Date>(new Date(), [Validators.required]),
 		amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)]),
-		type: this.fb.control<TransactionType>(TransactionType.EXPENSE, [Validators.required]),
+		type: this.fb.control<TransactionType | null>(null, [Validators.required]),
 		recurring: this.fb.control<boolean>(false),
 		category: this.fb.group({
 			category: this.fb.control<Category | null>(null, [Validators.required]),
@@ -70,11 +73,22 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<Cr
 		}),
 	});
 
+	private selectedType = toSignal(this.form.controls.type.valueChanges.pipe(startWith(null)), { initialValue: null });
 	private categories = signal<Category[]>([]);
 	private searchText = toSignal(this.form.controls.category.controls.searchText.valueChanges.pipe(startWith('')), { initialValue: '' });
 	
 	filteredCategories = computed(() => {
-		const categories = this.categories();
+		const type = this.selectedType();
+		const categories = this.categories().filter(c => {
+			switch (type) {
+				case TransactionType.INCOME:
+					return c.type === CategoryType.INCOME || c.type === CategoryType.MIXED;
+				case TransactionType.EXPENSE:
+					return c.type === CategoryType.EXPENSE || c.type === CategoryType.MIXED;
+				default:
+					return true;
+			}
+		});
 		const search = this.searchText();
 		if (!search) return categories;
 		return categories.filter(category => 

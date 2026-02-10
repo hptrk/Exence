@@ -125,9 +125,11 @@
 							>
 								<div
 									class="table-row-item text-center"
-									[matTooltip]="row.category?.name"
+									[matTooltip]="row.category.name"
 								>
-									{{ row.category?.emoji ?? '' }}
+									<div class="icon-container" [style.--icon-color]="row.category.color">
+										<mat-icon>{{ row.category.icon }}</mat-icon>
+									</div>
 								</div>
 							</td>
 						</ng-container>
@@ -260,10 +262,12 @@
 																	category of categoryStore.categoryResource.value();
 																	track category.id
 																) {
-																	<mat-option
-																		[value]="category.id"
-																		>{{ `${category.name} - ${category.emoji}` }}</mat-option
-																	>
+																	<mat-option [value]="category.id">
+																		<mat-icon [style.color]="category.color">
+																			{{category.icon }}
+																		</mat-icon>
+																		{{ category.name }}
+																	</mat-option>
 																}
 															</mat-select>
 															<mat-error>
@@ -360,21 +364,23 @@
 							</td>
 						</ng-container>
 
-						<ng-container matColumnDef="emoji">
+						<ng-container matColumnDef="icon">
 							<th
 								mat-header-cell
 								*matHeaderCellDef
 							>
 								@if (display.isSm()) {
-									<div class="text-start">Emoji</div>
+									<div class="text-start">Icon</div>
 								}
 							</th>
 							<td
 								mat-cell
 								*matCellDef="let row"
 							>
-								<div class="table-row-item justify-content-start">
-									{{ row.emoji }}
+								<div class="table-row-item justify-content-start" >
+									<div class="icon-container" [style.--icon-color]="row.color">
+										<mat-icon>{{ row.icon }}</mat-icon>
+									</div>
 								</div>
 							</td>
 						</ng-container>

@@ -1,0 +1,84 @@
+<ex-button
+	primaryIconButton
+	filled
+	[customColor]="selectedColor()"
+	[matIcon]="form.value.icon ?? 'category'"
+	[matMenuTriggerFor]="iconMenu"
+	class="menu-btn"
+	#menuTrigger="matMenuTrigger"
+/>
+
+<mat-menu
+	#iconMenu
+	(closed)="closeMenuWithData()"
+>
+	<div
+		class="d-flex flex-column gap-4 p-4 menu"
+		stopPropagation
+	>
+		<!-- Colors -->
+		<div class="d-flex flex-row flex-wrap gap-2">
+			@for (color of predefinedColors | enumValue; track color) {
+				<label
+					[style.background-color]="predefinedIconColorsData[color]"
+					class="color-square"
+					[class.selected]="form.value.color === color"
+				>
+					<input
+						type="radio"
+						class="opacity-0"
+						[formControl]="form.controls.color"
+						[value]="color"
+					/>
+				</label>
+			}
+			<label
+				class="color-square custom-color"
+				[class.selected]="form.value.color === 'custom'"
+			>
+				<input
+					type="radio"
+					class="opacity-0"
+					[formControl]="form.controls.color"
+					value="custom"
+				/>
+				<input
+					type="color"
+					class="opacity-0 position-absolute color-picker"
+					[value]="customColor()"
+					(input)="customColor.set($event.target.value)"
+					#colorPicker
+				/>
+				<div
+					class="position-absolute color-square d-flex justify-content-center align-items-center"
+					[style.background]="customColor()"
+					(click)="toggleColorPicker(colorPicker)"
+				>
+					<mat-icon>palette</mat-icon>
+				</div>
+			</label>
+		</div>
+
+		<!-- Icons -->
+		@for (category of categorizedMaterialIcons; track category.name) {
+			<div class="category-container">
+				<h3 class="fs-5">{{ category.name }}</h3>
+				<ul class="p-0">
+					@for (iconInfo of category.icons; track iconInfo.icon) {
+						<li
+							(click)="form.controls.icon.setValue(iconInfo.icon)"
+						>
+							<mat-icon
+								size="md"
+								[matTooltip]="iconInfo.tooltip"
+								[style.color]="selectedColor()"
+							>
+								{{ iconInfo.icon }}
+							</mat-icon>
+						</li>
+					}
+				</ul>
+			</div>
+		}
+	</div>
+</mat-menu>

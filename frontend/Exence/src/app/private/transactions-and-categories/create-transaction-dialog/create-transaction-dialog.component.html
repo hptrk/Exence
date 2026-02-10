@@ -59,7 +59,10 @@
 						</mat-error>
 					</mat-form-field>
 					@for (category of filteredCategories(); track category.id) {
-						<mat-option [value]="category">{{ `${category.name} - ${category.emoji}` }}</mat-option>
+						<mat-option [value]="category">
+							<mat-icon [style.color]="category.color">{{category.icon }}</mat-icon>
+							{{ category.name }}
+						</mat-option>
 					}
 				</mat-select>
 				<mat-error>
