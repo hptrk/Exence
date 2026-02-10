@@ -1,20 +1,17 @@
 <ex-button
 	primaryIconButton
 	filled
-	[customColor]="
-		form.value.color
-			? form.value.color === 'custom'
-				? customColor()
-				: form.value.color
-			: undefined
-	"
+	[customColor]="selectedColor()"
 	[matIcon]="form.value.icon ?? 'category'"
 	[matMenuTriggerFor]="iconMenu"
 	class="menu-btn"
 	#menuTrigger="matMenuTrigger"
 />
 
-<mat-menu #iconMenu>
+<mat-menu
+	#iconMenu
+	(closed)="closeMenuWithData()"
+>
 	<div
 		class="d-flex flex-column gap-4 p-4 menu"
 		stopPropagation
@@ -74,15 +71,7 @@
 							<mat-icon
 								size="md"
 								[matTooltip]="iconInfo.tooltip"
-								[style.color]="
-									form.value.color
-										? form.value.color === 'custom'
-											? customColor()
-											: predefinedIconColorsData[
-													form.value.color
-												]
-										: null
-								"
+								[style.color]="selectedColor()"
 							>
 								{{ iconInfo.icon }}
 							</mat-icon>

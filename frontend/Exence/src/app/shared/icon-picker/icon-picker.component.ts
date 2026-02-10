@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, input, output, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
@@ -10,8 +10,7 @@ import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
 import { EnumValuePipe } from '../pipes/enum-value.pipe';
 import { StopPropagationDirective } from '../stop-propagation.directive';
-
-const DEFAULT_CUSTOM_BACKGROUND = 'linear-gradient(to RIGHT bottom, #FF0000 5%, #F9D300 30%, #00FF00 45%, #003CFF 65%, #791EFF 70%, #F200FF 100%)';
+import { toRawValueSignal } from '../util/utils';
 
 export interface CategoryIconInfo {
 	icon: MaterialIcon;
@@ -48,13 +47,13 @@ enum PredefinedIconColors {
 export class IconPickerComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly menuTrigger = viewChild.required<MatMenuTrigger>('menuTrigger');
+
+	DEFAULT_CUSTOM_BACKGROUND = 'linear-gradient(to RIGHT bottom, #FF0000 5%, #F9D300 30%, #00FF00 45%, #003CFF 65%, #791EFF 70%, #F200FF 100%)' as const;
 	
 	icon = input<MaterialIcon>();
 	color = input<PredefinedIconColors | string>();
 
 	closed = output<CategoryIconInfo>();
-
-	private isColorPickerOpen = false;
 
 	predefinedColors = PredefinedIconColors;
 	categorizedMaterialIcons = CategorizedMaterialIcons;
@@ -74,52 +73,52 @@ export class IconPickerComponent extends BaseComponent {
 		icon: this.fb.control<MaterialIcon | null>(null, [Validators.required]),
 		color: this.fb.control<PredefinedIconColors | 'custom' | null>(null, [Validators.required]),
 	});
-	customColor = signal<string>(DEFAULT_CUSTOM_BACKGROUND);
+	formValue = toRawValueSignal(this.form);
+	customColor = signal<string>(this.DEFAULT_CUSTOM_BACKGROUND);
+
+	selectedColor = computed<string | undefined>(() => {
+		const formValue = this.formValue();
+		const customColor = this.customColor();
+		if (!formValue.color) return undefined;
+		if (formValue.color === 'custom') {
+			return customColor === this.DEFAULT_CUSTOM_BACKGROUND ? undefined : customColor;
+		}
+		return this.predefinedIconColorsData[formValue.color];
+	});
 
 	constructor() {
 		super();
 		this.addSubscription(
 			this.form.valueChanges
 				.pipe(pairwise())
-				.subscribe(([prevValue, _]) => {
-					if (prevValue.color === 'custom')
-						this.customColor.set(DEFAULT_CUSTOM_BACKGROUND);
-					if (this.form.valid)
-						this.closeMenuWithData();
+				.subscribe(([prevValue, newValue]) => {
+					if (prevValue.color === 'custom' && newValue.color !== prevValue.color)
+						this.customColor.set(this.DEFAULT_CUSTOM_BACKGROUND);
+					if (
+						this.form.valid && this.formValue().color !== 'custom'
+						|| (this.form.valid && this.formValue().color === 'custom' && this.customColor() !== this.DEFAULT_CUSTOM_BACKGROUND)
+					)
+						this.menuTrigger().closeMenu();
 				})
 		);
 	}
 
 	toggleColorPicker(picker: HTMLInputElement): void {
-		if (this.isColorPickerOpen) {
-			picker.blur();
-			this.isColorPickerOpen = false;
-		} else {
-			picker.click();
-			this.initializeForm(this.icon(), this.color());
-			this.isColorPickerOpen = true;
+		picker.click();
+		if (this.formValue().color !== 'custom') {
+			this.form.controls.color.setValue('custom');
 		}
 	}
 
-	private initializeForm(icon?: MaterialIcon, color?: PredefinedIconColors | string): void {
-		this.form.patchValue({
-			icon: icon ?? null,
-			color: color
-				? (typeof color === 'string' ? 'custom' : this.predefinedIconColorsData[color])
-				: null,
-		});
-		this.customColor.set(typeof color === 'string'
-			? color
-			: DEFAULT_CUSTOM_BACKGROUND
-		);
-	}
-
-	private closeMenuWithData(): void {
+	closeMenuWithData(): void {
+		if (this.form.invalid) {
+			this.form.reset();
+			return;
+		}
 		const formValue = this.form.getRawValue();
 		this.closed.emit({
 			icon: formValue.icon!,
-			color: formValue.color === 'custom' ? this.customColor() : this.predefinedIconColorsData[formValue.color!],
+			color: this.selectedColor()!,
 		});
-		this.menuTrigger().closeMenu();
 	}
 }
