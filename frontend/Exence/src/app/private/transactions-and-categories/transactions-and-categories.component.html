@@ -66,29 +66,31 @@
 					[transactions]="transactionStore.recurringExpenses()"
 					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="money_off"
-					class="flex-grow-1"
 					nonExpandable
 					title="Recurring Expenses"
 					[type]="transactionTypes.EXPENSE"
 					[isRecurring]="true"
+					(onScroll)="onScroll(transactionTypes.EXPENSE, true)"
 				/>
 				<ex-data-table
 					[transactions]="transactionStore.recurringIncomes()"
-					[isDataLoading]="transactionStore.recurringResource.isLoading()"
+					[isDataLoading]="transactionStore.recurringIncomeResource.isLoading()"
 					matIcon="attach_money"
 					nonExpandable
 					title="Recurring Incomes"
 					[type]="transactionTypes.INCOME"
 					[isRecurring]="true"
+					(onScroll)="onScroll(transactionTypes.INCOME, true)"
 				/>
 			} @else {
 				<ex-data-table
 					[transactions]="transactionStore.recurrings()"
-					[isDataLoading]="transactionStore.recurringResource.isLoading()"
+					[isDataLoading]="transactionStore.recurringExpenseResource.isLoading()"
 					matIcon="attach_money"
 					nonExpandable
 					title="Recurrings"
 					[isRecurring]="true"
+					(onScroll)="onScroll(undefined, true)"
 				/>
 			}
 		</div>

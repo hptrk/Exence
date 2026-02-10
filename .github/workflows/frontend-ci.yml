@@ -35,8 +35,11 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install
 
-      # - name: Run ESLint
-      #   run: npm run lint
+      - name: Run Format Check
+        run: npm run format:check
+
+      - name: Run ESLint
+        run: npm run lint:check
 
       - name: Build application
         run: npm run build

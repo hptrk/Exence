@@ -1,7 +1,6 @@
 import { computed, effect, inject, resource, ResourceRef } from '@angular/core';
 import { patchState, signalStore, withComputed, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
-import { RecurringTransactionsResponse } from '../../data-model/modules/transaction/RecurringTransactionsResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
@@ -15,12 +14,18 @@ export interface TransactionStoreData {
 		transaction: number;
 		income: number;
 		expense: number;
+		recurring: number;
+		recurringIncome: number;
+		recurringExpense: number;
 	};
 	filters?: TransactionFilter;
 	data: {
 		transactions: PagedResponse<Transaction>;
 		incomes: PagedResponse<Transaction>;
 		expenses: PagedResponse<Transaction>;
+		recurrings: PagedResponse<Transaction>;
+		recurringIncomes: PagedResponse<Transaction>;
+		recurringExpenses: PagedResponse<Transaction>;
 	};
 }
 
@@ -29,12 +34,18 @@ const initialState: TransactionStoreData = {
 		transaction: 0,
 		income: 0,
 		expense: 0,
+		recurring: 0,
+		recurringIncome: 0,
+		recurringExpense: 0,
 	},
 	filters: {} as TransactionFilter,
 	data: {
 		transactions: {} as PagedResponse<Transaction>,
 		incomes: {} as PagedResponse<Transaction>,
 		expenses: {} as PagedResponse<Transaction>,
+		recurrings: {} as PagedResponse<Transaction>,
+		recurringIncomes: {} as PagedResponse<Transaction>,
+		recurringExpenses: {} as PagedResponse<Transaction>,
 	}
 };
 
@@ -60,8 +71,17 @@ export const TransactionStore = signalStore(
 		totalResource: resource<TransactionTotalsResponse, undefined>({
 			loader: async () => await transactionService.totals(), 
 		}),
-		recurringResource: resource<RecurringTransactionsResponse, undefined>({
-			loader: async () => await transactionService.listRecurrings(),
+		recurringResource: resource<PagedResponse<Transaction>, { page: number }>({
+			params: () => ({ page: store.pages().recurring }),
+			loader: async ({ params }) => await transactionService.listRecurrings(params.page),
+		}),
+		recurringIncomeResource: resource<PagedResponse<Transaction>, { page: number }>({
+			params: () => ({ page: store.pages().recurringIncome }),
+			loader: async ({ params }) => await transactionService.listRecurringIncomes(params.page),
+		}),
+		recurringExpenseResource: resource<PagedResponse<Transaction>, { page: number }>({
+			params: () => ({ page: store.pages().recurringExpense }),
+			loader: async ({ params }) => await transactionService.listRecurringExpenses(params.page),
 		}),
 	})),
 
@@ -76,9 +96,9 @@ export const TransactionStore = signalStore(
 			const expenses = store.totalResource.value()?.totalExpense ?? 0;
 			return Math.round(incomes - expenses) / 100 * 100;
 		}),
-		recurringIncomes: computed(() => store.recurringResource.value()?.incomes),
-		recurringExpenses: computed(() => store.recurringResource.value()?.expenses),
-		recurrings: computed(() => store.recurringResource.value()?.mergedTransactions),
+		recurrings: computed(() => store.data.recurrings()),
+		recurringIncomes: computed(() => store.data.recurringIncomes()),
+		recurringExpenses: computed(() => store.data.recurringExpenses()),
 	})),
 
 	withMethods((
@@ -87,28 +107,51 @@ export const TransactionStore = signalStore(
 		snackbarService = inject(SnackbarService),
 		categoryStore = inject(CategoryStore),
 	) => {
-		function reload(type?: TransactionType): void {
-			const newState = { ...initialState };
-			switch (type) {
+		function reload(transaction: Transaction): void {
+			const currentPages = store.pages();
+			const currentData = store.data();
+			const newPages = { ...currentPages };
+			const newData = { ...currentData };
+
+			switch (transaction.type) {
 				case TransactionType.INCOME:
-					newState.pages.income = 0;
-					newState.data.incomes = {} as PagedResponse<Transaction>;
+					newPages.income = 0;
+					newData.incomes = {} as PagedResponse<Transaction>;
 					store.incomeResource.reload();
+					if (transaction.recurring) {
+						newPages.recurringIncome = 0;
+						newData.recurringIncomes = {} as PagedResponse<Transaction>;
+						store.recurringIncomeResource.reload();
+					}
 					break;
 				case TransactionType.EXPENSE:
-					newState.pages.expense = 0;
-					newState.data.expenses = {} as PagedResponse<Transaction>;
+					newPages.expense = 0;
+					newData.expenses = {} as PagedResponse<Transaction>;
 					store.expenseResource.reload();
+					if (transaction.recurring) {
+						newPages.recurringExpense = 0;
+						newData.recurringExpenses = {} as PagedResponse<Transaction>;
+						store.recurringExpenseResource.reload();
+					}
 					break;
 			}
-			newState.pages.transaction = 0;
-			newState.data.transactions = {} as PagedResponse<Transaction>;
+			newPages.transaction = 0;
+			newData.transactions = {} as PagedResponse<Transaction>;
 			store.transactionResource.reload();
+			
+			if (transaction.recurring) {
+				newPages.recurring = 0;
+				newData.recurrings = {} as PagedResponse<Transaction>;
+				store.recurringResource.reload();
+			}
 
 			store.totalResource.reload();
-			store.recurringResource.reload();
 			categoryStore.topCategoriesResource.reload();
-			patchState(store, newState);
+			patchState(store, (state) => ({
+				...state,
+				pages: newPages,
+				data: newData
+			}));
 		}
 
 		function fullReload(): void {
@@ -118,6 +161,8 @@ export const TransactionStore = signalStore(
 			store.expenseResource.reload();
 			store.totalResource.reload();
 			store.recurringResource.reload();
+			store.recurringIncomeResource.reload();
+			store.recurringExpenseResource.reload();
 			categoryStore.topCategoriesResource.reload();
 			patchState(store, newState);
 		}
@@ -126,19 +171,19 @@ export const TransactionStore = signalStore(
 			async createTransaction(request: Transaction): Promise<void> {
 				const newTransaction = await transactionService.create(request);
 				snackbarService.showSuccess(`Transaction '${newTransaction.title.slice(0, 10)}${newTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
-				reload(request.type);
+				reload(request);
 			},
 			async updateTransaction(request: Transaction): Promise<void> {
 				const updatedTransaction = await transactionService.update(request);
 				snackbarService.showSuccess(`Transaction '${updatedTransaction.title.slice(0, 10)}${updatedTransaction.title.length > 10 ? '...' : ''}' created successfully!`);
 				fullReload();
 			},
-			async deleteTransaction(id: number, type: TransactionType): Promise<void> {
-				await transactionService.delete(id);
+			async deleteTransaction(request: Transaction): Promise<void> {
+				await transactionService.delete(request.id!);
 				snackbarService.showSuccess('Transaction deleted successfully!');
-				reload(type);
+				reload(request);
 			},
-			loadNextPage(type?: TransactionType): void {
+			loadNextPage(type?: TransactionType, recurring?: boolean): void {
 				const resourceMap = {
 					[TransactionType.INCOME]: store.incomeResource,
 					[TransactionType.EXPENSE]: store.expenseResource,
@@ -147,9 +192,15 @@ export const TransactionStore = signalStore(
 				if (!res.isLoading() && !res.value()?.last) {
 					patchState(store, (state) => {
 						const pages = { ...state.pages };
-						if (type === TransactionType.INCOME) pages.income++;
-						else if (type === TransactionType.EXPENSE) pages.expense++;
-						else pages.transaction++;
+						if (recurring) {
+							if (type === TransactionType.INCOME) pages.recurringIncome++;
+							else if (type === TransactionType.EXPENSE) pages.recurringExpense++;
+							else pages.recurring++;
+						} else {
+							if (type === TransactionType.INCOME) pages.income++;
+							else if (type === TransactionType.EXPENSE) pages.expense++;
+							else pages.transaction++;
+						}
 						return { ...state, pages };
 					});
 				}
@@ -193,6 +244,9 @@ export const TransactionStore = signalStore(
 			effect(() => merge('transactions', store.transactionResource, store.pages.transaction()));
 			effect(() => merge('incomes', store.incomeResource, store.pages.income()));
 			effect(() => merge('expenses', store.expenseResource, store.pages.expense()));
+			effect(() => merge('recurrings', store.recurringResource, store.pages.recurring()));
+			effect(() => merge('recurringIncomes', store.recurringIncomeResource, store.pages.recurringIncome()));
+			effect(() => merge('recurringExpenses', store.recurringExpenseResource, store.pages.recurringExpense()));
 		}
 	}),
 );

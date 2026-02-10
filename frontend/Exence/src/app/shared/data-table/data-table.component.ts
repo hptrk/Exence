@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { booleanAttribute, Component, effect, ElementRef, inject, input, output, viewChild } from '@angular/core';
+import { booleanAttribute, Component, computed, effect, ElementRef, inject, input, output, viewChild } from '@angular/core';
 import { FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -109,19 +109,19 @@ export class DataTableComponent extends BaseComponent {
 	// TODO
 	// currentlyEditedRow = signal<number | undefined>(undefined);
 
-	get emptyTransactionTable(): boolean {
-		if (this.type() === undefined) console.log(!this.transactions()?.content?.length, !this.transactionDataSource?.data.length, !this.transactionStore.data.transactions.content?.length, !this.transactionStore.transactionResource.isLoading())
+	emptyTransactionTable = computed(() => {
+		if (this.type() === this.transactionTypes.EXPENSE && this.isRecurring())
+			console.log(this.transactionStore.data.recurringExpenses().content?.length, this.transactions()?.content?.length, !this.transactionDataSource?.data.length,  !this.transactionStore.data.transactions.content?.length, !this.transactionStore.transactionResource.isLoading())
 		return !this.transactions()?.content?.length || (!this.transactionDataSource?.data.length && !this.transactionStore.data.transactions.content?.length && !this.transactionStore.transactionResource.isLoading());
-	}
+	});
 
-	get emptyCategoryTable(): boolean {
+	emptyCategoryTable = computed(() => {
 		return !this.categoryStore.categoryResource.value()?.length;
-	}
+	});
 	
-	get emptyTableData(): boolean {
-		// if (this.type() === undefined) console.log(this.emptyTransactionTable && this.emptyCategoryTable)
-		return this.emptyTransactionTable && (this.emptyCategoryTable || this.type() !== 'category');
-	}
+	emptyTableData = computed(() => {
+		return this.emptyTransactionTable() && (this.emptyCategoryTable() || this.type() !== 'category');
+	});
 	
 	constructor() {
 		super();
@@ -134,7 +134,7 @@ export class DataTableComponent extends BaseComponent {
 
 		effect(() => {
 			const transactions = this.transactions();
-			if (this.emptyCategoryTable || !transactions?.content?.length) return;
+			if (this.emptyCategoryTable() || !transactions?.content?.length) return;
 
 			if (transactions.content.length <= 20) this.scrollToTop();
 
@@ -172,8 +172,8 @@ export class DataTableComponent extends BaseComponent {
 	// 	this.currentlyEditedRow.set(rowId);
 	// }
 
-	deleteRow(id: number, type: TransactionType): void {
-		this.transactionStore.deleteTransaction(id, type);
+	deleteRow(transaciton: Transaction): void {
+		this.transactionStore.deleteTransaction(transaciton);
 	}
 
 	deleteCategoryRow(id: number): void {

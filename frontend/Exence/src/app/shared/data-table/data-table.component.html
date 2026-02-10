@@ -19,7 +19,7 @@
 			(click)="openCreateDialog()"
 		/>
 	</div>
-	@if (!emptyTableData) {
+	@if (!emptyTableData()) {
 		<div class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1 table-container"
 			#scrollContainer
 			infiniteScroll
@@ -30,7 +30,7 @@
 			(scrolled)="onScroll.emit(getNextPage())"
 		>
 			<div>
-				@if (!emptyTransactionTable) {
+				@if (!emptyTransactionTable()) {
 					<table
 						mat-table
 						[dataSource]="transactionDataSource!"
@@ -193,7 +193,7 @@
 													<button
 														mat-menu-item
 														class="delete-button"
-														(click)="deleteRow(row.id, row.type)"
+														(click)="deleteRow(row)"
 													>
 														<mat-icon color="warn">delete</mat-icon>
 														@if (display.isMd()) {
