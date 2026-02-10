@@ -48,12 +48,13 @@ export class IconPickerComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly menuTrigger = viewChild.required<MatMenuTrigger>('menuTrigger');
 
-	DEFAULT_CUSTOM_BACKGROUND = 'linear-gradient(to RIGHT bottom, #FF0000 5%, #F9D300 30%, #00FF00 45%, #003CFF 65%, #791EFF 70%, #F200FF 100%)' as const;
-	
+	DEFAULT_CUSTOM_BACKGROUND =
+		'linear-gradient(to RIGHT bottom, #FF0000 5%, #F9D300 30%, #00FF00 45%, #003CFF 65%, #791EFF 70%, #F200FF 100%)' as const;
+
 	icon = input<MaterialIcon>();
 	color = input<PredefinedIconColors | string>();
 
-	closed = output<CategoryIconInfo>();
+	readonly closed = output<CategoryIconInfo>();
 
 	predefinedColors = PredefinedIconColors;
 	categorizedMaterialIcons = CategorizedMaterialIcons;
@@ -89,17 +90,17 @@ export class IconPickerComponent extends BaseComponent {
 	constructor() {
 		super();
 		this.addSubscription(
-			this.form.valueChanges
-				.pipe(pairwise())
-				.subscribe(([prevValue, newValue]) => {
-					if (prevValue.color === 'custom' && newValue.color !== prevValue.color)
-						this.customColor.set(this.DEFAULT_CUSTOM_BACKGROUND);
-					if (
-						this.form.valid && this.formValue().color !== 'custom'
-						|| (this.form.valid && this.formValue().color === 'custom' && this.customColor() !== this.DEFAULT_CUSTOM_BACKGROUND)
-					)
-						this.menuTrigger().closeMenu();
-				})
+			this.form.valueChanges.pipe(pairwise()).subscribe(([prevValue, newValue]) => {
+				if (prevValue.color === 'custom' && newValue.color !== prevValue.color)
+					this.customColor.set(this.DEFAULT_CUSTOM_BACKGROUND);
+				if (
+					(this.form.valid && this.formValue().color !== 'custom') ||
+					(this.form.valid &&
+						this.formValue().color === 'custom' &&
+						this.customColor() !== this.DEFAULT_CUSTOM_BACKGROUND)
+				)
+					this.menuTrigger().closeMenu();
+			}),
 		);
 	}
 

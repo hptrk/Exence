@@ -5,7 +5,7 @@ import { Category } from '../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class CategoryService {
 	private readonly http = inject(HttpService);

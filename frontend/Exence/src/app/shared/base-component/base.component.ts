@@ -8,7 +8,7 @@ import { SvgIcons } from '../svg-icons/svg-icons';
 export abstract class BaseComponent implements OnDestroy {
 	svgIcons = SvgIcons;
 
-	private readonly _subscriptions: Subscription[] = [];
+	private _subscriptions: Subscription[] = [];
 
 	ngOnDestroy(): void {
 		this._subscriptions.forEach(a => a.unsubscribe());

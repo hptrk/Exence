@@ -1,7 +1,7 @@
 import { AfterViewInit, booleanAttribute, DestroyRef, Directive, ElementRef, inject, input } from '@angular/core';
 
 @Directive({
-	selector: '[ex-card-slider]',
+	selector: '[cardSlider]',
 })
 export class CardSliderDirective implements AfterViewInit {
 	private elementRef = inject(ElementRef<HTMLElement>);

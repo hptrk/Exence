@@ -6,7 +6,7 @@ import { SUPPRESS_ERROR_SNACKBAR } from './auth/interceptors/refresh-token.inter
 import { HttpSettings } from './http/http.service';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class ErrorService {
 	private readonly snackbarService = inject(SnackbarService);
@@ -35,9 +35,8 @@ export class ErrorService {
 	}
 
 	private showErrorFromResponse(error: ErrorResponse | null): void {
-		const errorMessage = error?.detail 
-			?? 'Unexpected error occurred';
-		
+		const errorMessage = error?.detail ?? 'Unexpected error occurred';
+
 		console.error('Error Response:', error ?? 'Undexpected error occurred');
 		this.snackbarService.showError(errorMessage);
 	}

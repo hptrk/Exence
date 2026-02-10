@@ -9,7 +9,7 @@ import { EmailVerificationRequest } from '../../data-model/modules/auth/EmailVer
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
-	selector: '',
+	selector: 'ex-email-verification',
 	template: `
 		<mat-card class="d-flex flex-column justify-content-center align-items-center gap-4 p-5">
 			<mat-card-content class="d-flex flex-row flex-nowrap gap-4 w-100 p-0">
@@ -22,22 +22,18 @@ import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 				<div>
 					<h2 class="fs-1 fw-bold">Email verified</h2>
 					<p class="m-0 mb-4 subtitle">
-						Congratulations! Your email has been verified. You can now use all features of <strong>Exence</strong>.
+						Congratulations! Your email has been verified. You can now use all features of
+						<strong>Exence</strong>.
 					</p>
-					<ex-button
-						outline
-						matIcon="keyboard_backspace"
-						(click)="navigateToLogin()"
-					>
+					<ex-button outline matIcon="keyboard_backspace" (click)="navigateToLogin()">
 						Back to login
 					</ex-button>
 				</div>
 			</mat-card-content>
-			
 		</mat-card>
 	`,
 	styleUrl: './email-verification.component.scss',
-	imports: [MatCardModule, MatIconModule, ButtonComponent]
+	imports: [MatCardModule, MatIconModule, ButtonComponent],
 })
 export class EmailVerificationComponent implements OnInit {
 	private readonly router = inject(Router);
@@ -45,11 +41,12 @@ export class EmailVerificationComponent implements OnInit {
 	private readonly authService = inject(AuthService);
 	private readonly snackbarService = inject(SnackbarService);
 
-	async ngOnInit(): Promise<void> {
+	ngOnInit(): void {
 		const token = this.router.routerState.root.snapshot.queryParams['token'];
 		const request: EmailVerificationRequest = { token };
-		await this.authService.verifyEmail(request);
-		this.snackbarService.showSuccess('Email successfully verified!');
+		this.authService.verifyEmail(request).then(() => {
+			this.snackbarService.showSuccess('Email successfully verified!');
+		});
 	}
 
 	navigateToLogin(): void {

@@ -35,7 +35,7 @@ import { StopPropagationDirective } from '../../shared/stop-propagation.directiv
 		ValidatorComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
-	]
+	],
 })
 export class RegistrationComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -48,7 +48,11 @@ export class RegistrationComponent extends BaseComponent {
 		username: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		email: this.fb.control<string>('', [Validators.required, Validators.email]),
 		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
-		confirmPassword: this.fb.control<string>('', [Validators.required, ExtraValidators.password, ExtraValidators.passwordMatch('password')]) 
+		confirmPassword: this.fb.control<string>('', [
+			Validators.required,
+			ExtraValidators.password,
+			ExtraValidators.passwordMatch('password'),
+		]),
 	});
 
 	async register(): Promise<void> {
@@ -57,7 +61,7 @@ export class RegistrationComponent extends BaseComponent {
 			username: formValue.username,
 			email: formValue.email,
 			password: formValue.password,
-			confirmPassword: formValue.confirmPassword
+			confirmPassword: formValue.confirmPassword,
 		};
 		await this.authService.register(request);
 		this.snackbarService.showSuccess('Successfull registration!');

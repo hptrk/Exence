@@ -3,10 +3,7 @@
 	<mat-card-header class="p-0">
 		<div ex-card-icon>
 			@if (svgIcon()) {
-				<mat-icon
-					size="xl"
-					[svgIcon]="svgIcon()!"
-				/>
+				<mat-icon size="xl" [svgIcon]="svgIcon()!" />
 			} @else {
 				<mat-icon size="xl">{{ matIcon() }}</mat-icon>
 			}
@@ -19,7 +16,7 @@
 				class="fw-bold amount"
 				[class]="{
 					expense: value() !== 0 && (value() < 0 || type() === transactionTypes.EXPENSE),
-					income: value() !== 0 && (value() > 0 || type() === transactionTypes.INCOME)
+					income: value() !== 0 && (value() > 0 || type() === transactionTypes.INCOME),
 				}"
 			>
 				@if (value() !== 0) {

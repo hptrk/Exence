@@ -1,4 +1,4 @@
-@import "../.././../../styles/imports.scss";
+@import '../.././../../styles/imports.scss';
 
 textarea {
 	resize: none;
@@ -19,8 +19,12 @@ textarea {
 		cursor: pointer;
 	}
 	&:hover {
-		.default-content { display: none; }
-		.hover-content { display: flex; }
+		.default-content {
+			display: none;
+		}
+		.hover-content {
+			display: flex;
+		}
 	}
 }
 

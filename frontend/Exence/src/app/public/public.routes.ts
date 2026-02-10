@@ -7,14 +7,28 @@ import { EmailVerificationComponent } from './email-verification/email-verificat
 import { LogoutComponent } from './logout/logout.component';
 import { loggedOutGuard } from '../shared/auth/guard/logged-out.guard';
 
-export const publicRoutes: Routes = [{
-	path: 'public',
-	component: PublicComponent,
-	children: [
-		{ path: 'login', component: LoginComponent, canActivate: [loggedOutGuard] },
-		{ path: 'register', component: RegistrationComponent, canActivate: [loggedOutGuard] },
-		{ path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [loggedOutGuard] },
-		{ path: 'verify-email', component: EmailVerificationComponent },
-		{ path: 'logout', component: LogoutComponent },
-	]
-}];
+export const publicRoutes: Routes = [
+	{
+		path: 'public',
+		component: PublicComponent,
+		children: [
+			{
+				path: 'login',
+				component: LoginComponent,
+				canActivate: [loggedOutGuard],
+			},
+			{
+				path: 'register',
+				component: RegistrationComponent,
+				canActivate: [loggedOutGuard],
+			},
+			{
+				path: 'forgot-password',
+				component: ForgotPasswordComponent,
+				canActivate: [loggedOutGuard],
+			},
+			{ path: 'verify-email', component: EmailVerificationComponent },
+			{ path: 'logout', component: LogoutComponent },
+		],
+	},
+];

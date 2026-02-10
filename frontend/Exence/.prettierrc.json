@@ -1,15 +1,12 @@
 {
-	"trailingComma": "all",
+	"printWidth": 120,
 	"tabWidth": 4,
 	"useTabs": true,
-	"bracketSpacing": true,
-	"bracketSameLine": false,
-	"arrowParens": "always",
-	"endOfLine": "lf",
-	"embeddedLanguageFormatting": "auto",
-	"singleAttributePerLine": true,
-	"semi": true,
 	"singleQuote": true,
-	"htmlWhitespaceSensitivity": "css",
-	"quoteProps": "as-needed"
+	"quoteProps": "as-needed",
+	"semi": true,
+	"trailingComma": "all",
+	"bracketSpacing": true,
+	"arrowParens": "avoid",
+	"singleAttributePerLine": false
 }

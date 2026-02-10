@@ -9,7 +9,7 @@ import { RegisterRequest } from '../../data-model/modules/auth/RegisterRequest';
 import { HttpService } from '../http/http.service';
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class AuthService {
 	private readonly http = inject(HttpService);

@@ -4,19 +4,15 @@
 	<form ex-dialog-card-content class="d-flex flex-column gap-3">
 		<mat-button-toggle-group [formControl]="form.controls.type" [hideSingleSelectionIndicator]="true">
 			@for (type of categoryTypes | enumValue; track type) {
-					<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{ type }}</mat-button-toggle>
-				}
+				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{ type }}</mat-button-toggle>
+			}
 		</mat-button-toggle-group>
-		
+
 		<div class="d-flex flex-row flex-nowrap gap-2 align-items-start">
 			@let nameControl = form.controls.name;
 			<mat-form-field>
 				<mat-label>Name</mat-label>
-				<input
-					matInput
-					autoTrim
-					[formControl]="nameControl"
-				/>
+				<input matInput autoTrim [formControl]="nameControl" />
 				<ex-input-clear matSuffix [control]="nameControl" />
 				<mat-error>
 					<ex-validator [control]="nameControl" />
@@ -39,23 +35,12 @@
 		</mat-form-field>
 	</form>
 
-	<div ex-dialog-card-actions class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100">
-		<ex-button
-			outline
-			color="accent"
-			matIcon="close"
-			type="button"
-			(click)="close()"
-		>
-			Cancel
-		</ex-button>
-		<ex-button
-			filled
-			color="primary"
-			matIcon="add"
-			[disabled]="form.invalid"
-			(click)="create()"
-		>
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()"> Cancel </ex-button>
+		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="create()">
 			Create
 		</ex-button>
 	</div>

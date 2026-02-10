@@ -14,7 +14,6 @@ import { routes } from './app.routes';
 import { authInterceptor } from './shared/auth/interceptors/auth.interceptor';
 import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-token.interceptor';
 
-
 export const appConfig: ApplicationConfig = {
 	providers: [
 		provideZonelessChangeDetection(),
@@ -22,17 +21,12 @@ export const appConfig: ApplicationConfig = {
 		// TODO remove depracated angular animations
 		// eslint-disable-next-line
 		provideAnimations(),
-		provideHttpClient(
-			withInterceptors([
-				authInterceptor,
-				refreshTokenInterceptor,
-			])
-		),
+		provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
 		importProvidersFrom(LayoutModule),
 		provideCharts(withDefaultRegisterables()),
 		{
 			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
-			useValue: { appearance: 'outline' }
+			useValue: { appearance: 'outline' },
 		},
 		{ provide: MAT_DATE_LOCALE, useValue: enUS },
 		provideDateFnsAdapter(),

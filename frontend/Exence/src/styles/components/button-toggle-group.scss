@@ -1,25 +1,25 @@
 $type-settings: (
 	'expense': (
 		color: var(--error-color),
-		transform: null
+		transform: null,
 	),
 	'income': (
 		color: var(--tertiary-color),
-		transform: calc(100% - 1px)
+		transform: calc(100% - 1px),
 	),
 	'mixed': (
 		color: var(--warn-color),
-		transform: calc(200% - 2px)
-	)
+		transform: calc(200% - 2px),
+	),
 );
 
 mat-button-toggle-group.mat-button-toggle-group {
 	$transition-speed: 200ms;
-	
+
 	display: flex;
 	width: 100%;
 	border: none;
-	border-radius: var(--mat-button-toggle-shape); 
+	border-radius: var(--mat-button-toggle-shape);
 	background-color: var(--secondary-color);
 	padding: 4px;
 
@@ -32,7 +32,9 @@ mat-button-toggle-group.mat-button-toggle-group {
 		width: calc(100% / 3 - 2px);
 		border-radius: var(--mat-button-toggle-shape);
 		background-color: var(--error-color);
-		transition: transform $transition-speed ease-in-out, background-color $transition-speed ease-in-out;
+		transition:
+			transform $transition-speed ease-in-out,
+			background-color $transition-speed ease-in-out;
 		z-index: 1;
 		pointer-events: none;
 	}

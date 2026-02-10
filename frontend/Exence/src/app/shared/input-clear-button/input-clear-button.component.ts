@@ -7,17 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 	selector: 'ex-input-clear',
 	template: `
 		@if (control().value) {
-			<button
-				mat-icon-button
-				type="button"
-				[disabled]="control().disabled"
-				(click)="clear()" tabindex="-1"
-			>
+			<button mat-icon-button type="button" [disabled]="control().disabled" (click)="clear()" tabindex="-1">
 				<mat-icon>close</mat-icon>
 			</button>
 		}
 	`,
-	imports: [MatButtonModule, MatIconModule]
+	imports: [MatButtonModule, MatIconModule],
 })
 export class InputClearButtonComponent {
 	control = input.required<FormControl>();

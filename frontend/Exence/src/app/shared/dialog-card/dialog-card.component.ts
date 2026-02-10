@@ -6,9 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 	selector: 'ex-dialog-card',
 	templateUrl: './dialog-card.component.html',
 	styleUrl: './dialog-card.component.scss',
-	imports: [
-		ButtonComponent,
-	],
+	imports: [ButtonComponent],
 })
 export class DialogCardComponent {
 	private readonly matDialogRef = inject(MatDialogRef, { optional: true });

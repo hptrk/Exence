@@ -6,10 +6,17 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 
 @Component({
+	selector: 'ex-logout',
 	template: `
-		<mat-progress-spinner [diameter]="150" strokeWidth="2" defaultColor="accent" color="primary" [mode]="'indeterminate'"></mat-progress-spinner>
+		<mat-progress-spinner
+			[diameter]="150"
+			strokeWidth="2"
+			defaultColor="accent"
+			color="primary"
+			[mode]="'indeterminate'"
+		/>
 	`,
-	imports: [MatProgressSpinner]
+	imports: [MatProgressSpinner],
 })
 export class LogoutComponent implements OnInit {
 	private readonly currentUserService = inject(CurrentUserService);

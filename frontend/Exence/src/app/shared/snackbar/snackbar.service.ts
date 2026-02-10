@@ -6,16 +6,16 @@ export const enum SnackbarType {
 	Error,
 	Warning,
 	Info,
-	Success
+	Success,
 }
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class SnackbarService {
 	private readonly snackbar = inject(MatSnackBar);
 
-	private readonly snackbarConfig: MatSnackBarConfig<SimpleSnackBar> = {
+	private snackbarConfig: MatSnackBarConfig<SimpleSnackBar> = {
 		panelClass: 'custom-snackbar',
 		duration: SNACKBAR_DISMISS_DURATION,
 		horizontalPosition: 'right',
@@ -35,7 +35,7 @@ export class SnackbarService {
 			...this.snackbarConfig,
 			data: {
 				message,
-				type: SnackbarType.Error
+				type: SnackbarType.Error,
 			} satisfies SnackbarData,
 		});
 	}
@@ -45,7 +45,7 @@ export class SnackbarService {
 			...this.snackbarConfig,
 			data: {
 				message,
-				type: SnackbarType.Warning
+				type: SnackbarType.Warning,
 			} satisfies SnackbarData,
 		});
 	}
@@ -55,7 +55,7 @@ export class SnackbarService {
 			...this.snackbarConfig,
 			data: {
 				message,
-				type: SnackbarType.Info
+				type: SnackbarType.Info,
 			} satisfies SnackbarData,
 		});
 	}
@@ -65,7 +65,7 @@ export class SnackbarService {
 			...this.snackbarConfig,
 			data: {
 				message,
-				type: SnackbarType.Success
+				type: SnackbarType.Success,
 			} satisfies SnackbarData,
 		});
 	}

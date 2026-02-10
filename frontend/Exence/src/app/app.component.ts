@@ -19,9 +19,8 @@ export class AppComponent implements OnInit {
 	private readonly matIconRegistry = inject(MatIconRegistry);
 	private readonly domSanitizer = inject(DomSanitizer);
 	private readonly userService = inject(UserService);
-	
 
-	async ngOnInit(): Promise<void> {
+	ngOnInit(): void {
 		// Icon set
 		for (const iconName of Object.values(SvgIcons)) {
 			this.matIconRegistry.addSvgIcon(
@@ -31,12 +30,13 @@ export class AppComponent implements OnInit {
 		}
 
 		from(this.userService.getUser()).subscribe({
-			next: (user) => {
+			next: user => {
 				this.currentUserService.user = user;
 			},
 			error: () => {
 				this.currentUserService.clearUser();
-			}
+			},
 		});
 	}
 }
+// text comment

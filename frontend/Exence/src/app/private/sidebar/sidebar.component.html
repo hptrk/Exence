@@ -1,32 +1,17 @@
 @if (display.isMd()) {
 	<mat-drawer-container class="h-100">
-		<mat-drawer
-			mode="side"
-			class="px-2"
-			opened
-			disableClose
-		>
+		<mat-drawer mode="side" class="px-2" opened disableClose>
 			<div class="d-flex flex-column align-items-center h-100 py-4 gap-5">
-				<a
-					class="px-xl-2"
-					[routerLink]="navigationService.private().index()"
-				>
+				<a class="px-xl-2" [routerLink]="navigationService.private().index()">
 					@if (display.isXl()) {
-						<mat-icon
-							class="h-auto w-auto m-0"
-							[svgIcon]="svgIcons.logoHorizontal"
-						/>
+						<mat-icon class="h-auto w-auto m-0" [svgIcon]="svgIcons.logoHorizontal" />
 					} @else {
-						<mat-icon
-							class="m-0"
-							[svgIcon]="svgIcons.logo"
-						/>
+						<mat-icon class="m-0" [svgIcon]="svgIcons.logo" />
 					}
 				</a>
 				<div class="d-flex flex-column w-100 h-100 fs-4 gap-3 gap-xl-2 flex-grow-1 fw-medium">
 					<a
-						ex-nav-button
-						class="d-flex align-items-center gap-2"
+						class="ex-nav-button d-flex align-items-center gap-2"
 						[routerLink]="navigationService.private().dashboard()"
 						routerLinkActive="active"
 					>
@@ -37,8 +22,7 @@
 					</a>
 
 					<a
-						ex-nav-button
-						class="d-flex align-items-center gap-2"
+						class="ex-nav-button d-flex align-items-center gap-2"
 						[routerLink]="navigationService.private().transactions()"
 						routerLinkActive="active"
 					>
@@ -48,8 +32,7 @@
 						}
 					</a>
 					<a
-						ex-nav-button
-						class="d-flex align-items-center gap-2"
+						class="ex-nav-button d-flex align-items-center gap-2"
 						[routerLink]="navigationService.private().statistics()"
 						routerLinkActive="active"
 					>
@@ -59,8 +42,7 @@
 						}
 					</a>
 					<a
-						ex-nav-button
-						class="d-flex align-items-center gap-2"
+						class="ex-nav-button d-flex align-items-center gap-2"
 						[routerLink]="navigationService.private().goals()"
 						routerLinkActive="active"
 					>
@@ -70,8 +52,7 @@
 						}
 					</a>
 					<a
-						ex-nav-button
-						class="d-flex align-items-center gap-2"
+						class="ex-nav-button d-flex align-items-center gap-2"
 						[routerLink]="navigationService.private().debts()"
 						routerLinkActive="active"
 					>
@@ -95,26 +76,16 @@
 							color="accent"
 							[routerLink]="navigationService.private().settings()"
 						/>
-						<ex-button
-							iconButton
-							matIcon="contrast"
-							color="accent"
-							(click)="toggleTheme()"
-						/>
-						<ex-button
-							iconButton
-							matIcon="logout"
-							color="accent"
-							(click)="logout()"
-						/>
+						<ex-button iconButton matIcon="contrast" color="accent" (click)="toggleTheme()" />
+						<ex-button iconButton matIcon="logout" color="accent" (click)="logout()" />
 					</div>
 				} @else {
-					<ng-container [ngTemplateOutlet]="actionsMenu"></ng-container>
+					<ng-container [ngTemplateOutlet]="actionsMenu" />
 				}
 			</div>
 		</mat-drawer>
 		<mat-drawer-content>
-			<ng-container [ngTemplateOutlet]="pageContent"></ng-container>
+			<ng-container [ngTemplateOutlet]="pageContent" />
 		</mat-drawer-content>
 	</mat-drawer-container>
 } @else {
@@ -131,10 +102,7 @@
 </ng-template>
 
 <ng-template #actionsMenu>
-	<button
-		[matMenuTriggerFor]="sidebarActionsMenu"
-		class="more-actions-button"
-	>
+	<button [matMenuTriggerFor]="sidebarActionsMenu" class="more-actions-button">
 		<mat-icon>more_horiz</mat-icon>
 	</button>
 	<mat-menu #sidebarActionsMenu="matMenu">
@@ -155,11 +123,7 @@
 				<mat-icon>settings</mat-icon>
 				Settings
 			</a>
-			<button
-				mat-menu-item
-				class="d-flex align-items-center gap-2 pointer-cursor"
-				(click)="toggleTheme()"
-			>
+			<button mat-menu-item class="d-flex align-items-center gap-2 pointer-cursor" (click)="toggleTheme()">
 				<mat-icon>contrast</mat-icon>
 				Dark/Light mode
 			</button>
@@ -181,8 +145,7 @@
 			class="d-flex flex-row justify-content-around align-items-center w-100 h-100 fs-4 gap-2 flex-grow-1 fw-medium mobile-actions"
 		>
 			<a
-				ex-nav-button
-				class="d-flex align-items-center gap-2 justify-content-center"
+				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 				[routerLink]="navigationService.private().dashboard()"
 				routerLinkActive="active"
 			>
@@ -190,40 +153,35 @@
 			</a>
 
 			<a
-				ex-nav-button
-				class="d-flex align-items-center gap-2 justify-content-center"
+				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 				[routerLink]="navigationService.private().transactions()"
 				routerLinkActive="active"
 			>
 				<mat-icon>sync_alt</mat-icon>
 			</a>
 			<a
-				ex-nav-button
-				class="d-flex align-items-center gap-2 justify-content-center"
+				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 				[routerLink]="navigationService.private().statistics()"
 				routerLinkActive="active"
 			>
 				<mat-icon>leaderboard</mat-icon>
 			</a>
 			<a
-				ex-nav-button
-				class="d-flex align-items-center gap-2 justify-content-center"
+				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 				[routerLink]="navigationService.private().goals()"
 				routerLinkActive="active"
 			>
 				<mat-icon>emoji_events</mat-icon>
 			</a>
 			<a
-				ex-nav-button
-				class="d-flex align-items-center gap-2 justify-content-center"
+				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 				[routerLink]="navigationService.private().debts()"
 				routerLinkActive="active"
 			>
 				<mat-icon>account_balance</mat-icon>
 			</a>
 			<a
-				ex-nav-button
-				class="d-flex align-items-center gap-2 justify-content-center"
+				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 				[routerLink]="navigationService.private().profile().index()"
 				routerLinkActive="active"
 			>

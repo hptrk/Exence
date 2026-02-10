@@ -7,29 +7,33 @@ import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { BaseComponent } from '../base-component/base.component';
 import { DisplayThemeService } from '../display-theme.service';
-import { createCanvasBackgroundPlugin, createPointerTooltipConfig, getCssVariableValue, getLineChartData, getLineChartOptions } from './chart-config';
+import {
+	createCanvasBackgroundPlugin,
+	createPointerTooltipConfig,
+	getCssVariableValue,
+	getLineChartData,
+	getLineChartOptions,
+} from './chart-config';
 
 @Component({
 	selector: 'ex-chart',
 	templateUrl: './chart.component.html',
-	styleUrls: ['./chart.component.scss'],
-	imports: [
-		BaseChartDirective,
-	],
+	styleUrl: './chart.component.scss',
+	imports: [BaseChartDirective],
 })
 export class ChartComponent extends BaseComponent {
 	private themeService = inject(DisplayThemeService);
 
-	data = input.required<Transaction[]>();
-
 	private chart = viewChild<BaseChartDirective>(BaseChartDirective);
+
+	data = input.required<Transaction[]>();
 
 	lineChartType: ChartType = 'line';
 	balanceData = computed(() => {
 		// has to come from backend later
 		const sortedData = this.data().sort((a, b) => a.date.localeCompare(b.date));
 		if (!sortedData.length) return [];
-		
+
 		let currentBalance = 0;
 		return sortedData.map(transaction => {
 			if (transaction.type === TransactionType.INCOME) {
@@ -43,13 +47,15 @@ export class ChartComponent extends BaseComponent {
 	chartLabels = computed(() =>
 		this.data()
 			.sort((a, b) => a.date.localeCompare(b.date))
-			.map(transaction => format(new Date(transaction.date), 'dd/MM'))
+			.map(transaction => format(new Date(transaction.date), 'dd/MM')),
 	);
 	lineChartData = signal<ChartData<'line'>>(getLineChartData());
 	lineChartOptions = signal<ChartConfiguration['options']>(getLineChartOptions()); // colors, font style, etc.
 
-	get canvas(): HTMLCanvasElement | undefined { return this.chart()?.chart?.canvas; }
-	
+	get canvas(): HTMLCanvasElement | undefined {
+		return this.chart()?.chart?.canvas;
+	}
+
 	constructor() {
 		super();
 
@@ -90,18 +96,13 @@ export class ChartComponent extends BaseComponent {
 		const hoverColor = getCssVariableValue('--app-hover-color', element);
 
 		// update chart options with new colors
-		this.lineChartOptions.set(getLineChartOptions(
-			color,
-			colorGrid,
-			{ tooltip: createPointerTooltipConfig(this.data()) },
-		));
+		this.lineChartOptions.set(
+			getLineChartOptions(color, colorGrid, {
+				tooltip: createPointerTooltipConfig(this.data()),
+			}),
+		);
 
 		// update chart data with new colors
-		this.lineChartData.set(getLineChartData(
-			this.balanceData(),
-			this.chartLabels(),
-			bgColor,
-			hoverColor,
-		));
+		this.lineChartData.set(getLineChartData(this.balanceData(), this.chartLabels(), bgColor, hoverColor));
 	}
 }

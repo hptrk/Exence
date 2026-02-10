@@ -53,7 +53,11 @@ export class ProfileComponent {
 	passwordForm = this.fb.group({
 		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
 		newPassword: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
-		confirmPassword: this.fb.control<string>('', [Validators.required, ExtraValidators.password, ExtraValidators.passwordMatch('newPassword')])
+		confirmPassword: this.fb.control<string>('', [
+			Validators.required,
+			ExtraValidators.password,
+			ExtraValidators.passwordMatch('newPassword'),
+		]),
 	});
 
 	isUserDataFormEditing = signal<boolean>(false);
@@ -93,7 +97,9 @@ export class ProfileComponent {
 		};
 		await this.userService.changePassword(request);
 		this.isPasswordFormEditing.set(false);
-		this.router.navigate([this.navigationService.account().login()], { queryParams: { ['password-changed']: 'true' } });
+		this.router.navigate([this.navigationService.account().login()], {
+			queryParams: { ['password-changed']: 'true' },
+		});
 		this.snackbarService.showSuccess('Successfully saved!');
 	}
 

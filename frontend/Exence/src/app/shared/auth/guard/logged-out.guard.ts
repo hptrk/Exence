@@ -5,9 +5,7 @@ import { CurrentUserService } from '../../user/current-user.service';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, map, take } from 'rxjs';
 
-export const loggedOutGuard: CanActivateFn = (
-	route: ActivatedRouteSnapshot,
-) => {
+export const loggedOutGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
 	const router = inject(Router);
 	const currentUserService = inject(CurrentUserService);
 	const navigationService = inject(NavigationService);
@@ -20,7 +18,7 @@ export const loggedOutGuard: CanActivateFn = (
 	return toObservable(currentUserService.user).pipe(
 		filter(user => user !== null),
 		take(1),
-		map((user) => {
+		map(user => {
 			if (user && currentUserService.isAuthenticated()) {
 				router.navigate([navigationService.private().index()]);
 				return false;

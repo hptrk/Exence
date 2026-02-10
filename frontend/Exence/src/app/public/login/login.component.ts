@@ -42,11 +42,11 @@ export class LoginComponent extends BaseComponent {
 	private readonly authService = inject(AuthService);
 	private readonly router = inject(Router);
 	private readonly currentUserService = inject(CurrentUserService);
-	public navigationService = inject(NavigationService);
+	readonly navigationService = inject(NavigationService);
 
 	loginForm = this.fb.group({
 		email: this.fb.control<string>('', [Validators.required, Validators.email]),
-		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password])
+		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
 	});
 
 	async login(): Promise<void> {

@@ -25,14 +25,9 @@ export interface IntervalInfo {
 
 @Component({
 	selector: 'ex-categories',
-	imports: [
-		MatProgressBarModule,
-		MatCardModule,
-		MatIconModule,
-		ButtonComponent,
-	],
 	templateUrl: './categories.component.html',
 	styleUrl: './categories.component.scss',
+	imports: [MatProgressBarModule, MatCardModule, MatIconModule, ButtonComponent],
 })
 export class CategoriesComponent extends BaseComponent {
 	public display = inject(DisplaySizeService);
@@ -46,15 +41,11 @@ export class CategoriesComponent extends BaseComponent {
 	hasTransactions = computed(() => !!this.topCategories().length);
 
 	async openCreateCategoryDialog(): Promise<void> {
-		await this.dialog.openNonModal(
-			CreateCategoryDialogComponent, undefined
-		);
+		await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		await this.dialog.openNonModal(
-			CreateTransactionDialogComponent, undefined
-		);
+		await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
 	}
 
 	calcPercentage(amount: number): number {

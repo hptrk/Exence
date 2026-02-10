@@ -8,7 +8,7 @@ import { TransactionType } from '../../data-model/modules/transaction/Transactio
 import { HttpService } from '../../shared/http/http.service';
 import { getFilters } from '../../shared/util/http-request-utils';
 @Injectable({
-	providedIn: 'root'
+	providedIn: 'root',
 })
 export class TransactionService {
 	private readonly http = inject(HttpService);
@@ -20,7 +20,12 @@ export class TransactionService {
 	}
 
 	public list(filters?: TransactionFilter, pageIndex = 0): Promise<PagedResponse<Transaction>> {
-		return lastValueFrom(this.http.get<PagedResponse<Transaction>>(this.baseUrl, { ...getFilters(filters), page: pageIndex.toString() }));
+		return lastValueFrom(
+			this.http.get<PagedResponse<Transaction>>(this.baseUrl, {
+				...getFilters(filters),
+				page: pageIndex.toString(),
+			}),
+		);
 	}
 
 	public listIncomes(pageIndex = 0): Promise<PagedResponse<Transaction>> {

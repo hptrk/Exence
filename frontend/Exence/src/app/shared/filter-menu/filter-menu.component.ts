@@ -11,13 +11,7 @@ import { CommonModule } from '@angular/common';
 	selector: 'ex-filter-menu',
 	templateUrl: './filter-menu.component.html',
 	styleUrl: './filter-menu.component.scss',
-	imports: [
-		CommonModule,
-		MatMenuModule,
-		MatBadgeModule,
-		MatBottomSheetModule,
-		ButtonComponent,
-	],
+	imports: [CommonModule, MatMenuModule, MatBadgeModule, MatBottomSheetModule, ButtonComponent],
 })
 export class FilterMenuComponent {
 	private readonly bottomSheet = inject(MatBottomSheet);

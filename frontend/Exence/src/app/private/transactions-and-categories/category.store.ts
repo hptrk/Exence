@@ -40,7 +40,7 @@ export const CategoryStore = signalStore(
 				await categoryService.delete(id);
 				snackbarService.showSuccess('Category deleted successfully!');
 				triggerReload();
-			}
+			},
 		};
-	})
+	}),
 );

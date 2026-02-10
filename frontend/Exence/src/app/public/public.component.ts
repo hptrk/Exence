@@ -3,9 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
 	selector: 'ex-public',
-	template: `
-		<router-outlet />
-	`,
+	template: ` <router-outlet /> `,
 	styles: `
 		:host {
 			height: 100dvh;
@@ -16,4 +14,4 @@ import { RouterOutlet } from '@angular/router';
 	`,
 	imports: [RouterOutlet],
 })
-export class PublicComponent { }
+export class PublicComponent {}

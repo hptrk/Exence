@@ -39,10 +39,15 @@ export class MessageDialogButtonConfig {
 	public static delete = new MessageDialogButtonConfig(PredefiedButtons.DELETE);
 	public static deleteCancel = new MessageDialogButtonConfig(PredefiedButtons.CANCEL, PredefiedButtons.DELETE);
 
-	readonly buttons: MessageDialogButtonData[];
-	constructor(...buttons: MessageDialogButtonData[]) { this.buttons = buttons; }
+	buttons: MessageDialogButtonData[];
+	constructor(...buttons: MessageDialogButtonData[]) {
+		this.buttons = buttons;
+	}
 
-	static custom(primaryButton: MessageDialogButtonData, secondaryButton?: MessageDialogButtonData): MessageDialogButtonConfig {
+	static custom(
+		primaryButton: MessageDialogButtonData,
+		secondaryButton?: MessageDialogButtonData,
+	): MessageDialogButtonConfig {
 		if (secondaryButton) return new MessageDialogButtonConfig(secondaryButton, primaryButton);
 		return new MessageDialogButtonConfig(primaryButton);
 	}
@@ -51,11 +56,7 @@ export class MessageDialogButtonConfig {
 @Component({
 	selector: 'ex-message-dialog',
 	templateUrl: './message-dialog.component.html',
-	imports: [
-		DialogCardComponent,
-		ButtonComponent,
-		MatDialogClose
-	],
+	imports: [DialogCardComponent, ButtonComponent, MatDialogClose],
 })
 export class MessageDialogComponent extends DialogComponent<MessageDialogData, boolean> {
 	actions = this.dialogRef.value.buttons ?? MessageDialogButtonConfig.okCancel;

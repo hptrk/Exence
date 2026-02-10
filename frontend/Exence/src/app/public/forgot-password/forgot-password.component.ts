@@ -34,7 +34,7 @@ import { StopPropagationDirective } from '../../shared/stop-propagation.directiv
 		ValidatorComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
-	]
+	],
 })
 export class ForgotPasswordComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -46,9 +46,13 @@ export class ForgotPasswordComponent extends BaseComponent {
 	emailControl = this.fb.control<string>('', [Validators.required, Validators.email, Validators.maxLength(255)]);
 	resetForm = this.fb.group({
 		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
-		confirmPassword: this.fb.control<string>('', [Validators.required, ExtraValidators.password, ExtraValidators.passwordMatch('password')])
+		confirmPassword: this.fb.control<string>('', [
+			Validators.required,
+			ExtraValidators.password,
+			ExtraValidators.passwordMatch('password'),
+		]),
 	});
-	
+
 	token = computed(() => this.router.routerState.root.snapshot.queryParams['token'] as string);
 	emailSent = signal<boolean>(false);
 

@@ -11,7 +11,7 @@ export class SelectAutoFocusDirective extends BaseComponent implements AfterCont
 
 	ngAfterContentInit(): void {
 		this.addSubscription(
-			this.select._openedStream.subscribe(() => setTimeout(() => this.focusedInput()?.focus(), 0))
+			this.select._openedStream.subscribe(() => setTimeout(() => this.focusedInput()?.focus(), 0)),
 		);
 	}
 }

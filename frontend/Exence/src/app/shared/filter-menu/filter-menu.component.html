@@ -25,13 +25,9 @@
 }
 
 <mat-menu #filterMenu>
-	<div
-		class="d-flex flex-column gap-3 p-4 menu"
-		(click)="$event.stopPropagation()"
-	>
-		<div
-			class="d-flex flex-row align-items-center justify-content-between gap-2"
-		>
+	<!-- TODO check if propagation directive can be used -->
+	<div class="d-flex flex-column gap-3 p-4 menu" (click)="$event.stopPropagation()">
+		<div class="d-flex flex-row align-items-center justify-content-between gap-2">
 			<h3 class="m-0">Filters</h3>
 			<ex-button
 				iconButton
@@ -62,18 +58,10 @@
 		</div>
 
 		<div class="d-flex flex-column gap-2">
-			<ex-button
-				matIcon="visibility"
-				(click)="closeSheet()"
-				[disabled]="!appliedFiltersCount()"
-			>
+			<ex-button matIcon="visibility" (click)="closeSheet()" [disabled]="!appliedFiltersCount()">
 				Show ({{ appliedFiltersCount() }})
 			</ex-button>
-			<ex-button
-				color="accent"
-				matIcon="filter_alt_off"
-				(click)="clearFilters(); closeSheet()"
-			>
+			<ex-button color="accent" matIcon="filter_alt_off" (click)="clearFilters(); closeSheet()">
 				Clear all
 			</ex-button>
 		</div>

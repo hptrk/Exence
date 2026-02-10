@@ -13,9 +13,10 @@ let refreshTokenInProgress: Promise<void> | null = null;
 
 function startTokenRefresh(authService: AuthService): Promise<void> {
 	console.warn('Access token expired. Requesting new access token!');
-	
-	// eslint-disable-next-line
-	refreshTokenInProgress = authService.refreshToken().then(() => {})
+
+	refreshTokenInProgress = authService
+		.refreshToken()
+		.then(() => {})
 		.finally(() => {
 			refreshTokenInProgress = null;
 		});
@@ -26,11 +27,14 @@ function startTokenRefresh(authService: AuthService): Promise<void> {
 function setErrorContext(errorWithContext: HttpErrorResponse, req: HttpRequest<unknown>): void {
 	Object.defineProperty(errorWithContext, 'context', {
 		value: req.context.set(SUPPRESS_ERROR_SNACKBAR, true),
-		enumerable: false
+		enumerable: false,
 	});
 }
 
-export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+export function refreshTokenInterceptor(
+	req: HttpRequest<unknown>,
+	next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
 	const router = inject(Router);
 	const navigationService = inject(NavigationService);
 	const authService = inject(AuthService);
@@ -67,8 +71,8 @@ export function refreshTokenInterceptor(req: HttpRequest<unknown>, next: HttpHan
 					setErrorContext(errorWithContext, req);
 
 					return throwError(() => errorWithContext);
-				})
+				}),
 			);
-		})
+		}),
 	);
 }
