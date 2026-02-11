@@ -8,5 +8,6 @@
 	"trailingComma": "all",
 	"bracketSpacing": true,
 	"arrowParens": "avoid",
-	"singleAttributePerLine": false
+	"singleAttributePerLine": false,
+	"endOfLine": "auto"
 }
