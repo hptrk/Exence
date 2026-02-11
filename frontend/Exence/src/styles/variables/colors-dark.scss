@@ -154,3 +154,6 @@ $accent-text-color-dark: map.get($neutral-palette, 85);
 $secondary-text-color-dark: map.get($secondary-palette, 25);
 
 $error-color-dark: map.get($error-palette, 50);
+
+$skeleton-shimmer-color-dark: map.get($primary-palette, 35);
+$skeleton-surface-color-dark: map.get($primary-palette, 25);
