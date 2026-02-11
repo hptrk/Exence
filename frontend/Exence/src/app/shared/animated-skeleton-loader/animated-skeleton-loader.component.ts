@@ -1,9 +1,9 @@
 import { Component, computed, input } from '@angular/core';
 
 @Component({
-	selector: 'ex-animated-skeleton',
+	selector: 'ex-animated-skeleton-loader',
 	template: '',
-	styleUrl: './animated-skeleton.component.scss',
+	styleUrl: './animated-skeleton-loader.component.scss',
 	imports: [],
 	host: {
 		'[style.width]': 'width()',
