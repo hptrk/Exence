@@ -33,7 +33,7 @@ export const CategoryStore = signalStore(
 		return {
 			async createCategory(request: Category): Promise<void> {
 				const newCategory = await categoryService.create(request);
-				snackbarService.showSuccess(`Category '${newCategory.icon}' created successfully!`);
+				snackbarService.showSuccess(`Category '${newCategory.name}' created successfully!`);
 				triggerReload();
 			},
 			async deleteCategory(id: number): Promise<void> {
