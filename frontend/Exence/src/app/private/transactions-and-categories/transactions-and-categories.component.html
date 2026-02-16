@@ -53,7 +53,7 @@
 			@if (display.isLg()) {
 				<ex-data-table
 					[transactions]="transactionStore.recurringExpenses()"
-					[isDataLoading]="transactionStore.recurringResource.isLoading()"
+					[isDataLoading]="transactionStore.recurringExpenseResource.isLoading()"
 					matIcon="money_off"
 					nonExpandable
 					title="Recurring Expenses"
@@ -74,7 +74,7 @@
 			} @else {
 				<ex-data-table
 					[transactions]="transactionStore.recurrings()"
-					[isDataLoading]="transactionStore.recurringExpenseResource.isLoading()"
+					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="attach_money"
 					nonExpandable
 					title="Recurrings"

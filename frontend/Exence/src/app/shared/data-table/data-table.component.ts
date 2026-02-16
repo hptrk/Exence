@@ -127,7 +127,7 @@ export class DataTableComponent extends BaseComponent {
 		return (
 			!transactions?.content?.length ||
 			(!this.transactionDataSource()?.data.length &&
-				!this.transactionStore.data.transactions.content?.length &&
+				!this.transactionStore.transactions.content?.length &&
 				!this.transactionStore.transactionResource.isLoading())
 		);
 	});
