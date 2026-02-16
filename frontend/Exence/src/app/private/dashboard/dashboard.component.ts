@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
 import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
@@ -24,7 +23,6 @@ import { TransactionStore } from '../transactions-and-categories/transaction.sto
 	styleUrl: './dashboard.component.scss',
 	imports: [
 		CommonModule,
-		RouterModule,
 		CardSliderDirective,
 		SummaryContainerComponent,
 		DataTableComponent,

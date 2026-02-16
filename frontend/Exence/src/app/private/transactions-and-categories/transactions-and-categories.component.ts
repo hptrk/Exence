@@ -25,6 +25,8 @@ import { CategoryStore } from './category.store';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
+import { ActivatedRoute } from '@angular/router';
+import { mapToTransactionFilter } from '../../shared/util/utils';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -55,6 +57,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	private readonly dialog = inject(DialogService);
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly fb = inject(NonNullableFormBuilder);
+	private readonly route = inject(ActivatedRoute);
 	readonly display = inject(DisplaySizeService);
 	readonly transactionStore = inject(TransactionStore);
 
@@ -107,6 +110,8 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 				this.transactionStore.updateFilters(newFilters as TransactionFilter);
 			}),
 		);
+
+		this.applyQueryParamsToFilters();
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
@@ -119,5 +124,11 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 
 	onScroll(type?: TransactionType, recurring?: boolean): void {
 		this.transactionStore.loadNextPage(type, recurring);
+	}
+
+	private applyQueryParamsToFilters(): void {
+		const queryParams = this.route.snapshot.queryParamMap;
+		const filters = mapToTransactionFilter(queryParams);
+		this.transactionFilterForm.patchValue(filters);
 	}
 }

@@ -13,9 +13,11 @@ mat-card.mat-mdc-card {
 	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 	transition: background 0.3s ease-in-out;
 
-	// &:hover {
-	// 	background-color: lighten(var(--mat-card-elevated-container-color), 5%);
-	// }
+	cursor: pointer;
+
+	&:hover {
+		background-color: lighten(var(--mat-card-elevated-container-color), 5%);
+	}
 }
 
 .icon-container {
