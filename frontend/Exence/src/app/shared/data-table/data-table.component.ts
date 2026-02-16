@@ -21,7 +21,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -42,6 +41,7 @@ import { DisplaySizeService } from '../display-size.service';
 import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
+import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/animated-skeleton-loader.component';
 
 @Component({
 	selector: 'ex-data-table',
@@ -61,9 +61,9 @@ import { ValidatorComponent } from '../validator/validator.component';
 		MatMenuModule,
 		MatCheckboxModule,
 		MatSelectModule,
-		MatProgressSpinnerModule,
 		ButtonComponent,
 		ValidatorComponent,
+		AnimatedSkeletonLoaderComponent,
 		StopPropagationDirective,
 		InfiniteScrollDirective,
 	],
