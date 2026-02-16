@@ -106,7 +106,7 @@ export class DataTableComponent extends BaseComponent {
 	displayedColumns = ['title', 'date', 'amount', 'category', 'actions'];
 	displayedCategoryColumns = ['name', 'icon', 'type', 'actions'];
 
-	expandedElement: Transaction | null = null;
+	expandedRowId: number | null = null;
 
 	transactionTypes = TransactionType;
 
@@ -246,7 +246,7 @@ export class DataTableComponent extends BaseComponent {
 
 	toggleExpand(row: Transaction | null): void {
 		if (this.nonExpandable() || !row) return;
-		this.expandedElement = this.expandedElement === row ? null : row;
+		this.expandedRowId = this.expandedRowId === row.id ? null : row.id!;
 		// if (row.id === this.currentlyEditedRow()) {
 		// 	this.currentlyEditedRow.set(undefined);
 		// }

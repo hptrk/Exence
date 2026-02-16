@@ -98,7 +98,7 @@
 										@if (!nonExpandable()) {
 											<div
 												matTooltip="Actions"
-												[class.hidden]="expandedElement !== row"
+												[class.hidden]="expandedRowId !== row.id"
 												class="d-flex align-items-center justify-content-center"
 											>
 												<button
@@ -150,7 +150,7 @@
 													</button>
 												</mat-menu>
 											</div>
-											@if (expandedElement === row) {
+											@if (expandedRowId === row.id) {
 												<div
 													matTooltip="Hide details"
 													class="d-flex align-items-center justify-content-center"
@@ -177,7 +177,7 @@
 									<div class="detail-row-item">
 										<div
 											class="detail-container"
-											[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
+											[@expandAnimation]="expandedRowId === row.id ? 'expanded' : 'collapsed'"
 										>
 											<div class="d-flex flex-column flex-md-row gap-4 p-4 w-100">
 												<div class="d-flex gap-4 w-100">
@@ -267,7 +267,7 @@
 							*matRowDef="let row; columns: displayedColumns"
 							class="table-row"
 							[class.non-expandable]="nonExpandable()"
-							[class.expanded]="expandedElement === row"
+							[class.expanded]="expandedRowId === row.id"
 							(click)="toggleExpand(row)"
 						></tr>
 						@if (!nonExpandable()) {
