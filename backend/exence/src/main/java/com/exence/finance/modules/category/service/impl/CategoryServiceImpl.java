@@ -10,6 +10,7 @@ import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
+import com.exence.finance.modules.transaction.dto.request.CategoryFilter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,8 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.mapToCategoryDTOList(categories);
     }
 
-    public List<CategorySummaryResponse> getTop4CategoriesByTotalAmount() {
-        return categoryRepository.findTop4CategoriesByTotalAmount();
+    public List<CategorySummaryResponse> getTopCategoriesByTotalAmount(CategoryFilter filter) {
+        return categoryRepository.findTopCategoriesByTotalAmount(filter.getType());
     }
 
     @Transactional

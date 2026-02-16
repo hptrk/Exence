@@ -5,6 +5,7 @@ import com.exence.finance.modules.category.controller.CategoryController;
 import com.exence.finance.modules.category.dto.CategoryDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.service.CategoryService;
+import com.exence.finance.modules.transaction.dto.request.CategoryFilter;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,10 +40,11 @@ public class CategoryControllerImpl implements CategoryController {
         return ResponseFactory.ok(categoryDTOs);
     }
 
-    @GetMapping("/top4")
-    public ResponseEntity<List<CategorySummaryResponse>> getTop4CategoriesByTotalAmount() {
-        List<CategorySummaryResponse> top4Categories = categoryService.getTop4CategoriesByTotalAmount();
-        return ResponseFactory.ok(top4Categories);
+    @GetMapping("/top")
+    public ResponseEntity<List<CategorySummaryResponse>> getTopCategoreiesByTotalAmount(
+            @Valid @ModelAttribute CategoryFilter filter) {
+        List<CategorySummaryResponse> topCategories = categoryService.getTopCategoriesByTotalAmount(filter);
+        return ResponseFactory.ok(topCategories);
     }
 
     @PostMapping()
