@@ -38,11 +38,11 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(
-    callSuper = false,
-    exclude = {"user", "transactions"})
+        callSuper = false,
+        exclude = {"user", "transactions"})
 @ToString(
-    callSuper = true,
-    exclude = {"user", "transactions"})
+        callSuper = true,
+        exclude = {"user", "transactions"})
 @Table(name = "category")
 @Filter(name = "userFilter", condition = "user_id = :userId")
 public class Category extends BaseAuditableEntity {
