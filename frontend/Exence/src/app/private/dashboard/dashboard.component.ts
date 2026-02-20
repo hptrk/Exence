@@ -47,12 +47,12 @@ export class DashboardComponent extends BaseComponent implements OnInit {
 
 	user = computed(() => this.currentUserService.user());
 	categories = computed(() => this.categoryStore.categoryResource.value());
-	transactions = computed(() => this.transactionStore.data.transactions());
-	incomes = computed(() => this.transactionStore.data.incomes());
-	expenses = computed(() => this.transactionStore.data.expenses());
+	transactions = computed(() => this.transactionStore.transactions());
+	incomes = computed(() => this.transactionStore.incomes());
+	expenses = computed(() => this.transactionStore.expenses());
 
 	ngOnInit(): void {
-		if (this.transactionStore.data.transactions().content?.length) this.transactionStore.resetState();
+		if (this.transactionStore.transactions().content?.length) this.transactionStore.resetState();
 	}
 
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {

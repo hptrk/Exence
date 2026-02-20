@@ -1,5 +1,3 @@
-<ng-container [ngTemplateOutlet]="loader" />
-
 <div class="table-container grid-mode">
 	<div class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2">
 		<h3 class="d-flex align-items-center gap-2">
@@ -100,7 +98,7 @@
 										@if (!nonExpandable()) {
 											<div
 												matTooltip="Actions"
-												[class.hidden]="expandedElement !== row"
+												[class.hidden]="expandedRowId !== row.id"
 												class="d-flex align-items-center justify-content-center"
 											>
 												<button
@@ -152,7 +150,7 @@
 													</button>
 												</mat-menu>
 											</div>
-											@if (expandedElement === row) {
+											@if (expandedRowId === row.id) {
 												<div
 													matTooltip="Hide details"
 													class="d-flex align-items-center justify-content-center"
@@ -179,7 +177,7 @@
 									<div class="detail-row-item">
 										<div
 											class="detail-container"
-											[@expandAnimation]="row === expandedElement ? 'expanded' : 'collapsed'"
+											[@expandAnimation]="expandedRowId === row.id ? 'expanded' : 'collapsed'"
 										>
 											<div class="d-flex flex-column flex-md-row gap-4 p-4 w-100">
 												<div class="d-flex gap-4 w-100">
@@ -257,13 +255,19 @@
 							</ng-container>
 						}
 
+						<ng-container matColumnDef="loader">
+							<td mat-fooder-cell *matFooterCellDef [attr.colspan]="displayedColumns.length">
+								<ng-container [ngTemplateOutlet]="loader" />
+							</td>
+						</ng-container>
+
 						<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 						<tr
 							mat-row
 							*matRowDef="let row; columns: displayedColumns"
 							class="table-row"
 							[class.non-expandable]="nonExpandable()"
-							[class.expanded]="expandedElement === row"
+							[class.expanded]="expandedRowId === row.id"
 							(click)="toggleExpand(row)"
 						></tr>
 						@if (!nonExpandable()) {
@@ -274,6 +278,10 @@
 								style="height: 0"
 							></tr>
 						}
+
+						<tr mat-footer-row *matFooterRowDef="['loader']" class="table-row">
+							<ng-container [ngTemplateOutlet]="loader" />
+						</tr>
 					</table>
 				} @else if (!emptyCategoryTable && type() === 'category') {
 					<table mat-table [dataSource]="categoryStore.categoryResource.value() ?? []" multiTemplateDataRows>
@@ -335,10 +343,28 @@
 							</td>
 						</ng-container>
 
+						<ng-container matColumnDef="loader">
+							<td
+								mat-fooder-cell
+								*matFooterCellDef
+								[attr.colspan]="displayedColumns.length"
+								[hidden]="!isDataLoading()"
+							>
+								<ng-container [ngTemplateOutlet]="loader" />
+							</td>
+						</ng-container>
+
 						<tr mat-header-row *matHeaderRowDef="displayedCategoryColumns"></tr>
 						<tr
 							mat-row
 							*matRowDef="let row; columns: displayedCategoryColumns"
+							class="table-row category-table-row"
+						></tr>
+
+						<tr
+							mat-footer-row
+							*matFooterRowDef="['loader']"
+							[hidden]="!isDataLoading()"
 							class="table-row category-table-row"
 						></tr>
 					</table>
@@ -362,13 +388,7 @@
 	</div>
 </ng-template>
 
-<!-- TODO make own component https://horanszkipatrik.atlassian.net/browse/EX-274 -->
 <ng-template #loader>
-	@if (!!isDataLoading()) {
-		<div
-			class="d-flex justify-content-center align-items-center position-absolute top-0 start-0 h-100 w-100 z-2 loader"
-		>
-			<mat-spinner />
-		</div>
-	}
+	<ex-animated-skeleton-loader width="100%" height="50px" [style.margin-bottom]="'10px'" />
+	<ex-animated-skeleton-loader width="100%" height="50px" />
 </ng-template>

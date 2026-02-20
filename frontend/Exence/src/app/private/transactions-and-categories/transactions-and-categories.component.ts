@@ -59,7 +59,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	readonly transactionStore = inject(TransactionStore);
 
 	categories = computed(() => this.categoryStore.categoryResource.value());
-	transactions = computed(() => this.transactionStore.data.transactions());
+	transactions = computed(() => this.transactionStore.transactions());
 
 	selectedIndex = 0;
 	loading = false;
