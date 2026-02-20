@@ -1,0 +1,43 @@
+<mat-card class="d-flex flex-column justify-content-center gap-3 p-4 position-relative h-100">
+	<ex-info-button [tooltip]="info()" />
+
+	@if (type() === 'metric') {
+		<div class="d-flex flex-column gap-0 align-items-center">
+			<div class="fs-4 fw-bold">{{ data().label }}</div>
+			<div class="fs-2 fw-bold">
+				@switch (valueType()) {
+					@case ('currency') {
+						{{ data().value | currency: 'Ft' : 'symbol' : '1.0-0' }}
+					}
+					@case ('percentage') {
+						{{ data().value }}%
+					}
+					@default {
+						{{ data().value }}
+					}
+				}
+			</div>
+			<div class="fs-6 fw-lighter">{{ data().contextLabel }}</div>
+		</div>
+	} @else if (type() === 'spotlight') {
+		<div class="d-flex flex-row flex-nowrap gap-3 align-items-center justify-content-center">
+			<div ex-card-icon [style.--icon-color]="data().icon!.color">
+				<mat-icon size="xl">{{ data().icon!.icon }}</mat-icon>
+			</div>
+			<div class="d-flex flex-column gap-0 justify-content-center align-items-start">
+				<div class="fw-bolder fs-6">{{ data().label }}</div>
+				<div class="fw-bold fs-3">{{ data().value | currency: 'Ft' : 'symbol' : '1.0-0' }}</div>
+				<div class="fw-lighter fs-6">"{{ data().contextLabel }}"</div>
+			</div>
+		</div>
+	}
+
+	@if (type() === 'metric') {
+		<div class="trend" [attr.trend]="data().trend">
+			@if (data().changePercentage !== 0) {
+				<span class="mt-1">{{ assets().prefix + data().changePercentage }}</span>
+			}
+			<mat-icon size="sm">{{ assets().suffix }}</mat-icon>
+		</div>
+	}
+</mat-card>
