@@ -1,0 +1,13 @@
+:host {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: 1.5rem;
+
+	scrollbar-gutter: stable;
+	padding-bottom: 0.5rem;
+
+	width: 100%;
+	overflow-x: auto;
+}
