@@ -35,6 +35,8 @@ html {
 }
 
 body {
+	--bs-body-font-family: 'Montserrat', Arial, sans-serif;
+	font-family: var(--bs-body-font-family);
 	background-color: var(--app-background-color);
 	color: var(--default-text-color);
 	font-weight: normal;
