@@ -29,6 +29,7 @@
 			<ex-categories
 				class="h-100"
 				[totalExpense]="transactionStore.totalExpense()"
+				[totalIncome]="transactionStore.totalIncome()"
 				[categories]="categoryStore.categoryResource.value() ?? []"
 				[topCategories]="categoryStore.topCategoriesResource.value() ?? []"
 			/>

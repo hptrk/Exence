@@ -3,6 +3,8 @@ import { lastValueFrom } from 'rxjs';
 import { HttpService } from '../../shared/http/http.service';
 import { Category } from '../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
+import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
+import { getFilters } from '../../shared/util/http-request-utils';
 
 @Injectable({
 	providedIn: 'root',
@@ -20,8 +22,10 @@ export class CategoryService {
 		return lastValueFrom(this.http.get<Category[]>(this.baseUrl));
 	}
 
-	public listTop4(): Promise<CategorySummaryResponse[]> {
-		return lastValueFrom(this.http.get<CategorySummaryResponse[]>(`${this.baseUrl}/top4`));
+	public listTop(filters: CategoryFilter): Promise<CategorySummaryResponse[]> {
+		return lastValueFrom(
+			this.http.get<CategorySummaryResponse[]>(`${this.baseUrl}/top`, { ...getFilters(filters) }),
+		);
 	}
 
 	public create(request: Category): Promise<Category> {

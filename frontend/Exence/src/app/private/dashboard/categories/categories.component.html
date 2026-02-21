@@ -8,7 +8,7 @@
 				<ex-button iconButton matIcon="add" color="accent" (click)="openCreateCategoryDialog()" />
 			</mat-card-title>
 		</mat-card-header>
-		<mat-card-content>
+		<mat-card-content class="flex-grow-1 d-flex flex-column justify-content-between">
 			<div class="d-flex flex-column gap-4">
 				@for (category of topCategories(); track category.id) {
 					<div class="d-flex flex-column gap-1 align-items-center">
@@ -64,4 +64,17 @@
 			</mat-card-actions>
 		}
 	}
+	<mat-card-footer class="p-3">
+		<mat-button-toggle-group
+			class="mt-4"
+			[hideSingleSelectionIndicator]="true"
+			(change)="onTypeChanged($event.value)"
+		>
+			@for (type of categoryTypes | enumValue; track type) {
+				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">
+					{{ type }}
+				</mat-button-toggle>
+			}
+		</mat-button-toggle-group>
+	</mat-card-footer>
 </mat-card>
