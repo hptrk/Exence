@@ -16,7 +16,7 @@ import { SvgIcons } from '../../../shared/svg-icons/svg-icons';
 	imports: [MatCardModule, MatIconModule, CurrencyPipe, MatButtonModule, RouterModule, AbsoluteValuePipe],
 })
 export class SummaryContainerComponent {
-	private readonly navigation = inject(NavigationService);
+	private readonly navigationService = inject(NavigationService);
 	private readonly router = inject(Router);
 
 	svgIcon = input<SvgIcons>();
@@ -27,27 +27,12 @@ export class SummaryContainerComponent {
 
 	transactionTypes = TransactionType;
 
-	// TODO navigate with filter on click
 	navigate(): void {
 		const queryParams: Record<string, string> = {};
-		// switch (this.data().type) {
-		// 	case SummaryType.INCOME:
-		// 		queryParams['amountFilter'] = 'gt';
-		// 		queryParams['amountValue'] = '0';
-		// 		break;
-		// 	case SummaryType.EXPENSE:
-		// 		queryParams['amountFilter'] = 'lt';
-		// 		queryParams['amountValue'] = '0';
-		// 		break;
-		// 	case SummaryType.OTHER:
-		// 		if (this.filterCondition()) {
-		// 			Object.entries(this.filterCondition()!).forEach(([key, value]) => {
-		// 				queryParams[key] = value;
-		// 			});
-		// 		}
-		// 		break;
-		// }
-		this.router.navigate([this.navigation.private().transactions()], {
+		if (this.type()) {
+			queryParams['type'] = this.type()!;
+		}
+		this.router.navigate([this.navigationService.private().transactions()], {
 			queryParams,
 		});
 	}
