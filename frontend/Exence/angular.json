@@ -24,7 +24,7 @@
 						"inlineStyleLanguage": "scss",
 						"assets": ["src/assets"],
 						"styles": ["src/styles/styles.scss"],
-						"scripts": [],
+						"scripts": ["node_modules/apexcharts/dist/apexcharts.min.js"],
 						"stylePreprocessorOptions": {
 							"sass": {
 								"silenceDeprecations": ["import", "color-functions", "global-builtin"]
