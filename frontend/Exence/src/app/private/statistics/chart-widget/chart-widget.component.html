@@ -1,0 +1,16 @@
+@if (isLoading() && !data()) {
+	<!-- TODO animation -->
+} @else {
+	@if (isApexChart()) {
+		<apx-chart
+			[title]="data().title ?? {}"
+			[series]="data().series!"
+			[chart]="data().chart!"
+			[plotOptions]="data().plotOptions ?? {}"
+			[xaxis]="data().xaxis!"
+			[colors]="data().colors!"
+		/>
+	} @else {
+		<!-- TODO SANKEY -->
+	}
+}
