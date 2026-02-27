@@ -1,5 +1,7 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { EmptyStatisticCardComponent } from '../empty-statistic-card.component';
+import { StatCardWidget } from '../Widget';
+import { StatCardComponent } from '../stat-card/stat-card.component';
 
 @Component({
 	selector: 'ex-stat-card-list',
