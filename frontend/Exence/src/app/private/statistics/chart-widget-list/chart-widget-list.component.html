@@ -1,3 +1,5 @@
-@for (widget of data(); track widget.id) {
-	<ex-chart-widget [widget]="widget" />
-}
+<div class="d-flex flex-column gap-4 overflow-y-auto">
+	@for (widget of data(); track widget.id) {
+		<ex-chart-widget [widget]="widget" />
+	}
+</div>

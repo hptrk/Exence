@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ChartWidgetListComponent } from './chart-widget-list/chart-widget-list.component';
 import { StatisticCardListComponent } from './statistic-card-list/statistic-card-list.component';
 import { StatisticService } from './statistic.service';
@@ -14,13 +14,13 @@ import { ChartWidget, StatCardWidget } from './Widget';
 export class StatisticsComponent implements OnInit {
 	private readonly statisticService = inject(StatisticService);
 
-	statCards: StatCardWidget[] = [];
-	charts: ChartWidget[] = [];
+	statCards = signal<StatCardWidget[]>([]);
+	charts = signal<ChartWidget[]>([]);
 
 	ngOnInit(): void {
 		this.statisticService.getLayout().then(({ statCards, charts }) => {
-			this.statCards = statCards;
-			this.charts = charts;
+			this.statCards.set(statCards);
+			this.charts.set(charts);
 		});
 	}
 }

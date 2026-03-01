@@ -24,3 +24,11 @@ export function mapToTransactionFilter(queryParam: ParamMap): TransactionFilter 
 	if (queryParam.get('recurring')) filter.recurring = queryParam.get('recurring') === 'true';
 	return filter;
 }
+
+export function lightenHexColor(hex: string, amount = 0.3): string {
+	const num = parseInt(hex.replace('#', ''), 16);
+	const r = Math.min(255, Math.round((num >> 16) + (255 - (num >> 16)) * amount));
+	const g = Math.min(255, Math.round(((num >> 8) & 0xff) + (255 - ((num >> 8) & 0xff)) * amount));
+	const b = Math.min(255, Math.round((num & 0xff) + (255 - (num & 0xff)) * amount));
+	return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}

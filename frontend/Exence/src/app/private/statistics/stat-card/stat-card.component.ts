@@ -50,7 +50,7 @@ export class StatCardComponent implements OnChanges {
 		this.statisticService.getWidgetData<StatCardPayload>(this.widget().id).then(response => {
 			const type = mapToExChartType(response.type);
 			const providerFn = mapToProvider<StatCardPayload>(type);
-			this.data.set(providerFn(response.data) as StatCardPayload);
+			this.data.set(providerFn(response.payload) as StatCardPayload);
 			this.isLoading.set(false);
 		});
 	}

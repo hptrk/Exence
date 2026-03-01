@@ -16,14 +16,7 @@
 		@if (isMetric()) {
 			<div class="d-flex flex-column gap-0 align-items-center">
 				<div class="fs-4 fw-bold">{{ widget().title }}</div>
-				<div class="fs-2 fw-bold">
-					<!-- TODO might need to put a valueType onto the DTO -->
-					@if (cardInfo.value > 100) {
-						{{ cardInfo.value | currency: 'Ft' : 'symbol' : '1.0-0' }}
-					} @else {
-						{{ cardInfo.value }}%
-					}
-				</div>
+				<div class="fs-2 fw-bold">{{ cardInfo.value }} {{ cardInfo.unit }}</div>
 				<div class="fs-6 fw-lighter">{{ cardInfo.contextLabel }}</div>
 			</div>
 

@@ -16,15 +16,15 @@ export interface SeriesPayload {
 
 export interface SeriesItem {
 	name: string;
-	type: string;
-	color: string;
+	type?: string;
+	color?: string;
 	data: DataPoint[];
 }
 
 export interface DataPoint {
 	x: string;
 	y: number;
-	fillColor: string;
+	fillColor?: string;
 }
 
 export interface DistributionPayload {
@@ -34,7 +34,7 @@ export interface DistributionPayload {
 export interface DistributionItem {
 	name: string;
 	amount: number;
-	color: string;
+	color?: string;
 }
 
 export interface BoxplotPayload {
@@ -44,10 +44,16 @@ export interface BoxplotPayload {
 export interface BoxplotPoint {
 	x: number;
 	y: number[];
-	color: string;
+	color?: string;
 }
 
 export interface BubblePayload {
+	series: BubbleSeries[];
+}
+
+export interface BubbleSeries {
+	name: string;
+	color: string;
 	data: BubblePoint[];
 }
 
@@ -74,7 +80,7 @@ export interface SlopePayload {
 
 export interface SlopeItem {
 	category: string;
-	yearsData: Map<string, number>;
+	yearsData: Map<string, number>; // 2026 - 1000Ft
 	color: string;
 }
 
@@ -89,4 +95,5 @@ export interface StatCardPayload {
 	contextLabel?: string;
 	icon?: MaterialIcon | string;
 	iconColor?: string;
+	unit: string;
 }

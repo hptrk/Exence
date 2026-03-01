@@ -1,16 +1,68 @@
-import { ApexOptions } from 'ng-apexcharts';
+import { ApexAxisChartSeries, ApexChart, ApexNonAxisChartSeries, ApexOptions, ApexYAxis } from 'ng-apexcharts';
+import { getCssVariableValue } from '../../shared/chart/chart-config';
+import { lightenHexColor } from '../../shared/util/utils';
 import { ExChartType } from './ChartType';
-import { SankeyPayload, SeriesPayload, StatCardPayload, WidgetDataPayload } from './WidgetDataPayload';
+import {
+	BoxplotPayload,
+	BubblePayload,
+	DistributionPayload,
+	GaugePayload,
+	SankeyPayload,
+	SeriesPayload,
+	SlopePayload,
+	StatCardPayload,
+	WidgetDataPayload,
+} from './WidgetDataPayload';
 
-export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (data: T) => Partial<ApexOptions> | T;
+export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
+	data: T,
+	settings?: Record<string, unknown>,
+) => Partial<ApexOptions> | T;
 
 // TODO if there are some configs that all kinds of charts share and are the same for each
-const baseChartOptions: Partial<ApexOptions> = {};
+const commonChartOptions: Partial<ApexOptions> = {
+	chart: {
+		foreColor: 'currentColor',
+		toolbar: {
+			show: true,
+			tools: {}, // TODO fill from data.settings
+		},
+		height: 750,
+		// 	width: 500,
+	} as ApexChart,
+	legend: {
+		show: true,
+		position: 'top',
+		horizontalAlign: 'left',
+		fontSize: '14px',
+	},
+	xaxis: {
+		position: 'bottom',
+		labels: {
+			style: {
+				fontSize: '18px',
+				fontWeight: 'bold',
+			},
+			offsetY: 10,
+		},
+	},
+	yaxis: {
+		labels: {
+			style: {
+				fontSize: '14px',
+			},
+		},
+	},
+};
 
 // Providers
-const SankeyProvider: ProviderFn<SankeyPayload> = (_data: SankeyPayload): ApexOptions => {
+// TODO
+const SankeyProvider: ProviderFn<SankeyPayload> = (
+	_data: SankeyPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
 	return {
-		...baseChartOptions,
+		...commonChartOptions,
 		chart: { type: 'donut' },
 		plotOptions: {
 			pie: { donut: { size: '70%', background: 'transparent' } },
@@ -19,128 +71,708 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (_data: SankeyPayload): ApexOp
 	};
 };
 
-const StatCardProvider: ProviderFn<StatCardPayload> = (data: StatCardPayload): StatCardPayload => {
+const StatCardProvider: ProviderFn<StatCardPayload> = (
+	data: StatCardPayload,
+	_settings?: Record<string, unknown>,
+): StatCardPayload => {
 	return { ...data };
 };
 
-const LineProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const LineProvider: ProviderFn<SeriesPayload> = (
+	data: SeriesPayload | SlopePayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const isSlopeChart = 'series' in data ? false : true;
+	const isMixed = isSlopeChart ? false : (data as SeriesPayload).series.some(si => si.type !== 'line');
+
+	function mapSlopeDataToSeriesData(slopeData: Map<string, number>): { x: string; y: number }[] {
+		const result: { x: string; y: number }[] = [];
+		Object.entries(slopeData).forEach(([x, y]) => {
+			result.push({ x, y });
+		});
+		return result;
+	}
+
+	let series: ApexAxisChartSeries;
+	if (isSlopeChart) {
+		const payload = data as SlopePayload;
+		series = payload.data.map(si => ({
+			name: si.category,
+			color: si.color,
+			data: mapSlopeDataToSeriesData(si.yearsData),
+		}));
+	} else {
+		const payload = data as SeriesPayload;
+		series = payload.series;
+	}
+
+	const yAxisConfig: ApexYAxis | ApexYAxis[] = isMixed
+		? (data as SeriesPayload).series.map(si => ({
+				...commonChartOptions.yaxis,
+				title: {
+					text: si.name,
+					offsetX: si.type !== 'line' ? 10 : -10,
+					style: {
+						fontSize: '14px',
+					},
+				},
+				opposite: si.type !== 'line',
+			}))
+		: { ...commonChartOptions.yaxis };
+
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
+		...commonChartOptions,
+		chart: { ...commonChartOptions.chart, type: 'line' },
+		series,
 		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+			line: {
+				isSlopeChart,
+			},
+		},
+		dataLabels: {
+			enabled: isSlopeChart,
+			background: {
+				enabled: true,
+				padding: 8,
+			},
+			style: {
+				fontSize: '14px',
+			},
+			formatter(_, opts) {
+				const seriesName = opts.w.config.series[opts.seriesIndex].name;
+				return seriesName ?? '';
+			},
+			offsetY: -10,
+		},
+		tooltip: {
+			followCursor: true,
+			intersect: false,
+			shared: true,
+		},
+		xaxis: {
+			...commonChartOptions.xaxis,
+			labels: {
+				style: {
+					fontSize: isSlopeChart ? '24px' : '18px',
+				},
+				offsetY: isSlopeChart ? 5 : isMixed ? 5 : 10,
+			},
+		},
+		yaxis: yAxisConfig,
+		stroke: {
+			curve: 'smooth',
+		},
+	};
+};
+
+const AreaProvider: ProviderFn<SeriesPayload> = (
+	{ series }: SeriesPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const isIncome = series.length === 1 && !!series.find(s => s.name.toLowerCase() === 'income');
+	const isExpense = series.length === 1 && !!series.find(s => s.name.toLowerCase() === 'expense');
+
+	const incomeColor = 'var(--tertiary-color)';
+	const expenseColor = 'var(--error-color)';
+	const fallbackColor = 'var(--primary-color)';
+
+	return {
+		...commonChartOptions,
+		chart: { ...commonChartOptions.chart, type: 'area', stacked: true },
+		series,
+		fill: {
+			type: 'gradient',
+			gradient: {
+				opacityFrom: 0.8,
+				opacityTo: 0.7,
+				gradientToColors: series.map(
+					si => si.color ?? (isIncome ? incomeColor : isExpense ? expenseColor : fallbackColor),
+				),
+			},
+		},
+		dataLabels: {
+			enabled: false,
+		},
+		tooltip: {
+			intersect: false,
+			shared: true,
+			x: {
+				format: 'yyyy MMMM dd.',
+			},
+		},
+		stroke: {
+			width: 7,
+			curve: 'monotoneCubic',
+		},
+		colors: isIncome ? [incomeColor] : isExpense ? [expenseColor] : [fallbackColor],
+		xaxis: {
+			...commonChartOptions.xaxis,
+			type: 'datetime',
+			labels: {
+				show: true,
+				rotate: 0,
+				rotateAlways: false,
+				hideOverlappingLabels: true,
+				showDuplicates: false,
+				format: 'yyyy MMM.',
+			},
+			tickPlacement: 'between',
+		},
+	};
+};
+
+const BarProvider: ProviderFn<SeriesPayload> = (
+	{ series }: SeriesPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	return {
+		...commonChartOptions,
+		chart: { ...commonChartOptions.chart, type: 'bar' },
+		series,
+		plotOptions: {
+			bar: {
+				horizontal: false,
+				borderRadiusApplication: 'end',
+				borderRadius: 4,
+			},
+		},
+		dataLabels: {
+			enabled: false,
+		},
+		xaxis: {
+			...commonChartOptions.xaxis,
+			type: 'datetime',
+			labels: {
+				show: true,
+				rotate: 0,
+				rotateAlways: false,
+				hideOverlappingLabels: true,
+				showDuplicates: false,
+				format: 'yyyy MMM.',
+				style: {
+					fontSize: '16px',
+				},
+			},
+			tickPlacement: 'between',
 		},
 		colors: ['var(--primary-color)'],
 	};
 };
 
-const AreaProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const PieProvider: ProviderFn<DistributionPayload> = (
+	payload: DistributionPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const colors: string[] = [];
+	const labels: string[] = [];
+	const data: number[] = [];
+	payload.data.map(di => {
+		colors.push(di.color ?? 'var(--primary-color)');
+		labels.push(di.name);
+		data.push(di.amount);
+	});
+
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'pie',
 		},
-		colors: ['var(--primary-color)'],
+		series: data,
+		fill: {
+			type: 'gradient',
+			gradient: {
+				gradientToColors: colors.map(color => lightenHexColor(color, 0.15)),
+			},
+		},
+		colors,
+		labels,
+		stroke: {
+			width: 0,
+		},
+		dataLabels: {
+			style: {
+				fontSize: '18px',
+			},
+		},
+		responsive: [
+			{
+				breakpoint: 500,
+				options: {
+					dataLabels: {
+						style: {
+							fontSize: '14px',
+						},
+					},
+				},
+			},
+		],
 	};
 };
 
-const BarProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const DonutProvider: ProviderFn<DistributionPayload> = (
+	payload: DistributionPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const colors: string[] = [];
+	const labels: string[] = [];
+	const data: number[] = [];
+	payload.data.map(di => {
+		colors.push(di.color ?? 'var(--primary-color)');
+		labels.push(di.name);
+		data.push(di.amount);
+	});
+
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'donut',
 		},
-		colors: ['var(--primary-color)'],
+		series: data,
+		fill: {
+			type: 'gradient',
+			gradient: {
+				gradientToColors: colors.map(color => lightenHexColor(color, 0.15)),
+			},
+		},
+		colors,
+		labels,
+		stroke: {
+			width: 0,
+		},
+		dataLabels: {
+			style: {
+				fontSize: '18px',
+			},
+		},
+		responsive: [
+			{
+				breakpoint: 500,
+				options: {
+					dataLabels: {
+						style: {
+							fontSize: '14px',
+						},
+					},
+				},
+			},
+		],
 	};
 };
 
-const PieProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const RadialBarProvider: ProviderFn<GaugePayload> = (
+	{ data }: GaugePayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'radialBar',
 		},
-		colors: ['var(--primary-color)'],
+		series: [data],
+		labels: ['Savings rate'], // TODO should recieve from ChartWidget object (widget.title)
+		plotOptions: {
+			radialBar: {
+				startAngle: -135,
+				endAngle: 135,
+				dataLabels: {
+					name: {
+						fontSize: '20px',
+						fontWeight: 'bold',
+						offsetY: 205,
+						color: 'var(--primary-color)',
+					},
+					value: {
+						offsetY: 150,
+						fontSize: '36px',
+						formatter: val => val + '%',
+						color: 'var(--default-text-color)',
+					},
+				},
+			},
+		},
+		stroke: {
+			dashArray: 5,
+		},
+		legend: {
+			show: false,
+		},
 	};
 };
 
-const DonutProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const BubbleProvider: ProviderFn<BubblePayload> = (
+	{ series }: BubblePayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: { ...commonChartOptions.chart, type: 'bubble' },
+		series,
+		dataLabels: {
+			enabled: false,
 		},
-		colors: ['var(--primary-color)'],
+		tooltip: {
+			x: {
+				formatter: function (val, _) {
+					return `Number of transactions: ${val}`;
+				},
+			},
+			y: {
+				title: {
+					formatter: function (val, _) {
+						return `Average amount in '${val}': `;
+					},
+				},
+			},
+			z: {
+				title: 'Sum of transaction amounts: ',
+			},
+		},
+		xaxis: {
+			...commonChartOptions.xaxis,
+			labels: {
+				...commonChartOptions.xaxis?.labels,
+				style: {
+					...commonChartOptions.xaxis?.labels?.style,
+					fontSize: '14px',
+					fontWeight: 'semibold',
+				},
+				offsetY: 5,
+			},
+		},
 	};
 };
 
-const RadialBarProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const HeatmapProvider: ProviderFn<SeriesPayload> = (
+	{ series }: SeriesPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const allItems = series
+		.flatMap(si => si.data)
+		.map(item => item.y)
+		.filter(item => item > 0);
+	const min = Math.min(...allItems);
+	const max = Math.max(...allItems);
+	const step = (max - min) / 5;
+	const cellSize = 40;
+	const rows = series.length;
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'heatmap',
+			height: rows * cellSize,
+			toolbar: {
+				show: false,
+			},
 		},
-		colors: ['var(--primary-color)'],
+		series,
+		plotOptions: {
+			heatmap: {
+				radius: 5,
+				distributed: false,
+				enableShades: false,
+				shadeIntensity: 0.65,
+				colorScale: {
+					ranges: [
+						{
+							from: 0,
+							to: min,
+							color: 'var(--apexchart-primary-shade-1)',
+							name: 'None',
+						},
+						{
+							from: min,
+							to: min + step,
+							color: 'var(--apexchart-primary-shade-2)',
+							name: 'Small',
+						},
+						{
+							from: min + step + 0.0001,
+							to: min + step * 2,
+							color: 'var(--apexchart-primary-shade-3)',
+							name: 'Medium',
+						},
+						{
+							from: min + step * 2 + 0.0001,
+							to: min + step * 3,
+							color: 'var(--apexchart-primary-shade-4)',
+							name: 'High',
+						},
+						{
+							from: min + step * 3 + 0.0001,
+							to: max,
+							color: 'var(--apexchart-primary-shade-5)',
+							name: 'Extreme',
+						},
+					],
+				},
+			},
+		},
+		dataLabels: {
+			enabled: false,
+		},
+		legend: {
+			show: false,
+		},
+		grid: {
+			show: false,
+		},
+		xaxis: {
+			axisBorder: {
+				show: false,
+			},
+			axisTicks: {
+				show: false,
+			},
+			labels: {
+				formatter: function (val, _, opts) {
+					const i = opts?.dataPointIndex ?? opts?.i ?? val;
+
+					if (i === undefined || i === null || isNaN(i)) return val;
+
+					const date = new Date(2023, i, 1);
+					if (opts?.dateFormatter) return opts.dateFormatter(date, 'MMM');
+
+					return date.toLocaleString('default', { month: 'short' });
+				},
+				style: {
+					fontSize: '14px',
+					fontWeight: 'bold',
+				},
+			},
+		},
+		yaxis: {
+			labels: {
+				show: false,
+			},
+		},
 	};
 };
 
-const BubbleProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
+	payload: BoxplotPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'boxPlot',
 		},
-		colors: ['var(--primary-color)'],
+		series: [
+			{
+				name: 'box',
+				type: 'boxPlot',
+				data: payload.data.map(d => ({ ...d, fillColor: d.color ?? 'var(--primary-color)' })),
+			},
+		],
+		xaxis: {
+			...commonChartOptions.xaxis,
+			labels: {
+				...commonChartOptions.xaxis?.labels,
+				offsetY: 5,
+			},
+		},
 	};
 };
 
-const HeatmapProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const RadarProvider: ProviderFn<SeriesPayload> = (
+	payload: SeriesPayload | DistributionPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const instanceOfDistributionPayload = 'data' in payload;
+	let series: ApexNonAxisChartSeries;
+	const colors: string[] = [];
+	const labels: string[] = [];
+	if (instanceOfDistributionPayload) {
+		const data: number[] = [];
+		payload.data.map(di => {
+			colors.push(di.color ?? 'var(--primary-color)');
+			labels.push(di.name);
+			data.push(di.amount);
+		});
+		series = [{ name: '', data }];
+	} else {
+		series = payload.series.map(si => ({
+			...si,
+			name: new Intl.DateTimeFormat('hu-HU', { year: 'numeric', month: 'short' }).format(new Date(si.name)), // TODO this should be the default after localiszation
+		}));
+	}
+
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'radar',
+			dropShadow: {
+				enabled: true,
+				blur: 2,
+				left: 5,
+				top: 5,
+			},
 		},
-		colors: ['var(--primary-color)'],
+		series,
+		colors,
+		xaxis: {
+			...commonChartOptions.xaxis,
+			categories: labels,
+		},
+		dataLabels: {
+			enabled: instanceOfDistributionPayload,
+			background: {
+				enabled: true,
+				padding: 8,
+			},
+			style: {
+				fontSize: '14px',
+			},
+			offsetY: -15,
+		},
+		yaxis: {
+			show: false,
+		},
+		plotOptions: {
+			radar: {
+				polygons: {
+					fill: {
+						colors: ['var(--apexchart-primary-shade-1)', 'var(--app-card-color)'],
+					},
+				},
+			},
+		},
+		fill: {
+			opacity: 0.5,
+		},
 	};
 };
 
-const BoxPlotProvider: ProviderFn<SeriesPayload> = (_data: SeriesPayload): ApexOptions => {
+const TreemapProvider: ProviderFn<SeriesPayload> = (
+	{ series }: SeriesPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const positiveColor = getCssVariableValue('--tertiary-color');
+	const negativeColor = getCssVariableValue('--error-color');
+
+	// eslint-disable-next-line
+	function getFormattedValue(value: number, opts: any): string {
+		const seriesName: string = opts.w.config.series[opts.seriesIndex].name;
+		const isExpense = seriesName.toLowerCase() === 'expense';
+		const multiplier = isExpense ? -1 : 1;
+		return String(value * multiplier);
+	}
+
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'treemap',
 		},
-		colors: ['var(--primary-color)'],
+		series,
+		colors: [negativeColor, positiveColor],
+		plotOptions: {
+			treemap: {
+				distributed: false,
+				enableShades: true,
+				shadeIntensity: 0.65,
+				dataLabels: {
+					format: 'truncate',
+				},
+			},
+		},
+		dataLabels: {
+			enabled: true,
+			formatter: (text, opts) => [String(text), getFormattedValue(+opts.value, opts)],
+			offsetY: -7,
+		},
+		tooltip: {
+			y: {
+				formatter: (value, opts) => getFormattedValue(value, opts),
+			},
+		},
 	};
 };
 
-const RadatProvider: ProviderFn<SankeyPayload> = (_data: SankeyPayload): ApexOptions => {
+const ScatterProvider: ProviderFn<SeriesPayload> = (
+	{ series }: SeriesPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const labels = new Set<string>();
+	series.forEach(si => {
+		si.data.forEach(d => labels.add(d.x));
+	});
+
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: { ...commonChartOptions.chart, type: 'scatter' },
+		series,
+		xaxis: {
+			...commonChartOptions.xaxis,
+			type: 'datetime',
+			labels: {
+				...commonChartOptions.xaxis?.labels,
+				show: true,
+				rotate: 0,
+				rotateAlways: false,
+				hideOverlappingLabels: true,
+				showDuplicates: false,
+				format: 'yyyy MMM.',
+				style: {
+					fontSize: '14px',
+					fontWeight: 'semibold',
+				},
+				offsetY: 5,
+			},
+			tickPlacement: 'between',
 		},
-		colors: ['var(--primary-color)'],
+		tooltip: {
+			x: {
+				format: 'yyyy MMMM dd.',
+			},
+		},
 	};
 };
 
-const TreemapProvider: ProviderFn<SankeyPayload> = (_data: SankeyPayload): ApexOptions => {
+const PolarAreaProvider: ProviderFn<DistributionPayload> = (
+	payload: DistributionPayload,
+	_settings?: Record<string, unknown>,
+): ApexOptions => {
+	const colors: string[] = [];
+	const labels: string[] = [];
+	const data: number[] = [];
+	payload.data.forEach(di => {
+		colors.push(di.color ?? 'var(--primary-color)');
+		labels.push(di.name);
+		data.push(di.amount);
+	});
+
 	return {
-		...baseChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		...commonChartOptions,
+		chart: {
+			...commonChartOptions.chart,
+			type: 'polarArea',
 		},
-		colors: ['var(--primary-color)'],
+		series: data,
+		colors,
+		labels,
+		dataLabels: {
+			enabled: true,
+			background: {
+				enabled: true,
+				padding: 8,
+			},
+			style: {
+				fontSize: '14px',
+			},
+		},
+		yaxis: {
+			show: false,
+		},
+		fill: {
+			opacity: 0.85,
+		},
 	};
 };
 
@@ -157,8 +789,10 @@ const CHART_PROVIDER_REGISTRY: Record<ExChartType, ProviderFn<any>> = {
 	bubble: BubbleProvider,
 	heatmap: HeatmapProvider,
 	boxPlot: BoxPlotProvider,
-	radar: RadatProvider,
+	radar: RadarProvider,
 	treemap: TreemapProvider,
+	scatter: ScatterProvider,
+	polarArea: PolarAreaProvider,
 };
 
 export function mapToProvider<T extends WidgetDataPayload>(type: ExChartType): ProviderFn<T> {

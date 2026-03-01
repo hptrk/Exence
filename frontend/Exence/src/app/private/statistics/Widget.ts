@@ -23,7 +23,8 @@ export interface StatCardWidget {
 export interface ChartWidget {
 	id: number;
 	type: WidgetType;
+	title: string;
 	x: number;
 	y: number;
-	settings: Record<string, unknown>;
+	settings?: Record<string, unknown>;
 }
