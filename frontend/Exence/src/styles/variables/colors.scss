@@ -24,6 +24,8 @@
 
 	--skeleton-shimmer-color: #{$skeleton-shimmer-color-blue-dolphin};
 	--skeleton-surface-color: #{$skeleton-surface-color-blue-dolphin};
+
+	--apexchart-grid-color: #{$apexchart-grid-color-blue-dolphin};
 }
 
 html.theme-light {
@@ -46,6 +48,8 @@ html.theme-light {
 
 	--skeleton-shimmer-color: #{$skeleton-shimmer-color-light};
 	--skeleton-surface-color: #{$skeleton-surface-color-light};
+
+	--apexchart-grid-color: #{$apexchart-grid-color-blue-light};
 }
 
 html.theme-dark {
@@ -68,6 +72,8 @@ html.theme-dark {
 
 	--skeleton-shimmer-color: #{$skeleton-shimmer-color-dark};
 	--skeleton-surface-color: #{$skeleton-surface-color-dark};
+
+	--apexchart-grid-color: #{$apexchart-grid-color-dark};
 }
 
 html.theme-blue-dolphin {
@@ -90,4 +96,6 @@ html.theme-blue-dolphin {
 
 	--skeleton-shimmer-color: #{$skeleton-shimmer-color-blue-dolphin};
 	--skeleton-surface-color: #{$skeleton-surface-color-blue-dolphin};
+
+	--apexchart-grid-color: #{$apexchart-grid-color-blue-dolphin};
 }

@@ -141,7 +141,6 @@ $app-card-color-dark: map.get($primary-palette, 20);
 $app-background-color-dark: map.get($primary-palette, 10);
 
 $primary-color-dark: map.get($primary-palette, 90);
-$secondary-color-dark: map.get($secondary-palette, 90);
 $secondary-color-dark: map.get($secondary-palette, 25);
 $tertiary-color-dark: map.get($tertiary-palette, 60);
 $app-hover-color-dark: map.get($primary-palette, 70);
@@ -157,3 +156,5 @@ $error-color-dark: map.get($error-palette, 50);
 
 $skeleton-shimmer-color-dark: map.get($primary-palette, 35);
 $skeleton-surface-color-dark: map.get($primary-palette, 25);
+
+$apexchart-grid-color-dark: map.get($primary-palette, 40);

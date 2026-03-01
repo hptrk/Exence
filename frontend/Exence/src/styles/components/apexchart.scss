@@ -1,0 +1,38 @@
+.apexcharts-canvas {
+	div.apexcharts-toolbar div.apexcharts-menu-icon {
+		&:hover svg,
+		svg {
+			color: var(--default-text-color);
+			fill: var(--default-text-color);
+		}
+	}
+	.apexcharts-menu.apexcharts-menu-open {
+		background-color: var(--app-card-color);
+
+		.apexcharts-menu-item:hover {
+			background-color: var(--app-hover-color);
+			color: var(--secondary-text-color);
+		}
+	}
+
+	div.apexcharts-tooltip {
+		background-color: var(--app-card-color);
+
+		div.apexcharts-tooltip-title {
+			background-color: var(--app-card-color);
+		}
+	}
+
+	.apexcharts-gridlines-horizontal line,
+	.apexcharts-gridlines-vertical line,
+	.apexcharts-grid-borders line {
+		stroke: var(--apexchart-grid-color);
+		// stroke: var(--default-text-color);
+	}
+
+	.apexcharts-xaxis-tick,
+	.apexcharts-yaxis-tick {
+		stroke: var(--apexchart-grid-color);
+		// stroke: var(--default-text-color);
+	}
+}
