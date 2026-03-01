@@ -14,8 +14,20 @@ databaseChangeLog:
   - include:
       file: change-transaction-type-size.yaml
       relativeToChangelogFile: true
-  
+
   - include:
       file: migrate-from-emoji-to-icon.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-widget-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-mv-daily-category-stat.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-mv-refresh-trigger.yaml
       relativeToChangelogFile: true
 

@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-mv-daily-category-stat
+      author: hptrk
+      comment: >
+        Create materialized view that pre-aggregates daily transaction data per user, category and type.
+        Eliminates the need to scan raw transaction rows for dashboard statistics.
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            splitStatements: false
+            path: sql/create-mv-daily-category-stat.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql:
+            sql: DROP MATERIALIZED VIEW IF EXISTS mv_daily_category_stat
+
+  - changeSet:
+      id: create-mv-daily-category-stat-unique-index
+      author: hptrk
+      comment: >
+        Unique index required for refresh materialized view concurrently
+      dbms: postgresql
+      changes:
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_unique
+            tableName: mv_daily_category_stat
+            unique: true
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date
+              - column:
+                  name: category_id
+              - column:
+                  name: type
+
+  - changeSet:
+      id: create-mv-daily-category-stat-lookup-index
+      author: hptrk
+      comment: Composite index for fast user + date range lookups on the materialized view
+      dbms: postgresql
+      changes:
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_user_date
+            tableName: mv_daily_category_stat
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date
+
+  - changeSet:
+      id: create-transaction-composite-index
+      author: hptrk
+      comment: >
+        Composite index on transaction(user_id, date) to accelerate
+        materialized view refresh and time-windowed statistics queries
+      changes:
+        - createIndex:
+            tableName: transaction
+            indexName: idx_transaction_user_id_date
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: date

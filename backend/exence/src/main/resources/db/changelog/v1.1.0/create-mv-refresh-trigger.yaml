@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-mv-refresh-function
+      author: hptrk
+      comment: >
+        PL/pgSQL function that refreshes the mv_daily_category_stat materialized view concurrently.
+        Called by triggers on the transaction and category tables.
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            splitStatements: false
+            path: sql/create-refresh-function.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql:
+            sql: DROP FUNCTION IF EXISTS refresh_mv_daily_category_stat()
+
+  - changeSet:
+      id: create-mv-refresh-trigger-on-transaction
+      author: hptrk
+      comment: >
+        Fires after INSERT, UPDATE, or DELETE on the transaction table
+        to keep the materialized view in sync with the latest data.
+        Uses FOR EACH STATEMENT to avoid redundant refreshes during batch operations.
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            splitStatements: false
+            path: sql/create-trigger-on-transaction.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql:
+            sql: DROP TRIGGER IF EXISTS trg_refresh_mv_on_transaction ON transaction
+
+  - changeSet:
+      id: create-mv-refresh-trigger-on-category
+      author: hptrk
+      comment: >
+        Fires after UPDATE of name or color on the category table
+        to keep the materialized view in sync with the latest data.
+        Uses FOR EACH STATEMENT to avoid redundant refreshes during batch operations.
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            splitStatements: false
+            path: sql/create-trigger-on-category.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql:
+            sql: DROP TRIGGER IF EXISTS trg_refresh_mv_on_category ON category
