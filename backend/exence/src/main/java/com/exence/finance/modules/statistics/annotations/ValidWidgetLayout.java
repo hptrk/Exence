@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ValidWidgetLayout {
     String message() default
-            "Invalid widget layout: StatCard requires displayOrder only, graph widgets require position and size"
+            "Invalid widget layout: StatCard requires displayOrder only, graph widgets require position (x, y)"
                     + " fields";
 
     Class<?>[] groups() default {};
