@@ -8,6 +8,7 @@ import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
 import com.exence.finance.modules.statistics.dto.projection.MonthlyIncomeExpenseProjection;
 import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.util.StatisticsConstants;
 import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ public final class IncomeExpenseColumnProvider implements WidgetDataProvider {
         });
 
         return new SeriesPayload(List.of(
-                new SeriesItem("Income", "column", "todo: zold kene ide", incomePoints),
-                new SeriesItem("Expense", "column", "todo: piros kene ide", expensePoints)));
+                new SeriesItem("Income", "column", StatisticsConstants.COLOR_INCOME_GREEN, incomePoints),
+                new SeriesItem("Expense", "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints)));
     }
 }

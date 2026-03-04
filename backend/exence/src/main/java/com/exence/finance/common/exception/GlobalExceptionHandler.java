@@ -287,4 +287,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
     }
+
+    @ExceptionHandler(WidgetNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleWidgetNotFoundException(WidgetNotFoundException ex, WebRequest request) {
+        log.warn("Widget not found for request: {}", request.getDescription(false));
+
+        ProblemDetail problemDetail =
+                ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Widget could not be found.");
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "widget-not-found"));
+        problemDetail.setTitle("Widget Not Found");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
 }

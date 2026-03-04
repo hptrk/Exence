@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.impl;
 
+import com.exence.finance.common.exception.WidgetNotFoundException;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.ChartLayoutItem;
 import com.exence.finance.modules.statistics.dto.StatCardLayoutItem;
@@ -18,16 +19,17 @@ import com.exence.finance.modules.statistics.repository.WidgetRepository;
 import com.exence.finance.modules.statistics.service.WidgetService;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import jakarta.annotation.PostConstruct;
-import jakarta.persistence.EntityNotFoundException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -79,7 +81,7 @@ public class WidgetServiceImpl implements WidgetService {
             for (StatCardLayoutItem item : request.statCards()) {
                 Widget widget = existingWidgets.get(item.id());
                 if (widget == null) {
-                    throw new EntityNotFoundException("Widget not found: " + item.id());
+                    throw new WidgetNotFoundException("Widget not found: " + item.id());
                 }
                 widget.setDisplayOrder(item.displayOrder());
             }
@@ -89,7 +91,7 @@ public class WidgetServiceImpl implements WidgetService {
             for (ChartLayoutItem item : request.charts()) {
                 Widget widget = existingWidgets.get(item.id());
                 if (widget == null) {
-                    throw new EntityNotFoundException("Widget not found: " + item.id());
+                    throw new WidgetNotFoundException("Widget not found: " + item.id());
                 }
                 widget.setX(item.x());
                 widget.setY(item.y());
@@ -101,10 +103,9 @@ public class WidgetServiceImpl implements WidgetService {
 
     @Override
     public WidgetDataResponse getWidgetData(Long widgetId, Timeframe timeframe) {
-        // todo: exception
         Widget widget = widgetRepository
                 .find(widgetId)
-                .orElseThrow(() -> new EntityNotFoundException("Widget not found: " + widgetId));
+                .orElseThrow(() -> new WidgetNotFoundException("Widget not found: " + widgetId));
 
         Timeframe resolvedTimeframe = resolveTimeframe(timeframe, widget);
 
@@ -119,7 +120,7 @@ public class WidgetServiceImpl implements WidgetService {
         WidgetRequest request = new WidgetRequest(startDate, Instant.now(), widget.getSettings());
         WidgetDataProvider provider = providerMap.get(widget.getType());
         if (provider == null) {
-            // todo: exception
+            log.error("No data provider for widget: {}, type: {}", widget.getId(), widget.getType());
             throw new UnsupportedOperationException("No data provider for widget type: " + widget.getType());
         }
 

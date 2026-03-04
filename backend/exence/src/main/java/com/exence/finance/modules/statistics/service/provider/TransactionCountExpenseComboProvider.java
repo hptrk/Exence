@@ -8,6 +8,7 @@ import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
 import com.exence.finance.modules.statistics.dto.projection.MonthlyIncomeExpenseProjection;
 import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.util.StatisticsConstants;
 import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public final class TransactionCountExpenseComboProvider implements WidgetDataPro
         });
 
         return new SeriesPayload(List.of(
-                new SeriesItem("Expense", "column", "todo: piros szin", expensePoints),
+                new SeriesItem("Expense", "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints),
                 new SeriesItem("Transaction Count", "line", null, countPoints)));
     }
 }

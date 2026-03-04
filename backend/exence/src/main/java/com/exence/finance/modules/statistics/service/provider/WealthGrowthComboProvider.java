@@ -8,6 +8,7 @@ import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
 import com.exence.finance.modules.statistics.dto.projection.MonthlyBalanceProjection;
 import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.util.StatisticsConstants;
 import java.math.BigDecimal;
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
         }
 
         return new SeriesPayload(List.of(
-                new SeriesItem("Profit", "column", "todo: zold szin", profitPoints),
+                new SeriesItem("Profit", "column", StatisticsConstants.COLOR_INCOME_GREEN, profitPoints),
                 new SeriesItem("Cumulative Balance", "line", null, cumulativePoints)));
     }
 }

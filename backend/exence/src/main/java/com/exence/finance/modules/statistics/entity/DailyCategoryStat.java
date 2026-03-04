@@ -45,22 +45,18 @@ public class DailyCategoryStat {
     @Column(name = "type", nullable = false)
     private TransactionType type;
 
-    // todo: redundáns az adat, de gyorsíthatja a lekérdezést, hogy ne kelljen joinolni a kategória nevéért?!
     @Column(name = "category_name", nullable = false)
     private String categoryName;
 
     @Column(name = "category_color", nullable = false)
     private String categoryColor;
 
-    // todo: az átlag kijön transactioncount/totalamount-ból
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 
     @Column(name = "transaction_count", nullable = false)
     private Long transactionCount;
 
-    // todo: ez is redundáns, de gyorsíthatja a lekérdezést, hogy ne kelljen újra iterálni a tranzakciókon a max
-    // megtalálásához
     @Column(name = "max_amount", nullable = false)
     private BigDecimal maxAmount;
 }

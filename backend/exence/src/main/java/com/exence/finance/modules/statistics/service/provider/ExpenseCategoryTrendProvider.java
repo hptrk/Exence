@@ -6,6 +6,7 @@ import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
 import com.exence.finance.modules.statistics.dto.projection.MonthlyCategoryProjection;
 import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.util.StatisticsConstants;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.time.YearMonth;
 import java.util.List;
@@ -30,6 +31,7 @@ public final class ExpenseCategoryTrendProvider implements WidgetDataProvider {
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
-        return ProviderHelper.buildMonthlyCategorySeriesPayload(results, months, "area", "todo: main piros szin kene");
+        return ProviderHelper.buildMonthlyCategorySeriesPayload(
+                results, months, "area", StatisticsConstants.COLOR_EXPENSE_RED);
     }
 }
