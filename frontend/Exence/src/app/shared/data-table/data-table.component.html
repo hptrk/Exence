@@ -181,17 +181,17 @@
 										>
 											<div class="d-flex flex-column flex-md-row gap-4 p-4 w-100">
 												<div class="d-flex gap-4 w-100">
-													@let noteContol = $any(noteForm.controls)[row.id];
+													@let noteControl = $any(noteForm.controls)[row.id];
 													<mat-form-field>
 														<mat-label>Note</mat-label>
 														<textarea
 															matInput
 															cdkTextareaAutosize
 															cdkAutosizeMinRows="4"
-															[formControl]="noteContol"
+															[formControl]="noteControl"
 														></textarea>
 														<mat-error>
-															<ex-validator [control]="noteContol" />
+															<ex-validator [control]="noteControl" />
 														</mat-error>
 													</mat-form-field>
 

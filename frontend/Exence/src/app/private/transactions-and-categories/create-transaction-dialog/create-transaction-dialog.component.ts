@@ -3,6 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -41,6 +42,7 @@ export interface CreateTransactionDialogData {
 		MatDatepickerModule,
 		MatCheckboxModule,
 		MatIconModule,
+		MatButtonToggleModule,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,

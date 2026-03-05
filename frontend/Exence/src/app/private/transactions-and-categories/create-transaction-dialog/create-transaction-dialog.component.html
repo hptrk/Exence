@@ -2,6 +2,12 @@
 	<div ex-dialog-card-title>New transaction</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
+		<mat-button-toggle-group [formControl]="form.controls.type" [hideSingleSelectionIndicator]="true" class="mb-3">
+			@for (type of transactionTypes | enumValue; track type) {
+				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{ type }}</mat-button-toggle>
+			}
+		</mat-button-toggle-group>
+
 		@let titleControl = form.controls.title;
 		<mat-form-field>
 			<mat-label>Title</mat-label>
@@ -60,19 +66,6 @@
 				</mat-select>
 				<mat-error>
 					<ex-validator [control]="categoryControl.category" />
-				</mat-error>
-			</mat-form-field>
-
-			@let typeControl = form.controls.type;
-			<mat-form-field>
-				<mat-label>Type</mat-label>
-				<mat-select [formControl]="typeControl">
-					@for (type of transactionTypes | enumValue; track type) {
-						<mat-option [value]="type">{{ type }}</mat-option>
-					}
-				</mat-select>
-				<mat-error>
-					<ex-validator [control]="typeControl" />
 				</mat-error>
 			</mat-form-field>
 		</div>

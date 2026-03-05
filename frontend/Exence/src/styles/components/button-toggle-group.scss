@@ -20,8 +20,12 @@ mat-button-toggle-group.mat-button-toggle-group {
 	width: 100%;
 	border: none;
 	border-radius: var(--mat-button-toggle-shape);
-	background-color: var(--secondary-color);
+	background-color: var(--app-card-color);
 	padding: 4px;
+
+	&.app-bg-color {
+		background-color: var(--app-background-color);
+	}
 
 	// Default sliding background for 3 buttons
 	&::before {
@@ -84,5 +88,6 @@ mat-button-toggle-group.mat-button-toggle-group {
 
 	mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standard {
 		color: var(--app-background-color);
+		--mat-button-toggle-selected-state-background-color: transparent;
 	}
 }
