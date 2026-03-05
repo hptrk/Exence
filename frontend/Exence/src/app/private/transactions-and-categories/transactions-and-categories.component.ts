@@ -26,6 +26,7 @@ import { CreateCategoryDialogComponent } from './create-category-dialog/create-c
 import { CreateTransactionDialogComponent } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
 import { ActivatedRoute } from '@angular/router';
+import { formatISO } from 'date-fns';
 import { mapToTransactionFilter } from '../../shared/util/utils';
 
 @Component({
@@ -107,7 +108,16 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		this.addSubscription(
 			this.transactionFilterForm.valueChanges.subscribe(newFilters => {
 				if (this.transactionFilterForm.invalid) return;
-				this.transactionStore.updateFilters(newFilters as TransactionFilter);
+				const filters: TransactionFilter = {};
+				if (newFilters.searchText) filters.keyword = newFilters.searchText;
+				if (newFilters.dateRange?.dateFrom) filters.dateFrom = formatISO(newFilters.dateRange.dateFrom);
+				if (newFilters.dateRange?.dateTo) filters.dateTo = formatISO(newFilters.dateRange.dateTo);
+				if (newFilters.amountRange?.min != null) filters.amountFrom = newFilters.amountRange.min;
+				if (newFilters.amountRange?.max != null) filters.amountTo = newFilters.amountRange.max;
+				if (newFilters.category?.id != null) filters.categoryId = newFilters.category.id;
+				if (newFilters.type) filters.type = newFilters.type;
+				if (newFilters.recurring) filters.recurring = newFilters.recurring;
+				this.transactionStore.updateFilters(filters);
 			}),
 		);
 
