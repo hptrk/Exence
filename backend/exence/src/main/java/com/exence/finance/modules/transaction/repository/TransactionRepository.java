@@ -1,6 +1,7 @@
 package com.exence.finance.modules.transaction.repository;
 
 import com.exence.finance.modules.statistics.dto.projection.ScatterProjection;
+import com.exence.finance.modules.statistics.dto.projection.TopTransactionProjection;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import java.math.BigDecimal;
@@ -55,4 +56,19 @@ public interface TransactionRepository
         """, nativeQuery = true)
     List<Object[]> findBoxplotByExpenseCategory(
             @Param("userId") Long userId, @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
+
+    // --- Stat card queries ---
+
+    @Query("""
+        SELECT t.amount AS amount, t.title AS title, t.category.color AS categoryColor
+        FROM Transaction t
+        WHERE t.date BETWEEN :startDate AND :endDate
+          AND t.type = :type
+        ORDER BY t.amount DESC
+        LIMIT 1
+        """)
+    TopTransactionProjection findTopTransactionByType(
+            @Param("startDate") Instant startDate,
+            @Param("endDate") Instant endDate,
+            @Param("type") TransactionType type);
 }

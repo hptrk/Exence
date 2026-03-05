@@ -47,4 +47,32 @@ public enum Timeframe {
 
         return YTD;
     }
+
+    /**
+     * Computes the start of the previous period for trend comparison.
+     * For YTD: same dates shifted back 1 year.
+     * For fixed durations: mirrors the duration before currentStart.
+     * All time has no previous period, so returns null.
+     */
+    public Instant previousPeriodStart(Instant currentStart, Instant currentEnd) {
+        if (this == ALL_TIME) {
+           return null;
+        }
+        if (this == YTD) {
+            return currentStart.atZone(ZoneOffset.UTC).minusYears(1).toInstant();
+        }
+        return ZonedDateTime.ofInstant(currentStart, ZoneOffset.UTC).minus(amount, unit).toInstant();
+    }
+
+    /**
+     * Computes the end of the previous period for trend comparison.
+     * For YTD: same end date shifted back 1 year.
+     * For others: the current period's start.
+     */
+    public Instant previousPeriodEnd(Instant currentStart, Instant currentEnd) {
+        if (this == YTD) {
+            return currentEnd.atZone(ZoneOffset.UTC).minusYears(1).toInstant();
+        }
+        return currentStart;
+    }
 }

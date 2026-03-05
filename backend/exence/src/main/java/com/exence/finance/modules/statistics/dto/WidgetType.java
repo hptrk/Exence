@@ -6,7 +6,15 @@ import java.util.Set;
 
 public enum WidgetType {
     // --- Stat Cards ---
-    EXAMPLE_STATCARD,
+    EXPENSE_FREQUENCY_STATCARD,
+    INCOME_FREQUENCY_STATCARD,
+    NO_SPEND_DAYS_STATCARD,
+    TOP_EXPENSE_CATEGORY_STATCARD,
+    TOP_INCOME_CATEGORY_STATCARD,
+    TOP_EXPENSE_TRANSACTION_STATCARD,
+    TOP_INCOME_TRANSACTION_STATCARD,
+    BURN_RATE_STATCARD,
+    SAVINGS_RATE_STATCARD,
 
     // --- Charts ---
 
@@ -65,7 +73,16 @@ public enum WidgetType {
     // Sankey
     CATEGORY_SANKEY;
 
-    public static final Set<WidgetType> STAT_CARD_TYPES = EnumSet.of(WidgetType.EXAMPLE_STATCARD);
+    public static final Set<WidgetType> STAT_CARD_TYPES = EnumSet.of(
+            WidgetType.EXPENSE_FREQUENCY_STATCARD,
+            WidgetType.INCOME_FREQUENCY_STATCARD,
+            WidgetType.NO_SPEND_DAYS_STATCARD,
+            WidgetType.TOP_EXPENSE_CATEGORY_STATCARD,
+            WidgetType.TOP_INCOME_CATEGORY_STATCARD,
+            WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD,
+            WidgetType.TOP_INCOME_TRANSACTION_STATCARD,
+            WidgetType.BURN_RATE_STATCARD,
+            WidgetType.SAVINGS_RATE_STATCARD);
 
     public static final Set<WidgetType> GRAPH_TYPES =
             Collections.unmodifiableSet(EnumSet.complementOf(EnumSet.copyOf(STAT_CARD_TYPES)));

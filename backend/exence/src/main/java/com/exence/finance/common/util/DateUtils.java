@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.TextStyle;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +55,15 @@ public final class DateUtils {
     public static int getIsoWeekCount(Instant instant) {
         int year = instant.atZone(DISPLAY_ZONE).getYear();
         return LocalDate.of(year, DECEMBER, LAST_WEEK_DECEMBER_DAY).get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
+    }
+
+    public static long countMonths(Instant start, Instant end) {
+        YearMonth startMonth = YearMonth.from(start.atZone(ZoneOffset.UTC));
+        YearMonth endMonth = YearMonth.from(end.atZone(ZoneOffset.UTC));
+        return Math.max(1, startMonth.until(endMonth, ChronoUnit.MONTHS) + 1);
+    }
+
+    public static long countDaysBetween(Instant start, Instant end) {
+        return Math.max(1, ChronoUnit.DAYS.between(start, end) + 1);
     }
 }

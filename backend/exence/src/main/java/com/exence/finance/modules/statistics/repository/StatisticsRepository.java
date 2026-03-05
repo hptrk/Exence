@@ -14,6 +14,7 @@ import com.exence.finance.modules.statistics.dto.projection.YearlyCategoryProjec
 import com.exence.finance.modules.statistics.entity.DailyCategoryStat;
 import com.exence.finance.modules.statistics.entity.DailyCategoryStatId;
 import com.exence.finance.modules.transaction.dto.TransactionType;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -229,6 +230,56 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
         ORDER BY year(s.statDate), s.categoryName
         """)
     List<YearlyCategoryProjection> findYearlyCategoryTotals(
+            @Param("startDate") Instant startDate,
+            @Param("endDate") Instant endDate,
+            @Param("type") TransactionType type);
+
+    // --- Stat card queries ---
+
+    @Query("""
+        SELECT COALESCE(SUM(s.totalAmount), 0)
+        FROM DailyCategoryStat s
+        WHERE s.statDate BETWEEN :startDate AND :endDate
+          AND s.type = :type
+        """)
+    BigDecimal sumAmountByType(
+            @Param("startDate") Instant startDate,
+            @Param("endDate") Instant endDate,
+            @Param("type") TransactionType type);
+
+    @Query("""
+        SELECT COALESCE(SUM(s.transactionCount), 0) AS transactionCount
+        FROM DailyCategoryStat s
+        WHERE s.statDate BETWEEN :startDate AND :endDate
+          AND s.type = :type
+        """)
+    Long countTransactionsByType(
+            @Param("startDate") Instant startDate,
+            @Param("endDate") Instant endDate,
+            @Param("type") TransactionType type);
+
+    @Query(value = """
+        SELECT COUNT(d.day)::bigint
+        FROM generate_series(CAST(:startDate AS date), CAST(:endDate AS date), '1 day'::interval) d(day)
+        LEFT JOIN mv_daily_category_stat s ON CAST(s.stat_date AS date) = d.day
+            AND s.user_id = :userId
+            AND CAST(s.type AS TEXT) = :#{T(com.exence.finance.modules.transaction.dto.TransactionType).EXPENSE.name()}
+        WHERE s.stat_date IS NULL
+        """, nativeQuery = true)
+    Long countNoSpendDays(
+            @Param("userId") Long userId, @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
+
+    @Query("""
+        SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
+               COALESCE(SUM(s.totalAmount), 0) AS totalAmount
+        FROM DailyCategoryStat s
+        WHERE s.statDate BETWEEN :startDate AND :endDate
+          AND s.type = :type
+        GROUP BY s.categoryName, s.categoryColor
+        ORDER BY SUM(s.totalAmount) DESC
+        LIMIT 1
+        """)
+    CategoryAmountProjection findTopCategoryByType(
             @Param("startDate") Instant startDate,
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);

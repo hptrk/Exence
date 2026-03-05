@@ -117,7 +117,7 @@ public class WidgetServiceImpl implements WidgetService {
             }
         }
 
-        WidgetRequest request = new WidgetRequest(startDate, Instant.now(), widget.getSettings());
+        WidgetRequest request = new WidgetRequest(startDate, Instant.now(), resolvedTimeframe, widget.getSettings());
         WidgetDataProvider provider = providerMap.get(widget.getType());
         if (provider == null) {
             log.error("No data provider for widget: {}, type: {}", widget.getId(), widget.getType());
