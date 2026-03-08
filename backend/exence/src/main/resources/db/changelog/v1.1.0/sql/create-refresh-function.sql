@@ -1,7 +1,0 @@
-CREATE OR REPLACE FUNCTION refresh_mv_daily_category_stat()
-RETURNS TRIGGER AS $$
-BEGIN
-    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_daily_category_stat;
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;

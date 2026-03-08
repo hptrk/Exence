@@ -6,6 +6,7 @@ import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
@@ -18,6 +19,7 @@ import com.exence.finance.modules.transaction.service.TransactionService;
 import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final CategoryRepository categoryRepository;
     private final UserService userService;
     private final TransactionMapper transactionMapper;
+    private final ApplicationEventPublisher eventPublisher;
 
     public TransactionDTO getTransactionById(Long id) {
         Transaction transaction = transactionRepository.find(id).orElseThrow(TransactionNotFoundException::new);
@@ -63,6 +66,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setUser(user);
 
         Transaction savedTransaction = transactionRepository.save(transaction);
+        eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
         return transactionMapper.mapToTransactionDTO(savedTransaction);
     }
 
@@ -85,6 +89,7 @@ public class TransactionServiceImpl implements TransactionService {
         transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
 
         Transaction savedTransaction = transactionRepository.save(transaction);
+        eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
         return transactionMapper.mapToTransactionDTO(savedTransaction);
     }
 
@@ -93,6 +98,7 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionRepository.find(id).orElseThrow(TransactionNotFoundException::new);
 
         transactionRepository.delete(transaction);
+        eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
     }
 
     public TransactionTotalsResponse getTransactionTotals() {

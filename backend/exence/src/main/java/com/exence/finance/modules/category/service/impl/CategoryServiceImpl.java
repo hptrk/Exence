@@ -10,9 +10,11 @@ import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
+import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
 import com.exence.finance.modules.transaction.dto.request.CategoryFilter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final UserService userService;
+    private final ApplicationEventPublisher eventPublisher;
 
     public CategoryDTO getCategoryById(Long id) {
         Category category = categoryRepository.find(id).orElseThrow(CategoryNotFoundException::new);
@@ -58,6 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.updateCategoryFromDto(categoryDTO, category);
         Category updatedCategory = categoryRepository.save(category);
 
+        eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
         return categoryMapper.mapToCategoryDTO(updatedCategory);
     }
 

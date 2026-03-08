@@ -27,7 +27,3 @@ databaseChangeLog:
       file: create-mv-daily-category-stat.yaml
       relativeToChangelogFile: true
 
-  - include:
-      file: create-mv-refresh-trigger.yaml
-      relativeToChangelogFile: true
-
