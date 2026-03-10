@@ -1,0 +1,47 @@
+$trend-colors: (
+	'UP': var(--tertiary-color),
+	'DOWN': var(--error-color),
+	'NEUTRAL': var(--accnet-text-color),
+);
+
+:host {
+	max-width: 600px;
+	height: 100%;
+	flex-grow: 1;
+}
+
+.trend {
+	position: absolute;
+	bottom: 1rem;
+	right: 1rem;
+	font-weight: bold;
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+
+	@each $trend, $color in $trend-colors {
+		&[trend='#{$trend}'] {
+			color: $color;
+		}
+	}
+
+	mat-icon {
+		display: inline;
+	}
+}
+
+mat-card.mat-mdc-card {
+	min-width: 350px;
+	width: 100%;
+	border: 2px solid var(--primary-color);
+
+	[ex-card-icon] {
+		height: 5rem;
+		width: 5rem;
+		background-color: color-mix(in srgb, var(--icon-color), transparent 60%);
+
+		mat-icon {
+			color: var(--icon-color);
+		}
+	}
+}
