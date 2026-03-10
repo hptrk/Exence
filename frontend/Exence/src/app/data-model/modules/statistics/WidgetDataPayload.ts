@@ -1,4 +1,4 @@
-import { MaterialIcon } from '../../data-model/modules/category/MaterialIcon';
+import { MaterialIcon } from '../category/MaterialIcon';
 
 export type WidgetDataPayload =
 	| SeriesPayload

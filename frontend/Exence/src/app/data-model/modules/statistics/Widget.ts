@@ -4,11 +4,11 @@ import { WidgetType } from './widget-config.model';
 export interface Widget {
 	id: number;
 	type: WidgetType;
+	title: string;
+	timeframe: Timeframe;
 	displayOrder?: number;
 	x: number;
 	y: number;
-	cols: number;
-	rows: number;
 	settings?: Record<string, unknown>;
 }
 

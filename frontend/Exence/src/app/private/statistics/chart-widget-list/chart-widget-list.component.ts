@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { ChartWidget } from '../Widget';
+import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
 
 @Component({

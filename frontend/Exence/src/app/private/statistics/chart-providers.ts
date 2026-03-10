@@ -1,7 +1,7 @@
 import { ApexAxisChartSeries, ApexChart, ApexNonAxisChartSeries, ApexOptions, ApexYAxis } from 'ng-apexcharts';
 import { getCssVariableValue } from '../../shared/chart/chart-config';
 import { buildLinks, buildNodeMap, findHubNode, lightenHexColor } from '../../shared/util/utils';
-import { ExChartType } from './ChartType';
+import { ExChartType } from '../../data-model/modules/statistics/ChartType';
 import {
 	BoxplotPayload,
 	BubblePayload,
@@ -12,7 +12,7 @@ import {
 	SlopePayload,
 	StatCardPayload,
 	WidgetDataPayload,
-} from './WidgetDataPayload';
+} from '../../data-model/modules/statistics/WidgetDataPayload';
 import { EChartsOption } from 'echarts/types/dist/shared';
 
 export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (

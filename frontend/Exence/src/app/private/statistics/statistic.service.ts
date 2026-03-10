@@ -1,11 +1,12 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { HttpService } from '../../shared/http/http.service';
-import { Timeframe } from './Timeframe';
-import { Widget, WidgetDataResponse } from './widget-config.model';
-import { WidgetLayoutResponse } from './WidgetLayoutResponse';
-import { UpdateLayoutRequest } from './UpdateLayoutRequest';
-import { WidgetDataPayload } from './WidgetDataPayload';
+import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
+import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
+import { UpdateLayoutRequest } from '../../data-model/modules/statistics/UpdateLayoutRequest';
+import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
+import { WidgetDataResponse } from '../../data-model/modules/statistics/WidgetDataReponse';
+import { Widget } from '../../data-model/modules/statistics/Widget';
 
 @Injectable()
 export class StatisticService {

@@ -2,13 +2,13 @@ import { CurrencyPipe } from '@angular/common';
 import { Component, computed, inject, input, OnChanges, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
+import { mapToExChartType } from '../../../data-model/modules/statistics/widget-config.model';
+import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { InfoButtonComponent } from '../../../shared/info-button/info-button.component';
 import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
-import { StatCardWidget } from '../Widget';
-import { mapToExChartType } from '../widget-config.model';
-import { StatCardPayload } from '../WidgetDataPayload';
-import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 
 interface StatCardAssetInfo {
 	prefix: string;

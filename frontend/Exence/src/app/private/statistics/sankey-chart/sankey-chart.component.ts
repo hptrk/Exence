@@ -8,7 +8,7 @@ import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
 import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
-import { ChartWidget } from '../Widget';
+import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 
 echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 

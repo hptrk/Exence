@@ -2,11 +2,11 @@ import { Component, computed, effect, inject, input, signal } from '@angular/cor
 import { MatCardModule } from '@angular/material/card';
 import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
 import { mapToProvider } from '../chart-providers';
-import { ExChartType } from '../ChartType';
+import { ExChartType } from '../../../data-model/modules/statistics/ChartType';
 import { SankeyChartComponent } from '../sankey-chart/sankey-chart.component';
 import { StatisticService } from '../statistic.service';
-import { ChartWidget } from '../Widget';
-import { mapToExChartType } from '../widget-config.model';
+import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
+import { mapToExChartType } from '../../../data-model/modules/statistics/widget-config.model';
 
 @Component({
 	selector: 'ex-chart-widget',

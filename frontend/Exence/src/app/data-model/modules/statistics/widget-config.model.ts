@@ -1,11 +1,4 @@
 import { ExChartType } from './ChartType';
-import { WidgetDataPayload } from './WidgetDataPayload';
-
-export interface WidgetDataResponse<T extends WidgetDataPayload = WidgetDataPayload> {
-	widgetId: number;
-	type: WidgetType;
-	payload: T;
-}
 
 // name of each individual chart (can be multiple of a chart type - 3 bar charts with different data)
 export enum WidgetType {
@@ -63,12 +56,6 @@ export enum WidgetType {
 
 	// Sankey
 	CATEGORY_SANKEY = 'CATEGORY_SANKEY',
-}
-
-export interface Widget {
-	id: number;
-	type: WidgetType;
-	title: string;
 }
 
 /* eslint-disable-next-line complexity */

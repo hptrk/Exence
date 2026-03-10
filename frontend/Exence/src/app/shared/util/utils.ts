@@ -5,7 +5,7 @@ import { ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { SankeyLink } from '../../private/statistics/WidgetDataPayload';
+import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayload';
 
 export function toRawValueSignal<T>(control: AbstractControl<unknown, T>): Signal<T> {
 	return toSignal(control.valueChanges.pipe(map(() => control.getRawValue() as T)), {
