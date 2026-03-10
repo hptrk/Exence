@@ -5,6 +5,7 @@ import { ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { SankeyLink } from '../../private/statistics/WidgetDataPayload';
 
 export function toRawValueSignal<T>(control: AbstractControl<unknown, T>): Signal<T> {
 	return toSignal(control.valueChanges.pipe(map(() => control.getRawValue() as T)), {
@@ -31,4 +32,68 @@ export function lightenHexColor(hex: string, amount = 0.3): string {
 	const g = Math.min(255, Math.round(((num >> 8) & 0xff) + (255 - ((num >> 8) & 0xff)) * amount));
 	const b = Math.min(255, Math.round((num & 0xff) + (255 - (num & 0xff)) * amount));
 	return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}
+
+export function findHubNode(
+	data: SankeyLink[],
+	sourceNames: Set<string>,
+	targetNames: Set<string>,
+): string | undefined {
+	const mixedNames = [...sourceNames].filter(name => targetNames.has(name));
+
+	const edgeCount = new Map<string, number>();
+	data.forEach(link => {
+		edgeCount.set(link.from, (edgeCount.get(link.from) ?? 0) + 1);
+		edgeCount.set(link.to, (edgeCount.get(link.to) ?? 0) + 1);
+	});
+
+	return mixedNames.reduce<string | undefined>((maxName, name) => {
+		const count = edgeCount.get(name) ?? 0;
+		const maxCount = maxName ? (edgeCount.get(maxName) ?? 0) : 0;
+		return count > maxCount ? name : maxName;
+	}, undefined);
+}
+
+export function resolveNodeId(name: string, side: 'source' | 'target', mixedCategories: Set<string>): string {
+	return mixedCategories.has(name) ? `${name}_${side}` : name;
+}
+
+export function buildNodeMap(
+	data: SankeyLink[],
+	mixedCategories: Set<string>,
+): Map<string, { id: string; name: string; color?: string }> {
+	const nodeMap = new Map<string, { id: string; name: string; color: string }>();
+
+	data.forEach(link => {
+		const fromId = resolveNodeId(link.from, 'source', mixedCategories);
+		if (!nodeMap.has(fromId)) {
+			nodeMap.set(fromId, {
+				id: fromId,
+				name: link.from,
+				color: link.color,
+			});
+		}
+
+		const toId = resolveNodeId(link.to, 'target', mixedCategories);
+		if (!nodeMap.has(toId)) {
+			nodeMap.set(toId, {
+				id: toId,
+				name: link.to,
+				color: link.color,
+			});
+		}
+	});
+	return nodeMap;
+}
+
+export function buildLinks(
+	data: SankeyLink[],
+	mixedCategories: Set<string>,
+): { source: string; target: string; value: number; color: string }[] {
+	return data.map(link => ({
+		source: resolveNodeId(link.from, 'source', mixedCategories),
+		target: resolveNodeId(link.to, 'target', mixedCategories),
+		value: link.value,
+		color: link.color,
+	}));
 }

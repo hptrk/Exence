@@ -60,6 +60,9 @@ export enum WidgetType {
 
 	// Slope
 	YEARLY_SLOPE = 'YEARLY_SLOPE',
+
+	// Sankey
+	CATEGORY_SANKEY = 'CATEGORY_SANKEY',
 }
 
 export interface Widget {
@@ -68,6 +71,7 @@ export interface Widget {
 	title: string;
 }
 
+/* eslint-disable-next-line complexity */
 export function mapToExChartType(widgetType: WidgetType): ExChartType {
 	switch (widgetType) {
 		case WidgetType.INCOME_TREND:
@@ -122,5 +126,7 @@ export function mapToExChartType(widgetType: WidgetType): ExChartType {
 			return 'radialBar';
 		case WidgetType.YEARLY_SLOPE:
 			return 'line';
+		case WidgetType.CATEGORY_SANKEY:
+			return 'sankey';
 	}
 }

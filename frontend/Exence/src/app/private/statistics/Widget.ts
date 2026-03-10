@@ -4,12 +4,12 @@ import { WidgetType } from './widget-config.model';
 export interface Widget {
 	id: number;
 	type: WidgetType;
-	displayOrder: number;
+	displayOrder?: number;
 	x: number;
 	y: number;
 	cols: number;
 	rows: number;
-	settings: Record<string, unknown>;
+	settings?: Record<string, unknown>;
 }
 
 export interface StatCardWidget {

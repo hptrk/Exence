@@ -22,7 +22,7 @@
 					[responsive]="data()?.responsive ?? []"
 				/>
 			} @else {
-				<!-- TODO SANKEY -->
+				<ex-sankey-chart [widget]="this.widget()" />
 			}
 		}
 	</mat-card-content>

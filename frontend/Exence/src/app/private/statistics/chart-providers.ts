@@ -1,6 +1,6 @@
 import { ApexAxisChartSeries, ApexChart, ApexNonAxisChartSeries, ApexOptions, ApexYAxis } from 'ng-apexcharts';
 import { getCssVariableValue } from '../../shared/chart/chart-config';
-import { lightenHexColor } from '../../shared/util/utils';
+import { buildLinks, buildNodeMap, findHubNode, lightenHexColor } from '../../shared/util/utils';
 import { ExChartType } from './ChartType';
 import {
 	BoxplotPayload,
@@ -13,11 +13,12 @@ import {
 	StatCardPayload,
 	WidgetDataPayload,
 } from './WidgetDataPayload';
+import { EChartsOption } from 'echarts/types/dist/shared';
 
 export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
 	data: T,
 	settings?: Record<string, unknown>,
-) => Partial<ApexOptions> | T;
+) => Partial<ApexOptions> | T | EChartsOption;
 
 // TODO if there are some configs that all kinds of charts share and are the same for each
 const commonChartOptions: Partial<ApexOptions> = {
@@ -56,18 +57,89 @@ const commonChartOptions: Partial<ApexOptions> = {
 };
 
 // Providers
-// TODO
 const SankeyProvider: ProviderFn<SankeyPayload> = (
-	_data: SankeyPayload,
+	{ data }: SankeyPayload,
 	_settings?: Record<string, unknown>,
-): ApexOptions => {
+): EChartsOption => {
+	const sourceNames = new Set(data.map(link => link.from));
+	const targetNames = new Set(data.map(link => link.to));
+
+	const hub = findHubNode(data, sourceNames, targetNames);
+	const mixedCategories = new Set([...sourceNames].filter(name => targetNames.has(name) && name !== hub));
+
+	const nodeMap = buildNodeMap(data, mixedCategories);
+	const links = buildLinks(data, mixedCategories);
+
+	const fallbackColor = getCssVariableValue('--primary-color');
+	const textColor = getCssVariableValue('--default-text-color');
+
 	return {
-		...commonChartOptions,
-		chart: { type: 'donut' },
-		plotOptions: {
-			pie: { donut: { size: '70%', background: 'transparent' } },
+		series: [
+			{
+				type: 'sankey',
+				nodeGap: 16,
+				links,
+				nodes: [...nodeMap.values()].map(node => ({
+					id: node.id,
+					name: node.name,
+					itemStyle: {
+						color: node.color && node.name !== hub ? node.color : fallbackColor,
+					},
+				})),
+				lineStyle: {
+					color: 'gradient',
+					opacity: 0.35,
+				},
+				top: '10%',
+				label: {
+					show: true,
+					color: textColor,
+					fontSize: 14,
+					fontWeight: 'bold',
+				},
+			},
+		],
+		title: {
+			left: 0,
+			top: 0,
+			textStyle: {
+				color: textColor,
+			},
 		},
-		colors: ['var(--primary-color)'],
+		tooltip: {
+			trigger: 'item',
+			triggerOn: 'mousemove',
+			backgroundColor: getCssVariableValue('--app-background-color'),
+			textStyle: {
+				color: textColor,
+			},
+			borderRadius: 10,
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			formatter: (params: any) => {
+				if (params.dataType === 'node') {
+					return params.data.name;
+				}
+				const sourceNode = nodeMap.get(params.data.source);
+				const targetNode = nodeMap.get(params.data.target);
+				if (sourceNode?.name === hub && sourceNode?.color) sourceNode.color = fallbackColor;
+				if (targetNode?.name === hub && targetNode?.color) targetNode.color = fallbackColor;
+				const colorSquare = (color: string): string =>
+					`<span style="display:inline-block;width:12px;height:12px;border-radius:2px;background-color:${color};flex-shrink:0"></span>`;
+				return `
+                    <div class="d-flex flex-column gap-2 p-2">
+                        <div class="d-flex flex-row flex-nowrap gap-2 align-items-center justify-content-between">
+                            <div>From: <span class="fw-semibold">${sourceNode?.name ?? params.data.source}</span></div>
+                            ${sourceNode?.color ? colorSquare(sourceNode.color) : fallbackColor}
+                        </div>
+                        <div class="d-flex flex-row flex-nowrap gap-2 align-items-center justify-content-between">
+                            <div>To: <span class="fw-semibold">${targetNode?.name ?? params.data.target}</span></div>
+                            ${targetNode?.color ? colorSquare(targetNode.color) : fallbackColor}
+                        </div>
+                        <div>Amount: <span class="fw-bold">${params.data.value}</span></div>
+                    </div>
+                `;
+			},
+		},
 	};
 };
 
