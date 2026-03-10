@@ -60,7 +60,8 @@ public interface TransactionRepository
     // --- Stat card queries ---
 
     @Query("""
-        SELECT t.amount AS amount, t.title AS title, t.category.color AS categoryColor
+        SELECT t.amount AS amount, t.title AS title,
+               t.category.color AS categoryColor, t.category.icon AS categoryIcon
         FROM Transaction t
         WHERE t.date BETWEEN :startDate AND :endDate
           AND t.type = :type

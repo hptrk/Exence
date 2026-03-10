@@ -5,4 +5,6 @@ import java.math.BigDecimal;
 
 public interface CategoryAmountProjection extends CategoryProjection {
     BigDecimal getTotalAmount();
+
+    String getCategoryIcon();
 }

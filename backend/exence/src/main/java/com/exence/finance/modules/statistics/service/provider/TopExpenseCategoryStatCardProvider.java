@@ -42,7 +42,7 @@ public final class TopExpenseCategoryStatCardProvider implements WidgetDataProvi
                 top.getCategoryName(),
                 trend.changePercentage(),
                 trend.trend(),
-                null,
+                top.getCategoryIcon(),
                 top.getCategoryColor());
     }
 }

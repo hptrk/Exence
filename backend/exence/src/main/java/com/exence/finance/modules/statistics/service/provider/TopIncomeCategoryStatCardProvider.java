@@ -42,7 +42,7 @@ public final class TopIncomeCategoryStatCardProvider implements WidgetDataProvid
                 top.getCategoryName(),
                 trend.changePercentage(),
                 trend.trend(),
-                null,
+                top.getCategoryIcon(),
                 top.getCategoryColor());
     }
 }

@@ -271,11 +271,11 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
 
     @Query("""
         SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
-               COALESCE(SUM(s.totalAmount), 0) AS totalAmount
+               s.categoryIcon AS categoryIcon, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
         WHERE s.statDate BETWEEN :startDate AND :endDate
           AND s.type = :type
-        GROUP BY s.categoryName, s.categoryColor
+        GROUP BY s.categoryName, s.categoryColor, s.categoryIcon
         ORDER BY SUM(s.totalAmount) DESC
         LIMIT 1
         """)

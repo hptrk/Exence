@@ -51,6 +51,9 @@ public class DailyCategoryStat {
     @Column(name = "category_color", nullable = false)
     private String categoryColor;
 
+    @Column(name = "category_icon", nullable = false)
+    private String categoryIcon;
+
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
 

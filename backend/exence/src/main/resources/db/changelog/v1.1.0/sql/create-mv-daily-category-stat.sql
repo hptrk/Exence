@@ -6,10 +6,11 @@ SELECT
     t.type,
     c.name AS category_name,
     c.color AS category_color,
+    CAST(c.icon AS TEXT) AS category_icon,
     SUM(t.amount) AS total_amount,
     COUNT(t.id) AS transaction_count,
     MAX(t.amount) AS max_amount
 FROM transaction t
 JOIN category c ON t.category_id = c.id
-GROUP BY t.user_id, date_trunc('day', t.date AT TIME ZONE 'UTC') AT TIME ZONE 'UTC', t.category_id, t.type, c.name, c.color
+GROUP BY t.user_id, date_trunc('day', t.date AT TIME ZONE 'UTC') AT TIME ZONE 'UTC', t.category_id, t.type, c.name, c.color, c.icon
 WITH DATA;

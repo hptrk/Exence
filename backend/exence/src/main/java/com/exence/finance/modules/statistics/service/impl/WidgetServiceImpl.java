@@ -1,6 +1,7 @@
 package com.exence.finance.modules.statistics.service.impl;
 
 import com.exence.finance.common.exception.WidgetNotFoundException;
+import com.exence.finance.common.exception.WidgetTypeMismatchException;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.ChartLayoutItem;
 import com.exence.finance.modules.statistics.dto.StatCardLayoutItem;
@@ -80,9 +81,7 @@ public class WidgetServiceImpl implements WidgetService {
         if (request.statCards() != null) {
             for (StatCardLayoutItem item : request.statCards()) {
                 Widget widget = existingWidgets.get(item.id());
-                if (widget == null) {
-                    throw new WidgetNotFoundException("Widget not found: " + item.id());
-                }
+                validateWidget(widget, item.id());
                 widget.setDisplayOrder(item.displayOrder());
             }
         }
@@ -90,9 +89,7 @@ public class WidgetServiceImpl implements WidgetService {
         if (request.charts() != null) {
             for (ChartLayoutItem item : request.charts()) {
                 Widget widget = existingWidgets.get(item.id());
-                if (widget == null) {
-                    throw new WidgetNotFoundException("Widget not found: " + item.id());
-                }
+                validateWidget(widget, item.id());
                 widget.setX(item.x());
                 widget.setY(item.y());
             }
@@ -126,6 +123,18 @@ public class WidgetServiceImpl implements WidgetService {
 
         WidgetDataPayload payload = provider.getData(request);
         return new WidgetDataResponse(widget.getId(), widget.getType(), payload);
+    }
+
+    private void validateWidget(Widget widget, Long id) {
+        if (widget == null) {
+            throw new WidgetNotFoundException("Widget not found: " + id);
+        }
+        if (!widget.getType().isStatCard()) {
+            throw new WidgetTypeMismatchException("Widget " + widget.getId() + " is not a stat card");
+        }
+        if (!widget.getType().isGraph()) {
+            throw new WidgetTypeMismatchException("Widget " + widget.getId() + " is not a chart");
+        }
     }
 
     private Timeframe resolveTimeframe(Timeframe queryParamTimeframe, Widget widget) {

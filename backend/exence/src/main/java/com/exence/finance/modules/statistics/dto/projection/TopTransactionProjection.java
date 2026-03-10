@@ -8,4 +8,6 @@ public interface TopTransactionProjection {
     String getTitle();
 
     String getCategoryColor();
+
+    String getCategoryIcon();
 }

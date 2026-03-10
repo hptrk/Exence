@@ -299,4 +299,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
     }
+
+    @ExceptionHandler(WidgetTypeMismatchException.class)
+    public ResponseEntity<ProblemDetail> handleWidgetTypeMismatchException(
+            WidgetTypeMismatchException ex, WebRequest request) {
+        log.warn("Widget type mismatch: {}", ex.getMessage());
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "widget-type-mismatch"));
+        problemDetail.setTitle("Widget Type Mismatch");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+    }
 }
