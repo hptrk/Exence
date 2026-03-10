@@ -3,6 +3,7 @@ import { Component, computed, effect, inject, input, signal } from '@angular/cor
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
+import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { StatisticService } from '../statistic.service';
@@ -27,6 +28,11 @@ export class StatCardComponent {
 	data = signal<StatCardPayload | null>(null);
 	trend = computed<'UP' | 'DOWN' | 'NEUTRAL' | undefined>(() => this.data()?.trend);
 
+	readonly predefinedStatCardIcons: Partial<Record<WidgetType, string>> = {
+		[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
+		[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
+	};
+
 	assets = computed<StatCardAssetInfo>(() => {
 		switch (this.trend()) {
 			case 'UP':
@@ -38,7 +44,7 @@ export class StatCardComponent {
 		}
 	});
 
-	isMetric = computed(() => !!this.data()?.changePercentage && !!this.data()?.trend);
+	isMetric = computed(() => this.data()?.changePercentage !== undefined && !!this.data()?.trend);
 
 	constructor() {
 		effect(() => {

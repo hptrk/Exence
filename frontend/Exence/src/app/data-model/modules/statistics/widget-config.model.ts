@@ -2,6 +2,17 @@ import { ExChartType } from './ChartType';
 
 // name of each individual chart (can be multiple of a chart type - 3 bar charts with different data)
 export enum WidgetType {
+	// --- Stat Cards ---
+	EXPENSE_FREQUENCY_STATCARD = 'EXPENSE_FREQUENCY_STATCARD',
+	INCOME_FREQUENCY_STATCARD = 'INCOME_FREQUENCY_STATCARD',
+	NO_SPEND_DAYS_STATCARD = 'NO_SPEND_DAYS_STATCARD',
+	TOP_EXPENSE_CATEGORY_STATCARD = 'TOP_EXPENSE_CATEGORY_STATCARD',
+	TOP_INCOME_CATEGORY_STATCARD = 'TOP_INCOME_CATEGORY_STATCARD',
+	TOP_EXPENSE_TRANSACTION_STATCARD = 'TOP_EXPENSE_TRANSACTION_STATCARD',
+	TOP_INCOME_TRANSACTION_STATCARD = 'TOP_INCOME_TRANSACTION_STATCARD',
+	BURN_RATE_STATCARD = 'BURN_RATE_STATCARD',
+	SAVINGS_RATE_STATCARD = 'SAVINGS_RATE_STATCARD',
+
 	// Area/Line trends
 	INCOME_TREND = 'INCOME_TREND',
 	EXPENSE_TREND = 'EXPENSE_TREND',
@@ -61,6 +72,16 @@ export enum WidgetType {
 /* eslint-disable-next-line complexity */
 export function mapToExChartType(widgetType: WidgetType): ExChartType {
 	switch (widgetType) {
+		case WidgetType.EXPENSE_FREQUENCY_STATCARD:
+		case WidgetType.INCOME_FREQUENCY_STATCARD:
+		case WidgetType.NO_SPEND_DAYS_STATCARD:
+		case WidgetType.TOP_EXPENSE_CATEGORY_STATCARD:
+		case WidgetType.TOP_INCOME_CATEGORY_STATCARD:
+		case WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD:
+		case WidgetType.TOP_INCOME_TRANSACTION_STATCARD:
+		case WidgetType.BURN_RATE_STATCARD:
+		case WidgetType.SAVINGS_RATE_STATCARD:
+			return 'statCard';
 		case WidgetType.INCOME_TREND:
 			return 'area';
 		case WidgetType.EXPENSE_TREND:
