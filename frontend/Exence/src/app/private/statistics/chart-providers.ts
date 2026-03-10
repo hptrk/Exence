@@ -187,7 +187,7 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 		}));
 	} else {
 		const payload = data as SeriesPayload;
-		series = payload.series;
+		series = payload.series.map(si => ({ ...si, color: si.color ?? 'var(--primary-color)' }));
 	}
 
 	const yAxisConfig: ApexYAxis | ApexYAxis[] = isMixed

@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
-import { InfoButtonComponent } from '../../../shared/info-button/info-button.component';
 import { StatisticService } from '../statistic.service';
 
 interface StatCardAssetInfo {
@@ -17,7 +16,7 @@ interface StatCardAssetInfo {
 	selector: 'ex-stat-card',
 	templateUrl: './stat-card.component.html',
 	styleUrl: './stat-card.component.scss',
-	imports: [MatCardModule, MatIconModule, InfoButtonComponent, AnimatedSkeletonLoaderComponent, CurrencyPipe],
+	imports: [MatCardModule, MatIconModule, AnimatedSkeletonLoaderComponent, CurrencyPipe],
 })
 export class StatCardComponent {
 	private readonly statisticService = inject(StatisticService);
@@ -29,7 +28,6 @@ export class StatCardComponent {
 	trend = computed<'UP' | 'DOWN' | 'NEUTRAL' | undefined>(() => this.data()?.trend);
 
 	assets = computed<StatCardAssetInfo>(() => {
-		console.log(this.trend());
 		switch (this.trend()) {
 			case 'UP':
 				return { prefix: '+', suffix: 'arrow_upward' };
