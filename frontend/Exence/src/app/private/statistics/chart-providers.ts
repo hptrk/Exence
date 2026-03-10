@@ -1,6 +1,6 @@
 import { ApexAxisChartSeries, ApexChart, ApexNonAxisChartSeries, ApexOptions, ApexYAxis } from 'ng-apexcharts';
 import { getCssVariableValue } from '../../shared/chart/chart-config';
-import { buildLinks, buildNodeMap, findHubNode, lightenHexColor } from '../../shared/util/utils';
+import { buildLinks, buildNodeMap, findHubNode, formatNumber, lightenHexColor } from '../../shared/util/utils';
 import { ExChartType } from '../../data-model/modules/statistics/ChartType';
 import {
 	BoxplotPayload,
@@ -145,7 +145,7 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
                             <div>To: <span class="fw-semibold">${targetNode?.name ?? params.data.target}</span></div>
                             ${targetNode?.color ? colorSquare(targetNode.color) : fallbackColor}
                         </div>
-                        <div>Amount: <span class="fw-bold">${params.data.value}</span></div>
+                        <div>Amount: <span class="fw-bold">${formatNumber(params.data.value)}</span></div>
                     </div>
                 `;
 			},
@@ -198,11 +198,24 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 					offsetX: si.type !== 'line' ? 10 : -10,
 					style: {
 						fontSize: '14px',
+						fontWeight: 'semibold',
 					},
 				},
 				opposite: si.type !== 'line',
+				labels: {
+					formatter(val) {
+						return formatNumber(val);
+					},
+				},
 			}))
-		: { ...commonChartOptions.yaxis };
+		: {
+				...commonChartOptions.yaxis,
+				labels: {
+					formatter(val) {
+						return formatNumber(val);
+					},
+				},
+			};
 
 	return {
 		...commonChartOptions,
@@ -241,7 +254,7 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 			...commonChartOptions.xaxis,
 			labels: {
 				style: {
-					fontSize: isSlopeChart ? '24px' : '18px',
+					fontSize: isSlopeChart ? '20px' : '18px',
 				},
 				offsetY: isSlopeChart ? 5 : isMixed ? 5 : 10,
 			},
@@ -311,6 +324,14 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 			},
 			tickPlacement: 'between',
 		},
+		yaxis: {
+			...commonChartOptions.yaxis,
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
+		},
 	};
 };
 
@@ -354,6 +375,14 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 			tickPlacement: 'between',
 		},
 		colors: ['var(--primary-color)'],
+		yaxis: {
+			...commonChartOptions.yaxis,
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
+		},
 	};
 };
 
@@ -410,6 +439,14 @@ const PieProvider: ProviderFn<DistributionPayload> = (
 				},
 			},
 		],
+		yaxis: {
+			...commonChartOptions.yaxis,
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
+		},
 	};
 };
 
@@ -466,6 +503,14 @@ const DonutProvider: ProviderFn<DistributionPayload> = (
 				},
 			},
 		],
+		yaxis: {
+			...commonChartOptions.yaxis,
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
+		},
 	};
 };
 
@@ -534,7 +579,7 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 		tooltip: {
 			x: {
 				formatter: function (val, _) {
-					return `Number of transactions: ${val}`;
+					return `Number of transactions: ${formatNumber(+val)}`;
 				},
 			},
 			y: {
@@ -546,6 +591,9 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 			},
 			z: {
 				title: 'Sum of transaction amounts: ',
+				formatter(val) {
+					return formatNumber(val);
+				},
 			},
 		},
 		xaxis: {
@@ -555,9 +603,15 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 				style: {
 					...commonChartOptions.xaxis?.labels?.style,
 					fontSize: '14px',
-					fontWeight: 'semibold',
 				},
 				offsetY: 5,
+			},
+		},
+		yaxis: {
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
 			},
 		},
 	};
@@ -672,6 +726,13 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 				show: false,
 			},
 		},
+		tooltip: {
+			y: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
+		},
 	};
 };
 
@@ -700,9 +761,33 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 				offsetY: 5,
 			},
 		},
+		yaxis: {
+			...commonChartOptions.yaxis,
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
+		},
 		title: {
 			...commonChartOptions.title,
 			text: title,
+		},
+		tooltip: {
+			custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+				if (!series) return;
+				const point = w.config.series[seriesIndex].data[dataPointIndex];
+				const [min, q1, median, q3, max] = point.y;
+				return `
+					<div class="d-flex flex-column gap-2 p-2">
+					<div class="d-flex flex-row gap-2 fw-medium">Maximum: <span class="fw-bold">${formatNumber(max)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">Q3: <span class="fw-bold">${formatNumber(q3)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">Median: <span class="fw-bold">${formatNumber(median)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">Q1: <span class="fw-bold">${formatNumber(q1)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">Minimum: <span class="fw-bold">${formatNumber(min)}</span></div>
+					</div>
+					`;
+			},
 		},
 	};
 };
@@ -753,17 +838,6 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 			...commonChartOptions.xaxis,
 			categories: labels,
 		},
-		dataLabels: {
-			enabled: instanceOfDistributionPayload,
-			background: {
-				enabled: true,
-				padding: 8,
-			},
-			style: {
-				fontSize: '14px',
-			},
-			offsetY: -15,
-		},
 		yaxis: {
 			show: false,
 		},
@@ -778,6 +852,13 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 		},
 		fill: {
 			opacity: 0.5,
+		},
+		tooltip: {
+			y: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
 		},
 	};
 };
@@ -818,12 +899,12 @@ const TreemapProvider: ProviderFn<SeriesPayload> = (
 		},
 		dataLabels: {
 			enabled: true,
-			formatter: (text, opts) => [String(text), getFormattedValue(+opts.value, opts)],
+			formatter: (text, opts) => [String(text), formatNumber(+getFormattedValue(+opts.value, opts))],
 			offsetY: -7,
 		},
 		tooltip: {
 			y: {
-				formatter: (value, opts) => getFormattedValue(value, opts),
+				formatter: (value, opts) => formatNumber(+getFormattedValue(value, opts)),
 			},
 		},
 		title: {
@@ -875,6 +956,14 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 			...commonChartOptions.title,
 			text: title,
 		},
+		yaxis: {
+			...commonChartOptions.yaxis,
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
+		},
 	};
 };
 
@@ -913,6 +1002,11 @@ const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 		},
 		yaxis: {
 			show: false,
+			labels: {
+				formatter(val) {
+					return formatNumber(val);
+				},
+			},
 		},
 		fill: {
 			opacity: 0.85,

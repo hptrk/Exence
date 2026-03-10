@@ -97,3 +97,12 @@ export function buildLinks(
 		color: link.color,
 	}));
 }
+
+export function formatNumber(value: number, locale = 'hu-HU'): string {
+	if (Math.abs(value) < 10000) return value.toString();
+	return new Intl.NumberFormat(locale, {
+		useGrouping: true,
+	})
+		.format(value)
+		.replace(/\u00a0/g, ' ');
+}
