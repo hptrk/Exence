@@ -21,15 +21,14 @@ export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
 	settings?: Record<string, unknown>,
 ) => Partial<ApexOptions> | T | EChartsOption;
 
-// TODO if there are some configs that all kinds of charts share and are the same for each
+// common config for most charts from apexcharts
 const commonChartOptions: Partial<ApexOptions> = {
 	chart: {
 		foreColor: 'currentColor',
 		toolbar: {
 			show: true,
-			tools: {}, // TODO fill from data.settings
 		},
-		height: 750,
+		height: 450,
 		// 	width: 500,
 	} as ApexChart,
 	legend: {

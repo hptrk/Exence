@@ -1,13 +1,11 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component, computed, inject, input, OnChanges, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
-import { mapToExChartType } from '../../../data-model/modules/statistics/widget-config.model';
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { InfoButtonComponent } from '../../../shared/info-button/info-button.component';
-import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
 
 interface StatCardAssetInfo {
@@ -21,22 +19,22 @@ interface StatCardAssetInfo {
 	styleUrl: './stat-card.component.scss',
 	imports: [MatCardModule, MatIconModule, InfoButtonComponent, AnimatedSkeletonLoaderComponent, CurrencyPipe],
 })
-export class StatCardComponent implements OnChanges {
+export class StatCardComponent {
 	private readonly statisticService = inject(StatisticService);
 
 	widget = input.required<StatCardWidget>();
 
-	// TODO remove when statistic.store created
 	isLoading = signal<boolean>(false);
 	data = signal<StatCardPayload | null>(null);
-	trend = signal<'UP' | 'DOWN' | 'NEUTRAL'>('NEUTRAL');
+	trend = computed<'UP' | 'DOWN' | 'NEUTRAL' | undefined>(() => this.data()?.trend);
 
 	assets = computed<StatCardAssetInfo>(() => {
+		console.log(this.trend());
 		switch (this.trend()) {
 			case 'UP':
 				return { prefix: '+', suffix: 'arrow_upward' };
 			case 'DOWN':
-				return { prefix: '-', suffix: 'arrow_downward' };
+				return { prefix: '', suffix: 'arrow_downward' };
 			default:
 				return { prefix: '', suffix: 'check_indeterminate_small' };
 		}
@@ -44,14 +42,13 @@ export class StatCardComponent implements OnChanges {
 
 	isMetric = computed(() => !!this.data()?.changePercentage && !!this.data()?.trend);
 
-	// TODO move to statistic.store, remove async
-	ngOnChanges(): void {
-		this.isLoading.set(true);
-		this.statisticService.getWidgetData<StatCardPayload>(this.widget().id).then(response => {
-			const type = mapToExChartType(response.type);
-			const providerFn = mapToProvider<StatCardPayload>(type);
-			this.data.set(providerFn(response.payload) as StatCardPayload);
-			this.isLoading.set(false);
+	constructor() {
+		effect(() => {
+			this.isLoading.set(true);
+			this.statisticService.getWidgetData<StatCardPayload>(this.widget().id).then(response => {
+				this.data.set(response.payload);
+				this.isLoading.set(false);
+			});
 		});
 	}
 }

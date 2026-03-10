@@ -1,4 +1,4 @@
-<div class="d-flex flex-column gap-4 overflow-y-auto">
+<div class="chart-grid gap-4 overflow-y-auto overflow-x-hidden">
 	@for (widget of data(); track widget.id) {
 		<ex-chart-widget [widget]="widget" />
 	}
