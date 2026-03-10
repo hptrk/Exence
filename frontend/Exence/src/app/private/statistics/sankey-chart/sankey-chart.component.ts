@@ -9,13 +9,28 @@ import { DisplayThemeService } from '../../../shared/display-theme.service';
 import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 
 echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 
 @Component({
 	selector: 'ex-sankey-chart',
-	template: ` <div echarts [options]="{ ...data() }" style="height: 500px"></div> `,
-	imports: [NgxEchartsDirective],
+	template: `
+		@if (isLoading() && !data()) {
+			<div class="h-100 w-100 d-flex justify-content-center align-items-center">
+				<div class="d-flex flex-row flex-nowrap gap-2 align-items-end justify-content-center">
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="155px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="195px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="250px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="170px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="120px" />
+				</div>
+			</div>
+		} @else {
+			<div echarts [options]="{ ...data() }" style="height: 450px"></div>
+		}
+	`,
+	imports: [NgxEchartsDirective, AnimatedSkeletonLoaderComponent],
 	providers: [provideEchartsCore({ echarts })],
 })
 export class SankeyChartComponent {

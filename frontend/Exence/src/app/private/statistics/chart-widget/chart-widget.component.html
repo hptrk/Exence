@@ -1,7 +1,15 @@
 <mat-card>
 	<mat-card-content>
 		@if (isLoading() && !data()) {
-			<!-- TODO animation -->
+			<div class="h-100 w-100 d-flex justify-content-center align-items-center">
+				<div class="d-flex flex-row flex-nowrap gap-2 align-items-end justify-content-center">
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="155px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="195px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="250px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="170px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="120px" />
+				</div>
+			</div>
 		} @else {
 			@if (isApexChart()) {
 				<apx-chart
