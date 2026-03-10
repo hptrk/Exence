@@ -14,19 +14,7 @@ echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 
 @Component({
 	selector: 'ex-sankey-chart',
-	template: `
-		<div
-			echarts
-			[options]="{
-				...data(),
-				title: {
-					...data()?.title,
-					text: this.widget().title,
-				},
-			}"
-			style="height: 500px"
-		></div>
-	`,
+	template: ` <div echarts [options]="{ ...data() }" style="height: 500px"></div> `,
 	imports: [NgxEchartsDirective],
 	providers: [provideEchartsCore({ echarts })],
 })
@@ -46,7 +34,7 @@ export class SankeyChartComponent {
 			this.isLoading.set(true);
 			this.statisticService.getWidgetData(this.widget().id).then(response => {
 				const providerFn = mapToProvider<typeof response.payload>('sankey');
-				this.data.set(providerFn(response.payload) as Partial<EChartsOption>);
+				this.data.set(providerFn(response.payload, this.widget().title) as Partial<EChartsOption>);
 				this.isLoading.set(false);
 			});
 		});

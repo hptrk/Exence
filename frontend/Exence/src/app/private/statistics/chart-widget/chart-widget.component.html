@@ -5,7 +5,7 @@
 		} @else {
 			@if (isApexChart()) {
 				<apx-chart
-					[title]="{ text: widget().title }"
+					[title]="{ ...data()?.title }"
 					[series]="data()?.series ?? []"
 					[chart]="data()?.chart ?? { type: 'bar' }"
 					[plotOptions]="data()?.plotOptions ?? {}"

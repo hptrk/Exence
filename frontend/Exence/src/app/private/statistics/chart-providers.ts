@@ -17,6 +17,7 @@ import { EChartsOption } from 'echarts/types/dist/shared';
 
 export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
 	data: T,
+	title: string,
 	settings?: Record<string, unknown>,
 ) => Partial<ApexOptions> | T | EChartsOption;
 
@@ -54,11 +55,19 @@ const commonChartOptions: Partial<ApexOptions> = {
 			},
 		},
 	},
+	title: {
+		style: {
+			fontSize: '18px',
+			fontFamily: 'Montserrat, Arial, sans-serif',
+			fontWeight: 700,
+		},
+	},
 };
 
 // Providers
 const SankeyProvider: ProviderFn<SankeyPayload> = (
 	{ data }: SankeyPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): EChartsOption => {
 	const sourceNames = new Set(data.map(link => link.from));
@@ -100,10 +109,12 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
 			},
 		],
 		title: {
+			text: title,
 			left: 0,
 			top: 0,
 			textStyle: {
 				color: textColor,
+				fontSize: '18px',
 			},
 		},
 		tooltip: {
@@ -145,6 +156,7 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
 
 const StatCardProvider: ProviderFn<StatCardPayload> = (
 	data: StatCardPayload,
+	_title: string,
 	_settings?: Record<string, unknown>,
 ): StatCardPayload => {
 	return { ...data };
@@ -152,6 +164,7 @@ const StatCardProvider: ProviderFn<StatCardPayload> = (
 
 const LineProvider: ProviderFn<SeriesPayload> = (
 	data: SeriesPayload | SlopePayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const isSlopeChart = 'series' in data ? false : true;
@@ -196,6 +209,10 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 		...commonChartOptions,
 		chart: { ...commonChartOptions.chart, type: 'line' },
 		series,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		plotOptions: {
 			line: {
 				isSlopeChart,
@@ -239,6 +256,7 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 
 const AreaProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const isIncome = series.length === 1 && !!series.find(s => s.name.toLowerCase() === 'income');
@@ -252,6 +270,10 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 		...commonChartOptions,
 		chart: { ...commonChartOptions.chart, type: 'area', stacked: true },
 		series,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		fill: {
 			type: 'gradient',
 			gradient: {
@@ -295,12 +317,17 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 
 const BarProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	return {
 		...commonChartOptions,
 		chart: { ...commonChartOptions.chart, type: 'bar' },
 		series,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		plotOptions: {
 			bar: {
 				horizontal: false,
@@ -333,6 +360,7 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 
 const PieProvider: ProviderFn<DistributionPayload> = (
 	payload: DistributionPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const colors: string[] = [];
@@ -351,6 +379,10 @@ const PieProvider: ProviderFn<DistributionPayload> = (
 			type: 'pie',
 		},
 		series: data,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		fill: {
 			type: 'gradient',
 			gradient: {
@@ -384,6 +416,7 @@ const PieProvider: ProviderFn<DistributionPayload> = (
 
 const DonutProvider: ProviderFn<DistributionPayload> = (
 	payload: DistributionPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const colors: string[] = [];
@@ -402,6 +435,10 @@ const DonutProvider: ProviderFn<DistributionPayload> = (
 			type: 'donut',
 		},
 		series: data,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		fill: {
 			type: 'gradient',
 			gradient: {
@@ -435,6 +472,7 @@ const DonutProvider: ProviderFn<DistributionPayload> = (
 
 const RadialBarProvider: ProviderFn<GaugePayload> = (
 	{ data }: GaugePayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	return {
@@ -444,7 +482,11 @@ const RadialBarProvider: ProviderFn<GaugePayload> = (
 			type: 'radialBar',
 		},
 		series: [data],
-		labels: ['Savings rate'], // TODO should recieve from ChartWidget object (widget.title)
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
+		labels: [title], // TODO should recieve from ChartWidget object (widget.title)
 		plotOptions: {
 			radialBar: {
 				startAngle: -135,
@@ -476,12 +518,17 @@ const RadialBarProvider: ProviderFn<GaugePayload> = (
 
 const BubbleProvider: ProviderFn<BubblePayload> = (
 	{ series }: BubblePayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	return {
 		...commonChartOptions,
 		chart: { ...commonChartOptions.chart, type: 'bubble' },
 		series,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		dataLabels: {
 			enabled: false,
 		},
@@ -519,6 +566,7 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 
 const HeatmapProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const allItems = series
@@ -541,6 +589,10 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 			},
 		},
 		series,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		plotOptions: {
 			heatmap: {
 				radius: 5,
@@ -626,6 +678,7 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 
 const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 	payload: BoxplotPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	return {
@@ -648,11 +701,16 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 				offsetY: 5,
 			},
 		},
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 	};
 };
 
 const RadarProvider: ProviderFn<SeriesPayload> = (
 	payload: SeriesPayload | DistributionPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const instanceOfDistributionPayload = 'data' in payload;
@@ -688,6 +746,10 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 		},
 		series,
 		colors,
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 		xaxis: {
 			...commonChartOptions.xaxis,
 			categories: labels,
@@ -723,6 +785,7 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 
 const TreemapProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const positiveColor = getCssVariableValue('--tertiary-color');
@@ -764,11 +827,16 @@ const TreemapProvider: ProviderFn<SeriesPayload> = (
 				formatter: (value, opts) => getFormattedValue(value, opts),
 			},
 		},
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 	};
 };
 
 const ScatterProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const labels = new Set<string>();
@@ -804,11 +872,16 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 				format: 'yyyy MMMM dd.',
 			},
 		},
+		title: {
+			...commonChartOptions.title,
+			text: title,
+		},
 	};
 };
 
 const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 	payload: DistributionPayload,
+	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
 	const colors: string[] = [];
@@ -844,6 +917,10 @@ const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 		},
 		fill: {
 			opacity: 0.85,
+		},
+		title: {
+			...commonChartOptions.title,
+			text: title,
 		},
 	};
 };
