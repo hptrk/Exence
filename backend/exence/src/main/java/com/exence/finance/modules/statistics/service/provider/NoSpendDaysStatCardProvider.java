@@ -28,7 +28,9 @@ public final class NoSpendDaysStatCardProvider implements WidgetDataProvider {
         Long noSpendDays = statisticsRepository.countNoSpendDays(userId, request.startDate(), request.endDate());
         long totalDays = DateUtils.countDaysBetween(request.startDate(), request.endDate());
 
-        TrendResult trend = ProviderHelper.computeTrend(request, BigDecimal.valueOf(noSpendDays),
+        TrendResult trend = ProviderHelper.computeTrend(
+                request,
+                BigDecimal.valueOf(noSpendDays),
                 (s, e) -> BigDecimal.valueOf(statisticsRepository.countNoSpendDays(userId, s, e)));
 
         String unitLabel = ProviderHelper.getUnitLabel(noSpendDays, "day", "days");

@@ -1,5 +1,7 @@
 package com.exence.finance.modules.statistics.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -25,6 +27,11 @@ public enum Timeframe {
         this.unit = unit;
     }
 
+    @JsonValue
+    public String getCode() {
+        return code;
+    }
+
     public Instant toStartDate() {
         if (this == ALL_TIME) {
             return Instant.EPOCH;
@@ -38,7 +45,8 @@ public enum Timeframe {
         return ZonedDateTime.now(ZoneOffset.UTC).minus(amount, unit).toInstant();
     }
 
-    // fallback to 1y if null or unrecognized
+    // fallback to YTD if null or unrecognized
+    @JsonCreator
     public static Timeframe fromCode(String code) {
         if (code == null) return YTD;
         for (Timeframe t : values()) {
@@ -56,12 +64,14 @@ public enum Timeframe {
      */
     public Instant previousPeriodStart(Instant currentStart, Instant currentEnd) {
         if (this == ALL_TIME) {
-           return null;
+            return null;
         }
         if (this == YTD) {
             return currentStart.atZone(ZoneOffset.UTC).minusYears(1).toInstant();
         }
-        return ZonedDateTime.ofInstant(currentStart, ZoneOffset.UTC).minus(amount, unit).toInstant();
+        return ZonedDateTime.ofInstant(currentStart, ZoneOffset.UTC)
+                .minus(amount, unit)
+                .toInstant();
     }
 
     /**

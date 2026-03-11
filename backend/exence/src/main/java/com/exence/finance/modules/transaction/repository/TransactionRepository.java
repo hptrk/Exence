@@ -26,7 +26,8 @@ public interface TransactionRepository
 
     // --- Chart queries ---
 
-    @Query("""
+    @Query(
+            """
         SELECT t.date AS transactionDate, t.amount AS amount,
                t.category.name AS categoryName, t.category.color AS categoryColor
         FROM Transaction t
@@ -39,7 +40,9 @@ public interface TransactionRepository
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);
 
-    @Query(value = """
+    @Query(
+            value =
+                    """
         SELECT c.name AS "categoryName", c.color AS "categoryColor",
                MIN(t.amount) AS "minVal",
                PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY t.amount) AS "q1",
@@ -53,13 +56,15 @@ public interface TransactionRepository
           AND CAST(t.type AS TEXT) = :#{T(com.exence.finance.modules.transaction.dto.TransactionType).EXPENSE.name()}
         GROUP BY c.name, c.color
         ORDER BY c.name
-        """, nativeQuery = true)
+        """,
+            nativeQuery = true)
     List<Object[]> findBoxplotByExpenseCategory(
             @Param("userId") Long userId, @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
     // --- Stat card queries ---
 
-    @Query("""
+    @Query(
+            """
         SELECT t.amount AS amount, t.title AS title,
                t.category.color AS categoryColor, t.category.icon AS categoryIcon
         FROM Transaction t

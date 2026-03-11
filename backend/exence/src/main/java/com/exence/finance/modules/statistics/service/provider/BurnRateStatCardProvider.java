@@ -27,8 +27,7 @@ public final class BurnRateStatCardProvider implements WidgetDataProvider {
     public StatCardPayload getData(WidgetRequest request) {
         BigDecimal dailyBurnRate = calculateBurnRate(request.startDate(), request.endDate());
         TrendResult trend = ProviderHelper.computeTrend(request, dailyBurnRate, this::calculateBurnRate);
-        return new StatCardPayload(
-                dailyBurnRate, "Ft", "/day", trend.changePercentage(), trend.trend(), null, null);
+        return new StatCardPayload(dailyBurnRate, "Ft", "/day", trend.changePercentage(), trend.trend(), null, null);
     }
 
     private BigDecimal calculateBurnRate(Instant start, Instant end) {

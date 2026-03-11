@@ -133,7 +133,7 @@ public class ProviderHelper {
             return bd;
         }
         if (value instanceof Number n) {
-            return BigDecimal.valueOf(n.doubleValue());
+            return new BigDecimal(n.toString());
         }
         return BigDecimal.ZERO;
     }
@@ -141,16 +141,12 @@ public class ProviderHelper {
     // --- STAT CARD HELPERS ---
 
     public TrendResult computeTrend(
-            WidgetRequest request,
-            BigDecimal currentValue,
-            BiFunction<Instant, Instant, BigDecimal> valueCalculator) {
+            WidgetRequest request, BigDecimal currentValue, BiFunction<Instant, Instant, BigDecimal> valueCalculator) {
         return doComputeTrend(request, currentValue, valueCalculator, ProviderHelper::calculateChangePercentage);
     }
 
     public TrendResult computeTrendByDifference(
-            WidgetRequest request,
-            BigDecimal currentValue,
-            BiFunction<Instant, Instant, BigDecimal> valueCalculator) {
+            WidgetRequest request, BigDecimal currentValue, BiFunction<Instant, Instant, BigDecimal> valueCalculator) {
         return doComputeTrend(request, currentValue, valueCalculator, (prev, curr) -> curr.subtract(prev));
     }
 

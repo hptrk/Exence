@@ -37,7 +37,12 @@ public final class TopExpenseTransactionStatCardProvider implements WidgetDataPr
         });
 
         return new StatCardPayload(
-                current.getAmount(), null, current.getTitle(),
-                trend.changePercentage(), trend.trend(), current.getCategoryIcon(), current.getCategoryColor());
+                current.getAmount(),
+                null,
+                current.getTitle(),
+                trend.changePercentage(),
+                trend.trend(),
+                current.getCategoryIcon(),
+                current.getCategoryColor());
     }
 }

@@ -23,7 +23,9 @@ public final class ExpenseFrequencyStatCardProvider implements WidgetDataProvide
     public StatCardPayload getData(WidgetRequest request) {
         long currentCount = statisticsRepository.countTransactionsByType(
                 request.startDate(), request.endDate(), TransactionType.EXPENSE);
-        return ProviderHelper.buildFrequencyStatCard(request, currentCount,
+        return ProviderHelper.buildFrequencyStatCard(
+                request,
+                currentCount,
                 (s, e) -> statisticsRepository.countTransactionsByType(s, e, TransactionType.EXPENSE));
     }
 }

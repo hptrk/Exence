@@ -31,8 +31,7 @@ public final class TopExpenseCategoryStatCardProvider implements WidgetDataProvi
         }
 
         TrendResult trend = ProviderHelper.computeTrend(request, top.getTotalAmount(), (s, e) -> {
-            CategoryAmountProjection prev =
-                    statisticsRepository.findTopCategoryByType(s, e, TransactionType.EXPENSE);
+            CategoryAmountProjection prev = statisticsRepository.findTopCategoryByType(s, e, TransactionType.EXPENSE);
             return prev != null ? prev.getTotalAmount() : BigDecimal.ZERO;
         });
 

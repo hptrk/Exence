@@ -31,8 +31,7 @@ public final class TopIncomeCategoryStatCardProvider implements WidgetDataProvid
         }
 
         TrendResult trend = ProviderHelper.computeTrend(request, top.getTotalAmount(), (s, e) -> {
-            CategoryAmountProjection prev =
-                    statisticsRepository.findTopCategoryByType(s, e, TransactionType.INCOME);
+            CategoryAmountProjection prev = statisticsRepository.findTopCategoryByType(s, e, TransactionType.INCOME);
             return prev != null ? prev.getTotalAmount() : BigDecimal.ZERO;
         });
 

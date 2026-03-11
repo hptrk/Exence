@@ -9,6 +9,7 @@ public record StatCardWidgetDTO(
         Long id,
         WidgetType type,
         String title,
+        String info,
         Timeframe timeframe,
         Integer displayOrder,
         Map<WidgetSetting, Object> settings) {}

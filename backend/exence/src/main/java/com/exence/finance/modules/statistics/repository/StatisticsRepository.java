@@ -26,37 +26,41 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
     // --- General ---
 
     @Query("""
-        SELECT MIN(s.statDate)
+        SELECT MIN(s.id.statDate)
         FROM DailyCategoryStat s
         """)
     Instant findEarliestStatDate();
 
     // --- Type-level totals ---
 
-    @Query("""
-        SELECT s.type AS type, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
+    @Query(
+            """
+        SELECT s.id.type AS type, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-        GROUP BY s.type
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+        GROUP BY s.id.type
         """)
     List<TypeAmountProjection> sumByType(@Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
     // --- Daily trends ---
 
-    @Query("""
-        SELECT s.statDate AS statDate, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
+    @Query(
+            """
+        SELECT s.id.statDate AS statDate, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
-        GROUP BY s.statDate
-        ORDER BY s.statDate
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
+        GROUP BY s.id.statDate
+        ORDER BY s.id.statDate
         """)
     List<DailyTrendProjection> findDailyTrendByType(
             @Param("startDate") Instant startDate,
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);
 
-    @Query(value = """
+    @Query(
+            value =
+                    """
         SELECT daily.stat_date AS "statDate",
                SUM(daily.daily_balance) OVER (ORDER BY daily.stat_date) AS "totalAmount"
         FROM (
@@ -70,61 +74,71 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
             GROUP BY stat_date
         ) daily
         ORDER BY daily.stat_date
-        """, nativeQuery = true)
+        """,
+            nativeQuery = true)
     List<DailyTrendProjection> findCumulativeDailyBalance(
             @Param("userId") Long userId, @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
     // --- Monthly aggregations ---
 
-    @Query("""
-        SELECT year(s.statDate) AS statYear, month(s.statDate) AS statMonth,
-               COALESCE(SUM(CASE WHEN s.type = :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
+    @Query(
+            """
+        SELECT year(s.id.statDate) AS statYear, month(s.id.statDate) AS statMonth,
+               COALESCE(SUM(CASE WHEN s.id.type =
+                       :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
                    THEN s.totalAmount ELSE -s.totalAmount END), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-        GROUP BY year(s.statDate), month(s.statDate)
-        ORDER BY year(s.statDate), month(s.statDate)
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+        GROUP BY year(s.id.statDate), month(s.id.statDate)
+        ORDER BY year(s.id.statDate), month(s.id.statDate)
         """)
     List<MonthlyBalanceProjection> findMonthlyBalance(
             @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
-    @Query("""
-        SELECT year(s.statDate) AS statYear, month(s.statDate) AS statMonth,
-               COALESCE(SUM(CASE WHEN s.type = :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
-            THEN s.totalAmount ELSE CAST(0 AS big_decimal) END), 0) AS incomeAmount,
-        COALESCE(SUM(CASE WHEN s.type <> :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
-            THEN s.totalAmount ELSE CAST(0 AS big_decimal) END), 0) AS expenseAmount
+    @Query(
+            """
+        SELECT year(s.id.statDate) AS statYear, month(s.id.statDate) AS statMonth,
+               COALESCE(SUM(CASE WHEN s.id.type =
+                       :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
+            THEN s.totalAmount ELSE 0.0 END), 0) AS incomeAmount,
+        COALESCE(SUM(CASE WHEN s.id.type <>
+                :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
+            THEN s.totalAmount ELSE 0.0 END), 0) AS expenseAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-        GROUP BY year(s.statDate), month(s.statDate)
-        ORDER BY year(s.statDate), month(s.statDate)
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+        GROUP BY year(s.id.statDate), month(s.id.statDate)
+        ORDER BY year(s.id.statDate), month(s.id.statDate)
         """)
     List<MonthlyIncomeExpenseProjection> findMonthlyIncomeExpense(
             @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
-    @Query("""
-        SELECT year(s.statDate) AS statYear, month(s.statDate) AS statMonth,
-               COALESCE(SUM(CASE WHEN s.type = :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
-                   THEN s.totalAmount ELSE CAST(0 AS big_decimal) END), 0) AS incomeAmount,
-               COALESCE(SUM(CASE WHEN s.type <> :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
-                   THEN s.totalAmount ELSE CAST(0 AS big_decimal) END), 0) AS expenseAmount,
+    @Query(
+            """
+        SELECT year(s.id.statDate) AS statYear, month(s.id.statDate) AS statMonth,
+               COALESCE(SUM(CASE WHEN s.id.type =
+                       :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
+                   THEN s.totalAmount ELSE 0.0 END), 0) AS incomeAmount,
+               COALESCE(SUM(CASE WHEN s.id.type <>
+                       :#{T(com.exence.finance.modules.transaction.dto.TransactionType).INCOME}
+                   THEN s.totalAmount ELSE 0.0 END), 0) AS expenseAmount,
                COALESCE(SUM(s.transactionCount), 0) AS transactionCount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-        GROUP BY year(s.statDate), month(s.statDate)
-        ORDER BY year(s.statDate), month(s.statDate)
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+        GROUP BY year(s.id.statDate), month(s.id.statDate)
+        ORDER BY year(s.id.statDate), month(s.id.statDate)
         """)
     List<MonthlyIncomeExpenseProjection> findMonthlyIncomeExpenseWithTransactionCount(
             @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
-    @Query("""
-         SELECT year(s.statDate) AS statYear, month(s.statDate) AS statMonth,
+    @Query(
+            """
+         SELECT year(s.id.statDate) AS statYear, month(s.id.statDate) AS statMonth,
                COALESCE(MAX(s.maxAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
-        GROUP BY year(s.statDate), month(s.statDate)
-        ORDER BY year(s.statDate), month(s.statDate)
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
+        GROUP BY year(s.id.statDate), month(s.id.statDate)
+        ORDER BY year(s.id.statDate), month(s.id.statDate)
         """)
     List<MonthlyBalanceProjection> findMonthlyPeakByType(
             @Param("startDate") Instant startDate,
@@ -133,33 +147,36 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
 
     // --- Category totals ---
 
-    @Query("""
-        SELECT s.type AS type, s.categoryName AS categoryName,
+    @Query(
+            """
+        SELECT s.id.type AS type, s.categoryName AS categoryName,
                s.categoryColor AS categoryColor, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-        GROUP BY s.type, s.categoryName, s.categoryColor
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+        GROUP BY s.id.type, s.categoryName, s.categoryColor
         """)
     List<CategoryFlowProjection> findCategoryFlow(
             @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
-    @Query("""
-        SELECT s.type AS type, s.categoryName AS categoryName,
+    @Query(
+            """
+        SELECT s.id.type AS type, s.categoryName AS categoryName,
                s.categoryColor AS categoryColor, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-        GROUP BY s.type, s.categoryName, s.categoryColor
-        ORDER BY s.type, SUM(s.totalAmount) DESC
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+        GROUP BY s.id.type, s.categoryName, s.categoryColor
+        ORDER BY s.id.type, SUM(s.totalAmount) DESC
         """)
     List<CategoryFlowProjection> findCategoryTotalsGroupedByType(
             @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
-    @Query("""
+    @Query(
+            """
         SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
                COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
         GROUP BY s.categoryName, s.categoryColor
         ORDER BY s.categoryName
         """)
@@ -168,14 +185,15 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);
 
-    @Query("""
+    @Query(
+            """
         SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
                ROUND(CASE WHEN SUM(s.transactionCount) > 0
                    THEN SUM(s.totalAmount) / SUM(s.transactionCount)
                    ELSE 0.0 END, 2) AS avgAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
         GROUP BY s.categoryName, s.categoryColor
         ORDER BY s.categoryName
         """)
@@ -184,7 +202,8 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);
 
-    @Query("""
+    @Query(
+            """
         SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
                COALESCE(SUM(s.totalAmount), 0) AS totalAmount,
                COALESCE(SUM(s.transactionCount), 0) AS transactionCount,
@@ -192,8 +211,8 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
                    THEN SUM(s.totalAmount) / SUM(s.transactionCount)
                    ELSE 0.0 END, 2) AS avgAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
         GROUP BY s.categoryName, s.categoryColor
         ORDER BY s.categoryName
         """)
@@ -204,30 +223,32 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
 
     // --- Category trends (monthly / yearly) ---
 
-    @Query("""
+    @Query(
+            """
         SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
-               year(s.statDate) AS statYear, month(s.statDate) AS statMonth,
+               year(s.id.statDate) AS statYear, month(s.id.statDate) AS statMonth,
                COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
-        GROUP BY s.categoryName, s.categoryColor, year(s.statDate), month(s.statDate)
-        ORDER BY year(s.statDate), month(s.statDate), s.categoryName
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
+        GROUP BY s.categoryName, s.categoryColor, year(s.id.statDate), month(s.id.statDate)
+        ORDER BY year(s.id.statDate), month(s.id.statDate), s.categoryName
         """)
     List<MonthlyCategoryProjection> findMonthlyCategoryTotals(
             @Param("startDate") Instant startDate,
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);
 
-    @Query("""
+    @Query(
+            """
         SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
-               year(s.statDate) AS statYear,
+               year(s.id.statDate) AS statYear,
                COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
-        GROUP BY s.categoryName, s.categoryColor, year(s.statDate)
-        ORDER BY year(s.statDate), s.categoryName
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
+        GROUP BY s.categoryName, s.categoryColor, year(s.id.statDate)
+        ORDER BY year(s.id.statDate), s.categoryName
         """)
     List<YearlyCategoryProjection> findYearlyCategoryTotals(
             @Param("startDate") Instant startDate,
@@ -236,45 +257,51 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
 
     // --- Stat card queries ---
 
-    @Query("""
+    @Query(
+            """
         SELECT COALESCE(SUM(s.totalAmount), 0)
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
         """)
     BigDecimal sumAmountByType(
             @Param("startDate") Instant startDate,
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);
 
-    @Query("""
+    @Query(
+            """
         SELECT COALESCE(SUM(s.transactionCount), 0) AS transactionCount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
         """)
     Long countTransactionsByType(
             @Param("startDate") Instant startDate,
             @Param("endDate") Instant endDate,
             @Param("type") TransactionType type);
 
-    @Query(value = """
+    @Query(
+            value =
+                    """
         SELECT COUNT(d.day)::bigint
         FROM generate_series(CAST(:startDate AS date), CAST(:endDate AS date), '1 day'::interval) d(day)
         LEFT JOIN mv_daily_category_stat s ON CAST(s.stat_date AS date) = d.day
             AND s.user_id = :userId
             AND CAST(s.type AS TEXT) = :#{T(com.exence.finance.modules.transaction.dto.TransactionType).EXPENSE.name()}
         WHERE s.stat_date IS NULL
-        """, nativeQuery = true)
+        """,
+            nativeQuery = true)
     Long countNoSpendDays(
             @Param("userId") Long userId, @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
-    @Query("""
+    @Query(
+            """
         SELECT s.categoryName AS categoryName, s.categoryColor AS categoryColor,
                s.categoryIcon AS categoryIcon, COALESCE(SUM(s.totalAmount), 0) AS totalAmount
         FROM DailyCategoryStat s
-        WHERE s.statDate BETWEEN :startDate AND :endDate
-          AND s.type = :type
+        WHERE s.id.statDate BETWEEN :startDate AND :endDate
+          AND s.id.type = :type
         GROUP BY s.categoryName, s.categoryColor, s.categoryIcon
         ORDER BY SUM(s.totalAmount) DESC
         LIMIT 1
@@ -286,7 +313,9 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
 
     // --- Native queries (heatmap, boxplot) ---
 
-    @Query(value = """
+    @Query(
+            value =
+                    """
         SELECT EXTRACT(ISODOW FROM stat_date)::int AS "dayOfWeek",
                EXTRACT(WEEK FROM stat_date)::int AS "weekNumber",
                COALESCE(SUM(total_amount), 0) AS "totalAmount"
@@ -296,11 +325,14 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
           AND CAST(type AS TEXT) = :#{T(com.exence.finance.modules.transaction.dto.TransactionType).EXPENSE.name()}
         GROUP BY EXTRACT(ISODOW FROM stat_date), EXTRACT(WEEK FROM stat_date)
         ORDER BY "weekNumber", "dayOfWeek"
-        """, nativeQuery = true)
+        """,
+            nativeQuery = true)
     List<HeatmapProjection> findWeeklyHeatmapExpense(
             @Param("userId") Long userId, @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 
-    @Query(value = """
+    @Query(
+            value =
+                    """
         SELECT sub.yr AS "year", sub.mn AS "month",
                MIN(sub.daily_total) AS "minVal",
                PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY sub.daily_total) AS "q1",
@@ -320,7 +352,8 @@ public interface StatisticsRepository extends JpaRepository<DailyCategoryStat, D
         ) sub
         GROUP BY sub.yr, sub.mn
         ORDER BY sub.yr, sub.mn
-        """, nativeQuery = true)
+        """,
+            nativeQuery = true)
     List<Object[]> findBoxplotByMonthExpense(
             @Param("userId") Long userId, @Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
 }
