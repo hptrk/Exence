@@ -1,0 +1,22 @@
+:host {
+	display: block;
+	height: 100%;
+}
+
+mat-card {
+	border-radius: 20px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+
+	mat-card-content {
+		padding: 16px;
+		flex: 1;
+		min-height: 0;
+
+		apx-chart {
+			display: block;
+			height: 100% !important;
+		}
+	}
+}

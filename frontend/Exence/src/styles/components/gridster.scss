@@ -1,0 +1,17 @@
+gridster.custom-grid {
+	background-color: transparent;
+
+	gridster-item {
+		border-radius: 20px;
+		background-color: transparent;
+		box-shadow: none;
+
+		touch-action: none;
+		user-select: none;
+		-webkit-user-drag: none;
+	}
+
+	gridster-preview.gridster-preview {
+		border-radius: 20px;
+	}
+}
