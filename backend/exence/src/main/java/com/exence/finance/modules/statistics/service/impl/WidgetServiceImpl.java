@@ -1,10 +1,7 @@
 package com.exence.finance.modules.statistics.service.impl;
 
 import com.exence.finance.common.exception.WidgetNotFoundException;
-import com.exence.finance.common.exception.WidgetTypeMismatchException;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.statistics.dto.ChartLayoutItem;
-import com.exence.finance.modules.statistics.dto.StatCardLayoutItem;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
 import com.exence.finance.modules.statistics.dto.WidgetDTO;
@@ -21,8 +18,10 @@ import com.exence.finance.modules.statistics.service.WidgetService;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -75,24 +74,42 @@ public class WidgetServiceImpl implements WidgetService {
     @Override
     @Transactional
     public WidgetLayoutResponse updateLayout(UpdateLayoutRequest request) {
-        Map<Long, Widget> existingWidgets =
-                widgetRepository.findAll().stream().collect(Collectors.toMap(Widget::getId, Function.identity()));
+        Map<Long, Widget> existingWidgets = widgetRepository.findAllWidgets().stream()
+                .collect(Collectors.toMap(Widget::getId, Function.identity()));
+
+        Set<Long> incomingIds = new HashSet<>();
 
         if (request.statCards() != null) {
-            for (StatCardLayoutItem item : request.statCards()) {
+            request.statCards().forEach(item -> {
                 Widget widget = existingWidgets.get(item.id());
-                validateWidget(widget, item.id());
+                if (widget == null) {
+                    throw new WidgetNotFoundException("Widget not found: " + item.id());
+                }
                 widget.setDisplayOrder(item.displayOrder());
-            }
+                incomingIds.add(item.id());
+            });
         }
 
         if (request.charts() != null) {
-            for (ChartLayoutItem item : request.charts()) {
+            request.charts().forEach(item -> {
                 Widget widget = existingWidgets.get(item.id());
-                validateWidget(widget, item.id());
+                if (widget == null) {
+                    throw new WidgetNotFoundException("Widget not found: " + item.id());
+                }
                 widget.setX(item.x());
                 widget.setY(item.y());
-            }
+                widget.setCols(item.cols());
+                widget.setRows(item.rows());
+                incomingIds.add(item.id());
+            });
+        }
+
+        List<Long> idsToDelete = existingWidgets.keySet().stream()
+                .filter(id -> !incomingIds.contains(id))
+                .toList();
+
+        if (!idsToDelete.isEmpty()) {
+            widgetRepository.deleteAllByIdInBatch(idsToDelete);
         }
 
         return getLayout();
@@ -123,18 +140,6 @@ public class WidgetServiceImpl implements WidgetService {
 
         WidgetDataPayload payload = provider.getData(request);
         return new WidgetDataResponse(widget.getId(), widget.getType(), payload);
-    }
-
-    private void validateWidget(Widget widget, Long id) {
-        if (widget == null) {
-            throw new WidgetNotFoundException("Widget not found: " + id);
-        }
-        if (!widget.getType().isStatCard()) {
-            throw new WidgetTypeMismatchException("Widget " + widget.getId() + " is not a stat card");
-        }
-        if (!widget.getType().isGraph()) {
-            throw new WidgetTypeMismatchException("Widget " + widget.getId() + " is not a chart");
-        }
     }
 
     private Timeframe resolveTimeframe(Timeframe queryParamTimeframe, Widget widget) {

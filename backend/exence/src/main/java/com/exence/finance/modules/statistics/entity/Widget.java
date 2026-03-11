@@ -60,6 +60,12 @@ public class Widget {
     @Column(name = "y")
     private Integer y;
 
+    @Column(name = "cols")
+    private Integer cols;
+
+    @Column(name = "rows")
+    private Integer rows;
+
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "settings", columnDefinition = "jsonb")
     private Map<WidgetSetting, Object> settings;

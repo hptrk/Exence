@@ -53,6 +53,20 @@ public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLay
             valid = false;
         }
 
+        if (dto.cols() != null) {
+            context.buildConstraintViolationWithTemplate("StatCard widget must not have cols")
+                    .addPropertyNode("cols")
+                    .addConstraintViolation();
+            valid = false;
+        }
+
+        if (dto.rows() != null) {
+            context.buildConstraintViolationWithTemplate("StatCard widget must not have rows")
+                    .addPropertyNode("rows")
+                    .addConstraintViolation();
+            valid = false;
+        }
+
         return valid;
     }
 
@@ -69,6 +83,20 @@ public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLay
         if (dto.y() == null) {
             context.buildConstraintViolationWithTemplate("Graph widget requires y")
                     .addPropertyNode("y")
+                    .addConstraintViolation();
+            valid = false;
+        }
+
+        if (dto.cols() == null) {
+            context.buildConstraintViolationWithTemplate("Graph widget requires cols")
+                    .addPropertyNode("cols")
+                    .addConstraintViolation();
+            valid = false;
+        }
+
+        if (dto.rows() == null) {
+            context.buildConstraintViolationWithTemplate("Graph widget requires rows")
+                    .addPropertyNode("rows")
                     .addConstraintViolation();
             valid = false;
         }

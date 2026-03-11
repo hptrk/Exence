@@ -13,4 +13,6 @@ public record WidgetDTO(
         Integer displayOrder,
         Integer x,
         Integer y,
+        Integer cols,
+        Integer rows,
         Map<WidgetSetting, Object> settings) {}

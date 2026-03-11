@@ -50,6 +50,12 @@ databaseChangeLog:
                   name: y
                   type: INTEGER
               - column:
+                  name: cols
+                  type: INTEGER
+              - column:
+                  name: rows
+                  type: INTEGER
+              - column:
                   name: settings
                   type: JSONB
               - column:
