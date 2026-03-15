@@ -1,6 +1,14 @@
-@for (statCard of data(); track statCard.id) {
-	<ex-stat-card [widget]="statCard" />
-}
-@if (numberOfCards() < 4) {
-	<ex-empty-statistic-card />
-}
+<section>
+	<gridster [options]="options" class="custom-grid">
+		@for (card of cards(); track card.id) {
+			<gridster-item [item]="card">
+				<ex-button matIcon="drag_indicator" iconButton class="dragger" />
+				<ex-stat-card [widget]="card.cardData" />
+			</gridster-item>
+		}
+	</gridster>
+
+	@if (numberOfCards() < 4) {
+		<ex-empty-statistic-card />
+	}
+</section>

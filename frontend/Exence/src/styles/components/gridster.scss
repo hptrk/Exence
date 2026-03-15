@@ -6,7 +6,6 @@ gridster.custom-grid {
 		background-color: transparent;
 		box-shadow: none;
 
-		touch-action: none;
 		user-select: none;
 		-webkit-user-drag: none;
 	}
@@ -14,4 +13,11 @@ gridster.custom-grid {
 	gridster-preview.gridster-preview {
 		border-radius: 20px;
 	}
+}
+
+.dragger {
+	position: absolute;
+	top: 0;
+	left: -5px;
+	z-index: 2;
 }

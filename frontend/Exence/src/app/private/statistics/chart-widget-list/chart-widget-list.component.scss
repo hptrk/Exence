@@ -3,10 +3,3 @@
 	grid-template-columns: repeat(2, 1fr);
 	grid-template-rows: repeat(auto-fill, 500px);
 }
-
-.dragger {
-	position: absolute;
-	top: 0;
-	left: -5px;
-	z-index: 2;
-}
