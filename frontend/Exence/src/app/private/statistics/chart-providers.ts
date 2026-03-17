@@ -640,6 +640,12 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 			toolbar: {
 				show: false,
 			},
+			zoom: {
+				enabled: false,
+			},
+			selection: {
+				enabled: false,
+			},
 		},
 		series,
 		title: {
