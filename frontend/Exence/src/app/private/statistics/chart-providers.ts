@@ -60,6 +60,7 @@ const commonChartOptions: Partial<ApexOptions> = {
 			fontFamily: 'Montserrat, Arial, sans-serif',
 			fontWeight: 700,
 		},
+		offsetX: 15,
 	},
 };
 
@@ -109,7 +110,7 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
 		],
 		title: {
 			text: title,
-			left: 0,
+			left: 15,
 			top: 0,
 			textStyle: {
 				color: textColor,
