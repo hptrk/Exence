@@ -1,6 +1,6 @@
 section {
 	width: 100%;
-	height: 250px;
+	height: 275px;
 	overflow-x: auto;
 
 	gridster-item {
@@ -11,4 +11,8 @@ section {
 .custom-grid {
 	min-width: calc(4 * 350px + 3 * 21px) !important;
 	touch-action: pan-x;
+
+	&.exceeds-limit-with-editing {
+		min-width: calc(5 * 350px + 4 * 21px) !important;
+	}
 }

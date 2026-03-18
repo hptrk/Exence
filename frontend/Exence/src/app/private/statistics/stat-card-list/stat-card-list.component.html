@@ -1,14 +1,19 @@
 <section>
-	<gridster [options]="options" class="custom-grid">
+	<gridster
+		[options]="options()"
+		class="custom-grid"
+		[class.exceeds-limit-with-editing]="editing() && cards().length === 4"
+	>
 		@for (card of cards(); track card.id) {
 			<gridster-item [item]="card">
 				<ex-button matIcon="drag_indicator" iconButton class="dragger" />
 				<ex-stat-card [widget]="card.cardData" />
 			</gridster-item>
 		}
+		@if (editing()) {
+			<gridster-item [item]="emptyWidget()">
+				<ex-empty-statistic-card (click)="openWidgetShopDialog()" />
+			</gridster-item>
+		}
 	</gridster>
-
-	@if (numberOfCards() < 4) {
-		<ex-empty-statistic-card />
-	}
 </section>

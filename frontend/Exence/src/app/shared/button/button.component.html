@@ -19,6 +19,7 @@
 		[class.has-icon]="matIcon() || svgIcon()"
 		[class.has-custom-color]="customColor()"
 		[class.primary-icon-button]="primaryIconButton()"
+		[attr.size]="size()"
 	>
 		<div class="d-flex flex-row flex-nowrap justify-content-center align-items-center gap-2 text-nowrap">
 			@if (iconPositionEnd()) {
@@ -40,8 +41,8 @@
 
 <ng-template #icon>
 	@if (svgIcon()) {
-		<mat-icon [svgIcon]="svgIcon()!" />
+		<mat-icon [attr.size]="size()" [svgIcon]="svgIcon()!" />
 	} @else if (matIcon()) {
-		<mat-icon>{{ matIcon() }}</mat-icon>
+		<mat-icon [attr.size]="size()">{{ matIcon() }}</mat-icon>
 	}
 </ng-template>

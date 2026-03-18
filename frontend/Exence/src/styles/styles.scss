@@ -159,3 +159,7 @@ mat-checkbox {
 	background-color: var(--primary-color);
 	color: var(--secondary-text-color);
 }
+
+.action-buttons ex-button button {
+	box-shadow: 0 0 7px var(--shadow-color);
+}

@@ -1,0 +1,44 @@
+<ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef" class="h-100">
+	<div ex-dialog-card-title>Add a new chart</div>
+
+	<div ex-dialog-card-content class="h-100">
+		<div class="h-100">
+			<mat-tab-group
+				animationDuration="0ms"
+				mat-stretch-tabs="false"
+				[(selectedIndex)]="selectedIndex"
+				dynamicHeight="false"
+				class="h-100"
+			>
+				@for (catalogGroup of catalog; track catalogGroup.group) {
+					<mat-tab [label]="catalogGroup.label">
+						<div class="catalog-widget-grid px-3">
+							@for (widget of catalogGroup.widgets; track widget.type) {
+								<mat-card [matTooltip]="widget.title">
+									<mat-card-content class="position-relative">
+										<!-- TODO add images for each theme: src="category_sankey-theme-dark.svg" -->
+										<img
+											[src]="`assets/${widget.imgUrl}_${themeService.displayThemeSignal()}.svg`"
+											[alt]="widget.title"
+										/>
+										<ex-info-button [tooltip]="widget.info" />
+									</mat-card-content>
+								</mat-card>
+							}
+						</div>
+					</mat-tab>
+				}
+			</mat-tab-group>
+		</div>
+	</div>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close> Cancel </ex-button>
+		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="create()">
+			Create
+		</ex-button>
+	</div>
+</ex-dialog-card>

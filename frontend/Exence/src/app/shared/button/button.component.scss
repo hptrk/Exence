@@ -1,23 +1,5 @@
 @import '../../../styles/imports.scss';
 
-:host.disabled {
-	pointer-events: none;
-}
-
-:host {
-	--mat-button-filled-container-shape: 20px;
-	--mat-button-outlined-container-shape: 20px;
-	--mat-button-text-container-shape: 20px;
-
-	--mat-button-filled-label-text-size: 14px;
-	--mat-button-outlined-label-text-size: 14px;
-	--mat-button-text-label-text-size: 14px;
-
-	--mat-button-filled-label-text-weight: 500;
-	--mat-button-outlined-label-text-weight: 500;
-	--mat-button-text-label-text-weight: 500;
-}
-
 $predefinedColors: (
 	'primary': (
 		filled-text: var(--secondary-color),
@@ -50,6 +32,40 @@ $predefinedColors: (
 		outline: var(--warn-color),
 	),
 );
+
+$sizes: (
+	'xs': 0.25rem,
+	'sm': 0.5rem,
+	'md': 0.75rem,
+	'lg': 1rem,
+	'xl': 1.25rem,
+	'xxl': 2rem,
+	'2xxl': 2.5rem,
+);
+
+:host.disabled {
+	pointer-events: none;
+}
+
+:host {
+	--mat-button-filled-container-shape: 20px;
+	--mat-button-outlined-container-shape: 20px;
+	--mat-button-text-container-shape: 20px;
+
+	--mat-button-filled-label-text-size: 14px;
+	--mat-button-outlined-label-text-size: 14px;
+	--mat-button-text-label-text-size: 14px;
+
+	--mat-button-filled-label-text-weight: 500;
+	--mat-button-outlined-label-text-weight: 500;
+	--mat-button-text-label-text-weight: 500;
+}
+
+:host.rounded {
+	--mat-button-filled-container-shape: 100%;
+	--mat-button-outlined-container-shape: 100%;
+	--mat-button-text-container-shape: 100%;
+}
 
 @each $name, $colors in $predefinedColors {
 	button.mat-#{$name} {
@@ -101,6 +117,14 @@ button.has-icon.icon-position-end:not(.collapsed) {
 
 button.has-icon.primary-icon-button {
 	--mat-button-filled-container-height: 100%;
-	padding: 0;
+	--mat-button-outlined-container-height: 100%;
+	--mat-button-text-container-height: 100%;
+	padding: 0.75rem;
 	min-width: 0;
+
+	@each $size, $value in $sizes {
+		&[size='#{$size}'] {
+			padding: $value;
+		}
+	}
 }

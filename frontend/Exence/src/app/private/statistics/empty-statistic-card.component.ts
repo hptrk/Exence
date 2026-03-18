@@ -20,13 +20,7 @@ import { MatIconModule } from '@angular/material/icon';
 			&:hover {
 				mat-card.mat-mdc-card {
 					background-color: color-mix(in srgb, var(--app-card-color), white 5%);
-					transform: scale(1.015);
 					box-shadow: 1px 1px 10px var(--shadow-color);
-				}
-			}
-			&:active {
-				mat-card.mat-mdc-card {
-					transform: scale(1.015) translateY(3px);
 				}
 			}
 		}

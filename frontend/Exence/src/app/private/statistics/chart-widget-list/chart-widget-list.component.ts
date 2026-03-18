@@ -1,21 +1,27 @@
-import { Component, input, viewChildren } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, viewChildren } from '@angular/core';
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { EmptyStatisticCardComponent } from '../empty-statistic-card.component';
+import { DialogService } from '../../../shared/dialog/dialog.service';
+import { WidgetCatalogDialogComponent } from '../widget-catalog-dialog/widget-catalog-dialog.component';
 
 @Component({
 	selector: 'ex-chart-widget-list',
 	templateUrl: './chart-widget-list.component.html',
 	styleUrl: './chart-widget-list.component.scss',
-	imports: [ChartWidgetComponent, Gridster, GridsterItem, ButtonComponent],
+	imports: [ChartWidgetComponent, Gridster, GridsterItem, ButtonComponent, EmptyStatisticCardComponent],
 })
 export class ChartWidgetListComponent {
+	private readonly dialog = inject(DialogService);
+
 	data = input.required<ChartWidget[]>();
+	editing = input.required<boolean>();
 
 	private readonly widgets = viewChildren(ChartWidgetComponent);
 
-	readonly options: GridsterConfig = {
+	options = signal<GridsterConfig>({
 		gridType: GridType.VerticalFixed,
 		displayGrid: DisplayGrid.None,
 		fixedRowHeight: 500,
@@ -25,11 +31,11 @@ export class ChartWidgetListComponent {
 		pushItems: true,
 		swap: false,
 		dropOverItems: true,
+		setGridSize: true,
 		delayStart: 100,
 		delayStartTouch: 100,
-
 		draggable: {
-			enabled: true, // TODO based on the state of edit mode
+			enabled: false,
 			delayStart: 0,
 			dragHandleClass: 'dragger',
 			ignoreContentClass: 'exclude-this-item-from-dragging',
@@ -46,12 +52,35 @@ export class ChartWidgetListComponent {
 			console.info('Item removed:', item, itemComponent);
 		},
 		resizable: {
-			enabled: true,
+			enabled: false,
 			stop: () => this.resizeChart(),
 		},
 		margin: 21,
-		outerMargin: false,
-	};
+		outerMarginBottom: 0,
+		outerMarginTop: 0,
+		outerMarginLeft: 0,
+		outerMarginRight: 10,
+		outerMargin: true,
+	});
+
+	emptyWidget = computed<GridsterItemConfig>(() => {
+		return {
+			cols: 1,
+			rows: 1,
+			x: this.data().length,
+			y: 0,
+		};
+	});
+
+	constructor() {
+		effect(() => {
+			this.options.update(currOptions => ({
+				...currOptions,
+				draggable: { ...currOptions.draggable, enabled: this.editing() },
+				resizable: { ...currOptions.resizable, enabled: this.editing() },
+			}));
+		});
+	}
 
 	// TODO for there a storage in the memory will be needed (temporary state that will be sent to the backend on save, first to parent with an event, might need to store it in a service though)
 	addItem(): void {
@@ -65,6 +94,13 @@ export class ChartWidgetListComponent {
 		$event.preventDefault();
 		// this.cards.splice(this.cards.indexOf(item), 1);
 		// TODO remove logic
+	}
+
+	async openWidgetShopDialog(): Promise<void> {
+		const result = await this.dialog.openNonModal(WidgetCatalogDialogComponent, undefined, {
+			height: '600px',
+		});
+		console.log(result);
 	}
 
 	private resizeChart(): void {
