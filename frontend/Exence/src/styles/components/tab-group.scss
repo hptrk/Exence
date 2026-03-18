@@ -1,0 +1,52 @@
+mat-tab-group.mat-mdc-tab-group {
+	--group-background-color: var(--app-background-color);
+
+	&.invert-color {
+		--group-background-color: var(--app-card-color);
+	}
+
+	mat-tab-header.mat-mdc-tab-header {
+		background-color: var(--group-background-color);
+		padding: 0.5rem;
+		margin-bottom: 1rem;
+		border-radius: 10px;
+
+		div.mat-mdc-tab-label-container {
+			border: none;
+		}
+	}
+
+	div.mat-mdc-tab-label-container div.mat-mdc-tab-labels div.mat-mdc-tab {
+		&:hover .mdc-tab__ripple::before {
+			border-radius: 10px;
+		}
+
+		div.mat-ripple.mat-mdc-tab-ripple {
+			border-radius: 10px;
+		}
+
+		span.mdc-tab__content span.mdc-tab__text-label {
+			font-size: 16px;
+		}
+
+		&.mdc-tab-indicator--active {
+			span.mdc-tab__content span.mdc-tab__text-label {
+				transition: 0.25s color ease-in;
+				color: var(--secondary-text-color);
+			}
+
+			span.mdc-tab-indicator span.mdc-tab-indicator__content {
+				transition-duration: 0.5s;
+				transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+				background-color: var(--primary-color);
+				border: none;
+				height: 100%;
+				border-radius: 10px;
+			}
+		}
+	}
+
+	.mat-mdc-tab-body-wrapper {
+		height: 100%;
+	}
+}
