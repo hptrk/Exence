@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-mv-refresh-trigger-on-transaction
+      author: hptrk
+      comment: >
+        Remove database trigger that refreshed the materialized view on transaction changes.
+        MV refresh is now handled asynchronously by the application layer.
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: DROP TRIGGER IF EXISTS trg_refresh_mv_on_transaction ON transaction
+
+  - changeSet:
+      id: drop-mv-refresh-trigger-on-category
+      author: hptrk
+      comment: >
+        Remove database trigger that refreshed the materialized view on category changes.
+        MV refresh is now handled asynchronously by the application layer.
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: DROP TRIGGER IF EXISTS trg_refresh_mv_on_category ON category
+
+  - changeSet:
+      id: drop-mv-refresh-function
+      author: hptrk
+      comment: >
+        Remove the PL/pgSQL function that was called by the now-removed triggers.
+        No longer needed since MV refresh is handled by the application.
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: DROP FUNCTION IF EXISTS refresh_mv_daily_category_stat()

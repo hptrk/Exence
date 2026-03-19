@@ -13,6 +13,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
+    @Mapping(target = "isVerified", source = "emailVerified")
     @Mapping(target = "username", source = "displayUsername")
     UserDTO mapToUserDto(User user);
 
