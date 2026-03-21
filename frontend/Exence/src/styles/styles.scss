@@ -164,3 +164,10 @@ mat-checkbox {
 .action-buttons ex-button button {
 	box-shadow: 0 0 7px var(--shadow-color);
 }
+
+.chart-modification-buttons {
+	top: 0;
+	right: 0.5rem;
+	transform: translateX(50%);
+	z-index: 20;
+}

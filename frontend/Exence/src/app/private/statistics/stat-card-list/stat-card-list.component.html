@@ -8,6 +8,9 @@
 			<gridster-item [item]="card">
 				@if (editing()) {
 					<ex-button matIcon="drag_indicator" iconButton class="dragger" />
+					<div class="d-flex flex-column gap-2 position-absolute chart-modification-buttons">
+						<ex-button matIcon="delete" (click)="deleteCard(card)" primaryIconButton color="error" />
+					</div>
 				}
 				<ex-stat-card [widget]="card.cardData" />
 			</gridster-item>

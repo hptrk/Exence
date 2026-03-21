@@ -1,8 +1,24 @@
-import { Component, computed, input, viewChild } from '@angular/core';
+import { Component, computed, inject, input, viewChild } from '@angular/core';
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { StatCardComponent } from '../stat-card/stat-card.component';
+import { WidgetStore } from '../widget.store';
+import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
+import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
+
+interface StatCardGridsterInfo {
+	id: number;
+	type: WidgetType;
+	title: string;
+	info: string;
+	timeframe: Timeframe;
+	cols: number;
+	rows: number;
+	x: number;
+	y: number;
+	cardData: StatCardWidget;
+}
 
 @Component({
 	selector: 'ex-stat-card-list',
@@ -11,6 +27,8 @@ import { StatCardComponent } from '../stat-card/stat-card.component';
 	imports: [StatCardComponent, Gridster, GridsterItem, ButtonComponent],
 })
 export class StatCardListComponent {
+	private readonly store = inject(WidgetStore);
+
 	data = input.required<StatCardWidget[]>();
 	editing = input.required<boolean>();
 
@@ -40,11 +58,12 @@ export class StatCardListComponent {
 		outerMargin: false,
 	}));
 
-	cards = computed(() =>
+	cards = computed<StatCardGridsterInfo[]>(() =>
 		this.data().map(card => ({
 			id: card.id,
 			type: card.type,
 			title: card.title,
+			info: card.info,
 			timeframe: card.timeframe,
 			cols: 1,
 			rows: 1,
@@ -53,6 +72,10 @@ export class StatCardListComponent {
 			cardData: card,
 		})),
 	);
+
+	deleteCard(card: StatCardGridsterInfo): void {
+		this.store.deleteWidget(card.cardData);
+	}
 
 	getFirstPossiblePosition(): GridsterItemConfig {
 		const item: GridsterItemConfig = { cols: 1, rows: 1, x: 0, y: 0 };

@@ -1,8 +1,9 @@
-import { Component, effect, input, signal, viewChild } from '@angular/core';
+import { Component, effect, inject, input, signal, viewChild } from '@angular/core';
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
+import { WidgetStore } from '../widget.store';
 
 @Component({
 	selector: 'ex-chart-widget-list',
@@ -11,6 +12,8 @@ import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
 	imports: [ChartWidgetComponent, Gridster, GridsterItem, ButtonComponent],
 })
 export class ChartWidgetListComponent {
+	private readonly store = inject(WidgetStore);
+
 	data = input.required<ChartWidget[]>();
 	editing = input.required<boolean>();
 
@@ -56,11 +59,8 @@ export class ChartWidgetListComponent {
 		});
 	}
 
-	removeItem($event: MouseEvent | TouchEvent, _item: GridsterItemConfig): void {
-		$event.stopPropagation();
-		$event.preventDefault();
-		// this.cards.splice(this.cards.indexOf(item), 1);
-		// TODO remove logic
+	deleteWidget(widget: ChartWidget): void {
+		this.store.deleteWidget(widget);
 	}
 
 	getFirstPossiblePosition(): GridsterItemConfig {

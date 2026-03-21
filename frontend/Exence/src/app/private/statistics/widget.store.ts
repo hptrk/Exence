@@ -58,6 +58,17 @@ export const WidgetStore = signalStore(
 			});
 		},
 
+		deleteWidget(widget: StatCardWidget | ChartWidget): void {
+			const isStatCard = 'displayOrder' in widget;
+			const statCards = isStatCard ? store.statCards().filter(card => card.id !== widget.id) : store.statCards();
+			const charts = isStatCard ? store.charts() : store.charts().filter(chart => chart.id !== widget.id);
+
+			patchState(store, {
+				statCards,
+				charts,
+			});
+		},
+
 		cancelLayout(): void {
 			store.layoutResource.reload();
 		},
