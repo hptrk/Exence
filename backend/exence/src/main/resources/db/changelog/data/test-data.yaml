@@ -5306,7 +5306,7 @@ databaseChangeLog:
               - column: { name: type, value: 'EXPENSE_FREQUENCY_STATCARD' }
               - column: { name: title, value: 'Expense frequency' }
               - column: { name: timeframe, value: 'YTD' }
-              - column: { name: display_order, valueNumeric: 1 }
+              - column: { name: display_order, valueNumeric: 0 }
               - column: { name: user_id, valueNumeric: 1 }
 
         - insert:
@@ -5326,7 +5326,7 @@ databaseChangeLog:
               - column: { name: type, value: 'SAVINGS_RATE_STATCARD' }
               - column: { name: title, value: 'Savings rate' }
               - column: { name: timeframe, value: 'YTD' }
-              - column: { name: display_order, valueNumeric: 1 }
+              - column: { name: display_order, valueNumeric: 2 }
               - column: { name: user_id, valueNumeric: 1 }
 
         - insert:
@@ -5336,7 +5336,7 @@ databaseChangeLog:
               - column: { name: type, value: 'TOP_INCOME_TRANSACTION_STATCARD' }
               - column: { name: title, value: 'Top income' }
               - column: { name: timeframe, value: 'YTD' }
-              - column: { name: display_order, valueNumeric: 1 }
+              - column: { name: display_order, valueNumeric: 3 }
               - column: { name: user_id, valueNumeric: 1 }
 
         # Chart widgets
@@ -5392,4 +5392,7 @@ databaseChangeLog:
             sql: SELECT setval('email_log_id_seq', (SELECT COALESCE(MAX(id), 1) FROM email_log));
         - sql:
             sql: SELECT setval('password_history_id_seq', (SELECT COALESCE(MAX(id), 1) FROM password_history));
+        - sql:
+            sql: SELECT setval('widget_id_seq', (SELECT COALESCE(MAX(id), 1) FROM widget));
+
 
