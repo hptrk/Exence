@@ -415,7 +415,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 	},
 };
 
-const GROUP_WIDGET_TYPES: Record<WidgetCatalogGroup, WidgetType[]> = {
+export const GROUP_WIDGET_TYPES: Record<WidgetCatalogGroup, WidgetType[]> = {
 	all: Object.values(WidgetType),
 	card: [
 		WidgetType.EXPENSE_FREQUENCY_STATCARD,

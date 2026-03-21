@@ -10,6 +10,14 @@ mat-card.selected {
 	outline: 3px solid var(--primary-color);
 }
 
+mat-card.disabled {
+	opacity: 0.3;
+
+	mat-card-content {
+		cursor: not-allowed;
+	}
+}
+
 img {
 	height: 250px;
 	width: 100%;
