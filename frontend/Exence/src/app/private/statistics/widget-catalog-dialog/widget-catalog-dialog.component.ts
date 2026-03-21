@@ -1,16 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogClose } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { WIDGET_CATALOG } from '../../../data-model/modules/statistics/widget-config.model';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogComponent, DialogRef } from '../../../shared/dialog/dialog.service';
-import { MatCardModule } from '@angular/material/card';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { InfoButtonComponent } from '../../../shared/info-button/info-button.component';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
+import { InfoButtonComponent } from '../../../shared/info-button/info-button.component';
 
 @Component({
 	selector: 'ex-widget-catalog-dialog',
@@ -22,6 +23,7 @@ import { DisplayThemeService } from '../../../shared/display-theme.service';
 		MatIconModule,
 		MatCardModule,
 		MatTooltipModule,
+		MatDialogClose,
 		DialogCardComponent,
 		ButtonComponent,
 		InfoButtonComponent,

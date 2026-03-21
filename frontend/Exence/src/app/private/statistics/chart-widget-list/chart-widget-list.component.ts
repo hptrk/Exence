@@ -69,6 +69,7 @@ export class ChartWidgetListComponent {
 			rows: 1,
 			x: this.data().length,
 			y: 0,
+			resizeEnabled: false,
 		};
 	});
 
@@ -98,7 +99,8 @@ export class ChartWidgetListComponent {
 
 	async openWidgetShopDialog(): Promise<void> {
 		const result = await this.dialog.openNonModal(WidgetCatalogDialogComponent, undefined, {
-			height: '600px',
+			height: '75vh',
+			width: '65vw',
 		});
 		console.log(result);
 	}

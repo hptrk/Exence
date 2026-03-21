@@ -86,7 +86,8 @@ export class StatCardListComponent {
 
 	async openWidgetShopDialog(): Promise<void> {
 		const result = await this.dialog.openNonModal(WidgetCatalogDialogComponent, undefined, {
-			height: '600px',
+			height: '75vh',
+			width: '65vw',
 		});
 		if (!result) return;
 	}
