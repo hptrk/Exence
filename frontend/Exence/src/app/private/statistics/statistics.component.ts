@@ -1,30 +1,61 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { ChartWidget, StatCardWidget } from '../../data-model/modules/statistics/Widget';
+import { CommonModule } from '@angular/common';
+import { Component, inject, signal, viewChild } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { mapToExChartType, WidgetCatalogItem } from '../../data-model/modules/statistics/widget-config.model';
 import { ButtonComponent } from '../../shared/button/button.component';
+import { DialogService } from '../../shared/dialog/dialog.service';
 import { ChartWidgetListComponent } from './chart-widget-list/chart-widget-list.component';
 import { StatCardListComponent } from './stat-card-list/stat-card-list.component';
 import { StatisticService } from './statistic.service';
-import { CommonModule } from '@angular/common';
+import { WidgetCatalogDialogComponent } from './widget-catalog-dialog/widget-catalog-dialog.component';
+import { WidgetStore } from './widget.store';
 
 @Component({
 	selector: 'ex-statistics',
 	templateUrl: './statistics.component.html',
 	styleUrl: './statistics.component.scss',
-	imports: [CommonModule, StatCardListComponent, ChartWidgetListComponent, ButtonComponent],
-	providers: [StatisticService],
+	imports: [
+		CommonModule,
+		MatMenuModule,
+		MatIconModule,
+		StatCardListComponent,
+		ChartWidgetListComponent,
+		ButtonComponent,
+	],
+	providers: [StatisticService, WidgetStore],
 })
-export class StatisticsComponent implements OnInit {
-	private readonly statisticService = inject(StatisticService);
+export class StatisticsComponent {
+	private readonly dialog = inject(DialogService);
+	readonly store = inject(WidgetStore);
 
-	statCards = signal<StatCardWidget[]>([]);
-	charts = signal<ChartWidget[]>([]);
+	private readonly chartWidgetList = viewChild.required(ChartWidgetListComponent);
 
 	editing = signal<boolean>(false);
 
-	ngOnInit(): void {
-		this.statisticService.getLayout().then(({ statCards, charts }) => {
-			this.statCards.set(statCards);
-			this.charts.set(charts);
-		});
+	async openCatalog(): Promise<void> {
+		const result = await this.dialog.openNonModal<void, WidgetCatalogItem | null>(
+			WidgetCatalogDialogComponent,
+			undefined,
+			{
+				height: '600px',
+			},
+		);
+		if (!result) return;
+
+		const isStatCard = mapToExChartType(result.type) === 'statCard';
+		const nextFreePosition = isStatCard ? null : this.chartWidgetList().getFirstPossiblePosition();
+
+		await this.store.addWidget(result, nextFreePosition);
+	}
+
+	cancelLayout(): void {
+		this.store.cancelLayout();
+		this.editing.set(false);
+	}
+
+	async saveLayout(): Promise<void> {
+		await this.store.saveLayout();
+		this.editing.set(false);
 	}
 }

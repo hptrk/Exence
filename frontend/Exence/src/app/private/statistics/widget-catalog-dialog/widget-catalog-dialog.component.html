@@ -6,7 +6,7 @@
 			<mat-tab-group
 				animationDuration="0ms"
 				mat-stretch-tabs="true"
-				[(selectedIndex)]="selectedIndex"
+				[(selectedIndex)]="selectedTabIndex"
 				dynamicHeight="false"
 				class="h-100"
 			>
@@ -14,7 +14,12 @@
 					<mat-tab [label]="catalogGroup.label">
 						<div class="catalog-widget-grid px-3 pt-1">
 							@for (widget of catalogGroup.widgets; track widget.type) {
-								<mat-card [matTooltip]="widget.title">
+								@let selected = formValueSignal().selectedWidget?.type === widget.type;
+								<mat-card
+									[matTooltip]="widget.title"
+									[class.selected]="selected"
+									(click)="form.controls.selectedWidget.setValue(widget)"
+								>
 									<mat-card-content class="position-relative pointer-cursor overflow-x-hidden">
 										<h3 class="fs-5">{{ widget.title }}</h3>
 										<!-- TODO add images for each theme: src="category_sankey-theme-dark.svg" -->

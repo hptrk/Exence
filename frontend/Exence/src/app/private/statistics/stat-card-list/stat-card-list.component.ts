@@ -1,33 +1,18 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
-import {
-	DisplayGrid,
-	Gridster,
-	GridsterApi,
-	GridsterConfig,
-	GridsterItem,
-	GridsterItemConfig,
-	GridType,
-} from 'angular-gridster2';
+import { Component, computed, input } from '@angular/core';
+import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
-import { EmptyStatisticCardComponent } from '../empty-statistic-card.component';
 import { StatCardComponent } from '../stat-card/stat-card.component';
-import { DialogService } from '../../../shared/dialog/dialog.service';
-import { WidgetCatalogDialogComponent } from '../widget-catalog-dialog/widget-catalog-dialog.component';
 
 @Component({
 	selector: 'ex-stat-card-list',
 	templateUrl: './stat-card-list.component.html',
 	styleUrl: './stat-card-list.component.scss',
-	imports: [EmptyStatisticCardComponent, StatCardComponent, Gridster, GridsterItem, ButtonComponent],
+	imports: [StatCardComponent, Gridster, GridsterItem, ButtonComponent],
 })
 export class StatCardListComponent {
-	private readonly dialog = inject(DialogService);
-
 	data = input.required<StatCardWidget[]>();
 	editing = input.required<boolean>();
-
-	private gridApi = signal<GridsterApi | null>(null);
 
 	options = computed<GridsterConfig>(() => ({
 		gridType: GridType.VerticalFixed,
@@ -48,15 +33,7 @@ export class StatCardListComponent {
 			delayStart: 100,
 			dragHandleClass: 'dragger',
 			ignoreContent: true,
-			// TODO save to temp state for save changes submission
-			stop: (item: GridsterItemConfig, itemComponent: GridsterItem, event: MouseEvent): Promise<unknown> | void =>
-				console.info('eventStop', item, itemComponent, event),
 		},
-		// TODO save to temp state for save changes submission
-		itemRemovedCallback: (item, itemComponent) => {
-			console.info('Item removed:', item, itemComponent);
-		},
-		initCallback: (_gridster, api) => this.gridApi.set(api),
 		margin: 21,
 		outerMargin: false,
 	}));
@@ -74,21 +51,4 @@ export class StatCardListComponent {
 			cardData: card,
 		})),
 	);
-
-	emptyWidget = computed<GridsterItemConfig>(() => {
-		return {
-			cols: 1,
-			rows: 1,
-			x: this.cards().length,
-			y: 0,
-		};
-	});
-
-	async openWidgetShopDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal(WidgetCatalogDialogComponent, undefined, {
-			height: '75vh',
-			width: '65vw',
-		});
-		if (!result) return;
-	}
 }

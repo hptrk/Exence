@@ -12,10 +12,5 @@
 				<ex-stat-card [widget]="card.cardData" />
 			</gridster-item>
 		}
-		@if (editing()) {
-			<gridster-item [item]="emptyWidget()">
-				<ex-empty-statistic-card (click)="openWidgetShopDialog()" />
-			</gridster-item>
-		}
 	</gridster>
 </section>

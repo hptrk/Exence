@@ -1,29 +1,33 @@
 <section class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 poisiton-relative" [class.gap-4]="editing()">
-	<ex-stat-card-list [data]="statCards()" [editing]="editing()" />
+	<ex-stat-card-list [data]="store.statCards()" [editing]="editing()" />
 
-	<ex-chart-widget-list [data]="charts()" [editing]="editing()" />
+	<ex-chart-widget-list [data]="store.charts()" [editing]="editing()" />
 
 	<ng-container [ngTemplateOutlet]="actionButtons" />
 </section>
 
+<mat-menu #actionsMenu>
+	<button mat-menu-item (click)="editing.set(true)">
+		<mat-icon>edit</mat-icon>
+		Edit layout
+	</button>
+	<button mat-menu-item (click)="openCatalog()">
+		<mat-icon>add</mat-icon>
+		Add widget
+	</button>
+</mat-menu>
+
 <ng-template #actionButtons>
 	<div class="action-buttons">
 		@if (editing()) {
-			<ex-button
-				(click)="editing.set(false)"
-				primaryIconButton
-				color="primary"
-				matIcon="close"
-				size="md"
-				rounded
-			/>
-			<ex-button (click)="(null)" primaryIconButton color="primary" matIcon="check" size="lg" rounded />
+			<ex-button (click)="cancelLayout()" primaryIconButton color="primary" matIcon="close" size="md" rounded />
+			<ex-button (click)="saveLayout()" primaryIconButton color="primary" matIcon="check" size="lg" rounded />
 		} @else {
 			<ex-button
-				(click)="editing.set(true)"
+				[matMenuTriggerFor]="actionsMenu"
 				primaryIconButton
 				color="primary"
-				matIcon="edit"
+				matIcon="more_horiz"
 				class="edit-button"
 				size="lg"
 				rounded

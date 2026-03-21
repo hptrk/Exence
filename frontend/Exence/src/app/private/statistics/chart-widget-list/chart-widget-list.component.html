@@ -8,10 +8,5 @@
 				<ex-chart-widget [widget]="widget" />
 			</gridster-item>
 		}
-		@if (editing()) {
-			<gridster-item [item]="emptyWidget()">
-				<ex-empty-statistic-card (click)="openWidgetShopDialog()" />
-			</gridster-item>
-		}
 	</gridster>
 </section>
