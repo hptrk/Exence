@@ -1,4 +1,4 @@
-import { Component, effect, input, signal, viewChild, viewChildren } from '@angular/core';
+import { Component, effect, input, signal, viewChild } from '@angular/core';
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
@@ -14,7 +14,6 @@ export class ChartWidgetListComponent {
 	data = input.required<ChartWidget[]>();
 	editing = input.required<boolean>();
 
-	private readonly widgets = viewChildren(ChartWidgetComponent);
 	private readonly gridster = viewChild.required(Gridster);
 
 	options = signal<GridsterConfig>({
@@ -38,7 +37,6 @@ export class ChartWidgetListComponent {
 		},
 		resizable: {
 			enabled: false,
-			stop: () => this.resizeChart(),
 		},
 		margin: 21,
 		outerMarginBottom: 0,
@@ -68,10 +66,5 @@ export class ChartWidgetListComponent {
 	getFirstPossiblePosition(): GridsterItemConfig {
 		const item: GridsterItemConfig = { cols: 1, rows: 1, x: 0, y: 0 };
 		return this.gridster().getFirstPossiblePosition(item);
-	}
-
-	private resizeChart(): void {
-		window.dispatchEvent(new Event('resize'));
-		this.widgets().forEach(widget => widget.triggerRedraw());
 	}
 }

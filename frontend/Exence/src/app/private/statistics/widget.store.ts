@@ -66,7 +66,7 @@ export const WidgetStore = signalStore(
 			const request: UpdateLayoutRequest = {
 				statCards: store.statCards().map((c, i) => ({ id: c.id, displayOrder: i })),
 
-				widgets: store.charts().map(c => ({
+				charts: store.charts().map(c => ({
 					id: c.id,
 					x: c.x,
 					y: c.y,
