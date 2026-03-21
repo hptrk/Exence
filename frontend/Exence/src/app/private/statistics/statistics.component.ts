@@ -38,7 +38,8 @@ export class StatisticsComponent {
 			WidgetCatalogDialogComponent,
 			undefined,
 			{
-				height: '600px',
+				height: '75vh',
+				width: '65vw',
 			},
 		);
 		if (!result) return;

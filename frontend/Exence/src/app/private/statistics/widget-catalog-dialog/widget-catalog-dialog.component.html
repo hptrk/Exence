@@ -24,7 +24,7 @@
 										<h3 class="fs-5">{{ widget.title }}</h3>
 										<!-- TODO add images for each theme: src="category_sankey-theme-dark.svg" -->
 										<img
-											[src]="`assets/${widget.imgUrl}_${themeService.displayThemeSignal().toLowerCase()}.jpg`"
+											[src]="`assets/catalog/${widget.imgUrl.toUpperCase()}_${themeService.displayThemeSignal().toUpperCase()}.png`"
 										/>
 										<ex-info-button [tooltip]="widget.info" />
 									</mat-card-content>
