@@ -1,0 +1,98 @@
+.apexcharts-canvas {
+	div.apexcharts-toolbar div {
+		&:hover svg,
+		svg {
+			color: var(--default-text-color);
+			fill: var(--default-text-color);
+		}
+	}
+
+	.apexcharts-menu {
+		min-width: 125px;
+		text-align: center;
+	}
+
+	.apexcharts-menu.apexcharts-menu-open {
+		background-color: var(--app-card-color);
+
+		.apexcharts-menu-item:hover {
+			background-color: var(--app-hover-color);
+			color: var(--secondary-text-color);
+		}
+	}
+
+	div.apexcharts-pan-icon {
+		&:hover svg,
+		&.apexcharts-selected svg {
+			stroke: var(--app-hover-color);
+		}
+	}
+
+	div.apexcharts-zoom-icon {
+		&.apexcharts-selected svg {
+			fill: var(--default-text-color) !important;
+		}
+
+		&:hover svg {
+			fill: var(--app-hover-color) !important;
+		}
+	}
+
+	div.apexcharts-tooltip {
+		background-color: var(--app-card-color);
+
+		div.apexcharts-tooltip-title {
+			background-color: var(--app-card-color);
+		}
+	}
+
+	.apexcharts-gridlines-horizontal line,
+	.apexcharts-gridlines-vertical line,
+	.apexcharts-grid-borders line {
+		stroke: var(--apexchart-grid-color);
+	}
+
+	.apexcharts-xaxis-tick,
+	.apexcharts-yaxis-tick {
+		stroke: var(--apexchart-grid-color);
+	}
+
+	rect.apexcharts-zoom-rect {
+		fill: var(--primary-color);
+	}
+
+	.apexcharts-heatmap-rect {
+		stroke: var(--app-card-color);
+	}
+
+	.apexcharts-radar-series .apexcharts-xaxis-label {
+		fill: currentColor;
+	}
+
+	.apexcharts-treemap-rect {
+		stroke: var(--app-card-color);
+		stroke-width: 5;
+		rx: 15;
+		ry: 15;
+	}
+
+	.apexcharts-boxPlot-area {
+		stroke: var(--default-text-color);
+		stroke-width: 2px;
+
+		// upper box
+		&:nth-child(even) {
+			filter: brightness(0.75);
+		}
+	}
+
+	.apexcharts-radialbar {
+		.apexcharts-series path[stroke-dasharray] {
+			stroke: var(--primary-color);
+		}
+
+		.apexcharts-radialbar-track path {
+			stroke: var(--apexchart-primary-shade-1);
+		}
+	}
+}

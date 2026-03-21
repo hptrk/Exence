@@ -1,0 +1,37 @@
+<mat-card class="h-100">
+	<mat-card-content class="h-100">
+		@if (isLoading() && !data()) {
+			<div class="h-100 w-100 d-flex justify-content-center align-items-center">
+				<div class="d-flex flex-row flex-nowrap gap-2 align-items-end justify-content-center">
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="155px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="195px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="250px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="170px" />
+					<ex-animated-skeleton-loader shape="rect" width="50px" height="120px" />
+				</div>
+			</div>
+		} @else {
+			@if (isApexChart()) {
+				<apx-chart
+					[title]="data()?.title ?? {}"
+					[series]="data()?.series ?? []"
+					[chart]="data()?.chart ?? { type: 'bar' }"
+					[plotOptions]="data()?.plotOptions ?? {}"
+					[xaxis]="data()?.xaxis ?? {}"
+					[yaxis]="data()?.yaxis ?? {}"
+					[legend]="data()?.legend ?? {}"
+					[colors]="data()?.colors ?? []"
+					[stroke]="data()?.stroke ?? {}"
+					[dataLabels]="data()?.dataLabels ?? {}"
+					[tooltip]="data()?.tooltip ?? {}"
+					[grid]="data()?.grid ?? {}"
+					[fill]="data()?.fill ?? {}"
+					[labels]="data()?.labels ?? []"
+					[responsive]="data()?.responsive ?? []"
+				/>
+			} @else {
+				<ex-sankey-chart [widget]="this.widget()" />
+			}
+		}
+	</mat-card-content>
+</mat-card>

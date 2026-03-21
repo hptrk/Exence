@@ -1,21 +1,12 @@
-import { Component, computed, input } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { InfoButtonComponent } from '../../../shared/info-button/info-button.component';
-import { CurrencyPipe } from '@angular/common';
-import { MaterialIcon } from '../../../data-model/modules/category/MaterialIcon';
-
-export interface StatCardDTO {
-	label: string;
-	value: number;
-	changePercentage?: number;
-	trend?: 'UP' | 'DOWN' | 'NEUTRAL';
-	contextLabel?: string;
-	icon?: {
-		icon: MaterialIcon;
-		color: string;
-	};
-}
+import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
+import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
+import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
+import { StatisticService } from '../statistic.service';
 
 interface StatCardAssetInfo {
 	prefix: string;
@@ -26,22 +17,42 @@ interface StatCardAssetInfo {
 	selector: 'ex-stat-card',
 	templateUrl: './stat-card.component.html',
 	styleUrl: './stat-card.component.scss',
-	imports: [MatCardModule, MatIconModule, InfoButtonComponent, CurrencyPipe],
+	imports: [MatCardModule, MatIconModule, AnimatedSkeletonLoaderComponent, CurrencyPipe],
 })
 export class StatCardComponent {
-	data = input.required<StatCardDTO>();
-	info = input.required<string>();
-	type = input<'metric' | 'spotlight'>('spotlight');
-	valueType = input<'currency' | 'percentage'>('currency');
+	private readonly statisticService = inject(StatisticService);
+
+	widget = input.required<StatCardWidget>();
+
+	isLoading = signal<boolean>(false);
+	data = signal<StatCardPayload | null>(null);
+	trend = computed<'UP' | 'DOWN' | 'NEUTRAL' | undefined>(() => this.data()?.trend);
+
+	readonly predefinedStatCardIcons: Partial<Record<WidgetType, string>> = {
+		[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
+		[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
+	};
 
 	assets = computed<StatCardAssetInfo>(() => {
-		switch (this.data().trend) {
+		switch (this.trend()) {
 			case 'UP':
 				return { prefix: '+', suffix: 'arrow_upward' };
 			case 'DOWN':
-				return { prefix: '-', suffix: 'arrow_downward' };
+				return { prefix: '', suffix: 'arrow_downward' };
 			default:
 				return { prefix: '', suffix: 'check_indeterminate_small' };
 		}
 	});
+
+	isMetric = computed(() => this.data()?.changePercentage !== undefined && !!this.data()?.trend);
+
+	constructor() {
+		effect(() => {
+			this.isLoading.set(true);
+			this.statisticService.getWidgetData<StatCardPayload>(this.widget().id).then(response => {
+				this.data.set(response.payload);
+				this.isLoading.set(false);
+			});
+		});
+	}
 }

@@ -1,5 +1,6 @@
-<ng-content />
-
+@for (statCard of data(); track statCard.id) {
+	<ex-stat-card [widget]="statCard" />
+}
 @if (numberOfCards() < 4) {
 	<ex-empty-statistic-card />
 }
