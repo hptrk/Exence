@@ -44,7 +44,7 @@ export class StatCardComponent {
 		}
 	});
 
-	isMetric = computed(() => this.data()?.changePercentage !== undefined && !!this.data()?.trend);
+	hasIcon = computed(() => this.data()?.icon && !!this.data()?.iconColor);
 
 	constructor() {
 		effect(() => {

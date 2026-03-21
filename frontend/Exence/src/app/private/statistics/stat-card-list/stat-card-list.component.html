@@ -1,7 +1,7 @@
 <section [style.--stat-col-count]="colCount()">
 	<div class="stat-card-list" (scroll)="onCardsScroll($event)">
 		<gridster [options]="options()" class="custom-grid" [style.min-width.px]="gridMinWidth()">
-			@for (card of cards(); track card.id) {
+			@for (card of cards(); track card.id + ':' + card.x) {
 				<gridster-item [item]="card">
 					@if (editing()) {
 						<ex-button matIcon="drag_indicator" iconButton class="dragger" />

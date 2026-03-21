@@ -173,55 +173,55 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.EXPENSE_FREQUENCY_STATCARD,
 		title: 'Expense Frequency',
 		info: 'Shows how often expenses occur within the selected period.',
-		imgUrl: 'expense_frequency_statcard',
+		imgUrl: 'EXPENSE_FREQUENCY_STATCARD',
 	},
 	[WidgetType.INCOME_FREQUENCY_STATCARD]: {
 		type: WidgetType.INCOME_FREQUENCY_STATCARD,
 		title: 'Income Frequency',
 		info: 'Shows how often income is received within the selected period.',
-		imgUrl: 'income_frequency_statcard',
+		imgUrl: 'INCOME_FREQUENCY_STATCARD',
 	},
 	[WidgetType.NO_SPEND_DAYS_STATCARD]: {
 		type: WidgetType.NO_SPEND_DAYS_STATCARD,
 		title: 'No-Spend Days',
 		info: 'Counts the number of days in the period with zero expense transactions.',
-		imgUrl: 'no_spend_days_statcard',
+		imgUrl: 'NO_SPEND_DAYS_STATCARD',
 	},
 	[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: {
 		type: WidgetType.TOP_EXPENSE_CATEGORY_STATCARD,
 		title: 'Top Expense Category',
 		info: 'Highlights the category where the most money was spent.',
-		imgUrl: 'top_expense_category_statcard',
+		imgUrl: 'TOP_EXPENSE_CATEGORY_STATCARD',
 	},
 	[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: {
 		type: WidgetType.TOP_INCOME_CATEGORY_STATCARD,
 		title: 'Top Income Category',
 		info: 'Highlights the category that contributed the most income.',
-		imgUrl: 'top_income_category_statcard',
+		imgUrl: 'TOP_INCOME_CATEGORY_STATCARD',
 	},
 	[WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD]: {
 		type: WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD,
 		title: 'Top Expense Transaction',
 		info: 'Displays the single largest expense transaction in the selected period.',
-		imgUrl: 'top_expense_transaction_statcard',
+		imgUrl: 'TOP_EXPENSE_TRANSACTION_STATCARD',
 	},
 	[WidgetType.TOP_INCOME_TRANSACTION_STATCARD]: {
 		type: WidgetType.TOP_INCOME_TRANSACTION_STATCARD,
 		title: 'Top Income Transaction',
 		info: 'Displays the single largest income transaction in the selected period.',
-		imgUrl: 'top_income_transaction_statcard',
+		imgUrl: 'TOP_INCOME_TRANSACTION_STATCARD',
 	},
 	[WidgetType.BURN_RATE_STATCARD]: {
 		type: WidgetType.BURN_RATE_STATCARD,
 		title: 'Burn Rate',
 		info: 'Shows the average daily spend rate to indicate how fast funds are being consumed.',
-		imgUrl: 'burn_rate_statcard',
+		imgUrl: 'BURN_RATE_STATCARD',
 	},
 	[WidgetType.SAVINGS_RATE_STATCARD]: {
 		type: WidgetType.SAVINGS_RATE_STATCARD,
 		title: 'Savings Rate',
 		info: 'Displays the percentage of income that was saved after expenses.',
-		imgUrl: 'savings_rate_statcard',
+		imgUrl: 'SAVINGS_RATE_STATCARD',
 	},
 
 	// Area/Line trends
@@ -229,37 +229,37 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.INCOME_TREND,
 		title: 'Income Trend',
 		info: 'Visualises income over time as a line or area chart to reveal growth or decline patterns.',
-		imgUrl: 'income_trend',
+		imgUrl: 'INCOME_TREND',
 	},
 	[WidgetType.EXPENSE_TREND]: {
 		type: WidgetType.EXPENSE_TREND,
 		title: 'Expense Trend',
 		info: 'Visualises expenses over time to highlight spending patterns and anomalies.',
-		imgUrl: 'expense_trend',
+		imgUrl: 'EXPENSE_TREND',
 	},
 	[WidgetType.BALANCE_TREND]: {
 		type: WidgetType.BALANCE_TREND,
 		title: 'Balance Trend',
 		info: 'Tracks net balance over time, showing whether finances are improving or deteriorating.',
-		imgUrl: 'balance_trend',
+		imgUrl: 'BALANCE_TREND',
 	},
 	[WidgetType.INCOME_CATEGORY_TREND]: {
 		type: WidgetType.INCOME_CATEGORY_TREND,
 		title: 'Income by Category Trend',
 		info: 'Breaks down income trends per category over time using stacked or multi-line areas.',
-		imgUrl: 'income_category_trend',
+		imgUrl: 'INCOME_CATEGORY_TREND',
 	},
 	[WidgetType.EXPENSE_CATEGORY_TREND]: {
 		type: WidgetType.EXPENSE_CATEGORY_TREND,
 		title: 'Expense by Category Trend',
 		info: 'Breaks down expense trends per category over time using stacked or multi-line areas.',
-		imgUrl: 'expense_category_trend',
+		imgUrl: 'EXPENSE_CATEGORY_TREND',
 	},
 	[WidgetType.BALANCE_YEAR_COMPARISON]: {
 		type: WidgetType.BALANCE_YEAR_COMPARISON,
 		title: 'Balance Year Comparison',
 		info: 'Overlays balance curves from multiple years on a single chart for direct comparison.',
-		imgUrl: 'balance_year_comparison',
+		imgUrl: 'BALANCE_YEAR_COMPARISON',
 	},
 
 	// Column/Bar
@@ -267,19 +267,19 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.INCOME_EXPENSE_COLUMN,
 		title: 'Income vs Expense',
 		info: 'Side-by-side columns comparing total income and expenses for each period.',
-		imgUrl: 'income_expense_column',
+		imgUrl: 'INCOME_EXPENSE_COLUMN',
 	},
 	[WidgetType.EXPENSE_CATEGORY_COLUMN]: {
 		type: WidgetType.EXPENSE_CATEGORY_COLUMN,
 		title: 'Expense by Category',
 		info: 'Grouped or stacked columns showing expense breakdown across categories per period.',
-		imgUrl: 'expense_category_column',
+		imgUrl: 'EXPENSE_CATEGORY_COLUMN',
 	},
 	[WidgetType.MONTHLY_BALANCE_COLUMN]: {
 		type: WidgetType.MONTHLY_BALANCE_COLUMN,
 		title: 'Monthly Balance',
 		info: 'A column chart of net balance per month to quickly spot positive and negative months.',
-		imgUrl: 'monthly_balance_column',
+		imgUrl: 'MONTHLY_BALANCE_COLUMN',
 	},
 
 	// Mixed
@@ -287,19 +287,19 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.EXPENSE_SAVINGS_COMBO,
 		title: 'Expense & Savings Combo',
 		info: 'Combines a bar series for expenses with a line overlay for cumulative savings.',
-		imgUrl: 'expense_savings_combo',
+		imgUrl: 'EXPENSE_SAVINGS_COMBO',
 	},
 	[WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO]: {
 		type: WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO,
 		title: 'Transaction Count & Expense Combo',
 		info: 'Overlays transaction volume as a line on top of expense bars to reveal spending intensity.',
-		imgUrl: 'transaction_count_expense_combo',
+		imgUrl: 'TRANSACTION_COUNT_EXPENSE_COMBO',
 	},
 	[WidgetType.WEALTH_GROWTH_COMBO]: {
 		type: WidgetType.WEALTH_GROWTH_COMBO,
 		title: 'Wealth Growth Combo',
 		info: 'Combines income and expense bars with a cumulative wealth line to track net growth.',
-		imgUrl: 'wealth_growth_combo',
+		imgUrl: 'WEALTH_GROWTH_COMBO',
 	},
 
 	// Pie/Donut
@@ -307,13 +307,13 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.EXPENSE_PIE,
 		title: 'Expense Distribution',
 		info: 'A pie or donut chart showing the proportional share of each expense category.',
-		imgUrl: 'expense_pie',
+		imgUrl: 'EXPENSE_PIE',
 	},
 	[WidgetType.INCOME_PIE]: {
 		type: WidgetType.INCOME_PIE,
 		title: 'Income Distribution',
 		info: 'A pie or donut chart showing the proportional share of each income category.',
-		imgUrl: 'income_pie',
+		imgUrl: 'INCOME_PIE',
 	},
 
 	// Radar
@@ -321,13 +321,13 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.SPENDING_RADAR,
 		title: 'Spending Radar',
 		info: 'A radar chart mapping spending levels across categories for a holistic balance view.',
-		imgUrl: 'spending_radar',
+		imgUrl: 'SPENDING_RADAR',
 	},
 	[WidgetType.MONTHLY_CATEGORY_RADAR]: {
 		type: WidgetType.MONTHLY_CATEGORY_RADAR,
 		title: 'Monthly Category Radar',
 		info: 'Compares category spending patterns across multiple months on a single radar chart.',
-		imgUrl: 'monthly_category_radar',
+		imgUrl: 'MONTHLY_CATEGORY_RADAR',
 	},
 
 	// Polar Area
@@ -335,13 +335,13 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.CATEGORY_AVG_POLAR,
 		title: 'Category Average Polar',
 		info: 'A polar area chart displaying average spend per category, where segment size encodes magnitude.',
-		imgUrl: 'category_avg_polar',
+		imgUrl: 'CATEGORY_AVG_POLAR',
 	},
 	[WidgetType.MONTHLY_PEAK_POLAR]: {
 		type: WidgetType.MONTHLY_PEAK_POLAR,
 		title: 'Monthly Peak Polar',
 		info: 'A polar area chart highlighting peak spending months with proportional segment sizing.',
-		imgUrl: 'monthly_peak_polar',
+		imgUrl: 'MONTHLY_PEAK_POLAR',
 	},
 
 	// Bubble
@@ -349,7 +349,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.CATEGORY_BUBBLE,
 		title: 'Category Bubble',
 		info: 'Plots categories as bubbles where position indicates timing and size encodes total amount.',
-		imgUrl: 'category_bubble',
+		imgUrl: 'CATEGORY_BUBBLE',
 	},
 
 	// Scatter
@@ -357,7 +357,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.TRANSACTION_SCATTER,
 		title: 'Transaction Scatter',
 		info: 'Scatters individual transactions by date and amount to expose outliers and clusters.',
-		imgUrl: 'transaction_scatter',
+		imgUrl: 'TRANSACTION_SCATTER',
 	},
 
 	// Heatmap
@@ -365,7 +365,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.SPENDING_HEATMAP,
 		title: 'Spending Heatmap',
 		info: 'A calendar heatmap showing daily spending intensity across the year at a glance.',
-		imgUrl: 'spending_heatmap',
+		imgUrl: 'SPENDING_HEATMAP',
 	},
 
 	// Treemap
@@ -373,7 +373,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.CATEGORY_TREEMAP,
 		title: 'Category Treemap',
 		info: 'Nested rectangles sized by spend amount to show category and sub-category proportions.',
-		imgUrl: 'category_treemap',
+		imgUrl: 'CATEGORY_TREEMAP',
 	},
 
 	// Boxplot
@@ -381,13 +381,13 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.CATEGORY_BOXPLOT,
 		title: 'Category Boxplot',
 		info: 'Displays the statistical distribution of transactions per category including median and outliers.',
-		imgUrl: 'category_boxplot',
+		imgUrl: 'CATEGORY_BOXPLOT',
 	},
 	[WidgetType.MONTHLY_BOXPLOT]: {
 		type: WidgetType.MONTHLY_BOXPLOT,
 		title: 'Monthly Boxplot',
 		info: 'Displays the statistical distribution of daily spending per month to reveal variability.',
-		imgUrl: 'monthly_boxplot',
+		imgUrl: 'MONTHLY_BOXPLOT',
 	},
 
 	// Gauge
@@ -395,7 +395,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.SAVINGS_RATE_GAUGE,
 		title: 'Savings Rate Gauge',
 		info: 'A radial gauge showing the current savings rate against a configurable target threshold.',
-		imgUrl: 'savings_rate_gauge',
+		imgUrl: 'SAVINGS_RATE_GAUGE',
 	},
 
 	// Slope
@@ -403,7 +403,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.YEARLY_SLOPE,
 		title: 'Yearly Slope',
 		info: 'A slope chart connecting year-start to year-end values to make directional change immediately obvious.',
-		imgUrl: 'yearly_slope',
+		imgUrl: 'YEARLY_SLOPE',
 	},
 
 	// Sankey
@@ -411,7 +411,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 		type: WidgetType.CATEGORY_SANKEY,
 		title: 'Category Sankey',
 		info: 'A flow diagram showing how income is distributed and consumed across expense categories.',
-		imgUrl: 'category_sankey',
+		imgUrl: 'CATEGORY_SANKEY',
 	},
 };
 
