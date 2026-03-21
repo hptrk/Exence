@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, viewChild } from '@angular/core';
+import { Component, computed, inject, input, signal, viewChild } from '@angular/core';
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
@@ -38,13 +38,18 @@ export class StatCardListComponent {
 
 	private readonly gridster = viewChild.required(Gridster);
 
+	readonly scrollLeft = signal<number>(0);
+
+	readonly colCount = computed(() => Math.min(this.cards().length, 4));
+	readonly gridMinWidth = computed(() => this.colCount() * 350 + Math.max(this.colCount() - 1, 0) * 21);
+
 	options = computed<GridsterConfig>(() => ({
 		gridType: GridType.VerticalFixed,
 		displayGrid: DisplayGrid.None,
 		mobileBreakpoint: 0,
 		fixedRowHeight: 250,
-		maxCols: 5,
-		minCols: 4,
+		maxCols: this.colCount(),
+		minCols: this.colCount(),
 		maxRows: 1,
 		pushItems: false,
 		swap: true,
@@ -89,6 +94,10 @@ export class StatCardListComponent {
 		);
 		if (!result) return;
 		this.store.applyChangesOnWidget(card.cardData, result);
+	}
+
+	onCardsScroll(event: Event): void {
+		this.scrollLeft.set((event.target as HTMLElement).scrollLeft);
 	}
 
 	deleteCard(card: StatCardGridsterInfo): void {
