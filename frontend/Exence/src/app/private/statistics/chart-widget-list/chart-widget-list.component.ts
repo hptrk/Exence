@@ -37,6 +37,12 @@ export class ChartWidgetListComponent {
 			delayStart: 0,
 			dragHandleClass: 'dragger',
 			ignoreContent: true,
+			start: () => {
+				this.options.update(o => ({ ...o, resizable: { ...o.resizable, enabled: false } }));
+			},
+			stop: () => {
+				this.options.update(o => ({ ...o, resizable: { ...o.resizable, enabled: this.editing() } }));
+			},
 		},
 		resizable: {
 			enabled: false,

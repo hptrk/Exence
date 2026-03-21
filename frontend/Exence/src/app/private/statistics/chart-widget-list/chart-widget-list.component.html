@@ -8,7 +8,7 @@
 						<ex-button matIcon="delete" (click)="deleteWidget(widget)" primaryIconButton color="error" />
 					</div>
 				}
-				<ex-chart-widget [widget]="widget" />
+				<ex-chart-widget [widget]="widget" [editing]="editing()" />
 			</gridster-item>
 		}
 	</gridster>

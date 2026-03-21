@@ -21,6 +21,7 @@ export class ChartWidgetComponent extends BaseComponent {
 	private readonly statisticService = inject(StatisticService);
 
 	widget = input.required<ChartWidget>();
+	editing = input.required<boolean>();
 
 	type = computed<ExChartType>(() => mapToExChartType(this.widget().type));
 	isApexChart = computed<boolean>(() => !['sankey', 'statCard'].includes(this.type()));

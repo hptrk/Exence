@@ -29,7 +29,6 @@ const commonChartOptions: Partial<ApexOptions> = {
 			show: true,
 		},
 		height: '100%',
-		// 	width: 500,
 	} as ApexChart,
 	legend: {
 		show: true,
@@ -60,7 +59,7 @@ const commonChartOptions: Partial<ApexOptions> = {
 			fontFamily: 'Montserrat, Arial, sans-serif',
 			fontWeight: 700,
 		},
-		align: 'center',
+		offsetX: 25,
 	},
 };
 
@@ -111,8 +110,9 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
 		],
 		title: {
 			text: title,
-			textAlign: 'center',
 			textVerticalAlign: 'middle',
+			textAlign: 'left',
+			left: 30,
 			textStyle: {
 				color: textColor,
 				fontSize: '18px',

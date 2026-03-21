@@ -1,5 +1,5 @@
 <mat-card class="h-100">
-	<mat-card-content class="h-100">
+	<mat-card-content class="h-100" [style.pointer-events]="editing() ? 'none' : 'auto'">
 		@if (isLoading() && !data()) {
 			<div class="h-100 w-100 d-flex justify-content-center align-items-center">
 				<div class="d-flex flex-row flex-nowrap gap-2 align-items-end justify-content-center">
