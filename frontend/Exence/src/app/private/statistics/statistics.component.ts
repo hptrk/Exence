@@ -30,6 +30,7 @@ export class StatisticsComponent {
 	readonly store = inject(WidgetStore);
 
 	private readonly chartWidgetList = viewChild.required(ChartWidgetListComponent);
+	private readonly statCardList = viewChild.required(StatCardListComponent);
 
 	editing = signal<boolean>(false);
 
@@ -45,7 +46,9 @@ export class StatisticsComponent {
 		if (!result) return;
 
 		const isStatCard = mapToExChartType(result.type) === 'statCard';
-		const nextFreePosition = isStatCard ? null : this.chartWidgetList().getFirstPossiblePosition();
+		const nextFreePosition = isStatCard
+			? this.statCardList().getFirstPossiblePosition()
+			: this.chartWidgetList().getFirstPossiblePosition();
 
 		await this.store.addWidget(result, nextFreePosition);
 	}

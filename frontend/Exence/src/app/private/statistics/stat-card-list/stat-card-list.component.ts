@@ -1,5 +1,5 @@
-import { Component, computed, input } from '@angular/core';
-import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridType } from 'angular-gridster2';
+import { Component, computed, input, viewChild } from '@angular/core';
+import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { StatCardComponent } from '../stat-card/stat-card.component';
@@ -13,6 +13,8 @@ import { StatCardComponent } from '../stat-card/stat-card.component';
 export class StatCardListComponent {
 	data = input.required<StatCardWidget[]>();
 	editing = input.required<boolean>();
+
+	private readonly gridster = viewChild.required(Gridster);
 
 	options = computed<GridsterConfig>(() => ({
 		gridType: GridType.VerticalFixed,
@@ -51,4 +53,9 @@ export class StatCardListComponent {
 			cardData: card,
 		})),
 	);
+
+	getFirstPossiblePosition(): GridsterItemConfig {
+		const item: GridsterItemConfig = { cols: 1, rows: 1, x: 0, y: 0 };
+		return this.gridster().getFirstPossiblePosition(item);
+	}
 }
