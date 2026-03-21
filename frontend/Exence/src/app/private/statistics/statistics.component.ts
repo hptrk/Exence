@@ -5,10 +5,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { mapToExChartType, WidgetCatalogItem } from '../../data-model/modules/statistics/widget-config.model';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
+import { HasChangesComponent } from '../../shared/auth/guard/has-changes.guard';
 import { ChartWidgetListComponent } from './chart-widget-list/chart-widget-list.component';
 import { StatCardListComponent } from './stat-card-list/stat-card-list.component';
 import { StatisticService } from './statistic.service';
-import { WidgetCatalogDialogComponent } from './widget-catalog-dialog/widget-catalog-dialog.component';
+import {
+	WidgetCatalogDialogComponent,
+	WidgetCatalogDialogData,
+} from './widget-catalog-dialog/widget-catalog-dialog.component';
 import { WidgetStore } from './widget.store';
 
 @Component({
@@ -24,8 +28,11 @@ import { WidgetStore } from './widget.store';
 		ButtonComponent,
 	],
 	providers: [StatisticService, WidgetStore],
+	host: {
+		'(window:beforeunload)': 'onBeforeUnload($event)',
+	},
 })
-export class StatisticsComponent {
+export class StatisticsComponent implements HasChangesComponent {
 	private readonly dialog = inject(DialogService);
 	readonly store = inject(WidgetStore);
 
@@ -34,10 +41,23 @@ export class StatisticsComponent {
 
 	editing = signal<boolean>(false);
 
+	hasChanges(): boolean {
+		return this.editing();
+	}
+
+	onBeforeUnload(event: BeforeUnloadEvent): void {
+		if (this.editing()) {
+			event.preventDefault();
+		}
+	}
+
 	async openCatalog(): Promise<void> {
-		const result = await this.dialog.openNonModal<void, WidgetCatalogItem | null>(
+		const result = await this.dialog.openNonModal<WidgetCatalogDialogData, WidgetCatalogItem | null>(
 			WidgetCatalogDialogComponent,
-			undefined,
+			{
+				statCards: this.store.statCards(),
+				charts: this.store.charts(),
+			},
 			{
 				height: '75vh',
 				width: '65vw',
