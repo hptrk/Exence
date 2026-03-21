@@ -1,5 +1,10 @@
-<div class="chart-grid gap-4 overflow-y-auto overflow-x-hidden">
-	@for (widget of data(); track widget.id) {
-		<ex-chart-widget [widget]="widget" />
-	}
-</div>
+<section class="d-flex flex-column gap-4 h-100">
+	<gridster [options]="options" class="custom-grid">
+		@for (widget of data(); track widget.id) {
+			<gridster-item [item]="widget">
+				<ex-button matIcon="drag_indicator" iconButton class="dragger" />
+				<ex-chart-widget [widget]="widget" />
+			</gridster-item>
+		}
+	</gridster>
+</section>

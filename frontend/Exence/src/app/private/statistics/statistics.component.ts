@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ChartWidget, StatCardWidget } from '../../data-model/modules/statistics/Widget';
 import { ChartWidgetListComponent } from './chart-widget-list/chart-widget-list.component';
-import { StatisticService } from './statistic.service';
 import { StatCardListComponent } from './stat-card-list/stat-card-list.component';
+import { StatisticService } from './statistic.service';
 
 @Component({
 	selector: 'ex-statistics',

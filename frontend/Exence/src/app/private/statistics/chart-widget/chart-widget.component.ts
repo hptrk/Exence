@@ -1,6 +1,6 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, viewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ApexOptions, NgApexchartsModule } from 'ng-apexcharts';
+import { ApexOptions, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { mapToProvider } from '../chart-providers';
 import { ExChartType } from '../../../data-model/modules/statistics/ChartType';
 import { SankeyChartComponent } from '../sankey-chart/sankey-chart.component';
@@ -25,6 +25,8 @@ export class ChartWidgetComponent extends BaseComponent {
 	type = computed<ExChartType>(() => mapToExChartType(this.widget().type));
 	isApexChart = computed<boolean>(() => !['sankey', 'statCard'].includes(this.type()));
 
+	private readonly chart = viewChild<ChartComponent>('chart');
+
 	isLoading = signal<boolean>(false);
 	data = signal<Partial<ApexOptions> | undefined>(undefined);
 
@@ -44,5 +46,10 @@ export class ChartWidgetComponent extends BaseComponent {
 				this.isLoading.set(false);
 			});
 		});
+	}
+
+	triggerRedraw(): void {
+		if (!this.chart()) return;
+		this.chart()!.toggleSeries('');
 	}
 }

@@ -13,6 +13,7 @@
 		} @else {
 			@if (isApexChart()) {
 				<apx-chart
+					#chart
 					[title]="data()?.title ?? {}"
 					[series]="data()?.series ?? []"
 					[chart]="data()?.chart ?? { type: 'bar' }"

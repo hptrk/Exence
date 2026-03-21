@@ -1,14 +1,14 @@
-:host {
-	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: 1fr;
-	gap: 1rem;
-
-	scrollbar-gutter: stable;
-	padding-top: 0.5rem;
-	padding-bottom: 0.5rem;
-
+section {
 	width: 100%;
 	height: 250px;
 	overflow-x: auto;
+
+	gridster-item {
+		overflow: hidden;
+	}
+}
+
+.custom-grid {
+	min-width: calc(4 * 350px + 3 * 21px) !important;
+	touch-action: pan-x;
 }

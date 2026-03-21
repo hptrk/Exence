@@ -28,7 +28,7 @@ const commonChartOptions: Partial<ApexOptions> = {
 		toolbar: {
 			show: true,
 		},
-		height: 450,
+		height: '100%',
 		// 	width: 500,
 	} as ApexChart,
 	legend: {

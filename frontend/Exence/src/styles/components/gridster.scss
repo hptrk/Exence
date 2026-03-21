@@ -1,0 +1,23 @@
+gridster.custom-grid {
+	background-color: transparent;
+
+	gridster-item {
+		border-radius: 20px;
+		background-color: transparent;
+		box-shadow: none;
+
+		user-select: none;
+		-webkit-user-drag: none;
+	}
+
+	gridster-preview.gridster-preview {
+		border-radius: 20px;
+	}
+}
+
+.dragger {
+	position: absolute;
+	top: 0;
+	left: -5px;
+	z-index: 2;
+}

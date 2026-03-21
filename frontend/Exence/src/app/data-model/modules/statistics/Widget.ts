@@ -26,5 +26,7 @@ export interface ChartWidget {
 	title: string;
 	x: number;
 	y: number;
+	cols: number;
+	rows: number;
 	settings?: Record<string, unknown>;
 }
