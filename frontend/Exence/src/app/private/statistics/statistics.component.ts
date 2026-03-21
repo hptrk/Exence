@@ -3,7 +3,6 @@ import { ChartWidget, StatCardWidget } from '../../data-model/modules/statistics
 import { ChartWidgetListComponent } from './chart-widget-list/chart-widget-list.component';
 import { StatCardListComponent } from './stat-card-list/stat-card-list.component';
 import { StatisticService } from './statistic.service';
-import { StatCardListComponent } from './stat-card-list/stat-card-list.component';
 
 @Component({
 	selector: 'ex-statistics',
