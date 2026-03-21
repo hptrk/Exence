@@ -1,11 +1,13 @@
 import { Component, computed, inject, input, viewChild } from '@angular/core';
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
+import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
+import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogService } from '../../../shared/dialog/dialog.service';
+import { EditChartDialogComponent } from '../edit-chart-dialog/edit-chart-dialog.component';
 import { StatCardComponent } from '../stat-card/stat-card.component';
 import { WidgetStore } from '../widget.store';
-import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
-import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 
 interface StatCardGridsterInfo {
 	id: number;
@@ -18,6 +20,7 @@ interface StatCardGridsterInfo {
 	x: number;
 	y: number;
 	cardData: StatCardWidget;
+	settings?: Record<string, unknown>;
 }
 
 @Component({
@@ -28,6 +31,7 @@ interface StatCardGridsterInfo {
 })
 export class StatCardListComponent {
 	private readonly store = inject(WidgetStore);
+	private readonly dialog = inject(DialogService);
 
 	data = input.required<StatCardWidget[]>();
 	editing = input.required<boolean>();
@@ -72,6 +76,20 @@ export class StatCardListComponent {
 			cardData: card,
 		})),
 	);
+
+	async openEditWidgetDialog(card: StatCardGridsterInfo): Promise<void> {
+		const result = await this.dialog.openNonModal(
+			EditChartDialogComponent,
+			{
+				title: card.title,
+				type: card.type,
+				settings: { ...card.settings },
+			},
+			undefined,
+		);
+		if (!result) return;
+		this.store.applyChangesOnWidget(card.cardData, result);
+	}
 
 	deleteCard(card: StatCardGridsterInfo): void {
 		this.store.deleteWidget(card.cardData);

@@ -7,7 +7,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { WIDGET_CATALOG, WidgetCatalogItem } from '../../../data-model/modules/statistics/widget-config.model';
 import { ButtonComponent } from '../../../shared/button/button.component';
-import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogComponent, DialogRef } from '../../../shared/dialog/dialog.service';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
@@ -28,7 +27,6 @@ import { toRawValueSignal } from '../../../shared/util/utils';
 		DialogCardComponent,
 		ButtonComponent,
 		InfoButtonComponent,
-		ConfirmExitDialogDirective,
 	],
 })
 export class WidgetCatalogDialogComponent extends DialogComponent<void, WidgetCatalogItem | null> {
@@ -38,17 +36,15 @@ export class WidgetCatalogDialogComponent extends DialogComponent<void, WidgetCa
 	readonly catalog = WIDGET_CATALOG;
 
 	selectedTabIndex = 0;
-	form = this.fb.group({
-		selectedWidget: this.fb.control<WidgetCatalogItem | null>(null, [Validators.required]),
-	});
-	formValueSignal = toRawValueSignal(this.form);
+	selectedWidget = this.fb.control<WidgetCatalogItem | null>(null, [Validators.required]);
+	selectedWidgetValue = toRawValueSignal(this.selectedWidget);
 
 	constructor() {
 		super(inject(DialogRef));
 	}
 
 	create(): void {
-		const selected = this.formValueSignal().selectedWidget;
+		const selected = this.selectedWidgetValue();
 		if (!selected) return;
 		this.dialogRef.close(selected);
 	}

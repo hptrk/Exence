@@ -10,6 +10,7 @@
 					<ex-button matIcon="drag_indicator" iconButton class="dragger" />
 					<div class="d-flex flex-column gap-2 position-absolute chart-modification-buttons">
 						<ex-button matIcon="delete" (click)="deleteCard(card)" primaryIconButton color="error" />
+						<ex-button matIcon="edit" (click)="openEditWidgetDialog(card)" primaryIconButton />
 					</div>
 				}
 				<ex-stat-card [widget]="card.cardData" />

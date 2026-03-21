@@ -2,7 +2,9 @@ import { Component, effect, inject, input, signal, viewChild } from '@angular/co
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { DialogService } from '../../../shared/dialog/dialog.service';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
+import { EditChartDialogComponent } from '../edit-chart-dialog/edit-chart-dialog.component';
 import { WidgetStore } from '../widget.store';
 
 @Component({
@@ -13,6 +15,7 @@ import { WidgetStore } from '../widget.store';
 })
 export class ChartWidgetListComponent {
 	private readonly store = inject(WidgetStore);
+	private readonly dialog = inject(DialogService);
 
 	data = input.required<ChartWidget[]>();
 	editing = input.required<boolean>();
@@ -63,6 +66,20 @@ export class ChartWidgetListComponent {
 				resizable: { ...currOptions.resizable, enabled: this.editing() },
 			}));
 		});
+	}
+
+	async openEditWidgetDialog(widget: ChartWidget): Promise<void> {
+		const result = await this.dialog.openNonModal(
+			EditChartDialogComponent,
+			{
+				title: widget.title,
+				type: widget.type,
+				settings: { ...widget.settings },
+			},
+			undefined,
+		);
+		if (!result) return;
+		this.store.applyChangesOnWidget(widget, result);
 	}
 
 	deleteWidget(widget: ChartWidget): void {

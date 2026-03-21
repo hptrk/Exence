@@ -69,6 +69,21 @@ export const WidgetStore = signalStore(
 			});
 		},
 
+		applyChangesOnWidget(widget: ChartWidget | StatCardWidget, title: string): void {
+			const isStatCard = 'displayOrder' in widget;
+			const statCards = isStatCard
+				? store.statCards().map(card => (card.id === widget.id ? { ...card, title } : card))
+				: store.statCards();
+			const charts = isStatCard
+				? store.charts()
+				: store.charts().map(chart => (chart.id === widget.id ? { ...chart, title } : chart));
+
+			patchState(store, {
+				statCards,
+				charts,
+			});
+		},
+
 		cancelLayout(): void {
 			store.layoutResource.reload();
 		},
@@ -77,6 +92,7 @@ export const WidgetStore = signalStore(
 			const request: UpdateLayoutRequest = {
 				statCards: store.statCards().map((c, i) => ({ id: c.id, displayOrder: i })),
 
+				// TODO: for edit save add title and other things to be saved
 				charts: store.charts().map(c => ({
 					id: c.id,
 					x: c.x,
