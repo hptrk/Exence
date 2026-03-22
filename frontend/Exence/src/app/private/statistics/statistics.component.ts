@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, effect, inject, signal, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { mapToExChartType, WidgetCatalogItem } from '../../data-model/modules/statistics/widget-config.model';
@@ -14,6 +14,7 @@ import {
 	WidgetCatalogDialogData,
 } from './widget-catalog-dialog/widget-catalog-dialog.component';
 import { WidgetStore } from './widget.store';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
 	selector: 'ex-statistics',
@@ -34,12 +35,21 @@ import { WidgetStore } from './widget.store';
 })
 export class StatisticsComponent implements HasChangesComponent {
 	private readonly dialog = inject(DialogService);
+	private readonly snackbarService = inject(SnackbarService);
 	readonly store = inject(WidgetStore);
 
 	private readonly chartWidgetList = viewChild.required(ChartWidgetListComponent);
 	private readonly statCardList = viewChild.required(StatCardListComponent);
 
 	editing = signal<boolean>(false);
+
+	constructor() {
+		effect(() => {
+			if (this.editing()) {
+				this.snackbarService.showInfo('Some changes might not be visible until you have saved changes.');
+			}
+		});
+	}
 
 	hasChanges(): boolean {
 		return this.editing();

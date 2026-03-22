@@ -47,7 +47,7 @@ export class StatCardListComponent {
 		gridType: GridType.VerticalFixed,
 		displayGrid: DisplayGrid.None,
 		mobileBreakpoint: 0,
-		fixedRowHeight: 250,
+		fixedRowHeight: 175,
 		maxCols: this.colCount(),
 		minCols: this.colCount(),
 		maxRows: 1,
