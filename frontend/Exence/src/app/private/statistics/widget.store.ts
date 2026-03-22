@@ -7,8 +7,10 @@ import { mapToExChartType, WidgetCatalogItem } from '../../data-model/modules/st
 import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
 import { StatisticService } from './statistic.service';
 
+export type StatCardGridsterItem = StatCardWidget & { x: number; y: number; cols: number; rows: number };
+
 export interface WidgetLayoutState {
-	statCards: StatCardWidget[];
+	statCards: StatCardGridsterItem[];
 	charts: ChartWidget[];
 }
 
@@ -25,7 +27,7 @@ export const WidgetStore = signalStore(
 			loader: async () => {
 				const { statCards, charts } = await statisticService.getLayout();
 				patchState(store, {
-					statCards,
+					statCards: statCards.map(c => ({ ...c, x: c.displayOrder, y: 0, cols: 1, rows: 1 })),
 					charts,
 				});
 			},
@@ -53,14 +55,19 @@ export const WidgetStore = signalStore(
 			const { statCards, charts } = await statisticService.createWidget(request);
 
 			patchState(store, {
-				statCards,
+				statCards: statCards.map(c => ({ ...c, x: c.displayOrder, y: 0, cols: 1, rows: 1 })),
 				charts,
 			});
 		},
 
-		deleteWidget(widget: StatCardWidget | ChartWidget): void {
+		deleteWidget(widget: StatCardGridsterItem | ChartWidget): void {
 			const isStatCard = 'displayOrder' in widget;
-			const statCards = isStatCard ? store.statCards().filter(card => card.id !== widget.id) : store.statCards();
+			const statCards = isStatCard
+				? store
+						.statCards()
+						.filter(card => card.id !== widget.id)
+						.map((card, i) => ({ ...card, x: i }))
+				: store.statCards();
 			const charts = isStatCard ? store.charts() : store.charts().filter(chart => chart.id !== widget.id);
 
 			patchState(store, {
@@ -69,7 +76,7 @@ export const WidgetStore = signalStore(
 			});
 		},
 
-		applyChangesOnWidget(widget: ChartWidget | StatCardWidget, title: string): void {
+		applyChangesOnWidget(widget: ChartWidget | StatCardGridsterItem, title: string): void {
 			const isStatCard = 'displayOrder' in widget;
 			const statCards = isStatCard
 				? store.statCards().map(card => (card.id === widget.id ? { ...card, title } : card))
@@ -90,7 +97,7 @@ export const WidgetStore = signalStore(
 
 		async saveLayout(): Promise<void> {
 			const request: UpdateLayoutRequest = {
-				statCards: store.statCards().map((c, i) => ({ id: c.id, displayOrder: i })),
+				statCards: store.statCards().map(c => ({ id: c.id, displayOrder: c.x })),
 
 				// TODO: for edit save add title and other things to be saved
 				charts: store.charts().map(c => ({
