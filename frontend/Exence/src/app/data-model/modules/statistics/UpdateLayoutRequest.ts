@@ -1,7 +1,10 @@
-import { ChartLayoutItem } from './ChartLayoutItem';
-import { StatCardLayoutItem } from './StatCardLayoutItem';
+import { ChartLayoutItemRequest } from './ChartLayoutItemRequest';
+import { StatCardLayoutItemRequest } from './StatCardLayoutItemRequest';
+import { WidgetSetting } from './WidgetSetting';
 
 export interface UpdateLayoutRequest {
-	statCards: StatCardLayoutItem[];
-	charts: ChartLayoutItem[];
+	statCards: StatCardLayoutItemRequest[];
+	charts: ChartLayoutItemRequest[];
+	updateSettings?: Record<WidgetSetting, unknown>;
+	title?: string;
 }

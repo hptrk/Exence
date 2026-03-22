@@ -1,4 +1,4 @@
-export interface ChartLayoutItem {
+export interface ChartLayoutItemRequest {
 	id: number;
 	x: number;
 	y: number;
