@@ -3,8 +3,10 @@ package com.exence.finance.modules.category.repository;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.dto.CategoryType;
 import com.exence.finance.modules.category.entity.Category;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c WHERE c.id = :id")
     Optional<Category> find(Long id);
+
+    @Query("SELECT c.id FROM Category c WHERE c.id IN :ids")
+    Set<Long> findExistingIds(@Param("ids") Collection<Long> ids);
 
     @Query(
             """

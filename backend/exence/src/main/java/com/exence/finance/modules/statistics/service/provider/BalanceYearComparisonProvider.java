@@ -1,13 +1,15 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
-import com.exence.finance.modules.statistics.dto.projection.MonthlyBalanceProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.MonthlyBalanceResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import java.time.YearMonth;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -23,7 +25,8 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
 
     private static final int MONTHS_IN_YEAR = 12;
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -32,11 +35,11 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
 
     @Override
     public SeriesPayload getData(WidgetRequest request) {
-        List<MonthlyBalanceProjection> results =
-                statisticsRepository.findMonthlyBalance(request.startDate(), request.endDate());
+        StatisticsFilter filter = filterFactory.fromRequest(request);
+        List<MonthlyBalanceResult> results = statisticsQueryService.findMonthlyBalance(filter);
 
         Set<Integer> years = results.stream()
-                .map(MonthlyBalanceProjection::getStatYear)
+                .map(MonthlyBalanceResult::statYear)
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         List<SeriesItem> series = years.stream()
@@ -47,7 +50,7 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
                                     ProviderHelper.getAmount(
                                             results,
                                             YearMonth.of(year, monthNumber),
-                                            MonthlyBalanceProjection::getTotalAmount),
+                                            MonthlyBalanceResult::totalAmount),
                                     null))
                             .toList();
                     return new SeriesItem(String.valueOf(year), "line", null, points);

@@ -10,11 +10,11 @@ import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
 import com.exence.finance.modules.statistics.dto.payload.Trend;
-import com.exence.finance.modules.statistics.dto.projection.CategoryAmountProjection;
-import com.exence.finance.modules.statistics.dto.projection.MonthlyCategoryProjection;
-import com.exence.finance.modules.statistics.dto.projection.TypeAmountProjection;
-import com.exence.finance.modules.statistics.dto.projection.base.CategoryProjection;
-import com.exence.finance.modules.statistics.dto.projection.base.MonthlyProjection;
+import com.exence.finance.modules.statistics.dto.result.CategoryAmountResult;
+import com.exence.finance.modules.statistics.dto.result.CategoryResult;
+import com.exence.finance.modules.statistics.dto.result.MonthlyCategoryResult;
+import com.exence.finance.modules.statistics.dto.result.MonthlyResult;
+import com.exence.finance.modules.statistics.dto.result.TypeAmountResult;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -41,7 +41,7 @@ public class ProviderHelper {
     // --- BUILDERS ---
 
     public SeriesPayload buildMonthlyCategorySeriesPayload(
-            List<MonthlyCategoryProjection> results, List<YearMonth> months, String seriesType, String totalColor) {
+            List<MonthlyCategoryResult> results, List<YearMonth> months, String seriesType, String totalColor) {
         Map<String, String> colors = getCategoryColorMap(results);
 
         // main series for each category
@@ -60,9 +60,8 @@ public class ProviderHelper {
             List<DataPoint> totalPoints = months.stream()
                     .map(month -> {
                         BigDecimal total = results.stream()
-                                .filter(r ->
-                                        r.getStatYear() == month.getYear() && r.getStatMonth() == month.getMonthValue())
-                                .map(MonthlyCategoryProjection::getTotalAmount)
+                                .filter(r -> r.statYear() == month.getYear() && r.statMonth() == month.getMonthValue())
+                                .map(MonthlyCategoryResult::totalAmount)
                                 .reduce(BigDecimal.ZERO, BigDecimal::add);
                         return new DataPoint(month.toString(), total, null);
                     })
@@ -73,46 +72,42 @@ public class ProviderHelper {
         return new SeriesPayload(series);
     }
 
-    public DistributionPayload buildCategoryAmountDistributionPayload(List<CategoryAmountProjection> results) {
+    public DistributionPayload buildCategoryAmountDistributionPayload(List<CategoryAmountResult> results) {
         List<DistributionItem> items = results.stream()
-                .map(r -> new DistributionItem(r.getCategoryName(), r.getTotalAmount(), r.getCategoryColor()))
+                .map(r -> new DistributionItem(r.categoryName(), r.totalAmount(), r.categoryColor()))
                 .toList();
         return new DistributionPayload(items);
     }
 
     // --- UTILITIES ---
 
-    public <T extends MonthlyProjection> Optional<T> findByMonth(List<T> results, YearMonth month) {
+    public <T extends MonthlyResult> Optional<T> findByMonth(List<T> results, YearMonth month) {
         return results.stream()
-                .filter(r -> r.getStatYear() == month.getYear() && r.getStatMonth() == month.getMonthValue())
+                .filter(r -> r.statYear() == month.getYear() && r.statMonth() == month.getMonthValue())
                 .findFirst();
     }
 
-    public <T extends MonthlyProjection> BigDecimal getAmount(
+    public <T extends MonthlyResult> BigDecimal getAmount(
             List<T> results, YearMonth month, Function<T, BigDecimal> extractor) {
         return findByMonth(results, month).map(extractor).orElse(BigDecimal.ZERO);
     }
 
-    public <T extends CategoryProjection> Set<String> getCategories(List<T> results) {
-        return results.stream().map(CategoryProjection::getCategoryName).collect(Collectors.toSet());
+    public <T extends CategoryResult> Set<String> getCategories(List<T> results) {
+        return results.stream().map(CategoryResult::categoryName).collect(Collectors.toSet());
     }
 
-    public <T extends CategoryProjection> Map<String, String> getCategoryColorMap(List<T> results) {
+    public <T extends CategoryResult> Map<String, String> getCategoryColorMap(List<T> results) {
         return results.stream()
                 .collect(Collectors.toMap(
-                        CategoryProjection::getCategoryName,
-                        CategoryProjection::getCategoryColor,
-                        (a, b) -> a,
-                        LinkedHashMap::new));
+                        CategoryResult::categoryName, CategoryResult::categoryColor, (a, b) -> a, LinkedHashMap::new));
     }
 
-    public BigDecimal getCategoryAmountForMonth(
-            List<MonthlyCategoryProjection> results, String category, YearMonth month) {
+    public BigDecimal getCategoryAmountForMonth(List<MonthlyCategoryResult> results, String category, YearMonth month) {
         return results.stream()
-                .filter(r -> r.getCategoryName().equals(category)
-                        && r.getStatYear() == month.getYear()
-                        && r.getStatMonth() == month.getMonthValue())
-                .map(MonthlyCategoryProjection::getTotalAmount)
+                .filter(r -> r.categoryName().equals(category)
+                        && r.statYear() == month.getYear()
+                        && r.statMonth() == month.getMonthValue())
+                .map(MonthlyCategoryResult::totalAmount)
                 .findFirst()
                 .orElse(BigDecimal.ZERO);
     }
@@ -199,18 +194,8 @@ public class ProviderHelper {
         return Trend.NEUTRAL;
     }
 
-    public Map<TransactionType, BigDecimal> toTypeAmountMap(List<TypeAmountProjection> projections) {
-        return projections.stream()
-                .collect(Collectors.toMap(TypeAmountProjection::getType, TypeAmountProjection::getTotalAmount));
-    }
-
-    public BigDecimal calculatePercentage(BigDecimal part, BigDecimal total) {
-        if (total.compareTo(BigDecimal.ZERO) == 0) {
-            return BigDecimal.ZERO;
-        }
-        return part.divide(total, DIVISION_SCALE, RoundingMode.HALF_UP)
-                .multiply(BigDecimal.valueOf(PERCENTAGE_MULTIPLIER))
-                .setScale(1, RoundingMode.HALF_UP);
+    public Map<TransactionType, BigDecimal> toTypeAmountMap(List<TypeAmountResult> projections) {
+        return projections.stream().collect(Collectors.toMap(TypeAmountResult::type, TypeAmountResult::totalAmount));
     }
 
     public String getUnitLabel(Number value, String singular, String plural) {

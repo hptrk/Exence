@@ -3,7 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class SavingsRateStatCardProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -31,7 +33,7 @@ public final class SavingsRateStatCardProvider implements WidgetDataProvider {
 
     private BigDecimal calculateSavingsRate(Instant start, Instant end) {
         Map<TransactionType, BigDecimal> sums =
-                ProviderHelper.toTypeAmountMap(statisticsRepository.sumByType(start, end));
+                ProviderHelper.toTypeAmountMap(statisticsQueryService.sumByType(filterFactory.forPeriod(start, end)));
         return ProviderHelper.calculateSavingsRate(
                 sums.getOrDefault(TransactionType.INCOME, BigDecimal.ZERO),
                 sums.getOrDefault(TransactionType.EXPENSE, BigDecimal.ZERO));

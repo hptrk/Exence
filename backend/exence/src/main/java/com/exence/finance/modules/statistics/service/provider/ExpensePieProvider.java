@@ -1,10 +1,12 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DistributionPayload;
-import com.exence.finance.modules.statistics.dto.projection.CategoryAmountProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.CategoryAmountResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class ExpensePieProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -23,8 +26,8 @@ public final class ExpensePieProvider implements WidgetDataProvider {
 
     @Override
     public DistributionPayload getData(WidgetRequest request) {
-        List<CategoryAmountProjection> results = statisticsRepository.findCategoryStatsAmount(
-                request.startDate(), request.endDate(), TransactionType.EXPENSE);
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
+        List<CategoryAmountResult> results = statisticsQueryService.findCategoryStatsAmount(filter);
 
         return ProviderHelper.buildCategoryAmountDistributionPayload(results);
     }

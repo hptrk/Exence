@@ -1,10 +1,12 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
-import com.exence.finance.modules.statistics.dto.projection.CategoryAmountProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.CategoryAmountResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class TopIncomeCategoryStatCardProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -23,25 +26,26 @@ public final class TopIncomeCategoryStatCardProvider implements WidgetDataProvid
 
     @Override
     public StatCardPayload getData(WidgetRequest request) {
-        CategoryAmountProjection top = statisticsRepository.findTopCategoryByType(
-                request.startDate(), request.endDate(), TransactionType.INCOME);
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.INCOME);
+        CategoryAmountResult top = statisticsQueryService.findTopCategoryByType(filter);
 
         if (top == null) {
             return new StatCardPayload(BigDecimal.ZERO, null, "No transactions", null, null, null, null);
         }
 
-        TrendResult trend = ProviderHelper.computeTrend(request, top.getTotalAmount(), (s, e) -> {
-            CategoryAmountProjection prev = statisticsRepository.findTopCategoryByType(s, e, TransactionType.INCOME);
-            return prev != null ? prev.getTotalAmount() : BigDecimal.ZERO;
+        TrendResult trend = ProviderHelper.computeTrend(request, top.totalAmount(), (s, e) -> {
+            CategoryAmountResult prev = statisticsQueryService.findTopCategoryByType(
+                    filterFactory.fromRequest(request.withDates(s, e), TransactionType.INCOME));
+            return prev != null ? prev.totalAmount() : BigDecimal.ZERO;
         });
 
         return new StatCardPayload(
-                top.getTotalAmount(),
+                top.totalAmount(),
                 null,
-                top.getCategoryName(),
+                top.categoryName(),
                 trend.changePercentage(),
                 trend.trend(),
-                top.getCategoryIcon(),
-                top.getCategoryColor());
+                top.categoryIcon(),
+                top.categoryColor());
     }
 }

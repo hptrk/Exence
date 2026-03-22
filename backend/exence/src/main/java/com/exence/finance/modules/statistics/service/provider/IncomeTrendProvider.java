@@ -2,12 +2,14 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import static com.exence.finance.common.util.DateUtils.toDisplayDate;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class IncomeTrendProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -26,12 +29,10 @@ public final class IncomeTrendProvider implements WidgetDataProvider {
 
     @Override
     public SeriesPayload getData(WidgetRequest request) {
-        List<DataPoint> dataPoints =
-                statisticsRepository
-                        .findDailyTrendByType(request.startDate(), request.endDate(), TransactionType.INCOME)
-                        .stream()
-                        .map(p -> new DataPoint(toDisplayDate(p.getStatDate()), p.getTotalAmount(), null))
-                        .toList();
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.INCOME);
+        List<DataPoint> dataPoints = statisticsQueryService.findDailyTrendByType(filter).stream()
+                .map(p -> new DataPoint(toDisplayDate(p.statDate()), p.totalAmount(), null))
+                .toList();
 
         SeriesItem series = new SeriesItem("Income", "area", null, dataPoints);
         return new SeriesPayload(List.of(series));
