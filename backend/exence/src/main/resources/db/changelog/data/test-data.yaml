@@ -5298,6 +5298,17 @@ databaseChangeLog:
               - column: { name: created_at, valueComputed: "${now}" }
               - column: { name: created_by, value: 'captainwinnie@exence.com' }
 
+        # User Settings
+        - insert:
+            tableName: user_settings
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: language, value: 'en' }
+              - column: { name: primary_theme, value: 'DARK' }
+              - column: { name: secondary_theme, value: 'BLUE_DOLPHIN' }
+              - column: { name: base_currency, value: 'HUF' }
+
         # Widgets
         - insert:
             tableName: widget
@@ -5430,6 +5441,8 @@ databaseChangeLog:
             sql: SELECT setval('email_log_id_seq', (SELECT COALESCE(MAX(id), 1) FROM email_log));
         - sql:
             sql: SELECT setval('password_history_id_seq', (SELECT COALESCE(MAX(id), 1) FROM password_history));
+        - sql:
+            sql: SELECT setval('user_settings_id_seq', (SELECT COALESCE(MAX(id), 1) FROM user_settings));
         - sql:
             sql: SELECT setval('widget_id_seq', (SELECT COALESCE(MAX(id), 1) FROM widget));
 

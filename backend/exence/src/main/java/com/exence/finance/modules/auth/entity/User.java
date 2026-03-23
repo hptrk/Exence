@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -38,10 +39,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @EqualsAndHashCode(
         callSuper = false,
-        exclude = {"transactions", "categories", "tokens", "emailLogs", "passwordHistories"})
+        exclude = {"transactions", "categories", "tokens", "emailLogs", "passwordHistories", "settings"})
 @ToString(
         callSuper = true,
-        exclude = {"transactions", "categories", "tokens", "password", "emailLogs", "passwordHistories"})
+        exclude = {"transactions", "categories", "tokens", "password", "emailLogs", "passwordHistories", "settings"})
 @Table(name = "_user")
 public class User implements UserDetails {
 
@@ -84,6 +85,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<PasswordHistory> passwordHistories;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private UserSettings settings;
 
     // Spring Security UserDetails implementation
     @Override

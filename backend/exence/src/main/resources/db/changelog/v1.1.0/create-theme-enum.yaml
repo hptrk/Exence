@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-theme-enum
+      author: hptrk
+      comment: Create native PostgreSQL enum type for theme
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE theme AS ENUM ('LIGHT', 'DARK', 'BLUE_DOLPHIN')
