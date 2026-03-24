@@ -66,7 +66,10 @@ export interface WidgetCatalogDialogResult {
 		SelectAutoFocusDirective,
 	],
 })
-export class WidgetCatalogDialogComponent extends DialogComponent<WidgetCatalogDialogData, WidgetCatalogDialogResult | null> {
+export class WidgetCatalogDialogComponent extends DialogComponent<
+	WidgetCatalogDialogData,
+	WidgetCatalogDialogResult | null
+> {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
 	readonly themeService = inject(DisplayThemeService);
