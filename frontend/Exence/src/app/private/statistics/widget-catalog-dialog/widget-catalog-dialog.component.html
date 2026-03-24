@@ -2,57 +2,77 @@
 	<div ex-dialog-card-title>Add a new chart</div>
 
 	<div ex-dialog-card-content class="h-100">
-		<div class="h-100">
-			<mat-tab-group
-				animationDuration="0ms"
-				mat-stretch-tabs="true"
-				[(selectedIndex)]="selectedTabIndex"
-				dynamicHeight="false"
-				class="h-100"
-			>
-				@for (catalogGroup of catalog; track catalogGroup.group) {
-					<mat-tab [label]="catalogGroup.label">
-						<div class="catalog-widget-grid px-3 pt-1">
-							@for (widget of catalogGroup.widgets; track widget.type) {
-								@let selected = selectedWidgetValue()?.type === widget.type;
-								@let statCardSelectionDisabled =
-									cardTypes.includes(widget.type) && data.statCards.length === 4;
-								<mat-card
-									[matTooltip]="widget.title"
-									[class.selected]="selected"
-									[matTooltip]="
-										statCardSelectionDisabled
-											? 'Maximum number of stat cards (4) on the layout have been reached.'
-											: ''
-									"
-									[class.disabled]="statCardSelectionDisabled"
-									(click)="selectWidget(widget)"
-								>
-									<mat-card-content class="position-relative pointer-cursor overflow-x-hidden">
-										<h3 class="fs-5">{{ widget.title }}</h3>
-										<img
-											[src]="`assets/catalog/${widget.imgUrl.toUpperCase()}_${themeService.displayThemeSignal().toUpperCase()}.png`"
-										/>
-										<ex-info-button [tooltip]="widget.info" />
-									</mat-card-content>
-								</mat-card>
-							}
-						</div>
-					</mat-tab>
-				}
-			</mat-tab-group>
-		</div>
+		<mat-stepper [animationDuration]="'500ms'">
+			<mat-step label="Select type" state="type">
+				<mat-tab-group
+					animationDuration="0ms"
+					mat-stretch-tabs="true"
+					[(selectedIndex)]="selectedTabIndex"
+					dynamicHeight="false"
+					class="h-100"
+				>
+					@for (catalogGroup of catalog; track catalogGroup.group) {
+						<mat-tab [label]="catalogGroup.label">
+							<div class="catalog-widget-grid px-3 pt-1">
+								@for (widget of catalogGroup.widgets; track widget.type) {
+									@let selected = selectedWidgetValue()?.type === widget.type;
+									@let statCardSelectionDisabled =
+										cardTypes.includes(widget.type) && data.statCards.length === 4;
+									<mat-card
+										[matTooltip]="widget.title"
+										[class.selected]="selected"
+										[matTooltip]="
+											statCardSelectionDisabled
+												? 'Maximum number of stat cards (4) on the layout have been reached.'
+												: ''
+										"
+										[class.disabled]="statCardSelectionDisabled"
+										(click)="selectWidget(widget)"
+									>
+										<mat-card-content class="position-relative pointer-cursor overflow-x-hidden">
+											<h3 class="fs-5">{{ widget.title }}</h3>
+											<img
+												[src]="`assets/catalog/${widget.imgUrl.toUpperCase()}_${themeService.displayThemeSignal().toUpperCase()}.png`"
+											/>
+											<ex-info-button [tooltip]="widget.info" />
+										</mat-card-content>
+									</mat-card>
+								}
+							</div>
+						</mat-tab>
+					}
+				</mat-tab-group>
+			</mat-step>
+
+			<mat-step label="Customize" state="customization">
+				<div>
+					<div>
+						<div>HELLO WORLD</div>
+					</div>
+				</div>
+			</mat-step>
+		</mat-stepper>
 	</div>
 
 	<div
 		ex-dialog-card-actions
 		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100 mt-4"
 	>
-		<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>Cancel</ex-button>
-		<div [matTooltip]="selectedWidget.invalid ? 'Select a widget type before creation!' : ''">
-			<ex-button filled color="primary" matIcon="add" [disabled]="selectedWidget.invalid" (click)="create()">
-				Create
-			</ex-button>
-		</div>
+		<ex-button filled color="accent" matIcon="chevron_left" (click)="previousStep()">Back</ex-button>
+		@if (isLastStep()) {
+			<ex-button filled color="primary" matIcon="check" iconPositionEnd (click)="create()">Create</ex-button>
+		} @else {
+			<div [matTooltip]="selectedWidget.invalid ? 'Select a widget type before creation!' : ''">
+				<ex-button
+					filled
+					color="primary"
+					matIcon="chevron_right"
+					iconPositionEnd
+					[disabled]="selectedWidget.invalid"
+					(click)="nextStep()"
+					>Next</ex-button
+				>
+			</div>
+		}
 	</div>
 </ex-dialog-card>

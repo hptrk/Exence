@@ -16,6 +16,10 @@ mat-card.disabled {
 	mat-card-content {
 		cursor: not-allowed;
 	}
+
+	ex-info-button {
+		pointer-events: none;
+	}
 }
 
 img {
