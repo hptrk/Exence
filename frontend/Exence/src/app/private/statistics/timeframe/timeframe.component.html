@@ -1,0 +1,9 @@
+<mat-button-toggle-group
+	[value]="selectedTimeframe()"
+	(change)="selectedTimeframe.set($event.value)"
+	hideSingleSelectionIndicator
+>
+	@for (timeframe of Timeframe | enumValue; track timeframe) {
+		<mat-button-toggle [value]="timeframe">{{ timeframe }}</mat-button-toggle>
+	}
+</mat-button-toggle-group>

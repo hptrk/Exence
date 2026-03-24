@@ -31,8 +31,16 @@
 					[responsive]="data()?.responsive ?? []"
 				/>
 			} @else {
-				<ex-sankey-chart [widget]="this.widget()" />
+				<ex-sankey-chart [widget]="this.widget()" [timeframe]="timeframe()" />
 			}
 		}
 	</mat-card-content>
+
+	<mat-divider class="m-0" />
+
+	@if (showTimeframe()) {
+		<div class="my-2 pe-2 d-flex flex-row justify-content-start">
+			<ex-timeframe [(selectedTimeframe)]="timeframe" [style.pointer-events]="editing() ? 'none' : 'auto'" />
+		</div>
+	}
 </mat-card>
