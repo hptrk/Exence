@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, effect, inject, signal, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { mapToExChartType, WidgetCatalogItem } from '../../data-model/modules/statistics/widget-config.model';
+import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { HasChangesComponent } from '../../shared/auth/guard/has-changes.guard';
@@ -12,6 +12,7 @@ import { StatisticService } from './statistic.service';
 import {
 	WidgetCatalogDialogComponent,
 	WidgetCatalogDialogData,
+	WidgetCatalogDialogResult,
 } from './widget-catalog-dialog/widget-catalog-dialog.component';
 import { WidgetStore } from './widget.store';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
@@ -62,7 +63,7 @@ export class StatisticsComponent implements HasChangesComponent {
 	}
 
 	async openCatalog(): Promise<void> {
-		const result = await this.dialog.openNonModal<WidgetCatalogDialogData, WidgetCatalogItem | null>(
+		const result = await this.dialog.openNonModal<WidgetCatalogDialogData, WidgetCatalogDialogResult | null>(
 			WidgetCatalogDialogComponent,
 			{
 				statCards: this.store.statCards(),
@@ -75,7 +76,7 @@ export class StatisticsComponent implements HasChangesComponent {
 		);
 		if (!result) return;
 
-		const isStatCard = mapToExChartType(result.type) === 'statCard';
+		const isStatCard = mapToExChartType(result.catalogItem.type) === 'statCard';
 		const nextFreePosition = isStatCard
 			? this.statCardList().getFirstPossiblePosition()
 			: this.chartWidgetList().getFirstPossiblePosition();

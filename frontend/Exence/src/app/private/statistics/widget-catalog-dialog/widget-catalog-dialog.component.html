@@ -13,7 +13,7 @@
 				>
 					@for (catalogGroup of catalog; track catalogGroup.group) {
 						<mat-tab [label]="catalogGroup.label">
-							<div class="catalog-widget-grid px-3 pt-1">
+							<div class="catalog-widget-grid px-3 py-1">
 								@for (widget of catalogGroup.widgets; track widget.type) {
 									@let selected = selectedWidgetValue()?.type === widget.type;
 									@let statCardSelectionDisabled =
@@ -45,10 +45,48 @@
 			</mat-step>
 
 			<mat-step label="Customize" state="customization">
-				<div>
-					<div>
-						<div>HELLO WORLD</div>
-					</div>
+				<div class="d-flex flex-column gap-3 pt-3">
+					<mat-form-field>
+						<mat-label>Title</mat-label>
+						<input autoTrim matInput [formControl]="form.controls.title" />
+						<mat-error>
+							<ex-validator [control]="form.controls.title" />
+						</mat-error>
+					</mat-form-field>
+
+					@if (!isStatCard() && isCategoryFilterable()) {
+						@let categoryControls = form.controls.categories.controls;
+						<mat-form-field>
+							<mat-label>Categories</mat-label>
+							<mat-select
+								multiple
+								selectAutoFocus
+								[focusedInput]="searchCategoryInput"
+								[formControl]="categoryControls.selectedCategories"
+								(closed)="categoryControls.searchText.reset()"
+							>
+								<mat-form-field subscriptSizing="dynamic" class="search-with-select">
+									<mat-label>Search</mat-label>
+									<input
+										autoTrim
+										matInput
+										[formControl]="categoryControls.searchText"
+										#searchCategoryInput
+									/>
+									<ex-input-clear [control]="categoryControls.searchText" />
+									<mat-error>
+										<ex-validator [control]="categoryControls.searchText" />
+									</mat-error>
+								</mat-form-field>
+								@for (category of filteredCategories(); track category.id) {
+									<mat-option [value]="category">
+										<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
+										{{ category.name }}
+									</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					}
 				</div>
 			</mat-step>
 		</mat-stepper>

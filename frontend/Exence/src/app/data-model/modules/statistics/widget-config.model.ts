@@ -1,3 +1,4 @@
+import { CategoryType } from '../category/CategoryType';
 import { ExChartType } from './ChartType';
 
 // name of each individual chart (can be multiple of a chart type - 3 bar charts with different data)
@@ -466,3 +467,34 @@ export const WIDGET_CATALOG: WidgetCatalogData[] = GROUP_ORDER.map(group => ({
 	label: GROUP_LABELS[group],
 	widgets: GROUP_WIDGET_TYPES[group].map(groupType => WIDGET_METADATA[groupType]),
 }));
+
+export const WIDGET_CATEGORY_TYPES: Partial<Record<WidgetType, CategoryType[]>> = {
+	[WidgetType.INCOME_TREND]: [CategoryType.INCOME],
+	[WidgetType.EXPENSE_TREND]: [CategoryType.EXPENSE],
+	[WidgetType.BALANCE_TREND]: [],
+	[WidgetType.INCOME_CATEGORY_TREND]: [CategoryType.INCOME],
+	[WidgetType.EXPENSE_CATEGORY_TREND]: [CategoryType.EXPENSE],
+	[WidgetType.BALANCE_YEAR_COMPARISON]: [],
+	[WidgetType.INCOME_EXPENSE_COLUMN]: [],
+	[WidgetType.EXPENSE_CATEGORY_COLUMN]: [CategoryType.EXPENSE],
+	[WidgetType.MONTHLY_BALANCE_COLUMN]: [],
+	[WidgetType.EXPENSE_SAVINGS_COMBO]: [],
+	[WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO]: [],
+	[WidgetType.WEALTH_GROWTH_COMBO]: [],
+	[WidgetType.EXPENSE_PIE]: [CategoryType.EXPENSE],
+	[WidgetType.INCOME_PIE]: [CategoryType.INCOME],
+	[WidgetType.SPENDING_RADAR]: [CategoryType.EXPENSE],
+	[WidgetType.MONTHLY_CATEGORY_RADAR]: [],
+	[WidgetType.CATEGORY_AVG_POLAR]: [CategoryType.EXPENSE],
+	[WidgetType.MONTHLY_PEAK_POLAR]: [CategoryType.EXPENSE],
+	[WidgetType.CATEGORY_BUBBLE]: [],
+	[WidgetType.TRANSACTION_SCATTER]: [],
+	[WidgetType.SPENDING_HEATMAP]: [CategoryType.EXPENSE],
+	[WidgetType.CATEGORY_TREEMAP]: [],
+	[WidgetType.CATEGORY_BOXPLOT]: [],
+	[WidgetType.MONTHLY_BOXPLOT]: [],
+	[WidgetType.YEARLY_SLOPE]: [],
+	[WidgetType.CATEGORY_SANKEY]: [],
+};
+
+export const CATEGORY_FILTERABLE_WIDGET_TYPES: WidgetType[] = Object.keys(WIDGET_CATEGORY_TYPES) as WidgetType[];

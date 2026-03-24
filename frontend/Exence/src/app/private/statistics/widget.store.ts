@@ -3,9 +3,11 @@ import { patchState, signalStore, withMethods, withProps, withState } from '@ngr
 import { GridsterItemConfig } from 'angular-gridster2';
 import { UpdateLayoutRequest } from '../../data-model/modules/statistics/UpdateLayoutRequest';
 import { ChartWidget, StatCardWidget, Widget } from '../../data-model/modules/statistics/Widget';
-import { mapToExChartType, WidgetCatalogItem } from '../../data-model/modules/statistics/widget-config.model';
+import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
 import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
+import { WidgetSetting } from '../../data-model/modules/statistics/WidgetSetting';
 import { StatisticService } from './statistic.service';
+import { WidgetCatalogDialogResult } from './widget-catalog-dialog/widget-catalog-dialog.component';
 
 export type StatCardGridsterItem = StatCardWidget & { x: number; y: number; cols: number; rows: number };
 
@@ -35,13 +37,17 @@ export const WidgetStore = signalStore(
 	})),
 
 	withMethods((store, statisticService = inject(StatisticService)) => ({
-		async addWidget(item: WidgetCatalogItem, nextFreePosition: GridsterItemConfig | null): Promise<void> {
-			const isStatCard = mapToExChartType(item.type) === 'statCard';
+		async addWidget(
+			dialogResult: WidgetCatalogDialogResult,
+			nextFreePosition: GridsterItemConfig | null,
+		): Promise<void> {
+			const isStatCard = mapToExChartType(dialogResult.catalogItem.type) === 'statCard';
 
 			const request: Widget = {
-				type: item.type,
-				title: item.title,
+				type: dialogResult.catalogItem.type,
+				title: dialogResult.title,
 				timeframe: 'YTD',
+				settings: dialogResult.settings,
 			};
 			if (isStatCard) {
 				request.displayOrder = store.statCards().length;
@@ -97,15 +103,20 @@ export const WidgetStore = signalStore(
 
 		async saveLayout(): Promise<void> {
 			const request: UpdateLayoutRequest = {
-				statCards: store.statCards().map(c => ({ id: c.id, displayOrder: c.x })),
-
-				// TODO: for edit save add title and other things to be saved
+				statCards: store.statCards().map(c => ({
+					id: c.id,
+					displayOrder: c.x,
+					title: c.title,
+					settings: c.settings as Record<WidgetSetting, unknown>,
+				})),
 				charts: store.charts().map(c => ({
 					id: c.id,
 					x: c.x,
 					y: c.y,
 					cols: c.cols,
 					rows: c.rows,
+					title: c.title,
+					settings: c.settings as Record<WidgetSetting, unknown>,
 				})),
 			};
 
