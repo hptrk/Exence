@@ -101,3 +101,4 @@ src/app/
 - Use `computed()` signals for derived state rather than manual subscriptions
 - Import only what a standalone component directly uses
 - Feature-level stores are provided at the route level, not globally
+- Don't ever change the component encapsulation nor use ::ng-deep
