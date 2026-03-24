@@ -1,5 +1,37 @@
-<section class="d-flex flex-column h-100 justify-content-between p-2 pb-0 p-sm-3 p-md-4 gap-2 overflow-y-auto">
-	<ex-stat-card-list class="flex-shrink-0" [data]="statCards()" />
+<section class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 poisiton-relative" [class.gap-4]="editing()">
+	<ex-stat-card-list [data]="store.statCards()" [editing]="editing()" />
 
-	<ex-chart-widget-list class="flex-grow-1 flex-shrink-1" [data]="charts()" />
+	<ex-chart-widget-list [data]="store.charts()" [editing]="editing()" />
+
+	<ng-container [ngTemplateOutlet]="actionButtons" />
 </section>
+
+<mat-menu #actionsMenu>
+	<button mat-menu-item (click)="editing.set(true)">
+		<mat-icon>edit</mat-icon>
+		Edit layout
+	</button>
+	<button mat-menu-item (click)="openCatalog()">
+		<mat-icon>add</mat-icon>
+		Add widget
+	</button>
+</mat-menu>
+
+<ng-template #actionButtons>
+	<div class="action-buttons">
+		@if (editing()) {
+			<ex-button (click)="cancelLayout()" primaryIconButton color="primary" matIcon="close" size="md" rounded />
+			<ex-button (click)="saveLayout()" primaryIconButton color="primary" matIcon="check" size="lg" rounded />
+		} @else {
+			<ex-button
+				[matMenuTriggerFor]="actionsMenu"
+				primaryIconButton
+				color="primary"
+				matIcon="more_horiz"
+				class="edit-button"
+				size="lg"
+				rounded
+			/>
+		}
+	</div>
+</ng-template>

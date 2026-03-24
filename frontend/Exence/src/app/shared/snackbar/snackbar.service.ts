@@ -3,10 +3,10 @@ import { MatSnackBar, MatSnackBarConfig, SimpleSnackBar } from '@angular/materia
 import { SNACKBAR_DISMISS_DURATION, SnackbarComponent, SnackbarData } from './snackbar.component';
 
 export const enum SnackbarType {
-	Error,
-	Warning,
-	Info,
-	Success,
+	Error = 'error',
+	Warning = 'warning',
+	Info = 'info',
+	Success = 'success',
 }
 
 @Injectable({

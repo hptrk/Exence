@@ -1,0 +1,116 @@
+<ex-dialog-card class="h-100 gap-0">
+	<div ex-dialog-card-title>Add a new chart</div>
+
+	<div ex-dialog-card-content class="h-100">
+		<mat-stepper [animationDuration]="'500ms'">
+			<mat-step label="Select type" state="type">
+				<mat-tab-group
+					animationDuration="0ms"
+					mat-stretch-tabs="true"
+					[(selectedIndex)]="selectedTabIndex"
+					dynamicHeight="false"
+					class="h-100"
+				>
+					@for (catalogGroup of catalog; track catalogGroup.group) {
+						<mat-tab [label]="catalogGroup.label">
+							<div class="catalog-widget-grid px-3 py-1">
+								@for (widget of catalogGroup.widgets; track widget.type) {
+									@let selected = selectedWidgetValue()?.type === widget.type;
+									@let statCardSelectionDisabled =
+										cardTypes.includes(widget.type) && data.statCards.length === 4;
+									<mat-card
+										[matTooltip]="widget.title"
+										[class.selected]="selected"
+										[matTooltip]="
+											statCardSelectionDisabled
+												? 'Maximum number of stat cards (4) on the layout have been reached.'
+												: ''
+										"
+										[class.disabled]="statCardSelectionDisabled"
+										(click)="selectWidget(widget)"
+									>
+										<mat-card-content class="position-relative pointer-cursor overflow-x-hidden">
+											<h3 class="fs-5">{{ widget.title }}</h3>
+											<img
+												[src]="`assets/catalog/${widget.imgUrl.toUpperCase()}_${themeService.displayThemeSignal().toUpperCase()}.png`"
+											/>
+											<ex-info-button [tooltip]="widget.info" />
+										</mat-card-content>
+									</mat-card>
+								}
+							</div>
+						</mat-tab>
+					}
+				</mat-tab-group>
+			</mat-step>
+
+			<mat-step label="Customize" state="customization">
+				<div class="d-flex flex-column gap-3 pt-3">
+					<mat-form-field>
+						<mat-label>Title</mat-label>
+						<input autoTrim matInput [formControl]="form.controls.title" />
+						<mat-error>
+							<ex-validator [control]="form.controls.title" />
+						</mat-error>
+					</mat-form-field>
+
+					@if (!isStatCard() && isCategoryFilterable()) {
+						@let categoryControls = form.controls.categories.controls;
+						<mat-form-field>
+							<mat-label>Categories</mat-label>
+							<mat-select
+								multiple
+								selectAutoFocus
+								[focusedInput]="searchCategoryInput"
+								[formControl]="categoryControls.selectedCategories"
+								(closed)="categoryControls.searchText.reset()"
+							>
+								<mat-form-field subscriptSizing="dynamic" class="search-with-select">
+									<mat-label>Search</mat-label>
+									<input
+										autoTrim
+										matInput
+										[formControl]="categoryControls.searchText"
+										#searchCategoryInput
+									/>
+									<ex-input-clear [control]="categoryControls.searchText" />
+									<mat-error>
+										<ex-validator [control]="categoryControls.searchText" />
+									</mat-error>
+								</mat-form-field>
+								@for (category of filteredCategories(); track category.id) {
+									<mat-option [value]="category">
+										<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
+										{{ category.name }}
+									</mat-option>
+								}
+							</mat-select>
+						</mat-form-field>
+					}
+				</div>
+			</mat-step>
+		</mat-stepper>
+	</div>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100 mt-4"
+	>
+		<ex-button filled color="accent" matIcon="chevron_left" (click)="previousStep()">Back</ex-button>
+		@if (isLastStep()) {
+			<ex-button filled color="primary" matIcon="check" iconPositionEnd (click)="create()">Create</ex-button>
+		} @else {
+			<div [matTooltip]="selectedWidget.invalid ? 'Select a widget type before creation!' : ''">
+				<ex-button
+					filled
+					color="primary"
+					matIcon="chevron_right"
+					iconPositionEnd
+					[disabled]="selectedWidget.invalid"
+					(click)="nextStep()"
+					>Next</ex-button
+				>
+			</div>
+		}
+	</div>
+</ex-dialog-card>

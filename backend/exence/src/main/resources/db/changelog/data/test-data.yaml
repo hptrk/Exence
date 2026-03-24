@@ -5298,6 +5298,87 @@ databaseChangeLog:
               - column: { name: created_at, valueComputed: "${now}" }
               - column: { name: created_by, value: 'captainwinnie@exence.com' }
 
+        # Stat cards
+        - insert:
+            tableName: widget
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: type, value: 'EXPENSE_FREQUENCY_STATCARD' }
+              - column: { name: title, value: 'Expense frequency' }
+              - column: { name: timeframe, value: 'YTD' }
+              - column: { name: display_order, valueNumeric: 0 }
+              - column: { name: user_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: widget
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: type, value: 'NO_SPEND_DAYS_STATCARD' }
+              - column: { name: title, value: 'Number of days without spending' }
+              - column: { name: timeframe, value: 'YTD' }
+              - column: { name: display_order, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: widget
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: type, value: 'SAVINGS_RATE_STATCARD' }
+              - column: { name: title, value: 'Savings rate' }
+              - column: { name: timeframe, value: 'YTD' }
+              - column: { name: display_order, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: widget
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: type, value: 'TOP_INCOME_TRANSACTION_STATCARD' }
+              - column: { name: title, value: 'Top income' }
+              - column: { name: timeframe, value: 'YTD' }
+              - column: { name: display_order, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 1 }
+
+        # Chart widgets
+        - insert:
+            tableName: widget
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: type, value: 'SPENDING_HEATMAP' }
+              - column: { name: title, value: 'Your spendings' }
+              - column: { name: timeframe, value: 'YTD' }
+              - column: { name: x, valueNumeric: 0 }
+              - column: { name: y, valueNumeric: 0 }
+              - column: { name: cols, valueNumeric: 1 }
+              - column: { name: rows, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: widget
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: type, value: 'SAVINGS_RATE_GAUGE' }
+              - column: { name: title, value: 'Savings rate' }
+              - column: { name: timeframe, value: 'YTD' }
+              - column: { name: x, valueNumeric: 1 }
+              - column: { name: y, valueNumeric: 0 }
+              - column: { name: cols, valueNumeric: 1 }
+              - column: { name: rows, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 1 }
+
+        - insert:
+            tableName: widget
+            columns:
+              - column: { name: id, valueNumeric: 7 }
+              - column: { name: type, value: 'CATEGORY_SANKEY' }
+              - column: { name: title, value: 'Money flow by categories' }
+              - column: { name: timeframe, value: 'YTD' }
+              - column: { name: x, valueNumeric: 0 }
+              - column: { name: y, valueNumeric: 1 }
+              - column: { name: cols, valueNumeric: 2 }
+              - column: { name: rows, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 1 }
+
         # Reset sequences to continue from the max ID in test data
         - sql:
             sql: SELECT setval('user_id_seq', (SELECT COALESCE(MAX(id), 1) FROM _user));
@@ -5311,4 +5392,7 @@ databaseChangeLog:
             sql: SELECT setval('email_log_id_seq', (SELECT COALESCE(MAX(id), 1) FROM email_log));
         - sql:
             sql: SELECT setval('password_history_id_seq', (SELECT COALESCE(MAX(id), 1) FROM password_history));
+        - sql:
+            sql: SELECT setval('widget_id_seq', (SELECT COALESCE(MAX(id), 1) FROM widget));
+
 

@@ -8,7 +8,6 @@
 @import './components/form-field.scss';
 @import './components/progress.scss';
 @import './components/tooltip.scss';
-@import './components/tab.scss';
 @import './components/dialog.scss';
 @import './components/divider.scss';
 @import './components/snackbar.scss';
@@ -18,6 +17,8 @@
 @import './components/button-toggle-group.scss';
 @import './components/apexchart.scss';
 @import './components/gridster.scss';
+@import './components/tab-group.scss';
+@import './components/stepper.scss';
 @import './fonts/material-icons.scss';
 
 * {
@@ -158,4 +159,15 @@ mat-checkbox {
 ::selection {
 	background-color: var(--primary-color);
 	color: var(--secondary-text-color);
+}
+
+.action-buttons ex-button button {
+	box-shadow: 0 0 7px var(--shadow-color);
+}
+
+.chart-modification-buttons {
+	top: 0;
+	right: 0.5rem;
+	transform: translateX(50%);
+	z-index: 20;
 }

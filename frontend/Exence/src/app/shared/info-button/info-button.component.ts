@@ -11,6 +11,7 @@ import { StopPropagationDirective } from '../stop-propagation.directive';
 			iconButton
 			stopPropagation
 			color="accent"
+			matIcon="info"
 			[matTooltip]="tooltip()"
 			(click)="$event.preventDefault(); tooltipButton.toggle()"
 		/>
@@ -18,8 +19,8 @@ import { StopPropagationDirective } from '../stop-propagation.directive';
 	styles: `
 		:host {
 			position: absolute;
-			top: 1rem;
-			right: 1rem;
+			top: 0.5rem;
+			right: 0.5rem;
 		}
 	`,
 	imports: [ButtonComponent, MatTooltipModule, StopPropagationDirective],

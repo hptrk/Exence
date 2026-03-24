@@ -1,0 +1,8 @@
+mat-stepper.mat-stepper-horizontal {
+	--mat-stepper-container-color: transparent;
+	height: 100%;
+
+	div.mat-horizontal-stepper-wrapper div.mat-horizontal-stepper-header-container {
+		display: none;
+	}
+}

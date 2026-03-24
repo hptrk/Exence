@@ -1,9 +1,15 @@
-<section class="d-flex flex-column gap-4 h-100">
-	<gridster [options]="options" class="custom-grid">
+<section>
+	<gridster [options]="options()" class="custom-grid mw-100">
 		@for (widget of data(); track widget.id) {
 			<gridster-item [item]="widget">
-				<ex-button matIcon="drag_indicator" iconButton class="dragger" />
-				<ex-chart-widget [widget]="widget" />
+				@if (editing()) {
+					<ex-button matIcon="drag_indicator" iconButton class="dragger" />
+					<div class="d-flex flex-column gap-2 position-absolute chart-modification-buttons">
+						<ex-button matIcon="delete" (click)="deleteWidget(widget)" primaryIconButton color="error" />
+						<ex-button matIcon="edit" (click)="openEditWidgetDialog(widget)" primaryIconButton />
+					</div>
+				}
+				<ex-chart-widget [widget]="widget" [editing]="editing()" />
 			</gridster-item>
 		}
 	</gridster>

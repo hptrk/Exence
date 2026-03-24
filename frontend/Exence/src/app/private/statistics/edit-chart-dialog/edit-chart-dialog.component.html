@@ -1,0 +1,25 @@
+<ex-dialog-card class="h-100 gap-0">
+	<div ex-dialog-card-title>Edit chart - '{{ data.title }}'</div>
+
+	<form
+		ex-dialog-card-content
+		[formGroup]="form"
+		(ngSubmit)="save()"
+		[confirmExitDialog]="dialogRef"
+		class="d-flex flex-column py-3"
+	>
+		<mat-form-field>
+			<mat-label>Title</mat-label>
+			<input matInput autoTrim [formControl]="form.controls.title" />
+			<ex-input-clear matSuffix [control]="form.controls.title" />
+			<mat-error>
+				<ex-validator [control]="form.controls.title" />
+			</mat-error>
+		</mat-form-field>
+
+		<div class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100 mt-4">
+			<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>Cancel</ex-button>
+			<ex-button filled color="primary" matIcon="check" [disabled]="form.invalid" type="submit">Save</ex-button>
+		</div>
+	</form>
+</ex-dialog-card>

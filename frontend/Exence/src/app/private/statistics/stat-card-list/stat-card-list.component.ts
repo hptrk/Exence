@@ -1,26 +1,38 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input, signal, viewChild } from '@angular/core';
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
-import { StatCardWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
-import { EmptyStatisticCardComponent } from '../empty-statistic-card.component';
+import { DialogService } from '../../../shared/dialog/dialog.service';
+import { EditChartDialogComponent } from '../edit-chart-dialog/edit-chart-dialog.component';
 import { StatCardComponent } from '../stat-card/stat-card.component';
+import { StatCardGridsterItem, WidgetStore } from '../widget.store';
 
 @Component({
 	selector: 'ex-stat-card-list',
 	templateUrl: './stat-card-list.component.html',
 	styleUrl: './stat-card-list.component.scss',
-	imports: [EmptyStatisticCardComponent, StatCardComponent, Gridster, GridsterItem, ButtonComponent],
+	imports: [StatCardComponent, Gridster, GridsterItem, ButtonComponent],
 })
 export class StatCardListComponent {
-	data = input.required<StatCardWidget[]>();
+	private readonly store = inject(WidgetStore);
+	private readonly dialog = inject(DialogService);
 
-	readonly options: GridsterConfig = {
+	data = input.required<StatCardGridsterItem[]>();
+	editing = input.required<boolean>();
+
+	private readonly gridster = viewChild.required(Gridster);
+
+	readonly scrollLeft = signal<number>(0);
+
+	readonly colCount = computed(() => Math.min(this.data().length, 4));
+	readonly gridMinWidth = computed(() => this.colCount() * 350 + Math.max(this.colCount() - 1, 0) * 21);
+
+	options = computed<GridsterConfig>(() => ({
 		gridType: GridType.VerticalFixed,
 		displayGrid: DisplayGrid.None,
 		mobileBreakpoint: 0,
-		fixedRowHeight: 250,
-		maxCols: 4,
-		minCols: 4,
+		fixedRowHeight: 175,
+		maxCols: this.colCount(),
+		minCols: this.colCount(),
 		maxRows: 1,
 		pushItems: false,
 		swap: true,
@@ -29,35 +41,39 @@ export class StatCardListComponent {
 		delayStartTouch: 100,
 		scrollToNewItems: true,
 		draggable: {
-			enabled: true, // TODO based on the state of edit mode
+			enabled: this.editing(),
 			delayStart: 100,
 			dragHandleClass: 'dragger',
 			ignoreContent: true,
-			// TODO save to temp state for save changes submission
-			stop: (item: GridsterItemConfig, itemComponent: GridsterItem, event: MouseEvent): Promise<unknown> | void =>
-				console.info('eventStop', item, itemComponent, event),
 		},
-		// TODO save to temp state for save changes submission
-		itemRemovedCallback: (item, itemComponent) => {
-			console.info('Item removed:', item, itemComponent);
-		},
-
 		margin: 21,
 		outerMargin: false,
-	};
+	}));
 
-	cards = computed(() =>
-		this.data().map(card => ({
-			id: card.id,
-			type: card.type,
-			title: card.title,
-			timeframe: card.timeframe,
-			cols: 1,
-			rows: 1,
-			x: card.displayOrder,
-			y: 0,
-			cardData: card,
-		})),
-	);
-	numberOfCards = computed(() => this.data().length);
+	async openEditWidgetDialog(card: StatCardGridsterItem): Promise<void> {
+		const result = await this.dialog.openNonModal(
+			EditChartDialogComponent,
+			{
+				title: card.title,
+				type: card.type,
+				settings: { ...card.settings },
+			},
+			undefined,
+		);
+		if (!result) return;
+		this.store.applyChangesOnWidget(card, result);
+	}
+
+	onCardsScroll(event: Event): void {
+		this.scrollLeft.set((event.target as HTMLElement).scrollLeft);
+	}
+
+	deleteCard(card: StatCardGridsterItem): void {
+		this.store.deleteWidget(card);
+	}
+
+	getFirstPossiblePosition(): GridsterItemConfig {
+		const item: GridsterItemConfig = { cols: 1, rows: 1, x: 0, y: 0 };
+		return this.gridster().getFirstPossiblePosition(item);
+	}
 }

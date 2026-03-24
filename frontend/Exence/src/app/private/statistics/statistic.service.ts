@@ -30,6 +30,6 @@ export class StatisticService {
 	}
 
 	public updateLayout(request: UpdateLayoutRequest): Promise<WidgetLayoutResponse> {
-		return lastValueFrom(this.http.post<WidgetLayoutResponse>(`${this.baseUrl}/layout`, request));
+		return lastValueFrom(this.http.put<WidgetLayoutResponse>(`${this.baseUrl}/layout`, request));
 	}
 }

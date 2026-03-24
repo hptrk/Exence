@@ -2,11 +2,11 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { from } from 'rxjs';
 import { SidebarComponent } from './private/sidebar/sidebar.component';
 import { SvgIcons } from './shared/svg-icons/svg-icons';
 import { CurrentUserService } from './shared/user/current-user.service';
 import { UserService } from './shared/user/user.service';
-import { from } from 'rxjs';
 
 @Component({
 	selector: 'ex-root',
