@@ -1,11 +1,13 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
-import com.exence.finance.modules.statistics.dto.projection.TopTransactionProjection;
+import com.exence.finance.modules.statistics.dto.result.TopTransactionResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
-import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class TopIncomeTransactionStatCardProvider implements WidgetDataProvider {
 
-    private final TransactionRepository transactionRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -23,26 +26,26 @@ public final class TopIncomeTransactionStatCardProvider implements WidgetDataPro
 
     @Override
     public StatCardPayload getData(WidgetRequest request) {
-        TopTransactionProjection current = transactionRepository.findTopTransactionByType(
-                request.startDate(), request.endDate(), TransactionType.INCOME);
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.INCOME);
+        TopTransactionResult current = statisticsQueryService.findTopTransactionByType(filter);
 
         if (current == null) {
             return new StatCardPayload(BigDecimal.ZERO, null, "No transactions", null, null, null, null);
         }
 
-        TrendResult trend = ProviderHelper.computeTrend(request, current.getAmount(), (s, e) -> {
-            TopTransactionProjection prev =
-                    transactionRepository.findTopTransactionByType(s, e, TransactionType.INCOME);
-            return prev != null ? prev.getAmount() : BigDecimal.ZERO;
+        TrendResult trend = ProviderHelper.computeTrend(request, current.amount(), (s, e) -> {
+            TopTransactionResult prev = statisticsQueryService.findTopTransactionByType(
+                    filterFactory.fromRequest(request.withDates(s, e), TransactionType.INCOME));
+            return prev != null ? prev.amount() : BigDecimal.ZERO;
         });
 
         return new StatCardPayload(
-                current.getAmount(),
+                current.amount(),
                 null,
-                current.getTitle(),
+                current.title(),
                 trend.changePercentage(),
                 trend.trend(),
-                current.getCategoryIcon(),
-                current.getCategoryColor());
+                current.categoryIcon(),
+                current.categoryColor());
     }
 }

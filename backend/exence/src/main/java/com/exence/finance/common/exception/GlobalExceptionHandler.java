@@ -311,4 +311,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setProperty("timestamp", Instant.now());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
     }
+
+    @ExceptionHandler(InvalidWidgetSettingException.class)
+    public ResponseEntity<ProblemDetail> handleInvalidWidgetSettingException(
+            InvalidWidgetSettingException ex, WebRequest request) {
+        log.warn("Invalid widget setting: {}", ex.getMessage());
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+        problemDetail.setType(URI.create(PROBLEM_BASE_URI + "invalid-widget-setting"));
+        problemDetail.setTitle("Invalid Widget Setting");
+        problemDetail.setProperty("timestamp", Instant.now());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+    }
 }

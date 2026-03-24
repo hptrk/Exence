@@ -4,7 +4,8 @@ import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -16,7 +17,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class BurnRateStatCardProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -31,7 +33,8 @@ public final class BurnRateStatCardProvider implements WidgetDataProvider {
     }
 
     private BigDecimal calculateBurnRate(Instant start, Instant end) {
-        BigDecimal expense = statisticsRepository.sumAmountByType(start, end, TransactionType.EXPENSE);
+        BigDecimal expense =
+                statisticsQueryService.sumAmountByType(filterFactory.forPeriod(start, end, TransactionType.EXPENSE));
         long days = DateUtils.countDaysBetween(start, end);
         return expense.divide(BigDecimal.valueOf(days), 2, RoundingMode.HALF_UP);
     }

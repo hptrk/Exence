@@ -12,9 +12,10 @@ import com.exence.finance.modules.statistics.dto.response.WidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.response.WidgetLayoutResponse;
 import com.exence.finance.modules.statistics.entity.Widget;
 import com.exence.finance.modules.statistics.mapper.WidgetMapper;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
 import com.exence.finance.modules.statistics.repository.WidgetRepository;
 import com.exence.finance.modules.statistics.service.WidgetService;
+import com.exence.finance.modules.statistics.service.WidgetSettingsValidator;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
@@ -37,8 +38,9 @@ public class WidgetServiceImpl implements WidgetService {
 
     private final WidgetMapper widgetMapper;
     private final WidgetRepository widgetRepository;
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
     private final UserService userService;
+    private final WidgetSettingsValidator widgetSettingsValidator;
     private final List<WidgetDataProvider> providers;
 
     private Map<WidgetType, WidgetDataProvider> providerMap;
@@ -63,6 +65,7 @@ public class WidgetServiceImpl implements WidgetService {
     @Override
     @Transactional
     public WidgetLayoutResponse createWidget(WidgetDTO widgetDTO) {
+        widgetSettingsValidator.validate(widgetDTO.settings());
         Widget widget = widgetMapper.mapToWidget(widgetDTO);
         widget.setUser(userService.getCurrentUser());
 
@@ -86,6 +89,13 @@ public class WidgetServiceImpl implements WidgetService {
                     throw new WidgetNotFoundException("Widget not found: " + item.id());
                 }
                 widget.setDisplayOrder(item.displayOrder());
+                if (item.settings() != null) {
+                    widgetSettingsValidator.validate(item.settings());
+                    widget.setSettings(item.settings());
+                }
+                if (item.title() != null) {
+                    widget.setTitle(item.title());
+                }
                 incomingIds.add(item.id());
             });
         }
@@ -100,6 +110,13 @@ public class WidgetServiceImpl implements WidgetService {
                 widget.setY(item.y());
                 widget.setCols(item.cols());
                 widget.setRows(item.rows());
+                if (item.settings() != null) {
+                    widgetSettingsValidator.validate(item.settings());
+                    widget.setSettings(item.settings());
+                }
+                if (item.title() != null) {
+                    widget.setTitle(item.title());
+                }
                 incomingIds.add(item.id());
             });
         }
@@ -125,7 +142,7 @@ public class WidgetServiceImpl implements WidgetService {
 
         Instant startDate = resolvedTimeframe.toStartDate();
         if (resolvedTimeframe == Timeframe.ALL_TIME) {
-            Instant earliest = statisticsRepository.findEarliestStatDate();
+            Instant earliest = statisticsQueryService.findEarliestStatDate();
             if (earliest != null) {
                 startDate = earliest;
             }

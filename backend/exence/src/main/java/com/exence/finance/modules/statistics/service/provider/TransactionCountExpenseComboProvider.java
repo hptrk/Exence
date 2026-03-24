@@ -1,13 +1,15 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
-import com.exence.finance.modules.statistics.dto.projection.MonthlyIncomeExpenseProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.MonthlyIncomeExpenseResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.statistics.util.StatisticsConstants;
 import java.math.BigDecimal;
 import java.time.YearMonth;
@@ -21,7 +23,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class TransactionCountExpenseComboProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -30,9 +33,8 @@ public final class TransactionCountExpenseComboProvider implements WidgetDataPro
 
     @Override
     public SeriesPayload getData(WidgetRequest request) {
-        List<MonthlyIncomeExpenseProjection> results =
-                statisticsRepository.findMonthlyIncomeExpenseWithTransactionCount(
-                        request.startDate(), request.endDate());
+        StatisticsFilter filter = filterFactory.fromRequest(request);
+        List<MonthlyIncomeExpenseResult> results = statisticsQueryService.findMonthlyIncomeExpense(filter);
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
@@ -40,12 +42,11 @@ public final class TransactionCountExpenseComboProvider implements WidgetDataPro
         List<DataPoint> countPoints = new ArrayList<>();
 
         months.forEach(month -> {
-            Optional<MonthlyIncomeExpenseProjection> value = ProviderHelper.findByMonth(results, month);
+            Optional<MonthlyIncomeExpenseResult> value = ProviderHelper.findByMonth(results, month);
 
             BigDecimal expense =
-                    value.map(MonthlyIncomeExpenseProjection::getExpenseAmount).orElse(BigDecimal.ZERO);
-            long count = value.map(MonthlyIncomeExpenseProjection::getTransactionCount)
-                    .orElse(0L);
+                    value.map(MonthlyIncomeExpenseResult::expenseAmount).orElse(BigDecimal.ZERO);
+            long count = value.map(MonthlyIncomeExpenseResult::transactionCount).orElse(0L);
 
             expensePoints.add(new DataPoint(month.toString(), expense, null));
             countPoints.add(new DataPoint(month.toString(), BigDecimal.valueOf(count), null));

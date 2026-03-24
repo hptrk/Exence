@@ -1,11 +1,13 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.BubblePayload;
 import com.exence.finance.modules.statistics.dto.payload.BubblePoint;
 import com.exence.finance.modules.statistics.dto.payload.BubbleSeries;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class CategoryBubbleProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -24,13 +27,13 @@ public final class CategoryBubbleProvider implements WidgetDataProvider {
 
     @Override
     public BubblePayload getData(WidgetRequest request) {
-        List<BubbleSeries> allSeries = statisticsRepository
-                .findCategoryStatsAmountCountAverage(request.startDate(), request.endDate(), TransactionType.EXPENSE)
-                .stream()
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
+
+        List<BubbleSeries> allSeries = statisticsQueryService.findCategoryStatsAmountCountAverage(filter).stream()
                 .map(result -> {
                     BubblePoint point = new BubblePoint(
-                            result.getTransactionCount().intValue(), result.getAvgAmount(), result.getTotalAmount());
-                    return new BubbleSeries(result.getCategoryName(), List.of(point), result.getCategoryColor());
+                            result.transactionCount().intValue(), result.avgAmount(), result.totalAmount());
+                    return new BubbleSeries(result.categoryName(), List.of(point), result.categoryColor());
                 })
                 .toList();
 

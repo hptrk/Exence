@@ -1,12 +1,14 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
-import com.exence.finance.modules.statistics.dto.projection.CategoryFlowProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.CategoryFlowResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class CategoryTreemapProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -27,11 +30,11 @@ public final class CategoryTreemapProvider implements WidgetDataProvider {
 
     @Override
     public SeriesPayload getData(WidgetRequest request) {
-        List<CategoryFlowProjection> results =
-                statisticsRepository.findCategoryTotalsGroupedByType(request.startDate(), request.endDate());
+        StatisticsFilter filter = filterFactory.fromRequest(request);
+        List<CategoryFlowResult> results = statisticsQueryService.findCategoryTotalsGroupedByType(filter);
 
-        Map<TransactionType, List<CategoryFlowProjection>> byType =
-                results.stream().collect(Collectors.groupingBy(CategoryFlowProjection::getType));
+        Map<TransactionType, List<CategoryFlowResult>> byType =
+                results.stream().collect(Collectors.groupingBy(CategoryFlowResult::type));
 
         List<SeriesItem> series = List.of(
                 toSeriesItem("Expense", byType.getOrDefault(TransactionType.EXPENSE, List.of())),
@@ -40,9 +43,9 @@ public final class CategoryTreemapProvider implements WidgetDataProvider {
         return new SeriesPayload(series);
     }
 
-    private SeriesItem toSeriesItem(String name, List<CategoryFlowProjection> data) {
+    private SeriesItem toSeriesItem(String name, List<CategoryFlowResult> data) {
         List<DataPoint> points = data.stream()
-                .map(r -> new DataPoint(r.getCategoryName(), r.getTotalAmount(), r.getCategoryColor()))
+                .map(r -> new DataPoint(r.categoryName(), r.totalAmount(), r.categoryColor()))
                 .toList();
         return new SeriesItem(name, null, null, points);
     }

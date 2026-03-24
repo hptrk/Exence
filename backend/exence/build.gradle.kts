@@ -109,9 +109,6 @@ dependencies {
     annotationProcessor("jakarta.annotation:jakarta.annotation-api")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api")
 
-    // Development tools
-    developmentOnly(libs.spring.boot.devtools)
-
     // Testing
     testImplementation(libs.spring.boot.starter.test)
     testImplementation(libs.spring.security.test)
@@ -120,6 +117,7 @@ dependencies {
 
 tasks.withType<JavaCompile> {
     options.compilerArgs.add("-Amapstruct.defaultComponentModel=spring")
+    options.generatedSourceOutputDirectory.set(file("build/generated/sources/annotationProcessor/java/main"))
 }
 
 tasks.withType<Test> {

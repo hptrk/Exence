@@ -3,4 +3,5 @@ package com.exence.finance.modules.statistics.dto;
 import jakarta.validation.Valid;
 import java.util.List;
 
-public record UpdateLayoutRequest(@Valid List<StatCardLayoutItem> statCards, @Valid List<ChartLayoutItem> charts) {}
+public record UpdateLayoutRequest(
+        @Valid List<StatCardLayoutItemRequest> statCards, @Valid List<ChartLayoutItemRequest> charts) {}

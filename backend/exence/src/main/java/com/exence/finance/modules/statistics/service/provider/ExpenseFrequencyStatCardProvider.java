@@ -1,9 +1,11 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class ExpenseFrequencyStatCardProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -21,11 +24,13 @@ public final class ExpenseFrequencyStatCardProvider implements WidgetDataProvide
 
     @Override
     public StatCardPayload getData(WidgetRequest request) {
-        long currentCount = statisticsRepository.countTransactionsByType(
-                request.startDate(), request.endDate(), TransactionType.EXPENSE);
+        StatisticsFilter currentFilter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
+        long currentCount = statisticsQueryService.countTransactionsByType(currentFilter);
+
         return ProviderHelper.buildFrequencyStatCard(
                 request,
                 currentCount,
-                (s, e) -> statisticsRepository.countTransactionsByType(s, e, TransactionType.EXPENSE));
+                (s, e) -> statisticsQueryService.countTransactionsByType(
+                        filterFactory.fromRequest(request.withDates(s, e), TransactionType.EXPENSE)));
     }
 }

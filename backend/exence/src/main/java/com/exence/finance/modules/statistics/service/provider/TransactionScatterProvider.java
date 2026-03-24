@@ -2,14 +2,16 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import static com.exence.finance.common.util.DateUtils.toDisplayDate;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
-import com.exence.finance.modules.statistics.dto.projection.ScatterProjection;
+import com.exence.finance.modules.statistics.dto.result.ScatterResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
-import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,7 +23,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class TransactionScatterProvider implements WidgetDataProvider {
 
-    private final TransactionRepository transactionRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -30,18 +33,18 @@ public final class TransactionScatterProvider implements WidgetDataProvider {
 
     @Override
     public SeriesPayload getData(WidgetRequest request) {
-        List<ScatterProjection> results =
-                transactionRepository.findScatterData(request.startDate(), request.endDate(), TransactionType.EXPENSE);
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
+        List<ScatterResult> results = statisticsQueryService.findScatterData(filter);
 
         Map<String, String> categoryColorMap = ProviderHelper.getCategoryColorMap(results);
 
         Map<String, List<DataPoint>> categoryPoints = new LinkedHashMap<>();
         categoryColorMap.keySet().forEach(cat -> categoryPoints.put(cat, new ArrayList<>()));
 
-        for (ScatterProjection p : results) {
+        for (ScatterResult p : results) {
             categoryPoints
-                    .get(p.getCategoryName())
-                    .add(new DataPoint(toDisplayDate(p.getTransactionDate()), p.getAmount(), null));
+                    .get(p.categoryName())
+                    .add(new DataPoint(toDisplayDate(p.transactionDate()), p.amount(), null));
         }
 
         List<SeriesItem> series = categoryPoints.entrySet().stream()

@@ -1,12 +1,14 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DistributionItem;
 import com.exence.finance.modules.statistics.dto.payload.DistributionPayload;
-import com.exence.finance.modules.statistics.dto.projection.MonthlyBalanceProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.MonthlyBalanceResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.time.YearMonth;
 import java.util.List;
@@ -17,7 +19,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class MonthlyPeakPolarProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -26,15 +29,15 @@ public final class MonthlyPeakPolarProvider implements WidgetDataProvider {
 
     @Override
     public DistributionPayload getData(WidgetRequest request) {
-        List<MonthlyBalanceProjection> results = statisticsRepository.findMonthlyPeakByType(
-                request.startDate(), request.endDate(), TransactionType.EXPENSE);
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
+        List<MonthlyBalanceResult> results = statisticsQueryService.findMonthlyPeakByType(filter);
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
         List<DistributionItem> items = months.stream()
                 .map(month -> new DistributionItem(
                         month.toString(),
-                        ProviderHelper.getAmount(results, month, MonthlyBalanceProjection::getTotalAmount),
+                        ProviderHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount),
                         null))
                 .toList();
 
