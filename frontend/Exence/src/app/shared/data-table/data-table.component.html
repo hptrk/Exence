@@ -283,7 +283,7 @@
 							<ng-container [ngTemplateOutlet]="loader" />
 						</tr>
 					</table>
-				} @else if (!emptyCategoryTable && type() === 'category') {
+				} @else if (!emptyCategoryTable() && type() === 'category') {
 					<table mat-table [dataSource]="categoryStore.categoryResource.value() ?? []" multiTemplateDataRows>
 						<ng-container matColumnDef="name">
 							<th mat-header-cell *matHeaderCellDef class="px-3">
