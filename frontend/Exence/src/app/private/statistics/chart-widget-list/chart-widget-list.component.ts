@@ -25,7 +25,7 @@ export class ChartWidgetListComponent {
 	options = signal<GridsterConfig>({
 		gridType: GridType.VerticalFixed,
 		displayGrid: DisplayGrid.None,
-		fixedRowHeight: 500,
+		fixedRowHeight: 575,
 		mobileBreakpoint: 768,
 		maxCols: 2,
 		maxRows: 25,

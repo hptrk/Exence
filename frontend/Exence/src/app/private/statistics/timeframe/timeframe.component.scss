@@ -1,0 +1,64 @@
+$button-count: 7;
+$transition-speed: 200ms;
+
+mat-button-toggle-group.mat-button-toggle-group {
+	display: inline-flex;
+	border: none;
+	border-radius: var(--mat-button-toggle-shape);
+	background-color: var(--app-card-color);
+	padding: 2px;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: 2px;
+		top: 2px;
+		bottom: 2px;
+		width: calc((100% - 4px) / #{$button-count});
+		border-radius: var(--mat-button-toggle-shape);
+		background-color: var(--primary-color);
+		transition: transform $transition-speed ease-in-out;
+		z-index: 1;
+		pointer-events: none;
+	}
+
+	@for $i from 1 through $button-count {
+		&:has(mat-button-toggle:nth-child(#{$i}).mat-button-toggle-checked)::before {
+			transform: translateX(#{($i - 1) * 100%});
+		}
+	}
+
+	mat-button-toggle.mat-button-toggle.mat-button-toggle-appearance-standard {
+		flex: 1 1 0;
+		min-width: 0;
+		border: none;
+		border-radius: var(--mat-button-toggle-shape);
+		color: var(--default-text-color);
+		--mat-button-toggle-label-text-weight: 500;
+		transition: color $transition-speed ease-in-out;
+
+		button.mat-button-toggle-button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 20px;
+			padding: 0 6px;
+			border-radius: var(--mat-button-toggle-shape);
+
+			.mat-button-toggle-label-content {
+				z-index: 2;
+				font-size: 0.65rem;
+				padding: 0;
+			}
+		}
+
+		.mat-button-toggle-ripple {
+			border-radius: var(--mat-button-toggle-shape);
+		}
+	}
+
+	mat-button-toggle.mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+		color: var(--app-background-color);
+		--mat-button-toggle-selected-state-background-color: transparent;
+	}
+}

@@ -6,6 +6,7 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsOption } from 'echarts/types/dist/shared';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
+import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
@@ -38,6 +39,7 @@ export class SankeyChartComponent {
 	private readonly themeService = inject(DisplayThemeService);
 
 	widget = input.required<ChartWidget>();
+	timeframe = input.required<Timeframe>();
 
 	isLoading = signal<boolean>(false);
 	data = signal<Partial<EChartsOption> | undefined>(undefined);
@@ -45,9 +47,10 @@ export class SankeyChartComponent {
 	constructor() {
 		effect(() => {
 			this.themeService.displayThemeSignal(); // dependency
+			const timeframe = this.timeframe();
 
 			this.isLoading.set(true);
-			this.statisticService.getWidgetData(this.widget().id).then(response => {
+			this.statisticService.getWidgetData(this.widget().id, timeframe).then(response => {
 				const providerFn = mapToProvider<typeof response.payload>('sankey');
 				this.data.set(providerFn(response.payload, this.widget().title) as Partial<EChartsOption>);
 				this.isLoading.set(false);

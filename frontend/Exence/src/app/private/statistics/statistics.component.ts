@@ -3,9 +3,10 @@ import { Component, effect, inject, signal, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
+import { HasChangesComponent } from '../../shared/auth/guard/has-changes.guard';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
-import { HasChangesComponent } from '../../shared/auth/guard/has-changes.guard';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ChartWidgetListComponent } from './chart-widget-list/chart-widget-list.component';
 import { StatCardListComponent } from './stat-card-list/stat-card-list.component';
 import { StatisticService } from './statistic.service';
@@ -15,7 +16,6 @@ import {
 	WidgetCatalogDialogResult,
 } from './widget-catalog-dialog/widget-catalog-dialog.component';
 import { WidgetStore } from './widget.store';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
 	selector: 'ex-statistics',

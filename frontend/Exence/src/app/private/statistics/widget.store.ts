@@ -1,6 +1,7 @@
 import { inject, resource } from '@angular/core';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 import { GridsterItemConfig } from 'angular-gridster2';
+import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { UpdateLayoutRequest } from '../../data-model/modules/statistics/UpdateLayoutRequest';
 import { ChartWidget, StatCardWidget, Widget } from '../../data-model/modules/statistics/Widget';
 import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
@@ -46,7 +47,7 @@ export const WidgetStore = signalStore(
 			const request: Widget = {
 				type: dialogResult.catalogItem.type,
 				title: dialogResult.title,
-				timeframe: 'YTD',
+				timeframe: Timeframe.YEAR_TO_DATE,
 				settings: dialogResult.settings,
 			};
 			if (isStatCard) {
