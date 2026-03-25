@@ -279,7 +279,7 @@
 							></tr>
 						}
 
-						<tr mat-footer-row *matFooterRowDef="['loader']" class="table-row">
+						<tr mat-footer-row *matFooterRowDef="['loader']" [hidden]="!isDataLoading()" class="table-row">
 							<ng-container [ngTemplateOutlet]="loader" />
 						</tr>
 					</table>
