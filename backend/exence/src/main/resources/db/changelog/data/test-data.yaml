@@ -5298,6 +5298,44 @@ databaseChangeLog:
               - column: { name: created_at, valueComputed: "${now}" }
               - column: { name: created_by, value: 'captainwinnie@exence.com' }
 
+        # Widgets
+        - insert:
+            tableName: widget
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: type
+                  value: DASHBOARD_BALANCE_TREND
+              - column:
+                  name: title
+                  value: Balance Trend
+              - column:
+                  name: timeframe
+                  value: YTD
+              - column:
+                  name: display_order
+                  valueNumeric: 0
+              - column:
+                  name: x
+                  valueNumeric: 0
+              - column:
+                  name: y
+                  valueNumeric: 0
+              - column:
+                  name: cols
+                  valueNumeric: 0
+              - column:
+                  name: rows
+                  valueNumeric: 0
+              - column:
+                  name: settings
+                  value: '{}'
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+
         # Reset sequences to continue from the max ID in test data
         - sql:
             sql: SELECT setval('user_id_seq', (SELECT COALESCE(MAX(id), 1) FROM _user));
@@ -5311,4 +5349,6 @@ databaseChangeLog:
             sql: SELECT setval('email_log_id_seq', (SELECT COALESCE(MAX(id), 1) FROM email_log));
         - sql:
             sql: SELECT setval('password_history_id_seq', (SELECT COALESCE(MAX(id), 1) FROM password_history));
+        - sql:
+            sql: SELECT setval('widget_id_seq', (SELECT COALESCE(MAX(id), 1) FROM widget));
 

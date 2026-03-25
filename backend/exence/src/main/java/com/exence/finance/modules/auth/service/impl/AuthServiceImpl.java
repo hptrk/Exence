@@ -27,8 +27,13 @@ import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.modules.auth.service.TokenValidationService;
 import com.exence.finance.modules.email.service.EmailLogService;
 import com.exence.finance.modules.email.service.EmailService;
+import com.exence.finance.modules.statistics.dto.Timeframe;
+import com.exence.finance.modules.statistics.dto.WidgetType;
+import com.exence.finance.modules.statistics.entity.Widget;
+import com.exence.finance.modules.statistics.repository.WidgetRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
+    private final WidgetRepository widgetRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
@@ -65,6 +71,8 @@ public class AuthServiceImpl implements AuthService {
     public AuthenticationResponse register(RegisterRequest request) {
         User user = buildNewUser(request);
         user = userRepository.save(user);
+
+        createDefaultDashboardWidget(user);
 
         sendEmailVerification(user);
 
@@ -202,5 +210,21 @@ public class AuthServiceImpl implements AuthService {
         } catch (BadCredentialsException e) {
             throw new AuthenticationFailedException();
         }
+    }
+
+    private void createDefaultDashboardWidget(User user) {
+        Widget widget = Widget.builder()
+                .user(user)
+                .type(WidgetType.DASHBOARD_BALANCE_TREND)
+                .title("Balance Trend")
+                .timeframe(Timeframe.YTD)
+                .displayOrder(0)
+                .x(0)
+                .y(0)
+                .cols(0)
+                .rows(0)
+                .settings(Collections.emptyMap())
+                .build();
+        widgetRepository.save(widget);
     }
 }
