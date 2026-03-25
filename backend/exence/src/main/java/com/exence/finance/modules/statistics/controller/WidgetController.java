@@ -13,6 +13,8 @@ public interface WidgetController {
 
     ResponseEntity<WidgetDataResponse> getWidgetData(Long widgetId, Timeframe timeframe);
 
+    ResponseEntity<WidgetDataResponse> getDashboardBalanceTrend(Timeframe timeframe);
+
     ResponseEntity<WidgetLayoutResponse> createWidget(WidgetDTO widgetDTO);
 
     ResponseEntity<WidgetLayoutResponse> updateLayout(UpdateLayoutRequest request);

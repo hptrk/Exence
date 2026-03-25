@@ -19,6 +19,7 @@ import com.exence.finance.modules.statistics.service.WidgetSettingsValidator;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,16 @@ public class WidgetServiceImpl implements WidgetService {
 
     @PostConstruct
     private void init() {
-        this.providerMap = providers.stream()
-                .collect(Collectors.toUnmodifiableMap(WidgetDataProvider::getSupportedType, Function.identity()));
+        Map<WidgetType, WidgetDataProvider> map = new HashMap<>(providers.stream()
+                .collect(Collectors.toMap(WidgetDataProvider::getSupportedType, Function.identity())));
+
+        // add balance trend provider under both its own type and the dashboard-specific type
+        providers.stream()
+                .filter(p -> p.getSupportedType() == WidgetType.BALANCE_TREND)
+                .findFirst()
+                .ifPresent(provider -> map.put(WidgetType.DASHBOARD_BALANCE_TREND, provider));
+
+        this.providerMap = Map.copyOf(map);
     }
 
     @Override
@@ -123,6 +132,7 @@ public class WidgetServiceImpl implements WidgetService {
 
         List<Long> idsToDelete = existingWidgets.keySet().stream()
                 .filter(id -> !incomingIds.contains(id))
+                .filter(id -> existingWidgets.get(id).getType() != WidgetType.DASHBOARD_BALANCE_TREND)
                 .toList();
 
         if (!idsToDelete.isEmpty()) {
@@ -157,6 +167,16 @@ public class WidgetServiceImpl implements WidgetService {
 
         WidgetDataPayload payload = provider.getData(request);
         return new WidgetDataResponse(widget.getId(), widget.getType(), payload);
+    }
+
+    @Override
+    public WidgetDataResponse getDashboardBalanceTrend(Timeframe timeframe) {
+        Widget widget = widgetRepository
+                .findFirstByType(WidgetType.DASHBOARD_BALANCE_TREND)
+                .orElseThrow(() ->
+                        new WidgetNotFoundException("Widget not found by type: " + WidgetType.DASHBOARD_BALANCE_TREND));
+
+        return getWidgetData(widget.getId(), timeframe);
     }
 
     private Timeframe resolveTimeframe(Timeframe queryParamTimeframe, Widget widget) {
