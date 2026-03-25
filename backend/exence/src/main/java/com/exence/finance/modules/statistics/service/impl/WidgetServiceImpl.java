@@ -15,9 +15,11 @@ import com.exence.finance.modules.statistics.mapper.WidgetMapper;
 import com.exence.finance.modules.statistics.repository.StatisticsRepository;
 import com.exence.finance.modules.statistics.repository.WidgetRepository;
 import com.exence.finance.modules.statistics.service.WidgetService;
+import com.exence.finance.modules.statistics.service.provider.BalanceTrendProvider;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,13 +42,22 @@ public class WidgetServiceImpl implements WidgetService {
     private final StatisticsRepository statisticsRepository;
     private final UserService userService;
     private final List<WidgetDataProvider> providers;
+    private final BalanceTrendProvider balanceTrendProvider;
 
     private Map<WidgetType, WidgetDataProvider> providerMap;
 
     @PostConstruct
     private void init() {
-        this.providerMap = providers.stream()
-                .collect(Collectors.toUnmodifiableMap(WidgetDataProvider::getSupportedType, Function.identity()));
+        Map<WidgetType, WidgetDataProvider> map = new HashMap<>(providers.stream()
+                .collect(Collectors.toMap(WidgetDataProvider::getSupportedType, Function.identity())));
+
+        // add balance trend provider under both its own type and the dashboard-specific type
+        providers.stream()
+                .filter(p -> p.getSupportedType() == WidgetType.BALANCE_TREND)
+                .findFirst()
+                .ifPresent(provider -> map.put(WidgetType.DASHBOARD_BALANCE_TREND, provider));
+
+        this.providerMap = Map.copyOf(map);
     }
 
     @Override
