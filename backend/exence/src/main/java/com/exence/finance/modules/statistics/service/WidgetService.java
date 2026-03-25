@@ -12,6 +12,8 @@ public interface WidgetService {
 
     WidgetDataResponse getWidgetData(Long widgetId, Timeframe timeframe);
 
+    WidgetDataResponse getDashboardBalanceTrend(Timeframe timeframe);
+
     WidgetLayoutResponse createWidget(WidgetDTO widgetDTO);
 
     WidgetLayoutResponse updateLayout(UpdateLayoutRequest request);

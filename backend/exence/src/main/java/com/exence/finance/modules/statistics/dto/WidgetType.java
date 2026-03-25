@@ -71,7 +71,10 @@ public enum WidgetType {
     YEARLY_SLOPE,
 
     // Sankey
-    CATEGORY_SANKEY;
+    CATEGORY_SANKEY,
+
+    // Dashboard
+    DASHBOARD_BALANCE_TREND;
 
     public static final Set<WidgetType> STAT_CARD_TYPES = EnumSet.of(
             WidgetType.EXPENSE_FREQUENCY_STATCARD,

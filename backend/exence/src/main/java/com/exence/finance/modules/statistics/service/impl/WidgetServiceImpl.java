@@ -106,6 +106,7 @@ public class WidgetServiceImpl implements WidgetService {
 
         List<Long> idsToDelete = existingWidgets.keySet().stream()
                 .filter(id -> !incomingIds.contains(id))
+                .filter(id -> existingWidgets.get(id).getType() != WidgetType.DASHBOARD_BALANCE_TREND)
                 .toList();
 
         if (!idsToDelete.isEmpty()) {
@@ -140,6 +141,16 @@ public class WidgetServiceImpl implements WidgetService {
 
         WidgetDataPayload payload = provider.getData(request);
         return new WidgetDataResponse(widget.getId(), widget.getType(), payload);
+    }
+
+    @Override
+    public WidgetDataResponse getDashboardBalanceTrend(Timeframe timeframe) {
+        Widget widget = widgetRepository
+                .findFirstByType(WidgetType.DASHBOARD_BALANCE_TREND)
+                .orElseThrow(() ->
+                        new WidgetNotFoundException("Widget not found by type: " + WidgetType.DASHBOARD_BALANCE_TREND));
+
+        return getWidgetData(widget.getId(), timeframe);
     }
 
     private Timeframe resolveTimeframe(Timeframe queryParamTimeframe, Widget widget) {

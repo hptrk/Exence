@@ -43,6 +43,13 @@ public class WidgetControllerImpl implements WidgetController {
     }
 
     @Override
+    @GetMapping("/dashboard")
+    public ResponseEntity<WidgetDataResponse> getDashboardBalanceTrend(
+            @RequestParam(required = false) Timeframe timeframe) {
+        return ResponseFactory.ok(widgetService.getDashboardBalanceTrend(timeframe));
+    }
+
+    @Override
     @PostMapping
     public ResponseEntity<WidgetLayoutResponse> createWidget(@Valid @RequestBody WidgetDTO widgetDTO) {
         return ResponseFactory.ok(widgetService.createWidget(widgetDTO));
