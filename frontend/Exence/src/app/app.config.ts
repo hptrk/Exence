@@ -8,7 +8,6 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { enUS } from 'date-fns/locale';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { CookieService } from 'ngx-cookie-service';
 import { routes } from './app.routes';
 import { authInterceptor } from './shared/auth/interceptors/auth.interceptor';
@@ -23,7 +22,6 @@ export const appConfig: ApplicationConfig = {
 		provideAnimations(),
 		provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
 		importProvidersFrom(LayoutModule),
-		provideCharts(withDefaultRegisterables()),
 		{
 			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
 			useValue: { appearance: 'outline' },

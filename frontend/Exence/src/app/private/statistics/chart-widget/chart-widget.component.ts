@@ -1,21 +1,22 @@
-import { Component, computed, effect, inject, input, signal, viewChild } from '@angular/core';
+import { booleanAttribute, Component, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { ApexOptions, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
-import { mapToProvider } from '../chart-providers';
 import { ExChartType } from '../../../data-model/modules/statistics/ChartType';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
-import { SankeyChartComponent } from '../sankey-chart/sankey-chart.component';
-import { StatisticService } from '../statistic.service';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
+import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import {
 	mapToExChartType,
 	TIMEFRAME_HIDDEN_WIDGET_TYPES,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../../../shared/base-component/base.component';
-import { MatIconModule } from '@angular/material/icon';
+import { mapToProvider } from '../chart-providers';
+import { SankeyChartComponent } from '../sankey-chart/sankey-chart.component';
+import { StatisticService } from '../statistic.service';
 import { TimeframeComponent } from '../timeframe/timeframe.component';
-import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
 	selector: 'ex-chart-widget',
@@ -36,6 +37,10 @@ export class ChartWidgetComponent extends BaseComponent {
 
 	widget = input.required<ChartWidget>();
 	editing = input.required<boolean>();
+	payload = input<WidgetDataPayload>();
+	dashboardChart = input(false, { transform: booleanAttribute });
+
+	readonly timeframeChanged = output<Timeframe>();
 
 	type = computed<ExChartType>(() => mapToExChartType(this.widget().type));
 	isApexChart = computed<boolean>(() => !['sankey', 'statCard'].includes(this.type()));
@@ -55,9 +60,21 @@ export class ChartWidgetComponent extends BaseComponent {
 		});
 
 		effect(() => {
+			this.timeframeChanged.emit(this.timeframe());
+		});
+
+		effect(() => {
 			const timeframe = this.timeframe();
 			this.isLoading.set(true);
 			if (!this.isApexChart()) {
+				this.isLoading.set(false);
+				return;
+			}
+
+			if (this.dashboardChart() && this.payload()) {
+				const payload = this.payload()!;
+				const providerFn = mapToProvider<typeof payload>(this.type());
+				this.data.set(providerFn(payload, this.widget().title) as Partial<ApexOptions>);
 				this.isLoading.set(false);
 				return;
 			}
