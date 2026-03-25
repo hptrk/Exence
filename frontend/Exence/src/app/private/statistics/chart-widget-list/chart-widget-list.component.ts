@@ -4,7 +4,11 @@ import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
-import { EditChartDialogComponent } from '../edit-chart-dialog/edit-chart-dialog.component';
+import {
+	EditChartDialogComponent,
+	EditChartDialogData,
+	EditChartDialogResult,
+} from '../edit-chart-dialog/edit-chart-dialog.component';
 import { WidgetStore } from '../widget.store';
 
 @Component({
@@ -69,14 +73,16 @@ export class ChartWidgetListComponent {
 	}
 
 	async openEditWidgetDialog(widget: ChartWidget): Promise<void> {
-		const result = await this.dialog.openNonModal(
+		const result = await this.dialog.openNonModal<EditChartDialogData, EditChartDialogResult | null>(
 			EditChartDialogComponent,
 			{
 				title: widget.title,
 				type: widget.type,
 				settings: { ...widget.settings },
 			},
-			undefined,
+			{
+				width: '500px',
+			},
 		);
 		if (!result) return;
 		this.store.applyChangesOnWidget(widget, result);

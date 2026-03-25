@@ -17,6 +17,35 @@
 			</mat-error>
 		</mat-form-field>
 
+		@if (!isStatCard() && isCategoryFilterable()) {
+			@let categoryControls = form.controls.categories.controls;
+			<mat-form-field>
+				<mat-label>Categories</mat-label>
+				<mat-select
+					multiple
+					selectAutoFocus
+					[focusedInput]="searchCategoryInput"
+					[formControl]="categoryControls.selectedCategories"
+					(closed)="categoryControls.searchText.reset()"
+				>
+					<mat-form-field subscriptSizing="dynamic" class="search-with-select">
+						<mat-label>Search</mat-label>
+						<input autoTrim matInput [formControl]="categoryControls.searchText" #searchCategoryInput />
+						<ex-input-clear [control]="categoryControls.searchText" />
+						<mat-error>
+							<ex-validator [control]="categoryControls.searchText" />
+						</mat-error>
+					</mat-form-field>
+					@for (category of filteredCategories(); track category.id) {
+						<mat-option [value]="category">
+							<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
+							{{ category.name }}
+						</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+		}
+
 		<div class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100 mt-4">
 			<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>Cancel</ex-button>
 			<ex-button filled color="primary" matIcon="check" [disabled]="form.invalid" type="submit">Save</ex-button>

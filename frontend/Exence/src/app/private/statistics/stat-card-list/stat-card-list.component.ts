@@ -2,7 +2,11 @@ import { Component, computed, inject, input, signal, viewChild } from '@angular/
 import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
-import { EditChartDialogComponent } from '../edit-chart-dialog/edit-chart-dialog.component';
+import {
+	EditChartDialogComponent,
+	EditChartDialogData,
+	EditChartDialogResult,
+} from '../edit-chart-dialog/edit-chart-dialog.component';
 import { StatCardComponent } from '../stat-card/stat-card.component';
 import { StatCardGridsterItem, WidgetStore } from '../widget.store';
 
@@ -51,14 +55,16 @@ export class StatCardListComponent {
 	}));
 
 	async openEditWidgetDialog(card: StatCardGridsterItem): Promise<void> {
-		const result = await this.dialog.openNonModal(
+		const result = await this.dialog.openNonModal<EditChartDialogData, EditChartDialogResult | null>(
 			EditChartDialogComponent,
 			{
 				title: card.title,
 				type: card.type,
 				settings: { ...card.settings },
 			},
-			undefined,
+			{
+				width: '500px',
+			},
 		);
 		if (!result) return;
 		this.store.applyChangesOnWidget(card, result);
