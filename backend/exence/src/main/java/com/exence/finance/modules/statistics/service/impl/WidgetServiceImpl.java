@@ -62,7 +62,9 @@ public class WidgetServiceImpl implements WidgetService {
 
     @Override
     public WidgetLayoutResponse getLayout() {
-        List<Widget> widgets = widgetRepository.findAllWidgets();
+        List<Widget> widgets = widgetRepository.findAllWidgets().stream()
+                .filter(widget -> !widget.getType().equals(WidgetType.DASHBOARD_BALANCE_TREND))
+                .toList();
 
         return new WidgetLayoutResponse(
                 widgetMapper.mapToStatCardDTOList(
