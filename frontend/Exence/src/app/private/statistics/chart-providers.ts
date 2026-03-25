@@ -174,6 +174,7 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 	title: string,
 	_settings?: Record<string, unknown>,
 ): ApexOptions => {
+	const fallbackColor = getCssVariableValue('--primary-color');
 	const isSlopeChart = 'series' in data ? false : true;
 	const isMixed = isSlopeChart ? false : (data as SeriesPayload).series.some(si => si.type !== 'line');
 
@@ -195,7 +196,7 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 		}));
 	} else {
 		const payload = data as SeriesPayload;
-		series = payload.series.map(si => ({ ...si, color: si.color ?? 'var(--primary-color)' }));
+		series = payload.series.map(si => ({ ...si, color: si.color ?? fallbackColor }));
 	}
 
 	const yAxisConfig: ApexYAxis | ApexYAxis[] = isMixed
@@ -538,7 +539,7 @@ const RadialBarProvider: ProviderFn<GaugePayload> = (
 			...commonChartOptions.title,
 			text: title,
 		},
-		labels: [title], // TODO should recieve from ChartWidget object (widget.title)
+		labels: [title],
 		plotOptions: {
 			radialBar: {
 				startAngle: -135,
@@ -826,7 +827,7 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 	} else {
 		series = payload.series.map(si => ({
 			...si,
-			name: new Intl.DateTimeFormat('hu-HU', { year: 'numeric', month: 'short' }).format(new Date(si.name)), // TODO this should be the default after localiszation
+			name: new Intl.DateTimeFormat('hu-HU', { year: 'numeric', month: 'short' }).format(new Date(si.name)), // TODO this should be the default after localization
 		}));
 	}
 
@@ -1004,6 +1005,16 @@ const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 		series: data,
 		colors,
 		labels,
+		plotOptions: {
+			polarArea: {
+				rings: {
+					strokeColor: 'var(--apexchart-grid-color)',
+				},
+				spokes: {
+					connectorColors: 'var(--apexchart-grid-color)',
+				},
+			},
+		},
 		dataLabels: {
 			enabled: true,
 			background: {
