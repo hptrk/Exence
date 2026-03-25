@@ -13,7 +13,7 @@ span.username {
 	color: var(--primary-color);
 }
 
-ex-chart {
+ex-chart-widget {
 	flex: 1 1 0;
 	min-width: 300px;
 	@include displayMd {
@@ -24,4 +24,5 @@ ex-chart {
 ex-categories {
 	flex: 1 1 0;
 	min-width: 250px;
+	max-width: 500px;
 }

@@ -1,6 +1,12 @@
 import { ApexAxisChartSeries, ApexChart, ApexNonAxisChartSeries, ApexOptions, ApexYAxis } from 'ng-apexcharts';
-import { getCssVariableValue } from '../../shared/chart/chart-config';
-import { buildLinks, buildNodeMap, findHubNode, formatNumber, lightenHexColor } from '../../shared/util/utils';
+import {
+	buildLinks,
+	buildNodeMap,
+	findHubNode,
+	formatNumber,
+	getCssVariableValue,
+	lightenHexColor,
+} from '../../shared/util/utils';
 import { ExChartType } from '../../data-model/modules/statistics/ChartType';
 import {
 	BoxplotPayload,

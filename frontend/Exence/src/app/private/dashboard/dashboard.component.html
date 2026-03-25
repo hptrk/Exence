@@ -25,7 +25,15 @@
 				</div>
 			} -->
 
-			<ex-chart [data]="transactions().content ?? []" />
+			@if (dashboardWidget()) {
+				<ex-chart-widget
+					class="flex-grow-1"
+					[widget]="dashboardWidget()!"
+					isDashboardChart
+					[editing]="false"
+					(timeframeChanged)="chartTimeframe.set($event)"
+				/>
+			}
 			<ex-categories
 				class="h-100"
 				[totalExpense]="transactionStore.totalExpense()"

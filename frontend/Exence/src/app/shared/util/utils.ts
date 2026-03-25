@@ -98,6 +98,14 @@ export function buildLinks(
 	}));
 }
 
+export const getCssVariableValue = (
+	variableName: string,
+	element: HTMLElement | null | undefined = document.documentElement,
+): string => {
+	if (!element) return '';
+	return getComputedStyle(element).getPropertyValue(variableName).trim();
+};
+
 export function formatNumber(value: number, locale = 'hu-HU'): string {
 	if (Math.abs(value) < 10000) return value.toString();
 	return new Intl.NumberFormat(locale, {

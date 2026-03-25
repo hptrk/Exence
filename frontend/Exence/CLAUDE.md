@@ -90,7 +90,7 @@ src/app/
 |---------|---------|
 | UI Components | @angular/material 21 |
 | Grid layout | angular-gridster2 (statistics page) |
-| Charts | ApexCharts, Chart.js/ng2-charts, ngx-echarts |
+| Charts | ApexCharts, ngx-echarts |
 | Dates | date-fns + material-date-fns-adapter |
 | Cookies | ngx-cookie-service |
 | Infinite scroll | ngx-infinite-scroll |

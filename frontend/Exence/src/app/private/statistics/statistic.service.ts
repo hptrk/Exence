@@ -1,18 +1,22 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { HttpService } from '../../shared/http/http.service';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
-import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
 import { UpdateLayoutRequest } from '../../data-model/modules/statistics/UpdateLayoutRequest';
+import { Widget } from '../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
 import { WidgetDataResponse } from '../../data-model/modules/statistics/WidgetDataReponse';
-import { Widget } from '../../data-model/modules/statistics/Widget';
+import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
+import { HttpService } from '../../shared/http/http.service';
 
 @Injectable()
 export class StatisticService {
 	private readonly http = inject(HttpService);
 
 	private baseUrl = '/api/statistics/widgets';
+
+	public getDashboardChart(timeframe?: Timeframe): Promise<WidgetDataResponse> {
+		return lastValueFrom(this.http.get<WidgetDataResponse>(`${this.baseUrl}/dashboard`, { timeframe }));
+	}
 
 	public getLayout(): Promise<WidgetLayoutResponse> {
 		return lastValueFrom(this.http.get<WidgetLayoutResponse>(`${this.baseUrl}/layout`));

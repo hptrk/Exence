@@ -68,6 +68,9 @@ export enum WidgetType {
 
 	// Sankey
 	CATEGORY_SANKEY = 'CATEGORY_SANKEY',
+
+	// Dashboard
+	DASHBOARD_BALANCE_TREND = 'DASHBOARD_BALANCE_TREND',
 }
 
 /* eslint-disable-next-line complexity */
@@ -137,6 +140,8 @@ export function mapToExChartType(widgetType: WidgetType): ExChartType {
 			return 'line';
 		case WidgetType.CATEGORY_SANKEY:
 			return 'sankey';
+		case WidgetType.DASHBOARD_BALANCE_TREND:
+			return 'area';
 	}
 }
 
@@ -168,7 +173,7 @@ const GROUP_LABELS: Record<WidgetCatalogGroup, string> = {
 };
 const GROUP_ORDER: WidgetCatalogGroup[] = ['all', 'line_area', 'bar', 'mixed', 'circular', 'point', 'card', 'other'];
 
-const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
+const WIDGET_METADATA: Partial<Record<WidgetType, WidgetCatalogItem>> = {
 	// Stat Cards
 	[WidgetType.EXPENSE_FREQUENCY_STATCARD]: {
 		type: WidgetType.EXPENSE_FREQUENCY_STATCARD,
@@ -417,7 +422,7 @@ const WIDGET_METADATA: Record<WidgetType, WidgetCatalogItem> = {
 };
 
 export const GROUP_WIDGET_TYPES: Record<WidgetCatalogGroup, WidgetType[]> = {
-	all: Object.values(WidgetType),
+	all: Object.values(WidgetType).filter(type => type in WIDGET_METADATA),
 	card: [
 		WidgetType.EXPENSE_FREQUENCY_STATCARD,
 		WidgetType.INCOME_FREQUENCY_STATCARD,
@@ -465,7 +470,7 @@ export const GROUP_WIDGET_TYPES: Record<WidgetCatalogGroup, WidgetType[]> = {
 export const WIDGET_CATALOG: WidgetCatalogData[] = GROUP_ORDER.map(group => ({
 	group,
 	label: GROUP_LABELS[group],
-	widgets: GROUP_WIDGET_TYPES[group].map(groupType => WIDGET_METADATA[groupType]),
+	widgets: GROUP_WIDGET_TYPES[group].filter(type => type in WIDGET_METADATA).map(type => WIDGET_METADATA[type]!),
 }));
 
 export const WIDGET_CATEGORY_TYPES: Partial<Record<WidgetType, CategoryType[]>> = {
