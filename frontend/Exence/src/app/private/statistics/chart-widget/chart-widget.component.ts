@@ -62,11 +62,14 @@ export class ChartWidgetComponent extends BaseComponent {
 				return;
 			}
 
-			this.statisticService.getWidgetData(this.widget().id, timeframe).then(response => {
-				const providerFn = mapToProvider<typeof response.payload>(this.type());
-				this.data.set(providerFn(response.payload, this.widget().title) as Partial<ApexOptions>);
-				this.isLoading.set(false);
-			});
+			this.statisticService
+				.getWidgetData(this.widget().id, timeframe)
+				.then(response => {
+					const providerFn = mapToProvider<typeof response.payload>(this.type());
+					this.data.set(providerFn(response.payload, this.widget().title) as Partial<ApexOptions>);
+				})
+				.catch(() => {})
+				.finally(() => this.isLoading.set(false));
 		});
 	}
 

@@ -5,12 +5,12 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsOption } from 'echarts/types/dist/shared';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
+import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
-import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
-import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 
 echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 
@@ -50,11 +50,14 @@ export class SankeyChartComponent {
 			const timeframe = this.timeframe();
 
 			this.isLoading.set(true);
-			this.statisticService.getWidgetData(this.widget().id, timeframe).then(response => {
-				const providerFn = mapToProvider<typeof response.payload>('sankey');
-				this.data.set(providerFn(response.payload, this.widget().title) as Partial<EChartsOption>);
-				this.isLoading.set(false);
-			});
+			this.statisticService
+				.getWidgetData(this.widget().id, timeframe)
+				.then(response => {
+					const providerFn = mapToProvider<typeof response.payload>('sankey');
+					this.data.set(providerFn(response.payload, this.widget().title) as Partial<EChartsOption>);
+				})
+				.catch(() => {})
+				.finally(() => this.isLoading.set(false));
 		});
 	}
 }
