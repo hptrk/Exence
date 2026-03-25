@@ -6,13 +6,14 @@ import { ApexOptions, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { ExChartType } from '../../../data-model/modules/statistics/ChartType';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
-import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import {
 	mapToExChartType,
 	TIMEFRAME_HIDDEN_WIDGET_TYPES,
 } from '../../../data-model/modules/statistics/widget-config.model';
+import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../../../shared/base-component/base.component';
+import { DisplayThemeService } from '../../../shared/display-theme.service';
 import { mapToProvider } from '../chart-providers';
 import { SankeyChartComponent } from '../sankey-chart/sankey-chart.component';
 import { StatisticService } from '../statistic.service';
@@ -34,6 +35,7 @@ import { TimeframeComponent } from '../timeframe/timeframe.component';
 })
 export class ChartWidgetComponent extends BaseComponent {
 	private readonly statisticService = inject(StatisticService);
+	private readonly themeService = inject(DisplayThemeService);
 
 	widget = input.required<ChartWidget>();
 	editing = input.required<boolean>();
@@ -47,6 +49,7 @@ export class ChartWidgetComponent extends BaseComponent {
 	showTimeframe = computed<boolean>(() => !TIMEFRAME_HIDDEN_WIDGET_TYPES.includes(this.widget().type));
 
 	private readonly chart = viewChild<ChartComponent>('chart');
+	private readonly cachedPayload = signal<WidgetDataPayload | undefined>(undefined);
 
 	timeframe = signal<Timeframe>(Timeframe.YEAR_TO_DATE);
 	isLoading = signal<boolean>(false);
@@ -81,12 +84,18 @@ export class ChartWidgetComponent extends BaseComponent {
 
 			this.statisticService
 				.getWidgetData(this.widget().id, timeframe)
-				.then(response => {
-					const providerFn = mapToProvider<typeof response.payload>(this.type());
-					this.data.set(providerFn(response.payload, this.widget().title) as Partial<ApexOptions>);
-				})
+				.then(response => this.cachedPayload.set(response.payload))
 				.catch(() => {})
 				.finally(() => this.isLoading.set(false));
+		});
+
+		effect(() => {
+			this.themeService.displayThemeSignal(); // dependency
+			const payload = this.cachedPayload();
+			if (!payload) return;
+
+			const providerFn = mapToProvider<typeof payload>(this.type());
+			this.data.set(providerFn(payload, this.widget().title) as Partial<ApexOptions>);
 		});
 	}
 
