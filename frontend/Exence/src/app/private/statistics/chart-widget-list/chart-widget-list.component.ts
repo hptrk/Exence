@@ -1,5 +1,13 @@
 import { Component, effect, inject, input, signal, viewChild } from '@angular/core';
-import { DisplayGrid, Gridster, GridsterConfig, GridsterItem, GridsterItemConfig, GridType } from 'angular-gridster2';
+import {
+	CompactType,
+	DisplayGrid,
+	Gridster,
+	GridsterConfig,
+	GridsterItem,
+	GridsterItemConfig,
+	GridType,
+} from 'angular-gridster2';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
@@ -28,6 +36,7 @@ export class ChartWidgetListComponent {
 
 	options = signal<GridsterConfig>({
 		gridType: GridType.VerticalFixed,
+		compactType: CompactType.CompactUpAndLeft,
 		displayGrid: DisplayGrid.None,
 		fixedRowHeight: 575,
 		mobileBreakpoint: 768,
