@@ -6,6 +6,7 @@ import { ChartWidget, StatCardWidget, Widget } from '../../data-model/modules/st
 import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
 import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
 import { WidgetSetting } from '../../data-model/modules/statistics/WidgetSetting';
+import { EditChartDialogResult } from './edit-chart-dialog/edit-chart-dialog.component';
 import { StatisticService } from './statistic.service';
 import { WidgetCatalogDialogResult } from './widget-catalog-dialog/widget-catalog-dialog.component';
 
@@ -82,14 +83,26 @@ export const WidgetStore = signalStore(
 			});
 		},
 
-		applyChangesOnWidget(widget: ChartWidget | StatCardGridsterItem, title: string): void {
+		applyChangesOnWidget(widget: ChartWidget | StatCardGridsterItem, changes: EditChartDialogResult): void {
 			const isStatCard = 'displayOrder' in widget;
 			const statCards = isStatCard
-				? store.statCards().map(card => (card.id === widget.id ? { ...card, title } : card))
+				? store
+						.statCards()
+						.map(card =>
+							card.id === widget.id
+								? { ...card, title: changes.title, settings: changes.settings }
+								: card,
+						)
 				: store.statCards();
 			const charts = isStatCard
 				? store.charts()
-				: store.charts().map(chart => (chart.id === widget.id ? { ...chart, title } : chart));
+				: store
+						.charts()
+						.map(chart =>
+							chart.id === widget.id
+								? { ...chart, title: changes.title, settings: changes.settings }
+								: chart,
+						);
 
 			patchState(store, {
 				statCards,
