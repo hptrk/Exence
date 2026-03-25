@@ -95,4 +95,8 @@
 			stroke: var(--apexchart-primary-shade-1);
 		}
 	}
+
+	.apexcharts-radialbar .apexcharts-datalabels-group text.apexcharts-datalabel-label {
+		fill: var(--default-text-color);
+	}
 }
