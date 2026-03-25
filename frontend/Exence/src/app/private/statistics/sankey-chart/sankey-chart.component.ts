@@ -5,10 +5,11 @@ import * as echarts from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsOption } from 'echarts/types/dist/shared';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
+import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
+import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
-import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
 
@@ -41,6 +42,8 @@ export class SankeyChartComponent {
 	widget = input.required<ChartWidget>();
 	timeframe = input.required<Timeframe>();
 
+	private readonly cachedPayload = signal<WidgetDataPayload | undefined>(undefined);
+
 	isLoading = signal<boolean>(false);
 	data = signal<Partial<EChartsOption> | undefined>(undefined);
 
@@ -53,11 +56,19 @@ export class SankeyChartComponent {
 			this.statisticService
 				.getWidgetData(this.widget().id, timeframe)
 				.then(response => {
-					const providerFn = mapToProvider<typeof response.payload>('sankey');
-					this.data.set(providerFn(response.payload, this.widget().title) as Partial<EChartsOption>);
+					this.cachedPayload.set(response.payload);
 				})
 				.catch(() => {})
 				.finally(() => this.isLoading.set(false));
+		});
+
+		effect(() => {
+			this.themeService.displayThemeSignal(); // dependency
+			const payload = this.cachedPayload();
+			if (!payload) return;
+
+			const providerFn = mapToProvider<typeof payload>('sankey');
+			this.data.set(providerFn(payload, this.widget().title) as Partial<EChartsOption>);
 		});
 	}
 }
