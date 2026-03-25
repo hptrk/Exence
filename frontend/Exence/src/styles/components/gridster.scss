@@ -8,6 +8,11 @@ gridster.custom-grid {
 
 		user-select: none;
 		-webkit-user-drag: none;
+		overflow: unset;
+
+		div.gridster-item-resizable-handler.handle-se {
+			opacity: 0;
+		}
 	}
 
 	gridster-preview.gridster-preview {
@@ -17,7 +22,7 @@ gridster.custom-grid {
 
 .dragger {
 	position: absolute;
-	top: 0;
-	left: -5px;
+	top: 0.5rem;
+	left: 0.5rem;
 	z-index: 2;
 }

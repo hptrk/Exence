@@ -1,0 +1,11 @@
+.action-buttons {
+	display: flex;
+	flex-direction: row;
+	gap: 0.5rem;
+	align-items: flex-end;
+
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	z-index: 1;
+}

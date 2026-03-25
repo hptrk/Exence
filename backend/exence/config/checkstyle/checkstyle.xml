@@ -84,6 +84,17 @@
       <property name="checks" value="MagicNumber"/>
       <property name="files" value=".*[\\/]src[\\/]test[\\/].*"/>
     </module>
+    <!-- JDBC ResultSet column indices in query service -->
+    <module name="SuppressionXpathSingleFilter">
+      <property name="checks" value="MagicNumber"/>
+      <property name="files" value="StatisticsQueryService\.java"/>
+    </module>
+
+    <!-- QueryDSL Q-type aliases use lowerCamelCase by convention -->
+    <module name="SuppressionXpathSingleFilter">
+      <property name="checks" value="ConstantName"/>
+      <property name="message" value="'(dailyCategoryStat|transaction|category|user)'"/>
+    </module>
 
     <module name="SuppressionXpathSingleFilter">
       <property name="checks" value="MethodName"/>

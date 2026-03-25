@@ -1,11 +1,13 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.SlopeItem;
 import com.exence.finance.modules.statistics.dto.payload.SlopePayload;
-import com.exence.finance.modules.statistics.dto.projection.YearlyCategoryProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.YearlyCategoryResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -19,7 +21,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class YearlySlopeProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -28,18 +31,17 @@ public final class YearlySlopeProvider implements WidgetDataProvider {
 
     @Override
     public SlopePayload getData(WidgetRequest request) {
-        List<YearlyCategoryProjection> results = statisticsRepository.findYearlyCategoryTotals(
-                request.startDate(), request.endDate(), TransactionType.EXPENSE);
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
+        List<YearlyCategoryResult> results = statisticsQueryService.findYearlyCategoryTotals(filter);
 
         Map<String, SlopeEntry> categoryMap = new LinkedHashMap<>();
         TreeSet<String> allYears = new TreeSet<>();
 
-        for (YearlyCategoryProjection p : results) {
-            String year = String.valueOf(p.getStatYear());
+        for (YearlyCategoryResult p : results) {
+            String year = String.valueOf(p.statYear());
             allYears.add(year);
-            SlopeEntry entry =
-                    categoryMap.computeIfAbsent(p.getCategoryName(), k -> new SlopeEntry(p.getCategoryColor()));
-            entry.yearsData.put(year, p.getTotalAmount());
+            SlopeEntry entry = categoryMap.computeIfAbsent(p.categoryName(), k -> new SlopeEntry(p.categoryColor()));
+            entry.yearsData.put(year, p.totalAmount());
         }
 
         List<SlopeItem> items = categoryMap.entrySet().stream()

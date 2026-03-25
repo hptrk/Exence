@@ -1,11 +1,12 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
-import com.exence.finance.modules.auth.service.UserService;
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class NoSpendDaysStatCardProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
-    private final UserService userService;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -24,14 +25,14 @@ public final class NoSpendDaysStatCardProvider implements WidgetDataProvider {
 
     @Override
     public StatCardPayload getData(WidgetRequest request) {
-        Long userId = userService.getCurrentUserId();
-        Long noSpendDays = statisticsRepository.countNoSpendDays(userId, request.startDate(), request.endDate());
+        StatisticsFilter currentFilter = filterFactory.fromRequest(request);
+        Long noSpendDays = statisticsQueryService.countNoSpendDays(currentFilter);
         long totalDays = DateUtils.countDaysBetween(request.startDate(), request.endDate());
 
-        TrendResult trend = ProviderHelper.computeTrend(
-                request,
-                BigDecimal.valueOf(noSpendDays),
-                (s, e) -> BigDecimal.valueOf(statisticsRepository.countNoSpendDays(userId, s, e)));
+        TrendResult trend = ProviderHelper.computeTrend(request, BigDecimal.valueOf(noSpendDays), (s, e) -> {
+            StatisticsFilter filter = filterFactory.fromRequest(request.withDates(s, e));
+            return BigDecimal.valueOf(statisticsQueryService.countNoSpendDays(filter));
+        });
 
         String unitLabel = ProviderHelper.getUnitLabel(noSpendDays, "day", "days");
         return new StatCardPayload(

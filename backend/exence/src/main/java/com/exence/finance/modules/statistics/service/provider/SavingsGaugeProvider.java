@@ -1,10 +1,12 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.GaugePayload;
-import com.exence.finance.modules.statistics.dto.projection.TypeAmountProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.TypeAmountResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.util.Map;
@@ -16,7 +18,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class SavingsGaugeProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -25,9 +28,10 @@ public final class SavingsGaugeProvider implements WidgetDataProvider {
 
     @Override
     public GaugePayload getData(WidgetRequest request) {
-        Map<TransactionType, BigDecimal> sums =
-                statisticsRepository.sumByType(request.startDate(), request.endDate()).stream()
-                        .collect(Collectors.toMap(TypeAmountProjection::getType, TypeAmountProjection::getTotalAmount));
+        StatisticsFilter filter = filterFactory.fromRequest(request);
+
+        Map<TransactionType, BigDecimal> sums = statisticsQueryService.sumByType(filter).stream()
+                .collect(Collectors.toMap(TypeAmountResult::type, TypeAmountResult::totalAmount));
 
         BigDecimal income = sums.getOrDefault(TransactionType.INCOME, BigDecimal.ZERO);
         BigDecimal expense = sums.getOrDefault(TransactionType.EXPENSE, BigDecimal.ZERO);

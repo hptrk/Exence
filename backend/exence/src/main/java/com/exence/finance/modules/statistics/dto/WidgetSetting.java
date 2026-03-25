@@ -6,7 +6,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public enum WidgetSetting {
     ICON("icon"),
     ICON_COLOR("iconColor"),
-    CONTEXT_LABEL("contextLabel");
+    CONTEXT_LABEL("contextLabel"),
+    CATEGORY_IDS("categoryIds");
 
     private final String key;
 

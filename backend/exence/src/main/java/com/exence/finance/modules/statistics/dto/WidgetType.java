@@ -92,6 +92,34 @@ public enum WidgetType {
 
     public static final Set<WidgetType> YTD_ONLY_TYPES = EnumSet.of(WidgetType.SPENDING_HEATMAP);
 
+    public static final Set<WidgetType> CATEGORY_FILTERABLE_TYPES = Collections.unmodifiableSet(EnumSet.of(
+            INCOME_TREND,
+            EXPENSE_TREND,
+            BALANCE_TREND,
+            INCOME_CATEGORY_TREND,
+            EXPENSE_CATEGORY_TREND,
+            BALANCE_YEAR_COMPARISON,
+            INCOME_EXPENSE_COLUMN,
+            EXPENSE_CATEGORY_COLUMN,
+            MONTHLY_BALANCE_COLUMN,
+            EXPENSE_SAVINGS_COMBO,
+            TRANSACTION_COUNT_EXPENSE_COMBO,
+            WEALTH_GROWTH_COMBO,
+            EXPENSE_PIE,
+            INCOME_PIE,
+            SPENDING_RADAR,
+            MONTHLY_CATEGORY_RADAR,
+            CATEGORY_AVG_POLAR,
+            MONTHLY_PEAK_POLAR,
+            CATEGORY_BUBBLE,
+            TRANSACTION_SCATTER,
+            SPENDING_HEATMAP,
+            CATEGORY_TREEMAP,
+            CATEGORY_BOXPLOT,
+            MONTHLY_BOXPLOT,
+            YEARLY_SLOPE,
+            CATEGORY_SANKEY));
+
     public boolean isStatCard() {
         return STAT_CARD_TYPES.contains(this);
     }

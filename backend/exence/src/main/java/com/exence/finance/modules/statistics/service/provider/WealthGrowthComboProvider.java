@@ -1,13 +1,15 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
-import com.exence.finance.modules.statistics.dto.projection.MonthlyBalanceProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.MonthlyBalanceResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.statistics.util.StatisticsConstants;
 import java.math.BigDecimal;
 import java.time.YearMonth;
@@ -20,7 +22,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class WealthGrowthComboProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -29,8 +32,8 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
 
     @Override
     public SeriesPayload getData(WidgetRequest request) {
-        List<MonthlyBalanceProjection> results =
-                statisticsRepository.findMonthlyBalance(request.startDate(), request.endDate());
+        StatisticsFilter filter = filterFactory.fromRequest(request);
+        List<MonthlyBalanceResult> results = statisticsQueryService.findMonthlyBalance(filter);
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
@@ -39,7 +42,7 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
         BigDecimal cumulative = BigDecimal.ZERO;
 
         for (YearMonth month : months) {
-            BigDecimal balance = ProviderHelper.getAmount(results, month, MonthlyBalanceProjection::getTotalAmount);
+            BigDecimal balance = ProviderHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount);
 
             cumulative = cumulative.add(balance);
 

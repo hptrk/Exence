@@ -50,13 +50,16 @@ export class SnackbarComponent {
 	}
 
 	getCssClass(): string {
+		const prefix = 'notification-';
 		switch (this.data.type) {
 			case SnackbarType.Error:
-				return 'error';
+				return `${prefix}error`;
 			case SnackbarType.Warning:
-				return 'warning';
+				return `${prefix}warning`;
 			case SnackbarType.Success:
-				return 'success';
+				return `${prefix}success`;
+			case SnackbarType.Info:
+				return `${prefix}info`;
 			default:
 				return '';
 		}

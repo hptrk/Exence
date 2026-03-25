@@ -9,6 +9,7 @@ import { StatisticsComponent } from './private/statistics/statistics.component';
 import { TransactionsAndCategoriesComponent } from './private/transactions-and-categories/transactions-and-categories.component';
 import { publicRoutes } from './public/public.routes';
 import { loggedInGuard } from './shared/auth/guard/logged-in.guard';
+import { hasChangesGuard } from './shared/auth/guard/has-changes.guard';
 
 export const routes: Routes = [
 	...publicRoutes,
@@ -31,6 +32,7 @@ export const routes: Routes = [
 		path: 'statistics',
 		component: StatisticsComponent,
 		canActivate: [loggedInGuard],
+		canDeactivate: [hasChangesGuard],
 	},
 	{
 		path: 'transactions',

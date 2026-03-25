@@ -13,6 +13,7 @@ import { SvgIcons } from '../svg-icons/svg-icons';
 	host: {
 		'[class.disabled]': 'disabled()',
 		'[style.--custom-color]': 'customColor()',
+		'[class.rounded]': 'rounded()',
 	},
 })
 export class ButtonComponent {
@@ -32,6 +33,8 @@ export class ButtonComponent {
 	primaryIconButton = input(false, { transform: booleanAttribute });
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
+	size = input<'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | '2xxl'>('md');
+	rounded = input(false, { transform: booleanAttribute });
 
 	iconPositionEnd = input(false, { transform: booleanAttribute });
 

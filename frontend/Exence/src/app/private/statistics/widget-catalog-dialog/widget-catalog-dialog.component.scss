@@ -1,0 +1,29 @@
+@import '../../../../styles/imports.scss';
+
+.catalog-widget-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+	gap: 1rem;
+}
+
+mat-card.selected {
+	outline: 3px solid var(--primary-color);
+}
+
+mat-card.disabled {
+	opacity: 0.3;
+
+	mat-card-content {
+		cursor: not-allowed;
+	}
+
+	ex-info-button {
+		pointer-events: none;
+	}
+}
+
+img {
+	height: 250px;
+	width: 100%;
+	object-fit: contain;
+}

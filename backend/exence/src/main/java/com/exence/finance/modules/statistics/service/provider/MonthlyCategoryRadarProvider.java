@@ -1,13 +1,15 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
-import com.exence.finance.modules.statistics.dto.projection.MonthlyCategoryProjection;
-import com.exence.finance.modules.statistics.repository.StatisticsRepository;
+import com.exence.finance.modules.statistics.dto.result.MonthlyCategoryResult;
+import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
+import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.time.YearMonth;
 import java.util.List;
@@ -19,7 +21,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class MonthlyCategoryRadarProvider implements WidgetDataProvider {
 
-    private final StatisticsRepository statisticsRepository;
+    private final StatisticsQueryService statisticsQueryService;
+    private final StatisticsFilterFactory filterFactory;
 
     @Override
     public WidgetType getSupportedType() {
@@ -28,8 +31,8 @@ public final class MonthlyCategoryRadarProvider implements WidgetDataProvider {
 
     @Override
     public SeriesPayload getData(WidgetRequest request) {
-        List<MonthlyCategoryProjection> results = statisticsRepository.findMonthlyCategoryTotals(
-                request.startDate(), request.endDate(), TransactionType.EXPENSE);
+        StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
+        List<MonthlyCategoryResult> results = statisticsQueryService.findMonthlyCategoryTotals(filter);
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
         Set<String> categories = ProviderHelper.getCategories(results);
