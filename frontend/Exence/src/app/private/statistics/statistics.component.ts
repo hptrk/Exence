@@ -40,7 +40,7 @@ export class StatisticsComponent implements HasChangesComponent {
 	readonly store = inject(WidgetStore);
 
 	private readonly chartWidgetList = viewChild.required(ChartWidgetListComponent);
-	private readonly statCardList = viewChild.required(StatCardListComponent);
+	private readonly statCardList = viewChild(StatCardListComponent);
 
 	editing = signal<boolean>(false);
 
@@ -78,7 +78,7 @@ export class StatisticsComponent implements HasChangesComponent {
 
 		const isStatCard = mapToExChartType(result.catalogItem.type) === 'statCard';
 		const nextFreePosition = isStatCard
-			? this.statCardList().getFirstPossiblePosition()
+			? (this.statCardList()?.getFirstPossiblePosition() ?? { cols: 1, rows: 1, x: 0, y: 0 })
 			: this.chartWidgetList().getFirstPossiblePosition();
 
 		await this.store.addWidget(result, nextFreePosition);
