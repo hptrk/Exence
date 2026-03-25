@@ -15,6 +15,7 @@ import com.exence.finance.modules.statistics.mapper.WidgetMapper;
 import com.exence.finance.modules.statistics.repository.StatisticsRepository;
 import com.exence.finance.modules.statistics.repository.WidgetRepository;
 import com.exence.finance.modules.statistics.service.WidgetService;
+import com.exence.finance.modules.statistics.service.provider.BalanceTrendProvider;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import jakarta.annotation.PostConstruct;
 import java.time.Instant;
@@ -41,6 +42,7 @@ public class WidgetServiceImpl implements WidgetService {
     private final StatisticsRepository statisticsRepository;
     private final UserService userService;
     private final List<WidgetDataProvider> providers;
+    private final BalanceTrendProvider balanceTrendProvider;
 
     private Map<WidgetType, WidgetDataProvider> providerMap;
 
