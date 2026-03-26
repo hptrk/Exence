@@ -71,6 +71,7 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
+	selectedCategoriesValue = toRawValueSignal(this.form.controls.categories.controls.selectedCategories);
 
 	private categories = signal<Category[]>([]);
 	private searchText = toRawValueSignal(this.form.controls.categories.controls.searchText);
@@ -88,6 +89,8 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 	});
 
 	isCategoryFilterable = computed(() => this.categoryFilterableWidgets.includes(this.data.type));
+
+	noneSelected = computed<boolean>(() => this.selectedCategoriesValue().length === 0);
 
 	constructor() {
 		super(inject(DialogRef));
@@ -110,5 +113,13 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 		}
 
 		this.dialogRef.submit({ title: formValue.title, settings });
+	}
+
+	selectAll(): void {
+		this.form.controls.categories.controls.selectedCategories.setValue(this.filteredCategories().map(c => c.id!));
+	}
+
+	deselectAll(): void {
+		this.form.controls.categories.controls.selectedCategories.setValue([]);
 	}
 }

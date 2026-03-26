@@ -36,6 +36,15 @@
 							<ex-validator [control]="categoryControls.searchText" />
 						</mat-error>
 					</mat-form-field>
+					@if (noneSelected()) {
+						<div class="d-flex flex-row justify-content-start px-3 py-1">
+							<ex-button text (click)="selectAll()">Select all</ex-button>
+						</div>
+					} @else {
+						<div class="d-flex flex-row justify-content-start px-3 py-1">
+							<ex-button text (click)="deselectAll()">Deselect all</ex-button>
+						</div>
+					}
 					@for (category of filteredCategories(); track category.id) {
 						<mat-option [value]="category.id">
 							<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
