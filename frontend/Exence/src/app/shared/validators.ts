@@ -32,4 +32,9 @@ export class ExtraValidators {
 			passwordRegex.lengthInterval.test(value);
 		return pass ? null : { password: true };
 	}
+
+	static filledArray(control: AbstractControl): ValidationErrors | null {
+		const value = control.value;
+		return Array.isArray(value) && value.length > 0 ? null : { filledArray: true };
+	}
 }

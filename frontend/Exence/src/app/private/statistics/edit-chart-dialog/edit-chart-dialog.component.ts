@@ -22,6 +22,7 @@ import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.dire
 import { toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
+import { ExtraValidators } from '../../../shared/validators';
 
 export interface EditChartDialogData {
 	title: string;
@@ -63,7 +64,10 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 	form = this.fb.group({
 		title: this.fb.control<string>(this.data.title, [Validators.required, Validators.maxLength(255)]),
 		categories: this.fb.group({
-			selectedCategories: this.fb.control<Category[]>([]),
+			selectedCategories: this.fb.control<number[]>(
+				(this.data.settings?.[WidgetSetting.CATEGORY_IDS] as number[] | undefined) ?? [],
+				[Validators.required, ExtraValidators.filledArray],
+			),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
@@ -97,9 +101,7 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 		const settings = { ...this.data.settings } as Record<string, unknown>;
 
 		if (this.isCategoryFilterable()) {
-			const categoryIds = formValue.categories.selectedCategories
-				.map(c => c.id)
-				.filter((id): id is number => id !== undefined);
+			const categoryIds = formValue.categories.selectedCategories;
 			if (categoryIds.length > 0) {
 				settings[WidgetSetting.CATEGORY_IDS] = categoryIds;
 			} else {

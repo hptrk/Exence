@@ -168,7 +168,7 @@ public class WidgetServiceImpl implements WidgetService {
         }
 
         WidgetDataPayload payload = provider.getData(request);
-        return new WidgetDataResponse(widget.getId(), widget.getType(), payload);
+        return new WidgetDataResponse(widget.getId(), widget.getType(), payload, widget.getSettings());
     }
 
     @Override

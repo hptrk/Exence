@@ -31,6 +31,7 @@ import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.dire
 import { toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
+import { ExtraValidators } from '../../../shared/validators';
 
 export interface WidgetCatalogDialogData {
 	statCards: StatCardWidget[];
@@ -89,7 +90,7 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		categories: this.fb.group({
-			selectedCategories: this.fb.control<Category[]>([]),
+			selectedCategories: this.fb.control<number[]>([], [Validators.required, ExtraValidators.filledArray]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
@@ -128,6 +129,10 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 			const selected = this.selectedWidgetValue();
 			this.form.controls.title.setValue(selected?.title ?? '');
 		});
+
+		effect(() =>
+			this.form.controls.categories.controls.selectedCategories.setValue(this.categories().map(c => c.id!)),
+		);
 	}
 
 	statCardSelectionDisabled(type: WidgetType): boolean {
@@ -142,9 +147,7 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 		const settings = {} as Record<WidgetSetting, unknown>;
 
 		if (this.isCategoryFilterable()) {
-			const categoryIds = formValue.categories.selectedCategories
-				.map(c => c.id)
-				.filter((id): id is number => id !== undefined);
+			const categoryIds = formValue.categories.selectedCategories;
 			if (categoryIds.length > 0) {
 				settings[WidgetSetting.CATEGORY_IDS] = categoryIds;
 			}

@@ -37,7 +37,7 @@
 						</mat-error>
 					</mat-form-field>
 					@for (category of filteredCategories(); track category.id) {
-						<mat-option [value]="category">
+						<mat-option [value]="category.id">
 							<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
 							{{ category.name }}
 						</mat-option>
