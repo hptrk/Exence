@@ -94,6 +94,7 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
+	selectedCategoriesValue = toRawValueSignal(this.form.controls.categories.controls.selectedCategories);
 
 	private categories = signal<Category[]>([]);
 	private searchText = toRawValueSignal(this.form.controls.categories.controls.searchText);
@@ -120,6 +121,8 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 		const s = this.stepper();
 		return s.selectedIndex === s.steps.length - 1;
 	});
+
+	noneSelected = computed<boolean>(() => this.selectedCategoriesValue().length === 0);
 
 	constructor() {
 		super(inject(DialogRef));
@@ -168,5 +171,13 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 
 	previousStep(): void {
 		this.stepper().previous();
+	}
+
+	selectAll(): void {
+		this.form.controls.categories.controls.selectedCategories.setValue(this.filteredCategories().map(c => c.id!));
+	}
+
+	deselectAll(): void {
+		this.form.controls.categories.controls.selectedCategories.setValue([]);
 	}
 }
