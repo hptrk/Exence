@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
@@ -39,10 +39,16 @@ export class StatisticsComponent implements HasChangesComponent {
 	private readonly snackbarService = inject(SnackbarService);
 	readonly store = inject(WidgetStore);
 
-	private readonly chartWidgetList = viewChild.required(ChartWidgetListComponent);
+	private readonly chartWidgetList = viewChild(ChartWidgetListComponent);
 	private readonly statCardList = viewChild(StatCardListComponent);
 
 	editing = signal<boolean>(false);
+	isEmpty = computed(
+		() =>
+			!this.store.layoutResource.isLoading() &&
+			this.store.statCards().length === 0 &&
+			this.store.charts().length === 0,
+	);
 
 	constructor() {
 		effect(() => {
@@ -78,8 +84,8 @@ export class StatisticsComponent implements HasChangesComponent {
 
 		const isStatCard = mapToExChartType(result.catalogItem.type) === 'statCard';
 		const nextFreePosition = isStatCard
-			? (this.statCardList()?.getFirstPossiblePosition() ?? { cols: 1, rows: 1, x: 0, y: 0 })
-			: this.chartWidgetList().getFirstPossiblePosition();
+			? (this.statCardList()?.getFirstPossiblePosition() ?? null)
+			: (this.chartWidgetList()?.getFirstPossiblePosition() ?? null);
 
 		await this.store.addWidget(result, nextFreePosition);
 	}
