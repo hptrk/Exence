@@ -500,6 +500,15 @@ export const WIDGET_CATEGORY_TYPES: Partial<Record<WidgetType, CategoryType[]>> 
 	[WidgetType.MONTHLY_BOXPLOT]: [CategoryType.INCOME, CategoryType.EXPENSE],
 	[WidgetType.YEARLY_SLOPE]: [CategoryType.INCOME, CategoryType.EXPENSE],
 	[WidgetType.CATEGORY_SANKEY]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[WidgetType.EXPENSE_FREQUENCY_STATCARD]: [CategoryType.EXPENSE],
+	[WidgetType.INCOME_FREQUENCY_STATCARD]: [CategoryType.INCOME],
+	[WidgetType.NO_SPEND_DAYS_STATCARD]: [CategoryType.EXPENSE],
+	[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: [CategoryType.EXPENSE],
+	[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: [CategoryType.INCOME],
+	[WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD]: [CategoryType.EXPENSE],
+	[WidgetType.TOP_INCOME_TRANSACTION_STATCARD]: [CategoryType.INCOME],
+	[WidgetType.BURN_RATE_STATCARD]: [CategoryType.EXPENSE],
+	[WidgetType.SAVINGS_RATE_STATCARD]: [CategoryType.INCOME],
 };
 
 export const CATEGORY_FILTERABLE_WIDGET_TYPES: WidgetType[] = Object.keys(WIDGET_CATEGORY_TYPES) as WidgetType[];

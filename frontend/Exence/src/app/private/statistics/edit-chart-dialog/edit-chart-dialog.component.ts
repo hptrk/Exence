@@ -8,7 +8,6 @@ import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import {
 	CATEGORY_FILTERABLE_WIDGET_TYPES,
-	GROUP_WIDGET_TYPES,
 	WIDGET_CATEGORY_TYPES,
 	WidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
@@ -59,7 +58,6 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 
 	data = this.dialogRef.value;
 
-	private readonly cardTypes = GROUP_WIDGET_TYPES.card;
 	private readonly categoryFilterableWidgets = CATEGORY_FILTERABLE_WIDGET_TYPES;
 
 	form = this.fb.group({
@@ -84,8 +82,6 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 		if (!search) return categories;
 		return categories.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
 	});
-
-	isStatCard = computed(() => this.cardTypes.includes(this.data.type));
 
 	isCategoryFilterable = computed(() => this.categoryFilterableWidgets.includes(this.data.type));
 

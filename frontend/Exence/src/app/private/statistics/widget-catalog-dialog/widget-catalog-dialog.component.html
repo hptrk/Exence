@@ -54,7 +54,7 @@
 						</mat-error>
 					</mat-form-field>
 
-					@if (!isStatCard() && isCategoryFilterable()) {
+					@if (isCategoryFilterable()) {
 						@let categoryControls = form.controls.categories.controls;
 						<mat-form-field>
 							<mat-label>Categories</mat-label>

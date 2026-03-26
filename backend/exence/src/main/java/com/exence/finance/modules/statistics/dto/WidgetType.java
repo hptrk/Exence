@@ -118,7 +118,16 @@ public enum WidgetType {
             CATEGORY_BOXPLOT,
             MONTHLY_BOXPLOT,
             YEARLY_SLOPE,
-            CATEGORY_SANKEY));
+            CATEGORY_SANKEY,
+            EXPENSE_FREQUENCY_STATCARD,
+            INCOME_FREQUENCY_STATCARD,
+            NO_SPEND_DAYS_STATCARD,
+            TOP_EXPENSE_CATEGORY_STATCARD,
+            TOP_INCOME_CATEGORY_STATCARD,
+            TOP_EXPENSE_TRANSACTION_STATCARD,
+            TOP_INCOME_TRANSACTION_STATCARD,
+            BURN_RATE_STATCARD,
+            SAVINGS_RATE_STATCARD));
 
     public boolean isStatCard() {
         return STAT_CARD_TYPES.contains(this);

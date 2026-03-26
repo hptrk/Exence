@@ -110,11 +110,6 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 		return categories.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
 	});
 
-	isStatCard = computed(() => {
-		const selected = this.selectedWidgetValue();
-		return selected ? this.cardTypes.includes(selected.type) : false;
-	});
-
 	isCategoryFilterable = computed(() => {
 		const selected = this.selectedWidgetValue();
 		return selected ? this.categoryFilterableWidgets.includes(selected.type) : false;
