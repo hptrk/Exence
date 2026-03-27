@@ -6,6 +6,7 @@ import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CategoryService } from './category.service';
 import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
 import { CategoryType } from '../../data-model/modules/category/CategoryType';
+import { TranslocoService } from '@jsverse/transloco';
 
 interface CategoryStoreData {
 	topCategoriesFilter: CategoryFilter;
@@ -33,30 +34,39 @@ export const CategoryStore = signalStore(
 		};
 	}),
 
-	withMethods((store, categoryService = inject(CategoryService), snackbarService = inject(SnackbarService)) => {
-		function triggerReload(): void {
-			store.categoryResource.reload();
-			store.topCategoriesResource.reload();
-		}
+	withMethods(
+		(
+			store,
+			categoryService = inject(CategoryService),
+			snackbarService = inject(SnackbarService),
+			translocoService = inject(TranslocoService),
+		) => {
+			function triggerReload(): void {
+				store.categoryResource.reload();
+				store.topCategoriesResource.reload();
+			}
 
-		return {
-			async createCategory(request: Category): Promise<void> {
-				const newCategory = await categoryService.create(request);
-				snackbarService.showSuccess(`Category '${newCategory.name}' created successfully!`);
-				triggerReload();
-			},
-			async deleteCategory(id: number): Promise<void> {
-				await categoryService.delete(id);
-				snackbarService.showSuccess('Category deleted successfully!');
-				triggerReload();
-			},
+			return {
+				async createCategory(request: Category): Promise<void> {
+					const newCategory = await categoryService.create(request);
+					snackbarService.showSuccess(
+						translocoService.translate('category.create.successInfo', { name: newCategory.name }),
+					);
+					triggerReload();
+				},
+				async deleteCategory(id: number): Promise<void> {
+					await categoryService.delete(id);
+					snackbarService.showSuccess(translocoService.translate('category.deleteInfo'));
+					triggerReload();
+				},
 
-			toggleTopCategoriesType(type?: CategoryType): void {
-				patchState(store, state => ({
-					...state,
-					topCategoriesFilter: { ...store.topCategoriesFilter(), type: type ?? CategoryType.EXPENSE },
-				}));
-			},
-		};
-	}),
+				toggleTopCategoriesType(type?: CategoryType): void {
+					patchState(store, state => ({
+						...state,
+						topCategoriesFilter: { ...store.topCategoriesFilter(), type: type ?? CategoryType.EXPENSE },
+					}));
+				},
+			};
+		},
+	),
 );

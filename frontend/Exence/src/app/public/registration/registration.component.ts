@@ -17,6 +17,7 @@ import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 @Component({
 	selector: 'ex-registration',
@@ -35,6 +36,7 @@ import { StopPropagationDirective } from '../../shared/stop-propagation.directiv
 		ValidatorComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
+		TranslocoPipe,
 	],
 })
 export class RegistrationComponent extends BaseComponent {
@@ -42,6 +44,7 @@ export class RegistrationComponent extends BaseComponent {
 	private readonly authService = inject(AuthService);
 	private readonly router = inject(Router);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly translocoService = inject(TranslocoService);
 	readonly navigate = inject(NavigationService);
 
 	form = this.fb.group({
@@ -64,7 +67,7 @@ export class RegistrationComponent extends BaseComponent {
 			confirmPassword: formValue.confirmPassword,
 		};
 		await this.authService.register(request);
-		this.snackbarService.showSuccess('Successfull registration!');
+		this.snackbarService.showSuccess(this.translocoService.translate('registration.success'));
 		this.router.navigateByUrl(this.navigate.account().login());
 	}
 }

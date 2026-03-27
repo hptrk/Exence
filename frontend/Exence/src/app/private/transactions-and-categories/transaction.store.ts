@@ -8,6 +8,7 @@ import { TransactionType } from '../../data-model/modules/transaction/Transactio
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CategoryStore } from './category.store';
 import { TransactionService } from './transaction.service';
+import { TranslocoService } from '@jsverse/transloco';
 
 export interface TransactionStoreData {
 	// Page
@@ -108,6 +109,7 @@ export const TransactionStore = signalStore(
 			transactionService = inject(TransactionService),
 			snackbarService = inject(SnackbarService),
 			categoryStore = inject(CategoryStore),
+			translocoService = inject(TranslocoService),
 		) => {
 			function reload(transaction: Transaction): void {
 				const newPages = {
@@ -184,28 +186,33 @@ export const TransactionStore = signalStore(
 				patchState(store, newState);
 			}
 
+			function formatTitle(title: string): string {
+				const suffix = title.length > 10 ? '...' : '';
+				return `${title.slice(0, 10)}${suffix}`;
+			}
+
 			return {
 				async createTransaction(request: Transaction): Promise<void> {
 					const newTransaction = await transactionService.create(request);
 					snackbarService.showSuccess(
-						`Transaction '${newTransaction.title.slice(0, 10)}${
-							newTransaction.title.length > 10 ? '...' : ''
-						}' created successfully!`,
+						translocoService.translate('transaction.create.successInfo', {
+							title: formatTitle(newTransaction.title),
+						}),
 					);
 					reload(request);
 				},
 				async updateTransaction(request: Transaction): Promise<void> {
 					const updatedTransaction = await transactionService.update(request);
 					snackbarService.showSuccess(
-						`Transaction '${updatedTransaction.title.slice(0, 10)}${
-							updatedTransaction.title.length > 10 ? '...' : ''
-						}' created successfully!`,
+						translocoService.translate('transaction.updateInfo', {
+							name: formatTitle(updatedTransaction.title),
+						}),
 					);
 					fullReload();
 				},
 				async deleteTransaction(request: Transaction): Promise<void> {
 					await transactionService.delete(request.id!);
-					snackbarService.showSuccess('Transaction deleted successfully!');
+					snackbarService.showSuccess(translocoService.translate('transaction.deleteInfo'));
 					reload(request);
 				},
 				loadNextPage(type?: TransactionType, recurring?: boolean): void {

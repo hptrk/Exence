@@ -8,7 +8,7 @@
 		[matBadge]="appliedFiltersCount()"
 		matBadgePosition="before"
 	>
-		Add filter
+		{{ 'filterMenu.addButton' | transloco }}
 	</ex-button>
 } @else {
 	<ex-button
@@ -28,7 +28,7 @@
 	<!-- TODO check if propagation directive can be used -->
 	<div class="d-flex flex-column gap-3 p-4 menu" (click)="$event.stopPropagation()">
 		<div class="d-flex flex-row align-items-center justify-content-between gap-2">
-			<h3 class="m-0">Filters</h3>
+			<h3 class="m-0">{{ 'filterMenu.title' | transloco }}</h3>
 			<ex-button
 				iconButton
 				color="primary"
@@ -51,7 +51,7 @@
 		class="position-absolute top-0 end-0"
 	/>
 	<div class="d-flex flex-column gap-3 p-4 h-100">
-		<h3 class="fs-1 m-0 text-center">Filters</h3>
+		<h3 class="fs-1 m-0 text-center">{{ 'filterMenu.title' | transloco }}</h3>
 
 		<div class="d-flex flex-column gap-3 p-4 overflow-y-auto">
 			<ng-container [ngTemplateOutlet]="content" />
@@ -59,10 +59,10 @@
 
 		<div class="d-flex flex-column gap-2">
 			<ex-button matIcon="visibility" (click)="closeSheet()" [disabled]="!appliedFiltersCount()">
-				Show ({{ appliedFiltersCount() }})
+				{{ 'filterMenu.show' | transloco: { filterCount: appliedFiltersCount() } }}
 			</ex-button>
 			<ex-button color="accent" matIcon="filter_alt_off" (click)="clearFilters(); closeSheet()">
-				Clear all
+				{{ 'filterMenu.clearAll' | transloco }}
 			</ex-button>
 		</div>
 	</div>

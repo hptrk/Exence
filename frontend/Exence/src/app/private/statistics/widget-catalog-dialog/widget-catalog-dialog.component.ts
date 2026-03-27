@@ -32,6 +32,7 @@ import { toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { ExtraValidators } from '../../../shared/validators';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 export interface WidgetCatalogDialogData {
 	statCards: StatCardWidget[];
@@ -65,6 +66,7 @@ export interface WidgetCatalogDialogResult {
 		InputClearButtonComponent,
 		AutoTrimDirective,
 		SelectAutoFocusDirective,
+		TranslocoPipe,
 	],
 })
 export class WidgetCatalogDialogComponent extends DialogComponent<
@@ -73,6 +75,7 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 > {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
+	private readonly translocoService = inject(TranslocoService);
 	readonly themeService = inject(DisplayThemeService);
 
 	private readonly stepper = viewChild.required(MatStepper);
@@ -130,7 +133,7 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 
 		effect(() => {
 			const selected = this.selectedWidgetValue();
-			this.form.controls.title.setValue(selected?.title ?? '');
+			this.form.controls.title.setValue(this.translocoService.translate(selected?.title ?? ''));
 		});
 
 		effect(() =>

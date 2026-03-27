@@ -42,6 +42,8 @@ import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
 import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/animated-skeleton-loader.component';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { CategoryType } from '../../data-model/modules/category/CategoryType';
 
 @Component({
 	selector: 'ex-data-table',
@@ -66,6 +68,7 @@ import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/ani
 		AnimatedSkeletonLoaderComponent,
 		StopPropagationDirective,
 		InfiniteScrollDirective,
+		TranslocoPipe,
 	],
 	// TODO remove deprecated angular animations
 	/* eslint-disable */
@@ -273,6 +276,10 @@ export class DataTableComponent extends BaseComponent {
 	getNextPage(): number {
 		this.pageIndex++;
 		return this.pageIndex;
+	}
+
+	codeForCategoryType(type: CategoryType): string {
+		return `categoryType.${type}`;
 	}
 
 	private mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {

@@ -24,6 +24,8 @@ import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
+import { UpperCasePipe } from '@angular/common';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -51,6 +53,8 @@ export interface CreateTransactionDialogData {
 		ConfirmExitDialogDirective,
 		EnumValuePipe,
 		SelectAutoFocusDirective,
+		TranslocoPipe,
+		UpperCasePipe,
 	],
 })
 export class CreateTransactionDialogComponent
@@ -139,5 +143,9 @@ export class CreateTransactionDialogComponent
 		} as Transaction;
 		this.store.createTransaction(request);
 		this.dialogRef.submit();
+	}
+
+	codeForTransactionType(type: TransactionType): string {
+		return `transactionType.${type}`;
 	}
 }

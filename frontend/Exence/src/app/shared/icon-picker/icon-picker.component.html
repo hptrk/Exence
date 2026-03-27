@@ -47,7 +47,11 @@
 				<ul class="p-0">
 					@for (iconInfo of category.icons; track iconInfo.icon) {
 						<li (click)="form.controls.icon.setValue(iconInfo.icon)">
-							<mat-icon size="md" [matTooltip]="iconInfo.tooltip" [style.color]="selectedColor()">
+							<mat-icon
+								size="md"
+								[matTooltip]="iconInfo.tooltip | transloco"
+								[style.color]="selectedColor()"
+							>
 								{{ iconInfo.icon }}
 							</mat-icon>
 						</li>

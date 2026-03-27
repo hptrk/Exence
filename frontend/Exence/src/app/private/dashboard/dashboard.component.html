@@ -1,15 +1,12 @@
 <section class="d-flex flex-column h-100 justify-content-between p-2 pb-0 p-sm-3 p-md-4 gap-0">
 	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
 		<div>
-			<h1 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
-				Welcome back, <span class="username">{{ user().username }}</span
-				>!
-			</h1>
-			<p class="fs-4 m-0 text-center text-md-start">Snapshot of your finances</p>
+			<h1
+				class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}"
+				[innerHTML]="'dashboard.title' | transloco: { username: user().username }"
+			></h1>
+			<p class="fs-4 m-0 text-center text-md-start">{{ 'dashboard.subtitle' | transloco }}</p>
 		</div>
-		<!-- @if (display.isMd()) {
-		<ng-container [ngTemplateOutlet]="toggleFilter" />
-	} -->
 	</div>
 
 	<div
@@ -19,12 +16,6 @@
 		<div
 			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
 		>
-			<!-- @if (display.isMd() === false) {
-				<div class="mx-auto">
-					<ng-container [ngTemplateOutlet]="toggleFilter" />
-				</div>
-			} -->
-
 			@if (dashboardWidget()) {
 				<ex-chart-widget
 					class="flex-grow-1"
@@ -48,21 +39,21 @@
 				<ex-summary-container
 					class="flex-grow-1"
 					matIcon="attach_money"
-					title="Income"
+					[title]="'literals.income' | transloco"
 					[value]="transactionStore.totalIncome()"
 					[type]="transactionTypes.INCOME"
 				/>
 				<ex-summary-container
 					class="flex-grow-1"
 					matIcon="money_off"
-					title="Expenses"
+					[title]="'literals.expense' | transloco"
 					[value]="transactionStore.totalExpense()"
 					[type]="transactionTypes.EXPENSE"
 				/>
 				<ex-summary-container
 					class="flex-grow-1"
 					matIcon="savings"
-					title="Balance"
+					[title]="'literals.balance' | transloco"
 					[value]="transactionStore.balance()"
 				/>
 			</div>
@@ -75,7 +66,7 @@
 					matIcon="money_off"
 					[transactions]="transactionStore.expenses()"
 					[isDataLoading]="transactionStore.expenseResource.isLoading()"
-					title="Expenses"
+					[title]="'literals.expenses' | transloco"
 					[type]="transactionTypes.EXPENSE"
 					(onScroll)="onScroll(transactionTypes.EXPENSE)"
 				/>
@@ -84,7 +75,7 @@
 					matIcon="attach_money"
 					[transactions]="transactionStore.incomes()"
 					[isDataLoading]="transactionStore.incomeResource.isLoading()"
-					title="Incomes"
+					[title]="'literals.income' | transloco"
 					[type]="transactionTypes.INCOME"
 					(onScroll)="onScroll(transactionTypes.INCOME)"
 				/>
@@ -96,7 +87,7 @@
 					matIcon="attach_money"
 					[transactions]="transactionStore.transactions()"
 					[isDataLoading]="transactionStore.transactionResource.isLoading()"
-					title="Transactions"
+					[title]="'literals.transactions' | transloco"
 					(onScroll)="onScroll()"
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
@@ -113,7 +104,7 @@
 			class="flex-grow-1"
 			(click)="openCreateTransactionDialog(transactionTypes.EXPENSE)"
 		>
-			Expense
+			{{ 'literals.expense' | transloco }}
 		</ex-button>
 		<ex-button
 			filled
@@ -121,7 +112,7 @@
 			class="flex-grow-1"
 			(click)="openCreateTransactionDialog(transactionTypes.INCOME)"
 		>
-			Income
+			{{ 'literals.income' | transloco }}
 		</ex-button>
 	</div>
 </ng-template>

@@ -11,6 +11,7 @@ import { ButtonComponent } from '../button/button.component';
 import { EnumValuePipe } from '../pipes/enum-value.pipe';
 import { StopPropagationDirective } from '../stop-propagation.directive';
 import { toRawValueSignal } from '../util/utils';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 export interface CategoryIconInfo {
 	icon: MaterialIcon;
@@ -41,6 +42,7 @@ enum PredefinedIconColors {
 		MatTooltipModule,
 		ButtonComponent,
 		EnumValuePipe,
+		TranslocoPipe,
 		StopPropagationDirective,
 	],
 })

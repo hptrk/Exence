@@ -4,6 +4,6 @@
 	hideSingleSelectionIndicator
 >
 	@for (timeframe of Timeframe | enumValue; track timeframe) {
-		<mat-button-toggle [value]="timeframe">{{ timeframe }}</mat-button-toggle>
+		<mat-button-toggle [value]="timeframe">{{ codeForTimeframe(timeframe) | transloco }}</mat-button-toggle>
 	}
 </mat-button-toggle-group>

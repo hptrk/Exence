@@ -17,6 +17,7 @@ import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
 import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
 	selector: 'ex-login',
@@ -35,6 +36,7 @@ import { StopPropagationDirective } from '../../shared/stop-propagation.directiv
 		ValidatorComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
+		TranslocoPipe,
 	],
 })
 export class LoginComponent extends BaseComponent {

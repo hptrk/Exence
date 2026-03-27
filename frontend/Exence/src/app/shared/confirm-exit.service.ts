@@ -6,12 +6,14 @@ import {
 	MessageDialogComponent,
 	PredefiedButtons,
 } from './message-dialog/message-dialog.component';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ConfirmExitService {
 	private readonly dialog = inject(DialogService);
+	private readonly translocoService = inject(TranslocoService);
 	private trackedForms = new Set<FormGroup>();
 
 	registerForm(form: FormGroup): void {
@@ -28,12 +30,12 @@ export class ConfirmExitService {
 
 	async showConfirmDialog(): Promise<boolean> {
 		return this.dialog.openModal(MessageDialogComponent, {
-			title: 'Unsaved changes',
-			message: 'You have unsaved changes. Are you sure you want to leave? Your changes will be lost.',
+			title: this.translocoService.translate('confirmExit.title'),
+			message: this.translocoService.translate('confirmExit.message'),
 			hideCloseIcon: true,
 			buttons: MessageDialogButtonConfig.custom(
 				{
-					text: 'Continue',
+					text: this.translocoService.translate('literals.continue'),
 					value: true,
 					color: 'primary',
 					iconPositionEnd: true,

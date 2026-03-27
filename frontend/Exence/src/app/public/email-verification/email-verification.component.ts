@@ -7,6 +7,7 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { AuthService } from '../../shared/auth/auth.service';
 import { EmailVerificationRequest } from '../../data-model/modules/auth/EmailVerificationRequest';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 @Component({
 	selector: 'ex-email-verification',
@@ -20,32 +21,30 @@ import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 				</div>
 
 				<div>
-					<h2 class="fs-1 fw-bold">Email verified</h2>
-					<p class="m-0 mb-4 subtitle">
-						Congratulations! Your email has been verified. You can now use all features of
-						<strong>Exence</strong>.
-					</p>
+					<h2 class="fs-1 fw-bold">{{ 'emailVerification.title' | transloco }}</h2>
+					<p class="m-0 mb-4 subtitle" [innerHTML]="'emailVerification.message' | transloco"></p>
 					<ex-button outline matIcon="keyboard_backspace" (click)="navigateToLogin()">
-						Back to login
+						{{ 'emailVerification.success' | transloco }}
 					</ex-button>
 				</div>
 			</mat-card-content>
 		</mat-card>
 	`,
 	styleUrl: './email-verification.component.scss',
-	imports: [MatCardModule, MatIconModule, ButtonComponent],
+	imports: [MatCardModule, MatIconModule, ButtonComponent, TranslocoPipe],
 })
 export class EmailVerificationComponent implements OnInit {
 	private readonly router = inject(Router);
 	private readonly navigate = inject(NavigationService);
 	private readonly authService = inject(AuthService);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly translocoService = inject(TranslocoService);
 
 	ngOnInit(): void {
 		const token = this.router.routerState.root.snapshot.queryParams['token'];
 		const request: EmailVerificationRequest = { token };
 		this.authService.verifyEmail(request).then(() => {
-			this.snackbarService.showSuccess('Email successfully verified!');
+			this.snackbarService.showSuccess(this.translocoService.translate('emailVerification.success'));
 		});
 	}
 

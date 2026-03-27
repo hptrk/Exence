@@ -1,7 +1,7 @@
 <div class="d-flex flex-column gap-4">
 	<ul>
 		@let currSession = currentSession();
-		<h3 class="m-0 text-center text-md-start fs-2">This session</h3>
+		<h3 class="m-0 text-center text-md-start fs-2">{{ 'sessionList.thisSession' | transloco }}</h3>
 		<li
 			class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-4 ms-2 my-3"
 		>
@@ -12,7 +12,7 @@
 					{{ currSession?.deviceName }}
 				</div>
 				<div>
-					Last used
+					{{ 'sessionList.lastUsed' | transloco }}
 					<span class="emphasis">{{ currSession?.lastUsedAt | formatDateFromNow }}</span>
 				</div>
 			</div>
@@ -20,12 +20,12 @@
 
 		<mat-divider />
 		<p class="security-info text-center text-md-start mx-auto mx-md-0">
-			If you think your account is being used without your permission, change your password before signing out.
+			{{ 'sessionList.securityInfo' | transloco }}
 		</p>
 
 		@if (!!otherSessions().length) {
 			<mat-divider />
-			<h3 class="m-0 text-center text-md-start fs-2 mt-5">Other sessions</h3>
+			<h3 class="m-0 text-center text-md-start fs-2 mt-5">{{ 'sessionList.otherSessions' | transloco }}</h3>
 			@for (session of otherSessions(); track session.sessionId; let last = $last) {
 				<li
 					class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-4 ms-2 my-4"
@@ -37,7 +37,7 @@
 							{{ session.deviceName }}
 						</div>
 						<div>
-							Last used
+							{{ 'sessionList.lastUsed' | transloco }}
 							<span class="emphasis">{{ session.lastUsedAt | formatDateFromNow }}</span>
 						</div>
 					</div>
@@ -63,7 +63,7 @@
 					class="mt-2 delete-all"
 					(click)="deleteAllSessions()"
 				>
-					Delete all sessions
+					{{ 'sessionList.deleteAll' | transloco }}
 				</ex-button>
 			</div>
 		}

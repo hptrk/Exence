@@ -2,6 +2,7 @@ import { Component, input, OnInit, signal } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { merge, of } from 'rxjs';
 import { BaseComponent } from '../base-component/base.component';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 interface ErrorInfo {
 	min?: number;
@@ -12,7 +13,7 @@ interface ErrorInfo {
 @Component({
 	selector: 'ex-validator',
 	templateUrl: './validator.component.html',
-	imports: [],
+	imports: [TranslocoPipe],
 })
 export class ValidatorComponent extends BaseComponent implements OnInit {
 	control = input.required<AbstractControl>();

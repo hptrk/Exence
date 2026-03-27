@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { TranslocoPipe } from '@jsverse/transloco';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { ChartWidget } from '../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
@@ -32,6 +33,7 @@ import { TransactionStore } from '../transactions-and-categories/transaction.sto
 		ChartWidgetComponent,
 		CategoriesComponent,
 		ButtonComponent,
+		TranslocoPipe,
 	],
 	providers: [StatisticService],
 })

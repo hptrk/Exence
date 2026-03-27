@@ -29,7 +29,7 @@
 						<ng-container matColumnDef="title">
 							<th mat-header-cell *matHeaderCellDef class="px-3">
 								@if (display.isSm()) {
-									Title
+									{{ 'dataTable.title' | transloco }}
 								}
 							</th>
 							<td mat-cell *matCellDef="let row" class="text-truncate">
@@ -45,7 +45,7 @@
 						<ng-container matColumnDef="date">
 							<th mat-header-cell *matHeaderCellDef>
 								@if (display.isSm()) {
-									Date
+									{{ 'dataTable.date' | transloco }}
 								}
 							</th>
 							<td mat-cell *matCellDef="let row">
@@ -58,7 +58,7 @@
 						<ng-container matColumnDef="amount">
 							<th mat-header-cell *matHeaderCellDef class="px-3">
 								@if (display.isSm()) {
-									Amount
+									{{ 'literals.amount' | transloco }}
 								}
 							</th>
 							<td mat-cell *matCellDef="let row">
@@ -76,7 +76,7 @@
 						<ng-container matColumnDef="category">
 							<th mat-header-cell *matHeaderCellDef>
 								@if (display.isSm()) {
-									Category
+									{{ 'literals.category' | transloco }}
 								}
 							</th>
 							<td mat-cell *matCellDef="let row">
@@ -97,7 +97,7 @@
 									>
 										@if (!nonExpandable()) {
 											<div
-												matTooltip="Actions"
+												[matTooltip]="'dataTable.actions' | transloco"
 												[class.hidden]="expandedRowId !== row.id"
 												class="d-flex align-items-center justify-content-center"
 											>
@@ -145,21 +145,21 @@
 													>
 														<mat-icon color="warn">delete</mat-icon>
 														@if (display.isMd()) {
-															Delete
+															{{ 'literals.delete' | transloco }}
 														}
 													</button>
 												</mat-menu>
 											</div>
 											@if (expandedRowId === row.id) {
 												<div
-													matTooltip="Hide details"
+													[matTooltip]="'dataTable.details.hide' | transloco"
 													class="d-flex align-items-center justify-content-center"
 												>
 													<mat-icon>expand_less</mat-icon>
 												</div>
 											} @else {
 												<div
-													matTooltip="Show details"
+													[matTooltip]="'dataTable.details.show' | transloco"
 													class="d-flex align-items-center justify-content-center"
 												>
 													<mat-icon>expand_more</mat-icon>
@@ -183,7 +183,7 @@
 												<div class="d-flex gap-4 w-100">
 													@let noteControl = $any(noteForm.controls)[row.id];
 													<mat-form-field>
-														<mat-label>Note</mat-label>
+														<mat-label>{{ 'dataTable.note' | transloco }}</mat-label>
 														<textarea
 															matInput
 															cdkTextareaAutosize
@@ -198,7 +198,7 @@
 													<div class="d-flex flex-column justify-content-between pb-4">
 														@let categoryControl = $any(categoryForm.controls)[row.id];
 														<mat-form-field>
-															<mat-label>Category</mat-label>
+															<mat-label>{{ 'literals.category' | transloco }}</mat-label>
 															<mat-select [formControl]="categoryControl">
 																@for (
 																	category of categoryStore.categoryResource.value();
@@ -218,11 +218,11 @@
 														</mat-form-field>
 
 														@let recurringControl = $any(recurringForm.controls)[row.id];
-														<mat-checkbox [formControl]="recurringControl"
-															><span [class.nowrap]="display.isMd()"
-																>Automatically recurring?</span
-															></mat-checkbox
-														>
+														<mat-checkbox [formControl]="recurringControl">
+															<span [class.nowrap]="display.isMd()">{{
+																'dataTable.recurring' | transloco
+															}}</span>
+														</mat-checkbox>
 														<mat-error>
 															<ex-validator [control]="recurringControl" />
 														</mat-error>
@@ -237,7 +237,7 @@
 														[disabled]="false"
 														(click)="saveRow(row)"
 													>
-														Save
+														{{ 'literals.save' | transloco }}
 													</ex-button>
 													<ex-button
 														outlined
@@ -245,7 +245,7 @@
 														color="accent"
 														(click)="cancelRowEdit(row.id)"
 													>
-														Cancel
+														{{ 'literals.cancel' | transloco }}
 													</ex-button>
 												</div>
 											</div>
@@ -288,7 +288,7 @@
 						<ng-container matColumnDef="name">
 							<th mat-header-cell *matHeaderCellDef class="px-3">
 								@if (display.isSm()) {
-									<div class="text-start">Name</div>
+									<div class="text-start">{{ 'dataTable.name' | transloco }}</div>
 								}
 							</th>
 							<td mat-cell *matCellDef="let row" class="text-truncate">
@@ -303,7 +303,7 @@
 						<ng-container matColumnDef="icon">
 							<th mat-header-cell *matHeaderCellDef>
 								@if (display.isSm()) {
-									<div class="text-start">Icon</div>
+									<div class="text-start">{{ 'dataTable.icon' | transloco }}</div>
 								}
 							</th>
 							<td mat-cell *matCellDef="let row">
@@ -318,12 +318,12 @@
 						<ng-container matColumnDef="type">
 							<th mat-header-cell *matHeaderCellDef>
 								@if (display.isSm()) {
-									<div class="text-start">Type</div>
+									<div class="text-start">{{ 'dataTable.type' | transloco }}</div>
 								}
 							</th>
 							<td mat-cell *matCellDef="let row">
 								<div class="table-row-item justify-content-start">
-									{{ row.type }}
+									{{ codeForCategoryType(row.type) | transloco }}
 								</div>
 							</td>
 						</ng-container>
@@ -381,8 +381,8 @@
 		<div class="d-flex flex-column align-items-center justify-content-center gap-4">
 			<img src="assets/empty-table.svg" />
 			<div class="d-flex flex-column gap-2 justify-content-center align-items-center">
-				<h3 class="fs-2 fw-bold">No items found</h3>
-				<p class="m-0 fs-5">Try adjusting or clearing your current filters.</p>
+				<h3 class="fs-2 fw-bold">{{ 'dataTable.empty' | transloco }}</h3>
+				<p class="m-0 fs-5">{{ 'dataTable.adjustFilters' | transloco }}</p>
 			</div>
 		</div>
 	</div>

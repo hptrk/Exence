@@ -17,6 +17,7 @@ import { ExtraValidators } from '../../shared/validators';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
 import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
+import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 @Component({
 	selector: 'ex-profile',
@@ -33,6 +34,7 @@ import { StopPropagationDirective } from '../../shared/stop-propagation.directiv
 		ValidatorComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
+		TranslocoPipe,
 	],
 })
 export class ProfileComponent {
@@ -41,6 +43,7 @@ export class ProfileComponent {
 	private readonly snackbarService = inject(SnackbarService);
 	private readonly router = inject(Router);
 	private readonly navigationService = inject(NavigationService);
+	private readonly translocoService = inject(TranslocoService);
 	readonly currentUserService = inject(CurrentUserService);
 
 	user = computed(() => this.currentUserService.user());
@@ -84,7 +87,7 @@ export class ProfileComponent {
 		const updatedUser = await this.userService.updateUser(request);
 		this.currentUserService.user = updatedUser;
 		this.isUserDataFormEditing.set(false);
-		this.snackbarService.showSuccess('Successfully saved!');
+		this.snackbarService.showSuccess(this.translocoService.translate('profile.saved'));
 	}
 
 	async savePassword(): Promise<void> {
@@ -100,7 +103,7 @@ export class ProfileComponent {
 		this.router.navigate([this.navigationService.account().login()], {
 			queryParams: { ['password-changed']: 'true' },
 		});
-		this.snackbarService.showSuccess('Successfully saved!');
+		this.snackbarService.showSuccess(this.translocoService.translate('profile.saved'));
 	}
 
 	cancelDataEditing(): void {

@@ -1,0 +1,598 @@
+{
+	"literals": {
+		"transaction": "Tranzakció",
+		"transactions": "Tranzakciók",
+		"category": "Kategória",
+		"categories": "Kategóriák",
+		"income": "Bevétel",
+		"incomes": "Bevételek",
+		"expense": "Kiadás",
+		"expenses": "Kiadások",
+		"balance": "Vagyon",
+		"save": "Mentés",
+		"delete": "Törölés",
+		"cancel": "Mégse",
+		"next": "Következő",
+		"back": "Vissza",
+		"continue": "Folytatás",
+		"create": "Létrehozás",
+		"amount": "Összeg",
+		"minimum": "Min",
+		"maximum": "Max",
+		"all": "Összes",
+		"type": "Típus"
+	},
+	"dashboard": {
+		"title": "Üdvözöllek újra, <span class='username'>{{username}}</span>!",
+		"subtitle": "Pillanatkép a pénzügyeiről"
+	},
+	"transactionsAndCategories": {
+		"recurring": {
+			"expenses": "Ismétlődő kiadások",
+			"incomes": "Ismétlődő jövedelmek",
+			"transactions": "Recurrings"
+		},
+		"noCategories": "Először hozzon létre egy kategóriát!",
+		"addTransaction": "Tranzakció hozzáadása",
+		"search": "Keresés...",
+		"dateRange": "Adjon meg egy dátumtartományt"
+	},
+	"categories": {
+		"topCategories": "Felső kategóriák",
+		"noTransactions": "Adjon hozzá tranzakciókat, hogy felfedezze költési szokásait!",
+		"createTransactionButton": "Tranzakció létrehozása",
+		"noCategories": "Adj hozzá kategóriákat, hogy felfedezd a költési szokásaidat!",
+		"createCategoryButton": "Kategória létrehozása"
+	},
+	"categoryType": {
+		"EXPENSE": "Kiadások",
+		"INCOME": "Bevétel",
+		"MIXED": "Vegyes"
+	},
+	"transactionType": {
+		"EXPENSE": "Kiadások",
+		"INCOME": "Bevétel"
+	},
+	"profile": {
+		"title": "Profil adatok",
+		"username": "Felhasználónév",
+		"email": "E-mail",
+		"changePassword": "Jelszó módosítása",
+		"oldPassword": "Régi jelszó",
+		"newPassword": "Új jelszó",
+		"confirmPassword": "Jelszó megerősítése",
+		"saved": "Sikeresen mentve!"
+	},
+	"sessionList": {
+		"thisSession": "Jelenlegi munkamenet",
+		"lastUsed": "Utoljára használt",
+		"securityInfo": "Ha úgy gondolja, hogy fiókját az engedélye nélkül használják, a kijelentkezés előtt változtassa meg jelszavát.",
+		"otherSessions": "Egyéb munkamenetek",
+		"deleteAll": "Minden munkamenet törlése",
+		"deleted": "Sikeresen törölt munkamenet",
+		"deletedAll": "Sikeresen törölte az összes munkamenetet"
+	},
+	"navigation": {
+		"dashboard": "Kezdőlap",
+		"transactions": "Tranzakciók",
+		"statistics": "Statisztikák",
+		"goals": "Célok",
+		"debts": "Tartozások",
+		"profile": "Profil",
+		"settings": "Beállítások",
+		"theme": "Elsődleges/másodlagos téma",
+		"logout": "Kijelentkezés"
+	},
+	"timeframe": {
+		"1W": "1Hé",
+		"1M": "1Hó",
+		"3M": "3Hó",
+		"6M": "6Hó",
+		"YTD": "YTD",
+		"1Y": "1E",
+		"ALL": "Összes"
+	},
+	"statistics": {
+		"editChart": {
+			"title": "Diagram szerkesztése - '{{title}}'",
+			"titleLabel": "Cím",
+			"categories": "Kategóriák",
+			"search": "Keresés"
+		},
+		"empty": {
+			"title": "Az Ön műszerfala üres",
+			"subtitle": "Adjon hozzá grafikonokat és statisztikai kártyákat a statisztikai műszerfal testreszabásához."
+		},
+		"catalog": {
+			"title": "Új diagram hozzáadása",
+			"disabledStatCard": "A stat kártyák maximális száma (4) az alaprajzon elérte a megengedett értéket.",
+			"titleLabel": "Cím",
+			"categories": "Kategóriák",
+			"search": "Keresés",
+			"disabledStep1": "Válassza ki a widget típusát a létrehozás előtt!",
+			"nextDisabled": "A létrehozás előtt válasszon ki egy widget-típust!",
+			"groupLabels": {
+				"all": "Összes",
+				"card": "Kártyák",
+				"lineArea": "Vonal- és terület",
+				"bar": "Oszlop",
+				"mixed": "Vegyes",
+				"circular": "Kör",
+				"point": "Pont",
+				"other": "Többi"
+			}
+		},
+		"editButton": "Elrendezés szerkesztése",
+		"addButton": "Widget hozzáadása",
+		"editInfo": "Előfordulhat, hogy egyes módosítások nem lesznek láthatóak, amíg el nem mentette a változtatásokat.",
+		"widget": {
+			"EXPENSE_FREQUENCY_STATCARD": {
+				"title": "Költségek gyakorisága",
+				"info": "Megmutatja, hogy milyen gyakran fordulnak elő kiadások a kiválasztott időszakban."
+			},
+			"INCOME_FREQUENCY_STATCARD": {
+				"title": "Bevétel Gyakorisága",
+				"info": "Megmutatja, hogy a kiválasztott időszakon belül milyen gyakran érkezik bevétel."
+			},
+			"NO_SPEND_DAYS_STATCARD": {
+				"title": "Nem költekező napok",
+				"info": "Megszámolja a nulla költségtranzakciókkal rendelkező napok számát az adott időszakban."
+			},
+			"TOP_EXPENSE_CATEGORY_STATCARD": {
+				"title": "Legfontosabb költségkategória",
+				"info": "Kiemeli azt a kategóriát, amelyre a legtöbb pénzt költötték."
+			},
+			"TOP_INCOME_CATEGORY_STATCARD": {
+				"title": "Legnagyobb bevételhez rendelt kategória",
+				"info": "Kiemeli azt a legtöbb bevétellel rendelkező kategóriát."
+			},
+			"TOP_EXPENSE_TRANSACTION_STATCARD": {
+				"title": "Legfontosabb költségtranzakció",
+				"info": "Megjeleníti a kiválasztott időszak legnagyobb költségtranzakcióját."
+			},
+			"TOP_INCOME_TRANSACTION_STATCARD": {
+				"title": "Legnagyobb bevétel tranzakció",
+				"info": "Megjeleníti a kiválasztott időszak legnagyobb egyidejű bevételét."
+			},
+			"BURN_RATE_STATCARD": {
+				"title": "Égési sebesség",
+				"info": "Megjeleníti az átlagos napi költési arányt, hogy jelezze, milyen gyorsan fogynak a pénzeszközök."
+			},
+			"SAVINGS_RATE_STATCARD": {
+				"title": "Megtakarítási ráta",
+				"info": "Megjeleníti a kiadások után megtakarított bevétel százalékos arányát."
+			},
+			"INCOME_TREND": {
+				"title": "Bevétel alakulása",
+				"info": "A bevétel időbeli alakulását vonal- vagy területi diagram formájában szemlélteti, hogy feltárja a növekedési vagy csökkenési mintákat."
+			},
+			"EXPENSE_TREND": {
+				"title": "Költségek alakulása",
+				"info": "A kiadások időbeli alakulásának vizualizálása a kiadási minták és anomáliák kiemelése érdekében."
+			},
+			"BALANCE_TREND": {
+				"title": "Vagyon Trend",
+				"info": "A nettó egyenleg időbeli alakulását követi nyomon, megmutatva, hogy a pénzügyek javulnak vagy romlanak."
+			},
+			"INCOME_CATEGORY_TREND": {
+				"title": "Bevétel kategóriánként",
+				"info": "A jövedelmi tendenciákat kategóriánként bontja le az idők folyamán, halmozott vagy többsoros területek segítségével."
+			},
+			"EXPENSE_CATEGORY_TREND": {
+				"title": "Költségek kategóriánként Trend",
+				"info": "A kiadási tendenciákat kategóriánként bontja le az idők folyamán, egymásra helyezett vagy többsoros területek használatával."
+			},
+			"BALANCE_YEAR_COMPARISON": {
+				"title": "Vagyon/év összehasonlítás",
+				"info": "Több év egyenleggörbéinek átfedése egyetlen diagramon a közvetlen összehasonlítás érdekében."
+			},
+			"INCOME_EXPENSE_COLUMN": {
+				"title": "Bevételek vs. kiadások",
+				"info": "Az egyes időszakok összes bevételeit és kiadásait összehasonlító oszlopok egymás mellett."
+			},
+			"EXPENSE_CATEGORY_COLUMN": {
+				"title": "Költségek kategóriánként",
+				"info": "Csoportosított vagy egymásra helyezett oszlopok, amelyek a kiadások kategóriánkénti bontását mutatják időszakonként."
+			},
+			"MONTHLY_BALANCE_COLUMN": {
+				"title": "Havi egyenleg",
+				"info": "A nettó egyenleg oszlopdiagramja havonta a pozitív és negatív hónapok gyors kiszűrése érdekében."
+			},
+			"EXPENSE_SAVINGS_COMBO": {
+				"title": "Költségek és megtakarítások kombinációja",
+				"info": "Kombinálja a kiadások sávsorozatát a kumulatív megtakarításokat mutató vonalas felülnézettel."
+			},
+			"TRANSACTION_COUNT_EXPENSE_COMBO": {
+				"title": "Tranzakciószám és költségkombináció",
+				"info": "A tranzakciós volumen vonalként jelenik meg a kiadási sávok tetején, hogy láthatóvá váljon a kiadások intenzitása."
+			},
+			"WEALTH_GROWTH_COMBO": {
+				"title": "Wealth Growth Combo",
+				"info": "Kombinálja a bevételi és kiadási sávokat egy kumulatív vagyonvonallal a nettó növekedés nyomon követése érdekében."
+			},
+			"EXPENSE_PIE": {
+				"title": "Költségek megoszlása",
+				"info": "Tortadiagram vagy fánkdiagram, amely az egyes költségkategóriák arányos részesedését mutatja."
+			},
+			"INCOME_PIE": {
+				"title": "Bevételeloszlás",
+				"info": "Az egyes bevételkategóriák arányos részesedését bemutató kördiagram vagy fánkdiagram."
+			},
+			"SPENDING_RADAR": {
+				"title": "Kiadási radar",
+				"info": "Egy radartérkép, amely a holisztikus egyenleg áttekintése érdekében a kiadási szinteket a különböző kategóriák között térképezi fel."
+			},
+			"MONTHLY_CATEGORY_RADAR": {
+				"title": "Havi kategória radar",
+				"info": "Összehasonlítja a kategóriák költési szokásait több hónapra vonatkozóan egyetlen radartérképen."
+			},
+			"CATEGORY_AVG_POLAR": {
+				"title": "Kategória Átlagos Polar",
+				"info": "Egy poláris területi diagram, amely kategóriánként mutatja az átlagos költést, ahol a szegmens mérete a nagyságrendet jelöli."
+			},
+			"MONTHLY_PEAK_POLAR": {
+				"title": "Havi csúcs Polar",
+				"info": "Egy poláris terület diagram, amely kiemeli a kiadási csúcshónapokat arányos szegmensmérettel."
+			},
+			"CATEGORY_BUBBLE": {
+				"title": "Kategória Buborék",
+				"info": "A kategóriákat buborékok formájában ábrázolja, ahol a pozíció az időzítést, a méret pedig a teljes mennyiséget jelöli."
+			},
+			"TRANSACTION_SCATTER": {
+				"title": "Tranzakciós szórás",
+				"info": "Az egyes tranzakciókat dátum és összeg szerint szórja szét, hogy feltárja a kiugró értékeket és a klasztereket."
+			},
+			"SPENDING_HEATMAP": {
+				"title": "Kiadási hőtérkép",
+				"info": "Naptári hőtérkép, amely egy pillantással mutatja a napi kiadások intenzitását az év során."
+			},
+			"CATEGORY_TREEMAP": {
+				"title": "Kategóriatérkép",
+				"info": "A költés összege szerint méretezett, egymásba ágyazott téglalapok a kategória és alkategóriák arányainak megjelenítésére."
+			},
+			"CATEGORY_BOXPLOT": {
+				"title": "Kategória Boxplot",
+				"info": "Megjeleníti a tranzakciók kategóriánkénti statisztikai eloszlását, beleértve a mediánt és a kiugró értékeket."
+			},
+			"MONTHLY_BOXPLOT": {
+				"title": "Havi boxplot",
+				"info": "Megjeleníti a napi kiadások statisztikai eloszlását havonta, hogy feltárja a változékonyságot."
+			},
+			"SAVINGS_RATE_GAUGE": {
+				"title": "Megtakarítási ráta mérőműszer",
+				"info": "Egy sugárirányú mérőeszköz, amely az aktuális megtakarítási arányt mutatja a konfigurálható célküszöbértékhez képest."
+			},
+			"YEARLY_SLOPE": {
+				"title": "Éves lejtő",
+				"info": "Az év eleji és az év végi értékeket összekötő lejtődiagram, hogy az irányváltás azonnal nyilvánvalóvá váljon."
+			},
+			"CATEGORY_SANKEY": {
+				"title": "Kategória Sankey",
+				"info": "Folyamatdiagram, amely bemutatja, hogy a bevétel hogyan oszlik meg és kerül felhasználásra a kiadási kategóriák között."
+			}
+		}
+	},
+	"category": {
+		"create": {
+			"title": "Új kategória",
+			"name": "Név",
+			"note": "Megjegyzés:",
+			"successInfo": "'{{name}}' kategória sikeresen létrehozva!"
+		},
+		"deleteInfo": "Kategória sikeresen törölve!",
+		"addButton": "Kategória hozzáadása"
+	},
+	"transaction": {
+		"create": {
+			"title": "Új tranzakció",
+			"titleLabel": "Cím",
+			"amount": "Összeg",
+			"date": "Dátum",
+			"category": "Kategória",
+			"search": "Keresés",
+			"note": "Megjegyzés:",
+			"recurring": "Automatikusan ismétlődő?",
+			"successInfo": "Az '{{title}}' tranzakció sikeresen létrejött!"
+		},
+		"updateInfo": "Az '{{title}}' tranzakció sikeresen frissült!",
+		"deleteInfo": "Tranzakció sikeresen törölve!",
+		"recurring": "Visszatérő"
+	},
+	"emailVerification": {
+		"title": "Email ellenőrizve",
+		"message": "Gratulálunk! Az Ön e-mail címét ellenőriztük. Most már használhatja az <strong>Exence</strong> összes funkcióját.",
+		"success": "E-mail sikeresen ellenőrizve!",
+		"backToLogin": "Vissza a bejelentkezéshez"
+	},
+	"forgotPassword": {
+		"title": "Elfelejtette jelszavát?",
+		"subtitle": "Ne aggódjon, elküldjük Önnek a visszaállítási utasításokat.",
+		"email": "E-mail",
+		"sendButton": "E-mail küldése",
+		"remember": "Emlékszik a jelszóra?",
+		"login": "Bejelentkezés",
+		"resetSuccess": "Jelszó sikeresen frissítve!",
+		"emailSent": {
+			"title": "Elküldött e-mail",
+			"subtitle": "Küldtünk Önnek egy e-mailt a <strong>{{email}}1XTOKENX</strong> címre. Ellenőrizze postaládáját, és kövesse az utasításokat a fiókjelszó visszaállításához.",
+			"notRecieved": "Nem kapta meg az e-mailt?",
+			"retry": "E-mail újraküldése",
+			"badEmail": "Rossz e-mail cím?",
+			"changeEmail": "E-mail cím módosítása",
+			"success": "E-mail elküldve!"
+		},
+		"new": {
+			"title": "Új jelszó létrehozása",
+			"info": "Az új jelszavad <strong>mindenképpen különböznie kell</strong> bármelyik korábbi jelszavadtól.",
+			"password": "Jelszó",
+			"confirmPassword": "Jelszó megerősítése",
+			"reset": "Jelszó visszaállítása"
+		}
+	},
+	"login": {
+		"title": "Jelentkezzen be fiókjába",
+		"noAccount": "Nincs fiókja?",
+		"createButton": "Hozzon létre egyet",
+		"email": "E-mail",
+		"password": "Jelszó",
+		"forgotPassword": "Elfelejtette jelszavát?",
+		"button": "Bejelentkezés"
+	},
+	"registration": {
+		"title": "Létrehozás és fiók létrehozása",
+		"subtitle": "Már van fiókja?",
+		"login": "Bejelentkezés",
+		"username": "Felhasználónév",
+		"email": "E-mail",
+		"password": "Jelszó",
+		"passwordInfo": "A jelszónak legalább 1 kisbetűt, 1 nagybetűt, 1 számot és 1 speciális karaktert (!@#$%^&*()_+-=[]{};'|,.<>/?) kell tartalmaznia.",
+		"confirmPassword": "Jelszó megerősítése",
+		"createButton": "Fiók létrehozása",
+		"success": "Sikeres regisztráció"
+	},
+	"dataTable": {
+		"title": "Cím",
+		"date": "Dátum",
+		"note": "Megjegyzés:",
+		"recurring": "Automatikusan ismétlődő?",
+		"name": "Név",
+		"icon": "Ikon",
+		"type": "Típus",
+		"empty": "Nem találtunk tárgyakat",
+		"adjustFilters": "TRy az aktuális szűrők beállítása vagy törlése.",
+		"actions": "Műveletek",
+		"details": {
+			"show": "Részletek megjelenítése",
+			"hide": "Részletek elrejtése"
+		}
+	},
+	"filterMenu": {
+		"title": "Szűrők",
+		"addButton": "Szűrő hozzáadása",
+		"show": "Show ({{filterCount}})",
+		"clearAll": "Mindent törölni"
+	},
+	"formattedDate": {
+		"now": "Most",
+		"sec": "{{value}} sec. ezelőtt",
+		"secs": "{{value}} másodpercekkel ezelőtt.",
+		"min": "{{value}} min. ezelőtt",
+		"mins": "{{value}} percekkel ezelőtt.",
+		"hour": "{{value}} egy órája",
+		"hours": "{{value}} órákkal ezelőtt",
+		"day": "{{value}} egy nappal ezelőtt",
+		"days": "{{value}} napokkal ezelőtt"
+	},
+	"months": {
+		"jan": "Jan {{day}}0XTOKENX",
+		"feb": "Február {{day}}",
+		"mar": "Márc {{day}}0XTOKENX",
+		"apr": "április {{day}}0XTOKENX",
+		"jun": "Jun {{day}}0XTOKENX",
+		"jul": "Július {{day}}",
+		"aug": "Aug {{day}}0XTOKENX",
+		"sep": "Sep {{day}}0XTOKENX",
+		"oct": "Október {{day}}0XTOKENX",
+		"nov": "november {{day}}0XTOKENX",
+		"dec": "december {{day}}0XTOKENX"
+	},
+	"validators": {
+		"required": "Kötelező mező",
+		"password": "Érvénytelen jelszó formátum!",
+		"passwordMismatch": "A jelszavaknak egyezniük kell!",
+		"email": "Érvénytelen e-mail formátum!",
+		"maxlength": "A maximális hossz {{requiredLength}}!",
+		"minlength": "A minimális hossz {{requiredLength}}!",
+		"min": "A minimális érték {{min}}!",
+		"max": "A maximális érték {{max}}!"
+	},
+	"confirmExit": {
+		"title": "Nem mentett módosítások",
+		"message": "Vannak el nem mentett módosításai. Biztos, hogy el akarsz menni? A módosításai elvesznek."
+	},
+	"icons": {
+		"localConvenienceStore": "local_convenience_store",
+		"shoppingBasket": "Bevásárlókosár",
+		"fridge": "hűtőszekrény",
+		"skillet": "serpenyő",
+		"egg": "tojás",
+		"nutrition": "táplálkozás",
+		"restaurant": "étterem",
+		"menu": "menu",
+		"groceries": "élelmiszerboltok",
+		"lunch": "ebéd",
+		"dinner": "vacsora",
+		"fastfood": "fastfood",
+		"pizza": "pizza",
+		"cafe": "cafe",
+		"bakery": "pékség",
+		"cake": "torta",
+		"iceCream": "jégkrém",
+		"bar": "bár",
+		"wine bar": "borozó",
+		"liquor": "szeszes italok",
+		"home": "home",
+		"house": "ház",
+		"apartment": "lakás",
+		"cottage": "házikó",
+		"garage": "garázs",
+		"bed": "ágy",
+		"chair": "szék",
+		"construction": "építés",
+		"plumbing": "vízvezeték-szerelés",
+		"electricalServices": "elektromos szolgáltatások",
+		"mop": "mop",
+		"lightbulb": "villanykörte",
+		"bolt": "csavar",
+		"waterDrop": "vízcsepp",
+		"fire": "tűz",
+		"thermometer": "hőmérő",
+		"energySavingLeaf": "energiatakarékos levél",
+		"recycling": "újrahasznosítás",
+		"router": "router",
+		"wifi": "wifi",
+		"car": "autó",
+		"motorcycle": "motorkerékpár",
+		"scrooter": "scrooter",
+		"pedalBike": "pedálos kerékpár",
+		"gasStation": "benzinkút",
+		"electricCharger": "elektromos töltő",
+		"parking": "parkolás",
+		"towing": "vontatás",
+		"taxi": "taxi",
+		"airportShuttle": "reptéri transzfer",
+		"bus": "busz",
+		"commute": "ingázás",
+		"train": "vonat",
+		"subway": "metró",
+		"tram": "villamos",
+		"boat": "hajó",
+		"flight": "járat",
+		"airplaneTicket": "repülőjegy",
+		"transitTicket": "tranzitjegy",
+		"map": "térkép",
+		"store": "tárolja",
+		"shoppingCart": "bevásárlókosár",
+		"shoppingBag": "bevásárlótáska",
+		"priceTag": "árcédula",
+		"percent": "százalék",
+		"receipt": "átvételi elismervény",
+		"giftcard": "ajándékkártya",
+		"sendMoney": "pénzt küldeni",
+		"apparel": "ruházat",
+		"checkroom": "checkroom",
+		"styler": "styler",
+		"laundry": "mosoda",
+		"glasses": "szemüveg",
+		"watch": "nézd meg a",
+		"diamond": "gyémánt",
+		"backpack": "hátizsák",
+		"umbrella": "esernyő",
+		"smartphone": "okostelefon",
+		"laptop": "laptop",
+		"printer": "nyomtató",
+		"hospital": "kórház",
+		"medialServices": "orvosi szolgáltatások",
+		"health": "egészség",
+		"emergency": "vészhelyzet",
+		"pharmacy": "gyógyszertár",
+		"medication": "gyógyszer",
+		"vaccines": "vakcinák",
+		"patches": "foltok",
+		"heartMonitor": "szívmonitor",
+		"tooth": "fog",
+		"psychology": "pszichológia",
+		"handwash": "kézmosó",
+		"wash": "mosás",
+		"brush": "kefe",
+		"face": "face",
+		"scissors": "olló",
+		"spa": "spa",
+		"mediation": "közvetítés",
+		"dumbbell": "súlyzó",
+		"swim": "úszni",
+		"family": "család",
+		"pregnantWoman": "terhes nő",
+		"closeupFamily": "közeli család",
+		"familyHeart": "családi szív",
+		"child": "gyermek",
+		"babyChangingStation": "pelenkázó állomás",
+		"stroller": "babakocsi",
+		"crib": "bölcső",
+		"childFriendly": "gyermekbarát",
+		"familyOfTwo": "2 tagú család",
+		"toy": "játék",
+		"oldGameController": "régi játékvezérlő",
+		"castle": "vár",
+		"smile": "mosoly",
+		"pet": "kisállat",
+		"bunny": "nyuszi",
+		"elderly": "idősek",
+		"education": "oktatás",
+		"book": "könyv",
+		"time": "idő",
+		"movie": "film",
+		"theaterSymbol": "színházi szimbólum",
+		"tv": "tv",
+		"camera": "kamera",
+		"image": "kép",
+		"headphones": "fejhallgató",
+		"musicNote": "kotta",
+		"piano": "zongora",
+		"gameController": "játékvezérlő",
+		"extension": "bővítés",
+		"casino": "kaszinó",
+		"theater": "színház",
+		"bookWithBookmark": "könyv könyvjelzővel",
+		"football": "futball",
+		"basketball": "kosárlabda",
+		"tennis": "tenisz",
+		"hiking": "túrázás",
+		"kayaking": "kajakozás",
+		"deck": "fedélzet",
+		"eventSeat": "ülőhely",
+		"work": "munka",
+		"paid": "fizetett",
+		"priceCheck": "árellenőrzés",
+		"monneyBag": "monney bag",
+		"accountBalance": "számlaegyenleg",
+		"wallet": "pénztárca",
+		"walletBalance": "pénztárca egyenlege",
+		"euro": "euro",
+		"addCard": "kártya hozzáadása",
+		"financeChip": "pénzügyi chip",
+		"currencyExchange": "valutaváltás",
+		"toll": "útdíj",
+		"trendingUp": "emelkedő tendencia",
+		"trendingDown": "csökkenő tendencia",
+		"priceChange": "árváltozás",
+		"pieChart": "kördiagram",
+		"barChart": "oszlopdiagram",
+		"calculate": "kiszámítása",
+		"receiptLong": "átvételi elismervény hosszú",
+		"requestQuote": "ajánlatkérés",
+		"calendar": "naptár",
+		"schedule": "ütemterv",
+		"celebration": "ünneplés",
+		"mail": "mail",
+		"bell": "csengő",
+		"globe": "földgömb",
+		"cloud": "cloud",
+		"lock": "lock",
+		"key": "kulcs",
+		"verified": "ellenőrzött",
+		"help": "segítség",
+		"star": "csillag",
+		"heart": "szív",
+		"bookmark": "könyvjelző",
+		"flag": "zászló",
+		"browse": "böngésszen a  oldalon.",
+		"description": "leírás",
+		"build": "építeni",
+		"keyboard": "billentyűzet",
+		"cancel": "törölje"
+	},
+	"errors": {
+		"unexpected": "Váratlan hiba történt!"
+	}
+}
