@@ -30,6 +30,6 @@ public final class IncomePieProvider implements WidgetDataProvider {
         StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.INCOME);
         List<CategoryAmountResult> results = statisticsQueryService.findCategoryStatsAmount(filter);
 
-        return providerHelper.buildCategoryAmountDistributionPayload(results);
+        return providerHelper.buildCategoryAmountDistributionPayload(results, getSupportedType());
     }
 }

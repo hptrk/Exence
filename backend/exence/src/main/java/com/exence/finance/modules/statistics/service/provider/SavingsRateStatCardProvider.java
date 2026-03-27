@@ -32,7 +32,7 @@ public final class SavingsRateStatCardProvider implements WidgetDataProvider {
         BigDecimal savingsRate = calculateSavingsRate(request.startDate(), request.endDate());
         TrendResult trend = providerHelper.computeTrendByDifference(request, savingsRate, this::calculateSavingsRate);
         return new StatCardPayload(
-                savingsRate, i18n.get("unit.percent"), null, trend.changePercentage(), trend.trend(), null, null);
+            getSupportedType(), savingsRate, i18n.get("unit.percent"), null, trend.changePercentage(), trend.trend(), null, null);
     }
 
     private BigDecimal calculateSavingsRate(LocalDate start, LocalDate end) {

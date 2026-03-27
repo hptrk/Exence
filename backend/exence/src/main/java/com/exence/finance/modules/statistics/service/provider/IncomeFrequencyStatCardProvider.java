@@ -32,6 +32,6 @@ public final class IncomeFrequencyStatCardProvider implements WidgetDataProvider
                 request,
                 currentCount,
                 (s, e) -> statisticsQueryService.countTransactionsByType(
-                        filterFactory.fromRequest(request.withDates(s, e), TransactionType.INCOME)));
+                        filterFactory.fromRequest(request.withDates(s, e), TransactionType.INCOME), getSupportedType()));
     }
 }

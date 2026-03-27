@@ -52,6 +52,6 @@ public final class TransactionScatterProvider implements WidgetDataProvider {
                 .map(e -> new SeriesItem(e.getKey(), null, categoryColorMap.get(e.getKey()), e.getValue()))
                 .toList();
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(getSupportedType(), series);
     }
 }

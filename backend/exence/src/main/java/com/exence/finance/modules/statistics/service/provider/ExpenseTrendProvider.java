@@ -37,6 +37,6 @@ public final class ExpenseTrendProvider implements WidgetDataProvider {
                 .toList();
 
         SeriesItem series = new SeriesItem(i18n.get("label.expense"), "area", null, dataPoints);
-        return new SeriesPayload(List.of(series));
+        return new SeriesPayload(getSupportedType(), List.of(series));
     }
 }

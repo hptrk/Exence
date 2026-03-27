@@ -33,6 +33,7 @@ public final class BurnRateStatCardProvider implements WidgetDataProvider {
         BigDecimal dailyBurnRate = calculateBurnRate(request.startDate(), request.endDate());
         TrendResult trend = providerHelper.computeTrend(request, dailyBurnRate, this::calculateBurnRate);
         return new StatCardPayload(
+                getSupportedType(),
                 dailyBurnRate,
                 providerHelper.getUserCurrencySymbol(),
                 i18n.get("context.per-day"),

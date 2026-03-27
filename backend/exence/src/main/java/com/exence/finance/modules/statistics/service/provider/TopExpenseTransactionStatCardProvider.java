@@ -34,7 +34,7 @@ public final class TopExpenseTransactionStatCardProvider implements WidgetDataPr
 
         if (current == null) {
             return new StatCardPayload(
-                    BigDecimal.ZERO, null, i18n.get("label.no-transactions"), null, null, null, null);
+                    getSupportedType(), BigDecimal.ZERO, null, i18n.get("label.no-transactions"), null, null, null, null);
         }
 
         TrendResult trend = providerHelper.computeTrend(request, current.amount(), (s, e) -> {
@@ -44,6 +44,7 @@ public final class TopExpenseTransactionStatCardProvider implements WidgetDataPr
         });
 
         return new StatCardPayload(
+                getSupportedType(),
                 current.amount(),
                 null,
                 current.title(),

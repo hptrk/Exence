@@ -70,19 +70,24 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     @Query("DELETE FROM Token t " + "WHERE t.revoked = true " + "OR t.expiresAt <= :now")
     int deleteExpiredOrRevokedTokens(@Param("now") Instant now);
 
-    @Query("SELECT new com.exence.finance.modules.auth.dto.SessionSummaryProjection(" + "t.sessionId, "
-            + "t.userAgent, "
-            + "t.ipAddress, "
-            + "MAX(t.lastUsedAt), "
-            + "MIN(t.createdAt)) "
-            + "FROM Token t "
-            + "WHERE t.user.id = :userId "
-            + "AND t.tokenType = com.exence.finance.modules.auth.dto.TokenType.REFRESH "
-            + "AND t.revoked = false "
-            + "AND t.expiresAt > :now "
-            + "AND t.sessionId IS NOT NULL "
-            + "GROUP BY t.sessionId, t.userAgent, t.ipAddress "
-            + "ORDER BY MAX(t.lastUsedAt) DESC")
+    @Query(
+            value =
+                    """
+        SELECT t.session_id,
+               t.user_agent,
+               t.ip_address,
+               MAX(t.last_used_at),
+               MIN(t.created_at)
+        FROM token t
+        WHERE t.user_id = :userId
+          AND CAST(t.token_type AS TEXT) = :#{T(com.exence.finance.modules.auth.dto.TokenType).REFRESH.name()}
+          AND t.revoked = false
+          AND t.expires_at > :now
+          AND t.session_id IS NOT NULL
+        GROUP BY t.session_id, t.user_agent, t.ip_address
+        ORDER BY MAX(t.last_used_at) DESC
+        """,
+            nativeQuery = true)
     List<SessionSummaryProjection> findActiveSessionsByUser(@Param("userId") Long userId, @Param("now") Instant now);
 
     @Query("SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END " + "FROM Token t WHERE t.jwtId = :jwtId "

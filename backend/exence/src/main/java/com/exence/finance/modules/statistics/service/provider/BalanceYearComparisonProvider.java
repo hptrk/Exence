@@ -59,6 +59,6 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(getSupportedType(), series);
     }
 }

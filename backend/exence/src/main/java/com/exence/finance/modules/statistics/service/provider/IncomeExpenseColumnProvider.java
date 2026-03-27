@@ -56,7 +56,9 @@ public final class IncomeExpenseColumnProvider implements WidgetDataProvider {
             expensePoints.add(new DataPoint(month.toString(), expense, null));
         });
 
-        return new SeriesPayload(List.of(
+        return new SeriesPayload(
+                getSupportedType(),
+                List.of(
                 new SeriesItem(
                         i18n.get("label.income"), "column", StatisticsConstants.COLOR_INCOME_GREEN, incomePoints),
                 new SeriesItem(

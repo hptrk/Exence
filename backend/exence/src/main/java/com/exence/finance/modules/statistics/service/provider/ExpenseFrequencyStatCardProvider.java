@@ -32,6 +32,6 @@ public final class ExpenseFrequencyStatCardProvider implements WidgetDataProvide
                 request,
                 currentCount,
                 (s, e) -> statisticsQueryService.countTransactionsByType(
-                        filterFactory.fromRequest(request.withDates(s, e), TransactionType.EXPENSE)));
+                        filterFactory.fromRequest(request.withDates(s, e), TransactionType.EXPENSE), getSupportedType()));
     }
 }

@@ -44,6 +44,6 @@ public final class MonthlyBalanceColumnProvider implements WidgetDataProvider {
                         null))
                 .toList();
 
-        return new SeriesPayload(List.of(new SeriesItem(i18n.get("label.balance"), "column", null, points)));
+        return new SeriesPayload(getSupportedType(), List.of(new SeriesItem(i18n.get("label.balance"), "column", null, points)));
     }
 }

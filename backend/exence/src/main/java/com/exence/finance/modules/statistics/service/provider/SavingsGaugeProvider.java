@@ -38,6 +38,6 @@ public final class SavingsGaugeProvider implements WidgetDataProvider {
         BigDecimal expense = sums.getOrDefault(TransactionType.EXPENSE, BigDecimal.ZERO);
 
         BigDecimal savingsRate = providerHelper.calculateSavingsRate(income, expense);
-        return new GaugePayload(savingsRate);
+        return new GaugePayload(getSupportedType(), savingsRate);
     }
 }

@@ -1,9 +1,15 @@
 package com.exence.finance.modules.statistics.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
+@Schema(
+        description =
+                "Enumeration of all possible widget types that can be used in the statistics module. Each widget type"
+                        + " corresponds to a specific way of visualizing financial data, either as stat cards or chart"
+                        + " types.")
 public enum WidgetType {
     // --- Stat Cards ---
     EXPENSE_FREQUENCY_STATCARD,

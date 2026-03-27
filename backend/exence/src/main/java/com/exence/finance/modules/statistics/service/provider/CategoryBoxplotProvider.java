@@ -34,6 +34,6 @@ public final class CategoryBoxplotProvider implements WidgetDataProvider {
                         row.name(), List.of(row.min(), row.q1(), row.median(), row.q3(), row.max()), row.color()))
                 .toList();
 
-        return new BoxplotPayload(points);
+        return new BoxplotPayload(getSupportedType(), points);
     }
 }

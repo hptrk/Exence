@@ -55,7 +55,9 @@ public final class TransactionCountExpenseComboProvider implements WidgetDataPro
             countPoints.add(new DataPoint(month.toString(), BigDecimal.valueOf(count), null));
         });
 
-        return new SeriesPayload(List.of(
+        return new SeriesPayload(
+                getSupportedType(),
+                List.of(
                 new SeriesItem(
                         i18n.get("label.expense"), "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints),
                 new SeriesItem(i18n.get("label.transaction-count"), "line", null, countPoints)));

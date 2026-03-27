@@ -58,7 +58,9 @@ public final class ExpenseSavingsComboProvider implements WidgetDataProvider {
             savingsRatePoints.add(new DataPoint(month.toString(), savingsRate, null));
         });
 
-        return new SeriesPayload(List.of(
+        return new SeriesPayload(
+                getSupportedType(),
+                List.of(
                 new SeriesItem(
                         i18n.get("label.expense"), "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints),
                 new SeriesItem(i18n.get("label.savings-rate"), "line", null, savingsRatePoints)));

@@ -54,7 +54,7 @@ public final class YearlySlopeProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new SlopePayload(items);
+        return new SlopePayload(getSupportedType(), items);
     }
 
     private static final class SlopeEntry {

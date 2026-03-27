@@ -42,7 +42,7 @@ public final class CategoryTreemapProvider implements WidgetDataProvider {
                 toSeriesItem(i18n.get("label.expense"), byType.getOrDefault(TransactionType.EXPENSE, List.of())),
                 toSeriesItem(i18n.get("label.income"), byType.getOrDefault(TransactionType.INCOME, List.of())));
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(getSupportedType(), series);
     }
 
     private SeriesItem toSeriesItem(String name, List<CategoryFlowResult> data) {

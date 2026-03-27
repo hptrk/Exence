@@ -50,6 +50,6 @@ public final class MonthlyBoxplotProvider implements WidgetDataProvider {
                         .orElse(new BoxplotPoint(month.toString(), zeroValues, null)))
                 .toList();
 
-        return new BoxplotPayload(points);
+        return new BoxplotPayload(getSupportedType(), points);
     }
 }

@@ -48,6 +48,6 @@ public final class MonthlyCategoryRadarProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(getSupportedType(), series);
     }
 }

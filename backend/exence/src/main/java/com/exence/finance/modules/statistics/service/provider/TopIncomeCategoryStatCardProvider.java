@@ -34,7 +34,7 @@ public final class TopIncomeCategoryStatCardProvider implements WidgetDataProvid
 
         if (top == null) {
             return new StatCardPayload(
-                    BigDecimal.ZERO, null, i18n.get("label.no-transactions"), null, null, null, null);
+                    getSupportedType(), BigDecimal.ZERO, null, i18n.get("label.no-transactions"), null, null, null, null);
         }
 
         TrendResult trend = providerHelper.computeTrend(request, top.totalAmount(), (s, e) -> {
@@ -44,6 +44,7 @@ public final class TopIncomeCategoryStatCardProvider implements WidgetDataProvid
         });
 
         return new StatCardPayload(
+                getSupportedType(),
                 top.totalAmount(),
                 null,
                 top.categoryName(),

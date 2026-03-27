@@ -1,5 +1,9 @@
 package com.exence.finance.modules.statistics.dto.payload;
 
+import com.exence.finance.modules.statistics.dto.WidgetType;
+
+import com.exence.finance.modules.statistics.dto.WidgetType;
+
 public sealed interface WidgetDataPayload
         permits BoxplotPayload,
                 BubblePayload,
@@ -10,4 +14,6 @@ public sealed interface WidgetDataPayload
                 SlopePayload,
                 StatCardPayload,
                 LeaderboardPayload,
-                SummaryPayload {}
+                SummaryPayload {
+    WidgetType type();
+}

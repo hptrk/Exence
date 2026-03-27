@@ -43,6 +43,6 @@ public final class SankeyProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new SankeyPayload(links);
+        return new SankeyPayload(getSupportedType(), links);
     }
 }

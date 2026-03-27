@@ -42,6 +42,6 @@ public final class MonthlyPeakPolarProvider implements WidgetDataProvider {
                         null))
                 .toList();
 
-        return new DistributionPayload(items);
+        return new DistributionPayload(getSupportedType(), items);
     }
 }

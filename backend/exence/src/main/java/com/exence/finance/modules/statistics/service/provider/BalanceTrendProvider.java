@@ -36,6 +36,6 @@ public final class BalanceTrendProvider implements WidgetDataProvider {
                 .toList();
 
         SeriesItem series = new SeriesItem(i18n.get("label.balance"), "area", null, dataPoints);
-        return new SeriesPayload(List.of(series));
+        return new SeriesPayload(getSupportedType(), List.of(series));
     }
 }

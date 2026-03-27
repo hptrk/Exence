@@ -36,6 +36,6 @@ public final class ExpenseCategoryTrendProvider implements WidgetDataProvider {
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
         return providerHelper.buildMonthlyCategorySeriesPayload(
-                results, months, "area", StatisticsConstants.COLOR_EXPENSE_RED);
+                results, months, "area", StatisticsConstants.COLOR_EXPENSE_RED, getSupportedType());
     }
 }

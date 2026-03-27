@@ -31,6 +31,6 @@ public final class CategoryAvgPolarProvider implements WidgetDataProvider {
                 .map(r -> new DistributionItem(r.categoryName(), r.avgAmount(), r.categoryColor()))
                 .toList();
 
-        return new DistributionPayload(items);
+        return new DistributionPayload(getSupportedType(), items);
     }
 }

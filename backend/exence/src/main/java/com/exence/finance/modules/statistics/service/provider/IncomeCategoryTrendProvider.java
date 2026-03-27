@@ -36,6 +36,6 @@ public final class IncomeCategoryTrendProvider implements WidgetDataProvider {
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
         return providerHelper.buildMonthlyCategorySeriesPayload(
-                results, months, "area", StatisticsConstants.COLOR_INCOME_GREEN);
+                results, months, "area", StatisticsConstants.COLOR_INCOME_GREEN, getSupportedType());
     }
 }

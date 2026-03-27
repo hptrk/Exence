@@ -53,7 +53,9 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
             cumulativePoints.add(new DataPoint(month.toString(), cumulative, null));
         }
 
-        return new SeriesPayload(List.of(
+        return new SeriesPayload(
+                getSupportedType(),
+                List.of(
                 new SeriesItem(
                         i18n.get("label.profit"), "column", StatisticsConstants.COLOR_INCOME_GREEN, profitPoints),
                 new SeriesItem(i18n.get("label.cumulative-balance"), "line", null, cumulativePoints)));

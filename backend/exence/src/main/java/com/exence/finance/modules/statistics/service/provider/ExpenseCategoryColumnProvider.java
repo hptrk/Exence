@@ -34,6 +34,6 @@ public final class ExpenseCategoryColumnProvider implements WidgetDataProvider {
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
-        return providerHelper.buildMonthlyCategorySeriesPayload(results, months, "column", null);
+        return providerHelper.buildMonthlyCategorySeriesPayload(results, months, "column", null, getSupportedType());
     }
 }

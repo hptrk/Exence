@@ -39,6 +39,7 @@ public final class NoSpendDaysStatCardProvider implements WidgetDataProvider {
 
         String unitLabel = i18n.getUnitLabel(noSpendDays, "unit.day", "unit.days");
         return new StatCardPayload(
+                getSupportedType(),
                 BigDecimal.valueOf(noSpendDays),
                 unitLabel,
                 i18n.get("context.of-days", totalDays),

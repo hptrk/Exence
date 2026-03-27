@@ -76,6 +76,9 @@ dependencies {
     // Audit logging
     implementation(libs.javers.spring.boot.starter.sql)
 
+    // OpenAPI / Swagger UI
+    implementation(libs.springdoc.openapi.ui)
+
     // JWT
     implementation(libs.jjwt.api)
     runtimeOnly(libs.jjwt.impl)

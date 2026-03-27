@@ -37,6 +37,6 @@ public final class CategoryBubbleProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new BubblePayload(allSeries);
+        return new BubblePayload(getSupportedType(), allSeries);
     }
 }

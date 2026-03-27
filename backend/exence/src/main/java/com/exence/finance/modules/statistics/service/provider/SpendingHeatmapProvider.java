@@ -54,6 +54,6 @@ public final class SpendingHeatmapProvider implements WidgetDataProvider {
             series.add(new SeriesItem(i18n.getDayName(day), null, null, points));
         }
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(getSupportedType(), series);
     }
 }
