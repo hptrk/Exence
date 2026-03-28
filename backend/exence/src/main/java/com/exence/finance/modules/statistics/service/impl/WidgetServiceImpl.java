@@ -1,5 +1,7 @@
 package com.exence.finance.modules.statistics.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
@@ -30,11 +32,9 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class WidgetServiceImpl implements WidgetService {
 
@@ -62,6 +62,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
+    @ReadTransactional
     public WidgetLayoutResponse getLayout() {
         List<Widget> widgets = widgetRepository.findAllWidgets().stream()
                 .filter(widget -> !widget.getType().equals(WidgetType.DASHBOARD_BALANCE_TREND))
@@ -75,7 +76,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public WidgetLayoutResponse createWidget(WidgetDTO widgetDTO) {
         widgetSettingsValidator.validate(widgetDTO.settings());
         Widget widget = widgetMapper.mapToWidget(widgetDTO);
@@ -87,7 +88,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public WidgetLayoutResponse updateLayout(UpdateLayoutRequest request) {
         Map<Long, Widget> existingWidgets = widgetRepository.findAllWidgets().stream()
                 .collect(Collectors.toMap(Widget::getId, Function.identity()));
@@ -146,6 +147,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
+    @ReadTransactional
     public WidgetDataResponse getWidgetData(Long widgetId, Timeframe timeframe) {
         Widget widget =
                 widgetRepository.find(widgetId).orElseThrow(() -> new ExenceException(ErrorCode.WIDGET_NOT_FOUND));
@@ -172,6 +174,7 @@ public class WidgetServiceImpl implements WidgetService {
     }
 
     @Override
+    @ReadTransactional
     public WidgetDataResponse getDashboardBalanceTrend(Timeframe timeframe) {
         Widget widget = widgetRepository
                 .findFirstByType(WidgetType.DASHBOARD_BALANCE_TREND)

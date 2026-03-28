@@ -1,5 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.modules.auth.dto.SessionSummaryProjection;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.Token;
@@ -15,19 +17,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class TokenManagementServiceImpl implements TokenManagementService {
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
     private final RequestContextService requestContextService;
 
     @Scheduled(fixedRateString = "${jwt.cleanup-interval}")
-    @Transactional
+    @WriteTransactional
     public void cleanupExpiredTokens() {
         try {
             Instant now = Instant.now();
@@ -42,32 +42,34 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public Token createAndSaveToken(User user, TokenType tokenType) {
         String sessionId = UUID.randomUUID().toString();
         return createAndSaveToken(user, tokenType, sessionId);
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public Token createAndSaveToken(User user, TokenType tokenType, String sessionId) {
         String jwtToken = jwtService.generateToken(user, tokenType);
         return saveTokenToDatabase(user, jwtToken, sessionId);
     }
 
     @Override
+    @ReadTransactional
     public Token getTokenByJwtId(String jwtId) {
         return tokenRepository.findByJwtId(jwtId).orElse(null);
     }
 
     @Override
+    @ReadTransactional
     public String getSessionIdByToken(String token) {
         Token t = tokenRepository.findByJwtId(jwtService.extractJwtId(token)).orElse(null);
         return t != null ? t.getSessionId() : "";
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public int revokeAllUserTokens(User user) {
         int revokedTokens = tokenRepository.revokeAllValidTokensByUser(user.getId());
         log.info("All tokens revoked for user: {}", user.getEmail());
@@ -75,7 +77,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public int revokeUserTokensByType(User user, TokenType tokenType) {
         int revokedTokens = tokenRepository.revokeAllValidTokensByUserAndType(user.getId(), tokenType);
         log.info("Tokens of type {} revoked for user: {}", tokenType, user.getEmail());
@@ -83,7 +85,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public int revokeUserTokensByTypes(User user, List<TokenType> tokenTypes) {
         int revokedTokens = tokenRepository.revokeAllValidTokensByUserAndTypes(user.getId(), tokenTypes);
         log.info("Tokens of types {} revoked for user: {}", tokenTypes, user.getEmail());
@@ -91,7 +93,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public int revokeUserTokensBySessionId(Long userId, String sessionId) {
         int revokedTokens = tokenRepository.revokeAllValidTokensByUserAndSession(userId, sessionId);
         log.info("Session revoked - UserID: {}, Session: {}, Revoked tokens: {}", userId, sessionId, revokedTokens);
@@ -99,7 +101,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public int revokeUserTokensByTypeAndSession(User user, TokenType tokenType, String sessionId) {
         int revokedTokens =
                 tokenRepository.revokeAllValidTokensByUserAndTypeAndSession(user.getId(), tokenType, sessionId);
@@ -108,7 +110,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public int revokeUserTokensByDevice(User user, List<TokenType> types, String userAgent, String ipAddress) {
         int revokedTokens =
                 tokenRepository.revokeAllValidTokensByUserAndDevice(user.getId(), types, userAgent, ipAddress);
@@ -117,7 +119,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public int revokeUserTokensExceptSession(Long userId, String sessionId) {
         int revokedTokens = tokenRepository.revokeAllValidTokensByUserExceptSession(userId, sessionId);
         log.info(
@@ -129,7 +131,7 @@ public class TokenManagementServiceImpl implements TokenManagementService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public List<SessionSummaryProjection> findActiveSessions(Long userId) {
         return tokenRepository.findActiveSessionsByUser(userId, Instant.now());
     }

@@ -1,5 +1,7 @@
 package com.exence.finance.modules.category.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.entity.User;
@@ -16,17 +18,16 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
     private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
 
+    @ReadTransactional
     public CategoryDTO getCategoryById(Long id) {
         Category category =
                 categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
@@ -34,17 +35,19 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.mapToCategoryDTO(category);
     }
 
+    @ReadTransactional
     public List<CategoryDTO> getCategories() {
         List<Category> categories = categoryRepository.findAll();
 
         return categoryMapper.mapToCategoryDTOList(categories);
     }
 
+    @ReadTransactional
     public List<CategorySummaryResponse> getTopCategoriesByTotalAmount(CategoryFilter filter) {
         return categoryRepository.findTopCategoriesByTotalAmount(filter.getType());
     }
 
-    @Transactional
+    @WriteTransactional
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         User user = userService.getCurrentUser();
 
@@ -59,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.mapToCategoryDTO(savedCategory);
     }
 
-    @Transactional
+    @WriteTransactional
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         Category category = categoryRepository
                 .find(categoryDTO.getId())
@@ -76,7 +79,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.mapToCategoryDTO(updatedCategory);
     }
 
-    @Transactional
+    @WriteTransactional
     public void deleteCategory(Long id) {
         Category category =
                 categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));

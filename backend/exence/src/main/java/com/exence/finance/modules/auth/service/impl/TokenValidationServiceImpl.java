@@ -1,5 +1,6 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.dto.TokenType;
@@ -12,18 +13,17 @@ import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class TokenValidationServiceImpl implements TokenValidationService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
 
     @Override
+    @ReadTransactional
     public User validateAndExtractUser(String token, TokenType expectedType) {
         if (!isTokenValid(token, expectedType)) {
             throw new ExenceException(ErrorCode.INVALID_TOKEN);
@@ -34,6 +34,7 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     }
 
     @Override
+    @ReadTransactional
     public boolean isTokenValid(String token, TokenType expectedType) {
         try {
             if (!jwtService.isTokenStructureValid(token)) {
@@ -80,6 +81,7 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     }
 
     @Override
+    @ReadTransactional
     public boolean isTokenActive(String jwtId) {
         return tokenRepository.existsByJwtIdAndNotRevokedAndNotExpired(jwtId, Instant.now());
     }

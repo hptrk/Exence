@@ -1,5 +1,6 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.config.properties.EmailBusinessProperties;
@@ -45,11 +46,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
@@ -69,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserSettingsRepository userSettingsRepository;
 
     @Override
-    @Transactional
+    @WriteTransactional
     public AuthenticationResponse register(RegisterRequest request) {
         User user = buildNewUser(request);
         user = userRepository.save(user);
@@ -83,7 +82,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public AuthenticationResponse login(LoginRequest request) {
         User user = userRepository
                 .findByEmail(request.getEmail())
@@ -104,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public String refreshToken(HttpServletRequest request) {
         String refreshToken = cookieService.extractRefreshTokenFromCookie(request);
 
@@ -118,7 +117,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     @CacheEvict(
             value = {"currentUser", "currentUserId"},
             allEntries = true)
@@ -139,7 +138,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public void forgotPassword(ForgotPasswordRequest request) {
         User user = userRepository
                 .findByEmail(request.getEmail())
@@ -162,7 +161,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     @CacheEvict(
             value = {"currentUser", "currentUserId"},
             allEntries = true)
@@ -191,6 +190,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
     }
 
+    @WriteTransactional
     public void sendEmailVerification(User user) {
         Token verificationToken = tokenManagementService.createAndSaveToken(user, TokenType.EMAIL_VERIFICATION);
         emailService.sendVerificationEmail(user, verificationToken.getToken());
