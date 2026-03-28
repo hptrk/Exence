@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /T/coding/projects/PERSONAL/Exence -type f \\\\\\(-name *.sql -o -name V*.sql \\\\\\))",
+      "Bash(find /T/coding/projects/PERSONAL/Exence/backend/exence/src/main/java -type f -name *Setting* -o -name *Preference* -o -name *Configuration*)",
+      "Bash(./gradlew spotlessApply)",
+      "Bash(./gradlew build:*)",
+      "Bash(./gradlew test:*)"
+    ]
+  }
+}

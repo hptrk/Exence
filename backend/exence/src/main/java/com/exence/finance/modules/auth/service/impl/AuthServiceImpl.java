@@ -6,6 +6,7 @@ import com.exence.finance.common.exception.TooManyEmailsException;
 import com.exence.finance.common.exception.UserNotFoundException;
 import com.exence.finance.config.properties.EmailBusinessProperties;
 import com.exence.finance.modules.auth.dto.EmailType;
+import com.exence.finance.modules.auth.dto.Theme;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.dto.request.EmailVerificationRequest;
 import com.exence.finance.modules.auth.dto.request.ForgotPasswordRequest;
@@ -16,8 +17,10 @@ import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import com.exence.finance.modules.auth.dto.response.TokenPair;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.auth.entity.UserSettings;
 import com.exence.finance.modules.auth.mapper.UserMapper;
 import com.exence.finance.modules.auth.repository.UserRepository;
+import com.exence.finance.modules.auth.repository.UserSettingsRepository;
 import com.exence.finance.modules.auth.service.AuthService;
 import com.exence.finance.modules.auth.service.CookieService;
 import com.exence.finance.modules.auth.service.PasswordHistoryService;
@@ -65,6 +68,7 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordHistoryService passwordHistoryService;
     private final EmailBusinessProperties emailBusinessProperties;
     private final CookieService cookieService;
+    private final UserSettingsRepository userSettingsRepository;
 
     @Override
     @Transactional
@@ -72,6 +76,7 @@ public class AuthServiceImpl implements AuthService {
         User user = buildNewUser(request);
         user = userRepository.save(user);
 
+        createDefaultSettings(user);
         createDefaultDashboardWidget(user);
 
         sendEmailVerification(user);
@@ -226,5 +231,16 @@ public class AuthServiceImpl implements AuthService {
                 .settings(Collections.emptyMap())
                 .build();
         widgetRepository.save(widget);
+    }
+
+    private void createDefaultSettings(User user) {
+        UserSettings settings = UserSettings.builder()
+            .user(user)
+            .language("en")
+            .primaryTheme(Theme.DARK)
+            .secondaryTheme(Theme.BLUE_DOLPHIN)
+            .baseCurrency("HUF")
+            .build();
+        userSettingsRepository.save(settings);
     }
 }

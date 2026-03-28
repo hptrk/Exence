@@ -32,6 +32,10 @@ public final class ValidationConstants {
     public static final String PASSWORD_DIGIT_PATTERN = ".*\\d.*";
     public static final String PASSWORD_SPECIAL_CHAR_PATTERN = ".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*";
 
+    // User settings validations
+    public static final int LANGUAGE_CODE_LENGTH = 2;
+    public static final int CURRENCY_CODE_LENGTH = 3;
+
     // Category validations
     public static final int CATEGORY_NAME_MIN_LENGTH = 1;
     public static final int CATEGORY_NAME_MAX_LENGTH = 25;

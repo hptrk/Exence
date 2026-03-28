@@ -27,3 +27,11 @@ databaseChangeLog:
       file: create-mv-daily-category-stat.yaml
       relativeToChangelogFile: true
 
+  - include:
+      file: create-theme-enum.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: create-user-settings-table.yaml
+      relativeToChangelogFile: true
+
