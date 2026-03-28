@@ -47,6 +47,9 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Check i18n key consistency
+        run: bash scripts/check-i18n-keys.sh
+
       - name: Run Everything
         run: ./gradlew spotlessCheck checkstyleMain checkstyleTest test jacocoTestReport assemble --no-daemon
         env:
