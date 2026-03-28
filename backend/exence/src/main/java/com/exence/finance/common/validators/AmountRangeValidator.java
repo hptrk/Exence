@@ -41,7 +41,7 @@ public class AmountRangeValidator implements ConstraintValidator<ValidAmountRang
             }
 
             if (fromAmount.compareTo(toAmount) > 0) {
-                addConstraintViolation(context, "Amount from cannot be greater than amount to");
+                addConstraintViolation(context, "{validation.amount-range.invalid}");
                 return false;
             }
 

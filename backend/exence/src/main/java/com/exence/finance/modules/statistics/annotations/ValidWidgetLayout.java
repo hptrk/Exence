@@ -14,9 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = WidgetLayoutValidator.class)
 @Documented
 public @interface ValidWidgetLayout {
-    String message() default
-            "Invalid widget layout: StatCard requires displayOrder only, graph widgets require position (x, y)"
-                    + " fields";
+    String message() default "{validation.widget.layout.invalid}";
 
     Class<?>[] groups() default {};
 

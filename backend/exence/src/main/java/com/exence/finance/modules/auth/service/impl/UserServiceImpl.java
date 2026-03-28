@@ -1,7 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
-import com.exence.finance.common.exception.EmailAlreadyVerifiedException;
-import com.exence.finance.common.exception.UserNotFoundException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.dto.UserDTO;
 import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
 import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
@@ -47,16 +47,16 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserFromToken() {
         HttpServletRequest request = requestContextService.getCurrentRequest();
         if (request == null) {
-            throw new UserNotFoundException();
+            throw new ExenceException(ErrorCode.USER_NOT_FOUND);
         }
 
         String token = cookieService.extractAccessTokenFromCookie(request);
         if (token == null) {
-            throw new UserNotFoundException();
+            throw new ExenceException(ErrorCode.USER_NOT_FOUND);
         }
 
         String email = jwtService.extractUsername(token);
-        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
         return userMapper.mapToUserDto(user);
     }
 
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new UserNotFoundException();
+            throw new ExenceException(ErrorCode.USER_NOT_FOUND);
         }
 
         return loadUserFromAuthentication(authentication);
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
         User user = getCurrentUser();
 
         if (user.getEmailVerified()) {
-            throw new EmailAlreadyVerifiedException("asdasd");
+            throw new ExenceException(ErrorCode.EMAIL_ALREADY_VERIFIED);
         }
 
         authService.sendEmailVerification(user);
@@ -139,13 +139,13 @@ public class UserServiceImpl implements UserService {
             return user;
         }
         if (principal instanceof String email) {
-            return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+            return userRepository.findByEmail(email).orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
         }
         if (principal instanceof UserDetails userDetails) {
             String email = userDetails.getUsername();
-            return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+            return userRepository.findByEmail(email).orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
         }
 
-        throw new UserNotFoundException();
+        throw new ExenceException(ErrorCode.USER_NOT_FOUND);
     }
 }

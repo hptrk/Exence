@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class ExpenseCategoryColumnProvider implements WidgetDataProvider {
 
+    private final ProviderHelper providerHelper;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
 
@@ -33,6 +34,6 @@ public final class ExpenseCategoryColumnProvider implements WidgetDataProvider {
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
-        return ProviderHelper.buildMonthlyCategorySeriesPayload(results, months, "column", null);
+        return providerHelper.buildMonthlyCategorySeriesPayload(results, months, "column", null);
     }
 }

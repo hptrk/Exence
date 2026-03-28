@@ -1,7 +1,7 @@
 package com.exence.finance.modules.transaction.service.impl;
 
-import com.exence.finance.common.exception.CategoryNotFoundException;
-import com.exence.finance.common.exception.TransactionNotFoundException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.entity.Category;
@@ -36,7 +36,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final ApplicationEventPublisher eventPublisher;
 
     public TransactionDTO getTransactionById(Long id) {
-        Transaction transaction = transactionRepository.find(id).orElseThrow(TransactionNotFoundException::new);
+        Transaction transaction =
+                transactionRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
 
         return transactionMapper.mapToTransactionDTO(transaction);
     }
@@ -59,8 +60,9 @@ public class TransactionServiceImpl implements TransactionService {
         User user = userService.getCurrentUser();
         Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
 
-        Category category =
-                categoryRepository.find(transactionDTO.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
+        Category category = categoryRepository
+                .find(transactionDTO.getCategoryId())
+                .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
         transaction.setCategory(category);
         transaction.setUser(user);
@@ -72,16 +74,18 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Transactional
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
-        Transaction transaction =
-                transactionRepository.find(transactionDTO.getId()).orElseThrow(TransactionNotFoundException::new);
+        Transaction transaction = transactionRepository
+                .find(transactionDTO.getId())
+                .orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
 
         if (transactionDTO.getCategoryId() != null
                 && !transactionDTO
                         .getCategoryId()
                         .equals(transaction.getCategory().getId())) {
 
-            Category category =
-                    categoryRepository.find(transactionDTO.getCategoryId()).orElseThrow(CategoryNotFoundException::new);
+            Category category = categoryRepository
+                    .find(transactionDTO.getCategoryId())
+                    .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
             transaction.setCategory(category);
         }
@@ -95,8 +99,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Transactional
     public void deleteTransaction(Long id) {
-        Transaction transaction = transactionRepository.find(id).orElseThrow(TransactionNotFoundException::new);
-
+        Transaction transaction =
+                transactionRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
         transactionRepository.delete(transaction);
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
     }

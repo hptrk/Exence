@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidColor {
-    String message() default "Invalid color format. Must be a valid hex color code (e.g., #C9C9F2)";
+    String message() default "{validation.color.invalid}";
 
     Class<?>[] groups() default {};
 

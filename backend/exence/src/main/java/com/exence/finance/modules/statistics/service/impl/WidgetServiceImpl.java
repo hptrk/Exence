@@ -1,6 +1,7 @@
 package com.exence.finance.modules.statistics.service.impl;
 
-import com.exence.finance.common.exception.WidgetNotFoundException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
@@ -97,7 +98,7 @@ public class WidgetServiceImpl implements WidgetService {
             request.statCards().forEach(item -> {
                 Widget widget = existingWidgets.get(item.id());
                 if (widget == null) {
-                    throw new WidgetNotFoundException("Widget not found: " + item.id());
+                    throw new ExenceException(ErrorCode.WIDGET_NOT_FOUND);
                 }
                 widget.setDisplayOrder(item.displayOrder());
                 if (item.settings() != null) {
@@ -115,7 +116,7 @@ public class WidgetServiceImpl implements WidgetService {
             request.charts().forEach(item -> {
                 Widget widget = existingWidgets.get(item.id());
                 if (widget == null) {
-                    throw new WidgetNotFoundException("Widget not found: " + item.id());
+                    throw new ExenceException(ErrorCode.WIDGET_NOT_FOUND);
                 }
                 widget.setX(item.x());
                 widget.setY(item.y());
@@ -146,9 +147,8 @@ public class WidgetServiceImpl implements WidgetService {
 
     @Override
     public WidgetDataResponse getWidgetData(Long widgetId, Timeframe timeframe) {
-        Widget widget = widgetRepository
-                .find(widgetId)
-                .orElseThrow(() -> new WidgetNotFoundException("Widget not found: " + widgetId));
+        Widget widget =
+                widgetRepository.find(widgetId).orElseThrow(() -> new ExenceException(ErrorCode.WIDGET_NOT_FOUND));
 
         Timeframe resolvedTimeframe = resolveTimeframe(timeframe, widget);
 
@@ -175,8 +175,7 @@ public class WidgetServiceImpl implements WidgetService {
     public WidgetDataResponse getDashboardBalanceTrend(Timeframe timeframe) {
         Widget widget = widgetRepository
                 .findFirstByType(WidgetType.DASHBOARD_BALANCE_TREND)
-                .orElseThrow(() ->
-                        new WidgetNotFoundException("Widget not found by type: " + WidgetType.DASHBOARD_BALANCE_TREND));
+                .orElseThrow(() -> new ExenceException(ErrorCode.WIDGET_NOT_FOUND));
 
         return getWidgetData(widget.getId(), timeframe);
     }

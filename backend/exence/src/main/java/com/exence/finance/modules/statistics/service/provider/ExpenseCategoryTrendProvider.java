@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class ExpenseCategoryTrendProvider implements WidgetDataProvider {
 
+    private final ProviderHelper providerHelper;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
 
@@ -34,7 +35,7 @@ public final class ExpenseCategoryTrendProvider implements WidgetDataProvider {
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
 
-        return ProviderHelper.buildMonthlyCategorySeriesPayload(
+        return providerHelper.buildMonthlyCategorySeriesPayload(
                 results, months, "area", StatisticsConstants.COLOR_EXPENSE_RED);
     }
 }

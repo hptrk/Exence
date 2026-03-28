@@ -1,6 +1,7 @@
 package com.exence.finance.security;
 
-import com.exence.finance.common.exception.AuthenticationFailedException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.common.exception.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -47,13 +48,11 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
             if (jwtProcessingException != null) {
                 // delegate to GlobalExceptionHandler for authentication failure
-                responseEntity = globalExceptionHandler.handleAuthenticationFailedException(
-                        new AuthenticationFailedException(
-                                "JWT processing failed: " + jwtProcessingException.getMessage()),
-                        webRequest);
+                responseEntity = globalExceptionHandler.handleExenceException(
+                        new ExenceException(ErrorCode.AUTHENTICATION_FAILED), webRequest);
             } else {
-                responseEntity = globalExceptionHandler.handleAuthenticationFailedException(
-                        new AuthenticationFailedException(authException.getMessage()), webRequest);
+                responseEntity = globalExceptionHandler.handleExenceException(
+                        new ExenceException(ErrorCode.AUTHENTICATION_FAILED), webRequest);
             }
         }
 

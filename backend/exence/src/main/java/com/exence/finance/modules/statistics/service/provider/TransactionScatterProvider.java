@@ -25,6 +25,7 @@ public final class TransactionScatterProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -36,7 +37,7 @@ public final class TransactionScatterProvider implements WidgetDataProvider {
         StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
         List<ScatterResult> results = statisticsQueryService.findScatterData(filter);
 
-        Map<String, String> categoryColorMap = ProviderHelper.getCategoryColorMap(results);
+        Map<String, String> categoryColorMap = providerHelper.getCategoryColorMap(results);
 
         Map<String, List<DataPoint>> categoryPoints = new LinkedHashMap<>();
         categoryColorMap.keySet().forEach(cat -> categoryPoints.put(cat, new ArrayList<>()));

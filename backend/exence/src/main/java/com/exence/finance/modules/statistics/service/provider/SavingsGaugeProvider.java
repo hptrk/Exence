@@ -20,6 +20,7 @@ public final class SavingsGaugeProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -36,7 +37,7 @@ public final class SavingsGaugeProvider implements WidgetDataProvider {
         BigDecimal income = sums.getOrDefault(TransactionType.INCOME, BigDecimal.ZERO);
         BigDecimal expense = sums.getOrDefault(TransactionType.EXPENSE, BigDecimal.ZERO);
 
-        BigDecimal savingsRate = ProviderHelper.calculateSavingsRate(income, expense);
+        BigDecimal savingsRate = providerHelper.calculateSavingsRate(income, expense);
         return new GaugePayload(savingsRate);
     }
 }

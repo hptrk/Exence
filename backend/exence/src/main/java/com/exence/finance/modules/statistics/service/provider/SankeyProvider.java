@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
@@ -17,8 +18,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class SankeyProvider implements WidgetDataProvider {
 
-    private static final String CENTRAL_NODE = "Wallet";
-
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
 
@@ -31,13 +31,14 @@ public final class SankeyProvider implements WidgetDataProvider {
     public SankeyPayload getData(WidgetRequest request) {
         StatisticsFilter filter = filterFactory.fromRequest(request);
         List<CategoryFlowResult> results = statisticsQueryService.findCategoryFlow(filter);
+        String centralNode = i18n.get("label.wallet");
 
         List<SankeyLink> links = results.stream()
                 .map(p -> {
                     if (p.type() == TransactionType.INCOME) {
-                        return new SankeyLink(p.categoryName(), CENTRAL_NODE, p.totalAmount(), p.categoryColor());
+                        return new SankeyLink(p.categoryName(), centralNode, p.totalAmount(), p.categoryColor());
                     } else {
-                        return new SankeyLink(CENTRAL_NODE, p.categoryName(), p.totalAmount(), p.categoryColor());
+                        return new SankeyLink(centralNode, p.categoryName(), p.totalAmount(), p.categoryColor());
                     }
                 })
                 .toList();

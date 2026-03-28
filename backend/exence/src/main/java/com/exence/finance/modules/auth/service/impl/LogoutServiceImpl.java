@@ -1,6 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
-import com.exence.finance.common.exception.AuthenticationFailedException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.config.properties.ExenceProperties;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.Token;
@@ -47,7 +48,7 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
                     logoutFromCurrentDevice(jwt);
                 }
             } else {
-                throw new AuthenticationFailedException();
+                throw new ExenceException(ErrorCode.AUTHENTICATION_FAILED);
             }
         } finally {
             ResponseCookie clearAccessToken = cookieService.createExpiredAccessTokenCookie();

@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
@@ -29,10 +30,14 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.experimental.UtilityClass;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@UtilityClass
+@Component
+@RequiredArgsConstructor
 public class ProviderHelper {
+
+    private final I18nService i18n;
 
     private static final int DIVISION_SCALE = 4;
     private static final int PERCENTAGE_MULTIPLIER = 100;
@@ -66,7 +71,7 @@ public class ProviderHelper {
                         return new DataPoint(month.toString(), total, null);
                     })
                     .toList();
-            series.addFirst(new SeriesItem("Total", "line", totalColor, totalPoints));
+            series.addFirst(new SeriesItem(i18n.get("label.total"), "line", totalColor, totalPoints));
         }
 
         return new SeriesPayload(series);
@@ -137,7 +142,7 @@ public class ProviderHelper {
 
     public TrendResult computeTrend(
             WidgetRequest request, BigDecimal currentValue, BiFunction<Instant, Instant, BigDecimal> valueCalculator) {
-        return doComputeTrend(request, currentValue, valueCalculator, ProviderHelper::calculateChangePercentage);
+        return doComputeTrend(request, currentValue, valueCalculator, this::calculateChangePercentage);
     }
 
     public TrendResult computeTrendByDifference(
@@ -165,7 +170,7 @@ public class ProviderHelper {
             WidgetRequest request, long currentCount, BiFunction<Instant, Instant, Long> countCalculator) {
         long currentMonths = DateUtils.countMonths(request.startDate(), request.endDate());
         BigDecimal currentAvg = divideAsAvg(currentCount, currentMonths);
-        String unitLabel = getUnitLabel(currentAvg, "transaction", "transactions");
+        String unitLabel = i18n.getUnitLabel(currentAvg, "unit.transaction", "unit.transactions");
 
         TrendResult trend = computeTrend(request, currentAvg, (s, e) -> {
             long prevCount = countCalculator.apply(s, e);
@@ -174,7 +179,13 @@ public class ProviderHelper {
         });
 
         return new StatCardPayload(
-                currentAvg, unitLabel, "/month", trend.changePercentage(), trend.trend(), null, null);
+                currentAvg,
+                unitLabel,
+                i18n.get("context.per-month"),
+                trend.changePercentage(),
+                trend.trend(),
+                null,
+                null);
     }
 
     public BigDecimal calculateChangePercentage(BigDecimal previous, BigDecimal current) {
@@ -196,11 +207,6 @@ public class ProviderHelper {
 
     public Map<TransactionType, BigDecimal> toTypeAmountMap(List<TypeAmountResult> projections) {
         return projections.stream().collect(Collectors.toMap(TypeAmountResult::type, TypeAmountResult::totalAmount));
-    }
-
-    public String getUnitLabel(Number value, String singular, String plural) {
-        BigDecimal bd = value instanceof BigDecimal bigDecimal ? bigDecimal : BigDecimal.valueOf(value.doubleValue());
-        return bd.compareTo(BigDecimal.ONE) == 0 ? singular : plural;
     }
 
     private BigDecimal divideAsAvg(long count, long months) {

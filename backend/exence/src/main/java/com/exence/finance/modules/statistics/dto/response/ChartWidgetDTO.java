@@ -9,7 +9,6 @@ public record ChartWidgetDTO(
         Long id,
         WidgetType type,
         String title,
-        String info,
         Timeframe timeframe,
         Integer x,
         Integer y,

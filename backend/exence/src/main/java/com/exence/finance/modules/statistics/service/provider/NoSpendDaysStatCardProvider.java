@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
@@ -15,8 +16,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class NoSpendDaysStatCardProvider implements WidgetDataProvider {
 
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -29,16 +32,16 @@ public final class NoSpendDaysStatCardProvider implements WidgetDataProvider {
         Long noSpendDays = statisticsQueryService.countNoSpendDays(currentFilter);
         long totalDays = DateUtils.countDaysBetween(request.startDate(), request.endDate());
 
-        TrendResult trend = ProviderHelper.computeTrend(request, BigDecimal.valueOf(noSpendDays), (s, e) -> {
+        TrendResult trend = providerHelper.computeTrend(request, BigDecimal.valueOf(noSpendDays), (s, e) -> {
             StatisticsFilter filter = filterFactory.fromRequest(request.withDates(s, e));
             return BigDecimal.valueOf(statisticsQueryService.countNoSpendDays(filter));
         });
 
-        String unitLabel = ProviderHelper.getUnitLabel(noSpendDays, "day", "days");
+        String unitLabel = i18n.getUnitLabel(noSpendDays, "unit.day", "unit.days");
         return new StatCardPayload(
                 BigDecimal.valueOf(noSpendDays),
                 unitLabel,
-                "/" + totalDays + " days",
+                i18n.get("context.of-days", totalDays),
                 trend.changePercentage(),
                 trend.trend(),
                 null,

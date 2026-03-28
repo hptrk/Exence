@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 public class ForgotPasswordRequest {
-    @NotBlank(message = "Email cannot be blank")
-    @Email(message = "Email must be valid")
+    @NotBlank(message = "{validation.email.not-blank}")
+    @Email(message = "{validation.email.invalid}")
     private String email;
 }

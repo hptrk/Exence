@@ -30,12 +30,10 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-@ValidDateRange(from = "dateFrom", to = "dateTo", message = "Date from cannot be after date to")
-@ValidAmountRange(from = "amountFrom", to = "amountTo", message = "Amount from cannot be greater than amount to")
+@ValidDateRange(from = "dateFrom", to = "dateTo")
+@ValidAmountRange(from = "amountFrom", to = "amountTo")
 public class TransactionFilter implements Serializable {
-    @Size(
-            max = TRANSACTION_TITLE_MAX_LENGTH,
-            message = "Keyword must be at most " + TRANSACTION_TITLE_MAX_LENGTH + " characters")
+    @Size(max = TRANSACTION_TITLE_MAX_LENGTH, message = "{validation.filter.keyword.size}")
     private String keyword;
 
     private Instant dateFrom;
@@ -46,19 +44,17 @@ public class TransactionFilter implements Serializable {
 
     private TransactionType type;
 
-    @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "Minimum amount must be at least " + TRANSACTION_AMOUNT_MIN)
+    @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "{validation.filter.amount.min}")
     @Digits(
             integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
             fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-            message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and "
-                    + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
+            message = "{validation.transaction.amount.digits}")
     private BigDecimal amountFrom;
 
     @Digits(
             integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
             fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-            message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and "
-                    + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
+            message = "{validation.transaction.amount.digits}")
     private BigDecimal amountTo;
 
     private Boolean recurring;

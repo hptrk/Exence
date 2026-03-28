@@ -1,7 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
-import com.exence.finance.common.exception.InvalidTokenException;
-import com.exence.finance.common.exception.UserNotFoundException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.TokenRepository;
@@ -26,11 +26,11 @@ public class TokenValidationServiceImpl implements TokenValidationService {
     @Override
     public User validateAndExtractUser(String token, TokenType expectedType) {
         if (!isTokenValid(token, expectedType)) {
-            throw new InvalidTokenException();
+            throw new ExenceException(ErrorCode.INVALID_TOKEN);
         }
 
         String userEmail = jwtService.extractUsername(token);
-        return userRepository.findByEmail(userEmail).orElseThrow(UserNotFoundException::new);
+        return userRepository.findByEmail(userEmail).orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
     }
 
     @Override

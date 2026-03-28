@@ -23,10 +23,7 @@ import lombok.experimental.SuperBuilder;
 @ToString(
         callSuper = true,
         exclude = {"password", "confirmPassword"})
-@PasswordMatches(
-        password = "password",
-        confirmPassword = "confirmPassword",
-        message = "Password and confirmation password do not match")
+@PasswordMatches(password = "password", confirmPassword = "confirmPassword")
 public class RegisterRequest implements Serializable {
 
     @ValidUsername
@@ -39,6 +36,6 @@ public class RegisterRequest implements Serializable {
     @ValidPassword
     private String password;
 
-    @NotBlank(message = "Password confirmation is required")
+    @NotBlank(message = "{validation.confirm-password.not-blank}")
     private String confirmPassword;
 }

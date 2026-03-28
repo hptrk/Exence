@@ -18,14 +18,14 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-@PasswordMatches(password = "newPassword", confirmPassword = "confirmNewPassword", message = "Passwords do not match!")
+@PasswordMatches(password = "newPassword", confirmPassword = "confirmNewPassword")
 public class ChangePasswordRequest implements Serializable {
-    @NotBlank(message = "Current password is required")
+    @NotBlank(message = "{validation.old-password.not-blank}")
     private String oldPassword;
 
     @ValidPassword
     private String newPassword;
 
-    @NotBlank(message = "Password confirmation is required")
+    @NotBlank(message = "{validation.confirm-password.not-blank}")
     private String confirmNewPassword;
 }

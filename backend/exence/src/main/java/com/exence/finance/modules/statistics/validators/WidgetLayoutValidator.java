@@ -33,35 +33,35 @@ public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLay
         boolean valid = true;
 
         if (dto.displayOrder() == null) {
-            context.buildConstraintViolationWithTemplate("StatCard widget requires displayOrder")
+            context.buildConstraintViolationWithTemplate("{validation.widget.statcard.requires-display-order}")
                     .addPropertyNode("displayOrder")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.x() != null) {
-            context.buildConstraintViolationWithTemplate("StatCard widget must not have x")
+            context.buildConstraintViolationWithTemplate("{validation.widget.statcard.forbidden-x}")
                     .addPropertyNode("x")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.y() != null) {
-            context.buildConstraintViolationWithTemplate("StatCard widget must not have y")
+            context.buildConstraintViolationWithTemplate("{validation.widget.statcard.forbidden-y}")
                     .addPropertyNode("y")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.cols() != null) {
-            context.buildConstraintViolationWithTemplate("StatCard widget must not have cols")
+            context.buildConstraintViolationWithTemplate("{validation.widget.statcard.forbidden-cols}")
                     .addPropertyNode("cols")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.rows() != null) {
-            context.buildConstraintViolationWithTemplate("StatCard widget must not have rows")
+            context.buildConstraintViolationWithTemplate("{validation.widget.statcard.forbidden-rows}")
                     .addPropertyNode("rows")
                     .addConstraintViolation();
             valid = false;
@@ -74,42 +74,42 @@ public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLay
         boolean valid = true;
 
         if (dto.x() == null) {
-            context.buildConstraintViolationWithTemplate("Graph widget requires x")
+            context.buildConstraintViolationWithTemplate("{validation.widget.graph.requires-x}")
                     .addPropertyNode("x")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.y() == null) {
-            context.buildConstraintViolationWithTemplate("Graph widget requires y")
+            context.buildConstraintViolationWithTemplate("{validation.widget.graph.requires-y}")
                     .addPropertyNode("y")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.cols() == null) {
-            context.buildConstraintViolationWithTemplate("Graph widget requires cols")
+            context.buildConstraintViolationWithTemplate("{validation.widget.graph.requires-cols}")
                     .addPropertyNode("cols")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.rows() == null) {
-            context.buildConstraintViolationWithTemplate("Graph widget requires rows")
+            context.buildConstraintViolationWithTemplate("{validation.widget.graph.requires-rows}")
                     .addPropertyNode("rows")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.displayOrder() != null) {
-            context.buildConstraintViolationWithTemplate("Graph widget must not have displayOrder")
+            context.buildConstraintViolationWithTemplate("{validation.widget.graph.forbidden-display-order}")
                     .addPropertyNode("displayOrder")
                     .addConstraintViolation();
             valid = false;
         }
 
         if (dto.type().isYtdOnly() && dto.timeframe() != null && dto.timeframe() != Timeframe.YTD) {
-            context.buildConstraintViolationWithTemplate(dto.type() + " widget only supports YTD timeframe")
+            context.buildConstraintViolationWithTemplate("{validation.widget.graph.ytd-only}")
                     .addPropertyNode("timeframe")
                     .addConstraintViolation();
             valid = false;

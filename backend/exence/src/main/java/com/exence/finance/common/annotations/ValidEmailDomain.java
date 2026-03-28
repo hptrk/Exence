@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = EmailDomainValidator.class)
 @Documented
 public @interface ValidEmailDomain {
-    String message() default "Email domain is not allowed";
+    String message() default "{validation.email.domain}";
 
     Class<?>[] groups() default {};
 

@@ -1,6 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
-import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
@@ -27,6 +27,8 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
+    private final I18nService i18n;
 
     @Override
     public WidgetType getSupportedType() {
@@ -46,8 +48,8 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
                 .map(year -> {
                     List<DataPoint> points = IntStream.rangeClosed(1, MONTHS_IN_YEAR)
                             .mapToObj(monthNumber -> new DataPoint(
-                                    DateUtils.getMonthName(monthNumber),
-                                    ProviderHelper.getAmount(
+                                    i18n.getMonthName(monthNumber),
+                                    providerHelper.getAmount(
                                             results,
                                             YearMonth.of(year, monthNumber),
                                             MonthlyBalanceResult::totalAmount),

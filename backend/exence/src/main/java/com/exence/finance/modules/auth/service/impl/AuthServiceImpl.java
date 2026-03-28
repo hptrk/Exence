@@ -1,9 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
-import com.exence.finance.common.exception.AuthenticationFailedException;
-import com.exence.finance.common.exception.EmailAlreadyVerifiedException;
-import com.exence.finance.common.exception.TooManyEmailsException;
-import com.exence.finance.common.exception.UserNotFoundException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.config.properties.EmailBusinessProperties;
 import com.exence.finance.modules.auth.dto.EmailType;
 import com.exence.finance.modules.auth.dto.Theme;
@@ -87,7 +85,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public AuthenticationResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(AuthenticationFailedException::new);
+        User user = userRepository
+                .findByEmail(request.getEmail())
+                .orElseThrow(() -> new ExenceException(ErrorCode.AUTHENTICATION_FAILED));
 
         authenticateUser(request);
 
@@ -126,7 +126,7 @@ public class AuthServiceImpl implements AuthService {
         User user = tokenValidationService.validateAndExtractUser(request.getToken(), TokenType.EMAIL_VERIFICATION);
 
         if (user.getEmailVerified()) {
-            throw new EmailAlreadyVerifiedException();
+            throw new ExenceException(ErrorCode.EMAIL_ALREADY_VERIFIED);
         }
 
         user.setEmailVerified(true);
@@ -141,14 +141,16 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional
     public void forgotPassword(ForgotPasswordRequest request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository
+                .findByEmail(request.getEmail())
+                .orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
 
         if (emailBusinessProperties.getRateLimiting().isEnabled()
                 && emailLogService.hasRecentEmail(
                         user,
                         EmailType.PASSWORD_RESET,
                         emailBusinessProperties.getRateLimiting().getCooldownMinutesBetweenSends())) {
-            throw new TooManyEmailsException();
+            throw new ExenceException(ErrorCode.TOO_MANY_EMAILS);
         }
 
         tokenManagementService.revokeUserTokensByType(user, TokenType.PASSWORD_RESET);
@@ -213,7 +215,7 @@ public class AuthServiceImpl implements AuthService {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         } catch (BadCredentialsException e) {
-            throw new AuthenticationFailedException();
+            throw new ExenceException(ErrorCode.AUTHENTICATION_FAILED);
         }
     }
 
@@ -235,12 +237,12 @@ public class AuthServiceImpl implements AuthService {
 
     private void createDefaultSettings(User user) {
         UserSettings settings = UserSettings.builder()
-            .user(user)
-            .language("en")
-            .primaryTheme(Theme.DARK)
-            .secondaryTheme(Theme.BLUE_DOLPHIN)
-            .baseCurrency("HUF")
-            .build();
+                .user(user)
+                .language("en")
+                .primaryTheme(Theme.DARK)
+                .secondaryTheme(Theme.BLUE_DOLPHIN)
+                .baseCurrency("HUF")
+                .build();
         userSettingsRepository.save(settings);
     }
 }

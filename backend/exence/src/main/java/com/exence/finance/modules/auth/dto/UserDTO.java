@@ -17,10 +17,10 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(
         callSuper = false,
-        exclude = {""})
+        exclude = {})
 @ToString(
         callSuper = true,
-        exclude = {""})
+        exclude = {})
 @JsonIdentityInfo(
         generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class,
         property = "id",

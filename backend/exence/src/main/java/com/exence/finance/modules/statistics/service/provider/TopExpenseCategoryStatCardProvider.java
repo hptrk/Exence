@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
@@ -16,8 +17,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class TopExpenseCategoryStatCardProvider implements WidgetDataProvider {
 
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -30,10 +33,11 @@ public final class TopExpenseCategoryStatCardProvider implements WidgetDataProvi
         CategoryAmountResult top = statisticsQueryService.findTopCategoryByType(filter);
 
         if (top == null) {
-            return new StatCardPayload(BigDecimal.ZERO, null, "No transactions", null, null, null, null);
+            return new StatCardPayload(
+                    BigDecimal.ZERO, null, i18n.get("label.no-transactions"), null, null, null, null);
         }
 
-        TrendResult trend = ProviderHelper.computeTrend(request, top.totalAmount(), (s, e) -> {
+        TrendResult trend = providerHelper.computeTrend(request, top.totalAmount(), (s, e) -> {
             CategoryAmountResult prev = statisticsQueryService.findTopCategoryByType(
                     filterFactory.fromRequest(request.withDates(s, e), TransactionType.EXPENSE));
             return prev != null ? prev.totalAmount() : BigDecimal.ZERO;

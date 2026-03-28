@@ -62,7 +62,7 @@ public class Token {
     @Column(name = "token_type", nullable = false)
     private TokenType tokenType;
 
-    @NotNull(message = "Revoked status is required")
+    @NotNull
     @Column(name = "revoked", nullable = false)
     @Builder.Default
     private Boolean revoked = Boolean.FALSE;

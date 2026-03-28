@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class CategoryTreemapProvider implements WidgetDataProvider {
 
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
 
@@ -37,8 +39,8 @@ public final class CategoryTreemapProvider implements WidgetDataProvider {
                 results.stream().collect(Collectors.groupingBy(CategoryFlowResult::type));
 
         List<SeriesItem> series = List.of(
-                toSeriesItem("Expense", byType.getOrDefault(TransactionType.EXPENSE, List.of())),
-                toSeriesItem("Income", byType.getOrDefault(TransactionType.INCOME, List.of())));
+                toSeriesItem(i18n.get("label.expense"), byType.getOrDefault(TransactionType.EXPENSE, List.of())),
+                toSeriesItem(i18n.get("label.income"), byType.getOrDefault(TransactionType.INCOME, List.of())));
 
         return new SeriesPayload(series);
     }

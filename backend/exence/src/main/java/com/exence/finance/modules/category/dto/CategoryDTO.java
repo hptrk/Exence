@@ -23,10 +23,10 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(
         callSuper = false,
-        exclude = {""})
+        exclude = {})
 @ToString(
         callSuper = true,
-        exclude = {""})
+        exclude = {})
 @JsonIdentityInfo(
         generator = com.fasterxml.jackson.annotation.ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
@@ -34,25 +34,19 @@ import lombok.experimental.SuperBuilder;
 public class CategoryDTO {
     private Long id;
 
-    @NotBlank(message = "Category name cannot be blank")
-    @Size(
-            min = CATEGORY_NAME_MIN_LENGTH,
-            max = CATEGORY_NAME_MAX_LENGTH,
-            message = "Category name must be between " + CATEGORY_NAME_MIN_LENGTH + " and " + CATEGORY_NAME_MAX_LENGTH
-                    + " characters")
+    @NotBlank(message = "{validation.category.name.not-blank}")
+    @Size(min = CATEGORY_NAME_MIN_LENGTH, max = CATEGORY_NAME_MAX_LENGTH, message = "{validation.category.name.size}")
     private String name;
 
-    @NotNull(message = "Icon is required")
+    @NotNull(message = "{validation.category.icon.not-null}")
     private MaterialIcon icon;
 
-    @ValidColor(message = "Color is required and must be a valid hex color code")
+    @ValidColor
     private String color;
 
-    @NotNull(message = "Category type is required")
+    @NotNull(message = "{validation.category.type.not-null}")
     private CategoryType type;
 
-    @Size(
-            max = CATEGORY_NOTE_MAX_LENGTH,
-            message = "Note can be a maximum of " + CATEGORY_NOTE_MAX_LENGTH + " characters.")
+    @Size(max = CATEGORY_NOTE_MAX_LENGTH, message = "{validation.category.note.size}")
     private String note;
 }

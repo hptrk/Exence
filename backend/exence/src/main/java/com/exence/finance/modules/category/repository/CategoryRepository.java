@@ -17,6 +17,10 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query("SELECT c FROM Category c WHERE c.id = :id")
     Optional<Category> find(Long id);
 
+    boolean existsByName(String name);
+
+    boolean existsByNameAndIdNot(String name, Long id);
+
     @Query("SELECT c.id FROM Category c WHERE c.id IN :ids")
     Set<Long> findExistingIds(@Param("ids") Collection<Long> ids);
 

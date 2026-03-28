@@ -16,6 +16,6 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
 public class EmailVerificationRequest {
-    @NotBlank(message = "Token is required")
+    @NotBlank(message = "{validation.token.not-blank}")
     private String token;
 }

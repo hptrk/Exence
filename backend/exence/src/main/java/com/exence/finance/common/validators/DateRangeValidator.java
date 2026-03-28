@@ -35,7 +35,7 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, O
 
             if (fromValue instanceof Instant fromDate && toValue instanceof Instant toDate) {
                 if (fromDate.isAfter(toDate)) {
-                    addConstraintViolation(context, "Date from cannot be after date to");
+                    addConstraintViolation(context, "{validation.date-range.invalid}");
                     return false;
                 }
             }

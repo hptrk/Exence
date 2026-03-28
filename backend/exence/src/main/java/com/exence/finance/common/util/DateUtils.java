@@ -1,24 +1,20 @@
 package com.exence.finance.common.util;
 
-import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.Month;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.IsoFields;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import lombok.experimental.UtilityClass;
 
-// TODO: timezone AND Locale settings should be calculated from the user's profile settings
 @UtilityClass
 public final class DateUtils {
 
+    // TODO: timezone handling based on user settings
     public static final ZoneId DISPLAY_ZONE = ZoneId.of("Europe/Budapest");
     public static final int DAYS_PER_WEEK = 7;
 
@@ -41,15 +37,6 @@ public final class DateUtils {
         }
 
         return months;
-    }
-
-    public static String getMonthName(int monthNum) {
-        return Month.of(monthNum).getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
-    }
-
-    /** @param isoDayOfWeek ISO day-of-week (1 = Monday, 7 = Sunday) */
-    public static String getDayName(int isoDayOfWeek) {
-        return DayOfWeek.of(isoDayOfWeek).getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
     }
 
     public static int getIsoWeekCount(Instant instant) {
