@@ -1,16 +1,18 @@
 <ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
-	<div ex-dialog-card-title>New transaction</div>
+	<div ex-dialog-card-title>{{ 'transaction.create.title' | translate }}</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
 		<mat-button-toggle-group [formControl]="form.controls.type" [hideSingleSelectionIndicator]="true" class="mb-3">
 			@for (type of transactionTypes | enumValue; track type) {
-				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{ type }}</mat-button-toggle>
+				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{
+					codeForTransactionType(type) | translate | uppercase
+				}}</mat-button-toggle>
 			}
 		</mat-button-toggle-group>
 
 		@let titleControl = form.controls.title;
 		<mat-form-field>
-			<mat-label>Title</mat-label>
+			<mat-label>{{ 'transaction.create.titleLabel' | translate }}</mat-label>
 			<input matInput autoTrim [formControl]="titleControl" />
 			<ex-input-clear matSuffix [control]="titleControl" />
 			<mat-error>
@@ -21,7 +23,7 @@
 		<div class="d-flex flex-column flex-sm-row gap-3">
 			@let amountControl = form.controls.amount;
 			<mat-form-field>
-				<mat-label>Amount</mat-label>
+				<mat-label>{{ 'transaction.create.amount' | translate }}</mat-label>
 				<input matInput type="number" [formControl]="amountControl" />
 				<ex-input-clear matSuffix [control]="amountControl" />
 				<mat-error>
@@ -30,7 +32,7 @@
 			</mat-form-field>
 			@let dateControl = form.controls.date;
 			<mat-form-field>
-				<mat-label>Date</mat-label>
+				<mat-label>{{ 'transaction.create.date' | translate }}</mat-label>
 				<input matInput [matDatepicker]="picker" [formControl]="dateControl" />
 				<mat-datepicker-toggle matIconSuffix [for]="picker" />
 				<mat-datepicker #picker />
@@ -42,7 +44,7 @@
 		<div class="d-flex flex-column flex-md-row gap-3">
 			@let categoryControl = form.controls.category.controls;
 			<mat-form-field>
-				<mat-label>Category</mat-label>
+				<mat-label>{{ 'transaction.create.category' | translate }}</mat-label>
 				<mat-select
 					selectAutoFocus
 					[focusedInput]="searchCategoryInput"
@@ -50,7 +52,7 @@
 					(closed)="categoryControl.searchText.reset()"
 				>
 					<mat-form-field subscriptSizing="dynamic" class="search-with-select">
-						<mat-label>Search</mat-label>
+						<mat-label>{{ 'transaction.create.search' | translate }}</mat-label>
 						<input autoTrim matInput [formControl]="categoryControl.searchText" #searchCategoryInput />
 						<ex-input-clear [control]="categoryControl.searchText" />
 						<mat-error>
@@ -71,7 +73,7 @@
 		</div>
 		@let noteControl = form.controls.note;
 		<mat-form-field>
-			<mat-label>Note</mat-label>
+			<mat-label>{{ 'transaction.create.note' | translate }}</mat-label>
 			<textarea
 				matInput
 				autoTrim
@@ -85,7 +87,9 @@
 		</mat-form-field>
 
 		@let recurringControl = form.controls.recurring;
-		<mat-checkbox [formControl]="recurringControl">Automatically recurring?</mat-checkbox>
+		<mat-checkbox [formControl]="recurringControl">
+			{{ 'transaction.create.recurring' | translate }}
+		</mat-checkbox>
 
 		<ex-button class="d-none" type="submit" />
 	</form>
@@ -94,9 +98,11 @@
 		ex-dialog-card-actions
 		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
 	>
-		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()"> Cancel </ex-button>
+		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()">
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
 		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="create()">
-			Create
+			{{ 'literals.create' | translate }}
 		</ex-button>
 	</div>
 </ex-dialog-card>

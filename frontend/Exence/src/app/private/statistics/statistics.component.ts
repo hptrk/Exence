@@ -16,6 +16,8 @@ import {
 	WidgetCatalogDialogResult,
 } from './widget-catalog-dialog/widget-catalog-dialog.component';
 import { WidgetStore } from './widget.store';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-statistics',
@@ -28,6 +30,7 @@ import { WidgetStore } from './widget.store';
 		StatCardListComponent,
 		ChartWidgetListComponent,
 		ButtonComponent,
+		TranslatePipe,
 	],
 	providers: [StatisticService, WidgetStore],
 	host: {
@@ -37,6 +40,7 @@ import { WidgetStore } from './widget.store';
 export class StatisticsComponent implements HasChangesComponent {
 	private readonly dialog = inject(DialogService);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly translocoService = inject(TranslocoService);
 	readonly store = inject(WidgetStore);
 
 	private readonly chartWidgetList = viewChild(ChartWidgetListComponent);
@@ -53,7 +57,7 @@ export class StatisticsComponent implements HasChangesComponent {
 	constructor() {
 		effect(() => {
 			if (this.editing()) {
-				this.snackbarService.showInfo('Some changes might not be visible until you have saved changes.');
+				this.snackbarService.showInfo(this.translocoService.translate('statistics.editInfo'));
 			}
 		});
 	}

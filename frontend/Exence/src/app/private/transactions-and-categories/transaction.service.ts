@@ -6,7 +6,7 @@ import { TransactionFilter } from '../../data-model/modules/transaction/Transact
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { HttpService } from '../../shared/http/http.service';
-import { getFilters } from '../../shared/util/http-request-utils';
+import { getFilters } from '../../shared/util/utils';
 @Injectable({
 	providedIn: 'root',
 })

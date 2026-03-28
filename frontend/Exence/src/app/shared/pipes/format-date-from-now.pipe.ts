@@ -1,9 +1,12 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Pipe({
 	name: 'formatDateFromNow',
 })
 export class FormatDateFromNowPipe implements PipeTransform {
+	private readonly translocoService = inject(TranslocoService);
+
 	transform(value?: Date | string | number): string {
 		if (!value) {
 			return '';
@@ -20,39 +23,41 @@ export class FormatDateFromNowPipe implements PipeTransform {
 
 		// Now
 		if (diffInSeconds < 15) {
-			return 'Now';
+			return this.translocoService.translate('formattedDate.now');
 		}
 
 		// Below 1 minute
 		if (diffInSeconds < 60) {
-			return `${diffInSeconds} sec. ago`;
+			const suffix = diffInSeconds === 1 ? 'sec' : 'secs';
+			return this.translocoService.translate(`formattedDate.${suffix}`, { value: diffInSeconds });
 		}
 
 		// Below 1 hour
 		const diffInMinutes = Math.floor(diffInSeconds / 60);
 		if (diffInMinutes < 60) {
-			return `${diffInMinutes} min. ago`;
+			const suffix = diffInMinutes === 1 ? 'min' : 'mins';
+			return this.translocoService.translate(`formattedDate.${suffix}`, { value: diffInMinutes });
 		}
 
 		// Below 1 day
 		const diffInHours = Math.floor(diffInMinutes / 60);
 		if (diffInHours < 24) {
-			const hourText = diffInHours === 1 ? 'hour' : 'hours';
-			return `${diffInHours} ${hourText} ago`;
+			const suffix = diffInHours === 1 ? 'hour' : 'hours';
+			return this.translocoService.translate(`formattedDate.${suffix}`, { value: diffInHours });
 		}
 
 		// Below 7 days
 		const diffInDays = Math.floor(diffInHours / 24);
 		if (diffInDays < 7) {
-			const dayText = diffInDays === 1 ? 'day' : 'days';
-			return `${diffInDays} ${dayText} ago`;
+			const suffix = diffInDays === 1 ? 'day' : 'days';
+			return this.translocoService.translate(`formattedDate${suffix}`, { value: diffInDays });
 		}
 
 		// Below 1 year - use "MMM d" format
 		const diffInYears = now.getFullYear() - date.getFullYear();
 		if (diffInYears < 1 || (diffInYears === 1 && now.getMonth() < date.getMonth())) {
-			const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-			return `${monthNames[date.getMonth()]} ${date.getDate()}`;
+			const monthNames = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+			return this.translocoService.translate(`months.${monthNames[date.getMonth()]}`, { day: date.getDate() });
 		}
 
 		// Older than a year - use dd/MM/yyyy format

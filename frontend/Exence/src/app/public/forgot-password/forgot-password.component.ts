@@ -17,6 +17,8 @@ import { ExtraValidators } from '../../shared/validators';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-forgot-password',
@@ -34,6 +36,7 @@ import { StopPropagationDirective } from '../../shared/stop-propagation.directiv
 		ValidatorComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
+		TranslatePipe,
 	],
 })
 export class ForgotPasswordComponent extends BaseComponent {
@@ -41,6 +44,7 @@ export class ForgotPasswordComponent extends BaseComponent {
 	private readonly router = inject(Router);
 	private readonly authService = inject(AuthService);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly translocoService = inject(TranslocoService);
 	readonly navigation = inject(NavigationService);
 
 	emailControl = this.fb.control<string>('', [Validators.required, Validators.email, Validators.maxLength(255)]);
@@ -66,7 +70,7 @@ export class ForgotPasswordComponent extends BaseComponent {
 		};
 		await this.authService.forgotPassword(request);
 		this.emailSent.set(true);
-		this.snackbarService.showSuccess('Email sent!');
+		this.snackbarService.showSuccess(this.translocoService.translate('forgotPassword.emailSent.success'));
 	}
 
 	resend(): void {
@@ -86,7 +90,7 @@ export class ForgotPasswordComponent extends BaseComponent {
 			confirmNewPassword: formValue.confirmPassword,
 		};
 		await this.authService.resetPassword(request);
-		this.snackbarService.showSuccess('Password successfully updated!');
+		this.snackbarService.showSuccess(this.translocoService.translate('forgotPassword.resetSuccess'));
 		this.router.navigateByUrl(this.navigation.account().login());
 	}
 }

@@ -1,5 +1,5 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { LayoutModule } from '@angular/cdk/layout';
@@ -12,6 +12,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { routes } from './app.routes';
 import { authInterceptor } from './shared/auth/interceptors/auth.interceptor';
 import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-token.interceptor';
+import { TranslocoHttpLoader } from './transloco-loader';
+import { provideTransloco } from '@jsverse/transloco';
+import './shared/i18n/locale-parity-check';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -29,5 +32,22 @@ export const appConfig: ApplicationConfig = {
 		{ provide: MAT_DATE_LOCALE, useValue: enUS },
 		provideDateFnsAdapter(),
 		CookieService,
+		provideHttpClient(),
+		provideTransloco({
+			config: {
+				availableLangs: ['hu', 'en', 'de'],
+				defaultLang: 'hu',
+				fallbackLang: 'en',
+				missingHandler: {
+					useFallbackTranslation: true,
+				},
+				scopes: {
+					keepCasing: true,
+				},
+				reRenderOnLangChange: true,
+				prodMode: !isDevMode(),
+			},
+			loader: TranslocoHttpLoader,
+		}),
 	],
 };

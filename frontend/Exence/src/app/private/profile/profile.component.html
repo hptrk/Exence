@@ -4,7 +4,7 @@
 		<div
 			class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-2"
 		>
-			<h3 class="m-0 text-center text-md-start fs-2">Profile data</h3>
+			<h3 class="m-0 text-center text-md-start fs-2">{{ 'profile.title' | translate }}</h3>
 			<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center gap-2">
 				@if (isUserDataFormEditing()) {
 					<ex-button
@@ -16,7 +16,7 @@
 						[disabled]="userDataForm.invalid"
 						type="submit"
 					>
-						Save
+						{{ 'literals.save' | translate }}
 					</ex-button>
 					<ex-button
 						outlined
@@ -27,7 +27,7 @@
 						type="button"
 						(click)="cancelDataEditing()"
 					>
-						Cancel
+						{{ 'literals.cancel' | translate }}
 					</ex-button>
 				} @else {
 					<ex-button
@@ -44,7 +44,7 @@
 		<div class="d-flex flex-column flex-md-row gap-3 w-100 mb-2">
 			@let nameControl = userDataForm.controls.username;
 			<mat-form-field>
-				<mat-label>Username</mat-label>
+				<mat-label>{{ 'profile.username' | translate }}</mat-label>
 				<input matInput autoTrim [formControl]="nameControl" />
 				<ex-input-clear matSuffix [control]="nameControl" />
 				<mat-error>
@@ -54,7 +54,7 @@
 
 			@let emailControl = userDataForm.controls.email;
 			<mat-form-field>
-				<mat-label>Email</mat-label>
+				<mat-label>{{ 'profile.email' | translate }}</mat-label>
 				<input matInput autoTrim type="email" [formControl]="emailControl" />
 				<ex-input-clear matSuffix [control]="emailControl" />
 				<mat-error>
@@ -67,12 +67,12 @@
 	<!-- Password -->
 	<div class="d-flex flex-column gap-4">
 		@if (isPasswordFormEditing()) {
-			<h3 class="m-0 text-center text-md-start fs-2">Change password</h3>
+			<h3 class="m-0 text-center text-md-start fs-2">{{ 'profile.changePassword' | translate }}</h3>
 			<form [formGroup]="passwordForm" (submit)="savePassword()" stopPropagation>
 				<div class="d-flex flex-column gap-3 w-100">
 					@let pwdControl = passwordForm.controls.password;
 					<mat-form-field>
-						<mat-label>Old password</mat-label>
+						<mat-label>{{ 'profile.oldPassword' | translate }}</mat-label>
 						<input matInput type="password" [formControl]="pwdControl" />
 						<ex-input-clear matSuffix [control]="pwdControl" />
 						<mat-error>
@@ -83,7 +83,7 @@
 					<div class="d-flex flex-column flex-md-row gap-3 w-100">
 						@let newPwdControl = passwordForm.controls.newPassword;
 						<mat-form-field>
-							<mat-label>New password</mat-label>
+							<mat-label>{{ 'profile.newPassword' | translate }}</mat-label>
 							<input matInput type="password" [formControl]="newPwdControl" />
 							<ex-input-clear matSuffix [control]="newPwdControl" />
 							<mat-error>
@@ -93,7 +93,7 @@
 
 						@let confirmPwdControl = passwordForm.controls.confirmPassword;
 						<mat-form-field>
-							<mat-label>Confirm password</mat-label>
+							<mat-label>{{ 'profile.newPassword' | translate }}</mat-label>
 							<input matInput type="password" [formControl]="confirmPwdControl" />
 							<ex-input-clear matSuffix [control]="confirmPwdControl" />
 							<mat-error>
@@ -112,7 +112,7 @@
 						type="submit"
 						class="action-button"
 					>
-						Save
+						{{ 'literals.save' | translate }}
 					</ex-button>
 					<ex-button
 						outlined
@@ -122,14 +122,14 @@
 						class="action-button"
 						(click)="cancelPasswordEditing()"
 					>
-						Cancel
+						{{ 'literals.cancel' | translate }}
 					</ex-button>
 				</div>
 			</form>
 		} @else {
 			<div class="d-flex">
 				<ex-button filled color="primary" (click)="isPasswordFormEditing.set(true)" class="action-button">
-					Change password
+					{{ 'profile.changePassword' | translate }}
 				</ex-button>
 			</div>
 		}

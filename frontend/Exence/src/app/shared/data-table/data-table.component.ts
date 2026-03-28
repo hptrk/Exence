@@ -42,6 +42,9 @@ import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ValidatorComponent } from '../validator/validator.component';
 import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/animated-skeleton-loader.component';
+import { CategoryType } from '../../data-model/modules/category/CategoryType';
+import { TranslatePipe } from '../pipes/translate.pipe';
+import { TranslationCode } from '../i18n/translation-types';
 
 @Component({
 	selector: 'ex-data-table',
@@ -66,6 +69,7 @@ import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/ani
 		AnimatedSkeletonLoaderComponent,
 		StopPropagationDirective,
 		InfiniteScrollDirective,
+		TranslatePipe,
 	],
 	// TODO remove deprecated angular animations
 	/* eslint-disable */
@@ -273,6 +277,10 @@ export class DataTableComponent extends BaseComponent {
 	getNextPage(): number {
 		this.pageIndex++;
 		return this.pageIndex;
+	}
+
+	codeForCategoryType(type: CategoryType): TranslationCode {
+		return `categoryType.${type}`;
 	}
 
 	private mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {

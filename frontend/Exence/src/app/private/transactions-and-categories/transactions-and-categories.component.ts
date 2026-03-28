@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, UpperCasePipe } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -28,6 +28,8 @@ import { TransactionStore } from './transaction.store';
 import { ActivatedRoute } from '@angular/router';
 import { formatISO } from 'date-fns';
 import { mapToTransactionFilter } from '../../shared/util/utils';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { TranslationCode } from '../../shared/i18n/translation-types';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -52,6 +54,8 @@ import { mapToTransactionFilter } from '../../shared/util/utils';
 		FilterMenuComponent,
 		ValidatorComponent,
 		InputClearButtonComponent,
+		TranslatePipe,
+		UpperCasePipe,
 	],
 })
 export class TransactionsAndCategoriesComponent extends BaseComponent implements OnInit {
@@ -134,6 +138,10 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 
 	onScroll(type?: TransactionType, recurring?: boolean): void {
 		this.transactionStore.loadNextPage(type, recurring);
+	}
+
+	codeForTransactionType(type: TransactionType): TranslationCode {
+		return `transactionType.${type}`;
 	}
 
 	private applyQueryParamsToFilters(): void {

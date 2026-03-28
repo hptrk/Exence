@@ -1,25 +1,28 @@
 @if (errorKey()) {
 	@switch (errorKey()) {
 		@case ('required') {
-			Field required
+			{{ 'validators.required' | translate }}
 		}
 		@case ('password') {
-			Invalid password format!
+			{{ 'validators.password' | translate }}
 		}
 		@case ('passwordMismatch') {
-			Passwords should match!
+			{{ 'validators.passwordMismatch' | translate }}
 		}
 		@case ('email') {
-			Invalid email format!
+			{{ 'validators.email' | translate }}
+		}
+		@case ('minlength') {
+			{{ 'validators.minlength' | translate: { requiredLength: errorValue()?.requiredLength } }}
 		}
 		@case ('maxlength') {
-			Max length is {{ errorValue()?.requiredLength }}!
+			{{ 'validators.maxlength' | translate: { requiredLength: errorValue()?.requiredLength } }}
 		}
 		@case ('min') {
-			Minimum value is {{ errorValue()?.min }}!
+			{{ 'validators.min' | translate: { min: errorValue()?.min } }}
 		}
 		@case ('max') {
-			Maximum value is {{ errorValue()?.max }}!
+			{{ 'validators.max' | translate: { max: errorValue()?.max } }}
 		}
 		@case ('filledArray') {
 			You have to choose minimum 1 value!

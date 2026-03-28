@@ -1,0 +1,622 @@
+{
+	"literals": {
+		"transaction": "Transaction",
+		"transactions": "Transactions",
+		"category": "Category",
+		"categories": "Categories",
+		"income": "Income",
+		"incomes": "Incomes",
+		"expense": "Expense",
+		"expenses": "Expenses",
+		"balance": "Balance",
+		"save": "Save",
+		"delete": "Delete",
+		"cancel": "Cancel",
+		"next": "Next",
+		"back": "Back",
+		"continue": "Continue",
+		"create": "Create",
+		"amount": "Amount",
+		"minimum": "Min",
+		"maximum": "Max",
+		"all": "All",
+		"type": "Type",
+		"from": "From",
+		"to": "To"
+	},
+	"dashboard": {
+		"title": "Welcome back, <span class='username'>{{username}}</span>!",
+		"subtitle": "Snapshot of your finances"
+	},
+	"transactionsAndCategories": {
+		"recurring": {
+			"expenses": "Recurring Expenses",
+			"incomes": "Recurring Incomes",
+			"transactions": "Recurrings"
+		},
+		"noCategories": "First create a category!",
+		"addTransaction": "Add transaction",
+		"search": "Search...",
+		"dateRange": "Enter a date range"
+	},
+	"categories": {
+		"topCategories": "Top categories",
+		"noTransactions": "Add transactions to discover your spending patterns!",
+		"createTransactionButton": "Create transaction",
+		"noCategories": "Add categories to discover your spending patterns!",
+		"createCategoryButton": "Create category"
+	},
+	"categoryType": {
+		"EXPENSE": "Expense",
+		"INCOME": "Income",
+		"MIXED": "Mixed"
+	},
+	"transactionType": {
+		"EXPENSE": "Expense",
+		"INCOME": "Income"
+	},
+	"profile": {
+		"title": "Profile data",
+		"username": "Username",
+		"email": "Email",
+		"changePassword": "Change password",
+		"oldPassword": "Old password",
+		"newPassword": "New password",
+		"confirmPassword": "Confirm password",
+		"saved": "Successfully saved!"
+	},
+	"sessionList": {
+		"thisSession": "This session",
+		"lastUsed": "Last used",
+		"securityInfo": "If you think your account is being used without your permission, change your password before signing out.",
+		"otherSessions": "Other sessions",
+		"deleteAll": "Delete all sessions",
+		"deleted": "Successfully deleted session",
+		"deletedAll": "Successfully deleted all sessions"
+	},
+	"navigation": {
+		"dashboard": "Dashboard",
+		"transactions": "Transactions",
+		"statistics": "Statistics",
+		"goals": "Goals",
+		"debts": "Debts",
+		"profile": "Profile",
+		"settings": "Settings",
+		"theme": "Primary/secondary mode",
+		"logout": "Log out"
+	},
+	"timeframe": {
+		"1W": "1W",
+		"1M": "1M",
+		"3M": "3M",
+		"6M": "6M",
+		"YTD": "YTD",
+		"1Y": "1Y",
+		"ALL": "All"
+	},
+	"statistics": {
+		"editChart": {
+			"title": "Edit chart - '{{title}}'",
+			"titleLabel": "Title",
+			"categories": "Categories",
+			"search": "Search"
+		},
+		"empty": {
+			"title": "Your dashboard is empty",
+			"subtitle": "Add charts and stat cards to customize your statistics dashboard."
+		},
+		"catalog": {
+			"title": "Add a new chart",
+			"disabledStatCard": "Maximum number of stat cards (4) on the layout have been reached.",
+			"titleLabel": "Title",
+			"categories": "Categories",
+			"search": "Search",
+			"disabledStep1": "Select a widget type before creation!",
+			"nextDisabled": "Select a widget type before creation!",
+			"groupLabels": {
+				"all": "All",
+				"card": "Cards",
+				"lineArea": "Line & Area",
+				"bar": "Bar",
+				"mixed": "Mixed",
+				"circular": "Circular",
+				"point": "Point",
+				"other": "Other"
+			}
+		},
+		"widget": {
+			"EXPENSE_FREQUENCY_STATCARD": {
+				"title": "Expense Frequency",
+				"info": "Shows how often expenses occur within the selected period."
+			},
+			"INCOME_FREQUENCY_STATCARD": {
+				"title": "Income Frequency",
+				"info": "Shows how often income is received within the selected period."
+			},
+			"NO_SPEND_DAYS_STATCARD": {
+				"title": "No-Spend Days",
+				"info": "Counts the number of days in the period with zero expense transactions."
+			},
+			"TOP_EXPENSE_CATEGORY_STATCARD": {
+				"title": "Top Expense Category",
+				"info": "Highlights the category where the most money was spent."
+			},
+			"TOP_INCOME_CATEGORY_STATCARD": {
+				"title": "Top Income Category",
+				"info": "Highlights the category that contributed the most income."
+			},
+			"TOP_EXPENSE_TRANSACTION_STATCARD": {
+				"title": "Top Expense Transaction",
+				"info": "Displays the single largest expense transaction in the selected period."
+			},
+			"TOP_INCOME_TRANSACTION_STATCARD": {
+				"title": "Top Income Transaction",
+				"info": "Displays the single largest income transaction in the selected period."
+			},
+			"BURN_RATE_STATCARD": {
+				"title": "Burn Rate",
+				"info": "Shows the average daily spend rate to indicate how fast funds are being consumed."
+			},
+			"SAVINGS_RATE_STATCARD": {
+				"title": "Savings Rate",
+				"info": "Displays the percentage of income that was saved after expenses."
+			},
+			"INCOME_TREND": {
+				"title": "Income Trend",
+				"info": "Visualises income over time as a line or area chart to reveal growth or decline patterns."
+			},
+			"EXPENSE_TREND": {
+				"title": "Expense Trend",
+				"info": "Visualises expenses over time to highlight spending patterns and anomalies."
+			},
+			"BALANCE_TREND": {
+				"title": "Balance Trend",
+				"info": "Tracks net balance over time, showing whether finances are improving or deteriorating."
+			},
+			"INCOME_CATEGORY_TREND": {
+				"title": "Income by Category Trend",
+				"info": "Breaks down income trends per category over time using stacked or multi-line areas."
+			},
+			"EXPENSE_CATEGORY_TREND": {
+				"title": "Expense by Category Trend",
+				"info": "Breaks down expense trends per category over time using stacked or multi-line areas."
+			},
+			"BALANCE_YEAR_COMPARISON": {
+				"title": "Balance Year Comparison",
+				"info": "Overlays balance curves from multiple years on a single chart for direct comparison."
+			},
+			"INCOME_EXPENSE_COLUMN": {
+				"title": "Income vs Expense",
+				"info": "Side-by-side columns comparing total income and expenses for each period."
+			},
+			"EXPENSE_CATEGORY_COLUMN": {
+				"title": "Expense by Category",
+				"info": "Grouped or stacked columns showing expense breakdown across categories per period."
+			},
+			"MONTHLY_BALANCE_COLUMN": {
+				"title": "Monthly Balance",
+				"info": "A column chart of net balance per month to quickly spot positive and negative months."
+			},
+			"EXPENSE_SAVINGS_COMBO": {
+				"title": "Expense & Savings Combo",
+				"info": "Combines a bar series for expenses with a line overlay for cumulative savings."
+			},
+			"TRANSACTION_COUNT_EXPENSE_COMBO": {
+				"title": "Transaction Count & Expense Combo",
+				"info": "Overlays transaction volume as a line on top of expense bars to reveal spending intensity."
+			},
+			"WEALTH_GROWTH_COMBO": {
+				"title": "Wealth Growth Combo",
+				"info": "Combines income and expense bars with a cumulative wealth line to track net growth."
+			},
+			"EXPENSE_PIE": {
+				"title": "Expense Distribution",
+				"info": "A pie or donut chart showing the proportional share of each expense category."
+			},
+			"INCOME_PIE": {
+				"title": "Income Distribution",
+				"info": "A pie or donut chart showing the proportional share of each income category."
+			},
+			"SPENDING_RADAR": {
+				"title": "Spending Radar",
+				"info": "A radar chart mapping spending levels across categories for a holistic balance view."
+			},
+			"MONTHLY_CATEGORY_RADAR": {
+				"title": "Monthly Category Radar",
+				"info": "Compares category spending patterns across multiple months on a single radar chart."
+			},
+			"CATEGORY_AVG_POLAR": {
+				"title": "Category Average Polar",
+				"info": "A polar area chart displaying average spend per category, where segment size encodes magnitude."
+			},
+			"MONTHLY_PEAK_POLAR": {
+				"title": "Monthly Peak Polar",
+				"info": "A polar area chart highlighting peak spending months with proportional segment sizing."
+			},
+			"CATEGORY_BUBBLE": {
+				"title": "Category Bubble",
+				"info": "Plots categories as bubbles where position indicates timing and size encodes total amount."
+			},
+			"TRANSACTION_SCATTER": {
+				"title": "Transaction Scatter",
+				"info": "Scatters individual transactions by date and amount to expose outliers and clusters."
+			},
+			"SPENDING_HEATMAP": {
+				"title": "Spending Heatmap",
+				"info": "A calendar heatmap showing daily spending intensity across the year at a glance."
+			},
+			"CATEGORY_TREEMAP": {
+				"title": "Category Treemap",
+				"info": "Nested rectangles sized by spend amount to show category and sub-category proportions."
+			},
+			"CATEGORY_BOXPLOT": {
+				"title": "Category Boxplot",
+				"info": "Displays the statistical distribution of transactions per category including median and outliers."
+			},
+			"MONTHLY_BOXPLOT": {
+				"title": "Monthly Boxplot",
+				"info": "Displays the statistical distribution of daily spending per month to reveal variability."
+			},
+			"SAVINGS_RATE_GAUGE": {
+				"title": "Savings Rate Gauge",
+				"info": "A radial gauge showing the current savings rate against a configurable target threshold."
+			},
+			"YEARLY_SLOPE": {
+				"title": "Yearly Slope",
+				"info": "A slope chart connecting year-start to year-end values to make directional change immediately obvious."
+			},
+			"CATEGORY_SANKEY": {
+				"title": "Category Sankey",
+				"info": "A flow diagram showing how income is distributed and consumed across expense categories."
+			}
+		},
+		"charts": {
+			"from": "From:",
+			"to": "To:",
+			"amount": "Amount:",
+			"max": "Maximum:",
+			"q3": "Q3:",
+			"median": "Median:",
+			"q1": "Q1:",
+			"min": "Minimum:",
+			"toolbar": {
+				"exportToSVG": "Download SVG",
+				"exportToPNG": "Download PNG",
+				"exportToCSV": "Download CSV",
+				"menu": "Menu",
+				"selection": "Selection",
+				"selectionZoom": "Selection Zoom",
+				"zoomIn": "Zoom In",
+				"zoomOut": "Zoom Out",
+				"pan": "Panning",
+				"reset": "Reset Zoom"
+			}
+		},
+		"editButton": "Edit layout",
+		"addButton": "Add widget",
+		"editInfo": "Some cchanges might not be visible until you have saved changes."
+	},
+	"category": {
+		"create": {
+			"title": "New category",
+			"name": "Name",
+			"note": "Note",
+			"successInfo": "Category '{{name}}' created successfully!"
+		},
+		"deleteInfo": "Category deleted successfully!",
+		"addButton": "Add category"
+	},
+	"transaction": {
+		"create": {
+			"title": "New transaction",
+			"titleLabel": "Title",
+			"amount": "Amount",
+			"date": "Date",
+			"category": "Category",
+			"search": "Search",
+			"note": "Note",
+			"recurring": "Automatically recurring?",
+			"successInfo": "Transaction '{{title}}' created successfully!"
+		},
+		"updateInfo": "Transaction '{{title}}' updated successfully!",
+		"deleteInfo": "Transaction deleted successfully!",
+		"recurring": "Recurring"
+	},
+	"emailVerification": {
+		"title": "Email verified",
+		"message": "Congratulations! Your email has been verified. You can now use all features of <strong>Exence</strong>.",
+		"success": "Email successfully verified!",
+		"backToLogin": "Back to login"
+	},
+	"forgotPassword": {
+		"title": "Forgot password?",
+		"subtitle": "No worries, we'll send you the reset instructions.",
+		"email": "Email",
+		"sendButton": "Send email",
+		"remember": "Remember password?",
+		"login": "Login",
+		"resetSuccess": "Password successfully updated!",
+		"emailSent": {
+			"title": "Email sent",
+			"subtitle": "We have sent you an email at <strong>{{email}}</strong>. Check your inbox and follow the instructions to reset your account password.",
+			"notRecieved": "Did not recieve the email?",
+			"retry": "Resend email",
+			"badEmail": "Wrong email address?",
+			"changeEmail": "Change email address",
+			"success": "Email sent!"
+		},
+		"new": {
+			"title": "Create new password",
+			"info": "Your new password <strong>must be different</strong> from any of your previous passwords.",
+			"password": "Password",
+			"confirmPassword": "Confirm password",
+			"reset": "Reset password"
+		}
+	},
+	"login": {
+		"title": "Log in to your account",
+		"noAccount": "Don't have an account?",
+		"createButton": "Create one",
+		"email": "Email",
+		"password": "Password",
+		"forgotPassword": "Forgot password?",
+		"button": "Log in"
+	},
+	"registration": {
+		"title": "Create and Account",
+		"subtitle": "Already have an account?",
+		"login": "Log In",
+		"username": "Username",
+		"email": "Email",
+		"password": "Password",
+		"passwordInfo": "Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*()_+-=[]{};'|,.<>/?)",
+		"confirmPassword": "Confirm password",
+		"createButton": "Create Account",
+		"success": "Successfull registration"
+	},
+	"dataTable": {
+		"title": "Title",
+		"date": "Date",
+		"note": "Note",
+		"recurring": "Automatically recurring?",
+		"name": "Name",
+		"icon": "Icon",
+		"type": "Type",
+		"empty": "No items found",
+		"adjustFilters": "TRy adjusting or clearing your current filters.",
+		"actions": "Actions",
+		"details": {
+			"show": "Show details",
+			"hide": "Hide details"
+		}
+	},
+	"filterMenu": {
+		"title": "Filters",
+		"addButton": "Add filter",
+		"show": "Show ({{filterCount}})",
+		"clearAll": "Clear all"
+	},
+	"formattedDate": {
+		"now": "Now",
+		"sec": "{{value}} sec. ago",
+		"secs": "{{value}} secs. ago",
+		"min": "{{value}} min. ago",
+		"mins": "{{value}} mins. ago",
+		"hour": "{{value}} hour ago",
+		"hours": "{{value}} hours ago",
+		"day": "{{value}} day ago",
+		"days": "{{value}} days ago"
+	},
+	"months": {
+		"jan": "Jan {{day}}",
+		"feb": "Feb {{day}}",
+		"mar": "Mar {{day}}",
+		"apr": "Apr {{day}}",
+		"jun": "Jun {{day}}",
+		"jul": "Jul {{day}}",
+		"aug": "Aug {{day}}",
+		"sep": "Sep {{day}}",
+		"oct": "Oct {{day}}",
+		"nov": "Nov {{day}}",
+		"dec": "Dec {{day}}"
+	},
+	"validators": {
+		"required": "Field required",
+		"password": "Invalid password format!",
+		"passwordMismatch": "Passwords should match!",
+		"email": "Invalid email format!",
+		"maxlength": "Max length is {{requiredLength}}!",
+		"minlength": "Min length is {{requiredLength}}!",
+		"min": "Min value is {{min}}!",
+		"max": "Max value is {{max}}!"
+	},
+	"confirmExit": {
+		"title": "Unsaved changes",
+		"message": "You have unsaved changes. Are you sure you want to leave? Your changes will be lost."
+	},
+	"icons": {
+		"localConvenienceStore": "local_convenience_store",
+		"shoppingBasket": "shopping basket",
+		"fridge": "fridge",
+		"skillet": "skillet",
+		"egg": "egg",
+		"nutrition": "nutrition",
+		"restaurant": "restaurant",
+		"menu": "menu",
+		"groceries": "groceries",
+		"lunch": "lunch",
+		"dinner": "dinner",
+		"fastfood": "fastfood",
+		"pizza": "pizza",
+		"cafe": "cafe",
+		"bakery": "bakery",
+		"cake": "cake",
+		"iceCream": "ice cream",
+		"bar": "bar",
+		"wineBar": "wine bar",
+		"liquor": "liquor",
+		"home": "home",
+		"house": "house",
+		"apartment": "apartment",
+		"cottage": "cottage",
+		"garage": "garage",
+		"bed": "bed",
+		"chair": "chair",
+		"construction": "construction",
+		"plumbing": "plumbing",
+		"electricalServices": "electrical services",
+		"mop": "mop",
+		"lightbulb": "lightbulb",
+		"bolt": "bolt",
+		"waterDrop": "water drop",
+		"fire": "fire",
+		"thermometer": "thermometer",
+		"energySavingLeaf": "energy saving leaf",
+		"recycling": "recycling",
+		"router": "router",
+		"wifi": "wifi",
+		"car": "car",
+		"motorcycle": "motorcycle",
+		"scrooter": "scrooter",
+		"pedalBike": "pedal bike",
+		"gasStation": "gas station",
+		"electricCharger": "electric charger",
+		"parking": "parking",
+		"towing": "towing",
+		"taxi": "taxi",
+		"airportShuttle": "airport shuttle",
+		"bus": "bus",
+		"commute": "commute",
+		"train": "train",
+		"subway": "subway",
+		"tram": "tram",
+		"boat": "boat",
+		"flight": "flight",
+		"airplaneTicket": "airplane ticket",
+		"transitTicket": "transit ticket",
+		"map": "map",
+		"store": "store",
+		"shoppingCart": "shopping cart",
+		"shoppingBag": "shopping bag",
+		"priceTag": "price tag",
+		"percent": "percent",
+		"receipt": "receipt",
+		"giftcard": "giftcard",
+		"sendMoney": "send money",
+		"apparel": "apparel",
+		"checkroom": "checkroom",
+		"styler": "styler",
+		"laundry": "laundry",
+		"glasses": "glasses",
+		"watch": "watch",
+		"diamond": "diamond",
+		"backpack": "backpack",
+		"umbrella": "umbrella",
+		"smartphone": "smartphone",
+		"laptop": "laptop",
+		"printer": "printer",
+		"hospital": "hospital",
+		"medialServices": "medial services",
+		"health": "health",
+		"emergency": "emergency",
+		"pharmacy": "pharmacy",
+		"medication": "medication",
+		"vaccines": "vaccines",
+		"patches": "patches",
+		"heartMonitor": "heart monitor",
+		"tooth": "tooth",
+		"psychology": "psychology",
+		"handwash": "handwash",
+		"wash": "wash",
+		"brush": "brush",
+		"face": "face",
+		"scissors": "scissors",
+		"spa": "spa",
+		"mediation": "mediation",
+		"dumbbell": "dumbbell",
+		"swim": "swim",
+		"family": "family",
+		"pregnantWoman": "pregnant woman",
+		"closeupFamily": "closeup family",
+		"familyHeart": "family heart",
+		"child": "child",
+		"babyChangingStation": "baby changing station",
+		"stroller": "stroller",
+		"crib": "crib",
+		"childFriendly": "child friendly",
+		"familyOfTwo": "family of 2",
+		"toy": "toy",
+		"oldGameController": "old game controller",
+		"castle": "castle",
+		"smile": "smile",
+		"pet": "pet",
+		"bunny": "bunny",
+		"elderly": "elderly",
+		"education": "education",
+		"book": "book",
+		"time": "time",
+		"movie": "movie",
+		"theaterSymbol": "theater symbol",
+		"tv": "tv",
+		"camera": "camera",
+		"image": "image",
+		"headphones": "headphones",
+		"musicNote": "music note",
+		"piano": "piano",
+		"gameController": "game controller",
+		"extension": "extension",
+		"casino": "casino",
+		"theater": "theater",
+		"bookWithBookmark": "book with bookmark",
+		"football": "football",
+		"basketball": "basketball",
+		"tennis": "tennis",
+		"hiking": "hiking",
+		"kayaking": "kayaking",
+		"deck": "deck",
+		"eventSeat": "event seat",
+		"work": "work",
+		"paid": "paid",
+		"priceCheck": "price check",
+		"monneyBag": "monney bag",
+		"accountBalance": "account balance",
+		"wallet": "wallet",
+		"walletBalance": "wallet balance",
+		"euro": "euro",
+		"addCard": "add card",
+		"financeChip": "finance chip",
+		"currencyExchange": "currency exchange",
+		"toll": "toll",
+		"trendingUp": "trending up",
+		"trendingDown": "trending down",
+		"priceChange": "price change",
+		"pieChart": "pie chart",
+		"barChart": "bar chart",
+		"calculate": "calculate",
+		"receiptLong": "receipt long",
+		"requestQuote": "request quote",
+		"calendar": "calendar",
+		"schedule": "schedule",
+		"celebration": "celebration",
+		"mail": "mail",
+		"bell": "bell",
+		"globe": "globe",
+		"cloud": "cloud",
+		"lock": "lock",
+		"key": "key",
+		"verified": "verified",
+		"help": "help",
+		"star": "star",
+		"heart": "heart",
+		"bookmark": "bookmark",
+		"flag": "flag",
+		"browse": "browse",
+		"description": "description",
+		"build": "build",
+		"keyboard": "keyboard",
+		"cancel": "cancel"
+	},
+	"errors": {
+		"unexpected": "Unexpected error occurred!"
+	}
+}

@@ -6,16 +6,19 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { FormatDateFromNowPipe } from '../../../shared/pipes/format-date-from-now.pipe';
 import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { SessionService } from '../session.service';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-sessions-list',
 	templateUrl: './sessions-list.component.html',
 	styleUrl: './sessions-list.component.scss',
-	imports: [MatIconModule, MatDividerModule, ButtonComponent, FormatDateFromNowPipe],
+	imports: [MatIconModule, MatDividerModule, ButtonComponent, FormatDateFromNowPipe, TranslatePipe],
 })
 export class SessionsListComponent implements OnInit {
 	private readonly sessionService = inject(SessionService);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly translocoService = inject(TranslocoService);
 
 	otherSessions = signal<DeviceSession[]>([]);
 	currentSession = signal<DeviceSession | undefined>(undefined);
@@ -28,13 +31,13 @@ export class SessionsListComponent implements OnInit {
 		if (!sessionId) return;
 		await this.sessionService.deleteSession(sessionId);
 		await this.initialize();
-		this.snackbarService.showSuccess('Successfully deleted session');
+		this.snackbarService.showSuccess(this.translocoService.translate('sessionList.deleted'));
 	}
 
 	async deleteAllSessions(): Promise<void> {
 		await this.sessionService.deleteAllSessions();
 		await this.initialize();
-		this.snackbarService.showSuccess('Successfully deleted all sessions');
+		this.snackbarService.showSuccess(this.translocoService.translate('sessionsList.deletedAll'));
 	}
 
 	private async initialize(): Promise<void> {

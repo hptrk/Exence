@@ -12,6 +12,7 @@ import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skelet
 import { DisplayThemeService } from '../../../shared/display-theme.service';
 import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
+import { TranslocoService } from '@jsverse/transloco';
 
 echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 
@@ -38,6 +39,7 @@ echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 export class SankeyChartComponent {
 	private readonly statisticService = inject(StatisticService);
 	private readonly themeService = inject(DisplayThemeService);
+	private readonly translocoService = inject(TranslocoService);
 
 	widget = input.required<ChartWidget>();
 	timeframe = input.required<Timeframe>();
@@ -68,7 +70,11 @@ export class SankeyChartComponent {
 			if (!payload) return;
 
 			const providerFn = mapToProvider<typeof payload>('sankey');
-			this.data.set(providerFn(payload, this.widget().title) as Partial<EChartsOption>);
+			this.data.set(
+				providerFn(payload, this.widget().title, (key, params) =>
+					this.translocoService.translate(key, params),
+				) as Partial<EChartsOption>,
+			);
 		});
 	}
 }

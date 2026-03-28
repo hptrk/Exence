@@ -6,12 +6,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ButtonComponent } from '../button/button.component';
 import { DisplaySizeService } from '../display-size.service';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-filter-menu',
 	templateUrl: './filter-menu.component.html',
 	styleUrl: './filter-menu.component.scss',
-	imports: [CommonModule, MatMenuModule, MatBadgeModule, MatBottomSheetModule, ButtonComponent],
+	imports: [CommonModule, MatMenuModule, MatBadgeModule, MatBottomSheetModule, ButtonComponent, TranslatePipe],
 })
 export class FilterMenuComponent {
 	private readonly bottomSheet = inject(MatBottomSheet);

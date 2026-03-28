@@ -2,10 +2,10 @@
 	<mat-card-header class="flex-column gap-2 justify-content-center w-100 mb-2">
 		<mat-icon class="mx-auto mb-5" size="2xxl" [svgIcon]="svgIcons.logo" />
 		<div>
-			<h2 class="fs-1">Create an Account</h2>
+			<h2 class="fs-1">{{ 'registration.title' | translate }}</h2>
 			<p class="m-0 fs-5 fw-light">
-				Already have an account?
-				<a class="fw-bold" [routerLink]="navigate.account().login()">Log In</a>
+				{{ 'registration.subtitle' | translate }}
+				<a class="fw-bold" [routerLink]="navigate.account().login()">{{ 'registration.login' | translate }}</a>
 			</p>
 		</div>
 	</mat-card-header>
@@ -15,7 +15,7 @@
 			<div class="d-flex flex-column flex-md-row gap-4">
 				@let nameControl = form.controls.username;
 				<mat-form-field>
-					<mat-label>Username</mat-label>
+					<mat-label>{{ 'registration.username' | translate }}</mat-label>
 					<input matInput autoTrim [formControl]="nameControl" />
 					<ex-input-clear matSuffix [control]="nameControl" />
 					<mat-error>
@@ -24,7 +24,7 @@
 				</mat-form-field>
 				@let emailControl = form.controls.email;
 				<mat-form-field>
-					<mat-label>Email</mat-label>
+					<mat-label>{{ 'registration.email' | translate }}</mat-label>
 					<input matInput autoTrim [formControl]="emailControl" type="email" />
 					<ex-input-clear matSuffix [control]="emailControl" />
 					<mat-error>
@@ -34,10 +34,8 @@
 			</div>
 
 			@let pwdControl = form.controls.password;
-			<mat-form-field
-				matTooltip="Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*()_+-=[]{};':&quot;\|,.<>/?)"
-			>
-				<mat-label>Password</mat-label>
+			<mat-form-field [matTooltip]="'registration.passwordInfo' | translate">
+				<mat-label>{{ 'registration.password' | translate }}</mat-label>
 				<input matInput [formControl]="pwdControl" type="password" />
 				<ex-input-clear matSuffix [control]="pwdControl" />
 				<mat-error>
@@ -46,7 +44,7 @@
 			</mat-form-field>
 			@let confirmControl = form.controls.confirmPassword;
 			<mat-form-field>
-				<mat-label>Confirm password</mat-label>
+				<mat-label>{{ 'registration.confirmPassword' | translate }}</mat-label>
 				<input matInput [formControl]="confirmControl" type="password" />
 				<ex-input-clear matSuffix [control]="confirmControl" />
 				<mat-error>
@@ -56,7 +54,9 @@
 		</mat-card-content>
 
 		<mat-card-actions class="d-flex flex-column gap-3 w-100">
-			<ex-button class="w-100" [disabled]="form.invalid" filled type="submit"> Create Account </ex-button>
+			<ex-button class="w-100" [disabled]="form.invalid" filled type="submit">
+				{{ 'registration.createButton' | translate }}
+			</ex-button>
 		</mat-card-actions>
 	</form>
 </mat-card>

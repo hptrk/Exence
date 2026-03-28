@@ -4,12 +4,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorResponse } from '../data-model/modules/ErrorResponse';
 import { SUPPRESS_ERROR_SNACKBAR } from './auth/interceptors/refresh-token.interceptor';
 import { HttpSettings } from './http/http.service';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class ErrorService {
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly translocoService = inject(TranslocoService);
 
 	handleError(errorResponse: HttpErrorResponse, settings?: HttpSettings): void {
 		settings = settings ?? {};
@@ -35,9 +37,9 @@ export class ErrorService {
 	}
 
 	private showErrorFromResponse(error: ErrorResponse | null): void {
-		const errorMessage = error?.detail ?? 'Unexpected error occurred';
+		const errorMessage = error?.detail ?? this.translocoService.translate('errors.unexpected')!;
 
-		console.error('Error Response:', error ?? 'Undexpected error occurred');
+		console.error('Error Response:', error ?? 'Unexpected error occurred!');
 		this.snackbarService.showError(errorMessage);
 	}
 }

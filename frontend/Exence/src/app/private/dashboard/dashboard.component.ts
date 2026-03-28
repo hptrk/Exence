@@ -14,12 +14,12 @@ import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
-import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 import { ChartWidgetComponent } from '../statistics/chart-widget/chart-widget.component';
 import { StatisticService } from '../statistics/statistic.service';
 import { CategoryStore } from '../transactions-and-categories/category.store';
 import { CreateTransactionDialogComponent } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -32,8 +32,8 @@ import { TransactionStore } from '../transactions-and-categories/transaction.sto
 		DataTableComponent,
 		ChartWidgetComponent,
 		CategoriesComponent,
-		ViewToggleComponent,
 		ButtonComponent,
+		TranslatePipe,
 	],
 	providers: [StatisticService],
 })
