@@ -1,0 +1,18 @@
+<mat-form-field
+	appearance="outline"
+	[subscriptSizing]="subscriptSizing()"
+	[floatLabel]="labelFloat()"
+	class="amount-stepper-field"
+>
+	@if (label()) {
+		<mat-label>{{ label()! | translate }}</mat-label>
+	}
+	<ex-button matPrefix iconButton matIcon="remove" [disabled]="isAtMin()" (click)="decrement()" />
+	<input matInput type="number" [formControl]="control()" [step]="step()" />
+	<ex-button matSuffix iconButton matIcon="add" [disabled]="isAtMax()" (click)="increment()" />
+	@if (hasValidators()) {
+		<mat-error>
+			<ex-validator [control]="control()" />
+		</mat-error>
+	}
+</mat-form-field>
