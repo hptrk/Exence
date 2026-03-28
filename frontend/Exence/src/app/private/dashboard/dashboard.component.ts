@@ -14,7 +14,6 @@ import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
-import { ViewToggleComponent } from '../../shared/view-toggle/view-toggle.component';
 import { ChartWidgetComponent } from '../statistics/chart-widget/chart-widget.component';
 import { StatisticService } from '../statistics/statistic.service';
 import { CategoryStore } from '../transactions-and-categories/category.store';
@@ -32,7 +31,6 @@ import { TransactionStore } from '../transactions-and-categories/transaction.sto
 		DataTableComponent,
 		ChartWidgetComponent,
 		CategoriesComponent,
-		ViewToggleComponent,
 		ButtonComponent,
 	],
 	providers: [StatisticService],

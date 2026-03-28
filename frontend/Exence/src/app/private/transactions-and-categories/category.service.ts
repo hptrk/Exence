@@ -4,7 +4,7 @@ import { HttpService } from '../../shared/http/http.service';
 import { Category } from '../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
 import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
-import { getFilters } from '../../shared/util/http-request-utils';
+import { getFilters } from '../../shared/util/utils';
 
 @Injectable({
 	providedIn: 'root',

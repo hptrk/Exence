@@ -6,6 +6,7 @@ import { map } from 'rxjs';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayload';
+import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
 
 export function toRawValueSignal<T>(control: AbstractControl<unknown, T>): Signal<T> {
 	return toSignal(control.valueChanges.pipe(map(() => control.getRawValue() as T)), {
@@ -24,6 +25,11 @@ export function mapToTransactionFilter(queryParam: ParamMap): TransactionFilter 
 	if (queryParam.get('amountTo')) filter.amountTo = parseFloat(queryParam.get('amountTo')!);
 	if (queryParam.get('recurring')) filter.recurring = queryParam.get('recurring') === 'true';
 	return filter;
+}
+
+export function getFilters(filters?: TransactionFilter | CategoryFilter): Record<string, string> {
+	if (filters) return JSON.parse(JSON.stringify(filters)) as Record<string, string>;
+	return {} satisfies Record<string, string>;
 }
 
 export function lightenHexColor(hex: string, amount = 0.3): string {
