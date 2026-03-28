@@ -19,6 +19,7 @@ import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { ShowPasswordComponent } from '../../shared/show-password/show-password.component';
 
 @Component({
 	selector: 'ex-forgot-password',
@@ -34,6 +35,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 		InputClearButtonComponent,
 		RouterLink,
 		ValidatorComponent,
+		ShowPasswordComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
 		TranslatePipe,
@@ -47,6 +49,11 @@ export class ForgotPasswordComponent extends BaseComponent {
 	private readonly translocoService = inject(TranslocoService);
 	readonly navigation = inject(NavigationService);
 
+	emailSent = signal<boolean>(false);
+	showPassword = signal<boolean>(false);
+
+	token = computed(() => this.router.routerState.root.snapshot.queryParams['token'] as string);
+
 	emailControl = this.fb.control<string>('', [Validators.required, Validators.email, Validators.maxLength(255)]);
 	resetForm = this.fb.group({
 		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
@@ -56,9 +63,6 @@ export class ForgotPasswordComponent extends BaseComponent {
 			ExtraValidators.passwordMatch('password'),
 		]),
 	});
-
-	token = computed(() => this.router.routerState.root.snapshot.queryParams['token'] as string);
-	emailSent = signal<boolean>(false);
 
 	navigateToLogin(): void {
 		this.router.navigateByUrl(this.navigation.account().login());
@@ -80,6 +84,10 @@ export class ForgotPasswordComponent extends BaseComponent {
 	changeEmail(): void {
 		this.emailSent.set(false);
 		this.emailControl.reset();
+	}
+
+	togglePassword(): void {
+		this.showPassword.update(value => !value);
 	}
 
 	async resetPassword(): Promise<void> {

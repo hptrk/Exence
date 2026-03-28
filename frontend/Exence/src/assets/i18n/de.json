@@ -618,5 +618,9 @@
 	},
 	"errors": {
 		"unexpected": "Es ist ein unerwarteter Fehler aufgetreten!"
+	},
+	"passwordVisibility": {
+		"show": "Passwort anzeigen",
+		"hide": "Passwort ausblenden"
 	}
 }

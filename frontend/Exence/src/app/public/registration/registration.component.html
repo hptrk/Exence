@@ -36,7 +36,8 @@
 			@let pwdControl = form.controls.password;
 			<mat-form-field [matTooltip]="'registration.passwordInfo' | translate">
 				<mat-label>{{ 'registration.password' | translate }}</mat-label>
-				<input matInput [formControl]="pwdControl" type="password" />
+				<input matInput [formControl]="pwdControl" [type]="showPassword() ? 'text' : 'password'" />
+				<ex-show-password [showPassword]="showPassword()" [control]="pwdControl" (toggled)="togglePassword()" />
 				<ex-input-clear matSuffix [control]="pwdControl" />
 				<mat-error>
 					<ex-validator [control]="pwdControl" />
@@ -45,7 +46,12 @@
 			@let confirmControl = form.controls.confirmPassword;
 			<mat-form-field>
 				<mat-label>{{ 'registration.confirmPassword' | translate }}</mat-label>
-				<input matInput [formControl]="confirmControl" type="password" />
+				<input matInput [formControl]="confirmControl" [type]="showPassword() ? 'text' : 'password'" />
+				<ex-show-password
+					[showPassword]="showPassword()"
+					[control]="confirmControl"
+					(toggled)="togglePassword()"
+				/>
 				<ex-input-clear matSuffix [control]="confirmControl" />
 				<mat-error>
 					<ex-validator [control]="confirmControl" />
