@@ -3,22 +3,25 @@ import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angula
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 import { ChangePasswordRequest } from '../../data-model/modules/auth/ChangePasswordRequest';
 import { UpdateUserRequest } from '../../data-model/modules/auth/UpdateUserRequest';
+import { User } from '../../data-model/modules/auth/User';
+import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 import { NavigationService } from '../../shared/navigation/navigation.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { UserService } from '../../shared/user/user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
-import { AutoTrimDirective } from '../../shared/auto-trim.directive';
-import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
-import { TranslocoService } from '@jsverse/transloco';
-import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { ShowPasswordComponent } from '../../shared/show-password/show-password.component';
 
 @Component({
 	selector: 'ex-profile',
@@ -29,10 +32,12 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 		MatFormFieldModule,
 		MatInputModule,
 		MatDividerModule,
+		MatTooltipModule,
 		ButtonComponent,
 		InputClearButtonComponent,
 		SessionsListComponent,
 		ValidatorComponent,
+		ShowPasswordComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
 		TranslatePipe,
@@ -47,7 +52,11 @@ export class ProfileComponent {
 	private readonly translocoService = inject(TranslocoService);
 	readonly currentUserService = inject(CurrentUserService);
 
-	user = computed(() => this.currentUserService.user());
+	isUserDataFormEditing = signal<boolean>(false);
+	isPasswordFormEditing = signal<boolean>(false);
+	showPassword = signal<boolean>(false);
+
+	user = computed<User>(() => this.currentUserService.user());
 
 	userDataForm = this.fb.group({
 		username: this.fb.control<string>(this.user().username, [Validators.required, Validators.maxLength(255)]),
@@ -63,9 +72,6 @@ export class ProfileComponent {
 			ExtraValidators.passwordMatch('newPassword'),
 		]),
 	});
-
-	isUserDataFormEditing = signal<boolean>(false);
-	isPasswordFormEditing = signal<boolean>(false);
 
 	constructor() {
 		this.userDataForm.controls.email.disable();
@@ -115,5 +121,9 @@ export class ProfileComponent {
 	cancelPasswordEditing(): void {
 		this.isPasswordFormEditing.set(false);
 		this.passwordForm.reset();
+	}
+
+	togglePassword(): void {
+		this.showPassword.update(value => !value);
 	}
 }

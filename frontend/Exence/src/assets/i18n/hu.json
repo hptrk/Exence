@@ -618,5 +618,9 @@
 	},
 	"errors": {
 		"unexpected": "Váratlan hiba történt!"
+	},
+	"passwordVisibility": {
+		"show": "Jelszó megjelenítése",
+		"hide": "Jelszó elrejtése"
 	}
 }

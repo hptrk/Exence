@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -19,6 +19,7 @@ import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { ShowPasswordComponent } from '../../shared/show-password/show-password.component';
 
 @Component({
 	selector: 'ex-registration',
@@ -29,15 +30,16 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 		MatIconModule,
 		ReactiveFormsModule,
 		MatFormFieldModule,
+		MatTooltipModule,
+		RouterLink,
 		MatInput,
 		ButtonComponent,
 		InputClearButtonComponent,
-		RouterLink,
-		MatTooltipModule,
 		ValidatorComponent,
+		TranslatePipe,
+		ShowPasswordComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
-		TranslatePipe,
 	],
 })
 export class RegistrationComponent extends BaseComponent {
@@ -47,6 +49,8 @@ export class RegistrationComponent extends BaseComponent {
 	private readonly snackbarService = inject(SnackbarService);
 	private readonly translocoService = inject(TranslocoService);
 	readonly navigate = inject(NavigationService);
+
+	showPassword = signal<boolean>(false);
 
 	form = this.fb.group({
 		username: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -58,6 +62,10 @@ export class RegistrationComponent extends BaseComponent {
 			ExtraValidators.passwordMatch('password'),
 		]),
 	});
+
+	togglePassword(): void {
+		this.showPassword.update(value => !value);
+	}
 
 	async register(): Promise<void> {
 		const formValue = this.form.getRawValue();

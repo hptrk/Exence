@@ -73,7 +73,13 @@
 					@let pwdControl = passwordForm.controls.password;
 					<mat-form-field>
 						<mat-label>{{ 'profile.oldPassword' | translate }}</mat-label>
-						<input matInput type="password" [formControl]="pwdControl" />
+						<input matInput [type]="showPassword() ? 'text' : 'password'" [formControl]="pwdControl" />
+						<ex-show-password
+							matSuffix
+							[showPassword]="showPassword()"
+							[control]="pwdControl"
+							(toggled)="togglePassword()"
+						/>
 						<ex-input-clear matSuffix [control]="pwdControl" />
 						<mat-error>
 							<ex-validator [control]="pwdControl" />
@@ -84,7 +90,17 @@
 						@let newPwdControl = passwordForm.controls.newPassword;
 						<mat-form-field>
 							<mat-label>{{ 'profile.newPassword' | translate }}</mat-label>
-							<input matInput type="password" [formControl]="newPwdControl" />
+							<input
+								matInput
+								[type]="showPassword() ? 'text' : 'password'"
+								[formControl]="newPwdControl"
+							/>
+							<ex-show-password
+								matSuffix
+								[showPassword]="showPassword()"
+								[control]="newPwdControl"
+								(toggled)="togglePassword()"
+							/>
 							<ex-input-clear matSuffix [control]="newPwdControl" />
 							<mat-error>
 								<ex-validator [control]="newPwdControl" />
@@ -94,7 +110,17 @@
 						@let confirmPwdControl = passwordForm.controls.confirmPassword;
 						<mat-form-field>
 							<mat-label>{{ 'profile.newPassword' | translate }}</mat-label>
-							<input matInput type="password" [formControl]="confirmPwdControl" />
+							<input
+								matInput
+								[type]="showPassword() ? 'text' : 'password'"
+								[formControl]="confirmPwdControl"
+							/>
+							<ex-show-password
+								matSuffix
+								[showPassword]="showPassword()"
+								[control]="confirmPwdControl"
+								(toggled)="togglePassword()"
+							/>
 							<ex-input-clear matSuffix [control]="confirmPwdControl" />
 							<mat-error>
 								<ex-validator [control]="confirmPwdControl" />
@@ -103,7 +129,7 @@
 					</div>
 				</div>
 
-				<div class="d-flex flex-column flex-md-row flex-nowrap align-items-center gap-2">
+				<div class="d-flex flex-column flex-md-row flex-nowrap align-items-center gap-2 mt-3">
 					<ex-button
 						filled
 						color="primary"
