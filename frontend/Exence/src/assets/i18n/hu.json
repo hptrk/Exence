@@ -91,7 +91,7 @@
 		"3M": "3Hó",
 		"6M": "6Hó",
 		"YTD": "YTD",
-		"1Y": "1E",
+		"1Y": "1É",
 		"ALL": "Összes"
 	},
 	"statistics": {
@@ -614,7 +614,18 @@
 		"description": "leírás",
 		"build": "építeni",
 		"keyboard": "billentyűzet",
-		"cancel": "törölje"
+		"cancel": "törölje",
+		"categories": {
+			"food": "Élelmiszer és étkezés",
+			"housing": "Lakás és közüzemi szolgáltatások",
+			"travel": "Közlekedés és utazás",
+			"shopping": "Vásárlás és ruházat",
+			"health": "Egészség és szépség",
+			"family": "Család és oktatás",
+			"entertainment": "Szórakozás és hobbi",
+			"finances": "Pénzügyek",
+			"others": "Egyéb"
+		}
 	},
 	"errors": {
 		"unexpected": "Váratlan hiba történt!"
@@ -622,5 +633,9 @@
 	"passwordVisibility": {
 		"show": "Jelszó megjelenítése",
 		"hide": "Jelszó elrejtése"
+	},
+	"selection": {
+		"selectAll": "Összes kijelölése",
+		"deselectAll": "Összes kijelölésének megszűntetése"
 	}
 }

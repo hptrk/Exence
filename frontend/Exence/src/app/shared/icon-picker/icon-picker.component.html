@@ -43,7 +43,7 @@
 		<!-- Icons -->
 		@for (category of categorizedMaterialIcons; track category.name) {
 			<div class="category-container">
-				<h3 class="fs-5">{{ category.name }}</h3>
+				<h3 class="fs-5">{{ category.name | translate }}</h3>
 				<ul class="p-0">
 					@for (iconInfo of category.icons; track iconInfo.icon) {
 						<li (click)="form.controls.icon.setValue(iconInfo.icon)">

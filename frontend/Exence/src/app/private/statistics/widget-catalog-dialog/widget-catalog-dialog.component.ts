@@ -137,9 +137,9 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 			this.form.controls.title.setValue(this.translocoService.translate(selected?.title ?? ''));
 		});
 
-		effect(() =>
-			this.form.controls.categories.controls.selectedCategories.setValue(this.categories().map(c => c.id!)),
-		);
+		effect(() => {
+			this.form.controls.categories.controls.selectedCategories.setValue(this.categories().map(c => c.id!));
+		});
 	}
 
 	statCardSelectionDisabled(type: WidgetType): boolean {
