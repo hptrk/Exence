@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="300" height="150" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="rgb(200,200,242)" d="M22.764 20.476l-4.24-4.24a.81.81 0 0 0-1.144 0l-.218.219-1.456-1.456a8.32 8.32 0 1 0-.708.707l1.457 1.456-.219.218a.81.81 0 0 0 0 1.145l4.24 4.238a.808.808 0 0 0 1.143 0l1.145-1.143a.811.811 0 0 0 0-1.144zM2.2 9.5a7.3 7.3 0 1 1 7.3 7.3 7.308 7.308 0 0 1-7.3-7.3zm18.848 12.421l-3.97-3.968.874-.873 3.97 3.968zM15 12.25v-5.5a.751.751 0 0 0-.75-.75h-1.5a.751.751 0 0 0-.75.75v5.5a.751.751 0 0 0 .75.75h1.5a.751.751 0 0 0 .75-.75zM14 12h-1V7h1zm-3.75-8h-1.5a.751.751 0 0 0-.75.75v7.5a.751.751 0 0 0 .75.75h1.5a.751.751 0 0 0 .75-.75v-7.5a.751.751 0 0 0-.75-.75zM10 12H9V5h1zM6.25 8h-1.5a.751.751 0 0 0-.75.75v3.5a.751.751 0 0 0 .75.75h1.5a.751.751 0 0 0 .75-.75v-3.5A.751.751 0 0 0 6.25 8zM6 12H5V9h1z"/><path fill="none" d="M0 0h24v24H0z"/></svg>
+<svg width="240" height="200" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="lens">
+      <circle cx="100" cy="90" r="62"/>
+    </clipPath>
+  </defs>
+  <!-- Magnifying glass circle -->
+  <circle cx="100" cy="90" r="62" stroke="rgb(200,200,242)" stroke-width="9" fill="none"/>
+  <!-- Handle -->
+  <line x1="147" y1="137" x2="188" y2="178" stroke="rgb(200,200,242)" stroke-width="11" stroke-linecap="round"/>
+  <!-- Bar chart bars clipped to glass -->
+  <g clip-path="url(#lens)">
+    <rect x="60" y="108" width="16" height="90" rx="3" fill="rgb(200,200,242)" opacity="0.6"/>
+    <rect x="82" y="85" width="16" height="113" rx="3" fill="rgb(200,200,242)" opacity="0.8"/>
+    <rect x="104" y="95" width="16" height="103" rx="3" fill="rgb(200,200,242)" opacity="0.5"/>
+    <rect x="126" y="75" width="16" height="123" rx="3" fill="rgb(200,200,242)" opacity="0.7"/>
+  </g>
+</svg>
