@@ -1,5 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.dto.UserDTO;
@@ -26,11 +28,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
     private final RequestContextService requestContextService;
     private final AuthService authService;
 
+    @ReadTransactional
     public UserDTO getUserFromToken() {
         HttpServletRequest request = requestContextService.getCurrentRequest();
         if (request == null) {
@@ -60,6 +61,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapToUserDto(user);
     }
 
+    @ReadTransactional
     @Cacheable(
             value = "currentUser",
             key = "#root.methodName + '_' + "
@@ -75,6 +77,7 @@ public class UserServiceImpl implements UserService {
         return loadUserFromAuthentication(authentication);
     }
 
+    @ReadTransactional
     @Cacheable(
             value = "currentUserId",
             key = "T(org.springframework.security.core.context.SecurityContextHolder)"
@@ -83,7 +86,7 @@ public class UserServiceImpl implements UserService {
         return getCurrentUser().getId();
     }
 
-    @Transactional
+    @WriteTransactional
     @CacheEvict(
             value = {"currentUser", "currentUserId"},
             allEntries = true)
@@ -95,7 +98,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.mapToUserDto(user);
     }
 
-    @Transactional
+    @WriteTransactional
     @CacheEvict(
             value = {"currentUser", "currentUserId"},
             allEntries = true)
@@ -113,7 +116,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public void requestVerifyEmail() {
         User user = getCurrentUser();
 
@@ -126,7 +129,7 @@ public class UserServiceImpl implements UserService {
         log.info("Email verification resent for user: {}", user.getEmail());
     }
 
-    @Transactional
+    @WriteTransactional
     public void deleteUser() {
         User user = getCurrentUser();
         userRepository.delete(user);

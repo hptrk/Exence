@@ -1,5 +1,7 @@
 package com.exence.finance.modules.transaction.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.entity.User;
@@ -23,11 +25,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
@@ -35,6 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper transactionMapper;
     private final ApplicationEventPublisher eventPublisher;
 
+    @ReadTransactional
     public TransactionDTO getTransactionById(Long id) {
         Transaction transaction =
                 transactionRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
@@ -42,6 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.mapToTransactionDTO(transaction);
     }
 
+    @ReadTransactional
     public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable) {
         Page<Transaction> transactions;
         Predicate predicate = TransactionPredicateBuilder.buildPredicate(filter);
@@ -55,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactions.map(transactionMapper::mapToTransactionDTO);
     }
 
-    @Transactional
+    @WriteTransactional
     public TransactionDTO createTransaction(TransactionDTO transactionDTO) {
         User user = userService.getCurrentUser();
         Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
@@ -72,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.mapToTransactionDTO(savedTransaction);
     }
 
-    @Transactional
+    @WriteTransactional
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
         Transaction transaction = transactionRepository
                 .find(transactionDTO.getId())
@@ -97,7 +99,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.mapToTransactionDTO(savedTransaction);
     }
 
-    @Transactional
+    @WriteTransactional
     public void deleteTransaction(Long id) {
         Transaction transaction =
                 transactionRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
@@ -105,6 +107,7 @@ public class TransactionServiceImpl implements TransactionService {
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
     }
 
+    @ReadTransactional
     public TransactionTotalsResponse getTransactionTotals() {
         BigDecimal totalIncome = transactionRepository.sumByType(TransactionType.INCOME);
         BigDecimal totalExpense = transactionRepository.sumByType(TransactionType.EXPENSE);

@@ -1,5 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.modules.auth.dto.DeviceSessionDTO;
 import com.exence.finance.modules.auth.dto.SessionSummaryProjection;
 import com.exence.finance.modules.auth.entity.Token;
@@ -15,12 +17,10 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class SessionServiceImpl implements SessionService {
     private final TokenManagementService tokenManagementService;
     private final UserService userService;
@@ -30,6 +30,7 @@ public class SessionServiceImpl implements SessionService {
     private final RequestContextService requestContextService;
 
     @Override
+    @ReadTransactional
     public List<DeviceSessionDTO> getActiveSessions() {
         Long userId = userService.getCurrentUserId();
         List<SessionSummaryProjection> sessions = tokenManagementService.findActiveSessions(userId);
@@ -39,14 +40,14 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public void revokeSession(String sessionId) {
         Long userId = userService.getCurrentUserId();
         tokenManagementService.revokeUserTokensBySessionId(userId, sessionId);
     }
 
     @Override
-    @Transactional
+    @WriteTransactional
     public void revokeAllOtherSessions() {
         Long userId = userService.getCurrentUserId();
         String currentSessionId = getCurrentSessionId();

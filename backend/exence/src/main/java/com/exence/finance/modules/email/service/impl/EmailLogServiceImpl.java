@@ -1,5 +1,7 @@
 package com.exence.finance.modules.email.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.modules.auth.dto.EmailType;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.email.dto.EmailStatus;
@@ -10,19 +12,17 @@ import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
 public class EmailLogServiceImpl implements EmailLogService {
     private static final long SECONDS_PER_MINUTE = 60;
 
     private final EmailLogRepository emailLogRepository;
 
     @Override
-    @Transactional()
+    @WriteTransactional
     public EmailLog logEmailSent(User user, EmailType emailType, String subject, String recipientEmail) {
         EmailLog emailLog = EmailLog.builder()
                 .user(user)
@@ -36,7 +36,7 @@ public class EmailLogServiceImpl implements EmailLogService {
     }
 
     @Override
-    @Transactional()
+    @WriteTransactional
     public EmailLog logEmailFailed(
             User user, EmailType emailType, String subject, String recipientEmail, String errorMessage) {
         EmailLog emailLog = EmailLog.builder()
@@ -52,6 +52,7 @@ public class EmailLogServiceImpl implements EmailLogService {
     }
 
     @Override
+    @ReadTransactional
     public boolean hasRecentEmail(User user, EmailType emailType, int sinceMinutes) {
         return emailLogRepository.existsByUserAndEmailTypeAndSentAtAfter(
                 user, emailType, Instant.now().minusSeconds(sinceMinutes * SECONDS_PER_MINUTE));
