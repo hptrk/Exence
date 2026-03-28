@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class IncomeFrequencyStatCardProvider implements WidgetDataProvider {
 
+    private final ProviderHelper providerHelper;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
 
@@ -27,7 +28,7 @@ public final class IncomeFrequencyStatCardProvider implements WidgetDataProvider
         StatisticsFilter currentFilter = filterFactory.fromRequest(request, TransactionType.INCOME);
         long currentCount = statisticsQueryService.countTransactionsByType(currentFilter);
 
-        return ProviderHelper.buildFrequencyStatCard(
+        return providerHelper.buildFrequencyStatCard(
                 request,
                 currentCount,
                 (s, e) -> statisticsQueryService.countTransactionsByType(

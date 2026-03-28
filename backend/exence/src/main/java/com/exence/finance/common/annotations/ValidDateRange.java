@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = DateRangeValidator.class)
 @Documented
 public @interface ValidDateRange {
-    String message() default "Date range is invalid";
+    String message() default "{validation.date-range.invalid}";
 
     Class<?>[] groups() default {};
 

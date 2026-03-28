@@ -24,16 +24,22 @@ public interface UserMapper {
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "categories", ignore = true)
     @Mapping(target = "tokens", ignore = true)
+    @Mapping(target = "emailLogs", ignore = true)
+    @Mapping(target = "passwordHistories", ignore = true)
     @Mapping(target = "settings", ignore = true)
     User mapToUser(UserDTO userDTO);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "lastLoginAt", ignore = true)
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "categories", ignore = true)
     @Mapping(target = "tokens", ignore = true)
+    @Mapping(target = "emailLogs", ignore = true)
+    @Mapping(target = "passwordHistories", ignore = true)
+    @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "settings", ignore = true)
     void updateUserFromDto(UserDTO userDTO, @MappingTarget User user);
 
@@ -44,7 +50,14 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "email", ignore = true)
     @Mapping(target = "password", ignore = true)
+    @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "lastLoginAt", ignore = true)
+    @Mapping(target = "transactions", ignore = true)
+    @Mapping(target = "categories", ignore = true)
+    @Mapping(target = "tokens", ignore = true)
+    @Mapping(target = "emailLogs", ignore = true)
+    @Mapping(target = "passwordHistories", ignore = true)
+    @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "settings", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateUserFromRequest(UpdateUserRequest request, @MappingTarget User user);

@@ -1,6 +1,7 @@
 package com.exence.finance.config;
 
-import com.exence.finance.common.exception.UserNotFoundException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.config.security.Argon2PasswordEncoder;
 import com.exence.finance.modules.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,8 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByEmail(username).orElseThrow(UserNotFoundException::new);
+        return username ->
+                userRepository.findByEmail(username).orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
     }
 
     @Bean

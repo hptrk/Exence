@@ -13,7 +13,6 @@ public final class ValidationConstants {
     public static final int USERNAME_MAX_LENGTH = 25;
     public static final String USERNAME_PATTERN =
             "^(?!.* {2})[a-zA-Z0-9_áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+( [a-zA-Z0-9_áéíóöőúüűÁÉÍÓÖŐÚÜŰ]+)*$";
-    public static final String USERNAME_PATTERN_MESSAGE = "Username can only contain letters, numbers and underscores";
     public static final int EMAIL_MAX_LENGTH = 100;
     public static final String EMAIL_PATTERN =
             "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"; // extra strict regex

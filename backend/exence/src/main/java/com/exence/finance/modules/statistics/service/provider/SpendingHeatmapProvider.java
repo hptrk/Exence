@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
@@ -24,6 +25,7 @@ public final class SpendingHeatmapProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final I18nService i18nService;
 
     @Override
     public WidgetType getSupportedType() {
@@ -49,7 +51,7 @@ public final class SpendingHeatmapProvider implements WidgetDataProvider {
             for (int week = 1; week <= totalWeeks; week++) {
                 points.add(new DataPoint(week, weekData.getOrDefault(week, BigDecimal.ZERO), null));
             }
-            series.add(new SeriesItem(DateUtils.getDayName(day), null, null, points));
+            series.add(new SeriesItem(i18nService.getDayName(day), null, null, points));
         }
 
         return new SeriesPayload(series);

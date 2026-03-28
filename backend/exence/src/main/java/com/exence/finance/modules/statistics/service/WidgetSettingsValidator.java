@@ -1,6 +1,7 @@
 package com.exence.finance.modules.statistics.service;
 
-import com.exence.finance.common.exception.InvalidWidgetSettingException;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.statistics.dto.WidgetSetting;
 import java.util.List;
@@ -28,14 +29,14 @@ public class WidgetSettingsValidator {
             return;
         }
         if (!(value instanceof List<?> list)) {
-            throw new InvalidWidgetSettingException("categoryIds must be an array");
+            throw new ExenceException(ErrorCode.INVALID_WIDGET_SETTING, "category-ids-not-array");
         }
         if (list.isEmpty()) {
             return;
         }
         boolean hasNonNumber = list.stream().anyMatch(item -> !(item instanceof Number));
         if (hasNonNumber) {
-            throw new InvalidWidgetSettingException("categoryIds must contain only numbers");
+            throw new ExenceException(ErrorCode.INVALID_WIDGET_SETTING, "category-ids-not-numbers");
         }
         List<Long> ids = list.stream()
                 .map(item -> ((Number) item).longValue())
@@ -45,7 +46,7 @@ public class WidgetSettingsValidator {
         if (foundIds.size() < ids.size()) {
             List<Long> missing =
                     ids.stream().filter(id -> !foundIds.contains(id)).toList();
-            throw new InvalidWidgetSettingException("Category IDs not found: " + missing);
+            throw new ExenceException(ErrorCode.INVALID_WIDGET_SETTING, "category-ids-not-found", missing);
         }
     }
 }

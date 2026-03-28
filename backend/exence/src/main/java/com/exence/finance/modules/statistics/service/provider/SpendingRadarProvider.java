@@ -18,6 +18,7 @@ public final class SpendingRadarProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -29,6 +30,6 @@ public final class SpendingRadarProvider implements WidgetDataProvider {
         StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
         List<CategoryAmountResult> results = statisticsQueryService.findCategoryStatsAmount(filter);
 
-        return ProviderHelper.buildCategoryAmountDistributionPayload(results);
+        return providerHelper.buildCategoryAmountDistributionPayload(results);
     }
 }

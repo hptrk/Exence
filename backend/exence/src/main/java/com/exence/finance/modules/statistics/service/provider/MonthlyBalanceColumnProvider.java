@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
@@ -19,8 +20,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class MonthlyBalanceColumnProvider implements WidgetDataProvider {
 
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -37,10 +40,10 @@ public final class MonthlyBalanceColumnProvider implements WidgetDataProvider {
         List<DataPoint> points = months.stream()
                 .map(month -> new DataPoint(
                         month.toString(),
-                        ProviderHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount),
+                        providerHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount),
                         null))
                 .toList();
 
-        return new SeriesPayload(List.of(new SeriesItem("Balance", "column", null, points)));
+        return new SeriesPayload(List.of(new SeriesItem(i18n.get("label.balance"), "column", null, points)));
     }
 }

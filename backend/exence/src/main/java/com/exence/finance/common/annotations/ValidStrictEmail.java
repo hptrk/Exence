@@ -18,12 +18,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@NotBlank(message = "Email cannot be blank")
-@Size(max = EMAIL_MAX_LENGTH, message = "Email must be at most " + EMAIL_MAX_LENGTH + " characters")
-@Email(message = "Email must be valid", regexp = EMAIL_PATTERN)
-@ValidEmailDomain // custom domain validation
+@NotBlank(message = "{validation.email.not-blank}")
+@Size(max = EMAIL_MAX_LENGTH, message = "{validation.email.invalid}")
+@Email(message = "{validation.email.invalid}", regexp = EMAIL_PATTERN)
+@ValidEmailDomain
 public @interface ValidStrictEmail {
-    String message() default "Invalid email";
+    String message() default "{validation.email.invalid}";
 
     Class<?>[] groups() default {};
 

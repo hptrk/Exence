@@ -23,6 +23,7 @@ public final class MonthlyCategoryRadarProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -35,13 +36,13 @@ public final class MonthlyCategoryRadarProvider implements WidgetDataProvider {
         List<MonthlyCategoryResult> results = statisticsQueryService.findMonthlyCategoryTotals(filter);
 
         List<YearMonth> months = DateUtils.getMonthsInRange(request.startDate(), request.endDate());
-        Set<String> categories = ProviderHelper.getCategories(results);
+        Set<String> categories = providerHelper.getCategories(results);
 
         List<SeriesItem> series = months.stream()
                 .map(month -> {
                     List<DataPoint> points = categories.stream()
                             .map(category -> new DataPoint(
-                                    category, ProviderHelper.getCategoryAmountForMonth(results, category, month), null))
+                                    category, providerHelper.getCategoryAmountForMonth(results, category, month), null))
                             .toList();
                     return new SeriesItem(month.toString(), null, null, points);
                 })

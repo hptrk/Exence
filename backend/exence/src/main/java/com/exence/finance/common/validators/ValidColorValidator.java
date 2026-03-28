@@ -27,7 +27,7 @@ public class ValidColorValidator implements ConstraintValidator<ValidColor, Stri
 
         if (value.trim().isEmpty()) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Color cannot be empty")
+            context.buildConstraintViolationWithTemplate("{validation.color.invalid}")
                     .addConstraintViolation();
             return false;
         }
@@ -35,7 +35,7 @@ public class ValidColorValidator implements ConstraintValidator<ValidColor, Stri
         String trimmedValue = value.trim();
         if (!HEX_COLOR_PATTERN.matcher(trimmedValue).matches()) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Color must be a valid hex color code (e.g., #FF5733)")
+            context.buildConstraintViolationWithTemplate("{validation.color.invalid}")
                     .addConstraintViolation();
             return false;
         }

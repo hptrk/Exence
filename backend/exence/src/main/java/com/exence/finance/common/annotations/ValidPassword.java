@@ -18,13 +18,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = PasswordValidator.class)
 @Documented
-@NotBlank(message = "Password cannot be blank")
-@Size(
-        min = PASSWORD_MIN_LENGTH,
-        max = PASSWORD_MAX_LENGTH,
-        message = "Password must be between " + PASSWORD_MIN_LENGTH + " and " + PASSWORD_MAX_LENGTH + " characters")
+@NotBlank(message = "{validation.password.not-blank}")
+@Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH, message = "{validation.password.size}")
 public @interface ValidPassword {
-    String message() default "Password does not meet security requirements";
+    String message() default "{validation.password.requirements}";
 
     Class<?>[] groups() default {};
 

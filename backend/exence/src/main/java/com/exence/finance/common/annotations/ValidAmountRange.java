@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = AmountRangeValidator.class)
 @Documented
 public @interface ValidAmountRange {
-    String message() default "Amount range is invalid";
+    String message() default "{validation.amount-range.invalid}";
 
     Class<?>[] groups() default {};
 

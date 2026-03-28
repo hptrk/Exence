@@ -40,36 +40,32 @@ import lombok.experimental.SuperBuilder;
 public class TransactionDTO {
     private Long id;
 
-    @NotBlank(message = "Transaction title cannot be blank")
+    @NotBlank(message = "{validation.transaction.title.not-blank}")
     @Size(
             min = TRANSACTION_TITLE_MIN_LENGTH,
             max = TRANSACTION_TITLE_MAX_LENGTH,
-            message = "Transaction title must be between " + TRANSACTION_TITLE_MIN_LENGTH + " and "
-                    + TRANSACTION_TITLE_MAX_LENGTH + " characters")
+            message = "{validation.transaction.title.size}")
     private String title;
 
-    @Size(
-            max = TRANSACTION_NOTE_MAX_LENGTH,
-            message = "Note can be a maximum of " + TRANSACTION_NOTE_MAX_LENGTH + " characters.")
+    @Size(max = TRANSACTION_NOTE_MAX_LENGTH, message = "{validation.transaction.note.size}")
     private String note;
 
-    @NotNull(message = "Transaction date is required")
+    @NotNull(message = "{validation.transaction.date.not-null}")
     private Instant date;
 
-    @NotNull(message = "Amount is required")
-    @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "Amount must be greater than " + TRANSACTION_AMOUNT_MIN)
+    @NotNull(message = "{validation.transaction.amount.not-null}")
+    @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "{validation.transaction.amount.min}")
     @Digits(
             integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
             fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-            message = "Amount must have at most " + TRANSACTION_AMOUNT_INTEGER_DIGITS + " integer digits and "
-                    + TRANSACTION_AMOUNT_FRACTION_DIGITS + " decimal places")
+            message = "{validation.transaction.amount.digits}")
     private BigDecimal amount;
 
-    @NotNull(message = "Transaction type is required")
+    @NotNull(message = "{validation.transaction.type.not-null}")
     private TransactionType type;
 
     private Boolean recurring;
 
-    @NotNull(message = "Category is required")
+    @NotNull(message = "{validation.transaction.category.not-null}")
     private Long categoryId;
 }

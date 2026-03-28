@@ -21,6 +21,7 @@ public final class MonthlyPeakPolarProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -37,7 +38,7 @@ public final class MonthlyPeakPolarProvider implements WidgetDataProvider {
         List<DistributionItem> items = months.stream()
                 .map(month -> new DistributionItem(
                         month.toString(),
-                        ProviderHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount),
+                        providerHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount),
                         null))
                 .toList();
 

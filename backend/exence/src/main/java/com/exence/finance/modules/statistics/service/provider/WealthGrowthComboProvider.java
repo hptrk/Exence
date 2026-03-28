@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
@@ -22,8 +23,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class WealthGrowthComboProvider implements WidgetDataProvider {
 
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -42,7 +45,7 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
         BigDecimal cumulative = BigDecimal.ZERO;
 
         for (YearMonth month : months) {
-            BigDecimal balance = ProviderHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount);
+            BigDecimal balance = providerHelper.getAmount(results, month, MonthlyBalanceResult::totalAmount);
 
             cumulative = cumulative.add(balance);
 
@@ -51,7 +54,8 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
         }
 
         return new SeriesPayload(List.of(
-                new SeriesItem("Profit", "column", StatisticsConstants.COLOR_INCOME_GREEN, profitPoints),
-                new SeriesItem("Cumulative Balance", "line", null, cumulativePoints)));
+                new SeriesItem(
+                        i18n.get("label.profit"), "column", StatisticsConstants.COLOR_INCOME_GREEN, profitPoints),
+                new SeriesItem(i18n.get("label.cumulative-balance"), "line", null, cumulativePoints)));
     }
 }

@@ -24,12 +24,12 @@ import lombok.experimental.SuperBuilder;
         callSuper = true,
         exclude = {"password"})
 public class LoginRequest implements Serializable {
-    @NotBlank(message = "Email cannot be blank")
-    @Email(message = "Email must be valid")
-    @Size(max = EMAIL_MAX_LENGTH, message = "Email must be at most " + EMAIL_MAX_LENGTH + " characters")
+    @NotBlank(message = "{validation.email.not-blank}")
+    @Email(message = "{validation.email.invalid}")
+    @Size(max = EMAIL_MAX_LENGTH, message = "{validation.email.size}")
     private String email;
 
-    @NotBlank(message = "Password cannot be blank")
-    @Size(max = PASSWORD_MAX_LENGTH, message = "Password must be at most " + PASSWORD_MAX_LENGTH + " characters")
+    @NotBlank(message = "{validation.password.not-blank}")
+    @Size(max = PASSWORD_MAX_LENGTH, message = "{validation.password.size}")
     private String password;
 }

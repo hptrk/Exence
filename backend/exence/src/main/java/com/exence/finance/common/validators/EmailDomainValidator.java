@@ -29,14 +29,14 @@ public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomai
 
         if (BLACKLISTED_DOMAINS.contains(domain.toLowerCase())) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Temporary email addresses are not allowed")
+            context.buildConstraintViolationWithTemplate("{validation.email.domain.blacklisted}")
                     .addConstraintViolation();
             return false;
         }
 
         if (emailBusinessProperties.isDomainWhitelistOnly() && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Only specific email providers are allowed")
+            context.buildConstraintViolationWithTemplate("{validation.email.domain.whitelisted-only}")
                     .addConstraintViolation();
             return false;
         }

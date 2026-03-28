@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
@@ -23,8 +24,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class IncomeExpenseColumnProvider implements WidgetDataProvider {
 
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
 
     @Override
     public WidgetType getSupportedType() {
@@ -42,7 +45,7 @@ public final class IncomeExpenseColumnProvider implements WidgetDataProvider {
         List<DataPoint> expensePoints = new ArrayList<>();
 
         months.forEach(month -> {
-            Optional<MonthlyIncomeExpenseResult> value = ProviderHelper.findByMonth(results, month);
+            Optional<MonthlyIncomeExpenseResult> value = providerHelper.findByMonth(results, month);
 
             BigDecimal income =
                     value.map(MonthlyIncomeExpenseResult::incomeAmount).orElse(BigDecimal.ZERO);
@@ -54,7 +57,9 @@ public final class IncomeExpenseColumnProvider implements WidgetDataProvider {
         });
 
         return new SeriesPayload(List.of(
-                new SeriesItem("Income", "column", StatisticsConstants.COLOR_INCOME_GREEN, incomePoints),
-                new SeriesItem("Expense", "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints)));
+                new SeriesItem(
+                        i18n.get("label.income"), "column", StatisticsConstants.COLOR_INCOME_GREEN, incomePoints),
+                new SeriesItem(
+                        i18n.get("label.expense"), "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints)));
     }
 }

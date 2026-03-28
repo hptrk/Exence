@@ -3,7 +3,6 @@ package com.exence.finance.common.annotations;
 import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.USERNAME_MIN_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.USERNAME_PATTERN;
-import static com.exence.finance.common.util.ValidationConstants.USERNAME_PATTERN_MESSAGE;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -20,14 +19,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {})
 @Documented
-@NotBlank(message = "Username cannot be blank")
-@Size(
-        min = USERNAME_MIN_LENGTH,
-        max = USERNAME_MAX_LENGTH,
-        message = "Username must be between " + USERNAME_MIN_LENGTH + " and " + USERNAME_MAX_LENGTH + " characters")
-@Pattern(regexp = USERNAME_PATTERN, message = USERNAME_PATTERN_MESSAGE)
+@NotBlank(message = "{validation.username.not-blank}")
+@Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH, message = "{validation.username.size}")
+@Pattern(regexp = USERNAME_PATTERN, message = "{validation.username.pattern}")
 public @interface ValidUsername {
-    String message() default "Invalid username";
+    String message() default "{validation.username.not-blank}";
 
     Class<?>[] groups() default {};
 

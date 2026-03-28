@@ -2,6 +2,7 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import static com.exence.finance.common.util.DateUtils.toDisplayDate;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class BalanceTrendProvider implements WidgetDataProvider {
 
+    private final I18nService i18n;
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
 
@@ -33,7 +35,7 @@ public final class BalanceTrendProvider implements WidgetDataProvider {
                 .map(p -> new DataPoint(toDisplayDate(p.statDate()), p.totalAmount(), null))
                 .toList();
 
-        SeriesItem series = new SeriesItem("Balance", "area", null, dataPoints);
+        SeriesItem series = new SeriesItem(i18n.get("label.balance"), "area", null, dataPoints);
         return new SeriesPayload(List.of(series));
     }
 }

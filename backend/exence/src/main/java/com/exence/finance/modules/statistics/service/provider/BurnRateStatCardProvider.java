@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
@@ -19,6 +20,8 @@ public final class BurnRateStatCardProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
+    private final ProviderHelper providerHelper;
+    private final I18nService i18n;
 
     @Override
     public WidgetType getSupportedType() {
@@ -28,8 +31,15 @@ public final class BurnRateStatCardProvider implements WidgetDataProvider {
     @Override
     public StatCardPayload getData(WidgetRequest request) {
         BigDecimal dailyBurnRate = calculateBurnRate(request.startDate(), request.endDate());
-        TrendResult trend = ProviderHelper.computeTrend(request, dailyBurnRate, this::calculateBurnRate);
-        return new StatCardPayload(dailyBurnRate, "Ft", "/day", trend.changePercentage(), trend.trend(), null, null);
+        TrendResult trend = providerHelper.computeTrend(request, dailyBurnRate, this::calculateBurnRate);
+        return new StatCardPayload(
+                dailyBurnRate,
+                i18n.get("unit.currency"),
+                i18n.get("context.per-day"),
+                trend.changePercentage(),
+                trend.trend(),
+                null,
+                null);
     }
 
     private BigDecimal calculateBurnRate(Instant start, Instant end) {

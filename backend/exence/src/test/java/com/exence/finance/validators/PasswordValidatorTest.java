@@ -2,9 +2,13 @@ package com.exence.finance.validators;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
+import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.validators.PasswordValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,18 +24,28 @@ public class PasswordValidatorTest {
     @Mock
     private ConstraintValidatorContext.ConstraintViolationBuilder builder;
 
+    @Mock
+    private I18nService i18n;
+
     private PasswordValidator validator;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        validator = new PasswordValidator();
+        validator = new PasswordValidator(i18n);
 
         lenient()
                 .when(context.buildConstraintViolationWithTemplate(anyString()))
                 .thenReturn(builder);
         lenient().when(builder.addConstraintViolation()).thenReturn(context);
         lenient().doNothing().when(context).disableDefaultConstraintViolation();
+
+        when(i18n.get(eq("validation.password.lowercase"))).thenReturn("must contain at least one lowercase letter");
+        when(i18n.get(eq("validation.password.uppercase"))).thenReturn("must contain at least one uppercase letter");
+        when(i18n.get(eq("validation.password.digit"))).thenReturn("must contain at least one number");
+        when(i18n.get(eq("validation.password.special-char"), any()))
+                .thenReturn("must contain at least one special character");
+        when(i18n.get(eq("validation.password.violations"), any())).thenReturn("Password validation failed");
     }
 
     @Test
