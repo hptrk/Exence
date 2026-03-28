@@ -14,6 +14,7 @@ import { Category } from '../../data-model/modules/category/Category';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { BaseComponent } from '../../shared/base-component/base.component';
+import { AmountStepperComponent } from '../../shared/amount-stepper/amount-stepper.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
@@ -50,6 +51,7 @@ import { TranslationCode } from '../../shared/i18n/translation-types';
 		MatLabel,
 		MatError,
 		DataTableComponent,
+		AmountStepperComponent,
 		ButtonComponent,
 		FilterMenuComponent,
 		ValidatorComponent,

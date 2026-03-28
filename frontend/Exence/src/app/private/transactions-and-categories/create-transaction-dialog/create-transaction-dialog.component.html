@@ -22,14 +22,7 @@
 
 		<div class="d-flex flex-column flex-sm-row gap-3">
 			@let amountControl = form.controls.amount;
-			<mat-form-field>
-				<mat-label>{{ 'transaction.create.amount' | translate }}</mat-label>
-				<input matInput type="number" [formControl]="amountControl" />
-				<ex-input-clear matSuffix [control]="amountControl" />
-				<mat-error>
-					<ex-validator [control]="amountControl" />
-				</mat-error>
-			</mat-form-field>
+			<ex-amount-stepper [control]="amountControl" label="transaction.create.amount" [min]="1" />
 			@let dateControl = form.controls.date;
 			<mat-form-field>
 				<mat-label>{{ 'transaction.create.date' | translate }}</mat-label>

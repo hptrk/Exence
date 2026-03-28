@@ -135,24 +135,17 @@
 							<div class="d-flex flex-column gap-1">
 								<div class="fs-6 ps-1">{{ 'literals.amount' | translate }}</div>
 								@let amountRangeControl = transactionFilterForm.controls.amountRange;
-								<mat-form-field class="mb-3" subscriptSizing="dynamic">
-									<mat-label>{{ 'literals.minimum' | translate }}</mat-label>
-									<input
-										matInput
-										type="number"
-										min="0"
-										[formControl]="amountRangeControl.controls.min"
-									/>
-								</mat-form-field>
-								<mat-form-field subscriptSizing="dynamic">
-									<mat-label>{{ 'literals.maximum' | translate }}</mat-label>
-									<input
-										matInput
-										type="number"
-										min="0"
-										[formControl]="amountRangeControl.controls.max"
-									/>
-								</mat-form-field>
+								<ex-amount-stepper
+									class="mb-3"
+									[control]="amountRangeControl.controls.min"
+									label="literals.minimum"
+									[min]="0"
+								/>
+								<ex-amount-stepper
+									[control]="amountRangeControl.controls.max"
+									label="literals.maximum"
+									[min]="0"
+								/>
 							</div>
 
 							@let categoryControl = transactionFilterForm.controls.category;

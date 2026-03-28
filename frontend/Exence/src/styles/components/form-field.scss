@@ -73,6 +73,17 @@ mat-error {
 	}
 }
 
+mat-form-field.amount-stepper-field {
+	.mat-mdc-form-field-icon-prefix,
+	.mat-mdc-form-field-icon-suffix {
+		align-self: stretch;
+		display: flex;
+		align-items: stretch;
+		padding: 1rem;
+		margin: 0;
+	}
+}
+
 mat-form-field.mat-mdc-form-field.search {
 	--mat-form-field-container-height: 32px;
 	--mat-form-field-outlined-outline-width: 1px;

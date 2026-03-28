@@ -65,7 +65,6 @@ export class DashboardComponent extends BaseComponent {
 		if (this.transactionStore.transactions().content?.length) this.transactionStore.resetState();
 
 		effect(() => {
-			console.log(this.chartTimeframe());
 			this.statisticService.getDashboardChart(this.chartTimeframe()).then(response => {
 				this.dashboardWidget.set({
 					id: response.widgetId,

@@ -15,6 +15,7 @@ import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
+import { AmountStepperComponent } from '../../../shared/amount-stepper/amount-stepper.component';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
@@ -46,6 +47,7 @@ export interface CreateTransactionDialogData {
 		MatCheckboxModule,
 		MatIconModule,
 		MatButtonToggleModule,
+		AmountStepperComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
 		ValidatorComponent,
