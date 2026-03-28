@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { ChartWidget } from '../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
@@ -20,6 +19,7 @@ import { StatisticService } from '../statistics/statistic.service';
 import { CategoryStore } from '../transactions-and-categories/category.store';
 import { CreateTransactionDialogComponent } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -33,7 +33,7 @@ import { TransactionStore } from '../transactions-and-categories/transaction.sto
 		ChartWidgetComponent,
 		CategoriesComponent,
 		ButtonComponent,
-		TranslocoPipe,
+		TranslatePipe,
 	],
 	providers: [StatisticService],
 })

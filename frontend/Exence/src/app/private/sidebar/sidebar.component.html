@@ -17,7 +17,7 @@
 					>
 						<mat-icon>home</mat-icon>
 						@if (display.isXl()) {
-							{{ 'navigation.dashboard' | transloco }}
+							{{ 'navigation.dashboard' | translate }}
 						}
 					</a>
 
@@ -28,7 +28,7 @@
 					>
 						<mat-icon>sync_alt</mat-icon>
 						@if (display.isXl()) {
-							{{ 'navigation.transactions' | transloco }}
+							{{ 'navigation.transactions' | translate }}
 						}
 					</a>
 					<a
@@ -38,7 +38,7 @@
 					>
 						<mat-icon>leaderboard</mat-icon>
 						@if (display.isXl()) {
-							{{ 'navigation.statistics' | transloco }}
+							{{ 'navigation.statistics' | translate }}
 						}
 					</a>
 					<a
@@ -48,7 +48,7 @@
 					>
 						<mat-icon>emoji_events</mat-icon>
 						@if (display.isXl()) {
-							{{ 'navigation.goals' | transloco }}
+							{{ 'navigation.goals' | translate }}
 						}
 					</a>
 					<a
@@ -58,7 +58,7 @@
 					>
 						<mat-icon>account_balance</mat-icon>
 						@if (display.isXl()) {
-							{{ 'navigation.debts' | transloco }}
+							{{ 'navigation.debts' | translate }}
 						}
 					</a>
 				</div>
@@ -113,7 +113,7 @@
 				[routerLink]="navigationService.private().profile().index()"
 			>
 				<mat-icon>person</mat-icon>
-				{{ 'navigation.profile' | transloco }}
+				{{ 'navigation.profile' | translate }}
 			</a>
 			<a
 				mat-menu-item
@@ -121,11 +121,11 @@
 				[routerLink]="navigationService.private().settings()"
 			>
 				<mat-icon>settings</mat-icon>
-				{{ 'navigation.settings' | transloco }}
+				{{ 'navigation.settings' | translate }}
 			</a>
 			<button mat-menu-item class="d-flex align-items-center gap-2 pointer-cursor" (click)="toggleTheme()">
 				<mat-icon>contrast</mat-icon>
-				{{ 'navigation.theme' | transloco }}
+				{{ 'navigation.theme' | translate }}
 			</button>
 			<a
 				mat-menu-item
@@ -133,7 +133,7 @@
 				[routerLink]="navigationService.account().logout()"
 			>
 				<mat-icon>logout</mat-icon>
-				{{ 'navigation.logout' | transloco }}
+				{{ 'navigation.logout' | translate }}
 			</a>
 		</div>
 	</mat-menu>

@@ -16,7 +16,8 @@ import {
 	WidgetCatalogDialogResult,
 } from './widget-catalog-dialog/widget-catalog-dialog.component';
 import { WidgetStore } from './widget.store';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-statistics',
@@ -29,7 +30,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 		StatCardListComponent,
 		ChartWidgetListComponent,
 		ButtonComponent,
-		TranslocoPipe,
+		TranslatePipe,
 	],
 	providers: [StatisticService, WidgetStore],
 	host: {

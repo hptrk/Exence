@@ -23,7 +23,7 @@ import { toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { ExtraValidators } from '../../../shared/validators';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 export interface EditChartDialogData {
 	title: string;
@@ -52,7 +52,7 @@ export interface EditChartDialogResult {
 		ButtonComponent,
 		ConfirmExitDialogDirective,
 		SelectAutoFocusDirective,
-		TranslocoPipe,
+		TranslatePipe,
 	],
 })
 export class EditChartDialogComponent extends DialogComponent<EditChartDialogData, EditChartDialogResult | null> {

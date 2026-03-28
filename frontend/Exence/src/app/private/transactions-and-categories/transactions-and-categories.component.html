@@ -7,9 +7,9 @@
 	>
 		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
 			@if (selectedIndex === 0) {
-				{{ 'literals.transactions' | transloco }}
+				{{ 'literals.transactions' | translate }}
 			} @else {
-				{{ 'literals.categories' | transloco }}
+				{{ 'literals.categories' | translate }}
 			}
 		</h2>
 		<mat-tab-group
@@ -24,7 +24,7 @@
 					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
 						<mat-icon size="md">payments</mat-icon>
 						@if (display.isMd()) {
-							{{ 'literals.transactions' | transloco }}
+							{{ 'literals.transactions' | translate }}
 						}
 					</div>
 				</ng-template>
@@ -34,7 +34,7 @@
 					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
 						<mat-icon size="md">cached</mat-icon>
 						@if (display.isMd()) {
-							{{ 'literals.categories' | transloco }}
+							{{ 'literals.categories' | translate }}
 						}
 					</div>
 				</ng-template>
@@ -57,7 +57,7 @@
 					[isDataLoading]="transactionStore.recurringExpenseResource.isLoading()"
 					matIcon="money_off"
 					nonExpandable
-					[title]="'transactionsAndCategories.recurring.expenses' | transloco"
+					[title]="'transactionsAndCategories.recurring.expenses' | translate"
 					[type]="transactionTypes.EXPENSE"
 					[isRecurring]="true"
 					(onScroll)="onScroll(transactionTypes.EXPENSE, true)"
@@ -67,7 +67,7 @@
 					[isDataLoading]="transactionStore.recurringIncomeResource.isLoading()"
 					matIcon="attach_money"
 					nonExpandable
-					[title]="'transactionsAndCategories.recurring.incomes' | transloco"
+					[title]="'transactionsAndCategories.recurring.incomes' | translate"
 					[type]="transactionTypes.INCOME"
 					[isRecurring]="true"
 					(onScroll)="onScroll(transactionTypes.INCOME, true)"
@@ -78,7 +78,7 @@
 					[isDataLoading]="transactionStore.recurringResource.isLoading()"
 					matIcon="attach_money"
 					nonExpandable
-					[title]="'transactionsAndCategories.recurring.transactions' | transloco"
+					[title]="'transactionsAndCategories.recurring.transactions' | translate"
 					[isRecurring]="true"
 					(onScroll)="onScroll(undefined, true)"
 				/>
@@ -89,7 +89,7 @@
 			<div class="d-flex flex-row flex-nowrap justify-content-between">
 				<div
 					class="d-flex flex-row flex-nowrap justify-content-between gap-3 w-100"
-					[matTooltip]="!canCreateTransaction ? ('transactionsAndCategories.noCategories' | transloco) : ''"
+					[matTooltip]="!canCreateTransaction ? ('transactionsAndCategories.noCategories' | translate) : ''"
 				>
 					<ex-button
 						filled
@@ -99,7 +99,7 @@
 						[disabled]="!canCreateTransaction"
 						(click)="openCreateTransactionDialog()"
 					>
-						{{ 'transactionsAndCategories.addTransaction' | transloco }}
+						{{ 'transactionsAndCategories.addTransaction' | translate }}
 					</ex-button>
 
 					<div class="d-flex flex-row flex-nowrap gap-3">
@@ -111,7 +111,7 @@
 							<input
 								[formControl]="transactionFilterForm.controls.searchText"
 								matInput
-								[placeholder]="'transactionsAndCategories.search' | transloco"
+								[placeholder]="'transactionsAndCategories.search' | translate"
 								autocomplete="off"
 							/>
 							<ex-input-clear [control]="transactionFilterForm.controls.searchText" matSuffix />
@@ -123,7 +123,7 @@
 						>
 							@let dateRangeControl = transactionFilterForm.controls.dateRange;
 							<mat-form-field subscriptSizing="dynamic">
-								<mat-label>{{ 'transactionsAndCategories.dateRange' | transloco }}</mat-label>
+								<mat-label>{{ 'transactionsAndCategories.dateRange' | translate }}</mat-label>
 								<mat-date-range-input [formGroup]="dateRangeControl" [rangePicker]="dateRangePicker">
 									<input matStartDate [formControl]="dateRangeControl.controls.dateFrom" />
 									<input matEndDate [formControl]="dateRangeControl.controls.dateTo" />
@@ -133,10 +133,10 @@
 							</mat-form-field>
 
 							<div class="d-flex flex-column gap-1">
-								<div class="fs-6 ps-1">{{ 'literals.amount' | transloco }}</div>
+								<div class="fs-6 ps-1">{{ 'literals.amount' | translate }}</div>
 								@let amountRangeControl = transactionFilterForm.controls.amountRange;
 								<mat-form-field class="mb-3" subscriptSizing="dynamic">
-									<mat-label>{{ 'literals.minimum' | transloco }}</mat-label>
+									<mat-label>{{ 'literals.minimum' | translate }}</mat-label>
 									<input
 										matInput
 										type="number"
@@ -145,7 +145,7 @@
 									/>
 								</mat-form-field>
 								<mat-form-field subscriptSizing="dynamic">
-									<mat-label>{{ 'literals.maximum' | transloco }}</mat-label>
+									<mat-label>{{ 'literals.maximum' | translate }}</mat-label>
 									<input
 										matInput
 										type="number"
@@ -157,10 +157,10 @@
 
 							@let categoryControl = transactionFilterForm.controls.category;
 							<mat-form-field subscriptSizing="dynamic">
-								<mat-label>{{ 'literals.category' | transloco }}</mat-label>
+								<mat-label>{{ 'literals.category' | translate }}</mat-label>
 								<mat-select [formControl]="categoryControl">
 									<mat-option [value]="null">
-										{{ 'literals.all' | transloco }}
+										{{ 'literals.all' | translate }}
 									</mat-option>
 									@for (category of categories(); track category.id) {
 										<mat-option [value]="category">
@@ -178,14 +178,14 @@
 
 							@let typeControl = transactionFilterForm.controls.type;
 							<mat-form-field subscriptSizing="dynamic">
-								<mat-label>{{ 'literals.type' | transloco }}</mat-label>
+								<mat-label>{{ 'literals.type' | translate }}</mat-label>
 								<mat-select [formControl]="typeControl">
 									<mat-option [value]="null">
-										{{ 'literals.all' | transloco }}
+										{{ 'literals.all' | translate }}
 									</mat-option>
 									@for (type of transactionTypesArr; track type) {
 										<mat-option [value]="type">
-											{{ codeForTransactionType(type) | transloco | uppercase }}
+											{{ codeForTransactionType(type) | translate | uppercase }}
 										</mat-option>
 									}
 								</mat-select>
@@ -196,7 +196,7 @@
 
 							@let recurringControl = transactionFilterForm.controls.recurring;
 							<mat-checkbox [formControl]="recurringControl">
-								{{ 'transaction.recurring' | transloco }}
+								{{ 'transaction.recurring' | translate }}
 							</mat-checkbox>
 						</ex-filter-menu>
 					</div>
@@ -207,7 +207,7 @@
 				[isDataLoading]="transactionStore.transactionResource.isLoading()"
 				matIcon="payments"
 				[class.overflow-hidden]="display.isMd()"
-				[title]="'literals.transactions' | transloco"
+				[title]="'literals.transactions' | translate"
 				(onScroll)="onScroll()"
 			/>
 		</div>
@@ -225,10 +225,10 @@
 				class="justify-self-end"
 				(click)="openCreateCategoryDialog()"
 			>
-				{{ 'category.addButton' | transloco }}
+				{{ 'category.addButton' | translate }}
 			</ex-button>
 		</div>
 
-		<ex-data-table matIcon="category" [title]="'literals.categories' | transloco" type="category" />
+		<ex-data-table matIcon="category" [title]="'literals.categories' | translate" type="category" />
 	</div>
 </ng-template>

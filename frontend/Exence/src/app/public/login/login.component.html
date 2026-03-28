@@ -1,11 +1,11 @@
 <mat-card class="flex-column justify-content-center align-items-center gap-4 p-5">
 	<mat-card-header class="flex-column gap-2 justify-content-center w-100 mb-2">
 		<mat-icon class="mx-auto mb-5" size="2xxl" [svgIcon]="svgIcons.logo" />
-		<h2 class="fs-1">{{ 'login.title' | transloco }}</h2>
+		<h2 class="fs-1">{{ 'login.title' | translate }}</h2>
 		<p class="m-0 fs-5 fw-light">
-			{{ 'login.noAccount' | transloco }}
+			{{ 'login.noAccount' | translate }}
 			<a class="fw-semibold" [routerLink]="navigationService.account().register()">{{
-				'login.createButton' | transloco
+				'login.createButton' | translate
 			}}</a>
 		</p>
 	</mat-card-header>
@@ -14,7 +14,7 @@
 		<mat-card-content class="d-flex flex-column gap-3 w-100">
 			@let emailControl = loginForm.controls.email;
 			<mat-form-field>
-				<mat-label>{{ 'login.email' | transloco }}</mat-label>
+				<mat-label>{{ 'login.email' | translate }}</mat-label>
 				<input matInput autoTrim [formControl]="emailControl" type="email" />
 				<ex-input-clear matSuffix [control]="emailControl" />
 				<mat-error>
@@ -23,7 +23,7 @@
 			</mat-form-field>
 			@let pwdControl = loginForm.controls.password;
 			<mat-form-field>
-				<mat-label>{{ 'login.password' | transloco }}</mat-label>
+				<mat-label>{{ 'login.password' | translate }}</mat-label>
 				<input matInput [formControl]="pwdControl" type="password" />
 				<ex-input-clear matSuffix [control]="pwdControl" />
 				<mat-error>
@@ -33,10 +33,10 @@
 		</mat-card-content>
 		<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4 pt-0">
 			<a class="forgot-password" [routerLink]="navigationService.account().forgotPassword()">{{
-				'login.forgotPassword' | transloco
+				'login.forgotPassword' | translate
 			}}</a>
 			<ex-button filled type="submit" matIcon="arrow_right_alt" iconPositionEnd [disabled]="loginForm.invalid">
-				{{ 'login.button' | transloco }}
+				{{ 'login.button' | translate }}
 			</ex-button>
 		</mat-card-actions>
 	</form>

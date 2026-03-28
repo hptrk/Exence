@@ -49,7 +49,7 @@
 						<li (click)="form.controls.icon.setValue(iconInfo.icon)">
 							<mat-icon
 								size="md"
-								[matTooltip]="iconInfo.tooltip | transloco"
+								[matTooltip]="iconInfo.tooltip | translate"
 								[style.color]="selectedColor()"
 							>
 								{{ iconInfo.icon }}

@@ -15,8 +15,9 @@ import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { CategoryStore } from '../../transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { UpperCasePipe } from '@angular/common';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { TranslationCode } from '../../../shared/i18n/translation-types';
 
 // TODO move to interval filter component when created
 export enum DateInterval {
@@ -42,7 +43,7 @@ export interface IntervalInfo {
 		ReactiveFormsModule,
 		ButtonComponent,
 		EnumValuePipe,
-		TranslocoPipe,
+		TranslatePipe,
 		UpperCasePipe,
 	],
 })
@@ -83,7 +84,7 @@ export class CategoriesComponent extends BaseComponent {
 		this.categoryStore.toggleTopCategoriesType(type);
 	}
 
-	codeForCategoryType(type: CategoryType): string {
+	codeForCategoryType(type: CategoryType): TranslationCode {
 		return `categoryType.${type}`;
 	}
 }

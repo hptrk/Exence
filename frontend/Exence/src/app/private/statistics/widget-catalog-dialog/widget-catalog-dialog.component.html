@@ -1,5 +1,5 @@
 <ex-dialog-card class="h-100 gap-0">
-	<div ex-dialog-card-title>{{ 'statistics.catalog.title' | transloco }}</div>
+	<div ex-dialog-card-title>{{ 'statistics.catalog.title' | translate }}</div>
 
 	<div ex-dialog-card-content class="h-100">
 		<mat-stepper [animationDuration]="'500ms'">
@@ -12,29 +12,29 @@
 					class="h-100"
 				>
 					@for (catalogGroup of catalog; track catalogGroup.group) {
-						<mat-tab [label]="catalogGroup.label | transloco">
+						<mat-tab [label]="catalogGroup.label | translate">
 							<div class="catalog-widget-grid px-3 py-1">
 								@for (widget of catalogGroup.widgets; track widget.type) {
 									@let selected = selectedWidgetValue()?.type === widget.type;
 									@let statCardSelectionDisabled =
 										cardTypes.includes(widget.type) && data.statCards.length === 4;
 									<mat-card
-										[matTooltip]="widget.title | transloco"
+										[matTooltip]="widget.title | translate"
 										[class.selected]="selected"
 										[matTooltip]="
 											statCardSelectionDisabled
-												? ('statistics.catalog.disabledStatCard' | transloco)
+												? ('statistics.catalog.disabledStatCard' | translate)
 												: ''
 										"
 										[class.disabled]="statCardSelectionDisabled"
 										(click)="selectWidget(widget)"
 									>
 										<mat-card-content class="position-relative pointer-cursor overflow-x-hidden">
-											<h3 class="fs-5">{{ widget.title | transloco }}</h3>
+											<h3 class="fs-5">{{ widget.title | translate }}</h3>
 											<img
 												[src]="`assets/catalog/${widget.imgUrl.toUpperCase()}_${themeService.displayThemeSignal().toUpperCase()}.png`"
 											/>
-											<ex-info-button [tooltip]="widget.info | transloco" />
+											<ex-info-button [tooltip]="widget.info | translate" />
 										</mat-card-content>
 									</mat-card>
 								}
@@ -47,7 +47,7 @@
 			<mat-step label="Customize" state="customization">
 				<div class="d-flex flex-column gap-3 pt-3">
 					<mat-form-field>
-						<mat-label>{{ 'statistics.catalog.titleLabel' | transloco }}</mat-label>
+						<mat-label>{{ 'statistics.catalog.titleLabel' | translate }}</mat-label>
 						<input autoTrim matInput [formControl]="form.controls.title" />
 						<mat-error>
 							<ex-validator [control]="form.controls.title" />
@@ -57,7 +57,7 @@
 					@if (isCategoryFilterable()) {
 						@let categoryControls = form.controls.categories.controls;
 						<mat-form-field>
-							<mat-label>{{ 'statistics.catalog.categories' | transloco }}</mat-label>
+							<mat-label>{{ 'statistics.catalog.categories' | translate }}</mat-label>
 							<mat-select
 								multiple
 								selectAutoFocus
@@ -66,7 +66,7 @@
 								(closed)="categoryControls.searchText.reset()"
 							>
 								<mat-form-field subscriptSizing="dynamic" class="search-with-select">
-									<mat-label>{{ 'statistics.catalog.search' | transloco }}</mat-label>
+									<mat-label>{{ 'statistics.catalog.search' | translate }}</mat-label>
 									<input
 										autoTrim
 										matInput
@@ -107,13 +107,13 @@
 	>
 		@if (isLastStep()) {
 			<ex-button filled color="accent" matIcon="chevron_left" (click)="previousStep()">
-				{{ 'literals.back' | transloco }}
+				{{ 'literals.back' | translate }}
 			</ex-button>
 			<ex-button filled color="primary" matIcon="check" iconPositionEnd (click)="create()">
-				{{ 'literals.create' | transloco }}
+				{{ 'literals.create' | translate }}
 			</ex-button>
 		} @else {
-			<div [matTooltip]="selectedWidget.invalid ? ('statistics.catalog.nextDisabled' | transloco) : ''">
+			<div [matTooltip]="selectedWidget.invalid ? ('statistics.catalog.nextDisabled' | translate) : ''">
 				<ex-button
 					filled
 					color="primary"
@@ -122,7 +122,7 @@
 					[disabled]="selectedWidget.invalid"
 					(click)="nextStep()"
 				>
-					{{ 'literals.next' | transloco }}
+					{{ 'literals.next' | translate }}
 				</ex-button>
 			</div>
 		}

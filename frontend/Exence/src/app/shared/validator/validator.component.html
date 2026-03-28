@@ -1,28 +1,28 @@
 @if (errorKey()) {
 	@switch (errorKey()) {
 		@case ('required') {
-			{{ 'validators.required' | transloco }}
+			{{ 'validators.required' | translate }}
 		}
 		@case ('password') {
-			{{ 'validators.passowrd' | transloco }}
+			{{ 'validators.password' | translate }}
 		}
 		@case ('passwordMismatch') {
-			{{ 'validators.passwordMismatch' | transloco }}
+			{{ 'validators.passwordMismatch' | translate }}
 		}
 		@case ('email') {
-			{{ 'validators.email' | transloco }}
+			{{ 'validators.email' | translate }}
 		}
 		@case ('minlength') {
-			{{ 'validators.minlength' | transloco: { requiredLength: errorValue()?.requiredLength } }}
+			{{ 'validators.minlength' | translate: { requiredLength: errorValue()?.requiredLength } }}
 		}
 		@case ('maxlength') {
-			{{ 'validators.maxlength' | transloco: { requiredLength: errorValue()?.requiredLength } }}
+			{{ 'validators.maxlength' | translate: { requiredLength: errorValue()?.requiredLength } }}
 		}
 		@case ('min') {
-			{{ 'validators.min' | transloco: { min: errorValue()?.min } }}
+			{{ 'validators.min' | translate: { min: errorValue()?.min } }}
 		}
 		@case ('max') {
-			{{ 'validators.max' | transloco: { max: errorValue()?.max } }}
+			{{ 'validators.max' | translate: { max: errorValue()?.max } }}
 		}
 		@case ('filledArray') {
 			You have to choose minimum 1 value!

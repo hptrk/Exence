@@ -28,7 +28,8 @@ import { TransactionStore } from './transaction.store';
 import { ActivatedRoute } from '@angular/router';
 import { formatISO } from 'date-fns';
 import { mapToTransactionFilter } from '../../shared/util/utils';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { TranslationCode } from '../../shared/i18n/translation-types';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -53,7 +54,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 		FilterMenuComponent,
 		ValidatorComponent,
 		InputClearButtonComponent,
-		TranslocoPipe,
+		TranslatePipe,
 		UpperCasePipe,
 	],
 })
@@ -139,7 +140,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		this.transactionStore.loadNextPage(type, recurring);
 	}
 
-	codeForTransactionType(type: TransactionType): string {
+	codeForTransactionType(type: TransactionType): TranslationCode {
 		return `transactionType.${type}`;
 	}
 

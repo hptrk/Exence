@@ -18,8 +18,9 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryStore } from '../category.store';
-import { TranslocoPipe } from '@jsverse/transloco';
 import { UpperCasePipe } from '@angular/common';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { TranslationCode } from '../../../shared/i18n/translation-types';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -40,7 +41,7 @@ import { UpperCasePipe } from '@angular/common';
 		AutoTrimDirective,
 		ConfirmExitDialogDirective,
 		EnumValuePipe,
-		TranslocoPipe,
+		TranslatePipe,
 		UpperCasePipe,
 	],
 })
@@ -87,7 +88,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, vo
 		});
 	}
 
-	codeForCategoryType(type: CategoryType): string {
+	codeForCategoryType(type: CategoryType): TranslationCode {
 		return `categoryType.${type}`;
 	}
 }

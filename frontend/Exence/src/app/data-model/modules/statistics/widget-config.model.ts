@@ -1,3 +1,4 @@
+import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { CategoryType } from '../category/CategoryType';
 import { ExChartType } from './ChartType';
 
@@ -148,20 +149,20 @@ export function mapToExChartType(widgetType: WidgetType): ExChartType {
 // Widget catalog data structures
 export interface WidgetCatalogItem {
 	type: WidgetType;
-	info: string;
-	title: string;
+	info: TranslationCode;
+	title: TranslationCode;
 	imgUrl: string;
 }
 
 export interface WidgetCatalogData {
-	label: string;
+	label: TranslationCode;
 	group: WidgetCatalogGroup;
 	widgets: WidgetCatalogItem[];
 }
 
 export type WidgetCatalogGroup = 'all' | 'line_area' | 'bar' | 'mixed' | 'circular' | 'point' | 'card' | 'other';
 
-const GROUP_LABELS: Record<WidgetCatalogGroup, string> = {
+const GROUP_LABELS: Record<WidgetCatalogGroup, TranslationCode> = {
 	all: 'statistics.catalog.groupLabels.all',
 	card: 'statistics.catalog.groupLabels.card',
 	line_area: 'statistics.catalog.groupLabels.lineArea',

@@ -17,7 +17,8 @@ import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { AutoTrimDirective } from '../../shared/auto-trim.directive';
 import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-registration',
@@ -36,7 +37,7 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 		ValidatorComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
-		TranslocoPipe,
+		TranslatePipe,
 	],
 })
 export class RegistrationComponent extends BaseComponent {

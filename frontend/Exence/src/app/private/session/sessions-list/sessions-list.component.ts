@@ -6,13 +6,14 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { FormatDateFromNowPipe } from '../../../shared/pipes/format-date-from-now.pipe';
 import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
 import { SessionService } from '../session.service';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslocoService } from '@jsverse/transloco';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-sessions-list',
 	templateUrl: './sessions-list.component.html',
 	styleUrl: './sessions-list.component.scss',
-	imports: [MatIconModule, MatDividerModule, ButtonComponent, FormatDateFromNowPipe, TranslocoPipe],
+	imports: [MatIconModule, MatDividerModule, ButtonComponent, FormatDateFromNowPipe, TranslatePipe],
 })
 export class SessionsListComponent implements OnInit {
 	private readonly sessionService = inject(SessionService);

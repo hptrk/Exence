@@ -14,6 +14,7 @@ import { authInterceptor } from './shared/auth/interceptors/auth.interceptor';
 import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-token.interceptor';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
+import './shared/i18n/locale-parity-check';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -35,7 +36,7 @@ export const appConfig: ApplicationConfig = {
 		provideTransloco({
 			config: {
 				availableLangs: ['hu', 'en', 'de'],
-				defaultLang: 'de',
+				defaultLang: 'hu',
 				fallbackLang: 'en',
 				missingHandler: {
 					useFallbackTranslation: true,

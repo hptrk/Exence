@@ -1,3 +1,5 @@
+import { TranslationCode } from '../../../shared/i18n/translation-types';
+
 export enum MaterialIcon {
 	// Food & Dining
 	LOCAL_GROCERY_STORE = 'LOCAL_GROCERY_STORE',
@@ -200,7 +202,7 @@ export enum MaterialIcon {
 
 interface MaterialIconInfo {
 	icon: MaterialIcon;
-	tooltip: string;
+	tooltip: TranslationCode;
 }
 
 enum MaterialIconCategory {
@@ -380,7 +382,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 			{ icon: MaterialIcon.CAMERA_ALT, tooltip: 'icons.camera' },
 			{ icon: MaterialIcon.IMAGESMODE, tooltip: 'icons.image' },
 			{ icon: MaterialIcon.HEADPHONES, tooltip: 'icons.headphones' },
-			{ icon: MaterialIcon.MUSIC_NOTE, tooltip: 'icons.music note' },
+			{ icon: MaterialIcon.MUSIC_NOTE, tooltip: 'icons.musicNote' },
 			{ icon: MaterialIcon.PIANO, tooltip: 'icons.piano' },
 			{ icon: MaterialIcon.SPORTS_ESPORTS, tooltip: 'icons.gameController' },
 			{ icon: MaterialIcon.EXTENSION, tooltip: 'icons.extension' },

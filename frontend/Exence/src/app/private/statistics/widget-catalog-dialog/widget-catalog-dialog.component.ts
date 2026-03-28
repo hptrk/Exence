@@ -8,10 +8,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslocoService } from '@jsverse/transloco';
 import { Category } from '../../../data-model/modules/category/Category';
-import { ChartWidget, StatCardWidget } from '../../../data-model/modules/statistics/Widget';
-import { WidgetSetting } from '../../../data-model/modules/statistics/WidgetSetting';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
+import { ChartWidget, StatCardWidget } from '../../../data-model/modules/statistics/Widget';
 import {
 	CATEGORY_FILTERABLE_WIDGET_TYPES,
 	GROUP_WIDGET_TYPES,
@@ -20,6 +20,7 @@ import {
 	WidgetCatalogItem,
 	WidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
+import { WidgetSetting } from '../../../data-model/modules/statistics/WidgetSetting';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
@@ -27,12 +28,12 @@ import { DialogComponent, DialogRef } from '../../../shared/dialog/dialog.servic
 import { DisplayThemeService } from '../../../shared/display-theme.service';
 import { InfoButtonComponent } from '../../../shared/info-button/info-button.component';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
 import { toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { ExtraValidators } from '../../../shared/validators';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 export interface WidgetCatalogDialogData {
 	statCards: StatCardWidget[];
@@ -66,7 +67,7 @@ export interface WidgetCatalogDialogResult {
 		InputClearButtonComponent,
 		AutoTrimDirective,
 		SelectAutoFocusDirective,
-		TranslocoPipe,
+		TranslatePipe,
 	],
 })
 export class WidgetCatalogDialogComponent extends DialogComponent<

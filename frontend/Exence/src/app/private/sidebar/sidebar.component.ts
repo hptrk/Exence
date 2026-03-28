@@ -10,7 +10,7 @@ import { ButtonComponent } from '../../shared/button/button.component';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { DisplayThemeService } from '../../shared/display-theme.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
-import { TranslocoPipe } from '@jsverse/transloco';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-sidebar',
@@ -24,7 +24,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
 		MatIconModule,
 		MatMenuModule,
 		ButtonComponent,
-		TranslocoPipe,
+		TranslatePipe,
 	],
 })
 export class SidebarComponent extends BaseComponent {

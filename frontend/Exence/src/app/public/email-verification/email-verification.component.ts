@@ -7,7 +7,8 @@ import { NavigationService } from '../../shared/navigation/navigation.service';
 import { AuthService } from '../../shared/auth/auth.service';
 import { EmailVerificationRequest } from '../../data-model/modules/auth/EmailVerificationRequest';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
 	selector: 'ex-email-verification',
@@ -21,17 +22,17 @@ import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 				</div>
 
 				<div>
-					<h2 class="fs-1 fw-bold">{{ 'emailVerification.title' | transloco }}</h2>
-					<p class="m-0 mb-4 subtitle" [innerHTML]="'emailVerification.message' | transloco"></p>
+					<h2 class="fs-1 fw-bold">{{ 'emailVerification.title' | translate }}</h2>
+					<p class="m-0 mb-4 subtitle" [innerHTML]="'emailVerification.message' | translate"></p>
 					<ex-button outline matIcon="keyboard_backspace" (click)="navigateToLogin()">
-						{{ 'emailVerification.success' | transloco }}
+						{{ 'emailVerification.success' | translate }}
 					</ex-button>
 				</div>
 			</mat-card-content>
 		</mat-card>
 	`,
 	styleUrl: './email-verification.component.scss',
-	imports: [MatCardModule, MatIconModule, ButtonComponent, TranslocoPipe],
+	imports: [MatCardModule, MatIconModule, ButtonComponent, TranslatePipe],
 })
 export class EmailVerificationComponent implements OnInit {
 	private readonly router = inject(Router);

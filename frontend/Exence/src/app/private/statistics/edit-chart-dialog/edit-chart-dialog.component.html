@@ -1,5 +1,5 @@
 <ex-dialog-card class="h-100 gap-0">
-	<div ex-dialog-card-title>{{ 'statistics.editChart.title' | transloco: { title: data.title } }}</div>
+	<div ex-dialog-card-title>{{ 'statistics.editChart.title' | translate: { title: data.title } }}</div>
 
 	<form
 		ex-dialog-card-content
@@ -9,7 +9,7 @@
 		class="d-flex flex-column py-3"
 	>
 		<mat-form-field>
-			<mat-label>{{ 'statistics.editChart.titleLabel' | transloco }}</mat-label>
+			<mat-label>{{ 'statistics.editChart.titleLabel' | translate }}</mat-label>
 			<input matInput autoTrim [formControl]="form.controls.title" />
 			<ex-input-clear matSuffix [control]="form.controls.title" />
 			<mat-error>
@@ -20,7 +20,7 @@
 		@if (isCategoryFilterable()) {
 			@let categoryControls = form.controls.categories.controls;
 			<mat-form-field>
-				<mat-label>{{ 'statistics.editChart.categories' | transloco }}</mat-label>
+				<mat-label>{{ 'statistics.editChart.categories' | translate }}</mat-label>
 				<mat-select
 					multiple
 					selectAutoFocus
@@ -29,7 +29,7 @@
 					(closed)="categoryControls.searchText.reset()"
 				>
 					<mat-form-field subscriptSizing="dynamic" class="search-with-select">
-						<mat-label>{{ 'statistics.editChart.search' | transloco }}</mat-label>
+						<mat-label>{{ 'statistics.editChart.search' | translate }}</mat-label>
 						<input autoTrim matInput [formControl]="categoryControls.searchText" #searchCategoryInput />
 						<ex-input-clear [control]="categoryControls.searchText" />
 						<mat-error>
@@ -57,10 +57,10 @@
 
 		<div class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100 mt-4">
 			<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>{{
-				'literals.cancel' | transloco
+				'literals.cancel' | translate
 			}}</ex-button>
 			<ex-button filled color="primary" matIcon="check" [disabled]="form.invalid" type="submit">
-				{{ 'literals.save' | transloco }}
+				{{ 'literals.save' | translate }}
 			</ex-button>
 		</div>
 	</form>
