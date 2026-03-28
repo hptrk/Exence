@@ -44,7 +44,6 @@ export const appConfig: ApplicationConfig = {
 				scopes: {
 					keepCasing: true,
 				},
-				// Remove this option if your application doesn't support changing language in runtime.
 				reRenderOnLangChange: true,
 				prodMode: !isDevMode(),
 			},

@@ -20,7 +20,9 @@
 		"minimum": "Min",
 		"maximum": "Max",
 		"all": "All",
-		"type": "Type"
+		"type": "Type",
+		"from": "From",
+		"to": "To"
 	},
 	"dashboard": {
 		"title": "Welcome back, <span class='username'>{{username}}</span>!",
@@ -266,6 +268,28 @@
 			"CATEGORY_SANKEY": {
 				"title": "Category Sankey",
 				"info": "A flow diagram showing how income is distributed and consumed across expense categories."
+			}
+		},
+		"charts": {
+			"from": "From:",
+			"to": "To:",
+			"amount": "Amount:",
+			"max": "Maximum:",
+			"q3": "Q3:",
+			"median": "Median:",
+			"q1": "Q1:",
+			"min": "Minimum:",
+			"toolbar": {
+				"exportToSVG": "Download SVG",
+				"exportToPNG": "Download PNG",
+				"exportToCSV": "Download CSV",
+				"menu": "Menu",
+				"selection": "Selection",
+				"selectionZoom": "Selection Zoom",
+				"zoomIn": "Zoom In",
+				"zoomOut": "Zoom Out",
+				"pan": "Panning",
+				"reset": "Reset Zoom"
 			}
 		},
 		"editButton": "Edit layout",

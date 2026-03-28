@@ -26,12 +26,8 @@ export class StatCardComponent {
 
 	isLoading = signal<boolean>(false);
 	data = signal<StatCardPayload | null>(null);
-	trend = computed<'UP' | 'DOWN' | 'NEUTRAL' | undefined>(() => this.data()?.trend);
 
-	readonly predefinedStatCardIcons: Partial<Record<WidgetType, string>> = {
-		[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
-		[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
-	};
+	trend = computed<'UP' | 'DOWN' | 'NEUTRAL' | undefined>(() => this.data()?.trend);
 
 	assets = computed<StatCardAssetInfo>(() => {
 		switch (this.trend()) {
@@ -45,6 +41,11 @@ export class StatCardComponent {
 	});
 
 	hasIcon = computed(() => this.data()?.icon && !!this.data()?.iconColor);
+
+	readonly predefinedStatCardIcons: Partial<Record<WidgetType, string>> = {
+		[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
+		[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
+	};
 
 	constructor() {
 		effect(() => {

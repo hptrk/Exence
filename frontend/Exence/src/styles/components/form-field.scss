@@ -39,7 +39,9 @@ mat-form-field.mat-mdc-form-field {
 	input:-webkit-autofill:active {
 		-webkit-text-fill-color: var(--default-text-color) !important;
 		box-shadow: 0 0 0 1000px var(--app-background-color) inset !important;
-		transition: background-color 999999s ease-in-out, color 999999s ease-in-out !important;
+		transition:
+			background-color 999999s ease-in-out,
+			color 999999s ease-in-out !important;
 	}
 
 	.mat-mdc-form-field-infix {
