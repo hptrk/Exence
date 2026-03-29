@@ -4,7 +4,7 @@ import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetSetting;
 import com.exence.finance.modules.transaction.dto.TransactionType;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -30,11 +30,11 @@ public class StatisticsFilterFactory {
                 .build();
     }
 
-    public StatisticsFilter forPeriod(Instant start, Instant end) {
+    public StatisticsFilter forPeriod(LocalDate start, LocalDate end) {
         return StatisticsFilter.builder().startDate(start).endDate(end).build();
     }
 
-    public StatisticsFilter forPeriod(Instant start, Instant end, TransactionType type) {
+    public StatisticsFilter forPeriod(LocalDate start, LocalDate end, TransactionType type) {
         return StatisticsFilter.builder()
                 .startDate(start)
                 .endDate(end)

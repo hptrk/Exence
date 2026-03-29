@@ -10,7 +10,7 @@ import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +42,7 @@ public final class BurnRateStatCardProvider implements WidgetDataProvider {
                 null);
     }
 
-    private BigDecimal calculateBurnRate(Instant start, Instant end) {
+    private BigDecimal calculateBurnRate(LocalDate start, LocalDate end) {
         BigDecimal expense =
                 statisticsQueryService.sumAmountByType(filterFactory.forPeriod(start, end, TransactionType.EXPENSE));
         long days = DateUtils.countDaysBetween(start, end);

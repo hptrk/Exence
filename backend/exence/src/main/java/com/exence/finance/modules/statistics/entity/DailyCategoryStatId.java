@@ -5,7 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class DailyCategoryStatId implements Serializable {
     private Long userId;
 
     @Column(name = "stat_date", nullable = false)
-    private Instant statDate;
+    private LocalDate statDate;
 
     @Column(name = "category_id", nullable = false)
     private Long categoryId;

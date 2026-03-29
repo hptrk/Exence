@@ -8,7 +8,7 @@ import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
 import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public final class SavingsRateStatCardProvider implements WidgetDataProvider {
                 savingsRate, i18n.get("unit.percent"), null, trend.changePercentage(), trend.trend(), null, null);
     }
 
-    private BigDecimal calculateSavingsRate(Instant start, Instant end) {
+    private BigDecimal calculateSavingsRate(LocalDate start, LocalDate end) {
         Map<TransactionType, BigDecimal> sums =
                 providerHelper.toTypeAmountMap(statisticsQueryService.sumByType(filterFactory.forPeriod(start, end)));
         return providerHelper.calculateSavingsRate(
