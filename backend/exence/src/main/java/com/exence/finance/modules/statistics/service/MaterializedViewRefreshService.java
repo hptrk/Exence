@@ -5,6 +5,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -24,8 +26,19 @@ public class MaterializedViewRefreshService {
     private final AtomicBoolean refreshPending = new AtomicBoolean(false);
 
     @Async
+    @EventListener(ApplicationReadyEvent.class)
+    public void onApplicationReady() {
+        log.debug("Application started, triggering initial materialized view refresh...");
+        executeRefresh();
+    }
+
+    @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onRefreshRequired(MaterializedViewRefreshEvent event) {
+        executeRefresh();
+    }
+
+    private void executeRefresh() {
         refreshPending.set(true);
 
         if (refreshLock.tryLock()) {

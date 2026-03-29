@@ -5,8 +5,7 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMO
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MAX_LENGTH;
 
-import com.exence.finance.common.annotations.ValidAmountRange;
-import com.exence.finance.common.annotations.ValidDateRange;
+import com.exence.finance.common.annotations.ValidRange;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -30,8 +29,8 @@ import lombok.experimental.SuperBuilder;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString(callSuper = true)
-@ValidDateRange(from = "dateFrom", to = "dateTo")
-@ValidAmountRange(from = "amountFrom", to = "amountTo")
+@ValidRange(from = "dateFrom", to = "dateTo")
+@ValidRange(from = "amountFrom", to = "amountTo")
 public class TransactionFilter implements Serializable {
     @Size(max = TRANSACTION_TITLE_MAX_LENGTH, message = "{validation.filter.keyword.size}")
     private String keyword;
