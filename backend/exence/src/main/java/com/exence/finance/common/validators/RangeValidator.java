@@ -1,22 +1,23 @@
 package com.exence.finance.common.validators;
 
-import com.exence.finance.common.annotations.ValidDateRange;
+import com.exence.finance.common.annotations.ValidRange;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.lang.reflect.Field;
-import java.time.Instant;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DateRangeValidator implements ConstraintValidator<ValidDateRange, Object> {
+public class RangeValidator implements ConstraintValidator<ValidRange, Object> {
 
     private String fromFieldName;
     private String toFieldName;
+    private String message;
 
     @Override
-    public void initialize(ValidDateRange constraintAnnotation) {
+    public void initialize(ValidRange constraintAnnotation) {
         this.fromFieldName = constraintAnnotation.from();
         this.toFieldName = constraintAnnotation.to();
+        this.message = constraintAnnotation.message();
     }
 
     @Override
@@ -33,9 +34,11 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, O
                 return true;
             }
 
-            if (fromValue instanceof Instant fromDate && toValue instanceof Instant toDate) {
-                if (fromDate.isAfter(toDate)) {
-                    addConstraintViolation(context, "{validation.date-range.invalid}");
+            if (fromValue instanceof Comparable fromComparable && toValue instanceof Comparable toComparable) {
+                @SuppressWarnings("unchecked")
+                int cmp = fromComparable.compareTo(toComparable);
+                if (cmp > 0) {
+                    addConstraintViolation(context);
                     return false;
                 }
             }
@@ -53,10 +56,13 @@ public class DateRangeValidator implements ConstraintValidator<ValidDateRange, O
         return field.get(obj);
     }
 
-    private void addConstraintViolation(ConstraintValidatorContext context, String message) {
+    private void addConstraintViolation(ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(message)
                 .addPropertyNode(fromFieldName)
+                .addConstraintViolation();
+        context.buildConstraintViolationWithTemplate(message)
+                .addPropertyNode(toFieldName)
                 .addConstraintViolation();
     }
 }
