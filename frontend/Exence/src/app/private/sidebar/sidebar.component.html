@@ -64,18 +64,7 @@
 				</div>
 				@if (display.isXl()) {
 					<div class="d-flex gap-4 actions">
-						<ex-button
-							iconButton
-							matIcon="person"
-							color="accent"
-							[routerLink]="navigationService.private().profile().index()"
-						/>
-						<ex-button
-							iconButton
-							matIcon="settings"
-							color="accent"
-							[routerLink]="navigationService.private().settings()"
-						/>
+						<ex-button iconButton matIcon="manage_accounts" color="accent" (click)="openProfileDialog()" />
 						<ex-button iconButton matIcon="contrast" color="accent" (click)="toggleTheme()" />
 						<ex-button iconButton matIcon="logout" color="accent" (click)="logout()" />
 					</div>
@@ -107,22 +96,10 @@
 	</button>
 	<mat-menu #sidebarActionsMenu="matMenu">
 		<div class="d-flex flex-column gap-0 actions-menu">
-			<a
-				mat-menu-item
-				class="d-flex align-items-center gap-2"
-				[routerLink]="navigationService.private().profile().index()"
-			>
-				<mat-icon>person</mat-icon>
-				{{ 'navigation.profile' | translate }}
-			</a>
-			<a
-				mat-menu-item
-				class="d-flex align-items-center gap-2"
-				[routerLink]="navigationService.private().settings()"
-			>
-				<mat-icon>settings</mat-icon>
-				{{ 'navigation.settings' | translate }}
-			</a>
+			<button mat-menu-item class="d-flex align-items-center gap-2" (click)="openProfileDialog()">
+				<mat-icon>manage_accounts</mat-icon>
+				{{ 'navigation.accountSettings' | translate }}
+			</button>
 			<button mat-menu-item class="d-flex align-items-center gap-2 pointer-cursor" (click)="toggleTheme()">
 				<mat-icon>contrast</mat-icon>
 				{{ 'navigation.theme' | translate }}
@@ -180,13 +157,12 @@
 			>
 				<mat-icon>account_balance</mat-icon>
 			</a>
-			<a
+			<button
 				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				[routerLink]="navigationService.private().profile().index()"
-				routerLinkActive="active"
+				(click)="openProfileDialog()"
 			>
-				<mat-icon>person</mat-icon>
-			</a>
+				<mat-icon>manage_accounts</mat-icon>
+			</button>
 		</div>
 	</div>
 </ng-template>

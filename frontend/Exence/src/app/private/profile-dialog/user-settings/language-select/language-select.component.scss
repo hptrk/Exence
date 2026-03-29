@@ -1,0 +1,42 @@
+@import '../../../../../styles/imports.scss';
+
+.language-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	gap: 1rem;
+	overflow-x: auto;
+
+	@include displayLg {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, 115px);
+		gap: 1rem;
+		overflow-x: unset;
+	}
+}
+
+.language-card {
+	width: 115px;
+	min-width: 115px;
+	position: relative;
+	border-radius: 10px;
+	border: 1px solid var(--border-color);
+	background-color: var(--app-card-color);
+	cursor: pointer;
+
+	&.selected {
+		box-shadow: 0px 0px 5px var(--primary-color);
+		border-color: var(--primary-color);
+		.selected-icon {
+			display: block;
+		}
+	}
+}
+
+.selected-icon {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	color: var(--primary-color);
+	display: none;
+}

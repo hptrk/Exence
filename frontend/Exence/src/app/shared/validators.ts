@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 
 const passwordRegex = {
 	hasUppercase: /[A-Z]/,
@@ -36,5 +36,12 @@ export class ExtraValidators {
 	static filledArray(control: AbstractControl): ValidationErrors | null {
 		const value = control.value;
 		return Array.isArray(value) && value.length > 0 ? null : { filledArray: true };
+	}
+
+	static theme(control: AbstractControl): ValidationErrors | null {
+		const group = control as FormGroup;
+		const values = Object.values(group.controls).map(c => c.value);
+		const hasDuplicate = values.length !== new Set(values).size;
+		return hasDuplicate ? { theme: true } : null;
 	}
 }

@@ -173,7 +173,7 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
 				color: textColor,
 			},
 			borderRadius: 10,
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any,  complexity
 			formatter: (params: any) => {
 				if (params.dataType === 'node') {
 					return params.data.name;

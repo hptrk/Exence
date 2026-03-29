@@ -1,5 +1,7 @@
-import { inject, resource } from '@angular/core';
-import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
+import { effect, inject, resource, Signal, untracked } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslocoService } from '@jsverse/transloco';
+import { patchState, signalStore, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
 import { GridsterItemConfig } from 'angular-gridster2';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { UpdateLayoutRequest } from '../../data-model/modules/statistics/UpdateLayoutRequest';
@@ -7,6 +9,7 @@ import { ChartWidget, StatCardWidget, Widget } from '../../data-model/modules/st
 import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
 import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
 import { WidgetSetting } from '../../data-model/modules/statistics/WidgetSetting';
+import { CurrencyService } from '../../shared/currency.service';
 import { EditChartDialogResult } from './edit-chart-dialog/edit-chart-dialog.component';
 import { StatisticService } from './statistic.service';
 import { WidgetCatalogDialogResult } from './widget-catalog-dialog/widget-catalog-dialog.component';
@@ -138,4 +141,27 @@ export const WidgetStore = signalStore(
 			store.layoutResource.reload();
 		},
 	})),
+
+	withHooks({
+		onInit(store) {
+			const translocoService = inject(TranslocoService);
+			const activeLang = toSignal(translocoService.langChanges$, {
+				initialValue: translocoService.getActiveLang(),
+			});
+
+			function reloadOnChange(sig: Signal<unknown>): void {
+				let previous = untracked(() => sig());
+				effect(() => {
+					const current = sig();
+					if (current !== previous) {
+						previous = current;
+						untracked(() => store.layoutResource.reload());
+					}
+				});
+			}
+
+			reloadOnChange(activeLang);
+			reloadOnChange(inject(CurrencyService).baseCurrency);
+		},
+	}),
 );

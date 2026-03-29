@@ -15,6 +15,7 @@ import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-toke
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import './shared/i18n/locale-parity-check';
+import { languageInterceptor } from './shared/auth/interceptors/language.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -23,7 +24,7 @@ export const appConfig: ApplicationConfig = {
 		// TODO remove depracated angular animations
 		// eslint-disable-next-line
 		provideAnimations(),
-		provideHttpClient(withInterceptors([authInterceptor, refreshTokenInterceptor])),
+		provideHttpClient(withInterceptors([languageInterceptor, authInterceptor, refreshTokenInterceptor])),
 		importProvidersFrom(LayoutModule),
 		{
 			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -35,8 +36,8 @@ export const appConfig: ApplicationConfig = {
 		provideHttpClient(),
 		provideTransloco({
 			config: {
-				availableLangs: ['hu', 'en', 'de'],
-				defaultLang: 'hu',
+				availableLangs: ['hu', 'en', 'de', 'es', 'fr', 'it', 'pl', 'sk'],
+				defaultLang: 'en',
 				fallbackLang: 'en',
 				missingHandler: {
 					useFallbackTranslation: true,

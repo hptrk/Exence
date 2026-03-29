@@ -11,6 +11,7 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 		@if (control().value) {
 			<ex-button
 				iconButton
+				color="accent"
 				[matTooltip]="codeForTogglePassword() | translate"
 				[matIcon]="showPassword() ? 'visibility_off' : 'visibility'"
 				(click)="toggled.emit()"

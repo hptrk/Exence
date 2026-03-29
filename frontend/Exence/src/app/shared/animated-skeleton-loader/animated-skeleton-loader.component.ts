@@ -4,7 +4,6 @@ import { Component, computed, input } from '@angular/core';
 	selector: 'ex-animated-skeleton-loader',
 	template: '',
 	styleUrl: './animated-skeleton-loader.component.scss',
-	imports: [],
 	host: {
 		'[style.width]': 'width()',
 		'[style.height]': 'height()',
