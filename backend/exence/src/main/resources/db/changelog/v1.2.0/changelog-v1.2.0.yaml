@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: change-transaction-date-to-date-type.yaml
+      relativeToChangelogFile: true

@@ -24,7 +24,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -67,7 +67,7 @@ public class Transaction extends BaseAuditableEntity {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private Instant date;
+    private LocalDate date;
 
     @NotNull
     @DecimalMin(value = TRANSACTION_AMOUNT_MIN)

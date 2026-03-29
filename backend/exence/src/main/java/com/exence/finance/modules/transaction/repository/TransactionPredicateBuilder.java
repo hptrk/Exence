@@ -6,7 +6,7 @@ import com.exence.finance.modules.transaction.entity.QTransaction;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import lombok.experimental.UtilityClass;
 import org.springframework.util.StringUtils;
 
@@ -56,7 +56,7 @@ public final class TransactionPredicateBuilder {
         }
     }
 
-    private static void addDateRangeFilter(BooleanBuilder builder, Instant dateFrom, Instant dateTo) {
+    private static void addDateRangeFilter(BooleanBuilder builder, LocalDate dateFrom, LocalDate dateTo) {
         if (dateFrom != null) {
             builder.and(qTransaction.date.goe(dateFrom));
         }

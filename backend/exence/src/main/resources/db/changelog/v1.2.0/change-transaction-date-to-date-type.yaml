@@ -1,0 +1,61 @@
+databaseChangeLog:
+  - changeSet:
+      id: change-transaction-date-to-date-type
+      author: hptrk
+      comment: >
+        Change transaction.date from TIMESTAMP WITH TIME ZONE to DATE.
+        Drops and recreates the materialized view and its indexes since
+        the underlying column type changes.
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_user_date
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_unique
+        - sql:
+            sql: DROP MATERIALIZED VIEW IF EXISTS mv_daily_category_stat
+
+        - modifyDataType:
+            tableName: transaction
+            columnName: date
+            newDataType: DATE
+
+        - sqlFile:
+            splitStatements: false
+            path: sql/recreate-mv-daily-category-stat.sql
+            relativeToChangelogFile: true
+
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_unique
+            tableName: mv_daily_category_stat
+            unique: true
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date
+              - column:
+                  name: category_id
+              - column:
+                  name: type
+
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_user_date
+            tableName: mv_daily_category_stat
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date
+
+      rollback:
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_user_date
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_unique
+        - sql:
+            sql: DROP MATERIALIZED VIEW IF EXISTS mv_daily_category_stat
+        - modifyDataType:
+            tableName: transaction
+            columnName: date
+            newDataType: TIMESTAMP WITH TIME ZONE

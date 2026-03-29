@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.stream.Stream;
 import lombok.AccessLevel;
@@ -36,9 +36,9 @@ public class TransactionFilter implements Serializable {
     @Size(max = TRANSACTION_TITLE_MAX_LENGTH, message = "{validation.filter.keyword.size}")
     private String keyword;
 
-    private Instant dateFrom;
+    private LocalDate dateFrom;
 
-    private Instant dateTo;
+    private LocalDate dateTo;
 
     private Long categoryId;
 

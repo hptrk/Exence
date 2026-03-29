@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,7 +51,7 @@ public class TransactionDTO {
     private String note;
 
     @NotNull(message = "{validation.transaction.date.not-null}")
-    private Instant date;
+    private LocalDate date;
 
     @NotNull(message = "{validation.transaction.amount.not-null}")
     @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "{validation.transaction.amount.min}")

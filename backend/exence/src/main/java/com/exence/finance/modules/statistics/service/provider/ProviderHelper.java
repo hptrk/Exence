@@ -19,7 +19,7 @@ import com.exence.finance.modules.statistics.dto.result.TypeAmountResult;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -141,33 +141,37 @@ public class ProviderHelper {
     // --- STAT CARD HELPERS ---
 
     public TrendResult computeTrend(
-            WidgetRequest request, BigDecimal currentValue, BiFunction<Instant, Instant, BigDecimal> valueCalculator) {
+            WidgetRequest request,
+            BigDecimal currentValue,
+            BiFunction<LocalDate, LocalDate, BigDecimal> valueCalculator) {
         return doComputeTrend(request, currentValue, valueCalculator, this::calculateChangePercentage);
     }
 
     public TrendResult computeTrendByDifference(
-            WidgetRequest request, BigDecimal currentValue, BiFunction<Instant, Instant, BigDecimal> valueCalculator) {
+            WidgetRequest request,
+            BigDecimal currentValue,
+            BiFunction<LocalDate, LocalDate, BigDecimal> valueCalculator) {
         return doComputeTrend(request, currentValue, valueCalculator, (prev, curr) -> curr.subtract(prev));
     }
 
     private TrendResult doComputeTrend(
             WidgetRequest request,
             BigDecimal currentValue,
-            BiFunction<Instant, Instant, BigDecimal> valueCalculator,
+            BiFunction<LocalDate, LocalDate, BigDecimal> valueCalculator,
             BiFunction<BigDecimal, BigDecimal, BigDecimal> changeCalculator) {
         Timeframe timeframe = request.timeframe();
-        Instant prevStart = timeframe.previousPeriodStart(request.startDate(), request.endDate());
+        LocalDate prevStart = timeframe.previousPeriodStart(request.startDate());
         if (prevStart == null) {
             return TrendResult.NEUTRAL;
         }
-        Instant prevEnd = timeframe.previousPeriodEnd(request.startDate(), request.endDate());
+        LocalDate prevEnd = timeframe.previousPeriodEnd(request.startDate(), request.endDate());
         BigDecimal prevValue = valueCalculator.apply(prevStart, prevEnd);
         BigDecimal change = changeCalculator.apply(prevValue, currentValue);
         return new TrendResult(change, determineTrend(change));
     }
 
     public StatCardPayload buildFrequencyStatCard(
-            WidgetRequest request, long currentCount, BiFunction<Instant, Instant, Long> countCalculator) {
+            WidgetRequest request, long currentCount, BiFunction<LocalDate, LocalDate, Long> countCalculator) {
         long currentMonths = DateUtils.countMonths(request.startDate(), request.endDate());
         BigDecimal currentAvg = divideAsAvg(currentCount, currentMonths);
         String unitLabel = i18n.getUnitLabel(currentAvg, "unit.transaction", "unit.transactions");

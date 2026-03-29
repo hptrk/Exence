@@ -27,8 +27,8 @@ import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -49,7 +49,7 @@ public class StatisticsQueryService {
 
     // --- General ---
 
-    public Instant findEarliestStatDate() {
+    public LocalDate findEarliestStatDate() {
         return queryFactory
                 .select(dailyCategoryStat.id.statDate.min())
                 .from(dailyCategoryStat)
@@ -103,8 +103,7 @@ public class StatisticsQueryService {
         spec = applyDateParams(spec, filter);
         spec = applyCategoryParams(spec, filter);
 
-        return spec.query(
-                        (rs, rowNum) -> new DailyTrendResult(rs.getTimestamp(1).toInstant(), rs.getBigDecimal(2)))
+        return spec.query((rs, rowNum) -> new DailyTrendResult(rs.getDate(1).toLocalDate(), rs.getBigDecimal(2)))
                 .list();
     }
 
@@ -383,9 +382,9 @@ public class StatisticsQueryService {
         JdbcClient.StatementSpec spec = jdbcClient
                 .sql(sql.toString())
                 .param("userId", userService.getCurrentUserId())
-                .param("startDate", toTimestamp(filter.startDate()));
+                .param("startDate", toSqlDate(filter.startDate()));
         if (filter.endDate() != null) {
-            spec = spec.param("endDate", toTimestamp(filter.endDate()));
+            spec = spec.param("endDate", toSqlDate(filter.endDate()));
         }
         spec = applyCategoryParams(spec, filter);
 
@@ -535,10 +534,10 @@ public class StatisticsQueryService {
 
     private static JdbcClient.StatementSpec applyDateParams(JdbcClient.StatementSpec spec, StatisticsFilter filter) {
         if (filter.startDate() != null) {
-            spec = spec.param("startDate", toTimestamp(filter.startDate()));
+            spec = spec.param("startDate", toSqlDate(filter.startDate()));
         }
         if (filter.endDate() != null) {
-            spec = spec.param("endDate", toTimestamp(filter.endDate()));
+            spec = spec.param("endDate", toSqlDate(filter.endDate()));
         }
         return spec;
     }
@@ -551,7 +550,7 @@ public class StatisticsQueryService {
         return spec;
     }
 
-    private static Timestamp toTimestamp(Instant instant) {
-        return instant != null ? Timestamp.from(instant) : null;
+    private static Date toSqlDate(LocalDate localDate) {
+        return localDate != null ? Date.valueOf(localDate) : null;
     }
 }

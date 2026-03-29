@@ -2,10 +2,7 @@ package com.exence.finance.modules.statistics.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 public enum Timeframe {
@@ -15,7 +12,7 @@ public enum Timeframe {
     SIX_MONTHS("6M", 6, ChronoUnit.MONTHS),
     ONE_YEAR("1Y", 1, ChronoUnit.YEARS),
     YTD("YTD", 0, null),
-    ALL_TIME("ALL", Integer.MAX_VALUE, ChronoUnit.YEARS);
+    ALL_TIME("ALL", 0, null);
 
     private final String code;
     private final int amount;
@@ -32,17 +29,14 @@ public enum Timeframe {
         return code;
     }
 
-    public Instant toStartDate() {
+    public LocalDate toStartDate() {
         if (this == ALL_TIME) {
-            return Instant.EPOCH;
+            return null;
         }
         if (this == YTD) {
-            return LocalDate.now(ZoneOffset.UTC)
-                    .withDayOfYear(1)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toInstant();
+            return LocalDate.now().withDayOfYear(1);
         }
-        return ZonedDateTime.now(ZoneOffset.UTC).minus(amount, unit).toInstant();
+        return LocalDate.now().minus(amount, unit);
     }
 
     // fallback to YTD if null or unrecognized
@@ -62,16 +56,14 @@ public enum Timeframe {
      * For fixed durations: mirrors the duration before currentStart.
      * All time has no previous period, so returns null.
      */
-    public Instant previousPeriodStart(Instant currentStart, Instant currentEnd) {
+    public LocalDate previousPeriodStart(LocalDate currentStart) {
         if (this == ALL_TIME) {
             return null;
         }
         if (this == YTD) {
-            return currentStart.atZone(ZoneOffset.UTC).minusYears(1).toInstant();
+            return currentStart.minusYears(1);
         }
-        return ZonedDateTime.ofInstant(currentStart, ZoneOffset.UTC)
-                .minus(amount, unit)
-                .toInstant();
+        return currentStart.minus(amount, unit);
     }
 
     /**
@@ -79,9 +71,9 @@ public enum Timeframe {
      * For YTD: same end date shifted back 1 year.
      * For others: the current period's start.
      */
-    public Instant previousPeriodEnd(Instant currentStart, Instant currentEnd) {
+    public LocalDate previousPeriodEnd(LocalDate currentStart, LocalDate currentEnd) {
         if (this == YTD) {
-            return currentEnd.atZone(ZoneOffset.UTC).minusYears(1).toInstant();
+            return currentEnd.minusYears(1);
         }
         return currentStart;
     }

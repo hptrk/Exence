@@ -21,7 +21,7 @@ import com.exence.finance.modules.statistics.service.WidgetService;
 import com.exence.finance.modules.statistics.service.WidgetSettingsValidator;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import jakarta.annotation.PostConstruct;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -154,15 +154,12 @@ public class WidgetServiceImpl implements WidgetService {
 
         Timeframe resolvedTimeframe = resolveTimeframe(timeframe, widget);
 
-        Instant startDate = resolvedTimeframe.toStartDate();
-        if (resolvedTimeframe == Timeframe.ALL_TIME) {
-            Instant earliest = statisticsQueryService.findEarliestStatDate();
-            if (earliest != null) {
-                startDate = earliest;
-            }
+        LocalDate startDate = resolvedTimeframe.toStartDate();
+        if (startDate == null) {
+            startDate = statisticsQueryService.findEarliestStatDate();
         }
 
-        WidgetRequest request = new WidgetRequest(startDate, Instant.now(), resolvedTimeframe, widget.getSettings());
+        WidgetRequest request = new WidgetRequest(startDate, LocalDate.now(), resolvedTimeframe, widget.getSettings());
         WidgetDataProvider provider = providerMap.get(widget.getType());
         if (provider == null) {
             log.error("No data provider for widget: {}, type: {}", widget.getId(), widget.getType());
