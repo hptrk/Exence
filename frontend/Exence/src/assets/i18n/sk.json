@@ -1,0 +1,677 @@
+{
+	"literals": {
+		"transaction": "Transakcia",
+		"transactions": "Transakcie",
+		"category": "Kategória",
+		"categories": "Kategórie",
+		"income": "Príjem",
+		"incomes": "Príjmy",
+		"expense": "Výdavok",
+		"expenses": "Výdavky",
+		"balance": "Zostatok",
+		"save": "Uložiť",
+		"delete": "Odstrániť",
+		"cancel": "Zrušiť",
+		"next": "Ďalej",
+		"back": "Späť",
+		"continue": "Pokračovať",
+		"create": "Vytvoriť",
+		"amount": "Suma",
+		"minimum": "Min",
+		"maximum": "Max",
+		"all": "Všetky",
+		"type": "Typ",
+		"from": "Od",
+		"to": "Do"
+	},
+	"dashboard": {
+		"title": "Vitajte späť, <span class='username'>{{username}}</span>!",
+		"subtitle": "Prehľad Vašich financií"
+	},
+	"transactionsAndCategories": {
+		"recurring": {
+			"expenses": "Opakujúce sa výdavky",
+			"incomes": "Opakujúce sa príjmy",
+			"transactions": "Opakujúce sa"
+		},
+		"noCategories": "Najskôr vytvorte kategóriu!",
+		"addTransaction": "Pridať transakciu",
+		"search": "Hľadať...",
+		"dateRange": "Zadajte rozsah dátumov"
+	},
+	"categories": {
+		"topCategories": "Hlavné kategórie",
+		"noTransactions": "Pridajte transakcie, aby ste objavili svoje vzorce výdavkov!",
+		"createTransactionButton": "Vytvoriť transakciu",
+		"noCategories": "Pridajte kategórie, aby ste objavili svoje vzorce výdavkov!",
+		"createCategoryButton": "Vytvoriť kategóriu"
+	},
+	"categoryType": {
+		"EXPENSE": "Výdavok",
+		"INCOME": "Príjem",
+		"MIXED": "Zmiešaný"
+	},
+	"transactionType": {
+		"EXPENSE": "Výdavok",
+		"INCOME": "Príjem"
+	},
+	"profile": {
+		"title": "Údaje profilu",
+		"username": "Používateľské meno",
+		"email": "E-mail",
+		"changePassword": "Zmeniť heslo",
+		"oldPassword": "Staré heslo",
+		"newPassword": "Nové heslo",
+		"confirmPassword": "Potvrdiť heslo",
+		"saved": "Úspešne uložené!",
+		"profileData": {
+			"label": "Údaje profilu"
+		},
+		"userSettings": {
+			"label": "Nastavenia používateľa",
+			"theme": {
+				"title": "Motív zobrazenia",
+				"primary": "Hlavný motív",
+				"secondary": "Vedľajší motív",
+				"themes": {
+					"LIGHT": "Svetlý motív",
+					"DARK": "Tmavý motív",
+					"BLUE_DOLPHIN": "Motív modrý delfín"
+				},
+				"currentTheme": "Aktuálny",
+				"success": "Preferencie motívu boli úspešne zmenené!"
+			},
+			"language": {
+				"title": "Vybrať jazyk"
+			},
+			"currency.comment": "TODO: translate all english text below",
+			"currency": {
+				"title": "Currency settings",
+				"baseCurrency": {
+					"label": "Base currency"
+				},
+				"showBaseCurrency": {
+					"label": "Show base currency",
+					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+				}
+			}
+		},
+		"sessions": {
+			"label": "Relácie"
+		}
+	},
+	"sessionList": {
+		"thisSession": "Táto relácia",
+		"lastUsed": "Naposledy použitá",
+		"securityInfo": "Ak si myslíte, že Váš účet je používaný bez Vášho súhlasu, zmeňte si heslo pred odhlásením.",
+		"otherSessions": "Ostatné relácie",
+		"deleteAll": "Odstrániť všetky relácie",
+		"deleted": "Relácia bola úspešne odstránená",
+		"deletedAll": "Všetky relácie boli úspešne odstránené"
+	},
+	"navigation": {
+		"dashboard": "Prehľad",
+		"transactions": "Transakcie",
+		"statistics": "Štatistiky",
+		"goals": "Ciele",
+		"debts": "Dlhy",
+		"theme": "Hlavný/vedľajší režim",
+		"logout": "Odhlásiť sa",
+		"accountSettings": "Nastavenia účtu"
+	},
+	"timeframe": {
+		"1W": "1T",
+		"1M": "1M",
+		"3M": "3M",
+		"6M": "6M",
+		"YTD": "YTD",
+		"1Y": "1R",
+		"ALL": "Všetko"
+	},
+	"statistics": {
+		"editChart": {
+			"title": "Upraviť graf - '{{title}}'",
+			"titleLabel": "Názov",
+			"categories": "Kategórie",
+			"search": "Hľadať"
+		},
+		"empty": {
+			"title": "Váš prehľad je prázdny",
+			"subtitle": "Pridajte grafy a štatistické karty na prispôsobenie Vášho štatistického prehľadu."
+		},
+		"catalog": {
+			"title": "Pridať nový graf",
+			"disabledStatCard": "Bol dosiahnutý maximálny počet štatistických kariet (4) v rozložení.",
+			"titleLabel": "Názov",
+			"categories": "Kategórie",
+			"search": "Hľadať",
+			"disabledStep1": "Pred vytvorením vyberte typ widgetu!",
+			"nextDisabled": "Pred vytvorením vyberte typ widgetu!",
+			"groupLabels": {
+				"all": "Všetky",
+				"card": "Karty",
+				"lineArea": "Čiara a oblasť",
+				"bar": "Stĺpcové",
+				"mixed": "Zmiešané",
+				"circular": "Kruhové",
+				"point": "Bodové",
+				"other": "Ostatné"
+			}
+		},
+		"editButton": "Upraviť rozloženie",
+		"addButton": "Pridať widget",
+		"editInfo": "Niektoré zmeny nemusia byť viditeľné, kým ich neuložíte.",
+		"widget": {
+			"EXPENSE_FREQUENCY_STATCARD": {
+				"title": "Frekvencia výdavkov",
+				"info": "Zobrazuje, ako často sa výdavky vyskytujú vo vybranom období."
+			},
+			"INCOME_FREQUENCY_STATCARD": {
+				"title": "Frekvencia príjmov",
+				"info": "Zobrazuje, ako často sú príjmy prijímané vo vybranom období."
+			},
+			"NO_SPEND_DAYS_STATCARD": {
+				"title": "Dni bez výdavkov",
+				"info": "Počíta počet dní v období bez akýchkoľvek výdavkových transakcií."
+			},
+			"TOP_EXPENSE_CATEGORY_STATCARD": {
+				"title": "Hlavná kategória výdavkov",
+				"info": "Zvýrazňuje kategóriu, v ktorej bolo utratených najviac peňazí."
+			},
+			"TOP_INCOME_CATEGORY_STATCARD": {
+				"title": "Hlavná kategória príjmov",
+				"info": "Zvýrazňuje kategóriu, ktorá prispela najväčším príjmom."
+			},
+			"TOP_EXPENSE_TRANSACTION_STATCARD": {
+				"title": "Najväčšia výdavková transakcia",
+				"info": "Zobrazuje najväčšiu jednotlivú výdavkovú transakciu vo vybranom období."
+			},
+			"TOP_INCOME_TRANSACTION_STATCARD": {
+				"title": "Najväčšia príjmová transakcia",
+				"info": "Zobrazuje najväčšiu jednotlivú príjmovú transakciu vo vybranom období."
+			},
+			"BURN_RATE_STATCARD": {
+				"title": "Rýchlosť spotreby",
+				"info": "Zobrazuje priemernú dennú mieru výdavkov, ktorá naznačuje, ako rýchlo sa prostriedky spotrebúvajú."
+			},
+			"SAVINGS_RATE_STATCARD": {
+				"title": "Miera úspor",
+				"info": "Zobrazuje percento príjmov, ktoré bolo ušetrené po výdavkoch."
+			},
+			"INCOME_TREND": {
+				"title": "Trend príjmov",
+				"info": "Vizualizuje príjmy v čase ako čiarový alebo plošný graf na odhalenie vzorcov rastu alebo poklesu."
+			},
+			"EXPENSE_TREND": {
+				"title": "Trend výdavkov",
+				"info": "Vizualizuje výdavky v čase na zvýraznenie vzorcov výdavkov a anomálií."
+			},
+			"BALANCE_TREND": {
+				"title": "Trend zostatku",
+				"info": "Sleduje čistý zostatok v čase a ukazuje, či sa financie zlepšujú alebo zhoršujú."
+			},
+			"INCOME_CATEGORY_TREND": {
+				"title": "Trend príjmov podľa kategórie",
+				"info": "Rozčleňuje trendy príjmov podľa kategórií v čase pomocou skladaných alebo viacriadkových oblastí."
+			},
+			"EXPENSE_CATEGORY_TREND": {
+				"title": "Trend výdavkov podľa kategórie",
+				"info": "Rozčleňuje trendy výdavkov podľa kategórií v čase pomocou skladaných alebo viacriadkových oblastí."
+			},
+			"BALANCE_YEAR_COMPARISON": {
+				"title": "Ročné porovnanie zostatku",
+				"info": "Prekrýva krivky zostatku z viacerých rokov na jednom grafe pre priame porovnanie."
+			},
+			"INCOME_EXPENSE_COLUMN": {
+				"title": "Príjmy vs výdavky",
+				"info": "Stĺpce vedľa seba porovnávajúce celkové príjmy a výdavky za každé obdobie."
+			},
+			"EXPENSE_CATEGORY_COLUMN": {
+				"title": "Výdavky podľa kategórie",
+				"info": "Zoskupené alebo skladané stĺpce zobrazujúce rozčlenenie výdavkov podľa kategórií za obdobie."
+			},
+			"MONTHLY_BALANCE_COLUMN": {
+				"title": "Mesačný zostatok",
+				"info": "Stĺpcový graf čistého zostatku za mesiac na rýchle rozpoznanie pozitívnych a negatívnych mesiacov."
+			},
+			"EXPENSE_SAVINGS_COMBO": {
+				"title": "Kombinácia výdavkov a úspor",
+				"info": "Kombinuje sériu stĺpcov pre výdavky s prekrývajúcou sa čiarou pre kumulatívne úspory."
+			},
+			"TRANSACTION_COUNT_EXPENSE_COMBO": {
+				"title": "Kombinácia počtu transakcií a výdavkov",
+				"info": "Prekrýva objem transakcií ako čiaru nad stĺpcami výdavkov na odhalenie intenzity výdavkov."
+			},
+			"WEALTH_GROWTH_COMBO": {
+				"title": "Kombinácia rastu majetku",
+				"info": "Kombinuje stĺpce príjmov a výdavkov s kumulatívnou čiarou majetku na sledovanie čistého rastu."
+			},
+			"EXPENSE_PIE": {
+				"title": "Rozdelenie výdavkov",
+				"info": "Koláčový alebo prstencový graf zobrazujúci proporcionálny podiel každej kategórie výdavkov."
+			},
+			"INCOME_PIE": {
+				"title": "Rozdelenie príjmov",
+				"info": "Koláčový alebo prstencový graf zobrazujúci proporcionálny podiel každej kategórie príjmov."
+			},
+			"SPENDING_RADAR": {
+				"title": "Radar výdavkov",
+				"info": "Radarový graf mapujúci úrovne výdavkov naprieč kategóriami pre celkový prehľad zostatku."
+			},
+			"MONTHLY_CATEGORY_RADAR": {
+				"title": "Mesačný radar kategórií",
+				"info": "Porovnáva vzorce výdavkov kategórií za viacero mesiacov na jednom radarovom grafe."
+			},
+			"CATEGORY_AVG_POLAR": {
+				"title": "Priemer kategórie polárny",
+				"info": "Polárny plošný graf zobrazujúci priemerné výdavky na kategóriu, kde veľkosť segmentu označuje veľkosť."
+			},
+			"MONTHLY_PEAK_POLAR": {
+				"title": "Mesačný vrchol polárny",
+				"info": "Polárny plošný graf zvýrazňujúci mesiace s najvyššími výdavkami s proporcionálnou veľkosťou segmentu."
+			},
+			"CATEGORY_BUBBLE": {
+				"title": "Bublina kategórie",
+				"info": "Zobrazuje kategórie ako bubliny, kde pozícia označuje čas a veľkosť označuje celkovú sumu."
+			},
+			"TRANSACTION_SCATTER": {
+				"title": "Rozptyl transakcií",
+				"info": "Rozptyľuje jednotlivé transakcie podľa dátumu a sumy na odhalenie odľahlých hodnôt a zhlukov."
+			},
+			"SPENDING_HEATMAP": {
+				"title": "Tepelná mapa výdavkov",
+				"info": "Kalendárna tepelná mapa zobrazujúca dennú intenzitu výdavkov počas roka na prvý pohľad."
+			},
+			"CATEGORY_TREEMAP": {
+				"title": "Stromová mapa kategórií",
+				"info": "Vnorené obdĺžniky dimenzované podľa sumy výdavkov na zobrazenie proporcií kategórií a podkategórií."
+			},
+			"CATEGORY_BOXPLOT": {
+				"title": "Krabicový graf kategórií",
+				"info": "Zobrazuje štatistické rozdelenie transakcií podľa kategórie vrátane mediánu a odľahlých hodnôt."
+			},
+			"MONTHLY_BOXPLOT": {
+				"title": "Mesačný krabicový graf",
+				"info": "Zobrazuje štatistické rozdelenie denných výdavkov za mesiac na odhalenie variability."
+			},
+			"SAVINGS_RATE_GAUGE": {
+				"title": "Ukazovateľ miery úspor",
+				"info": "Radiálny ukazovateľ zobrazujúci aktuálnu mieru úspor voči konfigurovateľnému cieľovému prahu."
+			},
+			"YEARLY_SLOPE": {
+				"title": "Ročný sklon",
+				"info": "Graf sklonu spájajúci hodnoty zo začiatku a konca roka na okamžité zobrazenie zmeny smeru."
+			},
+			"CATEGORY_SANKEY": {
+				"title": "Sankey kategórií",
+				"info": "Tokový diagram zobrazujúci, ako sú príjmy rozdelené a spotrebované naprieč kategóriami výdavkov."
+			}
+		},
+		"charts": {
+			"from": "Od:",
+			"to": "Do:",
+			"amount": "Suma:",
+			"max": "Maximum:",
+			"q3": "Q3:",
+			"median": "Medián:",
+			"q1": "Q1:",
+			"min": "Minimum:",
+			"toolbar": {
+				"exportToSVG": "Stiahnuť SVG",
+				"exportToPNG": "Stiahnuť PNG",
+				"exportToCSV": "Stiahnuť CSV",
+				"menu": "Menu",
+				"selection": "Výber",
+				"selectionZoom": "Priblíženie výberom",
+				"zoomIn": "Priblížiť",
+				"zoomOut": "Oddialiť",
+				"pan": "Posúvanie",
+				"reset": "Obnoviť priblíženie"
+			}
+		}
+	},
+	"category": {
+		"create": {
+			"title": "Nová kategória",
+			"name": "Názov",
+			"note": "Poznámka",
+			"successInfo": "Kategória '{{name}}' bola úspešne vytvorená!"
+		},
+		"deleteInfo": "Kategória bola úspešne odstránená!",
+		"addButton": "Pridať kategóriu"
+	},
+	"transaction": {
+		"create": {
+			"title": "Nová transakcia",
+			"titleLabel": "Názov",
+			"amount": "Suma",
+			"date": "Dátum",
+			"category": "Kategória",
+			"search": "Hľadať",
+			"note": "Poznámka",
+			"recurring": "Automaticky opakujúca sa?",
+			"successInfo": "Transakcia '{{title}}' bola úspešne vytvorená!"
+		},
+		"updateInfo": "Transakcia '{{title}}' bola úspešne aktualizovaná!",
+		"deleteInfo": "Transakcia bola úspešne odstránená!",
+		"recurring": "Opakujúca sa"
+	},
+	"emailVerification": {
+		"title": "E-mail overený",
+		"message": "Gratulujeme! Váš e-mail bol overený. Teraz môžete využívať všetky funkcie <strong>Exence</strong>.",
+		"success": "E-mail bol úspešne overený!",
+		"backToLogin": "Späť na prihlásenie"
+	},
+	"forgotPassword": {
+		"title": "Zabudli ste heslo?",
+		"subtitle": "Nebojte sa, pošleme Vám pokyny na obnovenie.",
+		"email": "E-mail",
+		"sendButton": "Odoslať e-mail",
+		"remember": "Pamätáte si heslo?",
+		"login": "Prihlásiť sa",
+		"resetSuccess": "Heslo bolo úspešne aktualizované!",
+		"emailSent": {
+			"title": "E-mail odoslaný",
+			"subtitle": "Poslali sme Vám e-mail na adresu <strong>{{email}}</strong>. Skontrolujte svoju schránku a postupujte podľa pokynov na obnovenie hesla Vášho účtu.",
+			"notRecieved": "Nedostali ste e-mail?",
+			"retry": "Znovu odoslať e-mail",
+			"badEmail": "Nesprávna e-mailová adresa?",
+			"changeEmail": "Zmeniť e-mailovú adresu",
+			"success": "E-mail odoslaný!"
+		},
+		"new": {
+			"title": "Vytvoriť nové heslo",
+			"info": "Vaše nové heslo sa <strong>musí líšiť</strong> od všetkých Vašich predchádzajúcich hesiel.",
+			"password": "Heslo",
+			"confirmPassword": "Potvrdiť heslo",
+			"reset": "Obnoviť heslo"
+		}
+	},
+	"login": {
+		"title": "Prihláste sa do svojho účtu",
+		"noAccount": "Nemáte účet?",
+		"createButton": "Vytvoriť účet",
+		"email": "E-mail",
+		"password": "Heslo",
+		"forgotPassword": "Zabudli ste heslo?",
+		"button": "Prihlásiť sa"
+	},
+	"registration": {
+		"title": "Vytvoriť účet",
+		"subtitle": "Už máte účet?",
+		"login": "Prihlásiť sa",
+		"username": "Používateľské meno",
+		"email": "E-mail",
+		"password": "Heslo",
+		"passwordInfo": "Heslo musí obsahovať aspoň 1 malé písmeno, 1 veľké písmeno, 1 číslo a 1 špeciálny znak (!@#$%^&*()_+-=[]{};'|,.<>/?)",
+		"confirmPassword": "Potvrdiť heslo",
+		"createButton": "Vytvoriť účet",
+		"success": "Úspešná registrácia"
+	},
+	"dataTable": {
+		"title": "Názov",
+		"date": "Dátum",
+		"note": "Poznámka",
+		"recurring": "Automaticky opakujúca sa?",
+		"name": "Názov",
+		"icon": "Ikona",
+		"type": "Typ",
+		"empty": "Nenašli sa žiadne položky",
+		"adjustFilters": "Skúste upraviť alebo vymazať aktuálne filtre.",
+		"actions": "Akcie",
+		"details": {
+			"show": "Zobraziť podrobnosti",
+			"hide": "Skryť podrobnosti"
+		}
+	},
+	"filterMenu": {
+		"title": "Filtre",
+		"addButton": "Pridať filter",
+		"show": "Zobraziť ({{filterCount}})",
+		"clearAll": "Vymazať všetko"
+	},
+	"formattedDate": {
+		"now": "Teraz",
+		"sec": "Pred {{value}} sek.",
+		"secs": "Pred {{value}} sek.",
+		"min": "Pred {{value}} min.",
+		"mins": "Pred {{value}} min.",
+		"hour": "Pred {{value}} hod.",
+		"hours": "Pred {{value}} hod.",
+		"day": "Pred {{value}} dňom",
+		"days": "Pred {{value}} dňami"
+	},
+	"months": {
+		"jan": "Jan {{day}}",
+		"feb": "Feb {{day}}",
+		"mar": "Mar {{day}}",
+		"apr": "Apr {{day}}",
+		"jun": "Jún {{day}}",
+		"jul": "Júl {{day}}",
+		"aug": "Aug {{day}}",
+		"sep": "Sep {{day}}",
+		"oct": "Okt {{day}}",
+		"nov": "Nov {{day}}",
+		"dec": "Dec {{day}}"
+	},
+	"validators": {
+		"required": "Povinné pole",
+		"password": "Neplatný formát hesla!",
+		"passwordMismatch": "Heslá sa musia zhodovať!",
+		"email": "Neplatný formát e-mailu!",
+		"maxlength": "Maximálna dĺžka je {{requiredLength}}!",
+		"minlength": "Minimálna dĺžka je {{requiredLength}}!",
+		"min": "Minimálna hodnota je {{min}}!",
+		"max": "Maximálna hodnota je {{max}}!",
+		"filledArray": "Musíte vybrať aspoň 1 hodnotu!",
+		"theme": "Musíte vybrať dva rôzne motívy!"
+	},
+	"confirmExit": {
+		"title": "Neuložené zmeny",
+		"message": "Máte neuložené zmeny. Ste si istí, že chcete odísť? Vaše zmeny budú stratené."
+	},
+	"icons": {
+		"localConvenienceStore": "miestny obchod",
+		"shoppingBasket": "nákupný košík",
+		"fridge": "chladnička",
+		"skillet": "panvica",
+		"egg": "vajce",
+		"nutrition": "výživa",
+		"restaurant": "reštaurácia",
+		"menu": "menu",
+		"groceries": "potraviny",
+		"lunch": "obed",
+		"dinner": "večera",
+		"fastfood": "rýchle občerstvenie",
+		"pizza": "pizza",
+		"cafe": "kaviareň",
+		"bakery": "pekáreň",
+		"cake": "torta",
+		"iceCream": "zmrzlina",
+		"bar": "bar",
+		"wineBar": "vinotéka",
+		"liquor": "liehoviny",
+		"home": "domov",
+		"house": "dom",
+		"apartment": "byt",
+		"cottage": "chata",
+		"garage": "garáž",
+		"bed": "posteľ",
+		"chair": "stolička",
+		"construction": "stavba",
+		"plumbing": "vodoinštalácia",
+		"electricalServices": "elektrikárske služby",
+		"mop": "mop",
+		"lightbulb": "žiarovka",
+		"bolt": "blesk",
+		"waterDrop": "kvapka vody",
+		"fire": "oheň",
+		"thermometer": "teplomer",
+		"energySavingLeaf": "list úspory energie",
+		"recycling": "recyklácia",
+		"router": "router",
+		"wifi": "wifi",
+		"car": "auto",
+		"motorcycle": "motorka",
+		"scrooter": "kolobežka",
+		"pedalBike": "bicykel",
+		"gasStation": "čerpacia stanica",
+		"electricCharger": "elektrická nabíjačka",
+		"parking": "parkovanie",
+		"towing": "odťahovanie",
+		"taxi": "taxi",
+		"airportShuttle": "letiskový transfer",
+		"bus": "autobus",
+		"commute": "dochádzanie",
+		"train": "vlak",
+		"subway": "metro",
+		"tram": "električka",
+		"boat": "loď",
+		"flight": "let",
+		"airplaneTicket": "letenka",
+		"transitTicket": "cestovný lístok",
+		"map": "mapa",
+		"store": "obchod",
+		"shoppingCart": "nákupný vozík",
+		"shoppingBag": "nákupná taška",
+		"priceTag": "cenovka",
+		"percent": "percento",
+		"receipt": "účtenka",
+		"giftcard": "darčeková karta",
+		"sendMoney": "poslať peniaze",
+		"apparel": "oblečenie",
+		"checkroom": "šatňa",
+		"styler": "stylista",
+		"laundry": "práčovňa",
+		"glasses": "okuliare",
+		"watch": "hodinky",
+		"diamond": "diamant",
+		"backpack": "batoh",
+		"umbrella": "dáždnik",
+		"smartphone": "smartfón",
+		"laptop": "notebook",
+		"printer": "tlačiareň",
+		"hospital": "nemocnica",
+		"medialServices": "zdravotné služby",
+		"health": "zdravie",
+		"emergency": "pohotovosť",
+		"pharmacy": "lekáreň",
+		"medication": "lieky",
+		"vaccines": "vakcíny",
+		"patches": "náplaste",
+		"heartMonitor": "monitor srdca",
+		"tooth": "zub",
+		"psychology": "psychológia",
+		"handwash": "umývanie rúk",
+		"wash": "umývanie",
+		"brush": "kefa",
+		"face": "tvár",
+		"scissors": "nožnice",
+		"spa": "kúpele",
+		"mediation": "meditácia",
+		"dumbbell": "činka",
+		"swim": "plávanie",
+		"family": "rodina",
+		"pregnantWoman": "tehotná žena",
+		"closeupFamily": "rodina zblízka",
+		"familyHeart": "rodinné srdce",
+		"child": "dieťa",
+		"babyChangingStation": "prebaľovací pult",
+		"stroller": "kočík",
+		"crib": "postieľka",
+		"childFriendly": "vhodné pre deti",
+		"familyOfTwo": "2-členná rodina",
+		"toy": "hračka",
+		"oldGameController": "starý herný ovládač",
+		"castle": "hrad",
+		"smile": "úsmev",
+		"pet": "domáce zviera",
+		"bunny": "zajačik",
+		"elderly": "seniori",
+		"education": "vzdelávanie",
+		"book": "kniha",
+		"time": "čas",
+		"movie": "film",
+		"theaterSymbol": "symbol divadla",
+		"tv": "televízia",
+		"camera": "fotoaparát",
+		"image": "obrázok",
+		"headphones": "slúchadlá",
+		"musicNote": "nota",
+		"piano": "klavír",
+		"gameController": "herný ovládač",
+		"extension": "rozšírenie",
+		"casino": "kasíno",
+		"theater": "divadlo",
+		"bookWithBookmark": "kniha so záložkou",
+		"football": "futbal",
+		"basketball": "basketbal",
+		"tennis": "tenis",
+		"hiking": "turistika",
+		"kayaking": "kajak",
+		"deck": "terasa",
+		"eventSeat": "miesto na udalosti",
+		"work": "práca",
+		"paid": "zaplatené",
+		"priceCheck": "kontrola ceny",
+		"monneyBag": "vrece peňazí",
+		"accountBalance": "zostatok na účte",
+		"wallet": "peňaženka",
+		"walletBalance": "zostatok v peňaženke",
+		"euro": "euro",
+		"addCard": "pridať kartu",
+		"financeChip": "finančný čip",
+		"currencyExchange": "zmenáreň",
+		"toll": "mýto",
+		"trendingUp": "rastúci trend",
+		"trendingDown": "klesajúci trend",
+		"priceChange": "zmena ceny",
+		"pieChart": "koláčový graf",
+		"barChart": "stĺpcový graf",
+		"calculate": "vypočítať",
+		"receiptLong": "dlhá účtenka",
+		"requestQuote": "žiadosť o cenovú ponuku",
+		"calendar": "kalendár",
+		"schedule": "rozvrh",
+		"celebration": "oslava",
+		"mail": "pošta",
+		"bell": "zvonček",
+		"globe": "glóbus",
+		"cloud": "oblak",
+		"lock": "zámok",
+		"key": "kľúč",
+		"verified": "overené",
+		"help": "pomoc",
+		"star": "hviezda",
+		"heart": "srdce",
+		"bookmark": "záložka",
+		"flag": "vlajka",
+		"browse": "prehľadávať",
+		"description": "popis",
+		"build": "stavať",
+		"keyboard": "klávesnica",
+		"cancel": "zrušiť",
+		"categories": {
+			"food": "Jedlo a stravovanie",
+			"housing": "Bývanie a energie",
+			"travel": "Doprava a cestovanie",
+			"shopping": "Nákupy a oblečenie",
+			"health": "Zdravie a krása",
+			"family": "Rodina a vzdelávanie",
+			"entertainment": "Zábava a koníčky",
+			"finances": "Financie",
+			"others": "Ostatné"
+		}
+	},
+	"errors": {
+		"unexpected": "Vyskytla sa neočakávaná chyba!"
+	},
+	"passwordVisibility": {
+		"show": "Zobraziť heslo",
+		"hide": "Skryť heslo"
+	},
+	"selection": {
+		"selectAll": "Vybrať všetko",
+		"deselectAll": "Zrušiť výber"
+	}
+}

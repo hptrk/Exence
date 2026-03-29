@@ -1,5 +1,6 @@
-import { computed, effect, inject, resource, ResourceRef } from '@angular/core';
+import { computed, effect, inject, resource, ResourceRef, untracked } from '@angular/core';
 import { patchState, signalStore, withComputed, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
+import { CurrencyService } from '../../shared/currency.service';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
 import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
@@ -49,9 +50,6 @@ const initialState: TransactionStoreData = {
 };
 
 export const TransactionStore = signalStore(
-	// TODO when private.component is created provide it there and user change will recreate the instance and reset data
-	{ providedIn: 'root' },
-
 	withState(initialState),
 
 	withProps((store, transactionService = inject(TransactionService)) => ({
@@ -216,7 +214,6 @@ export const TransactionStore = signalStore(
 					reload(request);
 				},
 				loadNextPage(type?: TransactionType, recurring?: boolean): void {
-					console.log(type, recurring);
 					const resourceMap = {
 						[TransactionType.INCOME]: store.incomeResource,
 						[TransactionType.EXPENSE]: store.expenseResource,
@@ -297,6 +294,18 @@ export const TransactionStore = signalStore(
 			effect(() => merge('recurrings', store.recurringResource, store.recurringPage()));
 			effect(() => merge('recurringIncomes', store.recurringIncomeResource, store.recurringIncomePage()));
 			effect(() => merge('recurringExpenses', store.recurringExpenseResource, store.recurringExpensePage()));
+
+			const currencyService = inject(CurrencyService);
+			const baseCurrency = currencyService.baseCurrency;
+			let previousCurrency = untracked(() => baseCurrency());
+
+			effect(() => {
+				const current = baseCurrency();
+				if (current !== previousCurrency) {
+					previousCurrency = current;
+					untracked(() => store.resetState());
+				}
+			});
 		},
 	}),
 );

@@ -68,7 +68,7 @@
 										row.type === transactionTypes.INCOME ? 'income' : 'expense'
 									}}"
 								>
-									{{ row.amount | currency: 'Ft' : 'symbol' : '1.0-0' }}
+									{{ row.amount | currency }}
 								</div>
 							</td>
 						</ng-container>

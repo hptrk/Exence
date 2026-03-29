@@ -19,6 +19,7 @@
 @import './components/gridster.scss';
 @import './components/tab-group.scss';
 @import './components/stepper.scss';
+@import './components/sidenav.scss';
 @import './fonts/material-icons.scss';
 
 * {
@@ -91,6 +92,7 @@ hr {
 	border-radius: 1rem;
 	color: inherit;
 	cursor: pointer;
+	background-color: transparent;
 
 	&:hover {
 		background-color: var(--app-background-color);
@@ -150,12 +152,6 @@ mat-checkbox {
 	--mat-checkbox-touch-target-display: none;
 }
 
-// TODO make own component https://horanszkipatrik.atlassian.net/browse/EX-274
-.loader {
-	background-color: rgba(0, 0, 0, 0.1);
-	border-radius: 20px;
-}
-
 ::selection {
 	background-color: var(--primary-color);
 	color: var(--secondary-text-color);
@@ -170,4 +166,16 @@ mat-checkbox {
 	right: 0.5rem;
 	transform: translateX(50%);
 	z-index: 20;
+}
+
+.username {
+	font-weight: bold;
+	color: var(--primary-color);
+}
+
+mat-drawer.mat-drawer-side {
+	a.ex-nav-button.active,
+	.ex-nav-button.selected {
+		background-color: var(--app-background-color);
+	}
 }

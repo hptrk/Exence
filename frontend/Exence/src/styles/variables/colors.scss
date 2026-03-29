@@ -17,6 +17,7 @@
 
 	--shadow-color: #{$shadow-blue-dolphin};
 	--border-color: #{$border-color-blue-dolphin};
+	--outline-color: #{$outline-color-blue-dolphin};
 
 	--default-text-color: #{$default-text-color-blue-dolphin};
 	--accent-text-color: #{$accent-text-color-blue-dolphin};
@@ -46,6 +47,7 @@ html.theme-light {
 
 	--shadow-color: #{$shadow-light};
 	--border-color: #{$border-color-light};
+	--outline-color: #{$outline-color-light};
 
 	--default-text-color: #{$default-text-color-light};
 	--accent-text-color: #{$accent-text-color-light};
@@ -75,6 +77,7 @@ html.theme-dark {
 
 	--shadow-color: #{$shadow-dark};
 	--border-color: #{$border-color-dark};
+	--outline-color: #{$outline-color-dark};
 
 	--default-text-color: #{$default-text-color-dark};
 	--accent-text-color: #{$accent-text-color-dark};
@@ -101,6 +104,7 @@ html.theme-blue-dolphin {
 
 	--app-card-color: #{$app-card-color-blue-dolphin};
 	--app-background-color: #{$app-background-color-blue-dolphin};
+	--outline-color: #{$outline-color-blue-dolphin};
 
 	--shadow-color: #{$shadow-blue-dolphin};
 	--border-color: #{$border-color-blue-dolphin};

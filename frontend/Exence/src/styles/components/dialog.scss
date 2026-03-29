@@ -1,8 +1,11 @@
 .mat-mdc-dialog-panel {
 	--mat-dialog-container-max-width: 85vw;
 	--mat-dialog-container-max-height: 85dvh;
+
+	justify-content: center;
 }
 
 mat-dialog-container.mat-mdc-dialog-container {
 	max-height: 85dvh;
+	max-width: 85dvw;
 }

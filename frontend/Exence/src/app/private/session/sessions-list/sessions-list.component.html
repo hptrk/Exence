@@ -1,10 +1,8 @@
 <div class="d-flex flex-column gap-4">
 	<ul>
 		@let currSession = currentSession();
-		<h3 class="m-0 text-center text-md-start fs-2">{{ 'sessionList.thisSession' | translate }}</h3>
-		<li
-			class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-4 ms-2 my-3"
-		>
+		<h3 class="m-0 text-start fs-2 w-75">{{ 'sessionList.thisSession' | translate }}</h3>
+		<li class="d-flex flex-row flex-nowrap align-items-center justify-content-start gap-4 ms-2 my-3">
 			<mat-icon class="flex-shrink-0" size="lg">desktop_windows</mat-icon>
 			<div class="flex-shink-1">
 				<div class="name text-truncate">
@@ -19,17 +17,15 @@
 		</li>
 
 		<mat-divider />
-		<p class="security-info text-center text-md-start mx-auto mx-md-0">
+		<p class="security-info text-start mx-auto mx-md-0">
 			{{ 'sessionList.securityInfo' | translate }}
 		</p>
 
 		@if (!!otherSessions().length) {
 			<mat-divider />
-			<h3 class="m-0 text-center text-md-start fs-2 mt-5">{{ 'sessionList.otherSessions' | translate }}</h3>
+			<h3 class="m-0 text-start fs-2 mt-5">{{ 'sessionList.otherSessions' | translate }}</h3>
 			@for (session of otherSessions(); track session.sessionId; let last = $last) {
-				<li
-					class="d-flex flex-row flex-nowrap align-items-center justify-content-center justify-content-md-start gap-4 ms-2 my-4"
-				>
+				<li class="d-flex flex-row flex-nowrap align-items-center justify-content-start gap-4 ms-2 my-4">
 					<mat-icon class="flex-shrink-0" size="lg">desktop_windows</mat-icon>
 					<div class="flex-shink-1">
 						<div class="name text-truncate">

@@ -1,0 +1,10 @@
+.color-square {
+	width: 35px;
+	height: 35px;
+	border-radius: 10px;
+	outline: 2px solid var(--outline-color);
+}
+
+.current-theme {
+	color: var(--tertiary-color);
+}

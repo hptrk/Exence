@@ -1,0 +1,66 @@
+<mat-drawer-container class="h-100">
+	<mat-drawer mode="side" opened disableClose class="profile-dialog">
+		<div class="d-flex flex-column align-items-center py-3 py-lg-4 h-100">
+			<h3
+				ex-nav-button
+				class="d-flex align-items-center justify-content-center justify-content-lg-start gap-lg-3 p-0 px-lg-3 py-2 m-0 fw-bold w-100 text-truncate text-nowrap"
+			>
+				<div class="profile-pic fs-6 fs-lg-4">{{ usernameLetter() }}</div>
+				@if (display.isLg()) {
+					{{ username() }}
+				}
+			</h3>
+
+			<mat-divider class="w-100 my-2 my-lg-3" />
+
+			<div class="d-flex flex-column w-100 h-100 fs-4 gap-3 gap-xl-2 glex-grow-1 fw-medium px-2">
+				<button
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[class.selected]="selectedPage() === 'profile-information'"
+					(click)="this.selectedPage.set('profile-information')"
+				>
+					<mat-icon>person</mat-icon>
+					@if (display.isLg()) {
+						{{ 'profile.profileData.label' | translate }}
+					}
+				</button>
+				<button
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[class.selected]="selectedPage() === 'user-settings'"
+					(click)="this.selectedPage.set('user-settings')"
+				>
+					<mat-icon>settings</mat-icon>
+					@if (display.isLg()) {
+						{{ 'profile.userSettings.label' | translate }}
+					}
+				</button>
+				<button
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[class.selected]="selectedPage() === 'sessions'"
+					(click)="this.selectedPage.set('sessions')"
+				>
+					<mat-icon>computer</mat-icon>
+					@if (display.isLg()) {
+						{{ 'profile.sessions.label' | translate }}
+					}
+				</button>
+			</div>
+		</div>
+	</mat-drawer>
+	<mat-drawer-content class="position-relative">
+		<ex-button iconButton matIcon="close" mat-dialog-close color="accent" class="close-button" />
+		<section class="h-100 p-4 p-lg-5 d-flex flex-column gap-4">
+			@switch (selectedPage()) {
+				@case ('profile-information') {
+					<ex-profile-information [dialogRef]="dialogRef" />
+				}
+				@case ('user-settings') {
+					<ex-user-settings [dialogRef]="dialogRef" />
+				}
+				@case ('sessions') {
+					<ex-sessions-list />
+				}
+			}
+		</section>
+	</mat-drawer-content>
+</mat-drawer-container>

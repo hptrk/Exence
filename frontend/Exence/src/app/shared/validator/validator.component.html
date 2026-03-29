@@ -25,7 +25,10 @@
 			{{ 'validators.max' | translate: { max: errorValue()?.max } }}
 		}
 		@case ('filledArray') {
-			You have to choose minimum 1 value!
+			{{ 'validators.filledArray' | translate }}
+		}
+		@case ('theme') {
+			{{ 'validators.theme' | translate }}
 		}
 	}
 }

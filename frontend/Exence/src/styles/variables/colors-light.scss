@@ -150,6 +150,7 @@ $app-hover-color-light: map.get($primary-palette, 60);
 
 $shadow-light: map.get($neutral-palette, 40);
 $border-color-light: map.get($secondary-palette, 90);
+$outline-color-light: map.get($neutral-palette, 10);
 
 $default-text-color-light: map.get($neutral-palette, 10);
 $accent-text-color-light: map.get($neutral-palette, 30);

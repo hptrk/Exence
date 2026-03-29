@@ -1,49 +1,47 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
-import { ChangePasswordRequest } from '../../data-model/modules/auth/ChangePasswordRequest';
-import { UpdateUserRequest } from '../../data-model/modules/auth/UpdateUserRequest';
-import { User } from '../../data-model/modules/auth/User';
-import { AutoTrimDirective } from '../../shared/auto-trim.directive';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
-import { NavigationService } from '../../shared/navigation/navigation.service';
-import { TranslatePipe } from '../../shared/pipes/translate.pipe';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
-import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
-import { CurrentUserService } from '../../shared/user/current-user.service';
-import { UserService } from '../../shared/user/user.service';
-import { ValidatorComponent } from '../../shared/validator/validator.component';
-import { ExtraValidators } from '../../shared/validators';
-import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
-import { ShowPasswordComponent } from '../../shared/show-password/show-password.component';
+import { ChangePasswordRequest } from '../../../data-model/modules/auth/ChangePasswordRequest';
+import { UpdateUserRequest } from '../../../data-model/modules/auth/UpdateUserRequest';
+import { User } from '../../../data-model/modules/auth/User';
+import { ButtonComponent } from '../../../shared/button/button.component';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { DialogRef } from '../../../shared/dialog/dialog.service';
+import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { NavigationService } from '../../../shared/navigation/navigation.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { ShowPasswordComponent } from '../../../shared/show-password/show-password.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
+import { toRawValueSignal } from '../../../shared/util/utils';
+import { CurrentUserService } from '../../../shared/user/current-user.service';
+import { UserService } from '../../../shared/user/user.service';
+import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { ExtraValidators } from '../../../shared/validators';
 
 @Component({
-	selector: 'ex-profile',
-	templateUrl: './profile.component.html',
-	styleUrl: './profile.component.scss',
+	selector: 'ex-profile-information',
+	templateUrl: './profile-information.component.html',
+	styleUrl: './profile-information.component.scss',
 	imports: [
 		ReactiveFormsModule,
 		MatFormFieldModule,
-		MatInputModule,
 		MatDividerModule,
 		MatTooltipModule,
+		MatInput,
 		ButtonComponent,
-		InputClearButtonComponent,
-		SessionsListComponent,
 		ValidatorComponent,
 		ShowPasswordComponent,
-		AutoTrimDirective,
-		StopPropagationDirective,
+		InputClearButtonComponent,
 		TranslatePipe,
+		ConfirmExitDialogDirective,
 	],
 })
-export class ProfileComponent {
+export class ProfileInformationComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly userService = inject(UserService);
 	private readonly snackbarService = inject(SnackbarService);
@@ -51,6 +49,10 @@ export class ProfileComponent {
 	private readonly navigationService = inject(NavigationService);
 	private readonly translocoService = inject(TranslocoService);
 	readonly currentUserService = inject(CurrentUserService);
+
+	dialogRef = input.required<DialogRef<void, void>>();
+
+	readonly hasChangesChange = output<boolean>();
 
 	isUserDataFormEditing = signal<boolean>(false);
 	isPasswordFormEditing = signal<boolean>(false);
@@ -73,14 +75,41 @@ export class ProfileComponent {
 		]),
 	});
 
+	profileForm = this.fb.group({ user: this.userDataForm, password: this.passwordForm });
+	profileFormValue = toRawValueSignal(this.profileForm);
+	hasChanges = computed(() => {
+		this.profileFormValue();
+		return this.profileForm.dirty;
+	});
+
 	constructor() {
+		effect(() => {
+			this.hasChangesChange.emit(this.hasChanges());
+		});
+
 		this.userDataForm.controls.email.disable();
+		this.passwordForm.controls.password.disable();
+		this.passwordForm.controls.newPassword.disable();
+		this.passwordForm.controls.confirmPassword.disable();
 		effect(() => {
 			const isUserDataFormDisabled = !this.isUserDataFormEditing();
 			if (isUserDataFormDisabled) {
 				this.userDataForm.controls.username.disable();
 			} else {
 				this.userDataForm.controls.username.enable();
+			}
+		});
+
+		effect(() => {
+			const isPasswordFormDisabled = !this.isPasswordFormEditing();
+			if (isPasswordFormDisabled) {
+				this.passwordForm.controls.password.disable();
+				this.passwordForm.controls.newPassword.disable();
+				this.passwordForm.controls.confirmPassword.disable();
+			} else {
+				this.passwordForm.controls.password.enable();
+				this.passwordForm.controls.newPassword.enable();
+				this.passwordForm.controls.confirmPassword.enable();
 			}
 		});
 	}

@@ -63,7 +63,42 @@
 		"oldPassword": "Régi jelszó",
 		"newPassword": "Új jelszó",
 		"confirmPassword": "Jelszó megerősítése",
-		"saved": "Sikeresen mentve!"
+		"saved": "Sikeresen mentve!",
+		"profileData": {
+			"label": "Profil adatok"
+		},
+		"userSettings": {
+			"label": "Felhasználói beállítások",
+			"theme": {
+				"title": "Megjelenítési téma",
+				"primary": "Elsődleges téma",
+				"secondary": "Másodlagos téma",
+				"themes": {
+					"LIGHT": "Világos téma",
+					"DARK": "Sötét téma",
+					"BLUE_DOLPHIN": "Kék delfin téma"
+				},
+				"currentTheme": "Jelenlegi",
+				"success": "A témabeállítások sikeresen módosultak!"
+			},
+			"language": {
+				"title": "Nyelv kiválasztása"
+			},
+			"currency.comment": "TODO: translate all english text below",
+			"currency": {
+				"title": "Currency settings",
+				"baseCurrency": {
+					"label": "Base currency"
+				},
+				"showBaseCurrency": {
+					"label": "Show base currency",
+					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+				}
+			}
+		},
+		"sessions": {
+			"label": "Munkamenetek"
+		}
 	},
 	"sessionList": {
 		"thisSession": "Jelenlegi munkamenet",
@@ -80,10 +115,9 @@
 		"statistics": "Statisztikák",
 		"goals": "Célok",
 		"debts": "Tartozások",
-		"profile": "Profil",
-		"settings": "Beállítások",
 		"theme": "Elsődleges/másodlagos téma",
-		"logout": "Kijelentkezés"
+		"logout": "Kijelentkezés",
+		"accountSettings": "Fiókbeállítások"
 	},
 	"timeframe": {
 		"1W": "1Hé",
@@ -428,7 +462,9 @@
 		"maxlength": "A maximális hossz {{requiredLength}}!",
 		"minlength": "A minimális hossz {{requiredLength}}!",
 		"min": "A minimális érték {{min}}!",
-		"max": "A maximális érték {{max}}!"
+		"max": "A maximális érték {{max}}!",
+		"filledArray": "Legalább 1 értéket megadása kötelező!",
+		"theme": "Válasszon két különböző témát!"
 	},
 	"confirmExit": {
 		"title": "Nem mentett módosítások",

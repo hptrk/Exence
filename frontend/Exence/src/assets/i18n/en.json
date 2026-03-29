@@ -63,7 +63,42 @@
 		"oldPassword": "Old password",
 		"newPassword": "New password",
 		"confirmPassword": "Confirm password",
-		"saved": "Successfully saved!"
+		"saved": "Successfully saved!",
+		"profileData": {
+			"label": "Profile data"
+		},
+		"userSettings": {
+			"label": "User settings",
+			"theme": {
+				"title": "Display theme",
+				"primary": "Primary theme",
+				"secondary": "Secondary theme",
+				"themes": {
+					"LIGHT": "Light theme",
+					"DARK": "Dark theme",
+					"BLUE_DOLPHIN": "Blue dolphin theme"
+				},
+				"currentTheme": "Current",
+				"success": "Theme preferations changed successfully!"
+			},
+			"language": {
+				"title": "Select language"
+			},
+			"currency.comment": "TODO: translate all english text below",
+			"currency": {
+				"title": "Currency settings",
+				"baseCurrency": {
+					"label": "Base currency"
+				},
+				"showBaseCurrency": {
+					"label": "Show base currency",
+					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+				}
+			}
+		},
+		"sessions": {
+			"label": "Sessions"
+		}
 	},
 	"sessionList": {
 		"thisSession": "This session",
@@ -80,10 +115,9 @@
 		"statistics": "Statistics",
 		"goals": "Goals",
 		"debts": "Debts",
-		"profile": "Profile",
-		"settings": "Settings",
 		"theme": "Primary/secondary mode",
-		"logout": "Log out"
+		"logout": "Log out",
+		"accountSettings": "Account settings"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -428,7 +462,9 @@
 		"maxlength": "Max length is {{requiredLength}}!",
 		"minlength": "Min length is {{requiredLength}}!",
 		"min": "Min value is {{min}}!",
-		"max": "Max value is {{max}}!"
+		"max": "Max value is {{max}}!",
+		"filledArray": "You have to choose minimum 1 value!",
+		"theme": "You must choose two different themes!"
 	},
 	"confirmExit": {
 		"title": "Unsaved changes",

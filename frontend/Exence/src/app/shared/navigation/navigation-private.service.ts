@@ -1,5 +1,3 @@
-import { NavigationServiceForProfile, ProfileRoutes } from './navigation-profile.service';
-
 export class PrivateRoutes {
 	index(): string {
 		return '/';
@@ -19,12 +17,6 @@ export class PrivateRoutes {
 	}
 	debts(): string {
 		return '/debts';
-	}
-	profile(): ProfileRoutes {
-		return new NavigationServiceForProfile().getRoutes(this.index());
-	}
-	settings(): string {
-		return '/settings';
 	}
 }
 

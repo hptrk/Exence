@@ -63,7 +63,42 @@
 		"oldPassword": "Altes Passwort",
 		"newPassword": "Neues Passwort",
 		"confirmPassword": "Bestätigen Sie Ihr Passwort",
-		"saved": "Erfolgreich gespeichert!"
+		"saved": "Erfolgreich gespeichert!",
+		"profileData": {
+			"label": "Profildaten"
+		},
+		"userSettings": {
+			"label": "Benutzereinstellungen",
+			"theme": {
+				"title": "Anzeigedesign",
+				"primary": "Primäres Design",
+				"secondary": "Sekundäres Design",
+				"themes": {
+					"LIGHT": "Helles Design",
+					"DARK": "Dunkles Design",
+					"BLUE_DOLPHIN": "Blauer-Delphin-Design"
+				},
+				"currentTheme": "Aktuell",
+				"success": "Designeinstellungen erfolgreich geändert!"
+			},
+			"language": {
+				"title": "Sprache auswählen"
+			},
+			"currency.comment": "TODO: translate all english text below",
+			"currency": {
+				"title": "Currency settings",
+				"baseCurrency": {
+					"label": "Base currency"
+				},
+				"showBaseCurrency": {
+					"label": "Show base currency",
+					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+				}
+			}
+		},
+		"sessions": {
+			"label": "Sitzungen"
+		}
 	},
 	"sessionList": {
 		"thisSession": "Diese Sitzung",
@@ -80,10 +115,9 @@
 		"statistics": "Statistik",
 		"goals": "Ziele",
 		"debts": "Schulden",
-		"profile": "Profil",
-		"settings": "Einstellungen",
 		"theme": "Primär-/Sekundärmodus",
-		"logout": "Abmelden"
+		"logout": "Abmelden",
+		"accountSettings": "Kontoeinstellungen"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -428,7 +462,9 @@
 		"maxlength": "Die maximale Länge beträgt {{requiredLength}}!",
 		"minlength": "Die Mindestlänge beträgt {{requiredLength}}!",
 		"min": "Der Mindestwert ist {{min}}!",
-		"max": "Der Höchstwert ist {{max}}!"
+		"max": "Der Höchstwert ist {{max}}!",
+		"filledArray": "Sie müssen mindestens einen Wert auswählen!",
+		"theme": "Sie müssen zwei verschiedene Themen auswählen!"
 	},
 	"confirmExit": {
 		"title": "Nicht gespeicherte Änderungen",

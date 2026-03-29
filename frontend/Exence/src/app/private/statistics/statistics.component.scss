@@ -1,3 +1,5 @@
+@import '../../../styles/imports.scss';
+
 .empty-state {
 	height: calc(100vh - 64px);
 }
@@ -9,7 +11,11 @@
 	align-items: flex-end;
 
 	position: fixed;
-	bottom: 1rem;
+	bottom: 6rem;
 	right: 1rem;
 	z-index: 1;
+
+	@include displayMd {
+		bottom: 1rem;
+	}
 }

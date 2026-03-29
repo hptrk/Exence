@@ -1,33 +1,5 @@
 @import '../../../styles/imports.scss';
 
-:host {
-	--mat-sidenav-container-background-color: var(--app-card-color);
-	--mat-sidenav-container-text-color: var(--default-text-color);
-	--mat-sidenav-content-background-color: var(--app-background-color);
-	--mat-sidenav-content-text-color: var(--default-text-color);
-}
-
-mat-drawer.mat-drawer-side {
-	--mat-sidenav-container-shape: 0;
-
-	width: max-content;
-	height: 100dvh;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-
-	a.ex-nav-button.active {
-		background-color: var(--app-background-color);
-	}
-
-	@include displayXl {
-		width: 20dvw;
-		--mat-sidenav-container-shape: 16px;
-	}
-}
-
-mat-drawer-content.mat-drawer-content {
-	background-color: var(--app-background-color);
-}
-
 .more-actions-button {
 	background-color: unset;
 	border: none;

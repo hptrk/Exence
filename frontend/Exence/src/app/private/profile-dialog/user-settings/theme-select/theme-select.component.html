@@ -1,0 +1,83 @@
+@if (initialThemes()?.primaryTheme && initialThemes()?.secondaryTheme) {
+	<article class="d-flex flex-column gap-3">
+		<h3 class="m-0 text-start fs-2 w-75 mb-2">{{ 'profile.userSettings.theme.title' | translate }}</h3>
+		<div class="d-flex flex-column flex-md-row flex-nowrap gap-4">
+			<mat-form-field subscriptSizing="dynamic">
+				<mat-label>{{ 'profile.userSettings.theme.primary' | translate }}</mat-label>
+				<mat-select [formControl]="form.controls.primary">
+					<mat-select-trigger>{{
+						codeForTheme(form.controls.primary.value!) | translate
+					}}</mat-select-trigger>
+					@for (theme of themes | enumValue; track theme) {
+						<mat-option [value]="theme">
+							<div class="d-flex flex-column gap-2 gap-md-4 py-3">
+								<p class="m-0 p-0 fs-6 fw-semibold text-nowrap">
+									{{ codeForTheme(theme) | translate }}
+									@if (currentTheme() === theme) {
+										<p
+											class="d-flex flex-row flex-nowrap gap-2 m-0 p-0 fs-6 fw-semibold current-theme"
+										>
+											<span class="mt-1">{{
+												'profile.userSettings.theme.currentTheme' | translate
+											}}</span>
+											<mat-icon size="md">check_circle</mat-icon>
+										</p>
+									}
+								</p>
+								<div class="d-flex flex-row gap-3 align-items-center">
+									@for (color of themeColors[theme]; track $index) {
+										<div [style.background-color]="color" class="color-square"></div>
+									}
+								</div>
+							</div>
+						</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field subscriptSizing="dynamic">
+				<mat-label>{{ 'profile.userSettings.theme.secondary' | translate }}</mat-label>
+				<mat-select [formControl]="form.controls.secondary">
+					<mat-select-trigger>{{
+						codeForTheme(form.controls.secondary.value!) | translate
+					}}</mat-select-trigger>
+					@for (theme of themes | enumValue; track theme) {
+						<mat-option [value]="theme">
+							<div class="d-flex flex-column gap-2 gap-md-4 py-3">
+								<p class="m-0 p-0 fs-6 fw-semibold text-nowrap">
+									{{ codeForTheme(theme) | translate }}
+								</p>
+								@if (currentTheme() === theme) {
+									<p class="d-flex flex-row flex-nowrap gap-2 m-0 p-0 fs-6 fw-semibold current-theme">
+										<span class="mt-1">{{
+											'profile.userSettings.theme.currentTheme' | translate
+										}}</span>
+										<mat-icon size="md">check_circle</mat-icon>
+									</p>
+								}
+								<div class="d-flex flex-row gap-3 align-items-center">
+									@for (color of themeColors[theme]; track $index) {
+										<div [style.background-color]="color" class="color-square"></div>
+									}
+								</div>
+							</div>
+						</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+		</div>
+		@if (form.errors) {
+			<mat-error>
+				<ex-validator [control]="form" />
+			</mat-error>
+		}
+	</article>
+} @else {
+	<div class="d-flex flex-column gap-3">
+		<ex-animated-skeleton-loader width="40%" height="35px" />
+		<div class="d-flex flex-column flex-md-row flex-nowrap gap-4">
+			<ex-animated-skeleton-loader width="50%" height="50px" />
+			<ex-animated-skeleton-loader width="50%" height="50px" />
+		</div>
+	</div>
+}

@@ -45,6 +45,7 @@ import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/ani
 import { CategoryType } from '../../data-model/modules/category/CategoryType';
 import { TranslatePipe } from '../pipes/translate.pipe';
 import { TranslationCode } from '../i18n/translation-types';
+import { CurrencyPipe } from '../pipes/currency.pipe';
 
 @Component({
 	selector: 'ex-data-table',
@@ -70,6 +71,7 @@ import { TranslationCode } from '../i18n/translation-types';
 		StopPropagationDirective,
 		InfiniteScrollDirective,
 		TranslatePipe,
+		CurrencyPipe,
 	],
 	// TODO remove deprecated angular animations
 	/* eslint-disable */

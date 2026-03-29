@@ -1,0 +1,677 @@
+{
+	"literals": {
+		"transaction": "Transaction",
+		"transactions": "Transactions",
+		"category": "Catégorie",
+		"categories": "Catégories",
+		"income": "Revenu",
+		"incomes": "Revenus",
+		"expense": "Dépense",
+		"expenses": "Dépenses",
+		"balance": "Solde",
+		"save": "Enregistrer",
+		"delete": "Supprimer",
+		"cancel": "Annuler",
+		"next": "Suivant",
+		"back": "Retour",
+		"continue": "Continuer",
+		"create": "Créer",
+		"amount": "Montant",
+		"minimum": "Min",
+		"maximum": "Max",
+		"all": "Tous",
+		"type": "Type",
+		"from": "De",
+		"to": "À"
+	},
+	"dashboard": {
+		"title": "Bon retour, <span class='username'>{{username}}</span> !",
+		"subtitle": "Aperçu de vos finances"
+	},
+	"transactionsAndCategories": {
+		"recurring": {
+			"expenses": "Dépenses récurrentes",
+			"incomes": "Revenus récurrents",
+			"transactions": "Récurrents"
+		},
+		"noCategories": "Créez d'abord une catégorie !",
+		"addTransaction": "Ajouter une transaction",
+		"search": "Rechercher...",
+		"dateRange": "Saisissez une plage de dates"
+	},
+	"categories": {
+		"topCategories": "Catégories principales",
+		"noTransactions": "Ajoutez des transactions pour découvrir vos habitudes de dépenses !",
+		"createTransactionButton": "Créer une transaction",
+		"noCategories": "Ajoutez des catégories pour découvrir vos habitudes de dépenses !",
+		"createCategoryButton": "Créer une catégorie"
+	},
+	"categoryType": {
+		"EXPENSE": "Dépense",
+		"INCOME": "Revenu",
+		"MIXED": "Mixte"
+	},
+	"transactionType": {
+		"EXPENSE": "Dépense",
+		"INCOME": "Revenu"
+	},
+	"profile": {
+		"title": "Données du profil",
+		"username": "Nom d'utilisateur",
+		"email": "E-mail",
+		"changePassword": "Modifier le mot de passe",
+		"oldPassword": "Ancien mot de passe",
+		"newPassword": "Nouveau mot de passe",
+		"confirmPassword": "Confirmer le mot de passe",
+		"saved": "Enregistré avec succès !",
+		"profileData": {
+			"label": "Données du profil"
+		},
+		"userSettings": {
+			"label": "Paramètres utilisateur",
+			"theme": {
+				"title": "Thème d'affichage",
+				"primary": "Thème principal",
+				"secondary": "Thème secondaire",
+				"themes": {
+					"LIGHT": "Thème clair",
+					"DARK": "Thème sombre",
+					"BLUE_DOLPHIN": "Thème dauphin bleu"
+				},
+				"currentTheme": "Actuel",
+				"success": "Les préférences de thème ont été modifiées avec succès !"
+			},
+			"language": {
+				"title": "Sélectionner la langue"
+			},
+			"currency.comment": "TODO: translate all english text below",
+			"currency": {
+				"title": "Currency settings",
+				"baseCurrency": {
+					"label": "Base currency"
+				},
+				"showBaseCurrency": {
+					"label": "Show base currency",
+					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+				}
+			}
+		},
+		"sessions": {
+			"label": "Sessions"
+		}
+	},
+	"sessionList": {
+		"thisSession": "Cette session",
+		"lastUsed": "Dernière utilisation",
+		"securityInfo": "Si vous pensez que votre compte est utilisé sans votre autorisation, modifiez votre mot de passe avant de vous déconnecter.",
+		"otherSessions": "Autres sessions",
+		"deleteAll": "Supprimer toutes les sessions",
+		"deleted": "Session supprimée avec succès",
+		"deletedAll": "Toutes les sessions ont été supprimées avec succès"
+	},
+	"navigation": {
+		"dashboard": "Tableau de bord",
+		"transactions": "Transactions",
+		"statistics": "Statistiques",
+		"goals": "Objectifs",
+		"debts": "Dettes",
+		"theme": "Mode principal/secondaire",
+		"logout": "Déconnexion",
+		"accountSettings": "Paramètres du compte"
+	},
+	"timeframe": {
+		"1W": "1S",
+		"1M": "1M",
+		"3M": "3M",
+		"6M": "6M",
+		"YTD": "YTD",
+		"1Y": "1A",
+		"ALL": "Tout"
+	},
+	"statistics": {
+		"editChart": {
+			"title": "Modifier le graphique - '{{title}}'",
+			"titleLabel": "Titre",
+			"categories": "Catégories",
+			"search": "Rechercher"
+		},
+		"empty": {
+			"title": "Votre tableau de bord est vide",
+			"subtitle": "Ajoutez des graphiques et des cartes statistiques pour personnaliser votre tableau de bord statistique."
+		},
+		"catalog": {
+			"title": "Ajouter un nouveau graphique",
+			"disabledStatCard": "Le nombre maximum de cartes statistiques (4) sur la disposition a été atteint.",
+			"titleLabel": "Titre",
+			"categories": "Catégories",
+			"search": "Rechercher",
+			"disabledStep1": "Sélectionnez un type de widget avant la création !",
+			"nextDisabled": "Sélectionnez un type de widget avant la création !",
+			"groupLabels": {
+				"all": "Tous",
+				"card": "Cartes",
+				"lineArea": "Ligne et aire",
+				"bar": "Barres",
+				"mixed": "Mixte",
+				"circular": "Circulaire",
+				"point": "Point",
+				"other": "Autres"
+			}
+		},
+		"editButton": "Modifier la disposition",
+		"addButton": "Ajouter un widget",
+		"editInfo": "Certaines modifications peuvent ne pas être visibles tant que vous n'avez pas enregistré les changements.",
+		"widget": {
+			"EXPENSE_FREQUENCY_STATCARD": {
+				"title": "Fréquence des dépenses",
+				"info": "Indique la fréquence des dépenses au cours de la période sélectionnée."
+			},
+			"INCOME_FREQUENCY_STATCARD": {
+				"title": "Fréquence des revenus",
+				"info": "Indique la fréquence de réception des revenus au cours de la période sélectionnée."
+			},
+			"NO_SPEND_DAYS_STATCARD": {
+				"title": "Jours sans dépenses",
+				"info": "Compte le nombre de jours de la période sans aucune transaction de dépense."
+			},
+			"TOP_EXPENSE_CATEGORY_STATCARD": {
+				"title": "Catégorie de dépense principale",
+				"info": "Met en évidence la catégorie dans laquelle le plus d'argent a été dépensé."
+			},
+			"TOP_INCOME_CATEGORY_STATCARD": {
+				"title": "Catégorie de revenu principale",
+				"info": "Met en évidence la catégorie qui a contribué le plus de revenus."
+			},
+			"TOP_EXPENSE_TRANSACTION_STATCARD": {
+				"title": "Transaction de dépense principale",
+				"info": "Affiche la plus grande transaction de dépense individuelle de la période sélectionnée."
+			},
+			"TOP_INCOME_TRANSACTION_STATCARD": {
+				"title": "Transaction de revenu principale",
+				"info": "Affiche la plus grande transaction de revenu individuelle de la période sélectionnée."
+			},
+			"BURN_RATE_STATCARD": {
+				"title": "Taux de consommation",
+				"info": "Affiche le taux de dépense quotidien moyen pour indiquer la vitesse à laquelle les fonds sont consommés."
+			},
+			"SAVINGS_RATE_STATCARD": {
+				"title": "Taux d'épargne",
+				"info": "Affiche le pourcentage de revenus épargnés après les dépenses."
+			},
+			"INCOME_TREND": {
+				"title": "Tendance des revenus",
+				"info": "Visualise les revenus au fil du temps sous forme de graphique en ligne ou en aire pour révéler les tendances de croissance ou de déclin."
+			},
+			"EXPENSE_TREND": {
+				"title": "Tendance des dépenses",
+				"info": "Visualise les dépenses au fil du temps pour mettre en évidence les habitudes de dépenses et les anomalies."
+			},
+			"BALANCE_TREND": {
+				"title": "Tendance du solde",
+				"info": "Suit le solde net au fil du temps, montrant si les finances s'améliorent ou se détériorent."
+			},
+			"INCOME_CATEGORY_TREND": {
+				"title": "Tendance des revenus par catégorie",
+				"info": "Décompose les tendances de revenus par catégorie au fil du temps à l'aide d'aires empilées ou multiligne."
+			},
+			"EXPENSE_CATEGORY_TREND": {
+				"title": "Tendance des dépenses par catégorie",
+				"info": "Décompose les tendances de dépenses par catégorie au fil du temps à l'aide d'aires empilées ou multiligne."
+			},
+			"BALANCE_YEAR_COMPARISON": {
+				"title": "Comparaison annuelle du solde",
+				"info": "Superpose les courbes de solde de plusieurs années sur un seul graphique pour une comparaison directe."
+			},
+			"INCOME_EXPENSE_COLUMN": {
+				"title": "Revenus vs dépenses",
+				"info": "Colonnes côte à côte comparant les revenus et dépenses totaux pour chaque période."
+			},
+			"EXPENSE_CATEGORY_COLUMN": {
+				"title": "Dépenses par catégorie",
+				"info": "Colonnes groupées ou empilées montrant la répartition des dépenses par catégorie et par période."
+			},
+			"MONTHLY_BALANCE_COLUMN": {
+				"title": "Solde mensuel",
+				"info": "Un graphique en colonnes du solde net par mois pour repérer rapidement les mois positifs et négatifs."
+			},
+			"EXPENSE_SAVINGS_COMBO": {
+				"title": "Combinaison dépenses et épargne",
+				"info": "Combine une série de barres pour les dépenses avec une ligne superposée pour l'épargne cumulée."
+			},
+			"TRANSACTION_COUNT_EXPENSE_COMBO": {
+				"title": "Combinaison nombre de transactions et dépenses",
+				"info": "Superpose le volume de transactions sous forme de ligne au-dessus des barres de dépenses pour révéler l'intensité des dépenses."
+			},
+			"WEALTH_GROWTH_COMBO": {
+				"title": "Combinaison croissance du patrimoine",
+				"info": "Combine les barres de revenus et de dépenses avec une ligne de patrimoine cumulé pour suivre la croissance nette."
+			},
+			"EXPENSE_PIE": {
+				"title": "Répartition des dépenses",
+				"info": "Un graphique en secteurs ou en anneau montrant la part proportionnelle de chaque catégorie de dépense."
+			},
+			"INCOME_PIE": {
+				"title": "Répartition des revenus",
+				"info": "Un graphique en secteurs ou en anneau montrant la part proportionnelle de chaque catégorie de revenu."
+			},
+			"SPENDING_RADAR": {
+				"title": "Radar des dépenses",
+				"info": "Un graphique radar cartographiant les niveaux de dépenses par catégorie pour une vue d'ensemble du solde."
+			},
+			"MONTHLY_CATEGORY_RADAR": {
+				"title": "Radar mensuel par catégorie",
+				"info": "Compare les habitudes de dépenses par catégorie sur plusieurs mois dans un seul graphique radar."
+			},
+			"CATEGORY_AVG_POLAR": {
+				"title": "Moyenne polaire par catégorie",
+				"info": "Un graphique en aire polaire affichant la dépense moyenne par catégorie, où la taille du segment indique l'ampleur."
+			},
+			"MONTHLY_PEAK_POLAR": {
+				"title": "Pic mensuel polaire",
+				"info": "Un graphique en aire polaire mettant en évidence les mois de dépenses maximales avec une taille de segment proportionnelle."
+			},
+			"CATEGORY_BUBBLE": {
+				"title": "Bulle par catégorie",
+				"info": "Représente les catégories sous forme de bulles où la position indique le moment et la taille indique le montant total."
+			},
+			"TRANSACTION_SCATTER": {
+				"title": "Dispersion des transactions",
+				"info": "Disperse les transactions individuelles par date et montant pour révéler les valeurs aberrantes et les regroupements."
+			},
+			"SPENDING_HEATMAP": {
+				"title": "Carte thermique des dépenses",
+				"info": "Une carte thermique calendaire montrant l'intensité des dépenses quotidiennes sur l'année en un coup d'œil."
+			},
+			"CATEGORY_TREEMAP": {
+				"title": "Arborescence par catégorie",
+				"info": "Rectangles imbriqués dimensionnés par montant de dépense pour montrer les proportions des catégories et sous-catégories."
+			},
+			"CATEGORY_BOXPLOT": {
+				"title": "Boîte à moustaches par catégorie",
+				"info": "Affiche la distribution statistique des transactions par catégorie, y compris la médiane et les valeurs aberrantes."
+			},
+			"MONTHLY_BOXPLOT": {
+				"title": "Boîte à moustaches mensuelle",
+				"info": "Affiche la distribution statistique des dépenses quotidiennes par mois pour révéler la variabilité."
+			},
+			"SAVINGS_RATE_GAUGE": {
+				"title": "Jauge du taux d'épargne",
+				"info": "Une jauge radiale montrant le taux d'épargne actuel par rapport à un seuil cible configurable."
+			},
+			"YEARLY_SLOPE": {
+				"title": "Pente annuelle",
+				"info": "Un graphique de pente reliant les valeurs de début et de fin d'année pour rendre le changement de direction immédiatement visible."
+			},
+			"CATEGORY_SANKEY": {
+				"title": "Sankey par catégorie",
+				"info": "Un diagramme de flux montrant comment les revenus sont distribués et consommés à travers les catégories de dépenses."
+			}
+		},
+		"charts": {
+			"from": "De :",
+			"to": "À :",
+			"amount": "Montant :",
+			"max": "Maximum :",
+			"q3": "Q3 :",
+			"median": "Médiane :",
+			"q1": "Q1 :",
+			"min": "Minimum :",
+			"toolbar": {
+				"exportToSVG": "Télécharger SVG",
+				"exportToPNG": "Télécharger PNG",
+				"exportToCSV": "Télécharger CSV",
+				"menu": "Menu",
+				"selection": "Sélection",
+				"selectionZoom": "Zoom de sélection",
+				"zoomIn": "Agrandir",
+				"zoomOut": "Réduire",
+				"pan": "Déplacer",
+				"reset": "Réinitialiser le zoom"
+			}
+		}
+	},
+	"category": {
+		"create": {
+			"title": "Nouvelle catégorie",
+			"name": "Nom",
+			"note": "Note",
+			"successInfo": "Catégorie '{{name}}' créée avec succès !"
+		},
+		"deleteInfo": "Catégorie supprimée avec succès !",
+		"addButton": "Ajouter une catégorie"
+	},
+	"transaction": {
+		"create": {
+			"title": "Nouvelle transaction",
+			"titleLabel": "Titre",
+			"amount": "Montant",
+			"date": "Date",
+			"category": "Catégorie",
+			"search": "Rechercher",
+			"note": "Note",
+			"recurring": "Récurrence automatique ?",
+			"successInfo": "Transaction '{{title}}' créée avec succès !"
+		},
+		"updateInfo": "Transaction '{{title}}' mise à jour avec succès !",
+		"deleteInfo": "Transaction supprimée avec succès !",
+		"recurring": "Récurrente"
+	},
+	"emailVerification": {
+		"title": "E-mail vérifié",
+		"message": "Félicitations ! Votre e-mail a été vérifié. Vous pouvez maintenant utiliser toutes les fonctionnalités d'<strong>Exence</strong>.",
+		"success": "E-mail vérifié avec succès !",
+		"backToLogin": "Retour à la connexion"
+	},
+	"forgotPassword": {
+		"title": "Mot de passe oublié ?",
+		"subtitle": "Pas d'inquiétude, nous vous enverrons les instructions de réinitialisation.",
+		"email": "E-mail",
+		"sendButton": "Envoyer l'e-mail",
+		"remember": "Vous vous souvenez du mot de passe ?",
+		"login": "Connexion",
+		"resetSuccess": "Mot de passe mis à jour avec succès !",
+		"emailSent": {
+			"title": "E-mail envoyé",
+			"subtitle": "Nous vous avons envoyé un e-mail à <strong>{{email}}</strong>. Vérifiez votre boîte de réception et suivez les instructions pour réinitialiser le mot de passe de votre compte.",
+			"notRecieved": "Vous n'avez pas reçu l'e-mail ?",
+			"retry": "Renvoyer l'e-mail",
+			"badEmail": "Mauvaise adresse e-mail ?",
+			"changeEmail": "Modifier l'adresse e-mail",
+			"success": "E-mail envoyé !"
+		},
+		"new": {
+			"title": "Créer un nouveau mot de passe",
+			"info": "Votre nouveau mot de passe <strong>doit être différent</strong> de tous vos mots de passe précédents.",
+			"password": "Mot de passe",
+			"confirmPassword": "Confirmer le mot de passe",
+			"reset": "Réinitialiser le mot de passe"
+		}
+	},
+	"login": {
+		"title": "Connectez-vous à votre compte",
+		"noAccount": "Vous n'avez pas de compte ?",
+		"createButton": "En créer un",
+		"email": "E-mail",
+		"password": "Mot de passe",
+		"forgotPassword": "Mot de passe oublié ?",
+		"button": "Se connecter"
+	},
+	"registration": {
+		"title": "Créer un compte",
+		"subtitle": "Vous avez déjà un compte ?",
+		"login": "Se connecter",
+		"username": "Nom d'utilisateur",
+		"email": "E-mail",
+		"password": "Mot de passe",
+		"passwordInfo": "Le mot de passe doit contenir au moins 1 lettre minuscule, 1 lettre majuscule, 1 chiffre et 1 caractère spécial (!@#$%^&*()_+-=[]{};'|,.<>/?)",
+		"confirmPassword": "Confirmer le mot de passe",
+		"createButton": "Créer un compte",
+		"success": "Inscription réussie"
+	},
+	"dataTable": {
+		"title": "Titre",
+		"date": "Date",
+		"note": "Note",
+		"recurring": "Récurrence automatique ?",
+		"name": "Nom",
+		"icon": "Icône",
+		"type": "Type",
+		"empty": "Aucun élément trouvé",
+		"adjustFilters": "Essayez d'ajuster ou de supprimer vos filtres actuels.",
+		"actions": "Actions",
+		"details": {
+			"show": "Afficher les détails",
+			"hide": "Masquer les détails"
+		}
+	},
+	"filterMenu": {
+		"title": "Filtres",
+		"addButton": "Ajouter un filtre",
+		"show": "Afficher ({{filterCount}})",
+		"clearAll": "Tout effacer"
+	},
+	"formattedDate": {
+		"now": "Maintenant",
+		"sec": "Il y a {{value}} sec.",
+		"secs": "Il y a {{value}} sec.",
+		"min": "Il y a {{value}} min.",
+		"mins": "Il y a {{value}} min.",
+		"hour": "Il y a {{value}} heure",
+		"hours": "Il y a {{value}} heures",
+		"day": "Il y a {{value}} jour",
+		"days": "Il y a {{value}} jours"
+	},
+	"months": {
+		"jan": "Jan {{day}}",
+		"feb": "Fév {{day}}",
+		"mar": "Mar {{day}}",
+		"apr": "Avr {{day}}",
+		"jun": "Juin {{day}}",
+		"jul": "Juil {{day}}",
+		"aug": "Aoû {{day}}",
+		"sep": "Sep {{day}}",
+		"oct": "Oct {{day}}",
+		"nov": "Nov {{day}}",
+		"dec": "Déc {{day}}"
+	},
+	"validators": {
+		"required": "Champ obligatoire",
+		"password": "Format de mot de passe invalide !",
+		"passwordMismatch": "Les mots de passe doivent correspondre !",
+		"email": "Format d'e-mail invalide !",
+		"maxlength": "La longueur maximale est de {{requiredLength}} !",
+		"minlength": "La longueur minimale est de {{requiredLength}} !",
+		"min": "La valeur minimale est {{min}} !",
+		"max": "La valeur maximale est {{max}} !",
+		"filledArray": "Vous devez sélectionner au moins 1 valeur !",
+		"theme": "Vous devez choisir deux thèmes différents !"
+	},
+	"confirmExit": {
+		"title": "Modifications non enregistrées",
+		"message": "Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir quitter ? Vos modifications seront perdues."
+	},
+	"icons": {
+		"localConvenienceStore": "supérette",
+		"shoppingBasket": "panier de courses",
+		"fridge": "réfrigérateur",
+		"skillet": "poêle",
+		"egg": "œuf",
+		"nutrition": "nutrition",
+		"restaurant": "restaurant",
+		"menu": "menu",
+		"groceries": "épicerie",
+		"lunch": "déjeuner",
+		"dinner": "dîner",
+		"fastfood": "restauration rapide",
+		"pizza": "pizza",
+		"cafe": "café",
+		"bakery": "boulangerie",
+		"cake": "gâteau",
+		"iceCream": "glace",
+		"bar": "bar",
+		"wineBar": "bar à vin",
+		"liquor": "spiritueux",
+		"home": "accueil",
+		"house": "maison",
+		"apartment": "appartement",
+		"cottage": "chalet",
+		"garage": "garage",
+		"bed": "lit",
+		"chair": "chaise",
+		"construction": "construction",
+		"plumbing": "plomberie",
+		"electricalServices": "services électriques",
+		"mop": "serpillière",
+		"lightbulb": "ampoule",
+		"bolt": "éclair",
+		"waterDrop": "goutte d'eau",
+		"fire": "feu",
+		"thermometer": "thermomètre",
+		"energySavingLeaf": "feuille d'économie d'énergie",
+		"recycling": "recyclage",
+		"router": "routeur",
+		"wifi": "wifi",
+		"car": "voiture",
+		"motorcycle": "moto",
+		"scrooter": "trottinette",
+		"pedalBike": "vélo",
+		"gasStation": "station-service",
+		"electricCharger": "chargeur électrique",
+		"parking": "parking",
+		"towing": "remorquage",
+		"taxi": "taxi",
+		"airportShuttle": "navette aéroport",
+		"bus": "bus",
+		"commute": "trajet",
+		"train": "train",
+		"subway": "métro",
+		"tram": "tramway",
+		"boat": "bateau",
+		"flight": "vol",
+		"airplaneTicket": "billet d'avion",
+		"transitTicket": "titre de transport",
+		"map": "carte",
+		"store": "magasin",
+		"shoppingCart": "chariot",
+		"shoppingBag": "sac de courses",
+		"priceTag": "étiquette de prix",
+		"percent": "pourcentage",
+		"receipt": "reçu",
+		"giftcard": "carte cadeau",
+		"sendMoney": "envoyer de l'argent",
+		"apparel": "vêtements",
+		"checkroom": "vestiaire",
+		"styler": "styliste",
+		"laundry": "blanchisserie",
+		"glasses": "lunettes",
+		"watch": "montre",
+		"diamond": "diamant",
+		"backpack": "sac à dos",
+		"umbrella": "parapluie",
+		"smartphone": "smartphone",
+		"laptop": "ordinateur portable",
+		"printer": "imprimante",
+		"hospital": "hôpital",
+		"medialServices": "services médicaux",
+		"health": "santé",
+		"emergency": "urgences",
+		"pharmacy": "pharmacie",
+		"medication": "médicaments",
+		"vaccines": "vaccins",
+		"patches": "pansements",
+		"heartMonitor": "moniteur cardiaque",
+		"tooth": "dent",
+		"psychology": "psychologie",
+		"handwash": "lavage des mains",
+		"wash": "lavage",
+		"brush": "brosse",
+		"face": "visage",
+		"scissors": "ciseaux",
+		"spa": "spa",
+		"mediation": "méditation",
+		"dumbbell": "haltère",
+		"swim": "natation",
+		"family": "famille",
+		"pregnantWoman": "femme enceinte",
+		"closeupFamily": "famille en gros plan",
+		"familyHeart": "cœur familial",
+		"child": "enfant",
+		"babyChangingStation": "table à langer",
+		"stroller": "poussette",
+		"crib": "berceau",
+		"childFriendly": "adapté aux enfants",
+		"familyOfTwo": "famille de 2",
+		"toy": "jouet",
+		"oldGameController": "ancienne manette de jeu",
+		"castle": "château",
+		"smile": "sourire",
+		"pet": "animal de compagnie",
+		"bunny": "lapin",
+		"elderly": "personnes âgées",
+		"education": "éducation",
+		"book": "livre",
+		"time": "temps",
+		"movie": "film",
+		"theaterSymbol": "symbole de théâtre",
+		"tv": "télévision",
+		"camera": "caméra",
+		"image": "image",
+		"headphones": "casque audio",
+		"musicNote": "note de musique",
+		"piano": "piano",
+		"gameController": "manette de jeu",
+		"extension": "extension",
+		"casino": "casino",
+		"theater": "théâtre",
+		"bookWithBookmark": "livre avec marque-page",
+		"football": "football",
+		"basketball": "basketball",
+		"tennis": "tennis",
+		"hiking": "randonnée",
+		"kayaking": "kayak",
+		"deck": "terrasse",
+		"eventSeat": "place d'événement",
+		"work": "travail",
+		"paid": "payé",
+		"priceCheck": "vérification de prix",
+		"monneyBag": "sac d'argent",
+		"accountBalance": "solde du compte",
+		"wallet": "portefeuille",
+		"walletBalance": "solde du portefeuille",
+		"euro": "euro",
+		"addCard": "ajouter une carte",
+		"financeChip": "puce financière",
+		"currencyExchange": "change de devises",
+		"toll": "péage",
+		"trendingUp": "tendance à la hausse",
+		"trendingDown": "tendance à la baisse",
+		"priceChange": "changement de prix",
+		"pieChart": "graphique circulaire",
+		"barChart": "graphique à barres",
+		"calculate": "calculer",
+		"receiptLong": "reçu long",
+		"requestQuote": "demander un devis",
+		"calendar": "calendrier",
+		"schedule": "planning",
+		"celebration": "célébration",
+		"mail": "courrier",
+		"bell": "cloche",
+		"globe": "globe",
+		"cloud": "nuage",
+		"lock": "verrouillage",
+		"key": "clé",
+		"verified": "vérifié",
+		"help": "aide",
+		"star": "étoile",
+		"heart": "cœur",
+		"bookmark": "marque-page",
+		"flag": "drapeau",
+		"browse": "parcourir",
+		"description": "description",
+		"build": "construire",
+		"keyboard": "clavier",
+		"cancel": "annuler",
+		"categories": {
+			"food": "Alimentation et restauration",
+			"housing": "Logement et services publics",
+			"travel": "Transport et voyages",
+			"shopping": "Shopping et vêtements",
+			"health": "Santé et beauté",
+			"family": "Famille et éducation",
+			"entertainment": "Divertissement et loisirs",
+			"finances": "Finances",
+			"others": "Autres"
+		}
+	},
+	"errors": {
+		"unexpected": "Une erreur inattendue s'est produite !"
+	},
+	"passwordVisibility": {
+		"show": "Afficher le mot de passe",
+		"hide": "Masquer le mot de passe"
+	},
+	"selection": {
+		"selectAll": "Tout sélectionner",
+		"deselectAll": "Tout désélectionner"
+	}
+}
