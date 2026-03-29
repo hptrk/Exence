@@ -217,14 +217,26 @@ enum MaterialIconCategory {
 	OTHERS = 'Others',
 }
 
+const MATERIAL_ICON_CATEGORY_DATA: Record<MaterialIconCategory, TranslationCode> = {
+	[MaterialIconCategory.FOOD_AND_DINING]: 'icons.categories.food',
+	[MaterialIconCategory.HOUSING_AND_UTILITIES]: 'icons.categories.housing',
+	[MaterialIconCategory.TRANSPORT_AND_TRAVEL]: 'icons.categories.travel',
+	[MaterialIconCategory.SHOPPING_AND_APPAREL]: 'icons.categories.shopping',
+	[MaterialIconCategory.HEALTH_AND_BEAUTY]: 'icons.categories.health',
+	[MaterialIconCategory.FAMILY_AND_EDUCATION]: 'icons.categories.family',
+	[MaterialIconCategory.ENTERTAINMENT_AND_HOBBIES]: 'icons.categories.entertainment',
+	[MaterialIconCategory.FINANCES]: 'icons.categories.finances',
+	[MaterialIconCategory.OTHERS]: 'icons.categories.others',
+};
+
 interface MaterialIconCategoryInfo {
-	name: MaterialIconCategory;
+	name: TranslationCode;
 	icons: MaterialIconInfo[];
 }
 
 export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 	{
-		name: MaterialIconCategory.FOOD_AND_DINING,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.FOOD_AND_DINING],
 		icons: [
 			{ icon: MaterialIcon.LOCAL_GROCERY_STORE, tooltip: 'icons.localConvenienceStore' },
 			{ icon: MaterialIcon.SHOPPING_BASKET, tooltip: 'icons.shoppingBasket' },
@@ -249,7 +261,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.HOUSING_AND_UTILITIES,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.HOUSING_AND_UTILITIES],
 		icons: [
 			{ icon: MaterialIcon.HOME, tooltip: 'icons.home' },
 			{ icon: MaterialIcon.HOUSE, tooltip: 'icons.house' },
@@ -274,7 +286,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.TRANSPORT_AND_TRAVEL,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.TRANSPORT_AND_TRAVEL],
 		icons: [
 			{ icon: MaterialIcon.DIRECTIONS_CAR, tooltip: 'icons.car' },
 			{ icon: MaterialIcon.MOTORCYCLE, tooltip: 'icons.motorcycle' },
@@ -299,7 +311,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.SHOPPING_AND_APPAREL,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.SHOPPING_AND_APPAREL],
 		icons: [
 			{ icon: MaterialIcon.STORE, tooltip: 'icons.store' },
 			{ icon: MaterialIcon.SHOPPING_CART, tooltip: 'icons.shoppingCart' },
@@ -324,7 +336,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.HEALTH_AND_BEAUTY,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.HEALTH_AND_BEAUTY],
 		icons: [
 			{ icon: MaterialIcon.LOCAL_HOSPITAL, tooltip: 'icons.hospital' },
 			{ icon: MaterialIcon.MEDICAL_SERVICES, tooltip: 'icons.medialServices' },
@@ -349,7 +361,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.FAMILY_AND_EDUCATION,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.FAMILY_AND_EDUCATION],
 		icons: [
 			{ icon: MaterialIcon.FAMILY_RESTROOM, tooltip: 'icons.family' },
 			{ icon: MaterialIcon.PREGNANT_WOMAN, tooltip: 'icons.pregnantWoman' },
@@ -374,7 +386,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.ENTERTAINMENT_AND_HOBBIES,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.ENTERTAINMENT_AND_HOBBIES],
 		icons: [
 			{ icon: MaterialIcon.MOVIE, tooltip: 'icons.movie' },
 			{ icon: MaterialIcon.THEATERS, tooltip: 'icons.theaterSymbol' },
@@ -399,7 +411,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.FINANCES,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.FINANCES],
 		icons: [
 			{ icon: MaterialIcon.WORK, tooltip: 'icons.work' },
 			{ icon: MaterialIcon.PAID, tooltip: 'icons.paid' },
@@ -424,7 +436,7 @@ export const CategorizedMaterialIcons: MaterialIconCategoryInfo[] = [
 		],
 	},
 	{
-		name: MaterialIconCategory.OTHERS,
+		name: MATERIAL_ICON_CATEGORY_DATA[MaterialIconCategory.OTHERS],
 		icons: [
 			{ icon: MaterialIcon.EVENT, tooltip: 'icons.calendar' },
 			{ icon: MaterialIcon.SCHEDULE, tooltip: 'icons.schedule' },

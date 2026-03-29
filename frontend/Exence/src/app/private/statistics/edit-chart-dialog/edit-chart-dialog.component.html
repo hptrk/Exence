@@ -38,11 +38,15 @@
 					</mat-form-field>
 					@if (noneSelected()) {
 						<div class="d-flex flex-row justify-content-start px-3 py-1">
-							<ex-button text (click)="selectAll()">Select all</ex-button>
+							<ex-button text (click)="selectAll()">
+								{{ 'selection.selectAll' | translate }}
+							</ex-button>
 						</div>
 					} @else {
 						<div class="d-flex flex-row justify-content-start px-3 py-1">
-							<ex-button text (click)="deselectAll()">Deselect all</ex-button>
+							<ex-button text (click)="deselectAll()">
+								{{ 'selection.deselectAll' | translate }}
+							</ex-button>
 						</div>
 					}
 					@for (category of filteredCategories(); track category.id) {

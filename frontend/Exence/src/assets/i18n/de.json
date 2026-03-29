@@ -614,7 +614,18 @@
 		"description": "Beschreibung",
 		"build": "bauen",
 		"keyboard": "Tastatur",
-		"cancel": "kündigen"
+		"cancel": "kündigen",
+		"categories": {
+			"food": "Lebensmittel & Gastronomie",
+			"housing": "Wohnen & Versorgung",
+			"travel": "Transport & Reisen",
+			"shopping": "Einkaufen & Bekleidung",
+			"health": "Gesundheit & Schönheit",
+			"family": "Familie & Bildung",
+			"entertainment": "Unterhaltung & Hobbys",
+			"finances": "Finanzen",
+			"others": "Sonstiges"
+		}
 	},
 	"errors": {
 		"unexpected": "Es ist ein unerwarteter Fehler aufgetreten!"
@@ -622,5 +633,9 @@
 	"passwordVisibility": {
 		"show": "Passwort anzeigen",
 		"hide": "Passwort ausblenden"
+	},
+	"selection": {
+		"selectAll": "Alle auswählen",
+		"deselectAll": "Alle Auswahl aufheben"
 	}
 }

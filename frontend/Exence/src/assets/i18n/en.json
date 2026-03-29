@@ -614,7 +614,18 @@
 		"description": "description",
 		"build": "build",
 		"keyboard": "keyboard",
-		"cancel": "cancel"
+		"cancel": "cancel",
+		"categories": {
+			"food": "Food & Dining",
+			"housing": "Housing & Utilities",
+			"travel": "Transport & Travel",
+			"shopping": "Shopping & Apparel",
+			"health": "Health & Beauty",
+			"family": "Family & Education",
+			"entertainment": "Entertainment & Hobbies",
+			"finances": "Finances",
+			"others": "Others"
+		}
 	},
 	"errors": {
 		"unexpected": "Unexpected error occurred!"
@@ -622,5 +633,9 @@
 	"passwordVisibility": {
 		"show": "Show password",
 		"hide": "Hide password"
+	},
+	"selection": {
+		"selectAll": "Select all",
+		"deselectAll": "Deselect all"
 	}
 }
