@@ -75,6 +75,9 @@ import { CurrencyPipe } from '../pipes/currency.pipe';
 	],
 	// TODO remove deprecated angular animations
 	/* eslint-disable */
+	host: {
+		'[class.is-category]': "type() === 'category'",
+	},
 	animations: [
 		trigger('expandAnimation', [
 			state('collapsed', style({ height: '0px', minHeight: '0' })),

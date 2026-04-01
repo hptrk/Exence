@@ -1,6 +1,6 @@
 <section
 	class="d-flex flex-column h-100 justify-content-between p-2 pb-0 p-sm-3 p-md-4 gap-2"
-	[class.overflow-hidden]="display.isMd()"
+	[class.overflow-hidden]="display.isLg()"
 >
 	<div
 		class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center gap-2"
@@ -49,7 +49,7 @@
 </section>
 
 <ng-template #transactionsTab>
-	<div class="d-flex flex-column justify-content-between gap-4 h-100" [class.overflow-hidden]="display.isMd()">
+	<div class="d-flex flex-column justify-content-between gap-4 h-100" [class.overflow-hidden]="display.isLg()">
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-data-table
@@ -85,7 +85,7 @@
 			}
 		</div>
 
-		<div class="d-flex flex-column h-100 gap-2 bigger-row" [class.overflow-hidden]="display.isMd()">
+		<div class="d-flex flex-column h-100 gap-2 bigger-row" [class.overflow-hidden]="display.isLg()">
 			<div class="d-flex flex-row flex-nowrap justify-content-between">
 				<div
 					class="d-flex flex-row flex-nowrap justify-content-between gap-3 w-100"
@@ -199,7 +199,7 @@
 				[transactions]="transactionStore.transactions()"
 				[isDataLoading]="transactionStore.transactionResource.isLoading()"
 				matIcon="payments"
-				[class.overflow-hidden]="display.isMd()"
+				[class.overflow-hidden]="display.isLg()"
 				[title]="'literals.transactions' | translate"
 				(onScroll)="onScroll()"
 			/>
@@ -208,7 +208,7 @@
 </ng-template>
 
 <ng-template #categoriesTab>
-	<div class="d-flex flex-column justify-content-between gap-2 h-100 mt-4" [class.overflow-hidden]="display.isMd()">
+	<div class="d-flex flex-column gap-2 flex-grow-1 mt-4" [class.overflow-hidden]="display.isLg()">
 		<div class="d-flex flex-row flex-norwap gap-2 align-items-center">
 			<ex-button
 				filled
@@ -222,6 +222,11 @@
 			</ex-button>
 		</div>
 
-		<ex-data-table matIcon="category" [title]="'literals.categories' | translate" type="category" />
+		<ex-data-table
+			matIcon="category"
+			[title]="'literals.categories' | translate"
+			type="category"
+			[class.overflow-hidden]="display.isLg()"
+		/>
 	</div>
 </ng-template>
