@@ -6,12 +6,13 @@ import { DisplayThemeService } from '../shared/display-theme.service';
 import { LanguageService } from './profile-dialog/user-settings/language-select/language.service';
 import { UserSettingsService } from './profile-dialog/user-settings/user-settinngs.service';
 import { TransactionStore } from './transactions-and-categories/transaction.store';
+import { CategoryStore } from './transactions-and-categories/category.store';
 
 @Component({
 	selector: 'ex-private',
 	template: '<router-outlet />',
 	imports: [RouterModule],
-	providers: [TransactionStore],
+	providers: [TransactionStore, CategoryStore],
 })
 export class PrivateComponent {
 	private readonly userSettingsService = inject(UserSettingsService);

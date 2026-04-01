@@ -17,9 +17,6 @@ const initialState: CategoryStoreData = {
 };
 
 export const CategoryStore = signalStore(
-	// TODO when private.component is created provide it there and user change will recreate the instance and reset data
-	{ providedIn: 'root' },
-
 	withState(initialState),
 
 	withProps((store, categoryService = inject(CategoryService)) => {

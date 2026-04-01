@@ -62,7 +62,7 @@ export class DashboardComponent extends BaseComponent {
 	constructor() {
 		super();
 
-		if (this.transactionStore.transactions().content?.length) this.transactionStore.resetState();
+		this.transactionStore.clearFilters();
 
 		effect(() => {
 			this.statisticService.getDashboardChart(this.chartTimeframe()).then(response => {
@@ -83,9 +83,11 @@ export class DashboardComponent extends BaseComponent {
 	}
 
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
-		await this.dialog.openNonModal(CreateTransactionDialogComponent, {
+		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, {
 			type: transactionType,
 		});
+		if (!result) return;
+		this.transactionStore.createTransaction(result);
 	}
 
 	onScroll(type?: TransactionType): void {

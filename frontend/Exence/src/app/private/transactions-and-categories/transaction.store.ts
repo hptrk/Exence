@@ -245,11 +245,18 @@ export const TransactionStore = signalStore(
 					}
 				},
 				updateFilters(filters: TransactionFilter): void {
+					if (JSON.stringify(store.filters?.()) === JSON.stringify(filters)) return;
 					patchState(store, state => ({
 						...state,
 						filters: { ...filters },
 						transactionPage: 0,
 					}));
+				},
+				clearFilters(): void {
+					const hasFilters = Object.keys(store.filters?.() ?? {}).length > 0;
+					if (hasFilters || store.transactionPage() !== 0) {
+						patchState(store, { filters: {} as TransactionFilter, transactionPage: 0 });
+					}
 				},
 				resetState(): void {
 					fullReload();
