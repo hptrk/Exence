@@ -43,19 +43,31 @@ export class AmountStepperComponent {
 	});
 
 	hasValidators = computed(() => !!this.control().validator);
+
 	labelFloat = computed<FloatLabelType>(() => (this.control().value !== null ? 'always' : 'auto'));
 
+	private precision = computed(() => {
+		const stepStr = this.step().toString();
+		const dotIndex = stepStr.indexOf('.');
+		return dotIndex === -1 ? 0 : stepStr.length - dotIndex - 1;
+	});
+
 	decrement(): void {
-		const next = (this.control().value ?? 0) - this.step();
+		const next = this.round((this.control().value ?? 0) - this.step());
 		if (this.min() !== undefined && next < this.min()!) return;
 		this.control().setValue(next);
 		this.control().markAsDirty();
 	}
 
 	increment(): void {
-		const next = (this.control().value ?? 0) + this.step();
+		const next = this.round((this.control().value ?? 0) + this.step());
 		if (this.max() !== undefined && next > this.max()!) return;
 		this.control().setValue(next);
 		this.control().markAsDirty();
+	}
+
+	private round(value: number): number {
+		const factor = Math.pow(10, this.precision());
+		return Math.round(value * factor) / factor;
 	}
 }
