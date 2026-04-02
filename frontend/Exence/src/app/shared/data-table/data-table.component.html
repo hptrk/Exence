@@ -109,33 +109,16 @@
 												/>
 
 												<mat-menu #actionsMenu>
-													<!-- TODO move edit into the menu https://horanszkipatrik.atlassian.net/browse/EX-240 -->
-													<!-- @if (!isRowEditing(row.id)) {
-														<button
-															mat-menu-item
-															class="edit-button"
-															(click)="editRow(row.id); $event.stopPropagation()"
-														>
-															<mat-icon color="primary">edit</mat-icon>
-															@if (display.isMd()) {
-																Edit
-															}
-														</button>
-													} @else {
-														<button
-															mat-menu-item
-															class="edit-button"
-															(click)="
-																currentlyEditedRow.set(undefined);
-																$event.stopPropagation()
-															"
-														>
-															<mat-icon color="primary">close</mat-icon>
-															@if (display.isMd()) {
-																Cancel
-															}
-														</button>
-													} -->
+													<button
+														mat-menu-item
+														class="edit-button"
+														(click)="editRow(row)"
+													>
+														<mat-icon color="primary">edit</mat-icon>
+														@if (display.isMd()) {
+															{{ 'literals.edit' | translate }}
+														}
+													</button>
 
 													<button
 														mat-menu-item

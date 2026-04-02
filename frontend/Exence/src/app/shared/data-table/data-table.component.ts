@@ -28,6 +28,7 @@ import { TransactionType } from '../../data-model/modules/transaction/Transactio
 import { CategoryStore } from '../../private/transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import { EditTransactionDialogComponent } from '../../private/transactions-and-categories/edit-transaction-dialog/edit-transaction-dialog.component';
 import { TransactionStore } from '../../private/transactions-and-categories/transaction.store';
 import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../base-component/base.component';
@@ -160,6 +161,17 @@ export class DataTableComponent extends BaseComponent {
 			this.pageIndex = transactions.page;
 			this.pageLength = transactions.totalPages;
 		});
+	}
+
+	async editRow(row: TransactionModel): Promise<void> {
+		// TODO remove hardcoded currency/exchangeRate when currency implemented on backend
+		const result = await this.dialog.openNonModal(EditTransactionDialogComponent, {
+			transaction: row,
+			currency: SupportedCurrency.USD,
+			exchangeRate: 1,
+		});
+		if (!result) return;
+		this.transactionStore.updateTransaction({ ...result, id: row.id! });
 	}
 
 	deleteRow(transaciton: Transaction): void {

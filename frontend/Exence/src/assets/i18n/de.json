@@ -11,6 +11,7 @@
 		"balance": "Bilanz",
 		"save": "Speichern Sie",
 		"delete": "Löschen",
+		"edit": "Bearbeiten",
 		"cancel": "Abbrechen",
 		"next": "Weiter",
 		"back": "Zurück",
@@ -352,6 +353,18 @@
 			"note": "Hinweis",
 			"recurring": "Automatisch wiederkehrend?",
 			"successInfo": "Transaktion '{{title}}' erfolgreich erstellt!"
+		},
+		"edit": {
+			"title": "Transaktion bearbeiten",
+			"titleLabel": "Titel",
+			"amount": "Betrag",
+			"date": "Datum",
+			"currency": "Währung",
+			"exchangeRate": "Wechselkurs",
+			"category": "Kategorie",
+			"search": "Suche",
+			"note": "Hinweis",
+			"recurring": "Automatisch wiederkehrend?"
 		},
 		"updateInfo": "Transaktion '{{title}}' erfolgreich aktualisiert!",
 		"deleteInfo": "Transaktion erfolgreich gelöscht!",

@@ -11,6 +11,7 @@
 		"balance": "Saldo",
 		"save": "Salva",
 		"delete": "Elimina",
+		"edit": "Modifica",
 		"cancel": "Annulla",
 		"next": "Avanti",
 		"back": "Indietro",
@@ -352,6 +353,18 @@
 			"note": "Nota",
 			"recurring": "Ricorrenza automatica?",
 			"successInfo": "Transazione '{{title}}' creata con successo!"
+		},
+		"edit": {
+			"title": "Modifica transazione",
+			"titleLabel": "Titolo",
+			"amount": "Importo",
+			"date": "Data",
+			"currency": "Valuta",
+			"exchangeRate": "Tasso di cambio",
+			"category": "Categoria",
+			"search": "Cerca",
+			"note": "Nota",
+			"recurring": "Ricorrenza automatica?"
 		},
 		"updateInfo": "Transazione '{{title}}' aggiornata con successo!",
 		"deleteInfo": "Transazione eliminata con successo!",

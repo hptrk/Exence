@@ -1,0 +1,12 @@
+@import '../../../../styles/imports.scss';
+
+textarea {
+	resize: none;
+}
+
+ex-button {
+	width: 100%;
+	@include displaySm {
+		width: auto;
+	}
+}

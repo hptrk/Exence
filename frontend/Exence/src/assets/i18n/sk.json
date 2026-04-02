@@ -11,6 +11,7 @@
 		"balance": "Zostatok",
 		"save": "Uložiť",
 		"delete": "Odstrániť",
+		"edit": "Upraviť",
 		"cancel": "Zrušiť",
 		"next": "Ďalej",
 		"back": "Späť",
@@ -350,6 +351,18 @@
 			"note": "Poznámka",
 			"recurring": "Automaticky opakujúca sa?",
 			"successInfo": "Transakcia '{{title}}' bola úspešne vytvorená!"
+		},
+		"edit": {
+			"title": "Upraviť transakciu",
+			"titleLabel": "Názov",
+			"amount": "Suma",
+			"date": "Dátum",
+			"currency": "Mena",
+			"exchangeRate": "Výmenný kurz",
+			"category": "Kategória",
+			"search": "Hľadať",
+			"note": "Poznámka",
+			"recurring": "Automaticky opakujúca sa?"
 		},
 		"updateInfo": "Transakcia '{{title}}' bola úspešne aktualizovaná!",
 		"deleteInfo": "Transakcia bola úspešne odstránená!",

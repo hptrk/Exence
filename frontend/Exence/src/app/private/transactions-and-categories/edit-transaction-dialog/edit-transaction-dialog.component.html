@@ -1,0 +1,125 @@
+<ex-dialog-card [formGroup]="form" (submit)="save()" [confirmExitDialog]="dialogRef">
+	<div ex-dialog-card-title>{{ 'transaction.edit.title' | translate }}</div>
+
+	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
+		<mat-button-toggle-group [formControl]="form.controls.type" [hideSingleSelectionIndicator]="true" class="mb-3">
+			@for (type of transactionTypes | enumValue; track type) {
+				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{
+					codeForTransactionType(type) | translate | uppercase
+				}}</mat-button-toggle>
+			}
+		</mat-button-toggle-group>
+
+		@let titleControl = form.controls.title;
+		<mat-form-field>
+			<mat-label>{{ 'transaction.edit.titleLabel' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="titleControl" />
+			<ex-input-clear matSuffix [control]="titleControl" />
+			<mat-error>
+				<ex-validator [control]="titleControl" />
+			</mat-error>
+		</mat-form-field>
+
+		<div class="d-flex flex-column flex-md-row gap-3">
+			@let amountControl = form.controls.amount;
+			<ex-amount-stepper [control]="amountControl" label="transaction.edit.amount" [min]="1" />
+			@let dateControl = form.controls.date;
+			<mat-form-field>
+				<mat-label>{{ 'transaction.edit.date' | translate }}</mat-label>
+				<input matInput [matDatepicker]="picker" [formControl]="dateControl" />
+				<mat-datepicker-toggle matIconSuffix [for]="picker" />
+				<mat-datepicker #picker />
+				<mat-error>
+					<ex-validator [control]="dateControl" />
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+		<div class="d-flex flex-column flex-md-row gap-3">
+			@let currencyControl = form.controls.currency;
+			<mat-form-field>
+				<mat-label>{{ 'transaction.edit.currency' | translate }}</mat-label>
+				<mat-select [formControl]="currencyControl">
+					@for (currency of currencies | enumValue; track currency) {
+						<mat-option [value]="currency">{{ currency }}</mat-option>
+					}
+				</mat-select>
+				<mat-error>
+					<ex-validator [control]="currencyControl" />
+				</mat-error>
+			</mat-form-field>
+			@let exchangeRateControl = form.controls.exchangeRate;
+			<ex-amount-stepper
+				[control]="exchangeRateControl"
+				label="transaction.edit.exchangeRate"
+				[step]="0.1"
+			/>
+		</div>
+
+		<div class="d-flex flex-column flex-md-row gap-3">
+			@let categoryControl = form.controls.category.controls;
+			<mat-form-field>
+				<mat-label>{{ 'transaction.edit.category' | translate }}</mat-label>
+				<mat-select
+					selectAutoFocus
+					[focusedInput]="searchCategoryInput"
+					[formControl]="categoryControl.category"
+					[compareWith]="compareCategories"
+					(closed)="categoryControl.searchText.reset()"
+				>
+					<mat-form-field subscriptSizing="dynamic" class="search-with-select">
+						<mat-label>{{ 'transaction.edit.search' | translate }}</mat-label>
+						<input autoTrim matInput [formControl]="categoryControl.searchText" #searchCategoryInput />
+						<ex-input-clear [control]="categoryControl.searchText" />
+						<mat-error>
+							<ex-validator [control]="categoryControl.searchText" />
+						</mat-error>
+					</mat-form-field>
+					@for (category of filteredCategories(); track category.id) {
+						<mat-option [value]="category">
+							<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
+							{{ category.name }}
+						</mat-option>
+					}
+				</mat-select>
+				<mat-error>
+					<ex-validator [control]="categoryControl.category" />
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+		@let noteControl = form.controls.note;
+		<mat-form-field>
+			<mat-label>{{ 'transaction.edit.note' | translate }}</mat-label>
+			<textarea
+				matInput
+				autoTrim
+				cdkTextareaAutosize
+				cdkAutosizeMinRows="4"
+				[formControl]="noteControl"
+			></textarea>
+			<mat-error>
+				<ex-validator [control]="noteControl" />
+			</mat-error>
+		</mat-form-field>
+
+		@let recurringControl = form.controls.recurring;
+		<mat-checkbox [formControl]="recurringControl">
+			{{ 'transaction.edit.recurring' | translate }}
+		</mat-checkbox>
+
+		<ex-button class="d-none" type="submit" />
+	</form>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()">
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
+		<ex-button filled color="primary" matIcon="check" [disabled]="form.invalid || form.pristine" (click)="save()">
+			{{ 'literals.save' | translate }}
+		</ex-button>
+	</div>
+</ex-dialog-card>

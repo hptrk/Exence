@@ -11,6 +11,7 @@
 		"balance": "Solde",
 		"save": "Enregistrer",
 		"delete": "Supprimer",
+		"edit": "Modifier",
 		"cancel": "Annuler",
 		"next": "Suivant",
 		"back": "Retour",
@@ -352,6 +353,18 @@
 			"note": "Note",
 			"recurring": "Récurrence automatique ?",
 			"successInfo": "Transaction '{{title}}' créée avec succès !"
+		},
+		"edit": {
+			"title": "Modifier la transaction",
+			"titleLabel": "Titre",
+			"amount": "Montant",
+			"date": "Date",
+			"currency": "Devise",
+			"exchangeRate": "Taux de change",
+			"category": "Catégorie",
+			"search": "Rechercher",
+			"note": "Note",
+			"recurring": "Récurrence automatique ?"
 		},
 		"updateInfo": "Transaction '{{title}}' mise à jour avec succès !",
 		"deleteInfo": "Transaction supprimée avec succès !",

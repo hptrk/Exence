@@ -11,6 +11,7 @@
 		"balance": "Balance",
 		"save": "Save",
 		"delete": "Delete",
+		"edit": "Edit",
 		"cancel": "Cancel",
 		"next": "Next",
 		"back": "Back",
@@ -352,6 +353,18 @@
 			"note": "Note",
 			"recurring": "Automatically recurring?",
 			"successInfo": "Transaction '{{title}}' created successfully!"
+		},
+		"edit": {
+			"title": "Edit transaction",
+			"titleLabel": "Title",
+			"amount": "Amount",
+			"date": "Date",
+			"currency": "Currency",
+			"exchangeRate": "Exchange rate",
+			"category": "Category",
+			"search": "Search",
+			"note": "Note",
+			"recurring": "Automatically recurring?"
 		},
 		"updateInfo": "Transaction '{{title}}' updated successfully!",
 		"deleteInfo": "Transaction deleted successfully!",

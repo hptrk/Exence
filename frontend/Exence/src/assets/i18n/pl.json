@@ -11,6 +11,7 @@
 		"balance": "Saldo",
 		"save": "Zapisz",
 		"delete": "Usuń",
+		"edit": "Edytuj",
 		"cancel": "Anuluj",
 		"next": "Dalej",
 		"back": "Wstecz",
@@ -352,6 +353,18 @@
 			"note": "Notatka",
 			"recurring": "Automatycznie cykliczna?",
 			"successInfo": "Transakcja '{{title}}' została pomyślnie utworzona!"
+		},
+		"edit": {
+			"title": "Edytuj transakcję",
+			"titleLabel": "Tytuł",
+			"amount": "Kwota",
+			"date": "Data",
+			"currency": "Waluta",
+			"exchangeRate": "Kurs wymiany",
+			"category": "Kategoria",
+			"search": "Szukaj",
+			"note": "Notatka",
+			"recurring": "Automatycznie cykliczna?"
 		},
 		"updateInfo": "Transakcja '{{title}}' została pomyślnie zaktualizowana!",
 		"deleteInfo": "Transakcja została pomyślnie usunięta!",

@@ -11,6 +11,7 @@
 		"balance": "Vagyon",
 		"save": "Mentés",
 		"delete": "Törölés",
+		"edit": "Szerkesztés",
 		"cancel": "Mégse",
 		"next": "Következő",
 		"back": "Vissza",
@@ -352,6 +353,18 @@
 			"note": "Megjegyzés:",
 			"recurring": "Automatikusan ismétlődő?",
 			"successInfo": "Az '{{title}}' tranzakció sikeresen létrejött!"
+		},
+		"edit": {
+			"title": "Tranzakció szerkesztése",
+			"titleLabel": "Cím",
+			"amount": "Összeg",
+			"date": "Dátum",
+			"currency": "Pénznem",
+			"exchangeRate": "Árfolyam",
+			"category": "Kategória",
+			"search": "Keresés",
+			"note": "Megjegyzés",
+			"recurring": "Automatikusan ismétlődő?"
 		},
 		"updateInfo": "Az '{{title}}' tranzakció sikeresen frissült!",
 		"deleteInfo": "Tranzakció sikeresen törölve!",
