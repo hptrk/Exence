@@ -109,11 +109,7 @@
 												/>
 
 												<mat-menu #actionsMenu>
-													<button
-														mat-menu-item
-														class="edit-button"
-														(click)="editRow(row)"
-													>
+													<button mat-menu-item class="edit-button" (click)="editRow(row)">
 														<mat-icon color="primary">edit</mat-icon>
 														@if (display.isMd()) {
 															{{ 'literals.edit' | translate }}

@@ -129,7 +129,7 @@ export class EditTransactionDialogComponent
 
 	categorySearchRef = viewChild<ElementRef<HTMLInputElement>>('searchCategoryInput');
 
-	compareCategories = (a: Category, b: Category): boolean => a?.id === b?.id;
+	compareCategories = (a: Category, b: Category): boolean => a.id === b.id;
 
 	ngOnInit(): void {
 		this.categoryService.list().then(categories => {
