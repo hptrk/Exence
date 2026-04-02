@@ -22,7 +22,9 @@
 		"all": "Összes",
 		"type": "Típus",
 		"from": "Tól",
-		"to": "Ig"
+		"to": "Ig",
+		"yes": "Igen",
+		"no": "Nem"
 	},
 	"dashboard": {
 		"title": "Üdvözöllek újra, <span class='username'>{{username}}</span>!",
@@ -84,15 +86,14 @@
 			"language": {
 				"title": "Nyelv kiválasztása"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
-				"title": "Currency settings",
+				"title": "Pénznem-beállítások",
 				"baseCurrency": {
-					"label": "Base currency"
+					"label": "Alap pénznem"
 				},
 				"showBaseCurrency": {
-					"label": "Show base currency",
-					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+					"label": "Alap pénznem megjelenítése",
+					"info": "Függetlenül attól, hogy melyik pénznemet rendelte hozzá egy tranzakcióhoz, a beállítás kiválasztása esetén minden tranzakció a kiválasztott alap pénznemben fog megjelenni."
 				}
 			}
 		},
@@ -422,7 +423,16 @@
 		"details": {
 			"show": "Részletek megjelenítése",
 			"hide": "Részletek elrejtése"
-		}
+		},
+		"currency": {
+			"logged": "Nyilvántartott pénznem",
+			"base": "Alap pénznem"
+		},
+		"amount": {
+			"logged": "Összeg a nyilvántartott pénznemben",
+			"base": "Összeg az alap pénznemben"
+		},
+		"exchangeRate": "Árfolyam"
 	},
 	"filterMenu": {
 		"title": "Szűrők",

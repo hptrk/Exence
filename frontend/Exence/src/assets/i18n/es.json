@@ -22,7 +22,9 @@
 		"all": "Todos",
 		"type": "Tipo",
 		"from": "Desde",
-		"to": "Hasta"
+		"to": "Hasta",
+		"yes": "Sí",
+		"no": "No"
 	},
 	"dashboard": {
 		"title": "Bienvenido/a de nuevo, <span class='username'>{{username}}</span>!",
@@ -84,15 +86,14 @@
 			"language": {
 				"title": "Seleccionar idioma"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
-				"title": "Currency settings",
+				"title": "Configuración de divisas",
 				"baseCurrency": {
-					"label": "Base currency"
+					"label": "Divisa base"
 				},
 				"showBaseCurrency": {
-					"label": "Show base currency",
-					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+					"label": "Mostrar divisa base",
+					"info": "Independientemente de la divisa que se haya asignado a una transacción, al seleccionar esta opción, cada transacción aparecerá en la divisa base seleccionada."
 				}
 			}
 		},
@@ -422,7 +423,16 @@
 		"details": {
 			"show": "Mostrar detalles",
 			"hide": "Ocultar detalles"
-		}
+		},
+		"currency": {
+			"logged": "Moneda registrada",
+			"base": "Moneda base"
+		},
+		"amount": {
+			"logged": "Importe en la moneda registrada",
+			"base": "Importe en la moneda base"
+		},
+		"exchangeRate": "Tipo de cambio"
 	},
 	"filterMenu": {
 		"title": "Filtros",

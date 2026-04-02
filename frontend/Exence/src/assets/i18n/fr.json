@@ -22,7 +22,9 @@
 		"all": "Tous",
 		"type": "Type",
 		"from": "De",
-		"to": "À"
+		"to": "À",
+		"yes": "Oui",
+		"no": "Non"
 	},
 	"dashboard": {
 		"title": "Bon retour, <span class='username'>{{username}}</span> !",
@@ -84,15 +86,14 @@
 			"language": {
 				"title": "Sélectionner la langue"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
-				"title": "Currency settings",
+				"title": "Paramètres de devise",
 				"baseCurrency": {
-					"label": "Base currency"
+					"label": "Devise de base"
 				},
 				"showBaseCurrency": {
-					"label": "Show base currency",
-					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+					"label": "Afficher la devise de base",
+					"info": "Quelle que soit la devise attribuée à une transaction, lorsque cette option est sélectionnée, chaque transaction s'affichera dans la devise de base choisie."
 				}
 			}
 		},
@@ -422,7 +423,16 @@
 		"details": {
 			"show": "Afficher les détails",
 			"hide": "Masquer les détails"
-		}
+		},
+		"currency": {
+			"logged": "Devise de l'enregistrement",
+			"base": "Devise de base"
+		},
+		"amount": {
+			"logged": "Montant dans la devise de l'enregistrement",
+			"base": "Montant dans la devise de base"
+		},
+		"exchangeRate": "Taux de change"
 	},
 	"filterMenu": {
 		"title": "Filtres",

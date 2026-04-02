@@ -21,7 +21,7 @@ export class ButtonComponent {
 
 	disabled = input<boolean>(false);
 	type = input<'button' | 'submit' | 'reset'>('button');
-	color = input<'primary' | 'accent' | 'success' | 'error' | 'warn'>('primary');
+	color = input<'primary' | 'secondary' | 'accent' | 'success' | 'error' | 'warn'>('primary');
 	customColor = input<string>(); // this wins over color
 
 	collapsedStyle = input<'text' | 'outlined' | 'filled'>('filled');

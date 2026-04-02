@@ -7,6 +7,12 @@ $predefinedColors: (
 		text: var(--primary-color),
 		outline: var(--primary-color),
 	),
+	'secondary': (
+		filled-text: var(--secondary-text-color),
+		bg: var(--primary-color),
+		text: var(--secondary-text-color),
+		outline: var(--secondary-text-color),
+	),
 	'accent': (
 		filled-text: var(--default-text-color),
 		bg: var(--secondary-color),
