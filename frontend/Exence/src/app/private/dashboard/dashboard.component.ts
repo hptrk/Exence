@@ -65,13 +65,15 @@ export class DashboardComponent extends BaseComponent {
 		this.transactionStore.clearFilters();
 
 		effect(() => {
-			this.statisticService.getDashboardChart(this.chartTimeframe()).then(response => {
+			this.transactionStore.balance(); // dependency
+			const timeframe = this.chartTimeframe();
+			this.statisticService.getDashboardChart(timeframe).then(response => {
 				this.dashboardWidget.set({
 					id: response.widgetId,
 					type: response.type,
 					title: '',
 					info: '',
-					timeframe: this.chartTimeframe(),
+					timeframe,
 					x: 0,
 					y: 0,
 					cols: 0,
