@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
 import { format } from 'date-fns';
 import { Category } from '../../data-model/modules/category/Category';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { AmountStepperComponent } from '../../shared/amount-stepper/amount-stepper.component';
@@ -28,7 +29,11 @@ import { mapToTransactionFilter, toRawValueSignal } from '../../shared/util/util
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { CategoryStore } from './category.store';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
-import { CreateTransactionDialogComponent } from './create-transaction-dialog/create-transaction-dialog.component';
+import {
+	CreateTransactionDialogComponent,
+	CreateTransactionDialogData,
+	CreateTransactionDialogResult,
+} from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
 import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
 
@@ -131,9 +136,15 @@ export class TransactionsAndCategoriesComponent {
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		const result = await this.dialog.openNonModal<
+			CreateTransactionDialogData | undefined,
+			CreateTransactionDialogResult | null
+		>(CreateTransactionDialogComponent, undefined);
 		if (!result) return;
-		this.transactionStore.createTransaction(result);
+		const { currency, exchangeRate, baseCurrencyAmount, ...transaction } = result;
+		// TODO remove this when currency is implemented on the server
+		console.log(currency, exchangeRate, baseCurrencyAmount);
+		this.transactionStore.createTransaction(transaction as Transaction);
 	}
 
 	async openCreateCategoryDialog(): Promise<void> {

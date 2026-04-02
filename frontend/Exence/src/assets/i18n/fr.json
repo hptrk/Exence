@@ -348,6 +348,8 @@
 			"titleLabel": "Titre",
 			"amount": "Montant",
 			"date": "Date",
+			"currency": "Devise",
+			"exchangeRate": "Taux de change",
 			"category": "Catégorie",
 			"search": "Rechercher",
 			"note": "Note",

@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslocoService } from '@jsverse/transloco';
 import { startWith } from 'rxjs';
 import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
@@ -27,6 +28,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
+import { localizeCurrency } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../category.service';
 
@@ -78,6 +80,7 @@ export class EditTransactionDialogComponent
 {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
+	private readonly translocoService = inject(TranslocoService);
 
 	data = this.dialogRef.value;
 
@@ -172,6 +175,10 @@ export class EditTransactionDialogComponent
 			baseCurrencyAmount: formValue.amount! * formValue.exchangeRate!,
 		};
 		this.dialogRef.submit(result);
+	}
+
+	localizeCurrency(currency: SupportedCurrency): string {
+		return localizeCurrency(currency, this.translocoService.getActiveLang());
 	}
 
 	codeForTransactionType(type: TransactionType): TranslationCode {

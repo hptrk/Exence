@@ -3,6 +3,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { ChartWidget } from '../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
 import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
@@ -17,7 +18,11 @@ import { CurrentUserService } from '../../shared/user/current-user.service';
 import { ChartWidgetComponent } from '../statistics/chart-widget/chart-widget.component';
 import { StatisticService } from '../statistics/statistic.service';
 import { CategoryStore } from '../transactions-and-categories/category.store';
-import { CreateTransactionDialogComponent } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import {
+	CreateTransactionDialogComponent,
+	CreateTransactionDialogData,
+	CreateTransactionDialogResult,
+} from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
@@ -85,11 +90,17 @@ export class DashboardComponent extends BaseComponent {
 	}
 
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
-		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, {
+		const result = await this.dialog.openNonModal<
+			CreateTransactionDialogData | undefined,
+			CreateTransactionDialogResult | null
+		>(CreateTransactionDialogComponent, {
 			type: transactionType,
 		});
 		if (!result) return;
-		this.transactionStore.createTransaction(result);
+		const { currency, exchangeRate, baseCurrencyAmount, ...transaction } = result;
+		// TODO remove this when currency is implemented on the server
+		console.log(currency, exchangeRate, baseCurrencyAmount);
+		this.transactionStore.createTransaction(transaction as Transaction);
 	}
 
 	onScroll(type?: TransactionType): void {

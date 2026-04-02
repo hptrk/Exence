@@ -5,6 +5,7 @@ import { ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
 import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayload';
 import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
 
@@ -12,6 +13,16 @@ export function toRawValueSignal<T>(control: AbstractControl<unknown, T>): Signa
 	return toSignal(control.valueChanges.pipe(map(() => control.getRawValue() as T)), {
 		initialValue: control.getRawValue() as T,
 	});
+}
+
+export function localizeCurrency(currency: SupportedCurrency, lang: string): string {
+	const formatter = new Intl.NumberFormat(lang, {
+		style: 'currency',
+		currencyDisplay: 'narrowSymbol',
+		currency: currency.toUpperCase(),
+	});
+	const symbol = formatter.formatToParts(0).find(part => part.type === 'currency');
+	return symbol ? symbol.value : currency;
 }
 
 export function mapToTransactionFilter(queryParam: ParamMap): TransactionFilter {

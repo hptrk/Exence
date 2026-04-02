@@ -348,6 +348,8 @@
 			"titleLabel": "Title",
 			"amount": "Amount",
 			"date": "Date",
+			"currency": "Currency",
+			"exchangeRate": "Exchange rate",
 			"category": "Category",
 			"search": "Search",
 			"note": "Note",

@@ -348,6 +348,8 @@
 			"titleLabel": "Titolo",
 			"amount": "Importo",
 			"date": "Data",
+			"currency": "Valuta",
+			"exchangeRate": "Tasso di cambio",
 			"category": "Categoria",
 			"search": "Cerca",
 			"note": "Nota",

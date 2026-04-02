@@ -346,6 +346,8 @@
 			"titleLabel": "Názov",
 			"amount": "Suma",
 			"date": "Dátum",
+			"currency": "Mena",
+			"exchangeRate": "Výmenný kurz",
 			"category": "Kategória",
 			"search": "Hľadať",
 			"note": "Poznámka",

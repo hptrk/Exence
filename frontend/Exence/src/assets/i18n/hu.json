@@ -348,6 +348,8 @@
 			"titleLabel": "Cím",
 			"amount": "Összeg",
 			"date": "Dátum",
+			"currency": "Pénznem",
+			"exchangeRate": "Árfolyam",
 			"category": "Kategória",
 			"search": "Keresés",
 			"note": "Megjegyzés:",

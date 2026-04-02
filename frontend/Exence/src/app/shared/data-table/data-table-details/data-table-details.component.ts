@@ -9,6 +9,7 @@ import { CurrencyService } from '../../currency.service';
 import { DisplaySizeService } from '../../display-size.service';
 import { CurrencyPipe } from '../../pipes/currency.pipe';
 import { TranslatePipe } from '../../pipes/translate.pipe';
+import { localizeCurrency } from '../../util/utils';
 
 @Component({
 	selector: 'ex-data-table-details',
@@ -33,14 +34,7 @@ export class DataTableDetailsComponent {
 	readonly transactionTypes = TransactionType;
 
 	localizeCurrency(currency: SupportedCurrency): string {
-		const lang = this.translocoService.getActiveLang();
-		const formatter = new Intl.NumberFormat(lang, {
-			style: 'currency',
-			currencyDisplay: 'narrowSymbol',
-			currency: currency.toUpperCase(),
-		});
-		const symbol = formatter.formatToParts(0).find(part => part.type === 'currency');
-		return symbol ? symbol.value : currency;
+		return localizeCurrency(currency, this.translocoService.getActiveLang());
 	}
 
 	getTypeClass(amount: number): string {

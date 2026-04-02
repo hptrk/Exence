@@ -10,7 +10,7 @@ import { DisplaySizeService } from '../../../../shared/display-size.service';
 import { InfoButtonComponent } from '../../../../shared/info-button/info-button.component';
 import { EnumValuePipe } from '../../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
-import { toRawValueSignal } from '../../../../shared/util/utils';
+import { localizeCurrency, toRawValueSignal } from '../../../../shared/util/utils';
 import { ValidatorComponent } from '../../../../shared/validator/validator.component';
 
 export interface CurrencyInfo {
@@ -81,13 +81,6 @@ export class CurrencySelectComponent {
 	}
 
 	localizeCurrency(currency: SupportedCurrency): string {
-		const lang = this.translocoService.getActiveLang();
-		const formatter = new Intl.NumberFormat(lang, {
-			style: 'currency',
-			currencyDisplay: 'narrowSymbol',
-			currency: currency.toUpperCase(),
-		});
-		const symbol = formatter.formatToParts(0).find(part => part.type === 'currency');
-		return symbol ? symbol.value : currency;
+		return localizeCurrency(currency, this.translocoService.getActiveLang());
 	}
 }

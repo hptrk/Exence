@@ -348,6 +348,8 @@
 			"titleLabel": "Tytuł",
 			"amount": "Kwota",
 			"date": "Data",
+			"currency": "Waluta",
+			"exchangeRate": "Kurs wymiany",
 			"category": "Kategoria",
 			"search": "Szukaj",
 			"note": "Notatka",

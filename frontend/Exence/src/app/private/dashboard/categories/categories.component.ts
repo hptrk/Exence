@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Category } from 'src/app/data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
+import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { BaseComponent } from '../../../shared/base-component/base.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
@@ -15,7 +16,11 @@ import { DisplaySizeService } from '../../../shared/display-size.service';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { CategoryStore } from '../../transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
-import { CreateTransactionDialogComponent } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import {
+	CreateTransactionDialogComponent,
+	CreateTransactionDialogData,
+	CreateTransactionDialogResult,
+} from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { UpperCasePipe } from '@angular/common';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
@@ -76,9 +81,15 @@ export class CategoriesComponent extends BaseComponent {
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		const result = await this.dialog.openNonModal<
+			CreateTransactionDialogData | undefined,
+			CreateTransactionDialogResult | null
+		>(CreateTransactionDialogComponent, undefined);
 		if (!result) return;
-		this.transactionStore.createTransaction(result);
+		const { currency, exchangeRate, baseCurrencyAmount, ...transaction } = result;
+		// TODO remove this when currency is implemented on the server
+		console.log(currency, exchangeRate, baseCurrencyAmount);
+		this.transactionStore.createTransaction(transaction as Transaction);
 	}
 
 	calcPercentage(amount: number): number {
