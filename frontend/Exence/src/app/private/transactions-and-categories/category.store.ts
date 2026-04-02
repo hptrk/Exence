@@ -1,35 +1,39 @@
-import { inject, resource } from '@angular/core';
-import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
+import { computed, inject, resource } from '@angular/core';
+import { patchState, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
 import { Category } from '../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CategoryService } from './category.service';
-import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
 import { CategoryType } from '../../data-model/modules/category/CategoryType';
 import { TranslocoService } from '@jsverse/transloco';
 
 interface CategoryStoreData {
-	topCategoriesFilter: CategoryFilter;
+	selectedTopCategoriesType: CategoryType;
 }
 
 const initialState: CategoryStoreData = {
-	topCategoriesFilter: { type: CategoryType.EXPENSE },
+	selectedTopCategoriesType: CategoryType.EXPENSE,
 };
 
 export const CategoryStore = signalStore(
 	withState(initialState),
 
-	withProps((store, categoryService = inject(CategoryService)) => {
+	withProps((_, categoryService = inject(CategoryService)) => {
 		return {
 			categoryResource: resource<Category[], undefined>({
 				loader: async () => await categoryService.list(),
 			}),
-			topCategoriesResource: resource<CategorySummaryResponse[], { filters: CategoryFilter }>({
-				params: () => ({ filters: store.topCategoriesFilter() }),
-				loader: async ({ params }) => await categoryService.listTop(params.filters),
+			topCategoriesAllResource: resource<Record<CategoryType, CategorySummaryResponse[]>, undefined>({
+				loader: async () => await categoryService.listTopAll(),
 			}),
 		};
 	}),
+
+	withComputed(store => ({
+		topCategories: computed<CategorySummaryResponse[]>(
+			() => store.topCategoriesAllResource.value()?.[store.selectedTopCategoriesType()] ?? [],
+		),
+	})),
 
 	withMethods(
 		(
@@ -40,7 +44,7 @@ export const CategoryStore = signalStore(
 		) => {
 			function triggerReload(): void {
 				store.categoryResource.reload();
-				store.topCategoriesResource.reload();
+				store.topCategoriesAllResource.reload();
 			}
 
 			return {
@@ -58,10 +62,9 @@ export const CategoryStore = signalStore(
 				},
 
 				toggleTopCategoriesType(type?: CategoryType): void {
-					patchState(store, state => ({
-						...state,
-						topCategoriesFilter: { ...store.topCategoriesFilter(), type: type ?? CategoryType.EXPENSE },
-					}));
+					patchState(store, {
+						selectedTopCategoriesType: type ?? CategoryType.EXPENSE,
+					});
 				},
 			};
 		},

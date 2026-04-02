@@ -1,4 +1,5 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -46,6 +47,7 @@ export interface IntervalInfo {
 		EnumValuePipe,
 		TranslatePipe,
 		UpperCasePipe,
+		AnimatedSkeletonLoaderComponent,
 	],
 })
 export class CategoriesComponent extends BaseComponent {
@@ -54,6 +56,7 @@ export class CategoriesComponent extends BaseComponent {
 	private readonly transactionStore = inject(TransactionStore);
 	readonly display = inject(DisplaySizeService);
 
+	isLoading = input.required<boolean>();
 	totalExpense = input.required<number>();
 	totalIncome = input.required<number>();
 	topCategories = input.required<CategorySummaryResponse[]>();

@@ -24,10 +24,11 @@
 				/>
 			}
 			<ex-categories
+				[isLoading]="categoryStore.topCategoriesAllResource.isLoading()"
 				[totalExpense]="transactionStore.totalExpense()"
 				[totalIncome]="transactionStore.totalIncome()"
 				[categories]="categoryStore.categoryResource.value() ?? []"
-				[topCategories]="categoryStore.topCategoriesResource.value() ?? []"
+				[topCategories]="categoryStore.topCategories()"
 			/>
 		</div>
 
