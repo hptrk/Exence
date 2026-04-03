@@ -16,6 +16,8 @@ div.mat-mdc-menu-panel {
 	--mat-autocomplete-background-color: var(--mat-sys-surface);
 	--mat-autocomplete-container-elevation-shadow: #{$menu-shadow};
 	--mat-menu-item-label-text-color: var(--default-text-color);
+	--mat-menu-item-label-text-size: 16px;
+	--mat-menu-item-label-text-weight: 600;
 
 	margin-left: 10px;
 	overflow-x: hidden;
@@ -33,6 +35,7 @@ div.mat-mdc-menu-panel {
 		}
 		&:hover {
 			background-color: var(--app-hover-color);
+			color: var(--secondary-text-color);
 		}
 	}
 }

@@ -701,5 +701,73 @@
 	"selection": {
 		"selectAll": "Alle auswählen",
 		"deselectAll": "Alle Auswahl aufheben"
+	},
+	"landing": {
+		"hero": {
+			"title": "FINANZVERFOLGUNG<br>LEICHT <span class='landing-title-emphasis'>GEMACHT</span>",
+			"getStarted": "Lassen Sie uns beginnen",
+			"login": "Anmelden"
+		},
+		"tagline": "Datengesteuerte Vermögensverwaltung, vereinfacht.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Mühelose Erfassung",
+				"title": "Verfolgen Sie Ausgaben ohne Reibungsverluste.",
+				"description": "Unser Haupt-Dashboard ist auf Geschwindigkeit ausgelegt. Erfassen Sie Ihre Transaktionen in Sekundenschnelle und erhalten Sie einen sofortigen Überblick über Ihre täglichen Finanzen, sodass Sie weniger Zeit mit Tippen und mehr Zeit mit dem Verständnis Ihres Vermögens verbringen können.",
+				"alt": "Bild, das einen Ausschnitt unserer Dashboard-Seite zeigt."
+			},
+			"deepInsights": {
+				"subtitle": "Tiefe statistische Einblicke",
+				"title": "Ihre Daten, Ihre Visualisierung.",
+				"description": "Übernehmen Sie die volle Kontrolle über Ihre Analyse. Die Statistikseite ermöglicht es Ihnen, Ihre eigene Ansicht mit einer Vielzahl von Diagrammen und Metriken zu erstellen. Fügen Sie Komponenten hinzu, entfernen oder ordnen Sie diese neu an, um genau die Einblicke zu erhalten, die Sie benötigen, um Ihre Ersparnisse zu mehren.",
+				"alt": "Bild, das einen Ausschnitt unserer Statistikseite zeigt."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Unbegrenzte Kategorisierung",
+				"title": "Keine starren Kategorien mehr.",
+				"description": "Organisieren Sie genau so, wie Sie denken. Erstellen Sie ein System, das für Sie funktioniert, mit unbegrenzten Farboptionen und benutzerdefinierten Labels. Ob es der tägliche Kaffee oder langfristige Investitionen sind, jede Transaktion findet ihren perfekten Platz.",
+				"alt": "Bild, das einen Ausschnitt unserer Kategorieliste zeigt."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Umsetzbare Erkenntnisse",
+				"title": "Verwandeln Sie Zahlen in Wissen.",
+				"description": "Betrachten Sie nicht nur die Historie – lernen Sie daraus. Unsere Engine analysiert Ihre Ausgabenmuster, um aussagekräftige Erkenntnisse zu liefern, die Ihnen helfen, Trends zu erkennen und Ihr Budget zu optimieren, bevor der Monat endet.",
+				"alt": "Bild, das einen Ausschnitt unserer Benutzereinstellungen zeigt."
+			},
+			"transparentSecurity": {
+				"subtitle": "Transparente Sicherheit",
+				"title": "Sicherheit, die Sie sehen können.",
+				"description": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
+				"alt": "Bild, das einen Ausschnitt unserer Sitzungsseite zeigt."
+			}
+		},
+		"testimonials": {
+			"title": "Was unsere Nutzer sagen",
+			"testimonial1": {
+				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Bild unseres Nutzers"
+		},
+		"whoWeAre": {
+			"title": "Wer wir sind",
+			"subtitle": "Wir sind ein Design-First-Kreativstudio",
+			"description1": "Wir glauben an die Kraft von zielgerichtetem Design, um echte geschäftliche Herausforderungen zu lösen. Jede Linie, jede Farbe und jede Interaktion ist mit Absicht gestaltet und schafft Erlebnisse, die verbinden und Wirkung erzielen. Unsere Mission ist es, Ideen in strategische, visuelle Lösungen zu verwandeln, die tiefgreifend Resonanz finden und die Ziele unserer Kunden unterstützen.",
+			"description2": "Für uns ist Design nicht nur etwas Visuelles; es ist ein einflussreiches Werkzeug, das Marken hilft, dauerhaften Erfolg zu erzielen."
+		},
+		"footer": {
+			"followUs": "Folgen Sie uns auf:",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. Alle Rechte vorbehalten."
+		}
 	}
 }

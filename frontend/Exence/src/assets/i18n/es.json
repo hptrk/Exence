@@ -701,5 +701,73 @@
 	"selection": {
 		"selectAll": "Seleccionar todo",
 		"deselectAll": "Deseleccionar todo"
+	},
+	"landing": {
+		"hero": {
+			"title": "SEGUIMIENTO DE GASTOS<br>HECHO <span class='landing-title-emphasis'>SIMPLE</span>",
+			"getStarted": "Comencemos",
+			"login": "Iniciar sesión"
+		},
+		"tagline": "Gestión de patrimonio basada en datos, simplificada.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Registro sin esfuerzo",
+				"title": "Controle sus gastos sin complicaciones.",
+				"description": "Nuestro panel principal está diseñado para la velocidad. Registre sus transacciones en segundos y obtenga una visión general instantánea de sus finanzas diarias, para que pueda pasar menos tiempo escribiendo y más tiempo entendiendo su patrimonio.",
+				"alt": "Imagen que muestra un fragmento de nuestra página del panel."
+			},
+			"deepInsights": {
+				"subtitle": "Información estadística profunda",
+				"title": "Sus datos, su visualización.",
+				"description": "Tome el control total de su análisis. La página de estadísticas le permite construir su propia vista con una variedad de gráficos y métricas. Agregue, elimine o reorganice componentes para ver exactamente la información que necesita para hacer crecer sus ahorros.",
+				"alt": "Imagen que muestra un fragmento de nuestra página de estadísticas."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Categorización ilimitada",
+				"title": "Se acabaron las categorías rígidas.",
+				"description": "Organice exactamente cómo piensa. Cree un sistema que funcione para usted con opciones de color ilimitadas y etiquetas personalizadas. Ya sea el café diario o las inversiones a largo plazo, cada transacción encuentra su lugar perfecto.",
+				"alt": "Imagen que muestra un fragmento de nuestra lista de categorías."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Inteligencia procesable",
+				"title": "Convierta los números en conocimiento.",
+				"description": "No se limite a mirar el historial; aprenda de él. Nuestro motor analiza sus patrones de gasto para proporcionar información significativa, ayudándole a identificar tendencias y optimizar su presupuesto antes de que termine el mes.",
+				"alt": "Imagen que muestra un fragmento de nuestra página de configuración de usuario."
+			},
+			"transparentSecurity": {
+				"subtitle": "Seguridad transparente",
+				"title": "Seguridad que puede ver.",
+				"description": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
+				"alt": "Imagen que muestra un fragmento de nuestra página de sesiones."
+			}
+		},
+		"testimonials": {
+			"title": "Nuestros usuarios dijeron",
+			"testimonial1": {
+				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Imagen de nuestro usuario"
+		},
+		"whoWeAre": {
+			"title": "Quiénes somos",
+			"subtitle": "Somos un estudio creativo centrado en el diseño",
+			"description1": "Creemos en el poder del diseño con propósito para resolver desafíos comerciales reales. Cada línea, color e interacción se elabora con intención, creando experiencias que conectan e impulsan el impacto. Nuestra misión es convertir ideas en soluciones estratégicas y visuales que resuenen profundamente y apoyen los objetivos de nuestros clientes.",
+			"description2": "Para nosotros, el diseño no es solo visual; es una herramienta influyente que ayuda a las marcas a alcanzar un éxito duradero."
+		},
+		"footer": {
+			"followUs": "Síganos en:",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. Todos los derechos reservados."
+		}
 	}
 }
