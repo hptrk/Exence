@@ -34,16 +34,7 @@ import { CategoryService } from '../category.service';
 
 export interface EditTransactionDialogData {
 	transaction: TransactionModel;
-	currency: SupportedCurrency;
-	exchangeRate: number;
 }
-
-// TODO: remove when currency implemented on backend
-export type EditTransactionDialogResult = Omit<Transaction, 'id'> & {
-	currency: SupportedCurrency;
-	exchangeRate: number;
-	baseCurrencyAmount: number;
-};
 
 @Component({
 	selector: 'ex-edit-transaction-dialog',
@@ -75,7 +66,7 @@ export type EditTransactionDialogResult = Omit<Transaction, 'id'> & {
 	},
 })
 export class EditTransactionDialogComponent
-	extends DialogWithBaseComponent<EditTransactionDialogData, EditTransactionDialogResult | null>
+	extends DialogWithBaseComponent<EditTransactionDialogData, Transaction | null>
 	implements OnInit
 {
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -93,8 +84,8 @@ export class EditTransactionDialogComponent
 		note: this.fb.control<string | undefined>(this.data.transaction.note, [Validators.maxLength(500)]),
 		date: this.fb.control<Date>(new Date(this.data.transaction.date), [Validators.required]),
 		amount: this.fb.control<number | null>(this.data.transaction.amount, [Validators.required, Validators.min(1)]),
-		currency: this.fb.control<SupportedCurrency>(this.data.currency, [Validators.required]),
-		exchangeRate: this.fb.control<number | null>(this.data.exchangeRate, [
+		currency: this.fb.control<SupportedCurrency>(this.data.transaction.currency, [Validators.required]),
+		exchangeRate: this.fb.control<number | null>(this.data.transaction.exchangeRate, [
 			Validators.required,
 			Validators.min(0.01),
 		]),
@@ -161,8 +152,8 @@ export class EditTransactionDialogComponent
 
 	save(): void {
 		const formValue = this.form.getRawValue();
-		// TODO: remove when currency implemented on backend
-		const result: EditTransactionDialogResult = {
+		const result: Transaction = {
+			id: this.data.transaction.id!,
 			title: formValue.title,
 			note: formValue.note ?? '',
 			date: formValue.date.toISOString(),

@@ -15,7 +15,7 @@ import { ValidatorComponent } from '../../../../shared/validator/validator.compo
 
 export interface CurrencyInfo {
 	baseCurrency: SupportedCurrency;
-	showBaseCurrency: boolean;
+	showBaseCurrency?: boolean;
 }
 
 @Component({
@@ -44,7 +44,7 @@ export class CurrencySelectComponent {
 	readonly changed = output<CurrencyInfo>();
 
 	currency = computed<SupportedCurrency | undefined>(() => this.currencyInfo()?.baseCurrency);
-	// showBaseCurrency = computed<boolean | undefined>(() => this.currencyInfo()?.showBaseCurrency);
+	showBaseCurrency = computed<boolean | undefined>(() => this.currencyInfo()?.showBaseCurrency);
 
 	readonly currencies = SupportedCurrency;
 
@@ -54,16 +54,13 @@ export class CurrencySelectComponent {
 	});
 	formValue = toRawValueSignal(this.form);
 
-	// TODO when showBaseCurrency is implemented on the server uncomment lines
 	constructor() {
 		effect(() => {
-			// if (!this.currency() || this.showBaseCurrency() === undefined) return;
-			const info = this.currencyInfo();
-			if (!info?.baseCurrency) return;
+			if (!this.currency() || this.showBaseCurrency() === undefined) return;
 			this.form.patchValue(
 				{
-					baseCurrency: info.baseCurrency,
-					// showBaseCurrency: info.showBaseCurrency,
+					baseCurrency: this.currency()!,
+					showBaseCurrency: this.showBaseCurrency()!,
 				},
 				{ emitEvent: false },
 			);

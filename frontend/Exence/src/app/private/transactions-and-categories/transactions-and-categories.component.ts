@@ -32,7 +32,6 @@ import { CreateCategoryDialogComponent } from './create-category-dialog/create-c
 import {
 	CreateTransactionDialogComponent,
 	CreateTransactionDialogData,
-	CreateTransactionDialogResult,
 } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
 import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
@@ -136,15 +135,12 @@ export class TransactionsAndCategoriesComponent {
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal<
-			CreateTransactionDialogData | undefined,
-			CreateTransactionDialogResult | null
-		>(CreateTransactionDialogComponent, undefined);
+		const result = await this.dialog.openNonModal<CreateTransactionDialogData | undefined, Transaction | null>(
+			CreateTransactionDialogComponent,
+			undefined,
+		);
 		if (!result) return;
-		const { currency, exchangeRate, baseCurrencyAmount, ...transaction } = result;
-		// TODO remove this when currency is implemented on the server
-		console.log(currency, exchangeRate, baseCurrencyAmount);
-		this.transactionStore.createTransaction(transaction as Transaction);
+		this.transactionStore.createTransaction(result);
 	}
 
 	async openCreateCategoryDialog(): Promise<void> {

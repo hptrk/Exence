@@ -1,5 +1,5 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
-import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
@@ -7,36 +7,23 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { Category } from 'src/app/data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
-import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
+import { Transaction } from '../../../data-model/modules/transaction/Transaction';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../../../shared/base-component/base.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../../shared/display-size.service';
+import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { CategoryStore } from '../../transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import {
 	CreateTransactionDialogComponent,
 	CreateTransactionDialogData,
-	CreateTransactionDialogResult,
 } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
-import { UpperCasePipe } from '@angular/common';
-import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
-import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { TransactionStore } from '../../transactions-and-categories/transaction.store';
-
-// TODO move to interval filter component when created
-export enum DateInterval {
-	DAY = 'DAY',
-	MONTH = 'MONTH',
-	YEAR = 'YEAR',
-}
-
-export interface IntervalInfo {
-	type: DateInterval;
-	value: number;
-}
 
 @Component({
 	selector: 'ex-categories',
@@ -81,15 +68,12 @@ export class CategoriesComponent extends BaseComponent {
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal<
-			CreateTransactionDialogData | undefined,
-			CreateTransactionDialogResult | null
-		>(CreateTransactionDialogComponent, undefined);
+		const result = await this.dialog.openNonModal<CreateTransactionDialogData | undefined, Transaction | null>(
+			CreateTransactionDialogComponent,
+			undefined,
+		);
 		if (!result) return;
-		const { currency, exchangeRate, baseCurrencyAmount, ...transaction } = result;
-		// TODO remove this when currency is implemented on the server
-		console.log(currency, exchangeRate, baseCurrencyAmount);
-		this.transactionStore.createTransaction(transaction as Transaction);
+		this.transactionStore.createTransaction(result);
 	}
 
 	calcPercentage(amount: number): number {

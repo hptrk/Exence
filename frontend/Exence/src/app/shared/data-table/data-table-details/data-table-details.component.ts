@@ -22,10 +22,7 @@ export class DataTableDetailsComponent {
 	private readonly currencyService = inject(CurrencyService);
 	readonly display = inject(DisplaySizeService);
 
-	// TODO remove & part when server DTO updated
-	transaction = input.required<
-		Transaction & { currency: SupportedCurrency; baseCurrencyAmount: number; exchangeRate: number }
-	>();
+	transaction = input.required<Transaction>();
 	type = input<TransactionType | 'category'>();
 
 	baseCurrency = computed<SupportedCurrency>(() => this.currencyService.baseCurrency());

@@ -41,7 +41,6 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { DataTableDetailsComponent } from './data-table-details/data-table-details.component';
-import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
 
 @Component({
 	selector: 'ex-data-table',
@@ -101,9 +100,7 @@ export class DataTableComponent extends BaseComponent {
 
 	expandedRowId: number | null = null;
 
-	transactionTypes = TransactionType;
-	// TODO REMOVE
-	currencies = SupportedCurrency;
+	readonly transactionTypes = TransactionType;
 
 	transactionDataSource: WritableSignal<MatTableDataSource<TransactionModel>> = signal(
 		new MatTableDataSource<TransactionModel>(),
@@ -164,14 +161,11 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	async editRow(row: TransactionModel): Promise<void> {
-		// TODO remove hardcoded currency/exchangeRate when currency implemented on backend
 		const result = await this.dialog.openNonModal(EditTransactionDialogComponent, {
 			transaction: row,
-			currency: SupportedCurrency.USD,
-			exchangeRate: 1,
 		});
 		if (!result) return;
-		this.transactionStore.updateTransaction({ ...result, id: row.id! });
+		this.transactionStore.updateTransaction(result);
 	}
 
 	deleteRow(transaciton: Transaction): void {

@@ -157,16 +157,7 @@
 											class="detail-container"
 											[@expandAnimation]="expandedRowId === row.id ? 'expanded' : 'collapsed'"
 										>
-											<!-- TODO -->
-											<ex-data-table-details
-												[transaction]="{
-													...row,
-													currency: currencies.USD,
-													exchangeRate: 0.92,
-													baseCurrencyAmount: 2542,
-												}"
-												[type]="type()"
-											/>
+											<ex-data-table-details [transaction]="row" [type]="type()" />
 										</div>
 									</div>
 								</td>

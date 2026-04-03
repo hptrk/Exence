@@ -92,7 +92,7 @@ export class UserSettingsComponent implements OnInit {
 		if (this.themes()?.secondaryTheme) request.secondaryTheme = this.themes()!.secondaryTheme;
 		if (this.language()) request.language = this.language()!;
 		if (this.currencyInfo()?.baseCurrency) request.baseCurrency = this.currencyInfo()!.baseCurrency;
-		if (this.currencyInfo()?.showBaseCurrency) request.showBaseCurrency = this.currencyInfo()!.showBaseCurrency;
+		if (this.currencyInfo()?.showBaseCurrency) request.showBaseCurrency = this.currencyInfo()!.showBaseCurrency!;
 
 		const response = await this.userSettingService.update(request);
 		this.snackbarService.showSuccess(

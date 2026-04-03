@@ -1,6 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
 import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,7 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoService } from '@jsverse/transloco';
-import { startWith } from 'rxjs';
 import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { Transaction } from '../../../data-model/modules/transaction/Transaction';
@@ -28,7 +26,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
-import { localizeCurrency } from '../../../shared/util/utils';
+import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../category.service';
 
@@ -36,12 +34,6 @@ export interface CreateTransactionDialogData {
 	type?: TransactionType;
 	isRecurring?: boolean;
 }
-
-export type CreateTransactionDialogResult = Omit<Transaction, 'id'> & {
-	currency: SupportedCurrency;
-	exchangeRate: number;
-	baseCurrencyAmount: number;
-};
 
 @Component({
 	selector: 'ex-create-transaction-dialog',
@@ -71,7 +63,7 @@ export type CreateTransactionDialogResult = Omit<Transaction, 'id'> & {
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 	CreateTransactionDialogData | undefined,
-	CreateTransactionDialogResult | null
+	Transaction | null
 > {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
@@ -82,6 +74,8 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 
 	transactionTypes = TransactionType;
 	currencies = SupportedCurrency;
+
+	private categories = signal<Category[]>([]);
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -97,12 +91,8 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
-
-	private selectedType = toSignal(this.form.controls.type.valueChanges.pipe(startWith(null)), { initialValue: null });
-	private categories = signal<Category[]>([]);
-	private searchText = toSignal(this.form.controls.category.controls.searchText.valueChanges.pipe(startWith('')), {
-		initialValue: '',
-	});
+	private selectedType = toRawValueSignal(this.form.controls.type);
+	private searchText = toRawValueSignal(this.form.controls.category.controls.searchText);
 
 	filteredCategories = computed(() => {
 		const type = this.selectedType();

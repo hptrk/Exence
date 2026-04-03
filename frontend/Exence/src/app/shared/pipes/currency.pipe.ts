@@ -8,17 +8,16 @@ export class CurrencyPipe implements PipeTransform {
 	private readonly currencyService = inject(CurrencyService);
 	private readonly translocoService = inject(TranslocoService);
 
-	transform(value?: number | string | null, _currency?: SupportedCurrency): string {
+	transform(value?: number | string | null, currency?: SupportedCurrency): string {
 		if (value === undefined || value === null) return '';
 
 		const numericValue = typeof value === 'string' ? parseFloat(value) : value;
 		if (isNaN(numericValue)) return String(value);
 
 		// TODO uncomment when showBaseCurrency is implemented on server
-		// const resolvedCurrency = this.currencyService.showBaseCurrency()
-		// 	? this.currencyService.baseCurrency()
-		// 	: currency;
-		const resolvedCurrency = this.currencyService.baseCurrency();
+		const resolvedCurrency = this.currencyService.showBaseCurrency()
+			? this.currencyService.baseCurrency()
+			: (currency ?? this.currencyService.baseCurrency());
 		const lang = this.translocoService.getActiveLang();
 
 		return new Intl.NumberFormat(lang, {
