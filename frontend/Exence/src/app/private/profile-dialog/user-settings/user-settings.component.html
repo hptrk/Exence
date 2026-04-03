@@ -3,7 +3,8 @@
 
 	<mat-divider />
 
-	<ex-language-select [initialLang]="initialLanguage()" (changed)="language.set($event)" />
+	<h3 class="m-0 text-start fs-2 mb-3">{{ 'profile.userSettings.language.title' | translate }}</h3>
+	<ex-language-select [language]="initialLanguage()" (changed)="language.set($event)" />
 
 	<mat-divider />
 

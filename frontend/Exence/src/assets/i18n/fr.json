@@ -119,7 +119,8 @@
 		"debts": "Dettes",
 		"theme": "Mode principal/secondaire",
 		"logout": "Déconnexion",
-		"accountSettings": "Paramètres du compte"
+		"accountSettings": "Paramètres du compte",
+		"language": "Changer de langue"
 	},
 	"timeframe": {
 		"1W": "1S",

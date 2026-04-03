@@ -14,6 +14,4 @@ import { RouterOutlet } from '@angular/router';
 	`,
 	imports: [RouterOutlet],
 })
-export class PublicComponent {
-	// TODO set language to browser/OS language (if not possible to get add a language selector to public pages, maybe to the sidebar)
-}
+export class PublicComponent {}

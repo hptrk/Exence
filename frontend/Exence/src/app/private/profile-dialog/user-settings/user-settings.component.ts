@@ -56,9 +56,8 @@ export class UserSettingsComponent implements OnInit {
 		return s ? { primaryTheme: s.primaryTheme, secondaryTheme: s.secondaryTheme } : null;
 	});
 
-	initialLanguage = computed<{ lang: string } | null>(() => {
-		const s = this.userSettings();
-		return s ? { lang: s.language } : null;
+	initialLanguage = computed<string | undefined>(() => {
+		return this.userSettings()?.language;
 	});
 
 	themesValid = computed<boolean>(

@@ -119,7 +119,8 @@
 		"debts": "Schulden",
 		"theme": "Primär-/Sekundärmodus",
 		"logout": "Abmelden",
-		"accountSettings": "Kontoeinstellungen"
+		"accountSettings": "Kontoeinstellungen",
+		"language": "Sprache ändern"
 	},
 	"timeframe": {
 		"1W": "1W",

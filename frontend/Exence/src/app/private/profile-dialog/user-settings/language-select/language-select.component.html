@@ -1,15 +1,29 @@
-<h3 class="m-0 text-start fs-2 mb-3">{{ 'profile.userSettings.language.title' | translate }}</h3>
+@if (menu()) {
+	<div [matMenuTriggerFor]="selectorMenu">
+		<ng-content />
+	</div>
+} @else {
+	<div class="language-list">
+		@for (lang of langs; track lang) {
+			<dl
+				class="language-card d-flex flex-column justify-content-center align-items-center py-4"
+				[class.selected]="selectedLang() === lang"
+				(click)="selectLang(lang)"
+			>
+				<dt class="fs-4 fw-bold">{{ lang | uppercase }}</dt>
+				<dd class="fs-6 fw-normal">{{ getLanguage(lang) }}</dd>
+				<mat-icon size="md" class="selected-icon">check_circle</mat-icon>
+			</dl>
+		}
+	</div>
+}
 
-<div class="language-list">
-	@for (lang of langs; track lang) {
-		<dl
-			class="language-card d-flex flex-column justify-content-center align-items-center py-4"
-			[class.selected]="selectedLang() === lang"
-			(click)="selectLang(lang)"
-		>
-			<dt class="fs-4 fw-bold">{{ lang | uppercase }}</dt>
-			<dd class="fs-6 fw-normal">{{ getLanguage(lang) }}</dd>
-			<mat-icon size="md" class="selected-icon">check_circle</mat-icon>
-		</dl>
-	}
-</div>
+<mat-menu #selectorMenu>
+	<div class="d-flex flex-column gap-0">
+		@for (lang of langs; track lang) {
+			<button mat-menu-item class="d-flex flex-row flex-nowrap align-items-center" (click)="selectLang(lang)">
+				{{ lang | uppercase }} - {{ getLanguage(lang) }}
+			</button>
+		}
+	</div>
+</mat-menu>

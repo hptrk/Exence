@@ -117,7 +117,8 @@
 		"debts": "Dlhy",
 		"theme": "Hlavný/vedľajší režim",
 		"logout": "Odhlásiť sa",
-		"accountSettings": "Nastavenia účtu"
+		"accountSettings": "Nastavenia účtu",
+		"language": "Zmeniť jazyk"
 	},
 	"timeframe": {
 		"1W": "1T",

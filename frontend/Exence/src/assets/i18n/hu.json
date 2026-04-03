@@ -119,7 +119,8 @@
 		"debts": "Tartozások",
 		"theme": "Elsődleges/másodlagos téma",
 		"logout": "Kijelentkezés",
-		"accountSettings": "Fiókbeállítások"
+		"accountSettings": "Fiókbeállítások",
+		"language": "Nyelv"
 	},
 	"timeframe": {
 		"1W": "1Hé",
