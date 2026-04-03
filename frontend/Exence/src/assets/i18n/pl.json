@@ -701,5 +701,73 @@
 	"selection": {
 		"selectAll": "Zaznacz wszystko",
 		"deselectAll": "Odznacz wszystko"
+	},
+	"landing": {
+		"hero": {
+			"title": "ŚLEDZENIE WYDATKÓW<br><span class='landing-title-emphasis'>UPROSZCZONE</span>",
+			"getStarted": "Rozpocznijmy",
+			"login": "Zaloguj się"
+		},
+		"tagline": "Zarządzanie majątkiem oparte na danych, uproszczone.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Rejestrowanie bez wysiłku",
+				"title": "Śledź wydatki bez komplikacji.",
+				"description": "Nasz główny panel został zaprojektowany z myślą o szybkości. Rejestruj swoje transakcje w kilka sekund i uzyskaj natychmiastowy przegląd swoich codziennych finansów, dzięki czemu możesz spędzać mniej czasu na wpisywaniu danych, a więcej na zrozumieniu swojego majątku.",
+				"alt": "Zdjęcie przedstawiające fragment naszej strony panelu."
+			},
+			"deepInsights": {
+				"subtitle": "Głębokie statystyczne spostrzeżenia",
+				"title": "Państwa dane, Państwa wizualizacja.",
+				"description": "Przejmij pełną kontrolę nad swoją analizą. Strona statystyk pozwala na zbudowanie własnego widoku z różnorodnymi wykresami i metrykami. Dodawaj, usuwaj lub zmieniaj układ komponentów, aby zobaczyć dokładnie te informacje, których potrzebujesz, aby pomnożyć swoje oszczędności.",
+				"alt": "Zdjęcie przedstawiające fragment naszej strony statystyk."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Nieograniczona kategoryzacja",
+				"title": "Koniec ze sztywnymi kategoriami.",
+				"description": "Organizuj dokładnie tak, jak myślisz. Stwórz system, który działa dla Ciebie, korzystając z nieograniczonych opcji kolorów i niestandardowych etykiet. Niezależnie od tego, czy jest to codzienna kawa, czy długoterminowe inwestycje, każda transakcja znajdzie swoje idealne miejsce.",
+				"alt": "Zdjęcie przedstawiające fragment naszej listy kategorii."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Wiedza do zastosowania w praktyce",
+				"title": "Zmień liczby w wiedzę.",
+				"description": "Nie tylko patrz na historię – ucz się z niej. Nasz silnik analizuje Państwa wzorce wydatków, aby dostarczyć istotnych informacji, pomagając zidentyfikować trendy i zoptymalizować budżet przed końcem miesiąca.",
+				"alt": "Zdjęcie przedstawiające fragment naszej strony ustawień użytkownika."
+			},
+			"transparentSecurity": {
+				"subtitle": "Przejrzyste bezpieczeństwo",
+				"title": "Bezpieczeństwo, które możesz zobaczyć.",
+				"description": "Twoja prywatność finansowa jest najważniejsza. Monitoruj każdą aktywną sesję i zarządzaj zalogowanymi urządzeniami bezpośrednio ze swojego profilu, upewniając się, że zawsze masz pełną kontrolę nad tym, kto ma dostęp do Twoich danych.",
+				"alt": "Zdjęcie przedstawiające fragment naszej strony sesji."
+			}
+		},
+		"testimonials": {
+			"title": "Nasi użytkownicy powiedzieli",
+			"testimonial1": {
+				"quote": "Twoja prywatność finansowa jest najważniejsza. Monitoruj każdą aktywną sesję i zarządzaj zalogowanymi urządzeniami bezpośrednio ze swojego profilu, upewniając się, że zawsze masz pełną kontrolę nad tym, kto ma dostęp do Twoich danych.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "Twoja prywatność finansowa jest najważniejsza. Monitoruj każdą aktywną sesję i zarządzaj zalogowanymi urządzeniami bezpośrednio ze swojego profilu, upewniając się, że zawsze masz pełną kontrolę nad tym, kto ma dostęp do Twoich danych.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "Twoja prywatność finansowa jest najważniejsza. Monitoruj każdą aktywną sesję i zarządzaj zalogowanymi urządzeniami bezpośrednio ze swojego profilu, upewniając się, że zawsze masz pełną kontrolę nad tym, kto ma dostęp do Twoich danych.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Zdjęcie naszego użytkownika"
+		},
+		"whoWeAre": {
+			"title": "Kim jesteśmy",
+			"subtitle": "Jesteśmy studiem kreatywnym stawiającym na design",
+			"description1": "Wierzymy w siłę celowego projektowania do rozwiązywania prawdziwych wyzwań biznesowych. Każda linia, kolor i interakcja są tworzone z intencją, kreując doświadczenia, które łączą i przynoszą efekty. Naszą misją jest przekształcanie pomysłów w strategiczne, wizualne rozwiązania, które głęboko rezonują i wspierają cele naszych klientów.",
+			"description2": "Dla nas design to nie tylko wizualizacja; to wpływowe narzędzie, które pomaga markom osiągnąć trwały sukces."
+		},
+		"footer": {
+			"followUs": "Śledź nas na:",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. Wszelkie prawa zastrzeżone."
+		}
 	}
 }

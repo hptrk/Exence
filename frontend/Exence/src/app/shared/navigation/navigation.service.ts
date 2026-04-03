@@ -6,6 +6,10 @@ import { NavigationServiceForPrivate, PrivateRoutes } from './navigation-private
 	providedIn: 'root',
 })
 export class NavigationService {
+	index(): string {
+		return '/';
+	}
+
 	// Every route that is related to the user account should go in navigation-account.service.ts
 	account(): AccountRoutes {
 		return new NavigationServiceForAccount().getRoutes();

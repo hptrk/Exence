@@ -701,5 +701,73 @@
 	"selection": {
 		"selectAll": "Összes kijelölése",
 		"deselectAll": "Összes kijelölésének megszűntetése"
+	},
+	"landing": {
+		"hero": {
+			"title": "PÉNZÜGYEK KÖVETÉSE<br><span class='landing-title-emphasis'>EGYSZERŰEN</span>",
+			"getStarted": "Kezdjük el",
+			"login": "Bejelentkezés"
+		},
+		"tagline": "Adatközpontú vagyonkezelés, leegyszerűsítve.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Könnyed rögzítés",
+				"title": "Kövesse nyomon kiadásait zökkenőmentesen.",
+				"description": "Fő műszerfalunkat a sebességre terveztük. Rögzítse tranzakcióit másodpercek alatt, és kapjon azonnali áttekintést napi pénzügyeiről, így kevesebb időt tölthet gépeléssel és többet vagyonának megértésével.",
+				"alt": "Kép, amely a műszerfal oldalunk egy részletét mutatja."
+			},
+			"deepInsights": {
+				"subtitle": "Mély statisztikai betekintés",
+				"title": "Az Ön adatai, az Ön vizualizációja.",
+				"description": "Vegye át a teljes irányítást az elemzése felett. A statisztikák oldal lehetővé teszi, hogy különféle diagramokkal és mutatókkal kialakítsa saját nézetét. Adjon hozzá, távolítson el vagy rendezzen át elemeket, hogy pontosan azokat a betekintéseket lássa, amelyekre szüksége van megtakarításai növeléséhez.",
+				"alt": "Kép, amely a statisztika oldalunk egy részletét mutatja."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Korlátlan kategorizálás",
+				"title": "Nincsenek többé merev kategóriák.",
+				"description": "Rendszerezze az adatait pontosan úgy, ahogy gondolkodik. Hozzon létre egy olyan rendszert, amely működik az Ön számára, korlátlan színopciókkal és egyéni címkékkel. Legyen szó a napi kávéról vagy hosszú távú befektetésekről, minden tranzakció megtalálja a tökéletes helyét.",
+				"alt": "Kép, amely a kategórialistánk egy részletét mutatja."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Gyakorlati intelligencia",
+				"title": "Változtassa a számokat tudássá.",
+				"description": "Ne csak nézze a történelmet – tanuljon belőle. Rendszerünk elemzi költési szokásait, hogy értelmes betekintést nyújtson, segítve a trendek felismerését és a költségvetés optimalizálását még a hónap vége előtt.",
+				"alt": "Kép, amely a felhasználói beállítások oldalunk egy részletét mutatja."
+			},
+			"transparentSecurity": {
+				"subtitle": "Átlátható biztonság",
+				"title": "Biztonság, amit láthat.",
+				"description": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
+				"alt": "Kép, amely a munkamenetek oldalunk egy részletét mutatja."
+			}
+		},
+		"testimonials": {
+			"title": "Felhasználóink mondták",
+			"testimonial1": {
+				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Kép a felhasználónkról"
+		},
+		"whoWeAre": {
+			"title": "Kik vagyunk",
+			"subtitle": "Mi egy dizájn-központú kreatív stúdió vagyunk",
+			"description1": "Hiszünk a céltudatos tervezés erejében, amely valódi üzleti kihívásokat old meg. Minden vonal, szín és interakció szándékosan jön létre, olyan élményeket teremtve, amelyek összekötnek és hatást gyakorolnak. Küldetésünk, hogy az ötleteket olyan stratégiai, vizuális megoldásokká alakítsuk, amelyek mélyen rezonálnak és támogatják ügyfeleink céljait.",
+			"description2": "Számunkra a dizájn nem csupán vizualitás; ez egy befolyásos eszköz, amely segít a márkáknak a tartós siker elérésében."
+		},
+		"footer": {
+			"followUs": "Kövessen minket:",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. Minden jog fenntartva."
+		}
 	}
 }

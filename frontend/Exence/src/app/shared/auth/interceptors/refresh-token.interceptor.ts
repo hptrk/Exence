@@ -65,7 +65,7 @@ export function refreshTokenInterceptor(
 				}),
 				catchError((refreshError: HttpErrorResponse) => {
 					currentUserService.clearUser();
-					router.navigateByUrl(navigationService.account().login());
+					router.navigateByUrl(navigationService.index());
 
 					const errorWithContext = { ...refreshError };
 					setErrorContext(errorWithContext, req);
