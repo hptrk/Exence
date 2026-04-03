@@ -1,3 +1,17 @@
+@import '../../../styles/imports.scss';
+
+:host {
+	width: 100%;
+
+	@include displaySm {
+		width: 80%;
+	}
+
+	@include displayLg {
+		width: 60%;
+	}
+}
+
 a {
 	text-decoration: underline;
 	color: var(--primary-color);
