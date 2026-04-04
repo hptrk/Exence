@@ -1,5 +1,5 @@
 import { CommonModule, UpperCasePipe } from '@angular/common';
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -10,27 +10,27 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ActivatedRoute } from '@angular/router';
+import { format } from 'date-fns';
 import { Category } from '../../data-model/modules/category/Category';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { BaseComponent } from '../../shared/base-component/base.component';
 import { AmountStepperComponent } from '../../shared/amount-stepper/amount-stepper.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DataTableComponent } from '../../shared/data-table/data-table.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { FilterMenuComponent } from '../../shared/filter-menu/filter-menu.component';
+import { TranslationCode } from '../../shared/i18n/translation-types';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { mapToTransactionFilter, toRawValueSignal } from '../../shared/util/utils';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { CategoryStore } from './category.store';
 import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
-import { ActivatedRoute } from '@angular/router';
-import { formatISO } from 'date-fns';
-import { mapToTransactionFilter } from '../../shared/util/utils';
-import { TranslatePipe } from '../../shared/pipes/translate.pipe';
-import { TranslationCode } from '../../shared/i18n/translation-types';
+import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -58,9 +58,10 @@ import { TranslationCode } from '../../shared/i18n/translation-types';
 		InputClearButtonComponent,
 		TranslatePipe,
 		UpperCasePipe,
+		EnumValuePipe,
 	],
 })
-export class TransactionsAndCategoriesComponent extends BaseComponent implements OnInit {
+export class TransactionsAndCategoriesComponent {
 	private readonly dialog = inject(DialogService);
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly fb = inject(NonNullableFormBuilder);
@@ -75,7 +76,6 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 	loading = false;
 
 	transactionTypes = TransactionType;
-	transactionTypesArr = Object.values(this.transactionTypes);
 
 	transactionFilterForm = this.fb.group({
 		searchText: this.fb.control<string>('', [Validators.maxLength(100)]),
@@ -91,6 +91,7 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		type: this.fb.control<TransactionType | null>(null),
 		recurring: this.fb.control<boolean>(false),
 	});
+	filterFormValue = toRawValueSignal(this.transactionFilterForm);
 
 	get appliedFiltersCount(): number {
 		return Object.entries(this.transactionFilterForm.controls).reduce((sum, [key, control]) => {
@@ -108,24 +109,23 @@ export class TransactionsAndCategoriesComponent extends BaseComponent implements
 		return !!this.categoryStore.categoryResource.value();
 	}
 
-	ngOnInit(): void {
+	constructor() {
 		this.transactionStore.resetState();
 
-		this.addSubscription(
-			this.transactionFilterForm.valueChanges.subscribe(newFilters => {
-				if (this.transactionFilterForm.invalid) return;
-				const filters: TransactionFilter = {};
-				if (newFilters.searchText) filters.keyword = newFilters.searchText;
-				if (newFilters.dateRange?.dateFrom) filters.dateFrom = formatISO(newFilters.dateRange.dateFrom);
-				if (newFilters.dateRange?.dateTo) filters.dateTo = formatISO(newFilters.dateRange.dateTo);
-				if (newFilters.amountRange?.min != null) filters.amountFrom = newFilters.amountRange.min;
-				if (newFilters.amountRange?.max != null) filters.amountTo = newFilters.amountRange.max;
-				if (newFilters.category?.id != null) filters.categoryId = newFilters.category.id;
-				if (newFilters.type) filters.type = newFilters.type;
-				if (newFilters.recurring) filters.recurring = newFilters.recurring;
-				this.transactionStore.updateFilters(filters);
-			}),
-		);
+		effect(() => {
+			const formValue = this.filterFormValue();
+			if (this.transactionFilterForm.invalid) return;
+			const filters: TransactionFilter = {};
+			if (formValue.searchText) filters.keyword = formValue.searchText;
+			if (formValue.dateRange.dateFrom) filters.dateFrom = format(formValue.dateRange.dateFrom, 'yyyy-MM-dd');
+			if (formValue.dateRange.dateTo) filters.dateTo = format(formValue.dateRange.dateTo, 'yyyy-MM-dd');
+			if (formValue.amountRange.min != null) filters.amountFrom = formValue.amountRange.min;
+			if (formValue.amountRange.max != null) filters.amountTo = formValue.amountRange.max;
+			if (formValue.category?.id != null) filters.categoryId = formValue.category.id;
+			if (formValue.type) filters.type = formValue.type;
+			if (formValue.recurring) filters.recurring = formValue.recurring;
+			this.transactionStore.updateFilters(filters);
+		});
 
 		this.applyQueryParamsToFilters();
 	}

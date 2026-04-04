@@ -176,7 +176,7 @@
 									<mat-option [value]="null">
 										{{ 'literals.all' | translate }}
 									</mat-option>
-									@for (type of transactionTypesArr; track type) {
+									@for (type of transactionTypes | enumValue; track type) {
 										<mat-option [value]="type">
 											{{ codeForTransactionType(type) | translate | uppercase }}
 										</mat-option>

@@ -86,9 +86,6 @@ export const TransactionStore = signalStore(
 	})),
 
 	withComputed(store => ({
-		transactions: computed(() => store.transactions()),
-		incomes: computed(() => store.incomes()),
-		expenses: computed(() => store.expenses()),
 		totalIncome: computed(() => store.totalResource.value()?.totalIncome ?? 0),
 		totalExpense: computed(() => store.totalResource.value()?.totalExpense ?? 0),
 		balance: computed(() => {
@@ -96,9 +93,6 @@ export const TransactionStore = signalStore(
 			const expenses = store.totalResource.value()?.totalExpense ?? 0;
 			return (Math.round(incomes - expenses) / 100) * 100;
 		}),
-		recurrings: computed(() => store.recurrings()),
-		recurringIncomes: computed(() => store.recurringIncomes()),
-		recurringExpenses: computed(() => store.recurringExpenses()),
 	})),
 
 	withMethods(
