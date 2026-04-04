@@ -90,10 +90,10 @@ public class JwtService {
     public Instant calculateTokenExpiration(TokenType tokenType) {
         Duration expiration =
                 switch (tokenType) {
-                    case ACCESS -> jwtProperties.getAccessTokenExpiration();
-                    case REFRESH -> jwtProperties.getRefreshTokenExpiration();
-                    case PASSWORD_RESET -> jwtProperties.getPasswordResetTokenExpiration();
-                    case EMAIL_VERIFICATION -> jwtProperties.getEmailVerificationTokenExpiration();
+                    case ACCESS -> jwtProperties.accessTokenExpiration();
+                    case REFRESH -> jwtProperties.refreshTokenExpiration();
+                    case PASSWORD_RESET -> jwtProperties.passwordResetTokenExpiration();
+                    case EMAIL_VERIFICATION -> jwtProperties.emailVerificationTokenExpiration();
                 };
 
         return Instant.now().plus(expiration);
@@ -127,7 +127,7 @@ public class JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecret());
+        byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.secret());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

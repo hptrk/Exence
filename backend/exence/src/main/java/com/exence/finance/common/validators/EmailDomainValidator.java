@@ -34,7 +34,7 @@ public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomai
             return false;
         }
 
-        if (emailBusinessProperties.isDomainWhitelistOnly() && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
+        if (emailBusinessProperties.domainWhitelistOnly() && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("{validation.email.domain.whitelisted-only}")
                     .addConstraintViolation();

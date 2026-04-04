@@ -1,20 +1,9 @@
 package com.exence.finance.config.properties;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@Data
 @ConfigurationProperties(prefix = "external-apis")
-public class ExternalApiProperties {
+public record ExternalApiProperties(Frankfurter frankfurter) {
 
-    private Frankfurter frankfurter = new Frankfurter();
-
-    @Data
-    public static class Frankfurter {
-        private String baseUrl;
-
-        private long timeout;
-    }
+    public record Frankfurter(String baseUrl, long timeout) {}
 }

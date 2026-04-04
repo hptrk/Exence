@@ -20,10 +20,10 @@ public class RestTemplateConfig {
 
     @Bean
     public RestTemplate frankfurterRestTemplate(RestTemplateBuilder builder, ExternalApiProperties properties) {
-        ExternalApiProperties.Frankfurter config = properties.getFrankfurter();
-        Duration timeout = Duration.ofMillis(config.getTimeout());
+        ExternalApiProperties.Frankfurter config = properties.frankfurter();
+        Duration timeout = Duration.ofMillis(config.timeout());
 
-        return builder.rootUri(config.getBaseUrl())
+        return builder.rootUri(config.baseUrl())
                 .connectTimeout(timeout)
                 .readTimeout(timeout)
                 .errorHandler(new ResponseErrorHandler() {
