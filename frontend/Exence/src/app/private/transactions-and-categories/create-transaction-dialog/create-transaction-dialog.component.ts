@@ -87,7 +87,9 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 		note: this.fb.control<string | undefined>(undefined, [Validators.maxLength(500)]),
 		date: this.fb.control<Date>(new Date(), [Validators.required]),
 		amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)]),
-		type: this.fb.control<TransactionType | null>(null, [Validators.required]),
+		type: this.fb.control<TransactionType | null>(this.data?.type ?? TransactionType.EXPENSE, [
+			Validators.required,
+		]),
 		currency: this.fb.control<SupportedCurrency>(this.currencyService.baseCurrency(), [Validators.required]),
 		exchangeRate: this.fb.control<number | null>(null, [Validators.required, Validators.min(0.01)]),
 		recurring: this.fb.control<boolean>(false),
@@ -128,9 +130,6 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 		this.categoryService.list().then(categories => {
 			this.categories.set(categories);
 		});
-		if (this.data?.type) {
-			this.form.controls.type.setValue(this.data.type);
-		}
 		if (this.data?.isRecurring) {
 			this.form.controls.recurring.setValue(this.data.isRecurring);
 		}
@@ -149,6 +148,12 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 				.getRate(request)
 				.then(response => this.form.controls.exchangeRate.setValue(response))
 				.finally(() => this.form.controls.exchangeRate.enable());
+		});
+
+		effect(() => {
+			this.selectedType(); // dependency
+			this.form.controls.category.controls.category.reset();
+			this.form.controls.category.controls.category.markAsPristine();
 		});
 	}
 
