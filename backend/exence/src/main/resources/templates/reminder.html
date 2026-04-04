@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to Exence!</title>
+    <title>A quick reminder from Exence</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,37 +48,24 @@
             font-size: 12px;
             color: #666;
         }
-
-        .features {
-            background-color: white;
-            padding: 15px;
-            border-radius: 4px;
-            margin: 15px 0;
-            border-left: 4px solid #c9c9f2;
-        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>Welcome to Exence!</h1>
+        <h1>Just checking in!</h1>
     </div>
     <div class="content">
         <p>Hello <strong>{{username}}</strong>,</p>
-        <p>Welcome to Exence! Your email has been verified and your account is now active.</p>
-        <div class="features">
-            <h3 style="margin-top: 0;">What you can do now:</h3>
-            <ul style="padding-left: 20px;">
-                <li>Track your income and expenses</li>
-                <li>View detailed financial reports</li>
-                <li>Organize transactions with categories</li>
-                <li>Get insights into your spending habits</li>
-            </ul>
-        </div>
-        <p>Ready to take control of your finances?</p>
+        <p>It's been a little while since we last saw you. We wanted to send a quick reminder to log in and keep your
+            financial records up to date.</p>
+        <p>Consistency is key to understanding your spending habits. Click the link below to head to your dashboard and
+            log any recent transactions:</p>
         <div style="text-align: center;">
-            <a href="{{dashboardUrl}}" class="button">Get Started</a>
+            <a href="{{dashboardUrl}}" class="button">Go to Dashboard</a>
         </div>
+        <p>Or copy and paste this link into your browser:</p>
+        <p style="word-break: break-all; color: #666;">{{dashboardUrl}}</p>
     </div>
     <div class="footer">
         <p>Best regards,<br>The Exence Team</p>
