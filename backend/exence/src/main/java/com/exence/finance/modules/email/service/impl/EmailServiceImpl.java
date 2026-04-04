@@ -54,7 +54,6 @@ public class EmailServiceImpl implements EmailService {
         sendTemplatedEmail(user, EmailType.WELCOME, variables);
     }
 
-    // todo: implement timing of when to send this
     @Override
     public void sendReminderEmail(User user) {
         Map<String, String> variables = new HashMap<>();
