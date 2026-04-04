@@ -5,10 +5,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { Category } from 'src/app/data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
-import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../../../shared/base-component/base.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
@@ -24,6 +22,8 @@ import {
 	CreateTransactionDialogData,
 } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../../transactions-and-categories/transaction.store';
+import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
+import { TransactionCreate } from '../../../data-model/modules/transaction/TransactionCreate';
 
 @Component({
 	selector: 'ex-categories',
@@ -52,7 +52,7 @@ export class CategoriesComponent extends BaseComponent {
 	totalExpense = input.required<number>();
 	totalIncome = input.required<number>();
 	topCategories = input.required<CategorySummaryResponse[]>();
-	categories = input.required<Category[]>();
+	categories = input.required<CategoryGet[]>();
 
 	categoryType = signal<CategoryType>(CategoryType.EXPENSE);
 
@@ -68,10 +68,10 @@ export class CategoriesComponent extends BaseComponent {
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal<CreateTransactionDialogData | undefined, Transaction | null>(
-			CreateTransactionDialogComponent,
-			undefined,
-		);
+		const result = await this.dialog.openNonModal<
+			CreateTransactionDialogData | undefined,
+			TransactionCreate | null
+		>(CreateTransactionDialogComponent, undefined);
 		if (!result) return;
 		this.transactionStore.createTransaction(result);
 	}

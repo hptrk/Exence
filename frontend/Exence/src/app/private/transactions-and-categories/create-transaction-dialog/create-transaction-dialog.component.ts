@@ -9,9 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoService } from '@jsverse/transloco';
-import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
-import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 import { AmountStepperComponent } from '../../../shared/amount-stepper/amount-stepper.component';
@@ -32,6 +30,8 @@ import { CategoryService } from '../category.service';
 import { ExchangeRateRequest, ExchangeRateService } from '../../../shared/exchange-rate.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { isFuture } from 'date-fns';
+import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
+import { TransactionCreate } from '../../../data-model/modules/transaction/TransactionCreate';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -67,7 +67,7 @@ export interface CreateTransactionDialogData {
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 	CreateTransactionDialogData | undefined,
-	Transaction | null
+	TransactionCreate | null
 > {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
@@ -80,7 +80,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 	transactionTypes = TransactionType;
 	currencies = SupportedCurrency;
 
-	private categories = signal<Category[]>([]);
+	private categories = signal<CategoryGet[]>([]);
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -92,7 +92,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 		exchangeRate: this.fb.control<number | null>(null, [Validators.required, Validators.min(0.01)]),
 		recurring: this.fb.control<boolean>(false),
 		category: this.fb.group({
-			category: this.fb.control<Category | null>(null, [Validators.required]),
+			category: this.fb.control<CategoryGet | null>(null, [Validators.required]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
@@ -168,7 +168,6 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 			categoryId: formValue.category.category!.id!,
 			currency: formValue.currency,
 			exchangeRate: formValue.exchangeRate!,
-			baseCurrencyAmount: formValue.amount! * formValue.exchangeRate!,
 		});
 	}
 

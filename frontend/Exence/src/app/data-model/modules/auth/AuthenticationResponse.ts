@@ -1,5 +1,5 @@
-import { User } from './User';
+import { UserGet } from './UserGet';
 
 export interface AuthenticationResponse {
-	user: User;
+	user: UserGet;
 }

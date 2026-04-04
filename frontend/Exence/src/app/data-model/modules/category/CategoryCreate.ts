@@ -1,11 +1,10 @@
 import { CategoryType } from './CategoryType';
 import { MaterialIcon } from './MaterialIcon';
 
-export interface Category {
-	id?: number;
-	type: CategoryType;
+export interface CategoryCreate {
 	name: string;
 	icon: MaterialIcon;
 	color: string;
+	type: CategoryType;
 	note?: string;
 }

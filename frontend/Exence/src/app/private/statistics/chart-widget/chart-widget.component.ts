@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { ApexOptions, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { ExChartType } from '../../../data-model/modules/statistics/ChartType';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
-import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import {
 	mapToExChartType,
 	TIMEFRAME_HIDDEN_WIDGET_TYPES,
@@ -20,6 +19,7 @@ import { StatisticService } from '../statistic.service';
 import { TimeframeComponent } from '../timeframe/timeframe.component';
 import { TranslocoService } from '@jsverse/transloco';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
+import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
 
 @Component({
 	selector: 'ex-chart-widget',

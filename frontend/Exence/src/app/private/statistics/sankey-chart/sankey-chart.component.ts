@@ -6,7 +6,6 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { EChartsOption } from 'echarts/types/dist/shared';
 import { NgxEchartsDirective, provideEchartsCore } from 'ngx-echarts';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
-import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
@@ -14,6 +13,7 @@ import { mapToProvider } from '../chart-providers';
 import { StatisticService } from '../statistic.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
+import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
 
 echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 

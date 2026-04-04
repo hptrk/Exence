@@ -32,5 +32,4 @@ public record TransactionPatchDTO(
         Boolean recurring,
         Long categoryId,
         SupportedCurrency currency,
-        @DecimalMin(value = "0.0000000001") BigDecimal exchangeRate,
-        BigDecimal baseCurrencyAmount) {}
+        @DecimalMin(value = "0.0000000001") BigDecimal exchangeRate) {}

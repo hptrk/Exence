@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
-import { ChartWidget } from '../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
-import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent } from '../../private/dashboard/categories/categories.component';
 import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
@@ -24,6 +22,8 @@ import {
 	CreateTransactionDialogData,
 } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
+import { ChartWidget } from '../../data-model/modules/statistics/ChartWidget';
+import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -75,7 +75,6 @@ export class DashboardComponent extends BaseComponent {
 					id: response.widgetId,
 					type: response.type,
 					title: '',
-					info: '',
 					timeframe,
 					x: 0,
 					y: 0,
@@ -88,10 +87,10 @@ export class DashboardComponent extends BaseComponent {
 	}
 
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
-		const result = await this.dialog.openNonModal<CreateTransactionDialogData | undefined, Transaction | null>(
-			CreateTransactionDialogComponent,
-			{ type: transactionType },
-		);
+		const result = await this.dialog.openNonModal<
+			CreateTransactionDialogData | undefined,
+			TransactionCreate | null
+		>(CreateTransactionDialogComponent, { type: transactionType });
 		if (!result) return;
 		this.transactionStore.createTransaction(result);
 	}

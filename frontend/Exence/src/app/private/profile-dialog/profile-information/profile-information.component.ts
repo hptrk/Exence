@@ -7,8 +7,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { ChangePasswordRequest } from '../../../data-model/modules/auth/ChangePasswordRequest';
-import { UpdateUserRequest } from '../../../data-model/modules/auth/UpdateUserRequest';
-import { User } from '../../../data-model/modules/auth/User';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogRef } from '../../../shared/dialog/dialog.service';
@@ -22,6 +20,8 @@ import { CurrentUserService } from '../../../shared/user/current-user.service';
 import { UserService } from '../../../shared/user/user.service';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { ExtraValidators } from '../../../shared/validators';
+import { UserGet } from '../../../data-model/modules/auth/UserGet';
+import { UserPatch } from '../../../data-model/modules/auth/UserPatch';
 
 @Component({
 	selector: 'ex-profile-information',
@@ -58,7 +58,7 @@ export class ProfileInformationComponent {
 	isPasswordFormEditing = signal<boolean>(false);
 	showPassword = signal<boolean>(false);
 
-	user = computed<User>(() => this.currentUserService.user());
+	user = computed<UserGet>(() => this.currentUserService.user());
 
 	userDataForm = this.fb.group({
 		username: this.fb.control<string>(this.user().username, [Validators.required, Validators.maxLength(255)]),
@@ -117,7 +117,7 @@ export class ProfileInformationComponent {
 	async saveUserData(): Promise<void> {
 		if (this.userDataForm.invalid) return;
 		const formValue = this.userDataForm.getRawValue();
-		const request: UpdateUserRequest = {
+		const request: UserPatch = {
 			username: formValue.username,
 		};
 		const updatedUser = await this.userService.updateUser(request);

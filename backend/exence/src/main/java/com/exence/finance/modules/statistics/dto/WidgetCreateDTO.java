@@ -6,7 +6,6 @@ import java.util.Map;
 
 @ValidWidgetLayout
 public record WidgetCreateDTO(
-        Long id,
         @NotNull WidgetType type,
         String title,
         Timeframe timeframe,

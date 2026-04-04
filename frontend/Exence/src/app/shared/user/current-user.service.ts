@@ -1,18 +1,18 @@
 import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { User } from '../../data-model/modules/auth/User';
+import { UserGet } from '../../data-model/modules/auth/UserGet';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class CurrentUserService {
-	private _user: WritableSignal<User | null | undefined> = signal(null);
+	private _user: WritableSignal<UserGet | null | undefined> = signal(null);
 
 	isAuthenticated = computed(() => !!this._user());
 
-	get user(): Signal<User> {
-		return this._user.asReadonly() as Signal<User>;
+	get user(): Signal<UserGet> {
+		return this._user.asReadonly() as Signal<UserGet>;
 	}
-	set user(user: User | null | undefined) {
+	set user(user: UserGet | null | undefined) {
 		this._user.set(user);
 	}
 

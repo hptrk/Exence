@@ -204,6 +204,6 @@ public class WidgetLayoutValidatorTest {
             Integer y,
             Integer cols,
             Integer rows) {
-        return new WidgetCreateDTO(null, type, null, timeframe, displayOrder, x, y, cols, rows, null);
+        return new WidgetCreateDTO(type, null, timeframe, displayOrder, x, y, cols, rows, null);
     }
 }

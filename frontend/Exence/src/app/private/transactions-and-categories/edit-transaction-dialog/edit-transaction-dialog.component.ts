@@ -10,9 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslocoService } from '@jsverse/transloco';
 import { format, isFuture } from 'date-fns';
-import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
-import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { TransactionModel } from '../../../data-model/modules/transaction/TransactionModel';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
@@ -32,6 +30,8 @@ import { ValidatorComponent } from '../../../shared/validator/validator.componen
 import { CategoryService } from '../category.service';
 import { ExchangeRateRequest, ExchangeRateService } from '../../../shared/exchange-rate.service';
 import { CurrencyService } from '../../../shared/currency.service';
+import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
+import { TransactionPatch } from '../../../data-model/modules/transaction/TransactionPatch';
 
 export interface EditTransactionDialogData {
 	transaction: TransactionModel;
@@ -66,7 +66,10 @@ export interface EditTransactionDialogData {
 		'(window:beforeunload)': 'onBeforeUnload($event)',
 	},
 })
-export class EditTransactionDialogComponent extends DialogComponent<EditTransactionDialogData, Transaction | null> {
+export class EditTransactionDialogComponent extends DialogComponent<
+	EditTransactionDialogData,
+	TransactionPatch | null
+> {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
 	private readonly translocoService = inject(TranslocoService);
@@ -90,7 +93,7 @@ export class EditTransactionDialogComponent extends DialogComponent<EditTransact
 		]),
 		recurring: this.fb.control<boolean>(this.data.transaction.recurring),
 		category: this.fb.group({
-			category: this.fb.control<Category | null>(this.data.transaction.category, [Validators.required]),
+			category: this.fb.control<CategoryGet | null>(this.data.transaction.category, [Validators.required]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
@@ -99,7 +102,7 @@ export class EditTransactionDialogComponent extends DialogComponent<EditTransact
 	private dateValue = toRawValueSignal(this.form.controls.date);
 	private currencyValue = toRawValueSignal(this.form.controls.currency);
 
-	private categories = signal<Category[]>([]);
+	private categories = signal<CategoryGet[]>([]);
 
 	selectedType = computed<TransactionType>(() => this.formValue().type);
 
@@ -153,18 +156,16 @@ export class EditTransactionDialogComponent extends DialogComponent<EditTransact
 
 	save(): void {
 		const formValue = this.form.getRawValue();
-		const result: Transaction = {
-			id: this.data.transaction.id!,
+		const result: TransactionPatch = {
 			title: formValue.title,
 			note: formValue.note ?? '',
 			date: format(formValue.date, 'yyyy-MM-dd'),
 			amount: formValue.amount!,
 			type: formValue.type,
 			recurring: formValue.recurring,
-			categoryId: formValue.category.category!.id!,
+			categoryId: formValue.category.category!.id,
 			currency: formValue.currency,
 			exchangeRate: formValue.exchangeRate!,
-			baseCurrencyAmount: formValue.amount! * formValue.exchangeRate!,
 		};
 		this.dialogRef.submit(result);
 	}
@@ -181,7 +182,7 @@ export class EditTransactionDialogComponent extends DialogComponent<EditTransact
 		if (this.dialogRef.isLocked) event.preventDefault();
 	}
 
-	compareCategories(a: Category, b: Category): boolean {
+	compareCategories(a: CategoryGet, b: CategoryGet): boolean {
 		return a.id === b.id;
 	}
 }
