@@ -101,10 +101,9 @@ export class EditTransactionDialogComponent extends DialogComponent<
 	searchText = toRawValueSignal(this.form.controls.category.controls.searchText);
 	private dateValue = toRawValueSignal(this.form.controls.date);
 	private currencyValue = toRawValueSignal(this.form.controls.currency);
+	private selectedType = toRawValueSignal(this.form.controls.type);
 
 	private categories = signal<CategoryGet[]>([]);
-
-	selectedType = computed<TransactionType>(() => this.formValue().type);
 
 	filteredCategories = computed(() => {
 		const type = this.selectedType();
@@ -127,10 +126,21 @@ export class EditTransactionDialogComponent extends DialogComponent<
 
 	constructor() {
 		super(inject(DialogRef));
+
 		this.categoryService.list().then(categories => {
 			this.categories.set(categories);
 		});
 		this.form.markAsPristine();
+
+		let initialType = true;
+		effect(() => {
+			this.selectedType();
+			if (initialType) {
+				initialType = false;
+				return;
+			}
+			this.form.controls.category.controls.category.setValue(null);
+		});
 
 		effect(() => {
 			const currency = this.currencyValue();
