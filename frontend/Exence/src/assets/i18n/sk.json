@@ -118,7 +118,10 @@
 		"theme": "Hlavný/vedľajší režim",
 		"logout": "Odhlásiť sa",
 		"accountSettings": "Nastavenia účtu",
-		"language": "Zmeniť jazyk"
+		"language": "Zmeniť jazyk",
+		"home": "Home",
+		"login": "Log in",
+		"registration": "Registration"
 	},
 	"timeframe": {
 		"1W": "1T",

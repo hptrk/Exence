@@ -120,7 +120,10 @@
 		"theme": "Modo principal/secundario",
 		"logout": "Cerrar sesión",
 		"accountSettings": "Configuración de la cuenta",
-		"language": "Cambiar idioma"
+		"language": "Cambiar idioma",
+		"home": "Home",
+		"login": "Log in",
+		"registration": "Registration"
 	},
 	"timeframe": {
 		"1W": "1S",
