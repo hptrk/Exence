@@ -13,11 +13,17 @@ ex-chart-widget {
 	min-width: 300px;
 	@include displayMd {
 		flex-grow: 3;
+		height: 400px;
+	}
+	@include displayLg {
+		height: 100%;
 	}
 }
 
 ex-categories {
 	flex: 1 1 0;
 	min-width: 250px;
-	max-width: 500px;
+	@include displayMd {
+		max-width: 500px;
+	}
 }

@@ -13,9 +13,7 @@
 		class="d-flex flex-column-reverse flex-md-column justify-content-between gap-4 h-100"
 		[class.overflow-hidden]="display.isLg()"
 	>
-		<div
-			class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-md-center gap-4"
-		>
+		<div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between gap-4">
 			@if (dashboardWidget()) {
 				<ex-chart-widget
 					class="flex-grow-1"
@@ -26,7 +24,6 @@
 				/>
 			}
 			<ex-categories
-				class="h-100"
 				[totalExpense]="transactionStore.totalExpense()"
 				[totalIncome]="transactionStore.totalIncome()"
 				[categories]="categoryStore.categoryResource.value() ?? []"
