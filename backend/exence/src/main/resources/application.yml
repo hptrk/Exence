@@ -11,6 +11,9 @@ exence:
     rate-limiting:
       enabled: true
       cooldown-minutes-between-sends: 2
+    reminder:
+      cron: "0 0 9 */14 * *"
+      inactivity-period: 14d
   frontend-url: ${FRONTEND_URL:http://localhost:4200}
   logout-from-all-devices: false
   password-history-count: 3

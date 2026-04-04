@@ -54,6 +54,15 @@ public class EmailServiceImpl implements EmailService {
         sendTemplatedEmail(user, EmailType.WELCOME, variables);
     }
 
+    @Override
+    public void sendReminderEmail(User user) {
+        Map<String, String> variables = new HashMap<>();
+        variables.put("username", user.getDisplayUsername());
+        variables.put("dashboardUrl", exenceProperties.frontendUrl());
+
+        sendTemplatedEmail(user, EmailType.REMINDER, variables);
+    }
+
     private void sendTemplatedEmail(User user, EmailType emailType, Map<String, String> variables) {
         String recipientEmail = user.getEmail();
         String subject = emailType.getSubject();
