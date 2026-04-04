@@ -68,6 +68,10 @@ public class User implements UserDetails {
     @Builder.Default
     private Boolean emailVerified = Boolean.FALSE;
 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @Builder.Default
+    private Instant createdAt = Instant.now();
+
     @Column(name = "last_login_at")
     private Instant lastLoginAt;
 
