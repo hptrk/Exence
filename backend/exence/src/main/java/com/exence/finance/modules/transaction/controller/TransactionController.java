@@ -1,20 +1,22 @@
 package com.exence.finance.modules.transaction.controller;
 
 import com.exence.finance.common.dto.PageResponse;
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
-import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
-import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
+import com.exence.finance.modules.transaction.dto.TransactionCreateDTO;
+import com.exence.finance.modules.transaction.dto.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
+import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
+import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface TransactionController {
-    ResponseEntity<TransactionDTO> getTransactionById(Long id);
+    ResponseEntity<TransactionGetDTO> getTransactionById(Long id);
 
-    ResponseEntity<PageResponse<TransactionDTO>> getTransactions(TransactionFilter filter, Pageable pageable);
+    ResponseEntity<PageResponse<TransactionGetDTO>> getTransactions(TransactionFilter filter, Pageable pageable);
 
-    ResponseEntity<TransactionDTO> createTransaction(TransactionDTO transactionDTO);
+    ResponseEntity<TransactionGetDTO> createTransaction(TransactionCreateDTO transactionCreateDTO);
 
-    ResponseEntity<TransactionDTO> updateTransaction(Long id, TransactionDTO transactionDTO);
+    ResponseEntity<TransactionGetDTO> updateTransaction(Long id, TransactionPatchDTO transactionPatchDTO);
 
     ResponseEntity<Void> deleteTransaction(Long id);
 

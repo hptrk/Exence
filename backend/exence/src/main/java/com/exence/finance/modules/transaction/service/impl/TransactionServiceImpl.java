@@ -12,10 +12,12 @@ import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
+import com.exence.finance.modules.transaction.dto.TransactionCreateDTO;
+import com.exence.finance.modules.transaction.dto.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
+import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
+import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.dto.TransactionType;
-import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
-import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.mapper.TransactionMapper;
 import com.exence.finance.modules.transaction.repository.TransactionPredicateBuilder;
@@ -48,15 +50,15 @@ public class TransactionServiceImpl implements TransactionService {
     private final ApplicationEventPublisher eventPublisher;
 
     @ReadTransactional
-    public TransactionDTO getTransactionById(Long id) {
+    public TransactionGetDTO getTransactionById(Long id) {
         Transaction transaction =
                 transactionRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
 
-        return transactionMapper.mapToTransactionDTO(transaction);
+        return transactionMapper.mapToTransactionGetDTO(transaction);
     }
 
     @ReadTransactional
-    public Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable) {
+    public Page<TransactionGetDTO> getTransactions(TransactionFilter filter, Pageable pageable) {
         Page<Transaction> transactions;
         Predicate predicate = TransactionPredicateBuilder.buildPredicate(filter);
 
@@ -66,51 +68,52 @@ public class TransactionServiceImpl implements TransactionService {
             transactions = transactionRepository.findAll(pageable);
         }
 
-        return transactions.map(transactionMapper::mapToTransactionDTO);
+        return transactions.map(transactionMapper::mapToTransactionGetDTO);
     }
 
     @WriteTransactional
-    public TransactionDTO createTransaction(TransactionDTO transactionDTO) {
+    public TransactionGetDTO createTransaction(TransactionCreateDTO transactionCreateDTO) {
         User user = userService.getCurrentUser();
-        Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
+        Transaction transaction = transactionMapper.mapToTransaction(transactionCreateDTO);
 
         Category category = categoryRepository
-                .find(transactionDTO.categoryId())
+                .find(transactionCreateDTO.categoryId())
                 .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
         transaction.setCategory(category);
         transaction.setUser(user);
 
-        applyCurrencyFields(transaction, transactionDTO);
+        applyCurrencyFields(transaction, transactionCreateDTO.currency(), transactionCreateDTO.exchangeRate());
 
         Transaction savedTransaction = transactionRepository.save(transaction);
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
-        return transactionMapper.mapToTransactionDTO(savedTransaction);
+        return transactionMapper.mapToTransactionGetDTO(savedTransaction);
     }
 
     @WriteTransactional
-    public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
-        Transaction transaction = transactionRepository
-                .find(transactionDTO.id())
-                .orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
+    public TransactionGetDTO updateTransaction(Long id, TransactionPatchDTO transactionPatchDTO) {
+        Transaction transaction =
+                transactionRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
 
-        if (transactionDTO.categoryId() != null
-                && !transactionDTO.categoryId().equals(transaction.getCategory().getId())) {
+        if (transactionPatchDTO.categoryId() != null
+                && !transactionPatchDTO
+                        .categoryId()
+                        .equals(transaction.getCategory().getId())) {
 
             Category category = categoryRepository
-                    .find(transactionDTO.categoryId())
+                    .find(transactionPatchDTO.categoryId())
                     .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
             transaction.setCategory(category);
         }
 
-        transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
+        transactionMapper.updateTransactionFromPatchDto(transactionPatchDTO, transaction);
 
-        applyCurrencyFields(transaction, transactionDTO);
+        applyCurrencyFields(transaction, transactionPatchDTO.currency(), transactionPatchDTO.exchangeRate());
 
         Transaction savedTransaction = transactionRepository.save(transaction);
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
-        return transactionMapper.mapToTransactionDTO(savedTransaction);
+        return transactionMapper.mapToTransactionGetDTO(savedTransaction);
     }
 
     @WriteTransactional
@@ -170,18 +173,19 @@ public class TransactionServiceImpl implements TransactionService {
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
     }
 
-    private void applyCurrencyFields(Transaction transaction, TransactionDTO dto) {
+    private void applyCurrencyFields(
+            Transaction transaction, SupportedCurrency currencyFromDTO, BigDecimal exchangeRateFromDTO) {
         SupportedCurrency baseCurrency = getUserBaseCurrency();
 
-        SupportedCurrency currency = dto.currency() != null ? dto.currency() : baseCurrency;
+        SupportedCurrency currency = currencyFromDTO != null ? currencyFromDTO : baseCurrency;
         transaction.setCurrency(currency);
 
         if (currency == baseCurrency) {
             transaction.setExchangeRate(BigDecimal.ONE);
             transaction.setBaseCurrencyAmount(transaction.getAmount());
         } else {
-            BigDecimal exchangeRate = dto.exchangeRate() != null
-                    ? dto.exchangeRate()
+            BigDecimal exchangeRate = exchangeRateFromDTO != null
+                    ? exchangeRateFromDTO
                     : exchangeRateService.getRate(currency, baseCurrency, transaction.getDate());
 
             transaction.setExchangeRate(exchangeRate);

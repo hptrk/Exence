@@ -1,6 +1,6 @@
 package com.exence.finance.modules.statistics.mapper;
 
-import com.exence.finance.modules.statistics.dto.WidgetDTO;
+import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import com.exence.finance.modules.statistics.dto.response.ChartWidgetDTO;
 import com.exence.finance.modules.statistics.dto.response.StatCardWidgetDTO;
 import com.exence.finance.modules.statistics.entity.Widget;
@@ -21,5 +21,5 @@ public interface WidgetMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
-    Widget mapToWidget(WidgetDTO dto);
+    Widget mapToWidget(WidgetCreateDTO dto);
 }

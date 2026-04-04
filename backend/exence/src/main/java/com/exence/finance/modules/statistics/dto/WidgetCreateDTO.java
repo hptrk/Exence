@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Map;
 
 @ValidWidgetLayout
-public record WidgetDTO(
+public record WidgetCreateDTO(
         Long id,
         @NotNull WidgetType type,
         String title,

@@ -7,7 +7,7 @@ import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
-import com.exence.finance.modules.statistics.dto.WidgetDTO;
+import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.WidgetDataPayload;
@@ -77,9 +77,9 @@ public class WidgetServiceImpl implements WidgetService {
 
     @Override
     @WriteTransactional
-    public WidgetLayoutResponse createWidget(WidgetDTO widgetDTO) {
-        widgetSettingsValidator.validate(widgetDTO.settings());
-        Widget widget = widgetMapper.mapToWidget(widgetDTO);
+    public WidgetLayoutResponse createWidget(WidgetCreateDTO widgetCreateDTO) {
+        widgetSettingsValidator.validate(widgetCreateDTO.settings());
+        Widget widget = widgetMapper.mapToWidget(widgetCreateDTO);
         widget.setUser(userService.getCurrentUser());
 
         widgetRepository.save(widget);

@@ -2,10 +2,12 @@ package com.exence.finance.modules.category.controller.impl;
 
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.category.controller.CategoryController;
-import com.exence.finance.modules.category.dto.CategoryDTO;
+import com.exence.finance.modules.category.dto.CategoryCreateDTO;
+import com.exence.finance.modules.category.dto.CategoryFilter;
+import com.exence.finance.modules.category.dto.CategoryGetDTO;
+import com.exence.finance.modules.category.dto.CategoryPatchDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.service.CategoryService;
-import com.exence.finance.modules.transaction.dto.request.CategoryFilter;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,15 +31,15 @@ public class CategoryControllerImpl implements CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDTO> getCategoryById(@PathVariable Long id) {
-        CategoryDTO categoryDTO = categoryService.getCategoryById(id);
-        return ResponseFactory.ok(categoryDTO);
+    public ResponseEntity<CategoryGetDTO> getCategoryById(@PathVariable Long id) {
+        CategoryGetDTO categoryGetDTO = categoryService.getCategoryById(id);
+        return ResponseFactory.ok(categoryGetDTO);
     }
 
     @GetMapping()
-    public ResponseEntity<List<CategoryDTO>> getCategories() {
-        List<CategoryDTO> categoryDTOs = categoryService.getCategories();
-        return ResponseFactory.ok(categoryDTOs);
+    public ResponseEntity<List<CategoryGetDTO>> getCategories() {
+        List<CategoryGetDTO> categoryGetDTOs = categoryService.getCategories();
+        return ResponseFactory.ok(categoryGetDTOs);
     }
 
     @GetMapping("/top")
@@ -48,15 +50,15 @@ public class CategoryControllerImpl implements CategoryController {
     }
 
     @PostMapping()
-    public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO) {
-        CategoryDTO created = categoryService.createCategory(categoryDTO);
+    public ResponseEntity<CategoryGetDTO> createCategory(@Valid @RequestBody CategoryCreateDTO categoryCreateDTO) {
+        CategoryGetDTO created = categoryService.createCategory(categoryCreateDTO);
         return ResponseFactory.created(created.id(), created);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CategoryDTO> updateCategory(
-            @PathVariable Long id, @Valid @RequestBody CategoryDTO categoryDTO) {
-        CategoryDTO updated = categoryService.updateCategory(categoryDTO);
+    public ResponseEntity<CategoryGetDTO> updateCategory(
+            @PathVariable Long id, @Valid @RequestBody CategoryPatchDTO categoryPatchDTO) {
+        CategoryGetDTO updated = categoryService.updateCategory(id, categoryPatchDTO);
         return ResponseFactory.ok(updated);
     }
 

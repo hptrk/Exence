@@ -1,7 +1,7 @@
 package com.exence.finance.modules.transaction.repository;
 
+import com.exence.finance.modules.transaction.dto.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.TransactionType;
-import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
 import com.exence.finance.modules.transaction.entity.QTransaction;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;

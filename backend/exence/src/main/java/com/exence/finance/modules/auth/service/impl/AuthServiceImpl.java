@@ -71,7 +71,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @WriteTransactional
     public AuthenticationResponse register(RegisterRequest request) {
-        User user = buildNewUser(request);
+        User user = userMapper.mapRegisterRequestToUser(request);
         user = userRepository.save(user);
 
         createUserSettings(user, request.baseCurrency());
@@ -181,16 +181,6 @@ public class AuthServiceImpl implements AuthService {
         log.info("Password reset successful for user: {}", user.getEmail());
     }
 
-    private User buildNewUser(RegisterRequest request) {
-        return User.builder()
-                .username(request.username())
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
-                .emailVerified(false)
-                .lastLoginAt(Instant.now())
-                .build();
-    }
-
     @WriteTransactional
     public void sendEmailVerification(User user) {
         Token verificationToken = tokenManagementService.createAndSaveToken(user, TokenType.EMAIL_VERIFICATION);
@@ -203,7 +193,7 @@ public class AuthServiceImpl implements AuthService {
         Token refreshToken = tokenManagementService.createAndSaveToken(user, TokenType.REFRESH, sessionId);
 
         return new AuthenticationResponse(
-                userMapper.mapToUserDto(user), new TokenPair(accessToken.getToken(), refreshToken.getToken()));
+                userMapper.mapToUserGetDto(user), new TokenPair(accessToken.getToken(), refreshToken.getToken()));
     }
 
     private void authenticateUser(LoginRequest request) {

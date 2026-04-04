@@ -1,4 +1,4 @@
-package com.exence.finance.modules.transaction.dto.request;
+package com.exence.finance.modules.transaction.dto;
 
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
@@ -6,7 +6,6 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMO
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MAX_LENGTH;
 
 import com.exence.finance.common.annotations.ValidRange;
-import com.exence.finance.modules.transaction.dto.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;

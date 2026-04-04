@@ -2,9 +2,9 @@ package com.exence.finance.modules.auth.controller.impl;
 
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.auth.controller.UserController;
-import com.exence.finance.modules.auth.dto.UserDTO;
+import com.exence.finance.modules.auth.dto.UserGetDTO;
+import com.exence.finance.modules.auth.dto.UserPatchDTO;
 import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
-import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
 import com.exence.finance.modules.auth.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +27,14 @@ public class UserControllerImpl implements UserController {
     private final UserService userService;
 
     @GetMapping("/me")
-    public ResponseEntity<UserDTO> getCurrentUser() {
-        UserDTO currentUser = userService.getUserFromToken();
+    public ResponseEntity<UserGetDTO> getCurrentUser() {
+        UserGetDTO currentUser = userService.getUserFromToken();
         return ResponseFactory.ok(currentUser);
     }
 
     @PatchMapping()
-    public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UpdateUserRequest request) {
-        UserDTO updated = userService.updateUser(request);
+    public ResponseEntity<UserGetDTO> updateUser(@Valid @RequestBody UserPatchDTO request) {
+        UserGetDTO updated = userService.updateUser(request);
         return ResponseFactory.ok(updated);
     }
 

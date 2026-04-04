@@ -1,17 +1,21 @@
 package com.exence.finance.modules.category.mapper;
 
-import com.exence.finance.modules.category.dto.CategoryDTO;
+import com.exence.finance.modules.category.dto.CategoryCreateDTO;
+import com.exence.finance.modules.category.dto.CategoryGetDTO;
+import com.exence.finance.modules.category.dto.CategoryPatchDTO;
 import com.exence.finance.modules.category.dto.MaterialIcon;
 import com.exence.finance.modules.category.entity.Category;
 import java.util.List;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
-    CategoryDTO mapToCategoryDTO(Category category);
+    CategoryGetDTO mapToCategoryGetDTO(Category category);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
@@ -20,7 +24,7 @@ public interface CategoryMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    Category mapToCategory(CategoryDTO categoryDTO);
+    Category mapToCategory(CategoryCreateDTO categoryCreateDTO);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
@@ -29,11 +33,10 @@ public interface CategoryMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    void updateCategoryFromDto(CategoryDTO categoryDTO, @MappingTarget Category category);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateCategoryFromPatchDto(CategoryPatchDTO categoryPatchDTO, @MappingTarget Category category);
 
-    List<CategoryDTO> mapToCategoryDTOList(List<Category> category);
-
-    List<Category> mapToCategoryList(List<CategoryDTO> categoryDTOs);
+    List<CategoryGetDTO> mapToCategoryGetDTOList(List<Category> category);
 
     default String map(MaterialIcon icon) {
         return icon != null ? icon.name() : null;

@@ -1,17 +1,20 @@
 package com.exence.finance.modules.transaction.mapper;
 
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
+import com.exence.finance.modules.transaction.dto.TransactionCreateDTO;
+import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
+import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
 import com.exence.finance.modules.transaction.entity.Transaction;
-import java.util.List;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
 
     @Mapping(target = "categoryId", source = "category.id")
-    TransactionDTO mapToTransactionDTO(Transaction transaction);
+    TransactionGetDTO mapToTransactionGetDTO(Transaction transaction);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
@@ -23,7 +26,7 @@ public interface TransactionMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    Transaction mapToTransaction(TransactionDTO transactionDTO);
+    Transaction mapToTransaction(TransactionCreateDTO transactionCreateDTO);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
@@ -35,9 +38,6 @@ public interface TransactionMapper {
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    void updateTransactionFromDto(TransactionDTO transactionDTO, @MappingTarget Transaction transaction);
-
-    List<TransactionDTO> mapToTransactionDTOList(List<Transaction> transactions);
-
-    List<Transaction> mapToTransactionList(List<TransactionDTO> transactionDTOs);
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateTransactionFromPatchDto(TransactionPatchDTO transactionPatchDTO, @MappingTarget Transaction transaction);
 }
