@@ -25,9 +25,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     Set<Long> findExistingIds(@Param("ids") Collection<Long> ids);
 
     @Query(
-            """
+        """
                 SELECT new com.exence.finance.modules.category.dto.CategorySummaryResponse(
-                    c.id, c.name, CAST(c.icon AS string), c.color, COALESCE(SUM(t.amount), 0)
+                    c.id, c.name, CAST(c.icon AS string), c.color, COALESCE(SUM(t.baseCurrencyAmount), 0)
                 )
                 FROM Category c
                 left JOIN c.transactions t
@@ -37,7 +37,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
                     (:type IN ('EXPENSE', 'MIXED') AND t.type = 'EXPENSE')
                 )
                 GROUP BY c.id, c.name, c.icon, c.color
-                ORDER BY COALESCE(SUM(t.amount), 0) DESC
+                ORDER BY COALESCE(SUM(t.baseCurrencyAmount), 0) DESC
                 LIMIT 4
             """)
     List<CategorySummaryResponse> findTopCategoriesByTotalAmount(@Param("type") CategoryType type);
