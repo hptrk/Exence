@@ -2,16 +2,16 @@ package com.exence.finance.modules.statistics.validators;
 
 import com.exence.finance.modules.statistics.annotations.ValidWidgetLayout;
 import com.exence.finance.modules.statistics.dto.Timeframe;
-import com.exence.finance.modules.statistics.dto.WidgetDTO;
+import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLayout, WidgetDTO> {
+public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLayout, WidgetCreateDTO> {
 
     @Override
-    public boolean isValid(WidgetDTO dto, ConstraintValidatorContext context) {
+    public boolean isValid(WidgetCreateDTO dto, ConstraintValidatorContext context) {
         if (dto == null || dto.type() == null) {
             return true;
         }
@@ -29,7 +29,7 @@ public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLay
         return true;
     }
 
-    private boolean validateStatCard(WidgetDTO dto, ConstraintValidatorContext context) {
+    private boolean validateStatCard(WidgetCreateDTO dto, ConstraintValidatorContext context) {
         boolean valid = true;
 
         if (dto.displayOrder() == null) {
@@ -70,7 +70,7 @@ public class WidgetLayoutValidator implements ConstraintValidator<ValidWidgetLay
         return valid;
     }
 
-    private boolean validateGraph(WidgetDTO dto, ConstraintValidatorContext context) {
+    private boolean validateGraph(WidgetCreateDTO dto, ConstraintValidatorContext context) {
         boolean valid = true;
 
         if (dto.x() == null) {

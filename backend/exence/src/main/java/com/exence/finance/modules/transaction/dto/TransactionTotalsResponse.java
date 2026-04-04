@@ -1,4 +1,4 @@
-package com.exence.finance.modules.transaction.dto.response;
+package com.exence.finance.modules.transaction.dto;
 
 import java.math.BigDecimal;
 

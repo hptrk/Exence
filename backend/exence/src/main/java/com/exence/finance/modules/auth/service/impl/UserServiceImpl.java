@@ -4,9 +4,9 @@ import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.dto.UserDTO;
+import com.exence.finance.modules.auth.dto.UserGetDTO;
+import com.exence.finance.modules.auth.dto.UserPatchDTO;
 import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
-import com.exence.finance.modules.auth.dto.request.UpdateUserRequest;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.mapper.UserMapper;
 import com.exence.finance.modules.auth.repository.UserRepository;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     private final AuthService authService;
 
     @ReadTransactional
-    public UserDTO getUserFromToken() {
+    public UserGetDTO getUserFromToken() {
         HttpServletRequest request = requestContextService.getCurrentRequest();
         if (request == null) {
             throw new ExenceException(ErrorCode.USER_NOT_FOUND);
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
         String email = jwtService.extractUsername(token);
         User user = userRepository.findByEmail(email).orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
-        return userMapper.mapToUserDto(user);
+        return userMapper.mapToUserGetDto(user);
     }
 
     @ReadTransactional
@@ -90,12 +90,12 @@ public class UserServiceImpl implements UserService {
     @CacheEvict(
             value = {"currentUser", "currentUserId"},
             allEntries = true)
-    public UserDTO updateUser(UpdateUserRequest request) {
+    public UserGetDTO updateUser(UserPatchDTO request) {
         User user = getCurrentUser();
-        userMapper.updateUserFromRequest(request, user);
+        userMapper.updateUserFromPatchDto(request, user);
         user = userRepository.save(user);
 
-        return userMapper.mapToUserDto(user);
+        return userMapper.mapToUserGetDto(user);
     }
 
     @WriteTransactional

@@ -1,20 +1,22 @@
 package com.exence.finance.modules.transaction.service;
 
 import com.exence.finance.common.dto.SupportedCurrency;
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
-import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
-import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
+import com.exence.finance.modules.transaction.dto.TransactionCreateDTO;
+import com.exence.finance.modules.transaction.dto.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
+import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
+import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface TransactionService {
-    TransactionDTO getTransactionById(Long id);
+    TransactionGetDTO getTransactionById(Long id);
 
-    Page<TransactionDTO> getTransactions(TransactionFilter filter, Pageable pageable);
+    Page<TransactionGetDTO> getTransactions(TransactionFilter filter, Pageable pageable);
 
-    TransactionDTO createTransaction(TransactionDTO transactionDTO);
+    TransactionGetDTO createTransaction(TransactionCreateDTO transactionCreateDTO);
 
-    TransactionDTO updateTransaction(TransactionDTO transactionDTO);
+    TransactionGetDTO updateTransaction(Long id, TransactionPatchDTO transactionPatchDTO);
 
     void deleteTransaction(Long id);
 

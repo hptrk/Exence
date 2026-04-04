@@ -5,9 +5,11 @@ import static com.exence.finance.common.util.ApplicationConstants.DEFAULT_PAGE_S
 import com.exence.finance.common.dto.PageResponse;
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.transaction.controller.TransactionController;
-import com.exence.finance.modules.transaction.dto.TransactionDTO;
-import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
-import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
+import com.exence.finance.modules.transaction.dto.TransactionCreateDTO;
+import com.exence.finance.modules.transaction.dto.TransactionFilter;
+import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
+import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
+import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.service.TransactionService;
 import jakarta.validation.Valid;
@@ -36,35 +38,36 @@ public class TransactionControllerImpl implements TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransactionDTO> getTransactionById(@PathVariable("id") Long id) {
-        TransactionDTO transactionDTO = transactionService.getTransactionById(id);
-        return ResponseFactory.ok(transactionDTO);
+    public ResponseEntity<TransactionGetDTO> getTransactionById(@PathVariable Long id) {
+        TransactionGetDTO transactionGetDTO = transactionService.getTransactionById(id);
+        return ResponseFactory.ok(transactionGetDTO);
     }
 
     @GetMapping()
-    public ResponseEntity<PageResponse<TransactionDTO>> getTransactions(
+    public ResponseEntity<PageResponse<TransactionGetDTO>> getTransactions(
             @Valid @ModelAttribute TransactionFilter filter,
             @PageableDefault(size = DEFAULT_PAGE_SIZE, sort = Transaction.Fields.date, direction = Sort.Direction.DESC)
                     Pageable pageable) {
-        Page<TransactionDTO> page = transactionService.getTransactions(filter, pageable);
+        Page<TransactionGetDTO> page = transactionService.getTransactions(filter, pageable);
         return ResponseFactory.page(page);
     }
 
     @PostMapping()
-    public ResponseEntity<TransactionDTO> createTransaction(@Valid @RequestBody TransactionDTO transactionDTO) {
-        TransactionDTO created = transactionService.createTransaction(transactionDTO);
+    public ResponseEntity<TransactionGetDTO> createTransaction(
+            @Valid @RequestBody TransactionCreateDTO transactionCreateDTO) {
+        TransactionGetDTO created = transactionService.createTransaction(transactionCreateDTO);
         return ResponseFactory.created(created.id(), created);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<TransactionDTO> updateTransaction(
-            @PathVariable Long id, @Valid @RequestBody TransactionDTO transactionDTO) {
-        TransactionDTO updated = transactionService.updateTransaction(transactionDTO);
+    public ResponseEntity<TransactionGetDTO> updateTransaction(
+            @PathVariable Long id, @Valid @RequestBody TransactionPatchDTO transactionPatchDTO) {
+        TransactionGetDTO updated = transactionService.updateTransaction(id, transactionPatchDTO);
         return ResponseFactory.ok(updated);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
         transactionService.deleteTransaction(id);
         return ResponseFactory.noContent();
     }

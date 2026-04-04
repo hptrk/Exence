@@ -8,7 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import com.exence.finance.modules.statistics.dto.Timeframe;
-import com.exence.finance.modules.statistics.dto.WidgetDTO;
+import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.validators.WidgetLayoutValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -50,7 +50,7 @@ public class WidgetLayoutValidatorTest {
 
     @Test
     void test_nullType_returnsTrue() {
-        WidgetDTO dto = dto(null, null, null, null, null, null, null);
+        WidgetCreateDTO dto = dto(null, null, null, null, null, null, null);
         assertTrue(validator.isValid(dto, context));
     }
 
@@ -63,140 +63,140 @@ public class WidgetLayoutValidatorTest {
     @Test
     void test_statCard_valid_allTypes() {
         for (WidgetType type : WidgetType.STAT_CARD_TYPES) {
-            WidgetDTO dto = dto(type, null, 0, null, null, null, null);
+            WidgetCreateDTO dto = dto(type, null, 0, null, null, null, null);
             assertTrue(validator.isValid(dto, context), "Should be valid for " + type);
         }
     }
 
     @Test
     void test_statCard_missingDisplayOrder_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, null, null, null, null, null);
+        WidgetCreateDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, null, null, null, null, null);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_statCard_withX_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, 0, null, null, null);
+        WidgetCreateDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, 0, null, null, null);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_statCard_withY_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, 0, null, null);
+        WidgetCreateDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, 0, null, null);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_statCard_allInvalid_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, null, 0, 0, 0, 0);
+        WidgetCreateDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, null, 0, 0, 0, 0);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_statCard_withCols_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, null, 2, null);
+        WidgetCreateDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, null, 2, null);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_statCard_withRows_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, null, null, 2);
+        WidgetCreateDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, null, null, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_statCard_withColsAndRows_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, null, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.BURN_RATE_STATCARD, null, 1, null, null, 2, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_valid() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, 0, 2, 2);
         assertTrue(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_valid_withTimeframe() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, Timeframe.ONE_MONTH, null, 2, 3, 4, 4);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, Timeframe.ONE_MONTH, null, 2, 3, 4, 4);
         assertTrue(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_missingX_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, null, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, null, 0, 2, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_missingY_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, null, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, null, 2, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_missingCols_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, 0, null, 2);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, 0, null, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_missingRows_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, 0, 2, null);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, null, null, 0, 0, 2, null);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_withDisplayOrder_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, null, 1, 0, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, null, 1, 0, 0, 2, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_graph_allInvalid_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, null, 1, null, null, null, null);
+        WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, null, 1, null, null, null, null);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_ytdOnlyGraph_withYtdTimeframe_returnsTrue() {
-        WidgetDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.YTD, null, 0, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.YTD, null, 0, 0, 2, 2);
         assertTrue(validator.isValid(dto, context));
     }
 
     @Test
     void test_ytdOnlyGraph_withNullTimeframe_returnsTrue() {
-        WidgetDTO dto = dto(WidgetType.SPENDING_HEATMAP, null, null, 0, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.SPENDING_HEATMAP, null, null, 0, 0, 2, 2);
         assertTrue(validator.isValid(dto, context));
     }
 
     @Test
     void test_ytdOnlyGraph_withNonYtdTimeframe_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.ONE_MONTH, null, 0, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.ONE_MONTH, null, 0, 0, 2, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_ytdOnlyGraph_withOneWeekTimeframe_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.ONE_WEEK, null, 0, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.ONE_WEEK, null, 0, 0, 2, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_ytdOnlyGraph_withAllTimeTimeframe_returnsFalse() {
-        WidgetDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.ALL_TIME, null, 0, 0, 2, 2);
+        WidgetCreateDTO dto = dto(WidgetType.SPENDING_HEATMAP, Timeframe.ALL_TIME, null, 0, 0, 2, 2);
         assertFalse(validator.isValid(dto, context));
     }
 
     @Test
     void test_nonYtdOnlyGraph_withAnyTimeframe_returnsTrue() {
         for (Timeframe tf : Timeframe.values()) {
-            WidgetDTO dto = dto(WidgetType.EXPENSE_TREND, tf, null, 0, 0, 2, 2);
+            WidgetCreateDTO dto = dto(WidgetType.EXPENSE_TREND, tf, null, 0, 0, 2, 2);
             assertTrue(validator.isValid(dto, context), "Should be valid with timeframe " + tf);
         }
     }
 
-    private WidgetDTO dto(
+    private WidgetCreateDTO dto(
             WidgetType type,
             Timeframe timeframe,
             Integer displayOrder,
@@ -204,6 +204,6 @@ public class WidgetLayoutValidatorTest {
             Integer y,
             Integer cols,
             Integer rows) {
-        return new WidgetDTO(null, type, null, timeframe, displayOrder, x, y, cols, rows, null);
+        return new WidgetCreateDTO(null, type, null, timeframe, displayOrder, x, y, cols, rows, null);
     }
 }

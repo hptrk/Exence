@@ -7,6 +7,7 @@ import com.exence.finance.common.annotations.ValidStrictEmail;
 import com.exence.finance.common.annotations.ValidUsername;
 import com.exence.finance.common.dto.SupportedCurrency;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @PasswordMatches(password = "password", confirmPassword = "confirmPassword")
 public record RegisterRequest(
@@ -14,7 +15,7 @@ public record RegisterRequest(
         @ValidStrictEmail @UniqueEmail String email,
         @ValidPassword String password,
         @NotBlank(message = "{validation.confirm-password.not-blank}") String confirmPassword,
-        @NotBlank SupportedCurrency baseCurrency) {
+        @NotNull SupportedCurrency baseCurrency) {
 
     @Override
     public String toString() {

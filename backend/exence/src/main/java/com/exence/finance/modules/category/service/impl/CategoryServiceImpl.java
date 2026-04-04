@@ -6,14 +6,16 @@ import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.category.dto.CategoryDTO;
+import com.exence.finance.modules.category.dto.CategoryCreateDTO;
+import com.exence.finance.modules.category.dto.CategoryFilter;
+import com.exence.finance.modules.category.dto.CategoryGetDTO;
+import com.exence.finance.modules.category.dto.CategoryPatchDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
-import com.exence.finance.modules.transaction.dto.request.CategoryFilter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -28,18 +30,18 @@ public class CategoryServiceImpl implements CategoryService {
     private final ApplicationEventPublisher eventPublisher;
 
     @ReadTransactional
-    public CategoryDTO getCategoryById(Long id) {
+    public CategoryGetDTO getCategoryById(Long id) {
         Category category =
                 categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        return categoryMapper.mapToCategoryDTO(category);
+        return categoryMapper.mapToCategoryGetDTO(category);
     }
 
     @ReadTransactional
-    public List<CategoryDTO> getCategories() {
+    public List<CategoryGetDTO> getCategories() {
         List<Category> categories = categoryRepository.findAll();
 
-        return categoryMapper.mapToCategoryDTOList(categories);
+        return categoryMapper.mapToCategoryGetDTOList(categories);
     }
 
     @ReadTransactional
@@ -48,35 +50,34 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @WriteTransactional
-    public CategoryDTO createCategory(CategoryDTO categoryDTO) {
+    public CategoryGetDTO createCategory(CategoryCreateDTO categoryCreateDTO) {
         User user = userService.getCurrentUser();
 
-        if (categoryRepository.existsByName(categoryDTO.name())) {
+        if (categoryRepository.existsByName(categoryCreateDTO.name())) {
             throw new ExenceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
 
-        Category category = categoryMapper.mapToCategory(categoryDTO);
+        Category category = categoryMapper.mapToCategory(categoryCreateDTO);
         category.setUser(user);
         Category savedCategory = categoryRepository.save(category);
 
-        return categoryMapper.mapToCategoryDTO(savedCategory);
+        return categoryMapper.mapToCategoryGetDTO(savedCategory);
     }
 
     @WriteTransactional
-    public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
-        Category category = categoryRepository
-                .find(categoryDTO.id())
-                .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+    public CategoryGetDTO updateCategory(Long id, CategoryPatchDTO categoryPatchDTO) {
+        Category category =
+                categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        if (categoryRepository.existsByNameAndIdNot(categoryDTO.name(), categoryDTO.id())) {
+        if (categoryPatchDTO.name() != null && categoryRepository.existsByNameAndIdNot(categoryPatchDTO.name(), id)) {
             throw new ExenceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
 
-        categoryMapper.updateCategoryFromDto(categoryDTO, category);
+        categoryMapper.updateCategoryFromPatchDto(categoryPatchDTO, category);
         Category updatedCategory = categoryRepository.save(category);
 
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
-        return categoryMapper.mapToCategoryDTO(updatedCategory);
+        return categoryMapper.mapToCategoryGetDTO(updatedCategory);
     }
 
     @WriteTransactional
