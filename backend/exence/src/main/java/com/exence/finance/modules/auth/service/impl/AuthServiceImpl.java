@@ -145,11 +145,11 @@ public class AuthServiceImpl implements AuthService {
                 .findByEmail(request.getEmail())
                 .orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
 
-        if (emailBusinessProperties.getRateLimiting().isEnabled()
+        if (emailBusinessProperties.rateLimiting().enabled()
                 && emailLogService.hasRecentEmail(
                         user,
                         EmailType.PASSWORD_RESET,
-                        emailBusinessProperties.getRateLimiting().getCooldownMinutesBetweenSends())) {
+                        emailBusinessProperties.rateLimiting().cooldownMinutesBetweenSends())) {
             throw new ExenceException(ErrorCode.TOO_MANY_EMAILS);
         }
 

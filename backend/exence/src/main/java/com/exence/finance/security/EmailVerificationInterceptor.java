@@ -23,7 +23,7 @@ public class EmailVerificationInterceptor implements HandlerInterceptor {
             throws Exception {
         String requestPath = request.getRequestURI();
 
-        List<String> requiredPaths = emailBusinessProperties.getVerificationRequiredPaths();
+        List<String> requiredPaths = emailBusinessProperties.verificationRequiredPaths();
         if (requiredPaths == null || requiredPaths.isEmpty()) {
             return true;
         }

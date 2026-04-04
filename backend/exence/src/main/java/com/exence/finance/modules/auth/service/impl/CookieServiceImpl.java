@@ -24,13 +24,13 @@ public class CookieServiceImpl implements CookieService {
 
     @Override
     public ResponseCookie createAccessTokenCookie(String token) {
-        Duration maxAge = jwtProperties.getAccessTokenExpiration();
+        Duration maxAge = jwtProperties.accessTokenExpiration();
         return buildCookie(ACCESS_TOKEN_COOKIE_NAME, token, maxAge);
     }
 
     @Override
     public ResponseCookie createRefreshTokenCookie(String token) {
-        Duration maxAge = jwtProperties.getRefreshTokenExpiration();
+        Duration maxAge = jwtProperties.refreshTokenExpiration();
         return buildCookie(REFRESH_TOKEN_COOKIE_NAME, token, maxAge);
     }
 
@@ -57,7 +57,7 @@ public class CookieServiceImpl implements CookieService {
     private ResponseCookie buildCookie(String name, String value, Duration maxAge) {
         return ResponseCookie.from(name, value)
                 .httpOnly(true)
-                .secure(exenceProperties.isSecureCookie())
+                .secure(exenceProperties.secureCookie())
                 .path("/")
                 .maxAge(maxAge)
                 .sameSite("Lax")
@@ -67,7 +67,7 @@ public class CookieServiceImpl implements CookieService {
     private ResponseCookie buildExpiredCookie(String name) {
         return ResponseCookie.from(name, "")
                 .httpOnly(true)
-                .secure(exenceProperties.isSecureCookie())
+                .secure(exenceProperties.secureCookie())
                 .path("/")
                 .maxAge(0)
                 .sameSite("Lax")

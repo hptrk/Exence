@@ -46,13 +46,13 @@ public class PasswordValidationServiceImpl implements PasswordValidationService 
 
     private void validatePasswordNotInHistory(User user, String newPassword) {
         List<PasswordHistory> recentPasswords = passwordHistoryRepository.findRecentPasswordsByUserId(
-                user.getId(), exenceProperties.getPasswordHistoryCount());
+                user.getId(), exenceProperties.passwordHistoryCount());
 
         boolean isPasswordReused =
                 recentPasswords.stream().anyMatch(ph -> passwordEncoder.matches(newPassword, ph.getPasswordHash()));
 
         if (isPasswordReused) {
-            throw new ExenceException(ErrorCode.INVALID_PASSWORD, "reused", exenceProperties.getPasswordHistoryCount());
+            throw new ExenceException(ErrorCode.INVALID_PASSWORD, "reused", exenceProperties.passwordHistoryCount());
         }
     }
 }

@@ -42,7 +42,7 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
 
         try {
             if (jwt != null) {
-                if (exenceProperties.isLogoutFromAllDevices()) {
+                if (exenceProperties.logoutFromAllDevices()) {
                     logoutFromAllDevices(jwt);
                 } else {
                     logoutFromCurrentDevice(jwt);

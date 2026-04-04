@@ -32,7 +32,7 @@ public class EmailDomainValidatorTest {
 
     @BeforeEach
     void setUp() {
-        lenient().when(emailBusinessProperties.isDomainWhitelistOnly()).thenReturn(false);
+        lenient().when(emailBusinessProperties.domainWhitelistOnly()).thenReturn(false);
 
         lenient()
                 .when(context.buildConstraintViolationWithTemplate(anyString()))

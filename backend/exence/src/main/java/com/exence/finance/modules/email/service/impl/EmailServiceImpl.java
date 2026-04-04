@@ -31,7 +31,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendVerificationEmail(User user, String token) {
         Map<String, String> variables = new HashMap<>();
         variables.put("username", user.getDisplayUsername());
-        variables.put("verificationUrl", exenceProperties.getFrontendUrl() + "/public/verify-email?token=" + token);
+        variables.put("verificationUrl", exenceProperties.frontendUrl() + "/public/verify-email?token=" + token);
 
         sendTemplatedEmail(user, EmailType.EMAIL_VERIFICATION, variables);
     }
@@ -40,7 +40,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendPasswordResetEmail(User user, String token) {
         Map<String, String> variables = new HashMap<>();
         variables.put("username", user.getDisplayUsername());
-        variables.put("resetUrl", exenceProperties.getFrontendUrl() + "/public/forgot-password?token=" + token);
+        variables.put("resetUrl", exenceProperties.frontendUrl() + "/public/forgot-password?token=" + token);
 
         sendTemplatedEmail(user, EmailType.PASSWORD_RESET, variables);
     }
@@ -49,7 +49,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendWelcomeEmail(User user) {
         Map<String, String> variables = new HashMap<>();
         variables.put("username", user.getDisplayUsername());
-        variables.put("dashboardUrl", exenceProperties.getFrontendUrl());
+        variables.put("dashboardUrl", exenceProperties.frontendUrl());
 
         sendTemplatedEmail(user, EmailType.WELCOME, variables);
     }
@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-            helper.setFrom(emailProperties.getUsername());
+            helper.setFrom(emailProperties.username());
             helper.setTo(recipientEmail);
             helper.setSubject(subject);
             helper.setText(htmlContent, true);
