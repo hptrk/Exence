@@ -1,5 +1,6 @@
 package com.exence.finance.common.i18n;
 
+import com.exence.finance.common.dto.SupportedCurrency;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.Month;
@@ -30,6 +31,10 @@ public class I18nService {
     /** @param isoDayOfWeek ISO day-of-week (1 = Monday, 7 = Sunday) */
     public String getDayName(int isoDayOfWeek) {
         return DayOfWeek.of(isoDayOfWeek).getDisplayName(TextStyle.SHORT, LocaleContextHolder.getLocale());
+    }
+
+    public String getCurrencySymbol(SupportedCurrency currency) {
+        return currency.getSymbol(LocaleContextHolder.getLocale());
     }
 
     public String getUnitLabel(Number value, String singularKey, String pluralKey) {

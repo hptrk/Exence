@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD, ElementType.RECORD_COMPONENT})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidLanguage {
-    String message() default "Invalid language code. Must be a valid ISO 639-1 code (e.g., en, hu)";
+    String message() default "{validation.language.invalid}";
 
     Class<?>[] groups() default {};
 

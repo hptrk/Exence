@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-currency-columns-to-transaction
+      author: hptrk
+      comment: >
+        Add multi-currency support to transaction table.
+        currency: ISO 4217 code of the original transaction currency.
+        exchange_rate: conversion rate from transaction currency to user's base currency.
+        base_currency_amount: pre-computed amount in user's base currency for statistics.
+      dbms: postgresql
+      changes:
+        - addColumn:
+            tableName: transaction
+            columns:
+              - column:
+                  name: currency
+                  type: supported_currency
+                  defaultValue: 'HUF'
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exchange_rate
+                  type: DECIMAL(19,10)
+                  defaultValueNumeric: 1.0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: base_currency_amount
+                  type: DECIMAL(19,2)
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+        - dropDefaultValue:
+            tableName: transaction
+            columnName: currency
+        - dropDefaultValue:
+            tableName: transaction
+            columnName: exchange_rate
+        - dropDefaultValue:
+            tableName: transaction
+            columnName: base_currency_amount
+
+      rollback:
+        - dropColumn:
+            tableName: transaction
+            columnName: currency
+        - dropColumn:
+            tableName: transaction
+            columnName: exchange_rate
+        - dropColumn:
+            tableName: transaction
+            columnName: base_currency_amount

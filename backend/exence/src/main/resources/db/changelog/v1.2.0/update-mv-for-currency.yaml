@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: update-mv-daily-category-stat-for-currency
+      author: hptrk
+      comment: >
+        Recreate materialized view to use base_currency_amount instead of amount
+        for multi-currency support. All statistics now aggregate in the user's base currency.
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_user_date
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_unique
+        - sql:
+            sql: DROP MATERIALIZED VIEW IF EXISTS mv_daily_category_stat
+
+        - sqlFile:
+            splitStatements: false
+            path: sql/recreate-mv-daily-category-stat-currency.sql
+            relativeToChangelogFile: true
+
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_unique
+            tableName: mv_daily_category_stat
+            unique: true
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date
+              - column:
+                  name: category_id
+              - column:
+                  name: type
+
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_user_date
+            tableName: mv_daily_category_stat
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date
+
+      rollback:
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_user_date
+        - sql:
+            sql: DROP INDEX IF EXISTS idx_mv_daily_cat_stat_unique
+        - sql:
+            sql: DROP MATERIALIZED VIEW IF EXISTS mv_daily_category_stat
+        - sqlFile:
+            splitStatements: false
+            path: sql/recreate-mv-daily-category-stat.sql
+            relativeToChangelogFile: true
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_unique
+            tableName: mv_daily_category_stat
+            unique: true
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date
+              - column:
+                  name: category_id
+              - column:
+                  name: type
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_user_date
+            tableName: mv_daily_category_stat
+            columns:
+              - column:
+                  name: user_id
+              - column:
+                  name: stat_date

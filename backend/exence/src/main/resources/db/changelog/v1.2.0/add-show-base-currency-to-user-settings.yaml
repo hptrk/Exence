@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-show-base-currency-to-user-settings
+      author: hptrk
+      comment: Add show_base_currency flag to user_settings table
+      changes:
+        - addColumn:
+            tableName: user_settings
+            columns:
+              - column:
+                  name: show_base_currency
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+      rollback:
+        - dropColumn:
+            tableName: user_settings
+            columnName: show_base_currency

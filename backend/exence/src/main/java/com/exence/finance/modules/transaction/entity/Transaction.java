@@ -1,11 +1,15 @@
 package com.exence.finance.modules.transaction.entity;
 
+import static com.exence.finance.common.util.ValidationConstants.EXCHANGE_RATE_FRACTION_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.EXCHANGE_RATE_INTEGER_DIGITS;
+import static com.exence.finance.common.util.ValidationConstants.EXCHANGE_RATE_PRECISION;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_FRACTION_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_INTEGER_DIGITS;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_MIN;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_PRECISION;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
 
+import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.entity.BaseAuditableEntity;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.category.entity.Category;
@@ -87,6 +91,30 @@ public class Transaction extends BaseAuditableEntity {
     @NotNull
     @Column(name = "recurring", nullable = false)
     private Boolean recurring;
+
+    @NotNull
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "currency", nullable = false)
+    private SupportedCurrency currency;
+
+    @NotNull
+    @Digits(integer = EXCHANGE_RATE_INTEGER_DIGITS, fraction = EXCHANGE_RATE_FRACTION_DIGITS)
+    @Column(
+            name = "exchange_rate",
+            nullable = false,
+            precision = EXCHANGE_RATE_PRECISION,
+            scale = EXCHANGE_RATE_FRACTION_DIGITS)
+    private BigDecimal exchangeRate;
+
+    @NotNull
+    @DecimalMin(value = TRANSACTION_AMOUNT_MIN)
+    @Digits(integer = TRANSACTION_AMOUNT_INTEGER_DIGITS, fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS)
+    @Column(
+            name = "base_currency_amount",
+            nullable = false,
+            precision = TRANSACTION_AMOUNT_PRECISION,
+            scale = TRANSACTION_AMOUNT_FRACTION_DIGITS)
+    private BigDecimal baseCurrencyAmount;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)

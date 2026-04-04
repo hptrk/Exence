@@ -34,7 +34,7 @@ public final class BurnRateStatCardProvider implements WidgetDataProvider {
         TrendResult trend = providerHelper.computeTrend(request, dailyBurnRate, this::calculateBurnRate);
         return new StatCardPayload(
                 dailyBurnRate,
-                i18n.get("unit.currency"),
+                providerHelper.getUserCurrencySymbol(),
                 i18n.get("context.per-day"),
                 trend.changePercentage(),
                 trend.trend(),

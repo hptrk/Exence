@@ -1,5 +1,6 @@
 package com.exence.finance.modules.transaction.service;
 
+import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.dto.request.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.response.TransactionTotalsResponse;
@@ -18,4 +19,6 @@ public interface TransactionService {
     void deleteTransaction(Long id);
 
     TransactionTotalsResponse getTransactionTotals();
+
+    void recalculateBaseCurrencyAmounts(SupportedCurrency newBaseCurrency);
 }
