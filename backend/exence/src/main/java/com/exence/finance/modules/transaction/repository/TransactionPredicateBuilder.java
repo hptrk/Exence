@@ -23,12 +23,12 @@ public final class TransactionPredicateBuilder {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        addKeywordFilter(builder, filter.getKeyword());
-        addCategoryFilter(builder, filter.getCategoryId());
-        addTypeFilter(builder, filter.getType());
-        addDateRangeFilter(builder, filter.getDateFrom(), filter.getDateTo());
-        addAmountRangeFilter(builder, filter.getAmountFrom(), filter.getAmountTo());
-        addRecurringFilter(builder, filter.getRecurring());
+        addKeywordFilter(builder, filter.keyword());
+        addCategoryFilter(builder, filter.categoryId());
+        addTypeFilter(builder, filter.type());
+        addDateRangeFilter(builder, filter.dateFrom(), filter.dateTo());
+        addAmountRangeFilter(builder, filter.amountFrom(), filter.amountTo());
+        addRecurringFilter(builder, filter.recurring());
 
         return builder.hasValue() ? builder : null;
     }

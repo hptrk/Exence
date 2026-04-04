@@ -75,7 +75,7 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionMapper.mapToTransaction(transactionDTO);
 
         Category category = categoryRepository
-                .find(transactionDTO.getCategoryId())
+                .find(transactionDTO.categoryId())
                 .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
         transaction.setCategory(category);
@@ -91,16 +91,14 @@ public class TransactionServiceImpl implements TransactionService {
     @WriteTransactional
     public TransactionDTO updateTransaction(TransactionDTO transactionDTO) {
         Transaction transaction = transactionRepository
-                .find(transactionDTO.getId())
+                .find(transactionDTO.id())
                 .orElseThrow(() -> new ExenceException(ErrorCode.TRANSACTION_NOT_FOUND));
 
-        if (transactionDTO.getCategoryId() != null
-                && !transactionDTO
-                        .getCategoryId()
-                        .equals(transaction.getCategory().getId())) {
+        if (transactionDTO.categoryId() != null
+                && !transactionDTO.categoryId().equals(transaction.getCategory().getId())) {
 
             Category category = categoryRepository
-                    .find(transactionDTO.getCategoryId())
+                    .find(transactionDTO.categoryId())
                     .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
             transaction.setCategory(category);
@@ -128,10 +126,7 @@ public class TransactionServiceImpl implements TransactionService {
         BigDecimal totalIncome = transactionRepository.sumByType(TransactionType.INCOME);
         BigDecimal totalExpense = transactionRepository.sumByType(TransactionType.EXPENSE);
 
-        return TransactionTotalsResponse.builder()
-                .totalIncome(totalIncome)
-                .totalExpense(totalExpense)
-                .build();
+        return new TransactionTotalsResponse(totalIncome, totalExpense);
     }
 
     @WriteTransactional
@@ -178,15 +173,15 @@ public class TransactionServiceImpl implements TransactionService {
     private void applyCurrencyFields(Transaction transaction, TransactionDTO dto) {
         SupportedCurrency baseCurrency = getUserBaseCurrency();
 
-        SupportedCurrency currency = dto.getCurrency() != null ? dto.getCurrency() : baseCurrency;
+        SupportedCurrency currency = dto.currency() != null ? dto.currency() : baseCurrency;
         transaction.setCurrency(currency);
 
         if (currency == baseCurrency) {
             transaction.setExchangeRate(BigDecimal.ONE);
             transaction.setBaseCurrencyAmount(transaction.getAmount());
         } else {
-            BigDecimal exchangeRate = dto.getExchangeRate() != null
-                    ? dto.getExchangeRate()
+            BigDecimal exchangeRate = dto.exchangeRate() != null
+                    ? dto.exchangeRate()
                     : exchangeRateService.getRate(currency, baseCurrency, transaction.getDate());
 
             transaction.setExchangeRate(exchangeRate);

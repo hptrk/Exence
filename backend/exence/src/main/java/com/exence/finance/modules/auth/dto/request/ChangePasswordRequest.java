@@ -3,29 +3,16 @@ package com.exence.finance.modules.auth.dto.request;
 import com.exence.finance.common.annotations.PasswordMatches;
 import com.exence.finance.common.annotations.ValidPassword;
 import jakarta.validation.constraints.NotBlank;
-import java.io.Serializable;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Data
-@EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
 @PasswordMatches(password = "newPassword", confirmPassword = "confirmNewPassword")
-public class ChangePasswordRequest implements Serializable {
-    @NotBlank(message = "{validation.old-password.not-blank}")
-    private String oldPassword;
+public record ChangePasswordRequest(
+        @NotBlank(message = "{validation.old-password.not-blank}") String oldPassword,
+        @ValidPassword String newPassword,
+        @NotBlank(message = "{validation.confirm-password.not-blank}") String confirmNewPassword) {
 
-    @ValidPassword
-    private String newPassword;
-
-    @NotBlank(message = "{validation.confirm-password.not-blank}")
-    private String confirmNewPassword;
+    @Override
+    public String toString() {
+        return "ChangePasswordRequest[oldPassword=[PROTECTED], newPassword=[PROTECTED],"
+                + " confirmNewPassword=[PROTECTED]]";
+    }
 }

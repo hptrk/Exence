@@ -44,14 +44,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     @ReadTransactional
     public List<CategorySummaryResponse> getTopCategoriesByTotalAmount(CategoryFilter filter) {
-        return categoryRepository.findTopCategoriesByTotalAmount(filter.getType());
+        return categoryRepository.findTopCategoriesByTotalAmount(filter.type());
     }
 
     @WriteTransactional
     public CategoryDTO createCategory(CategoryDTO categoryDTO) {
         User user = userService.getCurrentUser();
 
-        if (categoryRepository.existsByName(categoryDTO.getName())) {
+        if (categoryRepository.existsByName(categoryDTO.name())) {
             throw new ExenceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
 
@@ -65,10 +65,10 @@ public class CategoryServiceImpl implements CategoryService {
     @WriteTransactional
     public CategoryDTO updateCategory(CategoryDTO categoryDTO) {
         Category category = categoryRepository
-                .find(categoryDTO.getId())
+                .find(categoryDTO.id())
                 .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
 
-        if (categoryRepository.existsByNameAndIdNot(categoryDTO.getName(), categoryDTO.getId())) {
+        if (categoryRepository.existsByNameAndIdNot(categoryDTO.name(), categoryDTO.id())) {
             throw new ExenceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
 

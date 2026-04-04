@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +32,7 @@ public class UserControllerImpl implements UserController {
         return ResponseFactory.ok(currentUser);
     }
 
-    @PutMapping()
+    @PatchMapping()
     public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UpdateUserRequest request) {
         UserDTO updated = userService.updateUser(request);
         return ResponseFactory.ok(updated);

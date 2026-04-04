@@ -34,9 +34,9 @@ public class AuthControllerImpl implements AuthController {
         AuthenticationResponse authResponse = authService.register(request);
 
         ResponseCookie accessTokenCookie =
-                cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
+                cookieService.createAccessTokenCookie(authResponse.tokens().accessToken());
         ResponseCookie refreshTokenCookie =
-                cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
+                cookieService.createRefreshTokenCookie(authResponse.tokens().refreshToken());
 
         return ResponseFactory.okWithCookies(authResponse, accessTokenCookie, refreshTokenCookie);
     }
@@ -46,9 +46,9 @@ public class AuthControllerImpl implements AuthController {
         AuthenticationResponse authResponse = authService.login(request);
 
         ResponseCookie accessTokenCookie =
-                cookieService.createAccessTokenCookie(authResponse.getTokens().getAccessToken());
+                cookieService.createAccessTokenCookie(authResponse.tokens().accessToken());
         ResponseCookie refreshTokenCookie =
-                cookieService.createRefreshTokenCookie(authResponse.getTokens().getRefreshToken());
+                cookieService.createRefreshTokenCookie(authResponse.tokens().refreshToken());
 
         return ResponseFactory.okWithCookies(authResponse, accessTokenCookie, refreshTokenCookie);
     }

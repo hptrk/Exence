@@ -105,10 +105,10 @@ public class UserServiceImpl implements UserService {
     public void changePassword(ChangePasswordRequest request) {
         User user = getCurrentUser();
 
-        passwordValidationService.validatePasswordChange(user, request.getOldPassword(), request.getNewPassword());
+        passwordValidationService.validatePasswordChange(user, request.oldPassword(), request.newPassword());
 
         String oldPassword = user.getPassword();
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
 
         passwordHistoryService.savePasswordToHistory(user, oldPassword);

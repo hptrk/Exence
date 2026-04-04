@@ -34,21 +34,21 @@ public abstract class SessionMapper {
 
     @Named("extractDeviceName")
     protected String extractDeviceName(SessionSummaryProjection session) {
-        return deviceDetectionService.parseDeviceName(session.getUserAgent());
+        return deviceDetectionService.parseDeviceName(session.userAgent());
     }
 
     @Named("extractBrowser")
     protected String extractBrowser(SessionSummaryProjection session) {
-        return deviceDetectionService.parseBrowser(session.getUserAgent());
+        return deviceDetectionService.parseBrowser(session.userAgent());
     }
 
     @Named("extractOperatingSystem")
     protected String extractOperatingSystem(SessionSummaryProjection session) {
-        return deviceDetectionService.parseOperatingSystem(session.getUserAgent());
+        return deviceDetectionService.parseOperatingSystem(session.userAgent());
     }
 
     @Named("isCurrentSession")
     protected boolean isCurrentSession(SessionSummaryProjection session, @Context String currentSessionId) {
-        return session.getSessionId().equals(currentSessionId);
+        return session.sessionId().equals(currentSessionId);
     }
 }
