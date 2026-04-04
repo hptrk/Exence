@@ -1,6 +1,7 @@
 package com.exence.finance.modules.auth.service.impl;
 
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
+import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.config.properties.EmailBusinessProperties;
@@ -73,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
         User user = buildNewUser(request);
         user = userRepository.save(user);
 
-        createDefaultSettings(user);
+        createUserSettings(user, request.getBaseCurrency());
         createDefaultDashboardWidget(user);
 
         sendEmailVerification(user);
@@ -235,13 +236,14 @@ public class AuthServiceImpl implements AuthService {
         widgetRepository.save(widget);
     }
 
-    private void createDefaultSettings(User user) {
+    private void createUserSettings(User user, SupportedCurrency baseCurrency) {
         UserSettings settings = UserSettings.builder()
                 .user(user)
                 .language("en")
                 .primaryTheme(Theme.DARK)
                 .secondaryTheme(Theme.BLUE_DOLPHIN)
-                .baseCurrency("HUF")
+                .baseCurrency(baseCurrency)
+                .showBaseCurrency(false)
                 .build();
         userSettingsRepository.save(settings);
     }

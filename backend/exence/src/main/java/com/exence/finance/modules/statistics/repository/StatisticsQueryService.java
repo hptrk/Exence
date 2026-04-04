@@ -457,7 +457,7 @@ public class StatisticsQueryService {
                 .select(Projections.constructor(
                         ScatterResult.class,
                         transaction.date,
-                        transaction.amount,
+                        transaction.baseCurrencyAmount,
                         transaction.category.name,
                         transaction.category.color))
                 .from(transaction)
@@ -469,11 +469,11 @@ public class StatisticsQueryService {
 
     public List<CategoryBoxplotResult> findBoxplotByExpenseCategory(StatisticsFilter filter) {
         StringBuilder sql = new StringBuilder("SELECT c.name, c.color,"
-                + " MIN(t.amount),"
-                + " PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY t.amount),"
-                + " PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY t.amount),"
-                + " PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY t.amount),"
-                + " MAX(t.amount)"
+                + " MIN(t.base_currency_amount),"
+                + " PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY t.base_currency_amount),"
+                + " PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY t.base_currency_amount),"
+                + " PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY t.base_currency_amount),"
+                + " MAX(t.base_currency_amount)"
                 + " FROM \"transaction\" t"
                 + " JOIN category c ON t.category_id = c.id"
                 + " WHERE t.user_id = :userId"
@@ -503,14 +503,14 @@ public class StatisticsQueryService {
         return queryFactory
                 .select(Projections.constructor(
                         TopTransactionResult.class,
-                        transaction.amount,
+                        transaction.baseCurrencyAmount,
                         transaction.title,
                         transaction.category.color,
                         transaction.category.icon.stringValue()))
                 .from(transaction)
                 .join(transaction.category)
                 .where(predicate)
-                .orderBy(transaction.amount.desc())
+                .orderBy(transaction.baseCurrencyAmount.desc())
                 .limit(1)
                 .fetchOne();
     }

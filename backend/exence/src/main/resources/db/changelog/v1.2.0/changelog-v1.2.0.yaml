@@ -2,3 +2,23 @@ databaseChangeLog:
   - include:
       file: change-transaction-date-to-date-type.yaml
       relativeToChangelogFile: true
+
+  - include:
+        file: create-supported-currency-enum.yaml
+        relativeToChangelogFile: true
+
+  - include:
+        file: add-currency-to-transaction.yaml
+        relativeToChangelogFile: true
+
+  - include:
+        file: add-show-base-currency-to-user-settings.yaml
+        relativeToChangelogFile: true
+
+  - include:
+        file: create-exchange-rate-table.yaml
+        relativeToChangelogFile: true
+
+  - include:
+        file: update-mv-for-currency.yaml
+        relativeToChangelogFile: true

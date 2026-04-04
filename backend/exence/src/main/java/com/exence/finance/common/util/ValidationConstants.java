@@ -50,6 +50,11 @@ public final class ValidationConstants {
     public static final int TRANSACTION_AMOUNT_PRECISION = 19; // integer + fraction
     public static final int TRANSACTION_NOTE_MAX_LENGTH = 500;
 
+    // Exchange rate validations
+    public static final int EXCHANGE_RATE_INTEGER_DIGITS = 9;
+    public static final int EXCHANGE_RATE_FRACTION_DIGITS = 10;
+    public static final int EXCHANGE_RATE_PRECISION = 19; // integer + fraction
+
     // Email
     public static final Set<String> WHITELISTED_DOMAINS = Set.of(
             "gmail.com",

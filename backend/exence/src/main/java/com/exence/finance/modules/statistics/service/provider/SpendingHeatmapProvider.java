@@ -25,7 +25,7 @@ public final class SpendingHeatmapProvider implements WidgetDataProvider {
 
     private final StatisticsQueryService statisticsQueryService;
     private final StatisticsFilterFactory filterFactory;
-    private final I18nService i18nService;
+    private final I18nService i18n;
 
     @Override
     public WidgetType getSupportedType() {
@@ -51,7 +51,7 @@ public final class SpendingHeatmapProvider implements WidgetDataProvider {
             for (int week = 1; week <= totalWeeks; week++) {
                 points.add(new DataPoint(week, weekData.getOrDefault(week, BigDecimal.ZERO), null));
             }
-            series.add(new SeriesItem(i18nService.getDayName(day), null, null, points));
+            series.add(new SeriesItem(i18n.getDayName(day), null, null, points));
         }
 
         return new SeriesPayload(series);
