@@ -10,56 +10,26 @@ import com.exence.finance.modules.transaction.dto.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Size;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Objects;
-import java.util.stream.Stream;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Data
-@EqualsAndHashCode(callSuper = false)
-@ToString(callSuper = true)
 @ValidRange(from = "dateFrom", to = "dateTo")
 @ValidRange(from = "amountFrom", to = "amountTo")
-public class TransactionFilter implements Serializable {
-    @Size(max = TRANSACTION_TITLE_MAX_LENGTH, message = "{validation.filter.keyword.size}")
-    private String keyword;
-
-    private LocalDate dateFrom;
-
-    private LocalDate dateTo;
-
-    private Long categoryId;
-
-    private TransactionType type;
-
-    @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "{validation.filter.amount.min}")
-    @Digits(
-            integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
-            fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-            message = "{validation.transaction.amount.digits}")
-    private BigDecimal amountFrom;
-
-    @Digits(
-            integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
-            fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-            message = "{validation.transaction.amount.digits}")
-    private BigDecimal amountTo;
-
-    private Boolean recurring;
-
-    public boolean hasActiveFilter() {
-        return Stream.of(keyword, dateFrom, dateTo, categoryId, type, amountFrom, amountTo, recurring)
-                .anyMatch(Objects::nonNull);
-    }
-}
+public record TransactionFilter(
+        @Size(max = TRANSACTION_TITLE_MAX_LENGTH, message = "{validation.filter.keyword.size}") String keyword,
+        LocalDate dateFrom,
+        LocalDate dateTo,
+        Long categoryId,
+        TransactionType type,
+        @DecimalMin(value = TRANSACTION_AMOUNT_MIN, message = "{validation.filter.amount.min}")
+                @Digits(
+                        integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
+                        fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
+                        message = "{validation.transaction.amount.digits}")
+                BigDecimal amountFrom,
+        @Digits(
+                        integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
+                        fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
+                        message = "{validation.transaction.amount.digits}")
+                BigDecimal amountTo,
+        Boolean recurring) {}

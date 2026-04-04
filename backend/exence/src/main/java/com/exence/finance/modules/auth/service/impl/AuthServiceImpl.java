@@ -74,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
         User user = buildNewUser(request);
         user = userRepository.save(user);
 
-        createUserSettings(user, request.getBaseCurrency());
+        createUserSettings(user, request.baseCurrency());
         createDefaultDashboardWidget(user);
 
         sendEmailVerification(user);
@@ -86,7 +86,7 @@ public class AuthServiceImpl implements AuthService {
     @WriteTransactional
     public AuthenticationResponse login(LoginRequest request) {
         User user = userRepository
-                .findByEmail(request.getEmail())
+                .findByEmail(request.email())
                 .orElseThrow(() -> new ExenceException(ErrorCode.AUTHENTICATION_FAILED));
 
         authenticateUser(request);
@@ -123,7 +123,7 @@ public class AuthServiceImpl implements AuthService {
             value = {"currentUser", "currentUserId"},
             allEntries = true)
     public void verifyEmail(EmailVerificationRequest request) {
-        User user = tokenValidationService.validateAndExtractUser(request.getToken(), TokenType.EMAIL_VERIFICATION);
+        User user = tokenValidationService.validateAndExtractUser(request.token(), TokenType.EMAIL_VERIFICATION);
 
         if (user.getEmailVerified()) {
             throw new ExenceException(ErrorCode.EMAIL_ALREADY_VERIFIED);
@@ -142,7 +142,7 @@ public class AuthServiceImpl implements AuthService {
     @WriteTransactional
     public void forgotPassword(ForgotPasswordRequest request) {
         User user = userRepository
-                .findByEmail(request.getEmail())
+                .findByEmail(request.email())
                 .orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
 
         if (emailBusinessProperties.rateLimiting().enabled()
@@ -167,12 +167,12 @@ public class AuthServiceImpl implements AuthService {
             value = {"currentUser", "currentUserId"},
             allEntries = true)
     public void resetPassword(PasswordResetRequest request) {
-        User user = tokenValidationService.validateAndExtractUser(request.getToken(), TokenType.PASSWORD_RESET);
+        User user = tokenValidationService.validateAndExtractUser(request.token(), TokenType.PASSWORD_RESET);
 
-        passwordValidationService.validatePasswordReset(user, request.getNewPassword());
+        passwordValidationService.validatePasswordReset(user, request.newPassword());
 
         String oldPassword = user.getPassword();
-        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
 
         passwordHistoryService.savePasswordToHistory(user, oldPassword);
@@ -183,9 +183,9 @@ public class AuthServiceImpl implements AuthService {
 
     private User buildNewUser(RegisterRequest request) {
         return User.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .username(request.username())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
                 .emailVerified(false)
                 .lastLoginAt(Instant.now())
                 .build();
@@ -202,19 +202,14 @@ public class AuthServiceImpl implements AuthService {
         Token accessToken = tokenManagementService.createAndSaveToken(user, TokenType.ACCESS, sessionId);
         Token refreshToken = tokenManagementService.createAndSaveToken(user, TokenType.REFRESH, sessionId);
 
-        return AuthenticationResponse.builder()
-                .user(userMapper.mapToUserDto(user))
-                .tokens(TokenPair.builder()
-                        .accessToken(accessToken.getToken())
-                        .refreshToken(refreshToken.getToken())
-                        .build())
-                .build();
+        return new AuthenticationResponse(
+                userMapper.mapToUserDto(user), new TokenPair(accessToken.getToken(), refreshToken.getToken()));
     }
 
     private void authenticateUser(LoginRequest request) {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+                    new UsernamePasswordAuthenticationToken(request.email(), request.password()));
         } catch (BadCredentialsException e) {
             throw new ExenceException(ErrorCode.AUTHENTICATION_FAILED);
         }

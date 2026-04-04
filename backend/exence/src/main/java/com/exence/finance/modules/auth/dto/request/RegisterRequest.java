@@ -7,39 +7,18 @@ import com.exence.finance.common.annotations.ValidStrictEmail;
 import com.exence.finance.common.annotations.ValidUsername;
 import com.exence.finance.common.dto.SupportedCurrency;
 import jakarta.validation.constraints.NotBlank;
-import java.io.Serializable;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Data
-@EqualsAndHashCode(callSuper = false)
-@ToString(
-        callSuper = true,
-        exclude = {"password", "confirmPassword"})
 @PasswordMatches(password = "password", confirmPassword = "confirmPassword")
-public class RegisterRequest implements Serializable {
+public record RegisterRequest(
+        @ValidUsername String username,
+        @ValidStrictEmail @UniqueEmail String email,
+        @ValidPassword String password,
+        @NotBlank(message = "{validation.confirm-password.not-blank}") String confirmPassword,
+        @NotBlank SupportedCurrency baseCurrency) {
 
-    @ValidUsername
-    private String username;
-
-    @ValidStrictEmail
-    @UniqueEmail
-    private String email;
-
-    @ValidPassword
-    private String password;
-
-    @NotBlank(message = "{validation.confirm-password.not-blank}")
-    private String confirmPassword;
-
-    @NotBlank
-    private SupportedCurrency baseCurrency;
+    @Override
+    public String toString() {
+        return "RegisterRequest[username=" + username + ", email=" + email
+                + ", password=[PROTECTED], confirmPassword=[PROTECTED], baseCurrency=" + baseCurrency + "]";
+    }
 }
