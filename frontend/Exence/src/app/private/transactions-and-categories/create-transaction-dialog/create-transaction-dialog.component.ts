@@ -1,33 +1,32 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { startWith } from 'rxjs';
 import { Category } from '../../../data-model/modules/category/Category';
+import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
+import { AmountStepperComponent } from '../../../shared/amount-stepper/amount-stepper.component';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
+import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
-import { AmountStepperComponent } from '../../../shared/amount-stepper/amount-stepper.component';
-import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
-import { ValidatorComponent } from '../../../shared/validator/validator.component';
-import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
-import { CategoryService } from '../category.service';
-import { TransactionStore } from '../transaction.store';
-import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
-import { MatIconModule } from '@angular/material/icon';
-import { CategoryType } from '../../../data-model/modules/category/CategoryType';
-import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
-import { UpperCasePipe } from '@angular/common';
-import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
+import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
+import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { CategoryService } from '../category.service';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -61,12 +60,11 @@ export interface CreateTransactionDialogData {
 	],
 })
 export class CreateTransactionDialogComponent
-	extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, void>
+	extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, Transaction | null>
 	implements OnInit
 {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
-	private readonly store = inject(TransactionStore);
 
 	data = this.dialogRef.value;
 
@@ -130,7 +128,7 @@ export class CreateTransactionDialogComponent
 	}
 
 	close(): void {
-		this.dialogRef.close();
+		this.dialogRef.close(null);
 	}
 
 	create(): void {
@@ -144,8 +142,7 @@ export class CreateTransactionDialogComponent
 			recurring: formValue.recurring,
 			categoryId: formValue.category!.category!.id!,
 		} as Transaction;
-		this.store.createTransaction(request);
-		this.dialogRef.submit();
+		this.dialogRef.submit(request);
 	}
 
 	codeForTransactionType(type: TransactionType): TranslationCode {

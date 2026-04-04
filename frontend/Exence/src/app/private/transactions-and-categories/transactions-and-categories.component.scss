@@ -1,6 +1,6 @@
 @import '../../../styles/imports.scss';
 
-@include displayMd {
+@include displayLg {
 	.smaller-row {
 		flex-basis: 30%;
 		max-height: 30%;

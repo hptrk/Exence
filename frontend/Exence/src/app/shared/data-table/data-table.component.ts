@@ -260,20 +260,25 @@ export class DataTableComponent extends BaseComponent {
 
 	async openCreateDialog(): Promise<void> {
 		// All transactions
+		let result;
 		if (!this.type()) {
-			await this.dialog.openNonModal(CreateTransactionDialogComponent, {
+			result = await this.dialog.openNonModal(CreateTransactionDialogComponent, {
 				isRecurring: this.isRecurring() ?? false,
 			});
 			// Income or expense
 		} else if (this.type() === TransactionType.EXPENSE || this.type() === TransactionType.INCOME) {
-			await this.dialog.openNonModal(CreateTransactionDialogComponent, {
+			result = await this.dialog.openNonModal(CreateTransactionDialogComponent, {
 				isRecurring: this.isRecurring() ?? false,
 				type: this.type()! as TransactionType,
 			});
 			// Categories
 		} else if (this.type() === 'category') {
-			await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
+			result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
 		}
+
+		if (!result) return;
+		if (this.type() === 'category') this.categoryStore.createCategory(result as Category);
+		else this.transactionStore.createTransaction(result as Transaction);
 	}
 
 	getNextPage(): number {

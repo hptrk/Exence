@@ -18,6 +18,7 @@ import { CreateTransactionDialogComponent } from '../../transactions-and-categor
 import { UpperCasePipe } from '@angular/common';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
+import { TransactionStore } from '../../transactions-and-categories/transaction.store';
 
 // TODO move to interval filter component when created
 export enum DateInterval {
@@ -50,6 +51,7 @@ export interface IntervalInfo {
 export class CategoriesComponent extends BaseComponent {
 	private readonly dialog = inject(DialogService);
 	private readonly categoryStore = inject(CategoryStore);
+	private readonly transactionStore = inject(TransactionStore);
 	readonly display = inject(DisplaySizeService);
 
 	totalExpense = input.required<number>();
@@ -65,11 +67,15 @@ export class CategoriesComponent extends BaseComponent {
 	categoryTypes = CategoryType;
 
 	async openCreateCategoryDialog(): Promise<void> {
-		await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
+		const result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
+		if (!result) return;
+		this.categoryStore.createCategory(result);
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		if (!result) return;
+		this.transactionStore.createTransaction(result);
 	}
 
 	calcPercentage(amount: number): number {

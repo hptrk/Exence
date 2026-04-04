@@ -109,7 +109,7 @@ export class TransactionsAndCategoriesComponent {
 		return !!this.categoryStore.categoryResource.value();
 	}
 
-	constructor() {
+	ngOnInit(): void {
 		this.transactionStore.resetState();
 
 		effect(() => {
@@ -131,11 +131,15 @@ export class TransactionsAndCategoriesComponent {
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, undefined);
+		if (!result) return;
+		this.transactionStore.createTransaction(result);
 	}
 
 	async openCreateCategoryDialog(): Promise<void> {
-		await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
+		const result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
+		if (!result) return;
+		this.categoryStore.createCategory(result);
 	}
 
 	onScroll(type?: TransactionType, recurring?: boolean): void {

@@ -1,3 +1,4 @@
+import { UpperCasePipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -13,14 +14,12 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogComponent } from '../../../shared/dialog/dialog.service';
+import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { CategoryIconInfo, IconPickerComponent } from '../../../shared/icon-picker/icon-picker.component';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
-import { ValidatorComponent } from '../../../shared/validator/validator.component';
-import { CategoryStore } from '../category.store';
-import { UpperCasePipe } from '@angular/common';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
-import { TranslationCode } from '../../../shared/i18n/translation-types';
+import { ValidatorComponent } from '../../../shared/validator/validator.component';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -45,9 +44,8 @@ import { TranslationCode } from '../../../shared/i18n/translation-types';
 		UpperCasePipe,
 	],
 })
-export class CreateCategoryDialogComponent extends DialogComponent<undefined, void> {
+export class CreateCategoryDialogComponent extends DialogComponent<undefined, Category | null> {
 	private readonly fb = inject(NonNullableFormBuilder);
-	private readonly store = inject(CategoryStore);
 
 	data = this.dialogRef.value;
 
@@ -64,7 +62,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, vo
 	});
 
 	close(): void {
-		this.dialogRef.close();
+		this.dialogRef.close(null);
 	}
 
 	create(): void {
@@ -77,8 +75,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, vo
 			type: formValue.type,
 			note: formValue.note,
 		};
-		this.store.createCategory(request);
-		this.dialogRef.submit();
+		this.dialogRef.submit(request);
 	}
 
 	onIconSelected(iconInfo: CategoryIconInfo): void {
