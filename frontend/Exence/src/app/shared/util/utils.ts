@@ -5,6 +5,7 @@ import { ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
 import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayload';
 import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
 
@@ -12,6 +13,16 @@ export function toRawValueSignal<T>(control: AbstractControl<unknown, T>): Signa
 	return toSignal(control.valueChanges.pipe(map(() => control.getRawValue() as T)), {
 		initialValue: control.getRawValue() as T,
 	});
+}
+
+export function localizeCurrency(currency: SupportedCurrency, lang: string): string {
+	const formatter = new Intl.NumberFormat(lang, {
+		style: 'currency',
+		currencyDisplay: 'narrowSymbol',
+		currency: currency.toUpperCase(),
+	});
+	const symbol = formatter.formatToParts(0).find(part => part.type === 'currency');
+	return symbol ? symbol.value : currency;
 }
 
 export function mapToTransactionFilter(queryParam: ParamMap): TransactionFilter {
@@ -119,4 +130,48 @@ export function formatNumber(value: number, locale = 'hu-HU'): string {
 	})
 		.format(value)
 		.replace(/\u00a0/g, ' ');
+}
+
+export type DateGranularity = 'month' | 'day';
+
+export function detectDateGranularity(value: string): DateGranularity | null {
+	if (/^\d{4}-\d{2}-\d{2}/.test(value)) return 'day';
+	if (/^\d{4}-\d{2}$/.test(value)) return 'month';
+	return null;
+}
+
+export function formatDateLabel(value: string | number, locale: string, granularity?: DateGranularity | null): string {
+	const resolved = granularity ?? (typeof value === 'string' ? detectDateGranularity(value) : null);
+	if (!resolved) return String(value);
+
+	const date = typeof value === 'number' ? new Date(value) : new Date(value);
+	if (isNaN(date.getTime())) return String(value);
+
+	return new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short' }).format(date);
+}
+
+export function formatDateTooltip(
+	value: string | number,
+	locale: string,
+	granularity?: DateGranularity | null,
+): string {
+	const resolved = granularity ?? (typeof value === 'string' ? detectDateGranularity(value) : null);
+	if (!resolved) return String(value);
+
+	const date = typeof value === 'number' ? new Date(value) : new Date(value);
+	if (isNaN(date.getTime())) return String(value);
+
+	const options: Intl.DateTimeFormatOptions =
+		resolved === 'month' ? { year: 'numeric', month: 'long' } : { year: 'numeric', month: 'long', day: 'numeric' };
+	return new Intl.DateTimeFormat(locale, options).format(date);
+}
+
+export function detectSeriesDateGranularity(series: { data: { x: string }[] }[]): DateGranularity | null {
+	for (const si of series) {
+		for (const dp of si.data) {
+			const g = detectDateGranularity(dp.x);
+			if (g) return g;
+		}
+	}
+	return null;
 }

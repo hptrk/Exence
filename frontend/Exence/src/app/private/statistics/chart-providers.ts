@@ -9,7 +9,10 @@ import {
 import {
 	buildLinks,
 	buildNodeMap,
+	detectSeriesDateGranularity,
 	findHubNode,
+	formatDateLabel,
+	formatDateTooltip,
 	formatNumber,
 	getCssVariableValue,
 	lightenHexColor,
@@ -27,11 +30,15 @@ import {
 	WidgetDataPayload,
 } from '../../data-model/modules/statistics/WidgetDataPayload';
 import { EChartsOption } from 'echarts/types/dist/shared';
+import { WidgetType } from '../../data-model/modules/statistics/widget-config.model';
 
 export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
 	data: T,
 	title: string,
+	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
+	widgetType?: WidgetType,
 ) => Partial<ApexOptions> | T | EChartsOption;
 
 function truncateTitle(title: string, max = 25): string {
@@ -114,7 +121,9 @@ function getCommonChart(translate?: (key: string) => string): ApexChart {
 const SankeyProvider: ProviderFn<SankeyPayload> = (
 	{ data }: SankeyPayload,
 	title: string,
+	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): EChartsOption => {
 	const sourceNames = new Set(data.map(link => link.from));
 	const targetNames = new Set(data.map(link => link.to));
@@ -187,14 +196,14 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
 				return `
                     <div class="d-flex flex-column gap-2 p-2">
                         <div class="d-flex flex-row flex-nowrap gap-2 align-items-center justify-content-between">
-                            <div>${translate?.('statistics.charts.from')}: <span class="fw-semibold">${sourceNode?.name ?? params.data.source}</span></div>
+                            <div>${translate?.('statistics.charts.from')} <span class="fw-semibold">${sourceNode?.name ?? params.data.source}</span></div>
                             ${sourceNode?.color ? colorSquare(sourceNode.color) : fallbackColor}
                         </div>
                         <div class="d-flex flex-row flex-nowrap gap-2 align-items-center justify-content-between">
-                            <div>${translate?.('statistics.charts.to')}: <span class="fw-semibold">${targetNode?.name ?? params.data.target}</span></div>
+                            <div>${translate?.('statistics.charts.to')} <span class="fw-semibold">${targetNode?.name ?? params.data.target}</span></div>
                             ${targetNode?.color ? colorSquare(targetNode.color) : fallbackColor}
                         </div>
-                        <div>${translate?.('statistics.charts.amount')}: <span class="fw-bold">${formatNumber(params.data.value)}</span></div>
+                        <div>${translate?.('statistics.charts.amount')} <span class="fw-bold">${formatCurrency?.(params.data.value) ?? formatNumber(params.data.value)}</span></div>
                     </div>
                 `;
 			},
@@ -205,7 +214,9 @@ const SankeyProvider: ProviderFn<SankeyPayload> = (
 const StatCardProvider: ProviderFn<StatCardPayload> = (
 	data: StatCardPayload,
 	_title: string,
+	_locale: string,
 	_translate?: (key: string, params?: Record<string, unknown>) => string,
+	_formatCurrency?: (value: number) => string,
 ): StatCardPayload => {
 	return { ...data };
 };
@@ -213,7 +224,10 @@ const StatCardProvider: ProviderFn<StatCardPayload> = (
 const LineProvider: ProviderFn<SeriesPayload> = (
 	data: SeriesPayload | SlopePayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
+	widgetType?: WidgetType,
 ): ApexOptions => {
 	const isSlopeChart = 'series' in data ? false : true;
 	const isMixed = isSlopeChart ? false : (data as SeriesPayload).series.some(si => si.type !== 'line');
@@ -251,6 +265,11 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 		}));
 	}
 
+	const granularity = !isSlopeChart ? detectSeriesDateGranularity((data as SeriesPayload).series) : null;
+
+	const lineIsCount =
+		widgetType === WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO || widgetType === WidgetType.EXPENSE_SAVINGS_COMBO;
+
 	const yAxisConfig: ApexYAxis | ApexYAxis[] = isMixed
 		? (data as SeriesPayload).series.map(si => ({
 				...commonChartOptions.yaxis,
@@ -265,7 +284,8 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 				opposite: si.type !== 'line',
 				labels: {
 					formatter(val) {
-						return formatNumber(val);
+						if (lineIsCount && si.type === 'line') return formatNumber(val);
+						return formatCurrency?.(val) ?? formatNumber(val);
 					},
 				},
 			}))
@@ -273,7 +293,7 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 				...commonChartOptions.yaxis,
 				labels: {
 					formatter(val) {
-						return formatNumber(val);
+						return formatCurrency?.(val) ?? formatNumber(val);
 					},
 				},
 			};
@@ -310,14 +330,23 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 			followCursor: true,
 			intersect: false,
 			shared: true,
+			...(granularity && {
+				x: {
+					formatter: (val: number) => formatDateTooltip(val, locale, granularity),
+				},
+			}),
 		},
 		xaxis: {
 			...commonChartOptions.xaxis,
+			...(granularity && { type: 'datetime' as const }),
 			labels: {
 				style: {
 					fontSize: isSlopeChart ? '20px' : '18px',
 				},
 				offsetY: isSlopeChart ? 5 : isMixed ? 5 : 10,
+				...(granularity && {
+					formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
+				}),
 			},
 		},
 		yaxis: yAxisConfig,
@@ -331,8 +360,11 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 const AreaProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const granularity = detectSeriesDateGranularity(series);
 	const isIncome = series.length === 1 && !!series.find(s => s.name.toLowerCase() === 'income');
 	const isExpense = series.length === 1 && !!series.find(s => s.name.toLowerCase() === 'expense');
 
@@ -372,7 +404,7 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 			intersect: false,
 			shared: true,
 			x: {
-				format: 'yyyy MMMM dd.',
+				formatter: (val: number) => formatDateTooltip(val, locale, granularity),
 			},
 		},
 		stroke: {
@@ -389,7 +421,7 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 				rotateAlways: false,
 				hideOverlappingLabels: true,
 				showDuplicates: false,
-				format: 'yyyy MMM.',
+				formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
 			},
 			tickPlacement: 'between',
 		},
@@ -397,7 +429,7 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 			...commonChartOptions.yaxis,
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -407,8 +439,11 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 const BarProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const granularity = detectSeriesDateGranularity(series);
 	const fallbackColors = [
 		'var(--primary-color)',
 		'var(--accent-color)',
@@ -436,6 +471,11 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 		dataLabels: {
 			enabled: false,
 		},
+		tooltip: {
+			x: {
+				formatter: (val: number) => formatDateTooltip(val, locale, granularity),
+			},
+		},
 		xaxis: {
 			...commonChartOptions.xaxis,
 			type: 'datetime',
@@ -445,7 +485,7 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 				rotateAlways: false,
 				hideOverlappingLabels: true,
 				showDuplicates: false,
-				format: 'yyyy MMM.',
+				formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
 				style: {
 					fontSize: '16px',
 				},
@@ -457,7 +497,7 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 			...commonChartOptions.yaxis,
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -467,7 +507,9 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 const PieProvider: ProviderFn<DistributionPayload> = (
 	payload: DistributionPayload,
 	title: string,
+	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
 	const colors: string[] = [];
 	const labels: string[] = [];
@@ -521,7 +563,7 @@ const PieProvider: ProviderFn<DistributionPayload> = (
 			...commonChartOptions.yaxis,
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -531,7 +573,9 @@ const PieProvider: ProviderFn<DistributionPayload> = (
 const DonutProvider: ProviderFn<DistributionPayload> = (
 	payload: DistributionPayload,
 	title: string,
+	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
 	const colors: string[] = [];
 	const labels: string[] = [];
@@ -585,7 +629,7 @@ const DonutProvider: ProviderFn<DistributionPayload> = (
 			...commonChartOptions.yaxis,
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -595,7 +639,9 @@ const DonutProvider: ProviderFn<DistributionPayload> = (
 const RadialBarProvider: ProviderFn<GaugePayload> = (
 	{ data }: GaugePayload,
 	title: string,
+	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	_formatCurrency?: (value: number) => string,
 ): ApexOptions => {
 	return {
 		...commonChartOptions,
@@ -641,7 +687,9 @@ const RadialBarProvider: ProviderFn<GaugePayload> = (
 const BubbleProvider: ProviderFn<BubblePayload> = (
 	{ series }: BubblePayload,
 	title: string,
+	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
 	return {
 		...commonChartOptions,
@@ -670,7 +718,7 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 			z: {
 				title: 'Sum of transaction amounts: ',
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -688,7 +736,7 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 		yaxis: {
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -698,9 +746,22 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 const HeatmapProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
-	const allItems = series
+	const year = new Date().getFullYear();
+	const jan1Dow = new Date(year, 0, 1).getDay();
+
+	// Reorder: top row (series[6]) = Jan 1's weekday, chronological downward
+	// Backend: 0=Mon,1=Tue,...,6=Sun. JS days: Mon=1,...,Sat=6,Sun=0
+	const reorderedSeries = Array.from({ length: 7 }, (_, i) => {
+		const jsDay = (jan1Dow + 6 - i) % 7;
+		const backendIdx = jsDay === 0 ? 6 : jsDay - 1;
+		return series[backendIdx];
+	});
+
+	const allItems = reorderedSeries
 		.flatMap(si => si.data)
 		.map(item => item.y)
 		.filter(item => item > 0);
@@ -708,7 +769,7 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 	const max = Math.max(...allItems);
 	const step = (max - min) / 5;
 	const cellSize = 40;
-	const rows = series.length;
+	const rows = reorderedSeries.length;
 	return {
 		...commonChartOptions,
 		chart: {
@@ -725,7 +786,7 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 				enabled: false,
 			},
 		},
-		series,
+		series: reorderedSeries,
 		title: {
 			...commonChartOptions.title,
 			text: truncateTitle(title),
@@ -789,15 +850,11 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 				show: false,
 			},
 			labels: {
-				formatter: function (val, _, opts) {
-					const i = opts?.dataPointIndex ?? opts?.i ?? val;
-
-					if (i === undefined || i === null || isNaN(i)) return val;
-
-					const date = new Date(2023, i, 1);
-					if (opts?.dateFormatter) return opts.dateFormatter(date, 'MMM');
-
-					return date.toLocaleString('default', { month: 'short' });
+				formatter: function (val) {
+					const weekIndex = Number(val) - 1;
+					if (isNaN(weekIndex) || weekIndex < 0) return String(val);
+					const date = new Date(year, 0, 1 + weekIndex * 7);
+					return new Intl.DateTimeFormat(locale, { month: 'short' }).format(date);
 				},
 				style: {
 					fontSize: '14px',
@@ -811,10 +868,21 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 			},
 		},
 		tooltip: {
-			y: {
-				formatter(val) {
-					return formatNumber(val);
-				},
+			custom({ seriesIndex, dataPointIndex, w }) {
+				const data = w.config.series[seriesIndex].data[dataPointIndex];
+				const weekIndex = Number(data.x) - 1;
+				const dayOffset = 6 - seriesIndex;
+				const date = new Date(year, 0, 1 + dayOffset + weekIndex * 7);
+				const dateLabel = new Intl.DateTimeFormat(locale, {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				}).format(date);
+				const formatted = formatCurrency?.(data.y) ?? formatNumber(data.y);
+				return `<div class="d-flex flex-column gap-1 p-2">
+					<span class="fw-bold">${dateLabel}</span>
+					<span>${formatted}</span>
+				</div>`;
 			},
 		},
 	};
@@ -823,7 +891,9 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 	payload: BoxplotPayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
 	const fallbackColors = [
 		getCssVariableValue('--primary-color'),
@@ -844,7 +914,11 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 			{
 				name: 'box',
 				type: 'boxPlot',
-				data: payload.data.map((d, i) => ({ ...d, fillColor: d.color ?? fallbackColors[i] })),
+				data: payload.data.map((d, i) => ({
+					...d,
+					x: formatDateLabel(d.x, locale),
+					fillColor: d.color ?? fallbackColors[i],
+				})),
 			},
 		],
 		xaxis: {
@@ -858,7 +932,7 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 			...commonChartOptions.yaxis,
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -871,13 +945,14 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 				if (!series) return;
 				const point = w.config.series[seriesIndex].data[dataPointIndex];
 				const [min, q1, median, q3, max] = point.y;
+				const fmt = (v: number): string => formatCurrency?.(v) ?? formatNumber(v);
 				return `
 					<div class="d-flex flex-column gap-2 p-2">
-					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.max')} <span class="fw-bold">${formatNumber(max)}</span></div>
-					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.q3')}<span class="fw-bold">${formatNumber(q3)}</span></div>
-					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.median')}<span class="fw-bold">${formatNumber(median)}</span></div>
-					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.q1')}<span class="fw-bold">${formatNumber(q1)}</span></div>
-					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.min')}<span class="fw-bold">${formatNumber(min)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.max')} <span class="fw-bold">${fmt(max)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.q3')}<span class="fw-bold">${fmt(q3)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.median')}<span class="fw-bold">${fmt(median)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.q1')}<span class="fw-bold">${fmt(q1)}</span></div>
+					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.min')}<span class="fw-bold">${fmt(min)}</span></div>
 					</div>
 					`;
 			},
@@ -888,7 +963,9 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 const RadarProvider: ProviderFn<SeriesPayload> = (
 	payload: SeriesPayload | DistributionPayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
 	const instanceOfDistributionPayload = 'data' in payload;
 	let series: ApexNonAxisChartSeries;
@@ -905,7 +982,7 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 	} else {
 		series = payload.series.map(si => ({
 			...si,
-			name: new Intl.DateTimeFormat('hu-HU', { year: 'numeric', month: 'short' }).format(new Date(si.name)), // TODO this should be the default after localization
+			name: formatDateLabel(si.name, locale),
 		}));
 	}
 
@@ -949,7 +1026,7 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 		tooltip: {
 			y: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val, locale);
 				},
 			},
 		},
@@ -959,7 +1036,9 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 const TreemapProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
+	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
 	const positiveColor = getCssVariableValue('--tertiary-color');
 	const negativeColor = getCssVariableValue('--error-color');
@@ -992,12 +1071,18 @@ const TreemapProvider: ProviderFn<SeriesPayload> = (
 		},
 		dataLabels: {
 			enabled: true,
-			formatter: (text, opts) => [String(text), formatNumber(+getFormattedValue(+opts.value, opts))],
+			formatter: (text, opts) => {
+				const val = +getFormattedValue(+opts.value, opts);
+				return [String(text), formatCurrency?.(val) ?? formatNumber(val)];
+			},
 			offsetY: -7,
 		},
 		tooltip: {
 			y: {
-				formatter: (value, opts) => formatNumber(+getFormattedValue(value, opts)),
+				formatter: (value, opts) => {
+					const val = +getFormattedValue(value, opts);
+					return formatCurrency?.(val) ?? formatNumber(val);
+				},
 			},
 		},
 		title: {
@@ -1010,8 +1095,11 @@ const TreemapProvider: ProviderFn<SeriesPayload> = (
 const ScatterProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const granularity = detectSeriesDateGranularity(series);
 	const labels = new Set<string>();
 	series.forEach(si => {
 		si.data.forEach(d => labels.add(d.x));
@@ -1031,7 +1119,7 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 				rotateAlways: false,
 				hideOverlappingLabels: true,
 				showDuplicates: false,
-				format: 'yyyy MMM.',
+				formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
 				style: {
 					fontSize: '14px',
 					fontWeight: 'semibold',
@@ -1042,7 +1130,7 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 		},
 		tooltip: {
 			x: {
-				format: 'yyyy MMMM dd.',
+				formatter: (val: number) => formatDateTooltip(val, locale, granularity),
 			},
 		},
 		title: {
@@ -1053,7 +1141,7 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 			...commonChartOptions.yaxis,
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},
@@ -1063,14 +1151,24 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 	payload: DistributionPayload,
 	title: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
+	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const fallbackColors = [
+		getCssVariableValue('--primary-color'),
+		getCssVariableValue('--accent-text-color'),
+		getCssVariableValue('--tertiary-color'),
+		getCssVariableValue('--error-color'),
+		getCssVariableValue('--warn-color'),
+		getCssVariableValue('--secondary-color'),
+	];
 	const colors: string[] = [];
 	const labels: string[] = [];
 	const data: number[] = [];
-	payload.data.forEach(di => {
-		colors.push(di.color ?? 'var(--primary-color)');
-		labels.push(di.name);
+	payload.data.forEach((di, i) => {
+		colors.push(di.color ?? fallbackColors[i % fallbackColors.length]);
+		labels.push(formatDateLabel(di.name, locale) ?? di.name);
 		data.push(di.amount);
 	});
 
@@ -1107,7 +1205,7 @@ const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 			show: false,
 			labels: {
 				formatter(val) {
-					return formatNumber(val);
+					return formatCurrency?.(val) ?? formatNumber(val);
 				},
 			},
 		},

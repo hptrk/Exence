@@ -1,6 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -9,24 +8,30 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { startWith } from 'rxjs';
+import { TranslocoService } from '@jsverse/transloco';
 import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { Transaction } from '../../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../../data-model/modules/transaction/TransactionType';
+import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 import { AmountStepperComponent } from '../../../shared/amount-stepper/amount-stepper.component';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
+import { CurrencyService } from '../../../shared/currency.service';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
-import { DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
+import { DialogRef, DialogWithBaseComponent } from '../../../shared/dialog/dialog.service';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
+import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../category.service';
+import { ExchangeRateRequest, ExchangeRateService } from '../../../shared/exchange-rate.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { isFuture } from 'date-fns';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -46,6 +51,7 @@ export interface CreateTransactionDialogData {
 		MatCheckboxModule,
 		MatIconModule,
 		MatButtonToggleModule,
+		MatTooltipModule,
 		AmountStepperComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
@@ -59,16 +65,22 @@ export interface CreateTransactionDialogData {
 		UpperCasePipe,
 	],
 })
-export class CreateTransactionDialogComponent
-	extends DialogWithBaseComponent<CreateTransactionDialogData | undefined, Transaction | null>
-	implements OnInit
-{
+export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
+	CreateTransactionDialogData | undefined,
+	Transaction | null
+> {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
+	private readonly currencyService = inject(CurrencyService);
+	private readonly translocoService = inject(TranslocoService);
+	private readonly exchangeRateService = inject(ExchangeRateService);
 
 	data = this.dialogRef.value;
 
 	transactionTypes = TransactionType;
+	currencies = SupportedCurrency;
+
+	private categories = signal<Category[]>([]);
 
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -76,18 +88,20 @@ export class CreateTransactionDialogComponent
 		date: this.fb.control<Date>(new Date(), [Validators.required]),
 		amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)]),
 		type: this.fb.control<TransactionType | null>(null, [Validators.required]),
+		currency: this.fb.control<SupportedCurrency>(this.currencyService.baseCurrency(), [Validators.required]),
+		exchangeRate: this.fb.control<number | null>(null, [Validators.required, Validators.min(0.01)]),
 		recurring: this.fb.control<boolean>(false),
 		category: this.fb.group({
 			category: this.fb.control<Category | null>(null, [Validators.required]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
+	formValue = toRawValueSignal(this.form);
 
-	private selectedType = toSignal(this.form.controls.type.valueChanges.pipe(startWith(null)), { initialValue: null });
-	private categories = signal<Category[]>([]);
-	private searchText = toSignal(this.form.controls.category.controls.searchText.valueChanges.pipe(startWith('')), {
-		initialValue: '',
-	});
+	private selectedType = toRawValueSignal(this.form.controls.type);
+	private searchText = toRawValueSignal(this.form.controls.category.controls.searchText);
+	private dateValue = toRawValueSignal(this.form.controls.date);
+	private currencyValue = toRawValueSignal(this.form.controls.currency);
 
 	filteredCategories = computed(() => {
 		const type = this.selectedType();
@@ -108,7 +122,9 @@ export class CreateTransactionDialogComponent
 
 	categorySearchRef = viewChild<ElementRef<HTMLInputElement>>('searchCategoryInput');
 
-	ngOnInit(): void {
+	constructor() {
+		super(inject(DialogRef));
+
 		this.categoryService.list().then(categories => {
 			this.categories.set(categories);
 		});
@@ -118,13 +134,22 @@ export class CreateTransactionDialogComponent
 		if (this.data?.isRecurring) {
 			this.form.controls.recurring.setValue(this.data.isRecurring);
 		}
-		this.addSubscription(
-			this.form.controls.amount.valueChanges.subscribe(value => {
-				if (value !== null) {
-					this.form.controls.amount.setValue(parseFloat(value.toString()!), { emitEvent: false });
-				}
-			}),
-		);
+
+		effect(() => {
+			const currency = this.currencyValue();
+			const date = this.dateValue();
+			const baseCurrency = this.currencyService.baseCurrency();
+			const request: ExchangeRateRequest = {
+				from: currency,
+				to: baseCurrency,
+				date: isFuture(date) ? new Date() : date,
+			};
+			this.form.controls.exchangeRate.disable();
+			this.exchangeRateService
+				.getRate(request)
+				.then(response => this.form.controls.exchangeRate.setValue(response))
+				.finally(() => this.form.controls.exchangeRate.enable());
+		});
 	}
 
 	close(): void {
@@ -133,16 +158,22 @@ export class CreateTransactionDialogComponent
 
 	create(): void {
 		const formValue = this.form.getRawValue();
-		const request: Transaction = {
+		this.dialogRef.submit({
 			title: formValue.title,
-			note: formValue.note,
+			note: formValue.note ?? '',
 			date: formValue.date.toISOString(),
 			amount: formValue.amount!,
-			type: formValue.type,
+			type: formValue.type!,
 			recurring: formValue.recurring,
-			categoryId: formValue.category!.category!.id!,
-		} as Transaction;
-		this.dialogRef.submit(request);
+			categoryId: formValue.category.category!.id!,
+			currency: formValue.currency,
+			exchangeRate: formValue.exchangeRate!,
+			baseCurrencyAmount: formValue.amount! * formValue.exchangeRate!,
+		});
+	}
+
+	localizeCurrency(currency: SupportedCurrency): string {
+		return localizeCurrency(currency, this.translocoService.getActiveLang());
 	}
 
 	codeForTransactionType(type: TransactionType): TranslationCode {

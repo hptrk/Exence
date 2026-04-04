@@ -119,7 +119,8 @@
 		"debts": "Dettes",
 		"theme": "Mode principal/secondaire",
 		"logout": "Déconnexion",
-		"accountSettings": "Paramètres du compte"
+		"accountSettings": "Paramètres du compte",
+		"language": "Changer de langue"
 	},
 	"timeframe": {
 		"1W": "1S",
@@ -348,11 +349,15 @@
 			"titleLabel": "Titre",
 			"amount": "Montant",
 			"date": "Date",
+			"currency": "Devise",
+			"exchangeRate": "Taux de change",
 			"category": "Catégorie",
 			"search": "Rechercher",
 			"note": "Note",
 			"recurring": "Récurrence automatique ?",
-			"successInfo": "Transaction '{{title}}' créée avec succès !"
+			"successInfo": "Transaction '{{title}}' créée avec succès !",
+			"customExchangeRate": "Définir un taux de change personnalisé",
+			"disabledExchangeRate": "Récupération du taux de change"
 		},
 		"edit": {
 			"title": "Modifier la transaction",

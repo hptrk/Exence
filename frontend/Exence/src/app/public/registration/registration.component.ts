@@ -20,6 +20,11 @@ import { StopPropagationDirective } from '../../shared/stop-propagation.directiv
 import { TranslocoService } from '@jsverse/transloco';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { ShowPasswordComponent } from '../../shared/show-password/show-password.component';
+import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
+import { CurrencyService } from '../../shared/currency.service';
+import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
+import { localizeCurrency } from '../../shared/util/utils';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
 	selector: 'ex-registration',
@@ -31,15 +36,17 @@ import { ShowPasswordComponent } from '../../shared/show-password/show-password.
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatTooltipModule,
+		MatSelectModule,
 		RouterLink,
 		MatInput,
 		ButtonComponent,
 		InputClearButtonComponent,
 		ValidatorComponent,
-		TranslatePipe,
 		ShowPasswordComponent,
 		AutoTrimDirective,
 		StopPropagationDirective,
+		TranslatePipe,
+		EnumValuePipe,
 	],
 })
 export class RegistrationComponent extends BaseComponent {
@@ -48,9 +55,12 @@ export class RegistrationComponent extends BaseComponent {
 	private readonly router = inject(Router);
 	private readonly snackbarService = inject(SnackbarService);
 	private readonly translocoService = inject(TranslocoService);
+	private readonly currencyService = inject(CurrencyService);
 	readonly navigate = inject(NavigationService);
 
 	showPassword = signal<boolean>(false);
+
+	currencies = SupportedCurrency;
 
 	form = this.fb.group({
 		username: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
@@ -61,6 +71,7 @@ export class RegistrationComponent extends BaseComponent {
 			ExtraValidators.password,
 			ExtraValidators.passwordMatch('password'),
 		]),
+		currency: this.fb.control<SupportedCurrency>(this.currencyService.baseCurrency(), [Validators.required]),
 	});
 
 	togglePassword(): void {
@@ -74,9 +85,14 @@ export class RegistrationComponent extends BaseComponent {
 			email: formValue.email,
 			password: formValue.password,
 			confirmPassword: formValue.confirmPassword,
+			currency: formValue.currency,
 		};
 		await this.authService.register(request);
 		this.snackbarService.showSuccess(this.translocoService.translate('registration.success'));
 		this.router.navigateByUrl(this.navigate.account().login());
+	}
+
+	localizeCurrency(currency: SupportedCurrency): string {
+		return localizeCurrency(currency, this.translocoService.getActiveLang());
 	}
 }

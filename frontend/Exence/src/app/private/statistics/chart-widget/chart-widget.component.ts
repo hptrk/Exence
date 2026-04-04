@@ -19,6 +19,7 @@ import { SankeyChartComponent } from '../sankey-chart/sankey-chart.component';
 import { StatisticService } from '../statistic.service';
 import { TimeframeComponent } from '../timeframe/timeframe.component';
 import { TranslocoService } from '@jsverse/transloco';
+import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 
 @Component({
 	selector: 'ex-chart-widget',
@@ -33,11 +34,13 @@ import { TranslocoService } from '@jsverse/transloco';
 		AnimatedSkeletonLoaderComponent,
 		TimeframeComponent,
 	],
+	providers: [CurrencyPipe],
 })
 export class ChartWidgetComponent extends BaseComponent {
 	private readonly statisticService = inject(StatisticService);
 	private readonly themeService = inject(DisplayThemeService);
 	private readonly translocoService = inject(TranslocoService);
+	private readonly currencyPipe = inject(CurrencyPipe);
 
 	widget = input.required<ChartWidget>();
 	editing = input.required<boolean>();
@@ -79,7 +82,16 @@ export class ChartWidgetComponent extends BaseComponent {
 			if (this.dashboardChart() && this.payload()) {
 				const payload = this.payload()!;
 				const providerFn = mapToProvider<typeof payload>(this.type());
-				this.data.set(providerFn(payload, this.widget().title) as Partial<ApexOptions>);
+				this.data.set(
+					providerFn(
+						payload,
+						this.widget().title,
+						this.translocoService.getActiveLang(),
+						undefined,
+						(v: number) => this.currencyPipe.transform(v),
+						this.widget().type,
+					) as Partial<ApexOptions>,
+				);
 				this.isLoading.set(false);
 				return;
 			}
@@ -98,8 +110,13 @@ export class ChartWidgetComponent extends BaseComponent {
 
 			const providerFn = mapToProvider<typeof payload>(this.type());
 			this.data.set(
-				providerFn(payload, this.widget().title, (key, params) =>
-					this.translocoService.translate(key, params),
+				providerFn(
+					payload,
+					this.widget().title,
+					this.translocoService.getActiveLang(),
+					(key, params) => this.translocoService.translate(key, params),
+					(v: number) => this.currencyPipe.transform(v),
+					this.widget().type,
 				) as Partial<ApexOptions>,
 			);
 		});

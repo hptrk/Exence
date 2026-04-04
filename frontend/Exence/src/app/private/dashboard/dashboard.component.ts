@@ -3,8 +3,9 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { ChartWidget } from '../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
+import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { CategoriesComponent, DateInterval } from '../../private/dashboard/categories/categories.component';
+import { CategoriesComponent } from '../../private/dashboard/categories/categories.component';
 import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
@@ -13,13 +14,16 @@ import { DataTableComponent } from '../../shared/data-table/data-table.component
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { ChartWidgetComponent } from '../statistics/chart-widget/chart-widget.component';
 import { StatisticService } from '../statistics/statistic.service';
 import { CategoryStore } from '../transactions-and-categories/category.store';
-import { CreateTransactionDialogComponent } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import {
+	CreateTransactionDialogComponent,
+	CreateTransactionDialogData,
+} from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
-import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -47,7 +51,6 @@ export class DashboardComponent extends BaseComponent {
 	readonly categoryStore = inject(CategoryStore);
 
 	transactionTypes = TransactionType;
-	dateIntervals = DateInterval;
 
 	user = computed(() => this.currentUserService.user());
 	categories = computed(() => this.categoryStore.categoryResource.value());
@@ -85,9 +88,10 @@ export class DashboardComponent extends BaseComponent {
 	}
 
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
-		const result = await this.dialog.openNonModal(CreateTransactionDialogComponent, {
-			type: transactionType,
-		});
+		const result = await this.dialog.openNonModal<CreateTransactionDialogData | undefined, Transaction | null>(
+			CreateTransactionDialogComponent,
+			{ type: transactionType },
+		);
 		if (!result) return;
 		this.transactionStore.createTransaction(result);
 	}

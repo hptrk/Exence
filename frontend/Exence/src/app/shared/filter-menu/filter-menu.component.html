@@ -25,8 +25,7 @@
 }
 
 <mat-menu #filterMenu>
-	<!-- TODO check if propagation directive can be used -->
-	<div class="d-flex flex-column gap-3 p-4 menu" (click)="$event.stopPropagation()">
+	<div class="d-flex flex-column gap-3 p-4 menu" stopPropagation>
 		<div class="d-flex flex-row align-items-center justify-content-between gap-2">
 			<h3 class="m-0">{{ 'filterMenu.title' | translate }}</h3>
 			<ex-button

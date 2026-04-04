@@ -67,7 +67,11 @@
 										row.type === transactionTypes.INCOME ? 'income' : 'expense'
 									}}"
 								>
-									{{ row.amount | currency }}
+									@if (showBaseCurrency()) {
+										{{ row.baseCurrencyAmount | currency }}
+									} @else {
+										{{ row.amount | currency: row.currency }}
+									}
 								</div>
 							</td>
 						</ng-container>
@@ -157,16 +161,7 @@
 											class="detail-container"
 											[@expandAnimation]="expandedRowId === row.id ? 'expanded' : 'collapsed'"
 										>
-											<!-- TODO -->
-											<ex-data-table-details
-												[transaction]="{
-													...row,
-													currency: currencies.USD,
-													exchangeRate: 0.92,
-													baseCurrencyAmount: 2542,
-												}"
-												[type]="type()"
-											/>
+											<ex-data-table-details [transaction]="row" [type]="type()" />
 										</div>
 									</div>
 								</td>

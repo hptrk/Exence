@@ -34,6 +34,31 @@
 				</mat-error>
 			</mat-form-field>
 		</div>
+
+		<div class="d-flex flex-column flex-sm-row gap-3">
+			@let currencyControl = form.controls.currency;
+			<mat-form-field>
+				<mat-label>{{ 'transaction.create.currency' | translate }}</mat-label>
+				<mat-select [formControl]="currencyControl">
+					@for (currency of currencies | enumValue; track currency) {
+						<mat-option [value]="currency">{{ currency }} - {{ localizeCurrency(currency) }}</mat-option>
+					}
+				</mat-select>
+				<mat-error>
+					<ex-validator [control]="currencyControl" />
+				</mat-error>
+			</mat-form-field>
+			@let exchangeRateControl = form.controls.exchangeRate;
+			<ex-amount-stepper
+				[control]="exchangeRateControl"
+				label="transaction.create.exchangeRate"
+				[step]="0.1"
+				[min]="0.01"
+				[matTooltip]="'transaction.create.disabledExchangeRate' | translate"
+				[matTooltipDisabled]="exchangeRateControl.enabled"
+			/>
+		</div>
+
 		<div class="d-flex flex-column flex-md-row gap-3">
 			@let categoryControl = form.controls.category.controls;
 			<mat-form-field>

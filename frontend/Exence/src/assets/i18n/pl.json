@@ -119,7 +119,8 @@
 		"debts": "Długi",
 		"theme": "Tryb główny/dodatkowy",
 		"logout": "Wyloguj się",
-		"accountSettings": "Ustawienia konta"
+		"accountSettings": "Ustawienia konta",
+		"language": "Zmień język"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -348,11 +349,15 @@
 			"titleLabel": "Tytuł",
 			"amount": "Kwota",
 			"date": "Data",
+			"currency": "Waluta",
+			"exchangeRate": "Kurs wymiany",
 			"category": "Kategoria",
 			"search": "Szukaj",
 			"note": "Notatka",
 			"recurring": "Automatycznie cykliczna?",
-			"successInfo": "Transakcja '{{title}}' została pomyślnie utworzona!"
+			"successInfo": "Transakcja '{{title}}' została pomyślnie utworzona!",
+			"customExchangeRate": "Ustaw własny kurs wymiany",
+			"disabledExchangeRate": "Pobieranie kursu walutowego"
 		},
 		"edit": {
 			"title": "Edytuj transakcję",

@@ -41,7 +41,7 @@
 				<mat-label>{{ 'transaction.edit.currency' | translate }}</mat-label>
 				<mat-select [formControl]="currencyControl">
 					@for (currency of currencies | enumValue; track currency) {
-						<mat-option [value]="currency">{{ currency }}</mat-option>
+						<mat-option [value]="currency">{{ currency }} - {{ localizeCurrency(currency) }}</mat-option>
 					}
 				</mat-select>
 				<mat-error>

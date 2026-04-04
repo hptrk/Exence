@@ -22,16 +22,30 @@
 						<ex-validator [control]="nameControl" />
 					</mat-error>
 				</mat-form-field>
-				@let emailControl = form.controls.email;
+				@let currencyControl = form.controls.currency;
 				<mat-form-field>
-					<mat-label>{{ 'registration.email' | translate }}</mat-label>
-					<input matInput autoTrim [formControl]="emailControl" type="email" />
-					<ex-input-clear matSuffix [control]="emailControl" />
+					<mat-label>{{ 'transaction.create.currency' | translate }}</mat-label>
+					<mat-select [formControl]="currencyControl">
+						@for (currency of currencies | enumValue; track currency) {
+							<mat-option [value]="currency"
+								>{{ currency }} - {{ localizeCurrency(currency) }}</mat-option
+							>
+						}
+					</mat-select>
 					<mat-error>
-						<ex-validator [control]="emailControl" />
+						<ex-validator [control]="currencyControl" />
 					</mat-error>
 				</mat-form-field>
 			</div>
+			@let emailControl = form.controls.email;
+			<mat-form-field>
+				<mat-label>{{ 'registration.email' | translate }}</mat-label>
+				<input matInput autoTrim [formControl]="emailControl" type="email" />
+				<ex-input-clear matSuffix [control]="emailControl" />
+				<mat-error>
+					<ex-validator [control]="emailControl" />
+				</mat-error>
+			</mat-form-field>
 
 			@let pwdControl = form.controls.password;
 			<mat-form-field [matTooltip]="'registration.passwordInfo' | translate">

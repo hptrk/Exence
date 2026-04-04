@@ -42,7 +42,7 @@ export interface BoxplotPayload {
 }
 
 export interface BoxplotPoint {
-	x: number;
+	x: string;
 	y: number[];
 	color?: string;
 }

@@ -7,12 +7,14 @@ import { LanguageService } from './profile-dialog/user-settings/language-select/
 import { UserSettingsService } from './profile-dialog/user-settings/user-settinngs.service';
 import { TransactionStore } from './transactions-and-categories/transaction.store';
 import { CategoryStore } from './transactions-and-categories/category.store';
+import { DialogService } from '../shared/dialog/dialog.service';
+import { ExchangeRateService } from '../shared/exchange-rate.service';
 
 @Component({
 	selector: 'ex-private',
 	template: '<router-outlet />',
 	imports: [RouterModule],
-	providers: [TransactionStore, CategoryStore],
+	providers: [TransactionStore, CategoryStore, ExchangeRateService, DialogService],
 })
 export class PrivateComponent {
 	private readonly userSettingsService = inject(UserSettingsService);

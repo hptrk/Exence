@@ -117,7 +117,8 @@
 		"debts": "Dlhy",
 		"theme": "Hlavný/vedľajší režim",
 		"logout": "Odhlásiť sa",
-		"accountSettings": "Nastavenia účtu"
+		"accountSettings": "Nastavenia účtu",
+		"language": "Zmeniť jazyk"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -346,11 +347,15 @@
 			"titleLabel": "Názov",
 			"amount": "Suma",
 			"date": "Dátum",
+			"currency": "Mena",
+			"exchangeRate": "Výmenný kurz",
 			"category": "Kategória",
 			"search": "Hľadať",
 			"note": "Poznámka",
 			"recurring": "Automaticky opakujúca sa?",
-			"successInfo": "Transakcia '{{title}}' bola úspešne vytvorená!"
+			"successInfo": "Transakcia '{{title}}' bola úspešne vytvorená!",
+			"customExchangeRate": "Nastaviť vlastný výmenný kurz",
+			"disabledExchangeRate": "Načítanie výmenného kurzu"
 		},
 		"edit": {
 			"title": "Upraviť transakciu",

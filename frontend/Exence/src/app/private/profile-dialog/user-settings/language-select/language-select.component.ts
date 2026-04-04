@@ -1,8 +1,8 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, effect, inject, input, output, signal } from '@angular/core';
+import { booleanAttribute, Component, effect, inject, input, output, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoService } from '@jsverse/transloco';
-import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 
 const LANG_LABELS: Record<string, string> = {
 	hu: 'Magyar',
@@ -19,12 +19,13 @@ const LANG_LABELS: Record<string, string> = {
 	selector: 'ex-language-select',
 	templateUrl: './language-select.component.html',
 	styleUrl: './language-select.component.scss',
-	imports: [MatIconModule, UpperCasePipe, TranslatePipe],
+	imports: [MatIconModule, MatMenuModule, UpperCasePipe],
 })
 export class LanguageSelectComponent {
 	private readonly translocoService = inject(TranslocoService);
 
-	initialLang = input<{ lang: string } | null | undefined>();
+	language = input<string | undefined>();
+	menu = input(false, { transform: booleanAttribute });
 
 	readonly changed = output<string>();
 
@@ -34,8 +35,9 @@ export class LanguageSelectComponent {
 
 	constructor() {
 		effect(() => {
-			const wrapper = this.initialLang();
-			if (wrapper?.lang != null) this.selectedLang.set(wrapper.lang);
+			const lang = this.language();
+			if (!lang) return;
+			this.selectedLang.set(lang);
 		});
 	}
 

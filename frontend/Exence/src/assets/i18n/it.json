@@ -119,7 +119,8 @@
 		"debts": "Debiti",
 		"theme": "Modalità principale/secondaria",
 		"logout": "Disconnetti",
-		"accountSettings": "Impostazioni dell'account"
+		"accountSettings": "Impostazioni dell'account",
+		"language": "Cambia lingua"
 	},
 	"timeframe": {
 		"1W": "1S",
@@ -348,11 +349,15 @@
 			"titleLabel": "Titolo",
 			"amount": "Importo",
 			"date": "Data",
+			"currency": "Valuta",
+			"exchangeRate": "Tasso di cambio",
 			"category": "Categoria",
 			"search": "Cerca",
 			"note": "Nota",
 			"recurring": "Ricorrenza automatica?",
-			"successInfo": "Transazione '{{title}}' creata con successo!"
+			"successInfo": "Transazione '{{title}}' creata con successo!",
+			"customExchangeRate": "Imposta un tasso di cambio personalizzato",
+			"disabledExchangeRate": "Recupero del tasso di cambio"
 		},
 		"edit": {
 			"title": "Modifica transazione",

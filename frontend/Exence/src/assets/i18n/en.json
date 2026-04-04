@@ -119,7 +119,8 @@
 		"debts": "Debts",
 		"theme": "Primary/secondary mode",
 		"logout": "Log out",
-		"accountSettings": "Account settings"
+		"accountSettings": "Account settings",
+		"language": "Change language"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -348,11 +349,15 @@
 			"titleLabel": "Title",
 			"amount": "Amount",
 			"date": "Date",
+			"currency": "Currency",
+			"exchangeRate": "Exchange rate",
 			"category": "Category",
 			"search": "Search",
 			"note": "Note",
 			"recurring": "Automatically recurring?",
-			"successInfo": "Transaction '{{title}}' created successfully!"
+			"successInfo": "Transaction '{{title}}' created successfully!",
+			"customExchangeRate": "Set custom exchange rate",
+			"disabledExchangeRate": "Fetching exchange rate"
 		},
 		"edit": {
 			"title": "Edit transaction",

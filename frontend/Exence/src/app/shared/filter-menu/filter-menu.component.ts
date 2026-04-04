@@ -7,12 +7,21 @@ import { ButtonComponent } from '../button/button.component';
 import { DisplaySizeService } from '../display-size.service';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '../pipes/translate.pipe';
+import { StopPropagationDirective } from '../stop-propagation.directive';
 
 @Component({
 	selector: 'ex-filter-menu',
 	templateUrl: './filter-menu.component.html',
 	styleUrl: './filter-menu.component.scss',
-	imports: [CommonModule, MatMenuModule, MatBadgeModule, MatBottomSheetModule, ButtonComponent, TranslatePipe],
+	imports: [
+		CommonModule,
+		MatMenuModule,
+		MatBadgeModule,
+		MatBottomSheetModule,
+		ButtonComponent,
+		TranslatePipe,
+		StopPropagationDirective,
+	],
 })
 export class FilterMenuComponent {
 	private readonly bottomSheet = inject(MatBottomSheet);

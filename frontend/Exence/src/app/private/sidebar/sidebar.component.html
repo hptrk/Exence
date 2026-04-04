@@ -9,7 +9,7 @@
 						<mat-icon class="m-0" [svgIcon]="svgIcons.logo" />
 					}
 				</a>
-				<div class="d-flex flex-column w-100 h-100 fs-4 gap-3 gap-xl-2 flex-grow-1 fw-medium">
+				<div class="d-flex flex-column h-100 w-100 flex-grow-1 fs-4 gap-3 gap-xl-2 fw-medium">
 					<a
 						class="ex-nav-button d-flex align-items-center gap-2"
 						[routerLink]="navigationService.private().dashboard()"
@@ -62,11 +62,29 @@
 						}
 					</a>
 				</div>
+
 				@if (display.isXl()) {
 					<div class="d-flex gap-4 actions">
-						<ex-button iconButton matIcon="manage_accounts" color="accent" (click)="openProfileDialog()" />
+						@if (currentUserService.isAuthenticated()) {
+							<ex-button
+								iconButton
+								matIcon="manage_accounts"
+								color="accent"
+								(click)="openProfileDialog()"
+							/>
+						}
+
+						@if (!currentUserService.isAuthenticated()) {
+							<ex-language-select menu [language]="initialLang()" (changed)="setLang($event)">
+								<ex-button iconButton matIcon="language" color="accent" />
+							</ex-language-select>
+						}
+
 						<ex-button iconButton matIcon="contrast" color="accent" (click)="toggleTheme()" />
-						<ex-button iconButton matIcon="logout" color="accent" (click)="logout()" />
+
+						@if (currentUserService.isAuthenticated()) {
+							<ex-button iconButton matIcon="logout" color="accent" (click)="logout()" />
+						}
 					</div>
 				} @else {
 					<ng-container [ngTemplateOutlet]="actionsMenu" />
@@ -94,26 +112,6 @@
 	<button [matMenuTriggerFor]="sidebarActionsMenu" class="more-actions-button">
 		<mat-icon>more_horiz</mat-icon>
 	</button>
-	<mat-menu #sidebarActionsMenu="matMenu">
-		<div class="d-flex flex-column gap-0 actions-menu">
-			<button mat-menu-item class="d-flex align-items-center gap-2" (click)="openProfileDialog()">
-				<mat-icon>manage_accounts</mat-icon>
-				{{ 'navigation.accountSettings' | translate }}
-			</button>
-			<button mat-menu-item class="d-flex align-items-center gap-2 pointer-cursor" (click)="toggleTheme()">
-				<mat-icon>contrast</mat-icon>
-				{{ 'navigation.theme' | translate }}
-			</button>
-			<a
-				mat-menu-item
-				class="d-flex align-items-center gap-2"
-				[routerLink]="navigationService.account().logout()"
-			>
-				<mat-icon>logout</mat-icon>
-				{{ 'navigation.logout' | translate }}
-			</a>
-		</div>
-	</mat-menu>
 </ng-template>
 
 <ng-template #mobile>
@@ -157,12 +155,49 @@
 			>
 				<mat-icon>account_balance</mat-icon>
 			</a>
+
 			<button
 				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				(click)="openProfileDialog()"
+				[matMenuTriggerFor]="sidebarActionsMenu"
 			>
-				<mat-icon>manage_accounts</mat-icon>
+				<mat-icon>more_horiz</mat-icon>
 			</button>
 		</div>
 	</div>
 </ng-template>
+
+<mat-menu #sidebarActionsMenu="matMenu">
+	<div class="d-flex flex-column gap-0 actions-menu">
+		@if (currentUserService.isAuthenticated()) {
+			<button mat-menu-item class="d-flex align-items-center gap-2" (click)="openProfileDialog()">
+				<mat-icon>manage_accounts</mat-icon>
+				{{ 'navigation.accountSettings' | translate }}
+			</button>
+		}
+
+		@if (!currentUserService.isAuthenticated()) {
+			<ex-language-select menu [language]="initialLang()" (changed)="setLang($event)" stopPropagation>
+				<button mat-menu-item class="d-flex align-items-center gap-2">
+					<mat-icon>language</mat-icon>
+					{{ 'navigation.language' | translate }}
+				</button>
+			</ex-language-select>
+		}
+
+		<button mat-menu-item class="d-flex align-items-center gap-2 pointer-cursor" (click)="toggleTheme()">
+			<mat-icon>contrast</mat-icon>
+			{{ 'navigation.theme' | translate }}
+		</button>
+
+		@if (currentUserService.isAuthenticated()) {
+			<a
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				[routerLink]="navigationService.account().logout()"
+			>
+				<mat-icon>logout</mat-icon>
+				{{ 'navigation.logout' | translate }}
+			</a>
+		}
+	</div>
+</mat-menu>

@@ -34,16 +34,16 @@
 						{{ 'dataTable.currency.base' | translate }}
 					</mat-label>
 					<div class="fs-6">
-						{{ transaction().currency }} -
-						{{ localizeCurrency(transaction().currency) }}
+						{{ baseCurrency() }} -
+						{{ localizeCurrency(baseCurrency()) }}
 					</div>
 				</div>
 				<div class="detail gap-2 gap-lg-3">
 					<mat-label>
 						{{ 'dataTable.amount.base' | translate }}
 					</mat-label>
-					<div class="fs-6 fw-semibold" [class]="getTypeClass(transaction().baseCurrencyAmount)">
-						{{ transaction().baseCurrencyAmount | currency: baseCurrency() }}
+					<div class="fs-6 fw-semibold" [class]="getTypeClass(transaction().baseCurrencyAmount!)">
+						{{ transaction().baseCurrencyAmount | currency }}
 					</div>
 				</div>
 			}

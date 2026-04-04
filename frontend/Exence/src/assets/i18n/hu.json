@@ -119,7 +119,8 @@
 		"debts": "Tartozások",
 		"theme": "Elsődleges/másodlagos téma",
 		"logout": "Kijelentkezés",
-		"accountSettings": "Fiókbeállítások"
+		"accountSettings": "Fiókbeállítások",
+		"language": "Nyelv"
 	},
 	"timeframe": {
 		"1W": "1Hé",
@@ -348,11 +349,15 @@
 			"titleLabel": "Cím",
 			"amount": "Összeg",
 			"date": "Dátum",
+			"currency": "Pénznem",
+			"exchangeRate": "Árfolyam",
 			"category": "Kategória",
 			"search": "Keresés",
 			"note": "Megjegyzés:",
 			"recurring": "Automatikusan ismétlődő?",
-			"successInfo": "Az '{{title}}' tranzakció sikeresen létrejött!"
+			"successInfo": "Az '{{title}}' tranzakció sikeresen létrejött!",
+			"customExchangeRate": "Egyéni árfolyam beállítása",
+			"disabledExchangeRate": "Árfolyam lekérése"
 		},
 		"edit": {
 			"title": "Tranzakció szerkesztése",
