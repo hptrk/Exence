@@ -119,12 +119,16 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     @Override
     @WriteTransactional
     public BigDecimal calculateBaseCurrencyAmount(
-            BigDecimal amount, SupportedCurrency currency, SupportedCurrency baseCurrency, LocalDate date) {
+            BigDecimal amount,
+            SupportedCurrency currency,
+            SupportedCurrency baseCurrency,
+            LocalDate date,
+            BigDecimal exchangeRate) {
         if (currency == baseCurrency) {
             return amount;
         }
 
-        BigDecimal rate = getRate(currency, baseCurrency, date);
+        BigDecimal rate = exchangeRate != null ? exchangeRate : getRate(currency, baseCurrency, date);
         return amount.multiply(rate).setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
     }
 

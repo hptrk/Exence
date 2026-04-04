@@ -37,7 +37,11 @@ public interface ExchangeRateService {
      * Returns amount * getRate(currency, baseCurrency, date).
      */
     BigDecimal calculateBaseCurrencyAmount(
-            BigDecimal amount, SupportedCurrency currency, SupportedCurrency baseCurrency, LocalDate date);
+            BigDecimal amount,
+            SupportedCurrency currency,
+            SupportedCurrency baseCurrency,
+            LocalDate date,
+            BigDecimal exchangeRate);
 
     /**
      * Calculate the base currency amount from the original amount, currency, and user's base currency.

@@ -191,7 +191,7 @@ public class TransactionServiceImpl implements TransactionService {
 
             transaction.setExchangeRate(exchangeRate);
             transaction.setBaseCurrencyAmount(exchangeRateService.calculateBaseCurrencyAmount(
-                    transaction.getAmount(), currency, baseCurrency, transaction.getDate()));
+                    transaction.getAmount(), currency, baseCurrency, transaction.getDate(), exchangeRate));
         }
     }
 
