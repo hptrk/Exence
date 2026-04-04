@@ -1,4 +1,7 @@
 mat-divider.mat-divider {
 	--mat-divider-color: var(--border-color);
+	--mat-menu-divider-color: var(--border-color);
 	margin: 1.5rem 0.5rem;
+	--mat-menu-divider-bottom-spacing: 0;
+	--mat-menu-divider-top-spacing: 0;
 }
