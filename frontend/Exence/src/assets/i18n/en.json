@@ -355,7 +355,9 @@
 			"search": "Search",
 			"note": "Note",
 			"recurring": "Automatically recurring?",
-			"successInfo": "Transaction '{{title}}' created successfully!"
+			"successInfo": "Transaction '{{title}}' created successfully!",
+			"customExchangeRate": "Set custom exchange rate",
+			"disabledExchangeRate": "Fetching exchange rate"
 		},
 		"edit": {
 			"title": "Edit transaction",

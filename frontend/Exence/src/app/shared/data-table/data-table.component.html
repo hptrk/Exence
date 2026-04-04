@@ -67,7 +67,11 @@
 										row.type === transactionTypes.INCOME ? 'income' : 'expense'
 									}}"
 								>
-									{{ row.amount | currency }}
+									@if (showBaseCurrency()) {
+										{{ row.baseCurrencyAmount | currency }}
+									} @else {
+										{{ row.amount | currency: row.currency }}
+									}
 								</div>
 							</td>
 						</ng-container>

@@ -10,8 +10,6 @@ export interface Transaction {
 	type: TransactionType;
 	recurring: boolean;
 	categoryId: number;
-
-	// TODO check namings after currency on server has been implemented
 	currency: SupportedCurrency;
 	baseCurrencyAmount?: number;
 	exchangeRate: number;

@@ -355,7 +355,9 @@
 			"search": "Rechercher",
 			"note": "Note",
 			"recurring": "Récurrence automatique ?",
-			"successInfo": "Transaction '{{title}}' créée avec succès !"
+			"successInfo": "Transaction '{{title}}' créée avec succès !",
+			"customExchangeRate": "Définir un taux de change personnalisé",
+			"disabledExchangeRate": "Récupération du taux de change"
 		},
 		"edit": {
 			"title": "Modifier la transaction",

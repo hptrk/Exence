@@ -132,8 +132,10 @@
 								<mat-date-range-picker #dateRangePicker />
 							</mat-form-field>
 
+							<mat-divider />
+
 							<div class="d-flex flex-column gap-1">
-								<div class="fs-6 ps-1">{{ 'literals.amount' | translate }}</div>
+								<div class="fs-6 ps-1 mb-1">{{ 'literals.amount' | translate }}</div>
 								@let amountRangeControl = transactionFilterForm.controls.amountRange;
 								<ex-amount-stepper
 									class="mb-3"
@@ -147,6 +149,8 @@
 									[min]="0"
 								/>
 							</div>
+
+							<mat-divider />
 
 							@let categoryControl = transactionFilterForm.controls.category;
 							<mat-form-field subscriptSizing="dynamic">

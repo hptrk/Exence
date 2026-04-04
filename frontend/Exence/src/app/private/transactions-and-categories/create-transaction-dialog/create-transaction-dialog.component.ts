@@ -1,5 +1,5 @@
 import { UpperCasePipe } from '@angular/common';
-import { Component, computed, ElementRef, inject, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -29,6 +29,9 @@ import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.dire
 import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../category.service';
+import { ExchangeRateRequest, ExchangeRateService } from '../../../shared/exchange-rate.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { isFuture } from 'date-fns';
 
 export interface CreateTransactionDialogData {
 	type?: TransactionType;
@@ -48,6 +51,7 @@ export interface CreateTransactionDialogData {
 		MatCheckboxModule,
 		MatIconModule,
 		MatButtonToggleModule,
+		MatTooltipModule,
 		AmountStepperComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
@@ -69,6 +73,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 	private readonly categoryService = inject(CategoryService);
 	private readonly currencyService = inject(CurrencyService);
 	private readonly translocoService = inject(TranslocoService);
+	private readonly exchangeRateService = inject(ExchangeRateService);
 
 	data = this.dialogRef.value;
 
@@ -84,15 +89,19 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 		amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)]),
 		type: this.fb.control<TransactionType | null>(null, [Validators.required]),
 		currency: this.fb.control<SupportedCurrency>(this.currencyService.baseCurrency(), [Validators.required]),
-		exchangeRate: this.fb.control<number | null>(1, [Validators.required, Validators.min(0.01)]),
+		exchangeRate: this.fb.control<number | null>(null, [Validators.required, Validators.min(0.01)]),
 		recurring: this.fb.control<boolean>(false),
 		category: this.fb.group({
 			category: this.fb.control<Category | null>(null, [Validators.required]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
+	formValue = toRawValueSignal(this.form);
+
 	private selectedType = toRawValueSignal(this.form.controls.type);
 	private searchText = toRawValueSignal(this.form.controls.category.controls.searchText);
+	private dateValue = toRawValueSignal(this.form.controls.date);
+	private currencyValue = toRawValueSignal(this.form.controls.currency);
 
 	filteredCategories = computed(() => {
 		const type = this.selectedType();
@@ -125,6 +134,22 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 		if (this.data?.isRecurring) {
 			this.form.controls.recurring.setValue(this.data.isRecurring);
 		}
+
+		effect(() => {
+			const currency = this.currencyValue();
+			const date = this.dateValue();
+			const baseCurrency = this.currencyService.baseCurrency();
+			const request: ExchangeRateRequest = {
+				from: currency,
+				to: baseCurrency,
+				date: isFuture(date) ? new Date() : date,
+			};
+			this.form.controls.exchangeRate.disable();
+			this.exchangeRateService
+				.getRate(request)
+				.then(response => this.form.controls.exchangeRate.setValue(response))
+				.finally(() => this.form.controls.exchangeRate.enable());
+		});
 	}
 
 	close(): void {

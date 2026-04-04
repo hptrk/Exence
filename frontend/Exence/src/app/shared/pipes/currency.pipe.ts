@@ -14,10 +14,7 @@ export class CurrencyPipe implements PipeTransform {
 		const numericValue = typeof value === 'string' ? parseFloat(value) : value;
 		if (isNaN(numericValue)) return String(value);
 
-		// TODO uncomment when showBaseCurrency is implemented on server
-		const resolvedCurrency = this.currencyService.showBaseCurrency()
-			? this.currencyService.baseCurrency()
-			: (currency ?? this.currencyService.baseCurrency());
+		const resolvedCurrency = currency ?? this.currencyService.baseCurrency();
 		const lang = this.translocoService.getActiveLang();
 
 		return new Intl.NumberFormat(lang, {

@@ -1,4 +1,3 @@
-import { CurrencyPipe } from '@angular/common';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,6 +6,8 @@ import { WidgetType } from '../../../data-model/modules/statistics/widget-config
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { StatisticService } from '../statistic.service';
+import { CurrencyPipe } from '@angular/common';
+import { CurrencyService } from '../../../shared/currency.service';
 
 interface StatCardAssetInfo {
 	prefix: string;
@@ -21,6 +22,7 @@ interface StatCardAssetInfo {
 })
 export class StatCardComponent {
 	private readonly statisticService = inject(StatisticService);
+	readonly currencyService = inject(CurrencyService);
 
 	widget = input.required<StatCardWidget>();
 

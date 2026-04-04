@@ -24,6 +24,7 @@ import { DisplaySizeService } from '../../shared/display-size.service';
 import { FilterMenuComponent } from '../../shared/filter-menu/filter-menu.component';
 import { TranslationCode } from '../../shared/i18n/translation-types';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
+import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { mapToTransactionFilter, toRawValueSignal } from '../../shared/util/utils';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
@@ -34,7 +35,7 @@ import {
 	CreateTransactionDialogData,
 } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
-import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -52,6 +53,7 @@ import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
 		MatSelectModule,
 		MatBadgeModule,
 		MatDatepickerModule,
+		MatDividerModule,
 		MatLabel,
 		MatError,
 		DataTableComponent,
@@ -113,7 +115,7 @@ export class TransactionsAndCategoriesComponent {
 		return !!this.categoryStore.categoryResource.value();
 	}
 
-	ngOnInit(): void {
+	constructor() {
 		this.transactionStore.resetState();
 
 		effect(() => {

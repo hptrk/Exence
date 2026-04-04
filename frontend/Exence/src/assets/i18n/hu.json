@@ -355,7 +355,9 @@
 			"search": "Keresés",
 			"note": "Megjegyzés:",
 			"recurring": "Automatikusan ismétlődő?",
-			"successInfo": "Az '{{title}}' tranzakció sikeresen létrejött!"
+			"successInfo": "Az '{{title}}' tranzakció sikeresen létrejött!",
+			"customExchangeRate": "Egyéni árfolyam beállítása",
+			"disabledExchangeRate": "Árfolyam lekérése"
 		},
 		"edit": {
 			"title": "Tranzakció szerkesztése",

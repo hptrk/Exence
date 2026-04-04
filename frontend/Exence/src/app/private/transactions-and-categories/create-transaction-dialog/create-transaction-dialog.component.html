@@ -54,6 +54,8 @@
 				label="transaction.create.exchangeRate"
 				[step]="0.1"
 				[min]="0.01"
+				[matTooltip]="'transaction.create.disabledExchangeRate' | translate"
+				[matTooltipDisabled]="exchangeRateControl.enabled"
 			/>
 		</div>
 

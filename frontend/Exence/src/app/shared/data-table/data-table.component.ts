@@ -28,7 +28,10 @@ import { TransactionType } from '../../data-model/modules/transaction/Transactio
 import { CategoryStore } from '../../private/transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../private/transactions-and-categories/create-category-dialog/create-category-dialog.component';
 import { CreateTransactionDialogComponent } from '../../private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
-import { EditTransactionDialogComponent } from '../../private/transactions-and-categories/edit-transaction-dialog/edit-transaction-dialog.component';
+import {
+	EditTransactionDialogComponent,
+	EditTransactionDialogData,
+} from '../../private/transactions-and-categories/edit-transaction-dialog/edit-transaction-dialog.component';
 import { TransactionStore } from '../../private/transactions-and-categories/transaction.store';
 import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../base-component/base.component';
@@ -41,6 +44,7 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { DataTableDetailsComponent } from './data-table-details/data-table-details.component';
+import { CurrencyService } from '../currency.service';
 
 @Component({
 	selector: 'ex-data-table',
@@ -78,6 +82,7 @@ import { DataTableDetailsComponent } from './data-table-details/data-table-detai
 export class DataTableComponent extends BaseComponent {
 	private readonly dialog = inject(DialogService);
 	private readonly transactionStore = inject(TransactionStore);
+	private readonly currencyService = inject(CurrencyService);
 	readonly display = inject(DisplaySizeService);
 	readonly categoryStore = inject(CategoryStore);
 
@@ -133,6 +138,8 @@ export class DataTableComponent extends BaseComponent {
 		return emptyTransactionTable && (emptyCategoryTable || type !== 'category');
 	});
 
+	showBaseCurrency = computed<boolean>(() => this.currencyService.showBaseCurrency());
+
 	constructor() {
 		super();
 
@@ -161,9 +168,12 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	async editRow(row: TransactionModel): Promise<void> {
-		const result = await this.dialog.openNonModal(EditTransactionDialogComponent, {
-			transaction: row,
-		});
+		const result = await this.dialog.openNonModal<EditTransactionDialogData, Transaction | null>(
+			EditTransactionDialogComponent,
+			{
+				transaction: row,
+			},
+		);
 		if (!result) return;
 		this.transactionStore.updateTransaction(result);
 	}

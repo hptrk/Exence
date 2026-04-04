@@ -355,7 +355,9 @@
 			"search": "Suche",
 			"note": "Hinweis",
 			"recurring": "Automatisch wiederkehrend?",
-			"successInfo": "Transaktion '{{title}}' erfolgreich erstellt!"
+			"successInfo": "Transaktion '{{title}}' erfolgreich erstellt!",
+			"customExchangeRate": "Benutzerdefinierten Wechselkurs festlegen",
+			"disabledExchangeRate": "Wechselkurs abrufen"
 		},
 		"edit": {
 			"title": "Transaktion bearbeiten",

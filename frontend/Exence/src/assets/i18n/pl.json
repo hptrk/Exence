@@ -355,7 +355,9 @@
 			"search": "Szukaj",
 			"note": "Notatka",
 			"recurring": "Automatycznie cykliczna?",
-			"successInfo": "Transakcja '{{title}}' została pomyślnie utworzona!"
+			"successInfo": "Transakcja '{{title}}' została pomyślnie utworzona!",
+			"customExchangeRate": "Ustaw własny kurs wymiany",
+			"disabledExchangeRate": "Pobieranie kursu walutowego"
 		},
 		"edit": {
 			"title": "Edytuj transakcję",
