@@ -11,6 +11,7 @@
 		"balance": "Saldo",
 		"save": "Salva",
 		"delete": "Elimina",
+		"edit": "Modifica",
 		"cancel": "Annulla",
 		"next": "Avanti",
 		"back": "Indietro",
@@ -22,7 +23,9 @@
 		"all": "Tutti",
 		"type": "Tipo",
 		"from": "Da",
-		"to": "A"
+		"to": "A",
+		"yes": "Sí",
+		"no": "No"
 	},
 	"dashboard": {
 		"title": "Bentornato/a, <span class='username'>{{username}}</span>!",
@@ -84,15 +87,14 @@
 			"language": {
 				"title": "Seleziona lingua"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
-				"title": "Currency settings",
+				"title": "Impostazioni valuta",
 				"baseCurrency": {
-					"label": "Base currency"
+					"label": "Valuta di riferimento"
 				},
 				"showBaseCurrency": {
-					"label": "Show base currency",
-					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+					"label": "Mostra valuta di riferimento",
+					"info": "Indipendentemente dalla valuta assegnata a una transazione, se questa opzione è selezionata, ogni transazione verrà visualizzata nella valuta di riferimento selezionata."
 				}
 			}
 		},
@@ -352,6 +354,18 @@
 			"recurring": "Ricorrenza automatica?",
 			"successInfo": "Transazione '{{title}}' creata con successo!"
 		},
+		"edit": {
+			"title": "Modifica transazione",
+			"titleLabel": "Titolo",
+			"amount": "Importo",
+			"date": "Data",
+			"currency": "Valuta",
+			"exchangeRate": "Tasso di cambio",
+			"category": "Categoria",
+			"search": "Cerca",
+			"note": "Nota",
+			"recurring": "Ricorrenza automatica?"
+		},
 		"updateInfo": "Transazione '{{title}}' aggiornata con successo!",
 		"deleteInfo": "Transazione eliminata con successo!",
 		"recurring": "Ricorrente"
@@ -422,7 +436,16 @@
 		"details": {
 			"show": "Mostra dettagli",
 			"hide": "Nascondi dettagli"
-		}
+		},
+		"currency": {
+			"logged": "Valuta registrata",
+			"base": "Valuta di base"
+		},
+		"amount": {
+			"logged": "Importo nella valuta registrata",
+			"base": "Importo nella valuta di base"
+		},
+		"exchangeRate": "Tasso di cambio"
 	},
 	"filterMenu": {
 		"title": "Filtri",

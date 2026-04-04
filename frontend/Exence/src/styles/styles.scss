@@ -150,6 +150,10 @@ mat-form-field.mat-mdc-form-field.search-with-select {
 
 mat-checkbox {
 	--mat-checkbox-touch-target-display: none;
+	--mat-checkbox-label-text-color: var(--default-text-color);
+	--mat-checkbox-unselected-icon-color: var(--default-text-color);
+	--mat-checkbox-unselected-hover-icon-color: var(--default-text-color);
+	--mat-checkbox-unselected-focus-icon-color: var(--default-text-color);
 }
 
 ::selection {

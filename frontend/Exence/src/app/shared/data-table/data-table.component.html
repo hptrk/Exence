@@ -62,7 +62,6 @@
 								}
 							</th>
 							<td mat-cell *matCellDef="let row">
-								<!-- TODO user's current locale code, custom currency pipe -->
 								<div
 									class="table-row-item fw-semibold amount {{
 										row.type === transactionTypes.INCOME ? 'income' : 'expense'
@@ -101,42 +100,21 @@
 												[class.hidden]="expandedRowId !== row.id"
 												class="d-flex align-items-center justify-content-center"
 											>
-												<button
-													mat-icon-button
-													[matMenuTriggerFor]="actionsMenu"
+												<ex-button
+													iconButton
 													stopPropagation
-												>
-													<mat-icon>more_vert</mat-icon>
-												</button>
+													[matMenuTriggerFor]="actionsMenu"
+													matIcon="more_vert"
+													color="secondary"
+												/>
 
-												<mat-menu #actionsMenu="matMenu">
-													<!-- TODO move edit into the menu https://horanszkipatrik.atlassian.net/browse/EX-240 -->
-													<!-- @if (!isRowEditing(row.id)) {
-														<button
-															mat-menu-item
-															class="edit-button"
-															(click)="editRow(row.id); $event.stopPropagation()"
-														>
-															<mat-icon color="primary">edit</mat-icon>
-															@if (display.isMd()) {
-																Edit
-															}
-														</button>
-													} @else {
-														<button
-															mat-menu-item
-															class="edit-button"
-															(click)="
-																currentlyEditedRow.set(undefined);
-																$event.stopPropagation()
-															"
-														>
-															<mat-icon color="primary">close</mat-icon>
-															@if (display.isMd()) {
-																Cancel
-															}
-														</button>
-													} -->
+												<mat-menu #actionsMenu>
+													<button mat-menu-item class="edit-button" (click)="editRow(row)">
+														<mat-icon color="primary">edit</mat-icon>
+														@if (display.isMd()) {
+															{{ 'literals.edit' | translate }}
+														}
+													</button>
 
 													<button
 														mat-menu-item
@@ -179,76 +157,16 @@
 											class="detail-container"
 											[@expandAnimation]="expandedRowId === row.id ? 'expanded' : 'collapsed'"
 										>
-											<div class="d-flex flex-column flex-md-row gap-4 p-4 w-100">
-												<div class="d-flex gap-4 w-100">
-													@let noteControl = $any(noteForm.controls)[row.id];
-													<mat-form-field>
-														<mat-label>{{ 'dataTable.note' | translate }}</mat-label>
-														<textarea
-															matInput
-															cdkTextareaAutosize
-															cdkAutosizeMinRows="4"
-															[formControl]="noteControl"
-														></textarea>
-														<mat-error>
-															<ex-validator [control]="noteControl" />
-														</mat-error>
-													</mat-form-field>
-
-													<div class="d-flex flex-column justify-content-between pb-4">
-														@let categoryControl = $any(categoryForm.controls)[row.id];
-														<mat-form-field>
-															<mat-label>{{ 'literals.category' | translate }}</mat-label>
-															<mat-select [formControl]="categoryControl">
-																@for (
-																	category of categoryStore.categoryResource.value();
-																	track category.id
-																) {
-																	<mat-option [value]="category.id">
-																		<mat-icon [style.color]="category.color">
-																			{{ category.icon }}
-																		</mat-icon>
-																		{{ category.name }}
-																	</mat-option>
-																}
-															</mat-select>
-															<mat-error>
-																<ex-validator [control]="categoryControl" />
-															</mat-error>
-														</mat-form-field>
-
-														@let recurringControl = $any(recurringForm.controls)[row.id];
-														<mat-checkbox [formControl]="recurringControl">
-															<span [class.nowrap]="display.isMd()">{{
-																'dataTable.recurring' | translate
-															}}</span>
-														</mat-checkbox>
-														<mat-error>
-															<ex-validator [control]="recurringControl" />
-														</mat-error>
-													</div>
-												</div>
-												<div class="d-flex flex-column gap-2">
-													<!-- [disabled]="saveNoteDisabled(row.id)" -->
-													<ex-button
-														filled
-														matIcon="check"
-														color="primary"
-														[disabled]="false"
-														(click)="saveRow(row)"
-													>
-														{{ 'literals.save' | translate }}
-													</ex-button>
-													<ex-button
-														outlined
-														matIcon="close"
-														color="accent"
-														(click)="cancelRowEdit(row.id)"
-													>
-														{{ 'literals.cancel' | translate }}
-													</ex-button>
-												</div>
-											</div>
+											<!-- TODO -->
+											<ex-data-table-details
+												[transaction]="{
+													...row,
+													currency: currencies.USD,
+													exchangeRate: 0.92,
+													baseCurrencyAmount: 2542,
+												}"
+												[type]="type()"
+											/>
 										</div>
 									</div>
 								</td>
@@ -332,13 +250,12 @@
 							<th mat-header-cell *matHeaderCellDef></th>
 							<td mat-cell *matCellDef="let row">
 								<div class="table-row-item justify-content-end">
-									<button
-										mat-icon-button
-										class="category-delete-icon"
+									<ex-button
+										iconButton
+										color="error"
 										(click)="deleteCategoryRow(row.id)"
-									>
-										<mat-icon>delete</mat-icon>
-									</button>
+										matIcon="delete"
+									/>
 								</div>
 							</td>
 						</ng-container>

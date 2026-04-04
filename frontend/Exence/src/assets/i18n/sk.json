@@ -11,6 +11,7 @@
 		"balance": "Zostatok",
 		"save": "Uložiť",
 		"delete": "Odstrániť",
+		"edit": "Upraviť",
 		"cancel": "Zrušiť",
 		"next": "Ďalej",
 		"back": "Späť",
@@ -21,8 +22,8 @@
 		"maximum": "Max",
 		"all": "Všetky",
 		"type": "Typ",
-		"from": "Od",
-		"to": "Do"
+		"from": "Áno",
+		"to": "Nie"
 	},
 	"dashboard": {
 		"title": "Vitajte späť, <span class='username'>{{username}}</span>!",
@@ -84,15 +85,14 @@
 			"language": {
 				"title": "Vybrať jazyk"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
-				"title": "Currency settings",
+				"title": "Nastavenia meny",
 				"baseCurrency": {
-					"label": "Base currency"
+					"label": "Základná mena"
 				},
 				"showBaseCurrency": {
-					"label": "Show base currency",
-					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+					"label": "Zobraziť základnú menu",
+					"info": "Bez ohľadu na to, aká mena bola priradená k transakcii, po výbere sa každá transakcia zobrazí vo vybranej základnej mene."
 				}
 			}
 		},
@@ -352,6 +352,18 @@
 			"recurring": "Automaticky opakujúca sa?",
 			"successInfo": "Transakcia '{{title}}' bola úspešne vytvorená!"
 		},
+		"edit": {
+			"title": "Upraviť transakciu",
+			"titleLabel": "Názov",
+			"amount": "Suma",
+			"date": "Dátum",
+			"currency": "Mena",
+			"exchangeRate": "Výmenný kurz",
+			"category": "Kategória",
+			"search": "Hľadať",
+			"note": "Poznámka",
+			"recurring": "Automaticky opakujúca sa?"
+		},
 		"updateInfo": "Transakcia '{{title}}' bola úspešne aktualizovaná!",
 		"deleteInfo": "Transakcia bola úspešne odstránená!",
 		"recurring": "Opakujúca sa"
@@ -422,7 +434,16 @@
 		"details": {
 			"show": "Zobraziť podrobnosti",
 			"hide": "Skryť podrobnosti"
-		}
+		},
+		"currency": {
+			"logged": "Zaznamenaná mena",
+			"base": "Základná mena"
+		},
+		"amount": {
+			"logged": "Suma v zaznamenanej mene",
+			"base": "Suma v základnej mene"
+		},
+		"exchangeRate": "Výmenný kurz"
 	},
 	"filterMenu": {
 		"title": "Filtre",

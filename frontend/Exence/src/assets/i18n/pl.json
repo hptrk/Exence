@@ -11,6 +11,7 @@
 		"balance": "Saldo",
 		"save": "Zapisz",
 		"delete": "Usuń",
+		"edit": "Edytuj",
 		"cancel": "Anuluj",
 		"next": "Dalej",
 		"back": "Wstecz",
@@ -22,7 +23,9 @@
 		"all": "Wszystkie",
 		"type": "Typ",
 		"from": "Od",
-		"to": "Do"
+		"to": "Do",
+		"yes": "Tak",
+		"no": "Nie"
 	},
 	"dashboard": {
 		"title": "Witamy ponownie, <span class='username'>{{username}}</span>!",
@@ -84,15 +87,14 @@
 			"language": {
 				"title": "Wybierz język"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
-				"title": "Currency settings",
+				"title": "Ustawienia waluty",
 				"baseCurrency": {
-					"label": "Base currency"
+					"label": "Waluta bazowa"
 				},
 				"showBaseCurrency": {
-					"label": "Show base currency",
-					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+					"label": "Pokaż walutę bazową",
+					"info": "Niezależnie od tego, jaka waluta została przypisana do transakcji, po zaznaczeniu tej opcji każda transakcja będzie wyświetlana w wybranej walucie bazowej."
 				}
 			}
 		},
@@ -352,6 +354,18 @@
 			"recurring": "Automatycznie cykliczna?",
 			"successInfo": "Transakcja '{{title}}' została pomyślnie utworzona!"
 		},
+		"edit": {
+			"title": "Edytuj transakcję",
+			"titleLabel": "Tytuł",
+			"amount": "Kwota",
+			"date": "Data",
+			"currency": "Waluta",
+			"exchangeRate": "Kurs wymiany",
+			"category": "Kategoria",
+			"search": "Szukaj",
+			"note": "Notatka",
+			"recurring": "Automatycznie cykliczna?"
+		},
 		"updateInfo": "Transakcja '{{title}}' została pomyślnie zaktualizowana!",
 		"deleteInfo": "Transakcja została pomyślnie usunięta!",
 		"recurring": "Cykliczna"
@@ -422,7 +436,16 @@
 		"details": {
 			"show": "Pokaż szczegóły",
 			"hide": "Ukryj szczegóły"
-		}
+		},
+		"currency": {
+			"logged": "Walutca księgowa",
+			"base": "Waluta bazowa"
+		},
+		"amount": {
+			"logged": "Kwota w walucie księgowej",
+			"base": "Kwota w walucie bazowej"
+		},
+		"exchangeRate": "Kurs wymiany"
 	},
 	"filterMenu": {
 		"title": "Filtry",

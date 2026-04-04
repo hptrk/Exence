@@ -11,6 +11,7 @@
 		"balance": "Balance",
 		"save": "Save",
 		"delete": "Delete",
+		"edit": "Edit",
 		"cancel": "Cancel",
 		"next": "Next",
 		"back": "Back",
@@ -22,7 +23,9 @@
 		"all": "All",
 		"type": "Type",
 		"from": "From",
-		"to": "To"
+		"to": "To",
+		"yes": "Yes",
+		"no": "No"
 	},
 	"dashboard": {
 		"title": "Welcome back, <span class='username'>{{username}}</span>!",
@@ -84,7 +87,6 @@
 			"language": {
 				"title": "Select language"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
 				"title": "Currency settings",
 				"baseCurrency": {
@@ -352,6 +354,18 @@
 			"recurring": "Automatically recurring?",
 			"successInfo": "Transaction '{{title}}' created successfully!"
 		},
+		"edit": {
+			"title": "Edit transaction",
+			"titleLabel": "Title",
+			"amount": "Amount",
+			"date": "Date",
+			"currency": "Currency",
+			"exchangeRate": "Exchange rate",
+			"category": "Category",
+			"search": "Search",
+			"note": "Note",
+			"recurring": "Automatically recurring?"
+		},
 		"updateInfo": "Transaction '{{title}}' updated successfully!",
 		"deleteInfo": "Transaction deleted successfully!",
 		"recurring": "Recurring"
@@ -417,12 +431,21 @@
 		"icon": "Icon",
 		"type": "Type",
 		"empty": "No items found",
-		"adjustFilters": "TRy adjusting or clearing your current filters.",
+		"adjustFilters": "Try adjusting or clearing your current filters.",
 		"actions": "Actions",
 		"details": {
 			"show": "Show details",
 			"hide": "Hide details"
-		}
+		},
+		"currency": {
+			"logged": "Logged currency",
+			"base": "Base currency"
+		},
+		"amount": {
+			"logged": "Amount in logged currency",
+			"base": "Amount in base currency"
+		},
+		"exchangeRate": "Exchange rate"
 	},
 	"filterMenu": {
 		"title": "Filters",

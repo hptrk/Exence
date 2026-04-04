@@ -11,6 +11,7 @@
 		"balance": "Bilanz",
 		"save": "Speichern Sie",
 		"delete": "Löschen",
+		"edit": "Bearbeiten",
 		"cancel": "Abbrechen",
 		"next": "Weiter",
 		"back": "Zurück",
@@ -22,7 +23,9 @@
 		"all": "Alle",
 		"type": "Typ",
 		"from": "Von",
-		"to": "An"
+		"to": "An",
+		"yes": "Ja",
+		"no": "Nein"
 	},
 	"dashboard": {
 		"title": "Willkommen zurück, <span class='username'>{{username}}</span>!",
@@ -84,15 +87,14 @@
 			"language": {
 				"title": "Sprache auswählen"
 			},
-			"currency.comment": "TODO: translate all english text below",
 			"currency": {
-				"title": "Currency settings",
+				"title": "Währungseinstellungen",
 				"baseCurrency": {
-					"label": "Base currency"
+					"label": "Basiswährung"
 				},
 				"showBaseCurrency": {
-					"label": "Show base currency",
-					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
+					"label": "Basiswährung anzeigen",
+					"info": "Unabhängig davon, welche Währung einer Transaktion zugewiesen wurde, wird jede Transaktion bei Auswahl in der ausgewählten Basiswährung angezeigt."
 				}
 			}
 		},
@@ -352,6 +354,18 @@
 			"recurring": "Automatisch wiederkehrend?",
 			"successInfo": "Transaktion '{{title}}' erfolgreich erstellt!"
 		},
+		"edit": {
+			"title": "Transaktion bearbeiten",
+			"titleLabel": "Titel",
+			"amount": "Betrag",
+			"date": "Datum",
+			"currency": "Währung",
+			"exchangeRate": "Wechselkurs",
+			"category": "Kategorie",
+			"search": "Suche",
+			"note": "Hinweis",
+			"recurring": "Automatisch wiederkehrend?"
+		},
 		"updateInfo": "Transaktion '{{title}}' erfolgreich aktualisiert!",
 		"deleteInfo": "Transaktion erfolgreich gelöscht!",
 		"recurring": "Wiederkehrende"
@@ -422,7 +436,16 @@
 		"details": {
 			"show": "Details anzeigen",
 			"hide": "Details ausblenden"
-		}
+		},
+		"currency": {
+			"logged": "Buchungswährung",
+			"base": "Basiswährung"
+		},
+		"amount": {
+			"logged": "Betrag in Buchungswährung",
+			"base": "Betrag in Basiswährung"
+		},
+		"exchangeRate": "Wechselkurs"
 	},
 	"filterMenu": {
 		"title": "Filter",

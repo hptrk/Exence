@@ -1,0 +1,75 @@
+<div class="details">
+	<div class="detail">
+		<mat-label>{{ 'dataTable.note' | translate }}</mat-label>
+		<div class="note">
+			@if (!transaction().note) {
+				&mdash;
+			}
+			{{ transaction().note }}
+		</div>
+	</div>
+	<div class="detail">
+		<div class="d-flex flex-column flex-lg-row gap-4 gap-lg-2 flex-grow-1">
+			@if (showBaseCurrency()) {
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'dataTable.currency.logged' | translate }}
+					</mat-label>
+					<div class="fs-6">
+						{{ transaction().currency }} -
+						{{ localizeCurrency(transaction().currency) }}
+					</div>
+				</div>
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'dataTable.amount.logged' | translate }}
+					</mat-label>
+					<div class="fs-6 fw-semibold" [class]="getTypeClass(transaction().amount)">
+						{{ transaction().amount | currency: transaction().currency }}
+					</div>
+				</div>
+			} @else {
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'dataTable.currency.base' | translate }}
+					</mat-label>
+					<div class="fs-6">
+						{{ transaction().currency }} -
+						{{ localizeCurrency(transaction().currency) }}
+					</div>
+				</div>
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'dataTable.amount.base' | translate }}
+					</mat-label>
+					<div class="fs-6 fw-semibold" [class]="getTypeClass(transaction().baseCurrencyAmount)">
+						{{ transaction().baseCurrencyAmount | currency: baseCurrency() }}
+					</div>
+				</div>
+			}
+		</div>
+	</div>
+	<div class="detail span-cols">
+		<div
+			class="d-flex flex-column flex-lg-row gap-2 flex-grow-1"
+			[class.gap-4]="display.isXxl() || !display.isLg()"
+		>
+			<div class="detail gap-2 gap-lg-3">
+				<mat-label>{{ 'dataTable.exchangeRate' | translate }}</mat-label>
+				<div class="d-flex flex-row flex-nowrap align-items-center">
+					<span class="fs-6 p-1 p-lg-2 ps-0 text-nowrap">1 {{ transaction().currency }}</span>
+					<mat-icon size="md">equal</mat-icon>
+					<span class="fs-6 p-1 p-lg-2 text-nowrap"
+						>{{ transaction().exchangeRate }} {{ baseCurrency() }}</span
+					>
+				</div>
+			</div>
+			<div class="detail gap-2 gap-lg-3">
+				<mat-label>{{ 'dataTable.recurring' | translate }}</mat-label>
+				<div class="fs-5 pt-lg-1">
+					{{ (transaction().recurring ? 'literals.yes' : 'literals.no') | translate }}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
