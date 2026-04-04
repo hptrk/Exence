@@ -152,13 +152,14 @@
 		<div
 			class="d-flex flex-row justify-content-around align-items-center w-100 h-100 fs-4 gap-2 flex-grow-1 fw-medium mobile-actions"
 		>
-			<a
-				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				[routerLink]="navigationService.private().dashboard()"
-				routerLinkActive="active"
-			>
-				<mat-icon>home</mat-icon>
-			</a>
+			@if (currentUserService.isAuthenticated()) {
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+					[routerLink]="navigationService.private().dashboard()"
+					routerLinkActive="active"
+				>
+					<mat-icon>home</mat-icon>
+				</a>
 
 				<a
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"

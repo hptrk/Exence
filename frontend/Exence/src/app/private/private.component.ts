@@ -14,7 +14,7 @@ import { ExchangeRateService } from '../shared/exchange-rate.service';
 	selector: 'ex-private',
 	template: '<router-outlet />',
 	imports: [RouterModule],
-	providers: [TransactionStore, CategoryStore, ExchangeRateService, DialogService],
+	providers: [TransactionStore, CategoryStore, ExchangeRateService, DialogService, UserSettingsService],
 })
 export class PrivateComponent {
 	private readonly userSettingsService = inject(UserSettingsService);
