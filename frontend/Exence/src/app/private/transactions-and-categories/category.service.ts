@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { HttpService } from '../../shared/http/http.service';
-import { Category } from '../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
 import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
 import { CategoryType } from '../../data-model/modules/category/CategoryType';
 import { getFilters } from '../../shared/util/utils';
+import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
+import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate';
+import { CategoryPatch } from '../../data-model/modules/category/CategoryPatch';
 
 @Injectable({
 	providedIn: 'root',
@@ -15,12 +17,12 @@ export class CategoryService {
 
 	private baseUrl = '/api/categories';
 
-	public get(id: number): Promise<Category> {
-		return lastValueFrom(this.http.get<Category>(`${this.baseUrl}/${id}`));
+	public get(id: number): Promise<CategoryGet> {
+		return lastValueFrom(this.http.get<CategoryGet>(`${this.baseUrl}/${id}`));
 	}
 
-	public list(): Promise<Category[]> {
-		return lastValueFrom(this.http.get<Category[]>(this.baseUrl));
+	public list(): Promise<CategoryGet[]> {
+		return lastValueFrom(this.http.get<CategoryGet[]>(this.baseUrl));
 	}
 
 	public listTop(filters: CategoryFilter): Promise<CategorySummaryResponse[]> {
@@ -42,12 +44,12 @@ export class CategoryService {
 		};
 	}
 
-	public create(request: Category): Promise<Category> {
-		return lastValueFrom(this.http.post<Category>(this.baseUrl, request));
+	public create(request: CategoryCreate): Promise<CategoryGet> {
+		return lastValueFrom(this.http.post<CategoryGet>(this.baseUrl, request));
 	}
 
-	public update(request: Category): Promise<Category> {
-		return lastValueFrom(this.http.put<Category>(`${this.baseUrl}/${request.id}`, request));
+	public update(categoryId: number, request: CategoryPatch): Promise<CategoryGet> {
+		return lastValueFrom(this.http.patch<CategoryGet>(`${this.baseUrl}/${categoryId}`, request));
 	}
 
 	public delete(id: number): Promise<void> {

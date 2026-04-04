@@ -8,7 +8,6 @@ import {
 	GridsterItemConfig,
 	GridType,
 } from 'angular-gridster2';
-import { ChartWidget } from '../../../data-model/modules/statistics/Widget';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
@@ -18,6 +17,7 @@ import {
 	EditChartDialogResult,
 } from '../edit-chart-dialog/edit-chart-dialog.component';
 import { WidgetStore } from '../widget.store';
+import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
 
 @Component({
 	selector: 'ex-chart-widget-list',

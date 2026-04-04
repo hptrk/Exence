@@ -9,9 +9,7 @@ import { MatStepper, MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslocoService } from '@jsverse/transloco';
-import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
-import { ChartWidget, StatCardWidget } from '../../../data-model/modules/statistics/Widget';
 import {
 	CATEGORY_FILTERABLE_WIDGET_TYPES,
 	GROUP_WIDGET_TYPES,
@@ -34,6 +32,9 @@ import { toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { ExtraValidators } from '../../../shared/validators';
+import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
+import { StatCardWidget } from '../../../data-model/modules/statistics/StatCardWidget';
+import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
 
 export interface WidgetCatalogDialogData {
 	statCards: StatCardWidget[];
@@ -100,7 +101,7 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 	});
 	selectedCategoriesValue = toRawValueSignal(this.form.controls.categories.controls.selectedCategories);
 
-	private categories = signal<Category[]>([]);
+	private categories = signal<CategoryGet[]>([]);
 	private searchText = toRawValueSignal(this.form.controls.categories.controls.searchText);
 
 	filteredCategories = computed(() => {

@@ -5,7 +5,6 @@ import { patchState, signalStore, withHooks, withMethods, withProps, withState }
 import { GridsterItemConfig } from 'angular-gridster2';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { UpdateLayoutRequest } from '../../data-model/modules/statistics/UpdateLayoutRequest';
-import { ChartWidget, StatCardWidget, Widget } from '../../data-model/modules/statistics/Widget';
 import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
 import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
 import { WidgetSetting } from '../../data-model/modules/statistics/WidgetSetting';
@@ -13,6 +12,9 @@ import { CurrencyService } from '../../shared/currency.service';
 import { EditChartDialogResult } from './edit-chart-dialog/edit-chart-dialog.component';
 import { StatisticService } from './statistic.service';
 import { WidgetCatalogDialogResult } from './widget-catalog-dialog/widget-catalog-dialog.component';
+import { StatCardWidget } from '../../data-model/modules/statistics/StatCardWidget';
+import { ChartWidget } from '../../data-model/modules/statistics/ChartWidget';
+import { WidgetCreate } from '../../data-model/modules/statistics/WidgetCreate';
 
 export type StatCardGridsterItem = StatCardWidget & { x: number; y: number; cols: number; rows: number };
 
@@ -48,7 +50,7 @@ export const WidgetStore = signalStore(
 		): Promise<void> {
 			const isStatCard = mapToExChartType(dialogResult.catalogItem.type) === 'statCard';
 
-			const request: Widget = {
+			const request: WidgetCreate = {
 				type: dialogResult.catalogItem.type,
 				title: dialogResult.title,
 				timeframe: Timeframe.YEAR_TO_DATE,

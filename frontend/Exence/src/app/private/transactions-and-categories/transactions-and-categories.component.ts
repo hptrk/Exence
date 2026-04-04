@@ -12,8 +12,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute } from '@angular/router';
 import { format } from 'date-fns';
-import { Category } from '../../data-model/modules/category/Category';
-import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { AmountStepperComponent } from '../../shared/amount-stepper/amount-stepper.component';
@@ -36,6 +34,8 @@ import {
 } from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
 import { MatDividerModule } from '@angular/material/divider';
+import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
+import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -93,7 +93,7 @@ export class TransactionsAndCategoriesComponent {
 			min: this.fb.control<number | null>(null),
 			max: this.fb.control<number | null>(null),
 		}),
-		category: this.fb.control<Category | null>(null),
+		category: this.fb.control<CategoryGet | null>(null),
 		type: this.fb.control<TransactionType | null>(null),
 		recurring: this.fb.control<boolean>(false),
 	});
@@ -137,10 +137,10 @@ export class TransactionsAndCategoriesComponent {
 	}
 
 	async openCreateTransactionDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal<CreateTransactionDialogData | undefined, Transaction | null>(
-			CreateTransactionDialogComponent,
-			undefined,
-		);
+		const result = await this.dialog.openNonModal<
+			CreateTransactionDialogData | undefined,
+			TransactionCreate | null
+		>(CreateTransactionDialogComponent, undefined);
 		if (!result) return;
 		this.transactionStore.createTransaction(result);
 	}

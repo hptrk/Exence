@@ -36,5 +36,4 @@ public record TransactionCreateDTO(
         Boolean recurring,
         @NotNull(message = "{validation.transaction.category.not-null}") Long categoryId,
         SupportedCurrency currency,
-        @DecimalMin(value = "0.0000000001") BigDecimal exchangeRate,
-        BigDecimal baseCurrencyAmount) {}
+        @DecimalMin(value = "0.0000000001") BigDecimal exchangeRate) {}

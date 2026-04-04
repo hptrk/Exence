@@ -1,11 +1,12 @@
 import { computed, inject, resource } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
-import { Category } from '../../data-model/modules/category/Category';
 import { CategorySummaryResponse } from '../../data-model/modules/category/CategorySummaryResponse';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CategoryService } from './category.service';
 import { CategoryType } from '../../data-model/modules/category/CategoryType';
 import { TranslocoService } from '@jsverse/transloco';
+import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate';
+import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
 
 interface CategoryStoreData {
 	selectedTopCategoriesType: CategoryType;
@@ -20,7 +21,7 @@ export const CategoryStore = signalStore(
 
 	withProps((_, categoryService = inject(CategoryService)) => {
 		return {
-			categoryResource: resource<Category[], undefined>({
+			categoryResource: resource<CategoryGet[], undefined>({
 				loader: async () => await categoryService.list(),
 			}),
 			topCategoriesAllResource: resource<Record<CategoryType, CategorySummaryResponse[]>, undefined>({
@@ -48,7 +49,7 @@ export const CategoryStore = signalStore(
 			}
 
 			return {
-				async createCategory(request: Category): Promise<void> {
+				async createCategory(request: CategoryCreate): Promise<void> {
 					const newCategory = await categoryService.create(request);
 					snackbarService.showSuccess(
 						translocoService.translate('category.create.successInfo', { name: newCategory.name }),

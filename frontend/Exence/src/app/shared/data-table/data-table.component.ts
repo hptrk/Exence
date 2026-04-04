@@ -19,10 +19,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { Category } from '../../data-model/modules/category/Category';
 import { CategoryType } from '../../data-model/modules/category/CategoryType';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
-import { Transaction } from '../../data-model/modules/transaction/Transaction';
 import { TransactionModel } from '../../data-model/modules/transaction/TransactionModel';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoryStore } from '../../private/transactions-and-categories/category.store';
@@ -45,6 +43,11 @@ import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { DataTableDetailsComponent } from './data-table-details/data-table-details.component';
 import { CurrencyService } from '../currency.service';
+import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
+import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate';
+import { TransactionGet } from '../../data-model/modules/transaction/TransactionGet';
+import { TransactionPatch } from '../../data-model/modules/transaction/TransactionPatch';
+import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
 
 @Component({
 	selector: 'ex-data-table',
@@ -88,7 +91,7 @@ export class DataTableComponent extends BaseComponent {
 
 	private scrollContainer = viewChild<ElementRef<HTMLElement>>('scrollContainer');
 
-	transactions = input<PagedResponse<Transaction> | undefined>();
+	transactions = input<PagedResponse<TransactionGet> | undefined>();
 	isDataLoading = input<boolean | undefined>();
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
@@ -110,7 +113,7 @@ export class DataTableComponent extends BaseComponent {
 	transactionDataSource: WritableSignal<MatTableDataSource<TransactionModel>> = signal(
 		new MatTableDataSource<TransactionModel>(),
 	);
-	categoryDataSource?: MatTableDataSource<Category>;
+	categoryDataSource?: MatTableDataSource<CategoryGet>;
 	pageSize?: number;
 	pageIndex = 0;
 	pageLength?: number;
@@ -168,17 +171,17 @@ export class DataTableComponent extends BaseComponent {
 	}
 
 	async editRow(row: TransactionModel): Promise<void> {
-		const result = await this.dialog.openNonModal<EditTransactionDialogData, Transaction | null>(
+		const result = await this.dialog.openNonModal<EditTransactionDialogData, TransactionPatch | null>(
 			EditTransactionDialogComponent,
 			{
 				transaction: row,
 			},
 		);
 		if (!result) return;
-		this.transactionStore.updateTransaction(result);
+		this.transactionStore.updateTransaction(row.id, result);
 	}
 
-	deleteRow(transaciton: Transaction): void {
+	deleteRow(transaciton: TransactionGet): void {
 		this.transactionStore.deleteTransaction(transaciton);
 	}
 
@@ -186,7 +189,7 @@ export class DataTableComponent extends BaseComponent {
 		this.categoryStore.deleteCategory(id);
 	}
 
-	toggleExpand(row: Transaction | null): void {
+	toggleExpand(row: TransactionGet | null): void {
 		if (this.nonExpandable() || !row) return;
 		this.expandedRowId = this.expandedRowId === row.id ? null : row.id!;
 	}
@@ -210,8 +213,8 @@ export class DataTableComponent extends BaseComponent {
 		}
 
 		if (!result) return;
-		if (this.type() === 'category') this.categoryStore.createCategory(result as Category);
-		else this.transactionStore.createTransaction(result as Transaction);
+		if (this.type() === 'category') this.categoryStore.createCategory(result as CategoryCreate);
+		else this.transactionStore.createTransaction(result as TransactionCreate);
 	}
 
 	getNextPage(): number {
@@ -223,7 +226,7 @@ export class DataTableComponent extends BaseComponent {
 		return `categoryType.${type}`;
 	}
 
-	private mapToTransactionModel(transaction: Transaction, categories: Category[]): TransactionModel {
+	private mapToTransactionModel(transaction: TransactionGet, categories: CategoryGet[]): TransactionModel {
 		const category = categories.find(c => c.id === transaction.categoryId);
 		return {
 			...transaction,

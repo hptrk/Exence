@@ -4,7 +4,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import {
 	CATEGORY_FILTERABLE_WIDGET_TYPES,
@@ -24,6 +23,7 @@ import { ValidatorComponent } from '../../../shared/validator/validator.componen
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { ExtraValidators } from '../../../shared/validators';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
 
 export interface EditChartDialogData {
 	title: string;
@@ -75,7 +75,7 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 	});
 	selectedCategoriesValue = toRawValueSignal(this.form.controls.categories.controls.selectedCategories);
 
-	private categories = signal<Category[]>([]);
+	private categories = signal<CategoryGet[]>([]);
 	private searchText = toRawValueSignal(this.form.controls.categories.controls.searchText);
 
 	filteredCategories = computed(() => {

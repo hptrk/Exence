@@ -1,6 +1,6 @@
-import { Category } from '../category/Category';
-import { Transaction } from './Transaction';
+import { CategoryGet } from '../category/CategoryGet';
+import { TransactionGet } from './TransactionGet';
 
-export interface TransactionModel extends Transaction {
-	category: Category;
+export interface TransactionModel extends TransactionGet {
+	category: CategoryGet;
 }

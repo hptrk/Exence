@@ -2,11 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { UpdateLayoutRequest } from '../../data-model/modules/statistics/UpdateLayoutRequest';
-import { Widget } from '../../data-model/modules/statistics/Widget';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
 import { WidgetDataResponse } from '../../data-model/modules/statistics/WidgetDataReponse';
 import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
 import { HttpService } from '../../shared/http/http.service';
+import { WidgetCreate } from '../../data-model/modules/statistics/WidgetCreate';
 
 @Injectable()
 export class StatisticService {
@@ -29,7 +29,7 @@ export class StatisticService {
 		return lastValueFrom(this.http.get<WidgetDataResponse<T>>(`${this.baseUrl}/${widgetId}/data`, { timeframe }));
 	}
 
-	public createWidget(request: Widget): Promise<WidgetLayoutResponse> {
+	public createWidget(request: WidgetCreate): Promise<WidgetLayoutResponse> {
 		return lastValueFrom(this.http.post<WidgetLayoutResponse>(this.baseUrl, request));
 	}
 

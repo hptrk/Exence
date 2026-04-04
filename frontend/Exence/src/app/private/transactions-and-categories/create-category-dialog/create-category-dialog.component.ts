@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { Category } from '../../../data-model/modules/category/Category';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
 import { MaterialIcon } from '../../../data-model/modules/category/MaterialIcon';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
@@ -20,6 +19,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { CategoryCreate } from '../../../data-model/modules/category/CategoryCreate';
 
 @Component({
 	selector: 'ex-create-category-dialog',
@@ -44,7 +44,7 @@ import { ValidatorComponent } from '../../../shared/validator/validator.componen
 		UpperCasePipe,
 	],
 })
-export class CreateCategoryDialogComponent extends DialogComponent<undefined, Category | null> {
+export class CreateCategoryDialogComponent extends DialogComponent<undefined, CategoryCreate | null> {
 	private readonly fb = inject(NonNullableFormBuilder);
 
 	data = this.dialogRef.value;
@@ -68,7 +68,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, Ca
 	create(): void {
 		if (this.form.invalid) return;
 		const formValue = this.form.getRawValue();
-		const request: Category = {
+		const request: CategoryCreate = {
 			name: formValue.name,
 			icon: formValue.icon.icon!,
 			color: formValue.icon.color,

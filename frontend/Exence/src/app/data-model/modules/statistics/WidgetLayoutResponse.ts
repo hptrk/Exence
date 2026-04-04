@@ -1,4 +1,5 @@
-import { ChartWidget, StatCardWidget } from './Widget';
+import { ChartWidget } from './ChartWidget';
+import { StatCardWidget } from './StatCardWidget';
 
 export interface WidgetLayoutResponse {
 	statCards: StatCardWidget[];
