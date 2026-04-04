@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class EmailVerificationRateProvider implements AdminWidgetDataProvider {
 
+    private static final int PERCENTAGE_MULTIPLIER = 100;
+
     private final I18nService i18n;
     private final AdminStatisticsQueryService adminStatisticsQueryService;
 
@@ -29,7 +31,7 @@ public final class EmailVerificationRateProvider implements AdminWidgetDataProvi
 
         BigDecimal percentage = totalUsers > 0
                 ? BigDecimal.valueOf(verifiedUsers)
-                        .multiply(BigDecimal.valueOf(100))
+                        .multiply(BigDecimal.valueOf(PERCENTAGE_MULTIPLIER))
                         .divide(BigDecimal.valueOf(totalUsers), 1, RoundingMode.HALF_UP)
                 : BigDecimal.ZERO;
 

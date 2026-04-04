@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-role-to-user
+      author: hptrk
+      comment: Add role column to _user table for role-based access control.
+      dbms: postgresql
+      changes:
+        - addColumn:
+            tableName: _user
+            columns:
+              - column:
+                  name: role
+                  type: VARCHAR(20)
+                  defaultValue: 'USER'
+                  constraints:
+                    nullable: false
+
+      rollback:
+        - dropColumn:
+            tableName: _user
+            columnName: role

@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AdminWidgetServiceImpl implements AdminWidgetService {
+    private static final LocalDate DEFAULT_START_DATE = LocalDate.of(2020, 1, 1);
 
     private final List<AdminWidgetDataProvider> providers;
 
@@ -42,7 +43,7 @@ public class AdminWidgetServiceImpl implements AdminWidgetService {
 
         LocalDate startDate = resolvedTimeframe.toStartDate();
         if (startDate == null) {
-            startDate = LocalDate.of(2020, 1, 1);
+            startDate = DEFAULT_START_DATE;
         }
 
         AdminWidgetRequest request = new AdminWidgetRequest(startDate, LocalDate.now(), resolvedTimeframe);
