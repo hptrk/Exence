@@ -25,7 +25,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     Set<Long> findExistingIds(@Param("ids") Collection<Long> ids);
 
     @Query(
-        """
+            """
                 SELECT new com.exence.finance.modules.category.dto.CategorySummaryResponse(
                     c.id, c.name, CAST(c.icon AS string), c.color, COALESCE(SUM(t.baseCurrencyAmount), 0)
                 )
