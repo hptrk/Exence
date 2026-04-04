@@ -9,7 +9,10 @@ import {
 import {
 	buildLinks,
 	buildNodeMap,
+	detectSeriesDateGranularity,
 	findHubNode,
+	formatDateLabel,
+	formatDateTooltip,
 	formatNumber,
 	getCssVariableValue,
 	lightenHexColor,
@@ -221,7 +224,7 @@ const StatCardProvider: ProviderFn<StatCardPayload> = (
 const LineProvider: ProviderFn<SeriesPayload> = (
 	data: SeriesPayload | SlopePayload,
 	title: string,
-	_locale: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 	widgetType?: WidgetType,
@@ -261,6 +264,8 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 			color: si.color ?? fallbackColors[i],
 		}));
 	}
+
+	const granularity = !isSlopeChart ? detectSeriesDateGranularity((data as SeriesPayload).series) : null;
 
 	const lineIsCount =
 		widgetType === WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO || widgetType === WidgetType.EXPENSE_SAVINGS_COMBO;
@@ -325,14 +330,23 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 			followCursor: true,
 			intersect: false,
 			shared: true,
+			...(granularity && {
+				x: {
+					formatter: (val: number) => formatDateTooltip(val, locale, granularity),
+				},
+			}),
 		},
 		xaxis: {
 			...commonChartOptions.xaxis,
+			...(granularity && { type: 'datetime' as const }),
 			labels: {
 				style: {
 					fontSize: isSlopeChart ? '20px' : '18px',
 				},
 				offsetY: isSlopeChart ? 5 : isMixed ? 5 : 10,
+				...(granularity && {
+					formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
+				}),
 			},
 		},
 		yaxis: yAxisConfig,
@@ -346,10 +360,11 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 const AreaProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
-	_locale: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const granularity = detectSeriesDateGranularity(series);
 	const isIncome = series.length === 1 && !!series.find(s => s.name.toLowerCase() === 'income');
 	const isExpense = series.length === 1 && !!series.find(s => s.name.toLowerCase() === 'expense');
 
@@ -389,7 +404,7 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 			intersect: false,
 			shared: true,
 			x: {
-				format: 'yyyy MMMM dd.',
+				formatter: (val: number) => formatDateTooltip(val, locale, granularity),
 			},
 		},
 		stroke: {
@@ -406,7 +421,7 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 				rotateAlways: false,
 				hideOverlappingLabels: true,
 				showDuplicates: false,
-				format: 'yyyy MMM.',
+				formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
 			},
 			tickPlacement: 'between',
 		},
@@ -424,10 +439,11 @@ const AreaProvider: ProviderFn<SeriesPayload> = (
 const BarProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
-	_locale: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const granularity = detectSeriesDateGranularity(series);
 	const fallbackColors = [
 		'var(--primary-color)',
 		'var(--accent-color)',
@@ -455,6 +471,11 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 		dataLabels: {
 			enabled: false,
 		},
+		tooltip: {
+			x: {
+				formatter: (val: number) => formatDateTooltip(val, locale, granularity),
+			},
+		},
 		xaxis: {
 			...commonChartOptions.xaxis,
 			type: 'datetime',
@@ -464,7 +485,7 @@ const BarProvider: ProviderFn<SeriesPayload> = (
 				rotateAlways: false,
 				hideOverlappingLabels: true,
 				showDuplicates: false,
-				format: 'yyyy MMM.',
+				formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
 				style: {
 					fontSize: '16px',
 				},
@@ -725,11 +746,22 @@ const BubbleProvider: ProviderFn<BubblePayload> = (
 const HeatmapProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
-	_locale: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
-	const allItems = series
+	const year = new Date().getFullYear();
+	const jan1Dow = new Date(year, 0, 1).getDay();
+
+	// Reorder: top row (series[6]) = Jan 1's weekday, chronological downward
+	// Backend: 0=Mon,1=Tue,...,6=Sun. JS days: Mon=1,...,Sat=6,Sun=0
+	const reorderedSeries = Array.from({ length: 7 }, (_, i) => {
+		const jsDay = (jan1Dow + 6 - i) % 7;
+		const backendIdx = jsDay === 0 ? 6 : jsDay - 1;
+		return series[backendIdx];
+	});
+
+	const allItems = reorderedSeries
 		.flatMap(si => si.data)
 		.map(item => item.y)
 		.filter(item => item > 0);
@@ -737,7 +769,7 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 	const max = Math.max(...allItems);
 	const step = (max - min) / 5;
 	const cellSize = 40;
-	const rows = series.length;
+	const rows = reorderedSeries.length;
 	return {
 		...commonChartOptions,
 		chart: {
@@ -754,7 +786,7 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 				enabled: false,
 			},
 		},
-		series,
+		series: reorderedSeries,
 		title: {
 			...commonChartOptions.title,
 			text: truncateTitle(title),
@@ -818,15 +850,11 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 				show: false,
 			},
 			labels: {
-				formatter: function (val, _, opts) {
-					const i = opts?.dataPointIndex ?? opts?.i ?? val;
-
-					if (i === undefined || i === null || isNaN(i)) return val;
-
-					const date = new Date(2023, i, 1);
-					if (opts?.dateFormatter) return opts.dateFormatter(date, 'MMM');
-
-					return date.toLocaleString('default', { month: 'short' });
+				formatter: function (val) {
+					const weekIndex = Number(val) - 1;
+					if (isNaN(weekIndex) || weekIndex < 0) return String(val);
+					const date = new Date(year, 0, 1 + weekIndex * 7);
+					return new Intl.DateTimeFormat(locale, { month: 'short' }).format(date);
 				},
 				style: {
 					fontSize: '14px',
@@ -840,10 +868,21 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 			},
 		},
 		tooltip: {
-			y: {
-				formatter(val) {
-					return formatCurrency?.(val) ?? formatNumber(val);
-				},
+			custom({ seriesIndex, dataPointIndex, w }) {
+				const data = w.config.series[seriesIndex].data[dataPointIndex];
+				const weekIndex = Number(data.x) - 1;
+				const dayOffset = 6 - seriesIndex;
+				const date = new Date(year, 0, 1 + dayOffset + weekIndex * 7);
+				const dateLabel = new Intl.DateTimeFormat(locale, {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				}).format(date);
+				const formatted = formatCurrency?.(data.y) ?? formatNumber(data.y);
+				return `<div class="d-flex flex-column gap-1 p-2">
+					<span class="fw-bold">${dateLabel}</span>
+					<span>${formatted}</span>
+				</div>`;
 			},
 		},
 	};
@@ -852,7 +891,7 @@ const HeatmapProvider: ProviderFn<SeriesPayload> = (
 const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 	payload: BoxplotPayload,
 	title: string,
-	_locale: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
@@ -875,7 +914,11 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 			{
 				name: 'box',
 				type: 'boxPlot',
-				data: payload.data.map((d, i) => ({ ...d, fillColor: d.color ?? fallbackColors[i] })),
+				data: payload.data.map((d, i) => ({
+					...d,
+					x: formatDateLabel(d.x, locale),
+					fillColor: d.color ?? fallbackColors[i],
+				})),
 			},
 		],
 		xaxis: {
@@ -902,7 +945,7 @@ const BoxPlotProvider: ProviderFn<BoxplotPayload> = (
 				if (!series) return;
 				const point = w.config.series[seriesIndex].data[dataPointIndex];
 				const [min, q1, median, q3, max] = point.y;
-				const fmt = (v: number) => formatCurrency?.(v) ?? formatNumber(v);
+				const fmt = (v: number): string => formatCurrency?.(v) ?? formatNumber(v);
 				return `
 					<div class="d-flex flex-column gap-2 p-2">
 					<div class="d-flex flex-row gap-2 fw-medium">${translate?.('statistics.charts.max')} <span class="fw-bold">${fmt(max)}</span></div>
@@ -939,7 +982,7 @@ const RadarProvider: ProviderFn<SeriesPayload> = (
 	} else {
 		series = payload.series.map(si => ({
 			...si,
-			name: new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short' }).format(new Date(si.name)), // TODO this should be the default after localization
+			name: formatDateLabel(si.name, locale),
 		}));
 	}
 
@@ -1052,10 +1095,11 @@ const TreemapProvider: ProviderFn<SeriesPayload> = (
 const ScatterProvider: ProviderFn<SeriesPayload> = (
 	{ series }: SeriesPayload,
 	title: string,
-	_locale: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const granularity = detectSeriesDateGranularity(series);
 	const labels = new Set<string>();
 	series.forEach(si => {
 		si.data.forEach(d => labels.add(d.x));
@@ -1075,7 +1119,7 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 				rotateAlways: false,
 				hideOverlappingLabels: true,
 				showDuplicates: false,
-				format: 'yyyy MMM.',
+				formatter: (val: string) => formatDateLabel(Number(val), locale, granularity),
 				style: {
 					fontSize: '14px',
 					fontWeight: 'semibold',
@@ -1086,7 +1130,7 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 		},
 		tooltip: {
 			x: {
-				format: 'yyyy MMMM dd.',
+				formatter: (val: number) => formatDateTooltip(val, locale, granularity),
 			},
 		},
 		title: {
@@ -1107,7 +1151,7 @@ const ScatterProvider: ProviderFn<SeriesPayload> = (
 const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 	payload: DistributionPayload,
 	title: string,
-	_locale: string,
+	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
@@ -1123,8 +1167,8 @@ const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 	const labels: string[] = [];
 	const data: number[] = [];
 	payload.data.forEach((di, i) => {
-		colors.push(di.color ?? fallbackColors[i]);
-		labels.push(di.name);
+		colors.push(di.color ?? fallbackColors[i % fallbackColors.length]);
+		labels.push(formatDateLabel(di.name, locale) ?? di.name);
 		data.push(di.amount);
 	});
 

@@ -131,3 +131,47 @@ export function formatNumber(value: number, locale = 'hu-HU'): string {
 		.format(value)
 		.replace(/\u00a0/g, ' ');
 }
+
+export type DateGranularity = 'month' | 'day';
+
+export function detectDateGranularity(value: string): DateGranularity | null {
+	if (/^\d{4}-\d{2}-\d{2}/.test(value)) return 'day';
+	if (/^\d{4}-\d{2}$/.test(value)) return 'month';
+	return null;
+}
+
+export function formatDateLabel(value: string | number, locale: string, granularity?: DateGranularity | null): string {
+	const resolved = granularity ?? (typeof value === 'string' ? detectDateGranularity(value) : null);
+	if (!resolved) return String(value);
+
+	const date = typeof value === 'number' ? new Date(value) : new Date(value);
+	if (isNaN(date.getTime())) return String(value);
+
+	return new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'short' }).format(date);
+}
+
+export function formatDateTooltip(
+	value: string | number,
+	locale: string,
+	granularity?: DateGranularity | null,
+): string {
+	const resolved = granularity ?? (typeof value === 'string' ? detectDateGranularity(value) : null);
+	if (!resolved) return String(value);
+
+	const date = typeof value === 'number' ? new Date(value) : new Date(value);
+	if (isNaN(date.getTime())) return String(value);
+
+	const options: Intl.DateTimeFormatOptions =
+		resolved === 'month' ? { year: 'numeric', month: 'long' } : { year: 'numeric', month: 'long', day: 'numeric' };
+	return new Intl.DateTimeFormat(locale, options).format(date);
+}
+
+export function detectSeriesDateGranularity(series: { data: { x: string }[] }[]): DateGranularity | null {
+	for (const si of series) {
+		for (const dp of si.data) {
+			const g = detectDateGranularity(dp.x);
+			if (g) return g;
+		}
+	}
+	return null;
+}
