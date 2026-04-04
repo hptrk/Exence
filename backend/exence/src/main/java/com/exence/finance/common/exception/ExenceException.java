@@ -10,14 +10,14 @@ public class ExenceException extends RuntimeException {
     private final Object[] args;
 
     public ExenceException(ErrorCode errorCode) {
-        super(errorCode.getTitle());
+        super(errorCode.getProblemSlug());
         this.errorCode = errorCode;
         this.messageKey = null;
         this.args = null;
     }
 
     public ExenceException(ErrorCode errorCode, String messageKey, Object... args) {
-        super(errorCode.getTitle());
+        super(errorCode.getProblemSlug());
         this.errorCode = errorCode;
         this.messageKey = messageKey;
         this.args = args;

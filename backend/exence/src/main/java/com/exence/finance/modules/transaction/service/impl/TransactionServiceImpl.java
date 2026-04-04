@@ -2,12 +2,15 @@ package com.exence.finance.modules.transaction.service.impl;
 
 import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
+import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.auth.repository.UserSettingsRepository;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
 import com.exence.finance.modules.transaction.dto.TransactionDTO;
 import com.exence.finance.modules.transaction.dto.TransactionType;
@@ -20,18 +23,27 @@ import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.transaction.service.TransactionService;
 import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
     private final UserService userService;
+    private final UserSettingsRepository userSettingsRepository;
+    private final ExchangeRateService exchangeRateService;
     private final TransactionMapper transactionMapper;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -69,6 +81,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setCategory(category);
         transaction.setUser(user);
 
+        applyCurrencyFields(transaction, transactionDTO);
+
         Transaction savedTransaction = transactionRepository.save(transaction);
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
         return transactionMapper.mapToTransactionDTO(savedTransaction);
@@ -94,6 +108,8 @@ public class TransactionServiceImpl implements TransactionService {
 
         transactionMapper.updateTransactionFromDto(transactionDTO, transaction);
 
+        applyCurrencyFields(transaction, transactionDTO);
+
         Transaction savedTransaction = transactionRepository.save(transaction);
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
         return transactionMapper.mapToTransactionDTO(savedTransaction);
@@ -116,5 +132,73 @@ public class TransactionServiceImpl implements TransactionService {
                 .totalIncome(totalIncome)
                 .totalExpense(totalExpense)
                 .build();
+    }
+
+    @WriteTransactional
+    public void recalculateBaseCurrencyAmounts(SupportedCurrency newBaseCurrency) {
+        List<Transaction> transactions = transactionRepository.findAllUserFiltered();
+
+        LocalDate startDate = transactions.stream()
+                .map(Transaction::getDate)
+                .min(LocalDate::compareTo)
+                .orElse(LocalDate.now());
+
+        LocalDate endDate = transactions.stream()
+                .map(Transaction::getDate)
+                .max(LocalDate::compareTo)
+                .orElse(LocalDate.now());
+
+        Set<SupportedCurrency> currenciesToFetch =
+                transactions.stream().map(Transaction::getCurrency).collect(Collectors.toSet());
+        currenciesToFetch.add(newBaseCurrency);
+
+        log.info("Pre-fetching exchange rates from {} to {} for currencies: {}", startDate, endDate, currenciesToFetch);
+        exchangeRateService.fetchAndCacheRatesForDateRange(startDate, endDate, currenciesToFetch);
+
+        Map<LocalDate, Map<SupportedCurrency, BigDecimal>> rates =
+                exchangeRateService.getRates(startDate, endDate, currenciesToFetch);
+
+        for (Transaction transaction : transactions) {
+            SupportedCurrency txCurrency = transaction.getCurrency();
+            LocalDate txDate = transaction.getDate();
+
+            BigDecimal exchangeRate = exchangeRateService.getRate(txCurrency, newBaseCurrency, txDate, rates);
+
+            BigDecimal baseAmount = exchangeRateService.calculateBaseCurrencyAmount(
+                    transaction.getAmount(), txCurrency, newBaseCurrency, txDate, rates);
+
+            transaction.setExchangeRate(exchangeRate);
+            transaction.setBaseCurrencyAmount(baseAmount);
+        }
+
+        transactionRepository.saveAll(transactions);
+        eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
+    }
+
+    private void applyCurrencyFields(Transaction transaction, TransactionDTO dto) {
+        SupportedCurrency baseCurrency = getUserBaseCurrency();
+
+        SupportedCurrency currency = dto.getCurrency() != null ? dto.getCurrency() : baseCurrency;
+        transaction.setCurrency(currency);
+
+        if (currency == baseCurrency) {
+            transaction.setExchangeRate(BigDecimal.ONE);
+            transaction.setBaseCurrencyAmount(transaction.getAmount());
+        } else {
+            BigDecimal exchangeRate = dto.getExchangeRate() != null
+                    ? dto.getExchangeRate()
+                    : exchangeRateService.getRate(currency, baseCurrency, transaction.getDate());
+
+            transaction.setExchangeRate(exchangeRate);
+            transaction.setBaseCurrencyAmount(exchangeRateService.calculateBaseCurrencyAmount(
+                    transaction.getAmount(), currency, baseCurrency, transaction.getDate()));
+        }
+    }
+
+    private SupportedCurrency getUserBaseCurrency() {
+        Long userId = userService.getCurrentUserId();
+        return userSettingsRepository
+                .findBaseCurrencyByUserId(userId)
+                .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
     }
 }

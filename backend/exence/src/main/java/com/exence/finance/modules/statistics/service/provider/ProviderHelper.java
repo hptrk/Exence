@@ -1,7 +1,10 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.modules.auth.repository.UserSettingsRepository;
+import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
@@ -38,6 +41,8 @@ import org.springframework.stereotype.Component;
 public class ProviderHelper {
 
     private final I18nService i18n;
+    private final UserSettingsRepository userSettingsRepository;
+    private final UserService userService;
 
     private static final int DIVISION_SCALE = 4;
     private static final int PERCENTAGE_MULTIPLIER = 100;
@@ -211,6 +216,14 @@ public class ProviderHelper {
 
     public Map<TransactionType, BigDecimal> toTypeAmountMap(List<TypeAmountResult> projections) {
         return projections.stream().collect(Collectors.toMap(TypeAmountResult::type, TypeAmountResult::totalAmount));
+    }
+
+    public String getUserCurrencySymbol() {
+        Long userId = userService.getCurrentUserId();
+        SupportedCurrency currency = userSettingsRepository
+                .findBaseCurrencyByUserId(userId)
+                .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
+        return i18n.getCurrencySymbol(currency);
     }
 
     private BigDecimal divideAsAvg(long count, long months) {

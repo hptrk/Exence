@@ -16,6 +16,11 @@ exence:
   password-history-count: 3
   secure-cookie: false # default for dev, overridden by profiles
 
+external-apis:
+  frankfurter:
+    base-url: https://api.frankfurter.dev/v2
+    timeout: 20000
+
 spring:
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}

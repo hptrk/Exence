@@ -7,6 +7,7 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOT
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_TITLE_MIN_LENGTH;
 
+import com.exence.finance.common.dto.SupportedCurrency;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -68,4 +69,11 @@ public class TransactionDTO {
 
     @NotNull(message = "{validation.transaction.category.not-null}")
     private Long categoryId;
+
+    private SupportedCurrency currency;
+
+    @DecimalMin(value = "0.0000000001")
+    private BigDecimal exchangeRate;
+
+    private BigDecimal baseCurrencyAmount;
 }

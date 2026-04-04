@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-supported-currency-enum
+      author: hptrk
+      comment: Create native PostgreSQL enum type for supported_currency
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE supported_currency AS ENUM ('HUF', 'EUR', 'USD', 'CAD', 'GBP', 'CHF', 'PLN', 'CZK', 'RON')
+
+  - changeSet:
+      id: convert-user-settings-base-currency-to-enum
+      author: hptrk
+      comment: Convert user_settings.base_currency from VARCHAR to native supported_currency enum
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            splitStatements: false
+            path: sql/convert-user-settings-base-currency-to-enum.sql
+            relativeToChangelogFile: true
+

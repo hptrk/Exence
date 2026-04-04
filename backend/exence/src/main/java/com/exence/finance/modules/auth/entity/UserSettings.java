@@ -1,8 +1,8 @@
 package com.exence.finance.modules.auth.entity;
 
-import static com.exence.finance.common.util.ValidationConstants.CURRENCY_CODE_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.LANGUAGE_CODE_LENGTH;
 
+import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.modules.auth.dto.Theme;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -63,6 +63,11 @@ public class UserSettings {
     private Theme secondaryTheme;
 
     @NotNull
-    @Column(name = "base_currency", nullable = false, length = CURRENCY_CODE_LENGTH)
-    private String baseCurrency;
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
+    @Column(name = "base_currency", nullable = false)
+    private SupportedCurrency baseCurrency;
+
+    @NotNull
+    @Column(name = "show_base_currency", nullable = false)
+    private Boolean showBaseCurrency;
 }

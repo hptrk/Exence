@@ -5,6 +5,7 @@ import com.exence.finance.common.annotations.UniqueEmail;
 import com.exence.finance.common.annotations.ValidPassword;
 import com.exence.finance.common.annotations.ValidStrictEmail;
 import com.exence.finance.common.annotations.ValidUsername;
+import com.exence.finance.common.dto.SupportedCurrency;
 import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import lombok.AccessLevel;
@@ -38,4 +39,7 @@ public class RegisterRequest implements Serializable {
 
     @NotBlank(message = "{validation.confirm-password.not-blank}")
     private String confirmPassword;
+
+    @NotBlank
+    private SupportedCurrency baseCurrency;
 }

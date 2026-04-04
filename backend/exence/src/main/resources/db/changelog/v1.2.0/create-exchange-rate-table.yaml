@@ -1,0 +1,59 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-exchange-rate-table
+      author: hptrk
+      comment: >
+        Create exchange_rate table to cache historical exchange rates from ECB/Frankfurter.
+        Rates are stored relative to EUR (1 EUR = X currency).
+      dbms: postgresql
+      changes:
+        - createSequence:
+            sequenceName: exchange_rate_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createTable:
+            tableName: exchange_rate
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  defaultValueSequenceNext: exchange_rate_id_seq
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: rate_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: supported_currency
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rate_from_eur
+                  type: DECIMAL(19,10)
+                  constraints:
+                    nullable: false
+
+        - addUniqueConstraint:
+            tableName: exchange_rate
+            columnNames: rate_date, currency
+            constraintName: uq_exchange_rate_date_currency
+
+        - createIndex:
+            indexName: idx_exchange_rate_date_currency
+            tableName: exchange_rate
+            columns:
+              - column:
+                  name: rate_date
+              - column:
+                  name: currency
+
+      rollback:
+        - dropTable:
+            tableName: exchange_rate
+        - dropSequence:
+            sequenceName: exchange_rate_id_seq
