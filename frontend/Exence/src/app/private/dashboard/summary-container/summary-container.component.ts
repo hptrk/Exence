@@ -7,12 +7,13 @@ import { TransactionType } from '../../../data-model/modules/transaction/Transac
 import { NavigationService } from '../../../shared/navigation/navigation.service';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { SvgIcons } from '../../../shared/svg-icons/svg-icons';
+import { AbsoluteValuePipe } from '../../../shared/pipes/absolute-value.pipe';
 
 @Component({
 	selector: 'ex-summary-container',
 	templateUrl: './summary-container.component.html',
 	styleUrl: './summary-container.component.scss',
-	imports: [MatCardModule, MatIconModule, CurrencyPipe, MatButtonModule, RouterModule],
+	imports: [MatCardModule, MatIconModule, MatButtonModule, RouterModule, AbsoluteValuePipe, CurrencyPipe],
 })
 export class SummaryContainerComponent {
 	private readonly navigationService = inject(NavigationService);
