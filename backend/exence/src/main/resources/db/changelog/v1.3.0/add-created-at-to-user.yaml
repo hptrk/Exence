@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-created-at-to-user
+      author: hptrk
+      comment: Add created_at column to _user table for tracking user registration dates.
+      dbms: postgresql
+      changes:
+        - addColumn:
+            tableName: _user
+            columns:
+              - column:
+                  name: created_at
+                  type: TIMESTAMPTZ
+                  defaultValueComputed: NOW()
+                  constraints:
+                    nullable: false
+
+      rollback:
+        - dropColumn:
+            tableName: _user
+            columnName: created_at

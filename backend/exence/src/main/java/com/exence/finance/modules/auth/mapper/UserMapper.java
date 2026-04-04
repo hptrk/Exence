@@ -27,6 +27,7 @@ public abstract class UserMapper {
     @Mapping(target = "password", ignore = true) // aftermapping
     @Mapping(target = "emailVerified", ignore = true) // aftermapping
     @Mapping(target = "lastLoginAt", ignore = true) // aftermapping
+    @Mapping(target = "createdAt", ignore = true) // AfterMapping
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "categories", ignore = true)
@@ -41,6 +42,7 @@ public abstract class UserMapper {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setEmailVerified(false);
         user.setLastLoginAt(Instant.now());
+        user.setCreatedAt(Instant.now());
     }
 
     @Mapping(target = "id", ignore = true)
@@ -55,6 +57,7 @@ public abstract class UserMapper {
     @Mapping(target = "passwordHistories", ignore = true)
     @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "settings", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateUserFromPatchDto(UserPatchDTO userPatchDTO, @MappingTarget User user);
 }
