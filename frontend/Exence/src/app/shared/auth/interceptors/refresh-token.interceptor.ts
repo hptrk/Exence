@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
@@ -39,6 +40,11 @@ export function refreshTokenInterceptor(
 	const navigationService = inject(NavigationService);
 	const authService = inject(AuthService);
 	const currentUserService = inject(CurrentUserService);
+	const location = inject(Location);
+
+	if (req.url.includes('/api/auth') || location.path().includes('/public/')) {
+		return next(req);
+	}
 
 	return next(req).pipe(
 		catchError((error: HttpErrorResponse) => {

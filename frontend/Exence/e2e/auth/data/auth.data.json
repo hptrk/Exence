@@ -1,0 +1,28 @@
+{
+	"admin": {
+		"login": {
+			"email": "captainwinnie@exence.com",
+			"password": "Test123!"
+		},
+		"register": {
+			"username": "Test User",
+			"email": "test_user@exence.com",
+			"password": "Test123!",
+			"confirmPassword": "Test123!",
+			"currency": "HUF"
+		}
+	},
+	"user": {
+		"login": {
+			"email": "captainwinnie@exence.com",
+			"password": "Test123!"
+		},
+		"register": {
+			"username": "Test User",
+			"email": "test_user@exence.com",
+			"password": "Test123!",
+			"confirmPassword": "Test123!",
+			"currency": "HUF"
+		}
+	}
+}
