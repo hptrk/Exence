@@ -121,9 +121,9 @@
 		"logout": "Abmelden",
 		"accountSettings": "Kontoeinstellungen",
 		"language": "Sprache ändern",
-		"home": "Home",
-		"login": "Log in",
-		"registration": "Registration"
+		"home": "Startseite",
+		"login": "Anmelden",
+		"registration": "Registrierung"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -707,7 +707,7 @@
 	},
 	"landing": {
 		"hero": {
-			"title": "FINANZVERFOLGUNG<br>LEICHT <span class='landing-title-emphasis'>GEMACHT</span>",
+			"title": "FINANZEN LEICHT<br><span class='landing-title-emphasis'>GEMACHT</span>",
 			"getStarted": "Lassen Sie uns beginnen",
 			"login": "Anmelden"
 		},

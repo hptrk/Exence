@@ -22,8 +22,10 @@
 		"maximum": "Max",
 		"all": "Všetky",
 		"type": "Typ",
-		"from": "Áno",
-		"to": "Nie"
+		"from": "Od",
+		"to": "Do",
+		"yes": "Áno",
+		"no": "Nie"
 	},
 	"dashboard": {
 		"title": "Vitajte späť, <span class='username'>{{username}}</span>!",
@@ -119,9 +121,9 @@
 		"logout": "Odhlásiť sa",
 		"accountSettings": "Nastavenia účtu",
 		"language": "Zmeniť jazyk",
-		"home": "Home",
-		"login": "Log in",
-		"registration": "Registration"
+		"home": "Domov",
+		"login": "Prihlásiť sa",
+		"registration": "Registrácia"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -162,9 +164,6 @@
 				"other": "Ostatné"
 			}
 		},
-		"editButton": "Upraviť rozloženie",
-		"addButton": "Pridať widget",
-		"editInfo": "Niektoré zmeny nemusia byť viditeľné, kým ich neuložíte.",
 		"widget": {
 			"EXPENSE_FREQUENCY_STATCARD": {
 				"title": "Frekvencia výdavkov",
@@ -332,7 +331,10 @@
 				"pan": "Posúvanie",
 				"reset": "Obnoviť priblíženie"
 			}
-		}
+		},
+		"editButton": "Upraviť rozloženie",
+		"addButton": "Pridať widget",
+		"editInfo": "Niektoré zmeny nemusia byť viditeľné, kým ich neuložíte."
 	},
 	"category": {
 		"create": {

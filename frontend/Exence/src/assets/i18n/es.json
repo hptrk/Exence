@@ -121,9 +121,9 @@
 		"logout": "Cerrar sesión",
 		"accountSettings": "Configuración de la cuenta",
 		"language": "Cambiar idioma",
-		"home": "Home",
-		"login": "Log in",
-		"registration": "Registration"
+		"home": "Inicio",
+		"login": "Iniciar sesión",
+		"registration": "Registro"
 	},
 	"timeframe": {
 		"1W": "1S",
