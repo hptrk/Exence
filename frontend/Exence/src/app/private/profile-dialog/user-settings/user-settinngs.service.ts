@@ -4,7 +4,9 @@ import { UserSettingsResponse } from '../../../data-model/modules/user-settings/
 import { HttpService } from '../../../shared/http/http.service';
 import { UpdateUserSettingsRequest } from '../../../data-model/modules/user-settings/UpdateUserSettingsRequest';
 
-@Injectable()
+@Injectable({
+	providedIn: 'root',
+})
 export class UserSettingsService {
 	private readonly http = inject(HttpService);
 
