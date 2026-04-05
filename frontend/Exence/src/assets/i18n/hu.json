@@ -121,9 +121,9 @@
 		"logout": "Kijelentkezés",
 		"accountSettings": "Fiókbeállítások",
 		"language": "Nyelv",
-		"home": "Home",
-		"login": "Log in",
-		"registration": "Registration"
+		"home": "Kezdőlap",
+		"login": "Bejelentkezés",
+		"registration": "Regisztráció"
 	},
 	"timeframe": {
 		"1W": "1Hé",

@@ -121,9 +121,9 @@
 		"logout": "Déconnexion",
 		"accountSettings": "Paramètres du compte",
 		"language": "Changer de langue",
-		"home": "Home",
-		"login": "Log in",
-		"registration": "Registration"
+		"home": "Accueil",
+		"login": "Se connecter",
+		"registration": "Inscription"
 	},
 	"timeframe": {
 		"1W": "1S",
