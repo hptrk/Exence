@@ -8,4 +8,6 @@ public sealed interface WidgetDataPayload
                 SankeyPayload,
                 SeriesPayload,
                 SlopePayload,
-                StatCardPayload {}
+                StatCardPayload,
+                LeaderboardPayload,
+                SummaryPayload {}

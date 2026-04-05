@@ -1,0 +1,4 @@
+databaseChangeLog:
+  - include:
+      file: add-created-at-to-user.yaml
+      relativeToChangelogFile: true
