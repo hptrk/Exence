@@ -236,8 +236,8 @@
 				"lineArea": "Linie & Fläche",
 				"bar": "Bar",
 				"mixed": "Gemischt",
-				"circular": "Circular",
-				"point": "Rundschreiben",
+				"circular": "Kreisförmig",
+				"point": "Punkt",
 				"other": "Sonstiges"
 			}
 		},
@@ -326,7 +326,7 @@
 				"info": "Überlagert das Transaktionsvolumen als Linie über den Ausgabenbalken, um die Ausgabenintensität aufzuzeigen."
 			},
 			"WEALTH_GROWTH_COMBO": {
-				"title": "Wealth Growth Combo",
+				"title": "Vermögenswachstum Kombi",
 				"info": "Kombiniert Einnahmen- und Ausgabenbalken mit einer kumulativen Vermögenslinie, um das Nettowachstum zu verfolgen."
 			},
 			"EXPENSE_PIE": {
@@ -541,7 +541,7 @@
 	},
 	"formattedDate": {
 		"now": "Jetzt",
-		"sec": "{{value}} sec. ago",
+		"sec": "Vor {{value}} Sek.",
 		"secs": "{{value}} Sekunden zuvor",
 		"min": "{{value}} vor min.",
 		"mins": "{{value}} Min. vor",
