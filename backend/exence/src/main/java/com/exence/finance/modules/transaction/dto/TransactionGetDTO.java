@@ -34,7 +34,8 @@ public record TransactionGetDTO(
                         message = "{validation.transaction.amount.digits}")
                 BigDecimal amount,
         @NotNull(message = "{validation.transaction.type.not-null}") TransactionType type,
-        Boolean recurring,
+        Boolean createdByRecurringJob,
+        Long recurringTransactionId,
         @NotNull(message = "{validation.transaction.category.not-null}") Long categoryId,
         SupportedCurrency currency,
         @DecimalMin(value = "0.0000000001") BigDecimal exchangeRate,

@@ -1,0 +1,180 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-recurrence-frequency-enum
+      author: hptrk
+      comment: Create native PostgreSQL enum type for recurrence_frequency
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE recurrence_frequency AS ENUM ('WEEKLY', 'MONTHLY', 'YEARLY')
+      rollback:
+        - sql:
+            sql: DROP TYPE recurrence_frequency
+
+  - changeSet:
+      id: create-end-condition-enum
+      author: hptrk
+      comment: Create native PostgreSQL enum type for end_condition
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE end_condition AS ENUM ('NEVER', 'UNTIL_DATE', 'AFTER_OCCURRENCES')
+      rollback:
+        - sql:
+            sql: DROP TYPE end_condition
+
+  - changeSet:
+      id: create-recurring-transaction-table
+      author: hptrk
+      comment: >
+        Create recurring_transaction table to store recurring transaction templates.
+        Each entry defines the schedule and base data used to generate Transaction entities automatically.
+      dbms: postgresql
+      changes:
+        - createSequence:
+            sequenceName: recurring_transaction_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createTable:
+            tableName: recurring_transaction
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  defaultValueSequenceNext: recurring_transaction_id_seq
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: note
+                  type: VARCHAR(500)
+              - column:
+                  name: amount
+                  type: DECIMAL(19,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: transaction_type
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: supported_currency
+                  constraints:
+                    nullable: false
+              - column:
+                  name: frequency
+                  type: recurrence_frequency
+                  constraints:
+                    nullable: false
+              - column:
+                  name: interval_value
+                  type: INTEGER
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
+              - column:
+                  name: day_of_week
+                  type: INTEGER
+              - column:
+                  name: day_of_month
+                  type: INTEGER
+              - column:
+                  name: end_condition
+                  type: end_condition
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: DATE
+              - column:
+                  name: max_occurrences
+                  type: INTEGER
+              - column:
+                  name: current_occurrences
+                  type: INTEGER
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+              - column:
+                  name: next_execution_date
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: active
+                  type: BOOLEAN
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMPTZ
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMPTZ
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: VARCHAR(255)
+              - column:
+                  name: updated_by
+                  type: VARCHAR(255)
+
+        - addForeignKeyConstraint:
+            baseTableName: recurring_transaction
+            baseColumnNames: category_id
+            referencedTableName: category
+            referencedColumnNames: id
+            constraintName: fk_recurring_transaction_category
+            onDelete: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: recurring_transaction
+            baseColumnNames: user_id
+            referencedTableName: _user
+            referencedColumnNames: id
+            constraintName: fk_recurring_transaction_user
+            onDelete: CASCADE
+
+        - createIndex:
+            indexName: idx_recurring_transaction_user_id
+            tableName: recurring_transaction
+            columns:
+              - column:
+                  name: user_id
+
+        - createIndex:
+            indexName: idx_recurring_transaction_next_execution
+            tableName: recurring_transaction
+            columns:
+              - column:
+                  name: next_execution_date
+              - column:
+                  name: active
+
+      rollback:
+        - dropTable:
+            tableName: recurring_transaction
+        - dropSequence:
+            sequenceName: recurring_transaction_id_seq

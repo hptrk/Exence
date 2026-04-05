@@ -3,6 +3,8 @@ exence:
     host: ${DB_HOST:localhost}
     port: ${DB_PORT:5432}
     name: ${DB_NAME:exence_db}
+  recurring:
+    cron: "0 0 0 * * *"
   email:
     domain-whitelist-only: false
     verification-required-paths:

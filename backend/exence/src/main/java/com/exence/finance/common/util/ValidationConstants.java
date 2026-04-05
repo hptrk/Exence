@@ -50,6 +50,12 @@ public final class ValidationConstants {
     public static final int TRANSACTION_AMOUNT_PRECISION = 19; // integer + fraction
     public static final int TRANSACTION_NOTE_MAX_LENGTH = 500;
 
+    // Recurring transaction validations
+    public static final int RECURRING_DAY_OF_MONTH_MIN = 1;
+    public static final int RECURRING_DAY_OF_MONTH_MAX = 31;
+    public static final int RECURRING_INTERVAL_MIN = 1;
+    public static final int RECURRING_MAX_OCCURRENCES_MIN = 1;
+
     // Exchange rate validations
     public static final int EXCHANGE_RATE_INTEGER_DIGITS = 9;
     public static final int EXCHANGE_RATE_FRACTION_DIGITS = 10;

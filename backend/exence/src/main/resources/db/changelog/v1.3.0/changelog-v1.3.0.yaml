@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - include:
+      file: create-recurring-transaction-table.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: alter-transaction-add-recurring-fields.yaml
+      relativeToChangelogFile: true
+
+  - include:
+      file: alter-transaction-drop-recurring.yaml
+      relativeToChangelogFile: true
