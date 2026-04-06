@@ -10,9 +10,10 @@ import com.exence.finance.modules.auth.mapper.UserSettingsMapper;
 import com.exence.finance.modules.auth.repository.UserSettingsRepository;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.auth.service.UserSettingsService;
-import com.exence.finance.modules.transaction.service.TransactionService;
+import com.exence.finance.modules.transaction.event.BaseCurrencyChangedEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +23,7 @@ public class UserSettingsServiceImpl implements UserSettingsService {
     private final UserSettingsRepository userSettingsRepository;
     private final UserSettingsMapper userSettingsMapper;
     private final UserService userService;
-    private final TransactionService transactionService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     @ReadTransactional
@@ -46,7 +47,8 @@ public class UserSettingsServiceImpl implements UserSettingsService {
                     oldBaseCurrency,
                     newBaseCurrency,
                     settings.getUser().getId());
-            transactionService.recalculateBaseCurrencyAmounts(newBaseCurrency);
+            // publish event instead of circular transactionService dependency
+            eventPublisher.publishEvent(new BaseCurrencyChangedEvent(newBaseCurrency));
         }
 
         return userSettingsMapper.toResponse(settings);
@@ -56,6 +58,13 @@ public class UserSettingsServiceImpl implements UserSettingsService {
         Long userId = userService.getCurrentUserId();
         return userSettingsRepository
                 .findByUserId(userId)
+                .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
+    }
+
+    public SupportedCurrency getUserBaseCurrency() {
+        Long userId = userService.getCurrentUserId();
+        return userSettingsRepository
+                .findBaseCurrencyByUserId(userId)
                 .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
     }
 }

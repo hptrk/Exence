@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-goal-sequences
+      author: hptrk
+      comment: Create sequences for goal and goal_progress_history tables
+      changes:
+        - createSequence:
+            sequenceName: goal_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: goal_progress_history_id_seq
+            startValue: 1
+            incrementBy: 1
+
+      rollback:
+        - dropSequence:
+            sequenceName: goal_id_seq
+        - dropSequence:
+            sequenceName: goal_progress_history_id_seq

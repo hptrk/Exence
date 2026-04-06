@@ -6,8 +6,8 @@ import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.repository.UserSettingsRepository;
 import com.exence.finance.modules.auth.service.UserService;
+import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
@@ -19,6 +19,7 @@ import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
 import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.Transaction;
+import com.exence.finance.modules.transaction.event.BaseCurrencyChangedEvent;
 import com.exence.finance.modules.transaction.mapper.TransactionMapper;
 import com.exence.finance.modules.transaction.repository.TransactionPredicateBuilder;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,10 +46,10 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
     private final UserService userService;
-    private final UserSettingsRepository userSettingsRepository;
     private final ExchangeRateService exchangeRateService;
     private final TransactionMapper transactionMapper;
     private final ApplicationEventPublisher eventPublisher;
+    private final UserSettingsService userSettingsService;
 
     @ReadTransactional
     public TransactionGetDTO getTransactionById(Long id) {
@@ -133,8 +135,13 @@ public class TransactionServiceImpl implements TransactionService {
         return new TransactionTotalsResponse(totalIncome, totalExpense);
     }
 
+    @EventListener
     @WriteTransactional
-    public void recalculateBaseCurrencyAmounts(SupportedCurrency newBaseCurrency) {
+    public void handleBaseCurrencyChanged(BaseCurrencyChangedEvent event) {
+        recalculateBaseCurrencyAmounts(event.newBaseCurrency());
+    }
+
+    private void recalculateBaseCurrencyAmounts(SupportedCurrency newBaseCurrency) {
         List<Transaction> transactions = transactionRepository.findAllUserFiltered();
 
         LocalDate startDate = transactions.stream()
@@ -176,7 +183,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private void applyCurrencyFields(
             Transaction transaction, SupportedCurrency currencyFromDTO, BigDecimal exchangeRateFromDTO) {
-        SupportedCurrency baseCurrency = getUserBaseCurrency();
+        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
 
         SupportedCurrency currency = currencyFromDTO != null ? currencyFromDTO : baseCurrency;
         transaction.setCurrency(currency);
@@ -193,12 +200,5 @@ public class TransactionServiceImpl implements TransactionService {
             transaction.setBaseCurrencyAmount(exchangeRateService.calculateBaseCurrencyAmount(
                     transaction.getAmount(), currency, baseCurrency, transaction.getDate(), exchangeRate));
         }
-    }
-
-    private SupportedCurrency getUserBaseCurrency() {
-        Long userId = userService.getCurrentUserId();
-        return userSettingsRepository
-                .findBaseCurrencyByUserId(userId)
-                .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
     }
 }

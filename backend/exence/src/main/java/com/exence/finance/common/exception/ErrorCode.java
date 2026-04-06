@@ -25,6 +25,7 @@ public enum ErrorCode {
     TRANSACTION_NOT_FOUND(HttpStatus.NOT_FOUND, "transaction-not-found"),
     RECURRING_TRANSACTION_NOT_FOUND(HttpStatus.NOT_FOUND, "recurring-transaction-not-found"),
     WIDGET_NOT_FOUND(HttpStatus.NOT_FOUND, "widget-not-found"),
+    GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal-not-found"),
 
     // 409 - Conflict
     EMAIL_ALREADY_IN_USE(HttpStatus.CONFLICT, "email-already-in-use"),
@@ -37,6 +38,8 @@ public enum ErrorCode {
     WIDGET_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "widget-type-mismatch"),
     INVALID_WIDGET_SETTING(HttpStatus.BAD_REQUEST, "invalid-widget-setting"),
     ADMIN_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "admin-widget-type-not-supported"),
+    GOAL_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "goal-widget-type-not-supported"),
+    INVALID_GOAL_SETTING(HttpStatus.BAD_REQUEST, "invalid-goal-setting"),
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "validation-error"),
     ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, "illegal-argument"),
     EXCHANGE_RATE_NOT_AVAILABLE(HttpStatus.BAD_REQUEST, "exchange-rate-not-available"),

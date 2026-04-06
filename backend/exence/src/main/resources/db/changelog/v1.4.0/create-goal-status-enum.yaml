@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-goal-status-enum
+      author: hptrk
+      comment: Create goal_status PostgreSQL native enum type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE goal_status AS ENUM ('ACTIVE', 'PAUSED', 'COMPLETED', 'EXPIRED')
+
+      rollback:
+        - sql:
+            sql: DROP TYPE IF EXISTS goal_status
