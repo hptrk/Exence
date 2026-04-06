@@ -1,12 +1,16 @@
 @if (display.isMd()) {
 	<mat-drawer-container class="h-100">
-		<mat-drawer mode="side" class="px-2" opened disableClose>
+		<mat-drawer mode="side" class="px-2" opened disableClose data-testid="sidebar">
 			<div class="d-flex flex-column align-items-center h-100 py-4 gap-5">
 				<a class="px-xl-2" [routerLink]="navigationService.private().index()">
 					@if (display.isXl()) {
-						<mat-icon class="h-auto w-auto m-0" [svgIcon]="svgIcons.logoHorizontal" />
+						<mat-icon
+							data-testid="logoHorizontal"
+							class="h-auto w-auto m-0"
+							[svgIcon]="svgIcons.logoHorizontal"
+						/>
 					} @else {
-						<mat-icon class="m-0" [svgIcon]="svgIcons.logo" />
+						<mat-icon data-testid="logoCompact" class="m-0" [svgIcon]="svgIcons.logo" />
 					}
 				</a>
 				<div class="d-flex flex-column h-100 w-100 flex-grow-1 fs-4 gap-3 gap-xl-2 fw-medium">
@@ -24,6 +28,7 @@
 							</a>
 						}
 						<a
+							data-testid="navDashboardBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.private().dashboard()"
 							routerLinkActive="active"
@@ -34,6 +39,7 @@
 							}
 						</a>
 						<a
+							data-testid="navTransactionsBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.private().transactions()"
 							routerLinkActive="active"
@@ -44,6 +50,7 @@
 							}
 						</a>
 						<a
+							data-testid="navStatisticsBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.private().statistics()"
 							routerLinkActive="active"
@@ -54,6 +61,7 @@
 							}
 						</a>
 						<a
+							data-testid="navGoalsBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.private().goals()"
 							routerLinkActive="active"
@@ -64,6 +72,7 @@
 							}
 						</a>
 						<a
+							data-testid="navDebtsBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.private().debts()"
 							routerLinkActive="active"
@@ -85,6 +94,7 @@
 						</a>
 					} @else {
 						<a
+							data-testid="navHomeBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.index()"
 							routerLinkActive="active"
@@ -96,6 +106,7 @@
 							}
 						</a>
 						<a
+							data-testid="navLoginBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.account().login()"
 							routerLinkActive="active"
@@ -106,6 +117,7 @@
 							}
 						</a>
 						<a
+							data-testid="navRegisterBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.account().register()"
 							routerLinkActive="active"
@@ -122,6 +134,7 @@
 					<div class="d-flex gap-4 actions">
 						@if (currentUserService.isAuthenticated()) {
 							<ex-button
+								data-testid="manageAccountsBtn"
 								iconButton
 								matIcon="manage_accounts"
 								color="accent"
@@ -130,15 +143,32 @@
 						}
 
 						@if (!currentUserService.isAuthenticated()) {
-							<ex-language-select menu [language]="initialLang()" (changed)="setLang($event)">
+							<ex-language-select
+								data-testid="languageSelectBtn"
+								menu
+								[language]="initialLang()"
+								(changed)="setLang($event)"
+							>
 								<ex-button iconButton matIcon="language" color="accent" />
 							</ex-language-select>
 						}
 
-						<ex-button iconButton matIcon="contrast" color="accent" (click)="toggleTheme()" />
+						<ex-button
+							data-testid="themeBtn"
+							iconButton
+							matIcon="contrast"
+							color="accent"
+							(click)="toggleTheme()"
+						/>
 
 						@if (currentUserService.isAuthenticated()) {
-							<ex-button iconButton matIcon="logout" color="accent" (click)="logout()" />
+							<ex-button
+								data-testid="logoutBtn"
+								iconButton
+								matIcon="logout"
+								color="accent"
+								(click)="logout()"
+							/>
 						}
 					</div>
 				} @else {
@@ -164,13 +194,13 @@
 </ng-template>
 
 <ng-template #actionsMenu>
-	<button [matMenuTriggerFor]="sidebarActionsMenu" class="more-actions-button">
+	<button data-testid="moreActionsBtn" [matMenuTriggerFor]="sidebarActionsMenu" class="more-actions-button">
 		<mat-icon>more_horiz</mat-icon>
 	</button>
 </ng-template>
 
 <ng-template #mobile>
-	<div class="position-sticky bottom-0 start-0 p-2 w-100 mobile-navigation">
+	<div data-testid="mobileNavigation" class="position-sticky bottom-0 start-0 p-2 w-100 mobile-navigation">
 		<div
 			class="d-flex flex-row justify-content-around align-items-center w-100 h-100 fs-4 gap-2 flex-grow-1 fw-medium mobile-actions"
 		>
@@ -185,6 +215,7 @@
 					</a>
 				}
 				<a
+					data-testid="mobileNavDashboardBtn"
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 					[routerLink]="navigationService.private().dashboard()"
 					routerLinkActive="active"
@@ -193,6 +224,7 @@
 				</a>
 
 				<a
+					data-testid="mobileNavTransactionsBtn"
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 					[routerLink]="navigationService.private().transactions()"
 					routerLinkActive="active"
@@ -200,6 +232,7 @@
 					<mat-icon>sync_alt</mat-icon>
 				</a>
 				<a
+					data-testid="mobileNavStatisticsBtn"
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 					[routerLink]="navigationService.private().statistics()"
 					routerLinkActive="active"
@@ -207,6 +240,7 @@
 					<mat-icon>leaderboard</mat-icon>
 				</a>
 				<a
+					data-testid="mobileNavGoalsBtn"
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 					[routerLink]="navigationService.private().goals()"
 					routerLinkActive="active"
@@ -214,6 +248,7 @@
 					<mat-icon>emoji_events</mat-icon>
 				</a>
 				<a
+					data-testid="mobileNavDebtsBtn"
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 					[routerLink]="navigationService.private().debts()"
 					routerLinkActive="active"
@@ -229,6 +264,7 @@
 				</a>
 			} @else {
 				<a
+					data-testid="mobileNavHomeBtn"
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[routerLink]="navigationService.index()"
 					routerLinkActive="active"
@@ -237,6 +273,7 @@
 					<mat-icon>home</mat-icon>
 				</a>
 				<a
+					data-testid="mobileNavLoginBtn"
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[routerLink]="navigationService.account().login()"
 					routerLinkActive="active"
@@ -244,6 +281,7 @@
 					<mat-icon>login</mat-icon>
 				</a>
 				<a
+					data-testid="mobileNavRegisterBtn"
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[routerLink]="navigationService.account().register()"
 					routerLinkActive="active"
@@ -253,6 +291,7 @@
 			}
 
 			<button
+				data-testid="mobileMoreActionsBtn"
 				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 				[matMenuTriggerFor]="sidebarActionsMenu"
 			>
@@ -265,7 +304,12 @@
 <mat-menu #sidebarActionsMenu="matMenu">
 	<div class="d-flex flex-column gap-0 actions-menu">
 		@if (currentUserService.isAuthenticated()) {
-			<button mat-menu-item class="d-flex align-items-center gap-2" (click)="openProfileDialog()">
+			<button
+				data-testid="accountSettingsMenuItem"
+				mat-menu-item
+				class="d-flex align-items-center gap-2"
+				(click)="openProfileDialog()"
+			>
 				<mat-icon>manage_accounts</mat-icon>
 				{{ 'navigation.accountSettings' | translate }}
 			</button>
@@ -273,20 +317,26 @@
 
 		@if (!currentUserService.isAuthenticated()) {
 			<ex-language-select menu [language]="initialLang()" (changed)="setLang($event)" stopPropagation>
-				<button mat-menu-item class="d-flex align-items-center gap-2">
+				<button data-testid="languageMenuItem" mat-menu-item class="d-flex align-items-center gap-2">
 					<mat-icon>language</mat-icon>
 					{{ 'navigation.language' | translate }}
 				</button>
 			</ex-language-select>
 		}
 
-		<button mat-menu-item class="d-flex align-items-center gap-2 pointer-cursor" (click)="toggleTheme()">
+		<button
+			data-testid="themeMenuItem"
+			mat-menu-item
+			class="d-flex align-items-center gap-2 pointer-cursor"
+			(click)="toggleTheme()"
+		>
 			<mat-icon>contrast</mat-icon>
 			{{ 'navigation.theme' | translate }}
 		</button>
 
 		@if (currentUserService.isAuthenticated()) {
 			<a
+				data-testid="logoutMenuItem"
 				mat-menu-item
 				class="d-flex align-items-center gap-2"
 				[routerLink]="navigationService.account().logout()"
