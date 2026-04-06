@@ -120,7 +120,10 @@
 		"theme": "Mode principal/secondaire",
 		"logout": "Déconnexion",
 		"accountSettings": "Paramètres du compte",
-		"language": "Changer de langue"
+		"language": "Changer de langue",
+		"home": "Accueil",
+		"login": "Se connecter",
+		"registration": "Inscription"
 	},
 	"timeframe": {
 		"1W": "1S",
@@ -701,5 +704,73 @@
 	"selection": {
 		"selectAll": "Tout sélectionner",
 		"deselectAll": "Tout désélectionner"
+	},
+	"landing": {
+		"hero": {
+			"title": "LE SUIVI FINANCIER<br>RENDU <span class='landing-title-emphasis'>SIMPLE</span>",
+			"getStarted": "Commençons",
+			"login": "Se connecter"
+		},
+		"tagline": "La gestion de patrimoine axée sur les données, simplifiée.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Enregistrement sans effort",
+				"title": "Suivez vos dépenses sans friction.",
+				"description": "Notre tableau de bord principal est conçu pour la rapidité. Enregistrez vos transactions en quelques secondes et obtenez un aperçu instantané de vos finances quotidiennes, afin de passer moins de temps à taper et plus de temps à comprendre votre patrimoine.",
+				"alt": "Image montrant un extrait de notre page de tableau de bord."
+			},
+			"deepInsights": {
+				"subtitle": "Aperçus statistiques approfondis",
+				"title": "Vos données, votre visualisation.",
+				"description": "Prenez le contrôle total de votre analyse. La page de statistiques vous permet de créer votre propre vue avec une variété de graphiques et de métriques. Ajoutez, supprimez ou réorganisez les composants pour voir exactement les informations dont vous avez besoin pour faire croître vos économies.",
+				"alt": "Image montrant un extrait de notre page de statistiques."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Catégorisation illimitée",
+				"title": "Fini les catégories rigides.",
+				"description": "Organisez exactement comme vous le pensez. Créez un système qui fonctionne pour vous avec des options de couleurs illimitées et des étiquettes personnalisées. Qu'il s'agisse du café quotidien ou d'investissements à long terme, chaque transaction trouve sa place idéale.",
+				"alt": "Image montrant un extrait de notre liste de catégories."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Intelligence exploitable",
+				"title": "Transformez les chiffres en connaissances.",
+				"description": "Ne vous contentez pas de regarder l'historique, apprenez-en. Notre moteur analyse vos habitudes de dépenses pour fournir des informations significatives, vous aidant à identifier les tendances et à optimiser votre budget avant la fin du mois.",
+				"alt": "Image montrant un extrait de notre page de paramètres utilisateur."
+			},
+			"transparentSecurity": {
+				"subtitle": "Sécurité transparente",
+				"title": "La sécurité que vous pouvez voir.",
+				"description": "Votre confidentialité financière est primordiale. Surveillez chaque session active et gérez vos appareils connectés directement depuis votre profil, en vous assurant que vous avez toujours le contrôle total sur les personnes qui accèdent à vos données.",
+				"alt": "Image montrant un extrait de notre page de sessions."
+			}
+		},
+		"testimonials": {
+			"title": "Nos utilisateurs ont dit",
+			"testimonial1": {
+				"quote": "Votre confidentialité financière est primordiale. Surveillez chaque session active et gérez vos appareils connectés directement depuis votre profil, en vous assurant que vous avez toujours le contrôle total sur les personnes qui accèdent à vos données.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "Votre confidentialité financière est primordiale. Surveillez chaque session active et gérez vos appareils connectés directement depuis votre profil, en vous assurant que vous avez toujours le contrôle total sur les personnes qui accèdent à vos données.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "Votre confidentialité financière est primordiale. Surveillez chaque session active et gérez vos appareils connectés directement depuis votre profil, en vous assurant que vous avez toujours le contrôle total sur les personnes qui accèdent à vos données.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Image de notre utilisateur"
+		},
+		"whoWeAre": {
+			"title": "Qui nous sommes",
+			"subtitle": "Nous sommes un studio créatif axé sur le design",
+			"description1": "Nous croyons au pouvoir d'un design réfléchi pour résoudre de véritables défis commerciaux. Chaque ligne, chaque couleur et chaque interaction est conçue avec intention, créant des expériences qui connectent et génèrent de l'impact. Notre mission est de transformer des idées en solutions visuelles et stratégiques qui résonnent profondément et soutiennent les objectifs de nos clients.",
+			"description2": "Pour nous, le design n'est pas seulement visuel ; c'est un outil influent qui aide les marques à atteindre un succès durable."
+		},
+		"footer": {
+			"followUs": "Suivez-nous sur :",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. Tous droits réservés."
+		}
 	}
 }

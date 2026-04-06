@@ -32,6 +32,9 @@ databaseChangeLog:
               - column:
                   name: last_login_at
                   valueComputed: "${now}"
+              - column:
+                  name: role
+                  value: ADMIN
 
         # Categories
         # EXPENSE Categories

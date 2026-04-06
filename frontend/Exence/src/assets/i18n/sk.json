@@ -22,8 +22,10 @@
 		"maximum": "Max",
 		"all": "Všetky",
 		"type": "Typ",
-		"from": "Áno",
-		"to": "Nie"
+		"from": "Od",
+		"to": "Do",
+		"yes": "Áno",
+		"no": "Nie"
 	},
 	"dashboard": {
 		"title": "Vitajte späť, <span class='username'>{{username}}</span>!",
@@ -118,7 +120,10 @@
 		"theme": "Hlavný/vedľajší režim",
 		"logout": "Odhlásiť sa",
 		"accountSettings": "Nastavenia účtu",
-		"language": "Zmeniť jazyk"
+		"language": "Zmeniť jazyk",
+		"home": "Domov",
+		"login": "Prihlásiť sa",
+		"registration": "Registrácia"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -159,9 +164,6 @@
 				"other": "Ostatné"
 			}
 		},
-		"editButton": "Upraviť rozloženie",
-		"addButton": "Pridať widget",
-		"editInfo": "Niektoré zmeny nemusia byť viditeľné, kým ich neuložíte.",
 		"widget": {
 			"EXPENSE_FREQUENCY_STATCARD": {
 				"title": "Frekvencia výdavkov",
@@ -329,7 +331,10 @@
 				"pan": "Posúvanie",
 				"reset": "Obnoviť priblíženie"
 			}
-		}
+		},
+		"editButton": "Upraviť rozloženie",
+		"addButton": "Pridať widget",
+		"editInfo": "Niektoré zmeny nemusia byť viditeľné, kým ich neuložíte."
 	},
 	"category": {
 		"create": {
@@ -699,5 +704,73 @@
 	"selection": {
 		"selectAll": "Vybrať všetko",
 		"deselectAll": "Zrušiť výber"
+	},
+	"landing": {
+		"hero": {
+			"title": "SLEDOVANIE FINANCIÍ<br><span class='landing-title-emphasis'>ZJEDNODUŠENÉ</span>",
+			"getStarted": "Začnime",
+			"login": "Prihlásiť sa"
+		},
+		"tagline": "Správa majetku založená na dátach, zjednodušená.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Zaznamenávanie bez námahy",
+				"title": "Sledujte výdavky bez komplikácií.",
+				"description": "Náš hlavný panel je navrhnutý pre rýchlosť. Zaznamenajte svoje transakcie za pár sekúnd a získajte okamžitý prehľad o svojich denných financiách, aby ste mohli stráviť menej času písaním a viac času porozumením svojho majetku.",
+				"alt": "Obrázok zobrazujúci fragment našej stránky panela."
+			},
+			"deepInsights": {
+				"subtitle": "Hlboké štatistické prehľady",
+				"title": "Vaše dáta, vaša vizualizácia.",
+				"description": "Prevezmite úplnú kontrolu nad svojou analýzou. Stránka štatistík vám umožňuje vytvoriť si vlastné zobrazenie pomocou rôznych grafov a metrík. Pridávajte, odstraňujte alebo preskupujte komponenty, aby ste videli presne tie informácie, ktoré potrebujete na rast svojich úspor.",
+				"alt": "Obrázok zobrazujúci fragment našej stránky štatistík."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Neobmedzená kategorizácia",
+				"title": "Koniec strnulým kategóriám.",
+				"description": "Organizujte presne tak, ako myslíte. Vytvorte si systém, ktorý vám vyhovuje, s neobmedzenými možnosťami farieb a vlastnými štítkami. Či už ide o každodennú kávu alebo dlhodobé investície, každá transakcia si nájde svoje dokonalé miesto.",
+				"alt": "Obrázok zobrazujúci fragment nášho zoznamu kategórií."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Praktické poznatky",
+				"title": "Premeňte čísla na vedomosti.",
+				"description": "Nepozerajte sa len do histórie – učte sa z nej. Náš systém analyzuje vaše vzorce výdavkov a poskytuje zmysluplné poznatky, ktoré vám pomôžu identifikovať trendy a optimalizovať váš rozpočet ešte pred koncom mesiaca.",
+				"alt": "Obrázok zobrazujúci fragment našej stránky používateľských nastavení."
+			},
+			"transparentSecurity": {
+				"subtitle": "Transparentná bezpečnosť",
+				"title": "Bezpečnosť, ktorú môžete vidieť.",
+				"description": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
+				"alt": "Obrázok zobrazujúci fragment našej stránky relácií."
+			}
+		},
+		"testimonials": {
+			"title": "Naši používatelia povedali",
+			"testimonial1": {
+				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Obrázok nášho používateľa"
+		},
+		"whoWeAre": {
+			"title": "Kto sme",
+			"subtitle": "Sme kreatívne štúdio zamerané na dizajn",
+			"description1": "Veríme v silu cieľavedomého dizajnu pri riešení skutočných obchodných výziev. Každá línia, farba a interakcia sú tvorené so zámerom a vytvárajú zážitky, ktoré spájajú a prinášajú vplyv. Naším poslaním je premieňať nápady na strategické a vizuálne riešenia, ktoré hlboko rezonujú a podporujú ciele našich klientov.",
+			"description2": "Pre nás nie je dizajn len vizuálnou stránkou; je to vplyvný nástroj, ktorý pomáha značkám dosiahnuť trvalý úspech."
+		},
+		"footer": {
+			"followUs": "Sledujte nás na:",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. Všetky práva vyhradené."
+		}
 	}
 }

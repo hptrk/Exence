@@ -10,57 +10,90 @@
 					}
 				</a>
 				<div class="d-flex flex-column h-100 w-100 flex-grow-1 fs-4 gap-3 gap-xl-2 fw-medium">
-					<a
-						class="ex-nav-button d-flex align-items-center gap-2"
-						[routerLink]="navigationService.private().dashboard()"
-						routerLinkActive="active"
-					>
-						<mat-icon>home</mat-icon>
-						@if (display.isXl()) {
-							{{ 'navigation.dashboard' | translate }}
-						}
-					</a>
-
-					<a
-						class="ex-nav-button d-flex align-items-center gap-2"
-						[routerLink]="navigationService.private().transactions()"
-						routerLinkActive="active"
-					>
-						<mat-icon>sync_alt</mat-icon>
-						@if (display.isXl()) {
-							{{ 'navigation.transactions' | translate }}
-						}
-					</a>
-					<a
-						class="ex-nav-button d-flex align-items-center gap-2"
-						[routerLink]="navigationService.private().statistics()"
-						routerLinkActive="active"
-					>
-						<mat-icon>leaderboard</mat-icon>
-						@if (display.isXl()) {
-							{{ 'navigation.statistics' | translate }}
-						}
-					</a>
-					<a
-						class="ex-nav-button d-flex align-items-center gap-2"
-						[routerLink]="navigationService.private().goals()"
-						routerLinkActive="active"
-					>
-						<mat-icon>emoji_events</mat-icon>
-						@if (display.isXl()) {
-							{{ 'navigation.goals' | translate }}
-						}
-					</a>
-					<a
-						class="ex-nav-button d-flex align-items-center gap-2"
-						[routerLink]="navigationService.private().debts()"
-						routerLinkActive="active"
-					>
-						<mat-icon>account_balance</mat-icon>
-						@if (display.isXl()) {
-							{{ 'navigation.debts' | translate }}
-						}
-					</a>
+					@if (currentUserService.isAuthenticated()) {
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.private().dashboard()"
+							routerLinkActive="active"
+						>
+							<mat-icon>home</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.dashboard' | translate }}
+							}
+						</a>
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.private().transactions()"
+							routerLinkActive="active"
+						>
+							<mat-icon>sync_alt</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.transactions' | translate }}
+							}
+						</a>
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.private().statistics()"
+							routerLinkActive="active"
+						>
+							<mat-icon>leaderboard</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.statistics' | translate }}
+							}
+						</a>
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.private().goals()"
+							routerLinkActive="active"
+						>
+							<mat-icon>emoji_events</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.goals' | translate }}
+							}
+						</a>
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.private().debts()"
+							routerLinkActive="active"
+						>
+							<mat-icon>account_balance</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.debts' | translate }}
+							}
+						</a>
+					} @else {
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.index()"
+							routerLinkActive="active"
+							[routerLinkActiveOptions]="{ exact: true }"
+						>
+							<mat-icon>home</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.home' | translate }}
+							}
+						</a>
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.account().login()"
+							routerLinkActive="active"
+						>
+							<mat-icon>login</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.login' | translate }}
+							}
+						</a>
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.account().register()"
+							routerLinkActive="active"
+						>
+							<mat-icon>person_add</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.registration' | translate }}
+							}
+						</a>
+					}
 				</div>
 
 				@if (display.isXl()) {
@@ -91,7 +124,7 @@
 				}
 			</div>
 		</mat-drawer>
-		<mat-drawer-content>
+		<mat-drawer-content class="overflow-x-hidden">
 			<ng-container [ngTemplateOutlet]="pageContent" />
 		</mat-drawer-content>
 	</mat-drawer-container>
@@ -119,42 +152,67 @@
 		<div
 			class="d-flex flex-row justify-content-around align-items-center w-100 h-100 fs-4 gap-2 flex-grow-1 fw-medium mobile-actions"
 		>
-			<a
-				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				[routerLink]="navigationService.private().dashboard()"
-				routerLinkActive="active"
-			>
-				<mat-icon>home</mat-icon>
-			</a>
+			@if (currentUserService.isAuthenticated()) {
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+					[routerLink]="navigationService.private().dashboard()"
+					routerLinkActive="active"
+				>
+					<mat-icon>home</mat-icon>
+				</a>
 
-			<a
-				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				[routerLink]="navigationService.private().transactions()"
-				routerLinkActive="active"
-			>
-				<mat-icon>sync_alt</mat-icon>
-			</a>
-			<a
-				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				[routerLink]="navigationService.private().statistics()"
-				routerLinkActive="active"
-			>
-				<mat-icon>leaderboard</mat-icon>
-			</a>
-			<a
-				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				[routerLink]="navigationService.private().goals()"
-				routerLinkActive="active"
-			>
-				<mat-icon>emoji_events</mat-icon>
-			</a>
-			<a
-				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
-				[routerLink]="navigationService.private().debts()"
-				routerLinkActive="active"
-			>
-				<mat-icon>account_balance</mat-icon>
-			</a>
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+					[routerLink]="navigationService.private().transactions()"
+					routerLinkActive="active"
+				>
+					<mat-icon>sync_alt</mat-icon>
+				</a>
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+					[routerLink]="navigationService.private().statistics()"
+					routerLinkActive="active"
+				>
+					<mat-icon>leaderboard</mat-icon>
+				</a>
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+					[routerLink]="navigationService.private().goals()"
+					routerLinkActive="active"
+				>
+					<mat-icon>emoji_events</mat-icon>
+				</a>
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+					[routerLink]="navigationService.private().debts()"
+					routerLinkActive="active"
+				>
+					<mat-icon>account_balance</mat-icon>
+				</a>
+			} @else {
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[routerLink]="navigationService.index()"
+					routerLinkActive="active"
+					[routerLinkActiveOptions]="{ exact: true }"
+				>
+					<mat-icon>home</mat-icon>
+				</a>
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[routerLink]="navigationService.account().login()"
+					routerLinkActive="active"
+				>
+					<mat-icon>login</mat-icon>
+				</a>
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[routerLink]="navigationService.account().register()"
+					routerLinkActive="active"
+				>
+					<mat-icon>person_add</mat-icon>
+				</a>
+			}
 
 			<button
 				class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"

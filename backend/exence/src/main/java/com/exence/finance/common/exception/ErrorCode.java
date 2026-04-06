@@ -36,6 +36,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "invalid-password"),
     WIDGET_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "widget-type-mismatch"),
     INVALID_WIDGET_SETTING(HttpStatus.BAD_REQUEST, "invalid-widget-setting"),
+    ADMIN_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "admin-widget-type-not-supported"),
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "validation-error"),
     ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, "illegal-argument"),
     EXCHANGE_RATE_NOT_AVAILABLE(HttpStatus.BAD_REQUEST, "exchange-rate-not-available"),

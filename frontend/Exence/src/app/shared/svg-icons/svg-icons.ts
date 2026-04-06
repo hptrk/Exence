@@ -3,4 +3,7 @@ export enum SvgIcons {
 	logo = 'logo',
 	logoVertical = 'logo-vertical',
 	logoHorizontal = 'logo-horizontal',
+	linkedin = 'linkedin',
+	github = 'github',
+	hero = 'hero',
 }
