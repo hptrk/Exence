@@ -20,7 +20,7 @@ export const loggedOutGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => 
 		take(1),
 		map(user => {
 			if (user && currentUserService.isAuthenticated()) {
-				router.navigate([navigationService.private().index()]);
+				router.navigate([navigationService.private().dashboard()]);
 				return false;
 			} else {
 				return true;

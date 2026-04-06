@@ -1,0 +1,165 @@
+@import '../../../styles/imports.scss';
+
+:host {
+	display: block;
+	width: 100%;
+	padding: 1.5rem;
+
+	overflow: hidden;
+
+	@include displayMd {
+		padding: 2rem;
+	}
+
+	@include displayLg {
+		padding: 2.5rem 3rem;
+	}
+}
+
+.hero {
+	height: calc(100dvh - 1.5rem);
+	position: relative;
+
+	@include displayMd {
+		height: calc(100dvh - 2rem);
+	}
+
+	@include displayLg {
+		height: calc(100dvh - 2.5rem);
+	}
+}
+
+.hero-title {
+	position: absolute;
+	top: 10%;
+
+	@include displayMd {
+		top: 15%;
+	}
+}
+
+h1 {
+	font-size: 2rem;
+	font-weight: 800;
+	letter-spacing: 0.5rem;
+	text-shadow: 0px 1px 3px var(--shadow-color);
+
+	@include displaySm {
+		font-size: 3.5rem;
+	}
+
+	@include displayLg {
+		font-size: 6rem;
+	}
+}
+
+.hero-img {
+	position: absolute;
+	top: -1.5rem;
+	right: -1.5rem;
+	left: -1.5rem;
+	width: 100vw;
+	max-width: 100vw;
+	height: calc(100dvh - 68px);
+	object-fit: cover;
+	z-index: -1;
+	filter: blur(3px);
+
+	@include displayMd {
+		height: 100dvh;
+		top: -2rem;
+		right: -2rem;
+		left: auto;
+		width: auto;
+		max-width: none;
+	}
+
+	@include displayLg {
+		top: -2.5rem;
+		right: -3rem;
+	}
+}
+
+.feature {
+	padding: 1.5rem 0;
+
+	@include displayMd {
+		padding: 2rem 0;
+	}
+}
+
+.feature-image {
+	border-radius: 20px;
+	overflow: hidden;
+	background-color: var(--app-card-color);
+	padding: 1rem;
+	min-height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--accent-text-color);
+
+	img {
+		border-radius: 15px;
+	}
+}
+
+.lg-high {
+	line-height: 1.6;
+}
+
+.testimonial-card {
+	flex: 1;
+	background-color: var(--app-card-color);
+	border-radius: 20px;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 1.5rem;
+}
+
+.testimonial-avatar {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: var(--app-background-color);
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+
+	overflow: hidden;
+
+	// TODO remove when testimonials pictures acquired
+	img {
+		width: 125%;
+		transform: translateY(20%);
+	}
+}
+
+.who-image {
+	flex: 1;
+	border-radius: 20px;
+	overflow: hidden;
+	background-color: var(--app-card-color);
+	min-height: 350px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--accent-text-color);
+}
+
+.footer {
+	border-top: 1px solid var(--border-color);
+}
+
+ex-button {
+	box-shadow: 0px 1px 5px var(--shadow-color);
+	border-radius: 20px;
+}
+
+.flex-1 {
+	flex: 1;
+}

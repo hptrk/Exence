@@ -6,12 +6,20 @@ import { GoalsComponent } from './private/goals/goals.component';
 import { PrivateComponent } from './private/private.component';
 import { StatisticsComponent } from './private/statistics/statistics.component';
 import { TransactionsAndCategoriesComponent } from './private/transactions-and-categories/transactions-and-categories.component';
+import { LandingComponent } from './public/landing/landing.component';
 import { publicRoutes } from './public/public.routes';
 import { hasChangesGuard } from './shared/auth/guard/has-changes.guard';
 import { loggedInGuard } from './shared/auth/guard/logged-in.guard';
+import { loggedOutGuard } from './shared/auth/guard/logged-out.guard';
 
 export const routes: Routes = [
 	...publicRoutes,
+	{
+		path: '',
+		component: LandingComponent,
+		canActivate: [loggedOutGuard],
+		pathMatch: 'full',
+	},
 	{
 		path: '',
 		component: PrivateComponent,
@@ -47,6 +55,6 @@ export const routes: Routes = [
 	},
 	{
 		path: '**',
-		redirectTo: '/dashboard',
+		redirectTo: '/',
 	},
 ];

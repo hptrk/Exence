@@ -120,7 +120,10 @@
 		"theme": "Modalità principale/secondaria",
 		"logout": "Disconnetti",
 		"accountSettings": "Impostazioni dell'account",
-		"language": "Cambia lingua"
+		"language": "Cambia lingua",
+		"home": "Home",
+		"login": "Accesso",
+		"registration": "Registrazione"
 	},
 	"timeframe": {
 		"1W": "1S",
@@ -701,5 +704,73 @@
 	"selection": {
 		"selectAll": "Seleziona tutto",
 		"deselectAll": "Deseleziona tutto"
+	},
+	"landing": {
+		"hero": {
+			"title": "TRACCIAMENTO FINANZIARIO<br>RESO <span class='landing-title-emphasis'>SEMPLICE</span>",
+			"getStarted": "Iniziamo",
+			"login": "Accesso"
+		},
+		"tagline": "Gestione patrimoniale basata sui dati, semplificata.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Registrazione senza sforzo",
+				"title": "Tenga traccia delle spese senza complicazioni.",
+				"description": "La nostra dashboard principale è progettata per la velocità. Registri le Sue transazioni in pochi secondi e ottenga una panoramica immediata delle Sue finanze quotidiane, in modo da poter dedicare meno tempo alla digitazione e più tempo alla comprensione del Suo patrimonio.",
+				"alt": "Immagine che mostra un frammento della pagina della nostra dashboard."
+			},
+			"deepInsights": {
+				"subtitle": "Approfondimenti statistici dettagliati",
+				"title": "I Suoi dati, la Sua visualizzazione.",
+				"description": "Prenda il pieno controllo della Sua analisi. La pagina delle statistiche Le consente di creare la Sua vista personale con una varietà di grafici e metriche. Aggiunga, rimuova o riorganizzi i componenti per vedere esattamente le informazioni di cui ha bisogno per far crescere i Suoi risparmi.",
+				"alt": "Immagine che mostra un frammento della nostra pagina delle statistiche."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Categorizzazione illimitata",
+				"title": "Niente più categorie rigide.",
+				"description": "Organizzi esattamente come pensa. Crei un sistema che funzioni per Lei con opzioni di colore illimitate ed etichette personalizzate. Che si tratti del caffè quotidiano o di investimenti a lungo termine, ogni transazione trova il suo posto perfetto.",
+				"alt": "Immagine che mostra un frammento della nostra lista di categorie."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Intelligenza fruibile",
+				"title": "Trasformi i numeri in conoscenza.",
+				"description": "Non si limiti a guardare la cronologia: impari da essa. Il nostro motore analizza i Suoi modelli di spesa per fornire approfondimenti significativi, aiutandoLa a identificare le tendenze e a ottimizzare il Suo budget prima della fine del mese.",
+				"alt": "Immagine che mostra un frammento della nostra pagina delle impostazioni utente."
+			},
+			"transparentSecurity": {
+				"subtitle": "Sicurezza trasparente",
+				"title": "Sicurezza che può vedere.",
+				"description": "La Sua privacy finanziaria è fondamentale. Monitori ogni sessione attiva e gestisca i Suoi dispositivi connessi direttamente dal Suo profilo, assicurandoSi di avere sempre il controllo totale su chi accede ai Suoi dati.",
+				"alt": "Immagine che mostra un frammento della nostra pagina delle sessioni."
+			}
+		},
+		"testimonials": {
+			"title": "I nostri utenti dicono",
+			"testimonial1": {
+				"quote": "La Sua privacy finanziaria è fondamentale. Monitori ogni sessione attiva e gestisca i Suoi dispositivi connessi direttamente dal Suo profilo, assicurandoSi di avere sempre il controllo totale su chi accede ai Suoi dati.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "La Sua privacy finanziaria è fondamentale. Monitori ogni sessione attiva e gestisca i Suoi dispositivi connessi direttamente dal Suo profilo, assicurandoSi di avere sempre il controllo totale su chi accede ai Suoi dati.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "La Sua privacy finanziaria è fondamentale. Monitori ogni sessione attiva e gestisca i Suoi dispositivi connessi direttamente dal Suo profilo, assicurandoSi di avere sempre il controllo totale su chi accede ai Suoi dati.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Immagine del nostro utente"
+		},
+		"whoWeAre": {
+			"title": "Chi siamo",
+			"subtitle": "Siamo uno studio creativo incentrato sul design",
+			"description1": "Crediamo nel potere del design mirato per risolvere le sfide aziendali reali. Ogni linea, colore e interazione è realizzata con intenzione, creando esperienze che connettono e generano impatto. La nostra missione è trasformare le idee in soluzioni strategiche e visive che risuonino profondamente e supportino gli obiettivi dei nostri clienti.",
+			"description2": "Per noi, il design non è solo visivo; è uno strumento influente che aiuta i marchi a raggiungere un successo duraturo."
+		},
+		"footer": {
+			"followUs": "Ci segua su:",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. Tutti i diritti riservati."
+		}
 	}
 }

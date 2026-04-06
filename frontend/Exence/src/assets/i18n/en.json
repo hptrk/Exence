@@ -120,7 +120,10 @@
 		"theme": "Primary/secondary mode",
 		"logout": "Log out",
 		"accountSettings": "Account settings",
-		"language": "Change language"
+		"language": "Change language",
+		"home": "Home",
+		"login": "Log in",
+		"registration": "Registration"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -701,5 +704,73 @@
 	"selection": {
 		"selectAll": "Select all",
 		"deselectAll": "Deselect all"
+	},
+	"landing": {
+		"hero": {
+			"title": "MONEY TRACKING<br>MADE <span class='landing-title-emphasis'>SIMPLE</span>",
+			"getStarted": "Let's get started",
+			"login": "Log in"
+		},
+		"tagline": "Data-driven wealth management, simplified.",
+		"features": {
+			"effortlessLogging": {
+				"subtitle": "Effortless Logging",
+				"title": "Track spending without the friction.",
+				"description": "Our main dashboard is designed for speed. Log your transactions in seconds and get an instant overview of your daily finances, so you can spend less time typing and more time understanding your wealth.",
+				"alt": "Picture showing a snippet of our dashboard page."
+			},
+			"deepInsights": {
+				"subtitle": "Deep Statistical Insights",
+				"title": "Your data, your visualization.",
+				"description": "Take full control of your analysis. The statistics page allows you to build your own view with a variety of charts and metrics. Add, remove, or rearrange components to see exactly the insights you need to grow your savings.",
+				"alt": "Picture showing a snippet of our statistics page."
+			},
+			"unlimitedCategorization": {
+				"subtitle": "Unlimited Categorization",
+				"title": "No more rigid categories.",
+				"description": "Organize exactly how you think. Create a system that works for you with unlimited color options and custom labels. Whether it's daily coffee or long-term investments, every transaction finds its perfect place.",
+				"alt": "Picture showing a snippet of our category list."
+			},
+			"actionableIntelligence": {
+				"subtitle": "Actionable Intelligence",
+				"title": "Turn numbers into knowledge.",
+				"description": "Don't just look at history—learn from it. Our engine analyzes your spending patterns to provide meaningful insights, helping you identify trends and optimize your budget before the month ends.",
+				"alt": "Picture showing a snippet of our user settings page."
+			},
+			"transparentSecurity": {
+				"subtitle": "Transparent Security",
+				"title": "Security you can see.",
+				"description": "Your financial privacy is paramount. Monitor every active session and manage your logged-in devices directly from your profile, ensuring that you are always in total control of who accesses your data.",
+				"alt": "Picture showing a snippet of our sessions page."
+			}
+		},
+		"testimonials": {
+			"title": "Our users said",
+			"testimonial1": {
+				"quote": "Your financial privacy is paramount. Monitor every active session and manage your logged-in devices directly from your profile, ensuring that you are always in total control of who accesses your data.",
+				"name": "Random Néni"
+			},
+			"testimonial2": {
+				"quote": "Your financial privacy is paramount. Monitor every active session and manage your logged-in devices directly from your profile, ensuring that you are always in total control of who accesses your data.",
+				"name": "Random Néni"
+			},
+			"testimonial3": {
+				"quote": "Your financial privacy is paramount. Monitor every active session and manage your logged-in devices directly from your profile, ensuring that you are always in total control of who accesses your data.",
+				"name": "Random Néni"
+			},
+			"imageAlt": "Picture of our user"
+		},
+		"whoWeAre": {
+			"title": "Who we are",
+			"subtitle": "We are design-first creative studio",
+			"description1": "We believe in the power of purposeful design to solve real business challenges. Every line, color, and interaction is crafted with intent, creating experiences that connect and drive impact. Our mission is to turn ideas into strategic, visual solutions that resonate deeply and support our clients' goals.",
+			"description2": "For us, design isn't just a visual; it's an influential tool that helps brands achieve lasting success."
+		},
+		"footer": {
+			"followUs": "Follow us on:",
+			"tamas": "Tamás",
+			"patrik": "Patrik",
+			"copyright": "© {{year}} Exence. All rights reserved."
+		}
 	}
 }

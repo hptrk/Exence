@@ -1,0 +1,401 @@
+<div class="d-flex flex-column gap-4 gap-lg-5">
+	<!-- Hero -->
+	<section class="hero d-flex flex-column flex-md-row align-items-center align-items-md-stretch gap-4 gap-lg-5">
+		<div
+			class="hero-title d-flex flex-column justify-content-center align-items-center align-items-md-start gap-3 gap-lg-4 w-100 px-3"
+		>
+			<h1 class="text-center text-md-start" [innerHTML]="'landing.hero.title' | translate"></h1>
+			<div class="d-flex flex-row flex-nowrap gap-3">
+				<ex-button filled (click)="navigateToRegister()">
+					{{ 'landing.hero.getStarted' | translate }}
+				</ex-button>
+				<ex-button filled color="accent" (click)="navigateToLogin()">
+					{{ 'landing.hero.login' | translate }}
+				</ex-button>
+			</div>
+		</div>
+		<img class="hero-img" src="assets/landing-page/hero_{{ themeService.displayThemeSignal().toString() }}.png" />
+	</section>
+
+	@defer (on viewport) {
+		<!-- Features -->
+		<section class="features d-flex flex-column gap-5">
+			<h2 class="text-center fs-2 fw-bold">{{ 'landing.tagline' | translate }}</h2>
+
+			<!-- Effortless Logging -->
+			<div class="feature d-flex flex-column flex-md-row align-items-center gap-4">
+				<div class="flex-1">
+					<p class="fs-5 fw-normal mb-0">{{ 'landing.features.effortlessLogging.subtitle' | translate }}</p>
+					<h3 class="fs-2 fw-bold mb-3">{{ 'landing.features.effortlessLogging.title' | translate }}</h3>
+					<p class="fs-5 lg-high">{{ 'landing.features.effortlessLogging.description' | translate }}</p>
+				</div>
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
+					<img
+						class="w-100"
+						[src]="'assets/landing-page/DASHBOARD_' + themeService.displayThemeSignal() + '.webp'"
+						[alt]="'landing.features.effortlessLogging.alt' | translate"
+						style="display: none"
+						onload="
+							this.style.display = 'block';
+							this.previousElementSibling.style.display = 'none';
+						"
+					/>
+				</div>
+			</div>
+
+			<!-- Deep Statistical Insights -->
+			<div class="feature feature-reverse d-flex flex-column flex-md-row-reverse align-items-center gap-4">
+				<div class="flex-1">
+					<p class="fs-5 fw-normal mb-0">{{ 'landing.features.deepInsights.subtitle' | translate }}</p>
+					<h3 class="fs-2 fw-bold mb-3">{{ 'landing.features.deepInsights.title' | translate }}</h3>
+					<p class="fs-5 lg-high">{{ 'landing.features.deepInsights.description' | translate }}</p>
+				</div>
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
+					<img
+						class="w-100"
+						src="assets/landing-page/STATISTICS_{{ themeService.displayThemeSignal().toString() }}.webp"
+						[alt]="'landing.features.deepInsights.alt' | translate"
+						style="display: none"
+						onload="
+							this.style.display = 'block';
+							this.previousElementSibling.style.display = 'none';
+						"
+					/>
+				</div>
+			</div>
+
+			<!-- Unlimited Categorization -->
+			<div class="feature d-flex flex-column flex-md-row align-items-center gap-4">
+				<div class="flex-1">
+					<p class="fs-5 fw-normal mb-0">
+						{{ 'landing.features.unlimitedCategorization.subtitle' | translate }}
+					</p>
+					<h3 class="fs-2 fw-bold mb-3">
+						{{ 'landing.features.unlimitedCategorization.title' | translate }}
+					</h3>
+					<p class="fs-5 lg-high">
+						{{ 'landing.features.unlimitedCategorization.description' | translate }}
+					</p>
+				</div>
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
+					<img
+						class="w-100"
+						src="assets/landing-page/CATEGORIES_{{ themeService.displayThemeSignal().toString() }}.webp"
+						[alt]="'landing.features.unlimitedCategorization.alt' | translate"
+						style="display: none"
+						onload="
+							this.style.display = 'block';
+							this.previousElementSibling.style.display = 'none';
+						"
+					/>
+				</div>
+			</div>
+
+			<!-- Actionable Intelligence -->
+			<div class="feature feature-reverse d-flex flex-column flex-md-row-reverse align-items-center gap-4">
+				<div class="flex-1">
+					<p class="fs-5 fw-normal mb-0">
+						{{ 'landing.features.actionableIntelligence.subtitle' | translate }}
+					</p>
+					<h3 class="fs-2 fw-bold mb-3">{{ 'landing.features.actionableIntelligence.title' | translate }}</h3>
+					<p class="fs-5 lg-high">
+						{{ 'landing.features.actionableIntelligence.description' | translate }}
+					</p>
+				</div>
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
+					<img
+						class="w-100"
+						src="assets/landing-page/SETTINGS_{{ themeService.displayThemeSignal().toString() }}.webp"
+						[alt]="'landing.features.actionableIntelligence.alt' | translate"
+						style="display: none"
+						onload="
+							this.style.display = 'block';
+							this.previousElementSibling.style.display = 'none';
+						"
+					/>
+				</div>
+			</div>
+
+			<!-- Transparent Security -->
+			<div class="feature d-flex flex-column flex-md-row align-items-center gap-3">
+				<div class="flex-1">
+					<p class="fs-5 fw-normal mb-0">{{ 'landing.features.transparentSecurity.subtitle' | translate }}</p>
+					<h3 class="fs-2 fw-bold mb-3">{{ 'landing.features.transparentSecurity.title' | translate }}</h3>
+					<p class="fs-5 lg-high">
+						{{ 'landing.features.transparentSecurity.description' | translate }}
+					</p>
+				</div>
+				<!-- TODO CHANGE IMAGE WHEN SESSIONS BUG FIXED -->
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
+					<img
+						class="w-100"
+						src="assets/landing-page/SETTINGS_{{ themeService.displayThemeSignal().toString() }}.webp"
+						[alt]="'landing.features.transparentSecurity.alt' | translate"
+						style="display: none"
+						onload="
+							this.style.display = 'block';
+							this.previousElementSibling.style.display = 'none';
+						"
+					/>
+				</div>
+			</div>
+		</section>
+	} @placeholder {
+		<section class="features d-flex flex-column gap-5">
+			<ex-animated-skeleton-loader height="35px" width="80%" class="align-self-center" />
+
+			<div class="feature d-flex flex-column flex-md-row align-items-md-center gap-4">
+				<div class="flex-1 d-flex flex-column gap-2">
+					<ex-animated-skeleton-loader height="25px" width="200px" />
+					<ex-animated-skeleton-loader height="35px" width="100%" />
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="100%" />
+						<ex-animated-skeleton-loader height="20px" width="60%" />
+					</div>
+				</div>
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader height="200px" width="100%" />
+				</div>
+			</div>
+
+			<div class="feature d-flex flex-column flex-md-row align-items-md-center gap-4">
+				<div class="flex-1 d-flex flex-column gap-2">
+					<ex-animated-skeleton-loader height="25px" width="200px" />
+					<ex-animated-skeleton-loader height="35px" width="100%" />
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="100%" />
+						<ex-animated-skeleton-loader height="20px" width="60%" />
+					</div>
+				</div>
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader height="200px" width="100%" />
+				</div>
+			</div>
+
+			<div class="feature d-flex flex-column flex-md-row align-items-md-center gap-4">
+				<div class="flex-1 d-flex flex-column gap-2">
+					<ex-animated-skeleton-loader height="25px" width="200px" />
+					<ex-animated-skeleton-loader height="35px" width="100%" />
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="100%" />
+						<ex-animated-skeleton-loader height="20px" width="60%" />
+					</div>
+				</div>
+				<div class="feature-image flex-1">
+					<ex-animated-skeleton-loader height="200px" width="100%" />
+				</div>
+			</div>
+		</section>
+	}
+
+	@defer (on viewport) {
+		<!-- Testimonials -->
+		<section class="d-flex flex-column align-items-center gap-5">
+			<h2 class="text-center fs-2 fw-bold">{{ 'landing.testimonials.title' | translate }}</h2>
+			<div class="d-flex flex-column flex-lg-row gap-4 w-100">
+				<div class="testimonial-card">
+					<q class="fs-5">{{ 'landing.testimonials.testimonial1.quote' | translate }} </q>
+					<div class="testimonial-author d-flex align-items-center gap-3">
+						<div class="testimonial-avatar">
+							<ex-animated-skeleton-loader class="d-block" width="62.5px" height="62.5px" />
+							<img
+								src="assets/landing-page/testimonial-1.webp"
+								[alt]="'landing.testimonials.imageAlt' | translate"
+								style="display: none"
+								onload="
+									this.style.display = 'block';
+									this.previousElementSibling.style.display = 'none';
+								"
+							/>
+						</div>
+						<span class="fs-5 fw-bold">{{ 'landing.testimonials.testimonial1.name' | translate }}</span>
+					</div>
+				</div>
+				<div class="testimonial-card">
+					<q class="fs-5">{{ 'landing.testimonials.testimonial2.quote' | translate }}</q>
+					<div class="testimonial-author d-flex align-items-center gap-3">
+						<div class="testimonial-avatar">
+							<ex-animated-skeleton-loader class="d-block" width="62.5px" height="62.5px" />
+							<img
+								src="assets/landing-page/testimonial-2.webp"
+								[alt]="'landing.testimonials.imageAlt' | translate"
+								style="display: none"
+								onload="
+									this.style.display = 'block';
+									this.previousElementSibling.style.display = 'none';
+								"
+							/>
+						</div>
+						<span class="fs-5 fw-bold">{{ 'landing.testimonials.testimonial2.name' | translate }}</span>
+					</div>
+				</div>
+				<div class="testimonial-card">
+					<q class="fs-5">{{ 'landing.testimonials.testimonial3.quote' | translate }}</q>
+					<div class="testimonial-author d-flex align-items-center gap-3">
+						<div class="testimonial-avatar">
+							<ex-animated-skeleton-loader class="d-block" width="62.5px" height="62.5px" />
+							<img
+								src="assets/landing-page/testimonial-3.webp"
+								[alt]="'landing.testimonials.imageAlt' | translate"
+								style="display: none"
+								onload="
+									this.style.display = 'block';
+									this.previousElementSibling.style.display = 'none';
+								"
+							/>
+						</div>
+						<span class="fs-5 fw-bold">{{ 'landing.testimonials.testimonial3.name' | translate }}</span>
+					</div>
+				</div>
+			</div>
+		</section>
+	} @placeholder {
+		<section class="d-flex flex-column align-items-center gap-5">
+			<ex-animated-skeleton-loader height="35px" width="250px" class="align-self-center" />
+
+			<div class="d-flex flex-column flex-lg-row gap-4 w-100">
+				<div class="testimonial-card">
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="100%" />
+						<ex-animated-skeleton-loader height="20px" width="60%" />
+					</div>
+					<div class="testimonial-author d-flex align-items-center gap-3">
+						<div class="testimonial-avatar">
+							<ex-animated-skeleton-loader height="62.5px" width="62.5px" shape="circle" />
+						</div>
+						<ex-animated-skeleton-loader height="20px" width="150px" />
+					</div>
+				</div>
+				<div class="testimonial-card">
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="100%" />
+						<ex-animated-skeleton-loader height="20px" width="60%" />
+					</div>
+					<div class="testimonial-author d-flex align-items-center gap-3">
+						<div class="testimonial-avatar">
+							<ex-animated-skeleton-loader height="62.5px" width="62.5px" shape="circle" />
+						</div>
+						<ex-animated-skeleton-loader height="20px" width="150px" />
+					</div>
+				</div>
+				<div class="testimonial-card">
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="100%" />
+						<ex-animated-skeleton-loader height="20px" width="60%" />
+					</div>
+					<div class="testimonial-author d-flex align-items-center gap-3">
+						<div class="testimonial-avatar">
+							<ex-animated-skeleton-loader height="62.5px" width="62.5px" shape="circle" />
+						</div>
+						<ex-animated-skeleton-loader height="20px" width="150px" />
+					</div>
+				</div>
+			</div>
+		</section>
+	}
+
+	@defer (on viewport) {
+		<!-- Who we are -->
+		<section class="who-we-are d-flex flex-column flex-md-row align-items-center gap-4 pt-5">
+			<div class="who-image">
+				<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
+				<!-- TODO CHANGE IMAGE WHEN ACQUIRED -->
+				<img
+					class="w-100"
+					src="assets/landing-page/SETTINGS_{{ themeService.displayThemeSignal().toString() }}.webp"
+					[alt]="'landing.features.transparentSecurity.alt' | translate"
+					style="display: none"
+					onload="
+						this.style.display = 'block';
+						this.previousElementSibling.style.display = 'none';
+					"
+				/>
+			</div>
+
+			<div class="d-flex flex-column gap-3 flex-1">
+				<div class="d-flex flex-column gap-0">
+					<h2 class="fs-2 fw-bold">{{ 'landing.whoWeAre.title' | translate }}</h2>
+					<h3 class="fw-semibold fs-5">{{ 'landing.whoWeAre.subtitle' | translate }}</h3>
+				</div>
+				<p class="m-0 fs-5">{{ 'landing.whoWeAre.description1' | translate }}</p>
+				<p class="m-0 fs-5">{{ 'landing.whoWeAre.description2' | translate }}</p>
+			</div>
+		</section>
+	} @placeholder {
+		<section class="who-we-are d-flex flex-column flex-md-row align-items-center gap-4 pt-5">
+			<div class="who-image">
+				<ex-animated-skeleton-loader height="350px" width="100%" />
+			</div>
+			<div class="d-flex flex-column gap-3 flex-1">
+				<div class="d-flex flex-column gap-2">
+					<ex-animated-skeleton-loader height="30px" width="50%" />
+					<ex-animated-skeleton-loader height="25px" width="75%" />
+				</div>
+				<div class="d-flex flex-column gap-3">
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="100%" />
+						<ex-animated-skeleton-loader height="20px" width="85%" />
+						<ex-animated-skeleton-loader height="20px" width="98%" />
+						<ex-animated-skeleton-loader height="20px" width="90%" />
+						<ex-animated-skeleton-loader height="20px" width="60%" />
+					</div>
+					<div class="d-flex flex-column gap-1">
+						<ex-animated-skeleton-loader height="20px" width="95%" />
+						<ex-animated-skeleton-loader height="20px" width="70%" />
+					</div>
+				</div>
+			</div>
+		</section>
+	}
+
+	<!-- Footer -->
+	<footer class="footer d-flex flex-column align-items-center gap-4 pt-5 mt-4">
+		<div
+			class="footer-content d-flex flex-column flex-md-row align-items-center justify-content-between w-100 gap-4"
+		>
+			<div class="social-section d-flex flex-column gap-3">
+				<span class="fs-5 fw-bold">{{ 'landing.footer.followUs' | translate }}</span>
+				<div class="d-flex flex-column gap-2">
+					<div class="d-flex align-items-center gap-3">
+						<span class="fw-semibold fs-6">{{ 'landing.footer.patrik' | translate }}</span>
+						<a [href]="socialLinks.patrik.github" target="_blank">
+							<mat-icon size="md" [svgIcon]="svgIcons.github" />
+						</a>
+						<a [href]="socialLinks.patrik.linkedin" target="_blank">
+							<mat-icon size="md" [svgIcon]="svgIcons.linkedin" />
+						</a>
+					</div>
+					<div class="d-flex align-items-center gap-3">
+						<span class="fw-semibold fs-6">{{ 'landing.footer.tamas' | translate }}</span>
+						<a [href]="socialLinks.tamas.github" target="_blank">
+							<mat-icon size="md" [svgIcon]="svgIcons.github" />
+						</a>
+						<a [href]="socialLinks.tamas.linkedin" target="_blank">
+							<mat-icon size="md" [svgIcon]="svgIcons.linkedin" />
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<mat-icon
+				class="h-auto w-auto pointer-cursor"
+				[svgIcon]="svgIcons.logoHorizontal"
+				(click)="scrollToTop()"
+			/>
+		</div>
+
+		<p class="m-0 fw-semibold">{{ 'landing.footer.copyright' | translate: { year: currentYear } }}</p>
+	</footer>
+</div>
