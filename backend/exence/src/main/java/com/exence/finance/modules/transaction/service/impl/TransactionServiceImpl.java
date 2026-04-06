@@ -82,6 +82,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         transaction.setCategory(category);
         transaction.setUser(user);
+        transaction.setCreatedByRecurringJob(false);
 
         applyCurrencyFields(transaction, transactionCreateDTO.currency(), transactionCreateDTO.exchangeRate());
 

@@ -28,7 +28,7 @@ public final class TransactionPredicateBuilder {
         addTypeFilter(builder, filter.type());
         addDateRangeFilter(builder, filter.dateFrom(), filter.dateTo());
         addAmountRangeFilter(builder, filter.amountFrom(), filter.amountTo());
-        addRecurringFilter(builder, filter.recurring());
+        addCreatedByRecurringJobFilter(builder, filter.createdByRecurringJob());
 
         return builder.hasValue() ? builder : null;
     }
@@ -74,9 +74,9 @@ public final class TransactionPredicateBuilder {
         }
     }
 
-    private static void addRecurringFilter(BooleanBuilder builder, Boolean recurring) {
-        if (recurring != null) {
-            builder.and(qTransaction.recurring.eq(recurring));
+    private static void addCreatedByRecurringJobFilter(BooleanBuilder builder, Boolean createdByRecurringJob) {
+        if (createdByRecurringJob != null) {
+            builder.and(qTransaction.createdByRecurringJob.eq(createdByRecurringJob));
         }
     }
 }

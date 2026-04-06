@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-transaction-add-recurring-fields
+      author: hptrk
+      comment: >
+        Add recurring_transaction_id FK (nullable, SET NULL on delete) and
+        created_by_recurring_job boolean flag to the transaction table.
+        The FK links a generated transaction back to its RecurringTransaction template.
+        The flag persists even after the RecurringTransaction is deleted.
+      dbms: postgresql
+      changes:
+        - addColumn:
+            tableName: transaction
+            columns:
+              - column:
+                  name: recurring_transaction_id
+                  type: BIGINT
+              - column:
+                  name: created_by_recurring_job
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: transaction
+            baseColumnNames: recurring_transaction_id
+            referencedTableName: recurring_transaction
+            referencedColumnNames: id
+            constraintName: fk_transaction_recurring_transaction
+            onDelete: SET NULL
+
+      rollback:
+        - dropForeignKeyConstraint:
+            baseTableName: transaction
+            constraintName: fk_transaction_recurring_transaction
+        - dropColumn:
+            tableName: transaction
+            columnName: recurring_transaction_id
+        - dropColumn:
+            tableName: transaction
+            columnName: created_by_recurring_job

@@ -1,9 +1,9 @@
 package com.exence.finance.modules.transaction.mapper;
 
-import com.exence.finance.modules.transaction.dto.TransactionCreateDTO;
-import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
-import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
-import com.exence.finance.modules.transaction.entity.Transaction;
+import com.exence.finance.modules.transaction.dto.RecurringTransactionCreateDTO;
+import com.exence.finance.modules.transaction.dto.RecurringTransactionGetDTO;
+import com.exence.finance.modules.transaction.dto.RecurringTransactionPatchDTO;
+import com.exence.finance.modules.transaction.entity.RecurringTransaction;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -11,38 +11,34 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
-public interface TransactionMapper {
+public interface RecurringTransactionMapper {
 
     @Mapping(target = "categoryId", source = "category.id")
-    @Mapping(target = "recurringTransactionId", source = "recurringTransaction.id")
-    TransactionGetDTO mapToTransactionGetDTO(Transaction transaction);
+    RecurringTransactionGetDTO mapToGetDTO(RecurringTransaction recurringTransaction);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "currency", ignore = true)
-    @Mapping(target = "exchangeRate", ignore = true)
-    @Mapping(target = "baseCurrencyAmount", ignore = true)
-    @Mapping(target = "createdByRecurringJob", ignore = true)
-    @Mapping(target = "recurringTransaction", ignore = true)
+    @Mapping(target = "currentOccurrences", ignore = true)
+    @Mapping(target = "nextExecutionDate", ignore = true)
+    @Mapping(target = "active", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
-    Transaction mapToTransaction(TransactionCreateDTO transactionCreateDTO);
+    RecurringTransaction mapToEntity(RecurringTransactionCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "currency", ignore = true)
-    @Mapping(target = "exchangeRate", ignore = true)
-    @Mapping(target = "baseCurrencyAmount", ignore = true)
-    @Mapping(target = "createdByRecurringJob", ignore = true)
-    @Mapping(target = "recurringTransaction", ignore = true)
+    @Mapping(target = "currentOccurrences", ignore = true)
+    @Mapping(target = "nextExecutionDate", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "createdBy", ignore = true)
     @Mapping(target = "updatedBy", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateTransactionFromPatchDto(TransactionPatchDTO transactionPatchDTO, @MappingTarget Transaction transaction);
+    void updateFromPatchDTO(RecurringTransactionPatchDTO dto, @MappingTarget RecurringTransaction entity);
 }
