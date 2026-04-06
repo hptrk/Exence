@@ -3,6 +3,7 @@ package com.exence.finance.modules.transaction.repository;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,7 @@ public interface TransactionRepository
 
     @Query("SELECT t FROM Transaction t")
     List<Transaction> findAllUserFiltered();
+
+    @Query("SELECT COUNT(t) > 0 FROM Transaction t WHERE t.recurringTransaction.id = :rid AND t.date = :d")
+    boolean existsByRecurringTransactionAndDate(@Param("rid") Long recurringTransactionId, @Param("d") LocalDate date);
 }

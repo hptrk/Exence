@@ -1,6 +1,7 @@
 package com.exence.finance.modules.auth.entity;
 
 import static com.exence.finance.common.util.ValidationConstants.EMAIL_MAX_LENGTH;
+import static com.exence.finance.common.util.ValidationConstants.ROLE_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LENGTH;
 
 import com.exence.finance.modules.category.entity.Category;
@@ -9,6 +10,8 @@ import com.exence.finance.modules.transaction.entity.Transaction;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,6 +33,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @SuperBuilder
@@ -75,6 +79,11 @@ public class User implements UserDetails {
     @Column(name = "last_login_at")
     private Instant lastLoginAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = ROLE_MAX_LENGTH)
+    @Builder.Default
+    private Role role = Role.USER;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Transaction> transactions;
 
@@ -96,7 +105,7 @@ public class User implements UserDetails {
     // Spring Security UserDetails implementation
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

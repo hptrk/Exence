@@ -31,4 +31,4 @@ public record TransactionFilter(
                         fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
                         message = "{validation.transaction.amount.digits}")
                 BigDecimal amountTo,
-        Boolean recurring) {}
+        Boolean createdByRecurringJob) {}

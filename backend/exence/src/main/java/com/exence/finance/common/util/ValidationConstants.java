@@ -16,6 +16,7 @@ public final class ValidationConstants {
     public static final int EMAIL_MAX_LENGTH = 100;
     public static final String EMAIL_PATTERN =
             "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"; // extra strict regex
+    public static final int ROLE_MAX_LENGTH = 20;
 
     // Token validations
     public static final int TOKEN_MAX_LENGTH = 512;
@@ -56,6 +57,12 @@ public final class ValidationConstants {
     public static final int TRANSACTION_AMOUNT_FRACTION_DIGITS = 2;
     public static final int TRANSACTION_AMOUNT_PRECISION = 19; // integer + fraction
     public static final int TRANSACTION_NOTE_MAX_LENGTH = 500;
+
+    // Recurring transaction validations
+    public static final int RECURRING_DAY_OF_MONTH_MIN = 1;
+    public static final int RECURRING_DAY_OF_MONTH_MAX = 31;
+    public static final int RECURRING_INTERVAL_MIN = 1;
+    public static final int RECURRING_MAX_OCCURRENCES_MIN = 1;
 
     // Exchange rate validations
     public static final int EXCHANGE_RATE_INTEGER_DIGITS = 9;

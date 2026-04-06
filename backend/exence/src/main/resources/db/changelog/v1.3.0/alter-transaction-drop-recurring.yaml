@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-transaction-drop-recurring-column
+      author: hptrk
+      comment: >
+        Drop the legacy 'recurring' boolean column from the transaction table.
+        Replaced by 'created_by_recurring_job' and the 'recurring_transaction_id' FK.
+      dbms: postgresql
+      changes:
+        - dropColumn:
+            tableName: transaction
+            columnName: recurring
+
+      rollback:
+        - addColumn:
+            tableName: transaction
+            columns:
+              - column:
+                  name: recurring
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false

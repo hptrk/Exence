@@ -29,7 +29,6 @@ public record TransactionPatchDTO(
                         message = "{validation.transaction.amount.digits}")
                 BigDecimal amount,
         TransactionType type,
-        Boolean recurring,
         Long categoryId,
         SupportedCurrency currency,
         @DecimalMin(value = "0.0000000001") BigDecimal exchangeRate) {}

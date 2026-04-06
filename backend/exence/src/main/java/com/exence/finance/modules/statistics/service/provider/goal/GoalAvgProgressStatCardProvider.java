@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class GoalAvgProgressStatCardProvider implements GoalWidgetDataProvider {
 
+    private static final int DIVISION_SCALE = 4;
+    private static final int PERCENTAGE_MULTIPLIER = 100;
+
     private final GoalRepository goalRepository;
 
     @Override
@@ -31,8 +34,8 @@ public final class GoalAvgProgressStatCardProvider implements GoalWidgetDataProv
                 ? BigDecimal.ZERO
                 : activeGoals.stream()
                         .map(g -> g.getCurrentAmount()
-                                .divide(g.getTargetAmount(), 4, RoundingMode.HALF_UP)
-                                .multiply(BigDecimal.valueOf(100)))
+                                .divide(g.getTargetAmount(), DIVISION_SCALE, RoundingMode.HALF_UP)
+                                .multiply(BigDecimal.valueOf(PERCENTAGE_MULTIPLIER)))
                         .reduce(BigDecimal.ZERO, BigDecimal::add)
                         .divide(BigDecimal.valueOf(activeGoals.size()), 2, RoundingMode.HALF_UP);
 

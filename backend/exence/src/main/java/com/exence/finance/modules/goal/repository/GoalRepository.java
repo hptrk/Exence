@@ -35,11 +35,9 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     @Query("SELECT COALESCE(SUM(g.currentBaseCurrencyAmount), 0) FROM Goal g")
     BigDecimal sumCurrentBaseCurrencyAmount();
 
-    @Query("SELECT g FROM Goal g WHERE g.id IN :ids")
-    List<Goal> findExistingByIds(List<Long> ids);
-
     @Modifying
-    @Query(
-            "UPDATE Goal g SET g.status = :newStatus WHERE g.deadline IS NOT NULL AND g.deadline < :today AND g.status IN :activeStatuses")
+    @Query("UPDATE Goal g SET g.status = :newStatus " + "WHERE g.deadline IS NOT NULL "
+            + "AND g.deadline < :today "
+            + "AND g.status IN :activeStatuses")
     int expireOverdueGoals(GoalStatus newStatus, LocalDate today, List<GoalStatus> activeStatuses);
 }

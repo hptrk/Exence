@@ -25,6 +25,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class GoalProgressTrendProvider implements GoalWidgetDataProvider {
 
+    private static final int END_OF_DAY_HOUR = 23;
+    private static final int END_OF_DAY_MINUTE = 59;
+    private static final int END_OF_DAY_SECOND = 59;
+
     private final GoalRepository goalRepository;
     private final GoalProgressRepository goalProgressRepository;
 
@@ -50,7 +54,9 @@ public final class GoalProgressTrendProvider implements GoalWidgetDataProvider {
         YearMonth current = startMonth;
         while (!current.isAfter(endMonth)) {
             YearMonth month = current;
-            Instant monthEnd = month.atEndOfMonth().atTime(23, 59, 59).toInstant(ZoneOffset.UTC);
+            Instant monthEnd = month.atEndOfMonth()
+                    .atTime(END_OF_DAY_HOUR, END_OF_DAY_MINUTE, END_OF_DAY_SECOND)
+                    .toInstant(ZoneOffset.UTC);
 
             BigDecimal amountForMonth = history.stream()
                     .filter(h -> !h.getRecordedAt().isAfter(monthEnd))

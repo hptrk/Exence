@@ -3,6 +3,7 @@ package com.exence.finance.modules.auth.mapper;
 import com.exence.finance.modules.auth.dto.UserGetDTO;
 import com.exence.finance.modules.auth.dto.UserPatchDTO;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
+import com.exence.finance.modules.auth.entity.Role;
 import com.exence.finance.modules.auth.entity.User;
 import java.time.Instant;
 import org.mapstruct.AfterMapping;
@@ -24,10 +25,11 @@ public abstract class UserMapper {
     @Mapping(target = "username", source = "displayUsername")
     public abstract UserGetDTO mapToUserGetDto(User user);
 
-    @Mapping(target = "password", ignore = true) // aftermapping
-    @Mapping(target = "emailVerified", ignore = true) // aftermapping
-    @Mapping(target = "lastLoginAt", ignore = true) // aftermapping
+    @Mapping(target = "password", ignore = true) // AfterMapping
+    @Mapping(target = "emailVerified", ignore = true) // AfterMapping
+    @Mapping(target = "lastLoginAt", ignore = true) // AfterMapping
     @Mapping(target = "createdAt", ignore = true) // AfterMapping
+    @Mapping(target = "role", ignore = true) // AfterMapping
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "categories", ignore = true)
@@ -42,6 +44,7 @@ public abstract class UserMapper {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setEmailVerified(false);
         user.setLastLoginAt(Instant.now());
+        user.setRole(Role.USER);
         user.setCreatedAt(Instant.now());
     }
 
@@ -58,6 +61,7 @@ public abstract class UserMapper {
     @Mapping(target = "authorities", ignore = true)
     @Mapping(target = "settings", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "role", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     public abstract void updateUserFromPatchDto(UserPatchDTO userPatchDTO, @MappingTarget User user);
 }

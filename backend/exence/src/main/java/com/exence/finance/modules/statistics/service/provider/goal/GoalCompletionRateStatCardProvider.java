@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class GoalCompletionRateStatCardProvider implements GoalWidgetDataProvider {
 
+    private static final int DIVISION_SCALE = 4;
+    private static final int PERCENTAGE_MULTIPLIER = 100;
+
     private final GoalRepository goalRepository;
 
     @Override
@@ -29,8 +32,8 @@ public final class GoalCompletionRateStatCardProvider implements GoalWidgetDataP
         BigDecimal rate = total == 0
                 ? BigDecimal.ZERO
                 : BigDecimal.valueOf(completed)
-                        .divide(BigDecimal.valueOf(total), 4, RoundingMode.HALF_UP)
-                        .multiply(BigDecimal.valueOf(100))
+                        .divide(BigDecimal.valueOf(total), DIVISION_SCALE, RoundingMode.HALF_UP)
+                        .multiply(BigDecimal.valueOf(PERCENTAGE_MULTIPLIER))
                         .setScale(2, RoundingMode.HALF_UP);
 
         return new StatCardPayload(rate, "%", null, null, null, null, null);

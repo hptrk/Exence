@@ -23,6 +23,7 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "user-not-found"),
     CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "category-not-found"),
     TRANSACTION_NOT_FOUND(HttpStatus.NOT_FOUND, "transaction-not-found"),
+    RECURRING_TRANSACTION_NOT_FOUND(HttpStatus.NOT_FOUND, "recurring-transaction-not-found"),
     WIDGET_NOT_FOUND(HttpStatus.NOT_FOUND, "widget-not-found"),
     GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal-not-found"),
 

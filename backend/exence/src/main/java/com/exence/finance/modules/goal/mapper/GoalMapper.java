@@ -16,6 +16,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface GoalMapper {
 
+    int DIVISION_SCALE = 4;
+    int PERCENTAGE_MULTIPLIER = 100;
+
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "progressPercentage", source = "goal", qualifiedByName = "calculateProgressPercentage")
     GoalGetDTO mapToGetDTO(Goal goal);
@@ -57,9 +60,9 @@ public interface GoalMapper {
             return BigDecimal.ZERO;
         }
         BigDecimal percentage = goal.getCurrentAmount()
-                .divide(goal.getTargetAmount(), 4, RoundingMode.HALF_UP)
-                .multiply(BigDecimal.valueOf(100))
+                .divide(goal.getTargetAmount(), DIVISION_SCALE, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.valueOf(PERCENTAGE_MULTIPLIER))
                 .setScale(2, RoundingMode.HALF_UP);
-        return percentage.min(BigDecimal.valueOf(100));
+        return percentage.min(BigDecimal.valueOf(PERCENTAGE_MULTIPLIER));
     }
 }

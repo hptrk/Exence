@@ -22,6 +22,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class GoalTotalSavedThisYearStatCardProvider implements GoalWidgetDataProvider {
 
+    private static final int END_OF_DAY_HOUR = 23;
+    private static final int END_OF_DAY_MINUTE = 59;
+    private static final int END_OF_DAY_SECOND = 59;
+    private static final int CONVERSION_DIVISION_SCALE = 10;
+
     private final GoalRepository goalRepository;
     private final GoalProgressRepository goalProgressRepository;
     private final ProviderHelper providerHelper;
@@ -55,7 +60,8 @@ public final class GoalTotalSavedThisYearStatCardProvider implements GoalWidgetD
 
         List<Long> goalIds = allGoals.stream().map(Goal::getId).toList();
         Instant periodStart = startDate.atStartOfDay().toInstant(ZoneOffset.UTC);
-        Instant periodEnd = endDate.atTime(23, 59, 59).toInstant(ZoneOffset.UTC);
+        Instant periodEnd = endDate.atTime(END_OF_DAY_HOUR, END_OF_DAY_MINUTE, END_OF_DAY_SECOND)
+                .toInstant(ZoneOffset.UTC);
 
         List<GoalProgressHistory> periodRecords =
                 goalProgressRepository.findAllInPeriodForGoals(goalIds, periodStart, periodEnd);
@@ -78,7 +84,7 @@ public final class GoalTotalSavedThisYearStatCardProvider implements GoalWidgetD
                 // convert to base currency using goal's current base/native ratio
                 if (goal.getCurrentAmount().compareTo(BigDecimal.ZERO) > 0) {
                     BigDecimal conversionRate = goal.getCurrentBaseCurrencyAmount()
-                            .divide(goal.getCurrentAmount(), 10, RoundingMode.HALF_UP);
+                            .divide(goal.getCurrentAmount(), CONVERSION_DIVISION_SCALE, RoundingMode.HALF_UP);
                     totalSaved = totalSaved.add(gain.multiply(conversionRate));
                 } else {
                     totalSaved = totalSaved.add(gain);
