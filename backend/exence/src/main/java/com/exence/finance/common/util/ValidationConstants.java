@@ -41,6 +41,13 @@ public final class ValidationConstants {
     public static final int CATEGORY_COLOR_MAX_LENGTH = 7; // #RRGGBB format
     public static final int CATEGORY_NOTE_MAX_LENGTH = 500;
 
+    // Goal validations
+    public static final int GOAL_TITLE_MIN_LENGTH = 1;
+    public static final int GOAL_TITLE_MAX_LENGTH = 100;
+    public static final int GOAL_DESCRIPTION_MAX_LENGTH = 500;
+    public static final String GOAL_AMOUNT_MIN = "0.01";
+    public static final String GOAL_CURRENT_AMOUNT_MIN = "0.00";
+
     // Transaction validations
     public static final int TRANSACTION_TITLE_MIN_LENGTH = 1;
     public static final int TRANSACTION_TITLE_MAX_LENGTH = 100;

@@ -18,6 +18,8 @@ exence:
   logout-from-all-devices: false
   password-history-count: 3
   secure-cookie: false # default for dev, overridden by profiles
+  goals:
+    check-expired-cron: "0 0 0 * * *"
 
 external-apis:
   frankfurter:

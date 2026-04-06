@@ -6573,6 +6573,362 @@ databaseChangeLog:
               - column: { name: rows, valueNumeric: 1 }
               - column: { name: user_id, valueNumeric: 1 }
 
+        # Goals
+        # Goal 1: Smart TV - COMPLETED (HUF, Shopping)
+        - insert:
+            tableName: goal
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: title, value: 'Smart TV' }
+              - column: { name: description, value: 'Samsung 65" QLED TV' }
+              - column: { name: target_amount, valueNumeric: 350000.00 }
+              - column: { name: current_amount, valueNumeric: 350000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: target_base_currency_amount, valueNumeric: 350000.00 }
+              - column: { name: current_base_currency_amount, valueNumeric: 350000.00 }
+              - column: { name: deadline, valueDate: '2025-12-31' }
+              - column: { name: status, value: 'COMPLETED' }
+              - column: { name: category_id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '450 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '220 days' + TIME '14:30')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Goal 2: American holiday - ACTIVE ~46% (USD, Entertainment)
+        - insert:
+            tableName: goal
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: title, value: 'American holiday' }
+              - column: { name: description, value: 'New York and New Jersey - flight, hotel, programs' }
+              - column: { name: target_amount, valueNumeric: 5000.00 }
+              - column: { name: current_amount, valueNumeric: 2300.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: target_base_currency_amount, valueNumeric: 1850000.00 }
+              - column: { name: current_base_currency_amount, valueNumeric: 851000.00 }
+              - column: { name: deadline, valueDate: '2026-08-01' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '210 days' + TIME '09:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '11:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Goal 3: New car - ACTIVE ~90% (HUF, Transportation)
+        - insert:
+            tableName: goal
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: title, value: 'New car' }
+              - column: { name: description, value: 'Toyota Corolla 2024 - first car' }
+              - column: { name: target_amount, valueNumeric: 8000000.00 }
+              - column: { name: current_amount, valueNumeric: 7200000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: target_base_currency_amount, valueNumeric: 8000000.00 }
+              - column: { name: current_base_currency_amount, valueNumeric: 7200000.00 }
+              - column: { name: deadline, valueDate: '2026-06-30' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '700 days' + TIME '08:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '85 days' + TIME '16:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Goal 4: House - PAUSED ~15% (HUF, Rent)
+        - insert:
+            tableName: goal
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: title, value: 'House' }
+              - column: { name: description, value: 'Saving for a down payment on a home - Budapest metropolitan area' }
+              - column: { name: target_amount, valueNumeric: 30000000.00 }
+              - column: { name: current_amount, valueNumeric: 4500000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: target_base_currency_amount, valueNumeric: 30000000.00 }
+              - column: { name: current_base_currency_amount, valueNumeric: 4500000.00 }
+              - column: { name: deadline, valueDate: '2030-06-01' }
+              - column: { name: status, value: 'PAUSED' }
+              - column: { name: category_id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '820 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '280 days' + TIME '09:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Goal 5: iPhone 16 Pro - EXPIRED (HUF, Shopping, Expired)
+        - insert:
+            tableName: goal
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: title, value: 'iPhone 16 Pro' }
+              - column: { name: description, value: 'New smartphone - deadline for sale end' }
+              - column: { name: target_amount, valueNumeric: 600000.00 }
+              - column: { name: current_amount, valueNumeric: 120000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: target_base_currency_amount, valueNumeric: 600000.00 }
+              - column: { name: current_base_currency_amount, valueNumeric: 120000.00 }
+              - column: { name: deadline, valueDate: '2025-03-31' }
+              - column: { name: status, value: 'EXPIRED' }
+              - column: { name: category_id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '540 days' + TIME '12:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '370 days' + TIME '07:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Goal 6: Emergency fund - ACTIVE ~35% (HUF, Investments, no deadline)
+        - insert:
+            tableName: goal
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: title, value: 'Emergency fund' }
+              - column: { name: description, value: '3 month emergency fund for unexpected expenses' }
+              - column: { name: target_amount, valueNumeric: 2000000.00 }
+              - column: { name: current_amount, valueNumeric: 700000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: target_base_currency_amount, valueNumeric: 2000000.00 }
+              - column: { name: current_base_currency_amount, valueNumeric: 700000.00 }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 11 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '280 days' + TIME '09:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '10:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Goal Progress History
+        # Goal 1 (Smart TV, COMPLETED): relative 15 -> 7 months ago.
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: goal_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: 0.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '450 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: goal_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: 55000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '420 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: goal_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: 130000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '365 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: goal_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: 220000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '300 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: goal_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: 300000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '250 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: goal_id, valueNumeric: 1 }
+              - column: { name: amount, valueNumeric: 350000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '220 days' + TIME '14:30')::timestamptz" }
+
+        # Goal 2 (American holiday, ACTIVE ~46%): relative 7 months ago -> this week.
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 7 }
+              - column: { name: goal_id, valueNumeric: 2 }
+              - column: { name: amount, valueNumeric: 0.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '210 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 8 }
+              - column: { name: goal_id, valueNumeric: 2 }
+              - column: { name: amount, valueNumeric: 500.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '180 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 9 }
+              - column: { name: goal_id, valueNumeric: 2 }
+              - column: { name: amount, valueNumeric: 950.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '120 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 10 }
+              - column: { name: goal_id, valueNumeric: 2 }
+              - column: { name: amount, valueNumeric: 1650.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '60 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 11 }
+              - column: { name: goal_id, valueNumeric: 2 }
+              - column: { name: amount, valueNumeric: 2300.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '11:00')::timestamptz" }
+
+        # Goal 3 (New car, ACTIVE ~90%): relative 23 months ago -> 3 months ago.
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 12 }
+              - column: { name: goal_id, valueNumeric: 3 }
+              - column: { name: amount, valueNumeric: 0.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '700 days' + TIME '08:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 13 }
+              - column: { name: goal_id, valueNumeric: 3 }
+              - column: { name: amount, valueNumeric: 1500000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '610 days' + TIME '08:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 14 }
+              - column: { name: goal_id, valueNumeric: 3 }
+              - column: { name: amount, valueNumeric: 3000000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '520 days' + TIME '08:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 15 }
+              - column: { name: goal_id, valueNumeric: 3 }
+              - column: { name: amount, valueNumeric: 4800000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '400 days' + TIME '08:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 16 }
+              - column: { name: goal_id, valueNumeric: 3 }
+              - column: { name: amount, valueNumeric: 6200000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '250 days' + TIME '08:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 17 }
+              - column: { name: goal_id, valueNumeric: 3 }
+              - column: { name: amount, valueNumeric: 7200000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '85 days' + TIME '16:00')::timestamptz" }
+
+        # Goal 4 (House, PAUSED ~15%): relative 27 months ago -> 9 months ago.
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 18 }
+              - column: { name: goal_id, valueNumeric: 4 }
+              - column: { name: amount, valueNumeric: 0.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '820 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 19 }
+              - column: { name: goal_id, valueNumeric: 4 }
+              - column: { name: amount, valueNumeric: 800000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '730 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 20 }
+              - column: { name: goal_id, valueNumeric: 4 }
+              - column: { name: amount, valueNumeric: 2000000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '610 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 21 }
+              - column: { name: goal_id, valueNumeric: 4 }
+              - column: { name: amount, valueNumeric: 3500000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '490 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 22 }
+              - column: { name: goal_id, valueNumeric: 4 }
+              - column: { name: amount, valueNumeric: 4500000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '280 days' + TIME '09:00')::timestamptz" }
+
+        # Goal 5 (iPhone 16 Pro, EXPIRED): relative 18 -> 14 months ago.
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 23 }
+              - column: { name: goal_id, valueNumeric: 5 }
+              - column: { name: amount, valueNumeric: 0.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '540 days' + TIME '12:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 24 }
+              - column: { name: goal_id, valueNumeric: 5 }
+              - column: { name: amount, valueNumeric: 30000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '510 days' + TIME '12:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 25 }
+              - column: { name: goal_id, valueNumeric: 5 }
+              - column: { name: amount, valueNumeric: 75000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '470 days' + TIME '12:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 26 }
+              - column: { name: goal_id, valueNumeric: 5 }
+              - column: { name: amount, valueNumeric: 120000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '430 days' + TIME '12:00')::timestamptz" }
+
+        # Goal 6 (Emergency fund, ACTIVE ~35%): relative 9 months ago -> this week.
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 27 }
+              - column: { name: goal_id, valueNumeric: 6 }
+              - column: { name: amount, valueNumeric: 0.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '280 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 28 }
+              - column: { name: goal_id, valueNumeric: 6 }
+              - column: { name: amount, valueNumeric: 100000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '220 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 29 }
+              - column: { name: goal_id, valueNumeric: 6 }
+              - column: { name: amount, valueNumeric: 300000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '160 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 30 }
+              - column: { name: goal_id, valueNumeric: 6 }
+              - column: { name: amount, valueNumeric: 550000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '80 days' + TIME '09:00')::timestamptz" }
+        - insert:
+            tableName: goal_progress_history
+            columns:
+              - column: { name: id, valueNumeric: 31 }
+              - column: { name: goal_id, valueNumeric: 6 }
+              - column: { name: amount, valueNumeric: 700000.00 }
+              - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '10:00')::timestamptz" }
+
         # Reset sequences to continue from the max ID in test data
         - sql:
             sql: SELECT setval('user_id_seq', (SELECT COALESCE(MAX(id), 1) FROM _user));
@@ -6590,4 +6946,8 @@ databaseChangeLog:
             sql: SELECT setval('user_settings_id_seq', (SELECT COALESCE(MAX(id), 1) FROM user_settings));
         - sql:
             sql: SELECT setval('widget_id_seq', (SELECT COALESCE(MAX(id), 1) FROM widget));
+        - sql:
+            sql: SELECT setval('goal_id_seq', (SELECT COALESCE(MAX(id), 1) FROM goal));
+        - sql:
+            sql: SELECT setval('goal_progress_history_id_seq', (SELECT COALESCE(MAX(id), 1) FROM goal_progress_history));
 

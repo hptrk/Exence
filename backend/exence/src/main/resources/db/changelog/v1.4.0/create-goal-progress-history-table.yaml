@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-goal-progress-history-table
+      author: hptrk
+      comment: Create goal_progress_history table to track goal progress over time
+      changes:
+        - createTable:
+            tableName: goal_progress_history
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_goal_progress_history
+                    nullable: false
+              - column:
+                  name: goal_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recorded_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  defaultValueComputed: now()
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: goal_progress_history
+            baseColumnNames: goal_id
+            constraintName: fk_goal_progress_history_goal
+            referencedTableName: goal
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - createIndex:
+            tableName: goal_progress_history
+            indexName: idx_goal_progress_history_goal_id_recorded_at
+            columns:
+              - column:
+                  name: goal_id
+              - column:
+                  name: recorded_at
+
+      rollback:
+        - dropTable:
+            tableName: goal_progress_history

@@ -16,6 +16,10 @@ databaseChangeLog:
       file: v1.3.0/changelog-v1.3.0.yaml
       relativeToChangelogFile: true
 
+  - include:
+      file: v1.4.0/changelog-v1.4.0.yaml
+      relativeToChangelogFile: true
+
   # Test data
   - include:
       file: data/test-data.yaml

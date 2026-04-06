@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+      file: create-goal-sequences.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-goal-status-enum.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-goal-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-goal-progress-history-table.yaml
+      relativeToChangelogFile: true
