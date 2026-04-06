@@ -2,3 +2,7 @@ databaseChangeLog:
   - include:
       file: add-created-at-to-user.yaml
       relativeToChangelogFile: true
+
+  - include:
+      file: add-role-to-user.yaml
+      relativeToChangelogFile: true
