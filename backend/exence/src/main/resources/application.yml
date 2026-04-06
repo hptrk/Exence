@@ -10,6 +10,7 @@ exence:
     verification-required-paths:
       - /api/statistics
       - /api/goals
+      - /api/debts
     rate-limiting:
       enabled: true
       cooldown-minutes-between-sends: 2
@@ -21,6 +22,8 @@ exence:
   password-history-count: 3
   secure-cookie: false # default for dev, overridden by profiles
   goals:
+    check-expired-cron: "0 0 0 * * *"
+  debts:
     check-expired-cron: "0 0 0 * * *"
 
 external-apis:

@@ -7691,6 +7691,443 @@ databaseChangeLog:
               - column: { name: amount, valueNumeric: 700000.00 }
               - column: { name: recorded_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '10:00')::timestamptz" }
 
+        # Debts
+        # Debt 1: Apartment rent loan - BORROWED, ACTIVE (HUF, Rent)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: title, value: 'Apartment rent loan' }
+              - column: { name: counterparty_name, value: 'Jackson Hayes' }
+              - column: { name: original_amount, valueNumeric: 150000.00 }
+              - column: { name: remaining_amount, valueNumeric: 50000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 150000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 50000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '90 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '60 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '15 days' + TIME '14:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 2: Car repair - BORROWED, SETTLED (HUF, Transportation)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: title, value: 'Car repair' }
+              - column: { name: counterparty_name, value: 'Lucas Bennett Kft.' }
+              - column: { name: original_amount, valueNumeric: 85000.00 }
+              - column: { name: remaining_amount, valueNumeric: 0.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 85000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 0.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE - INTERVAL '10 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'SETTLED' }
+              - column: { name: category_id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '90 days' + TIME '09:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '10 days' + TIME '11:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 3: Computer - BORROWED, EXPIRED (HUF, Shopping)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: title, value: 'Computer' }
+              - column: { name: counterparty_name, value: 'Abigail Foster' }
+              - column: { name: original_amount, valueNumeric: 320000.00 }
+              - column: { name: remaining_amount, valueNumeric: 320000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 320000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 320000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE - INTERVAL '5 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'EXPIRED' }
+              - column: { name: category_id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '120 days' + TIME '08:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '00:01')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 4: Wedding gift - BORROWED, FORGIVEN (HUF, Entertainment)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: title, value: 'Wedding gift' }
+              - column: { name: counterparty_name, value: 'Aurora Sterling' }
+              - column: { name: original_amount, valueNumeric: 25000.00 }
+              - column: { name: remaining_amount, valueNumeric: 25000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 25000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 25000.00 }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'FORGIVEN' }
+              - column: { name: category_id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '200 days' + TIME '15:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '100 days' + TIME '12:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 5: Utility bills - BORROWED, ACTIVE (HUF, Utilities)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: title, value: 'Utility bills' }
+              - column: { name: counterparty_name, value: 'Miles Harrison' }
+              - column: { name: original_amount, valueNumeric: 42000.00 }
+              - column: { name: remaining_amount, valueNumeric: 12000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 42000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 12000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '30 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 4 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '45 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '7 days' + TIME '16:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 6: Dinner with friends - BORROWED, ACTIVE (HUF, Dining Out)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: title, value: 'Dinner with friends' }
+              - column: { name: counterparty_name, value: 'Penelope Vance' }
+              - column: { name: original_amount, valueNumeric: 18000.00 }
+              - column: { name: remaining_amount, valueNumeric: 9000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 18000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 9000.00 }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 5 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '20:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '15 days' + TIME '09:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 7: Vacation deposit - BORROWED, ACTIVE (HUF, Entertainment)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 7 }
+              - column: { name: title, value: 'Vacation deposit' }
+              - column: { name: counterparty_name, value: 'Gianna Rhodes' }
+              - column: { name: original_amount, valueNumeric: 65000.00 }
+              - column: { name: remaining_amount, valueNumeric: 65000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 65000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 65000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '60 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '20 days' + TIME '11:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '20 days' + TIME '11:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 8: Sports equipment - BORROWED, ACTIVE (HUF, Shopping)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 8 }
+              - column: { name: title, value: 'Sports equipment' }
+              - column: { name: counterparty_name, value: 'Caleb Montgomery' }
+              - column: { name: original_amount, valueNumeric: 55000.00 }
+              - column: { name: remaining_amount, valueNumeric: 55000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 55000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 55000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '45 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '10 days' + TIME '13:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '10 days' + TIME '13:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 9: Consultation fee - BORROWED, ACTIVE (EUR, Investments)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 9 }
+              - column: { name: title, value: 'Consultation fee' }
+              - column: { name: counterparty_name, value: 'Tech Solutions Zrt.' }
+              - column: { name: original_amount, valueNumeric: 800.00 }
+              - column: { name: remaining_amount, valueNumeric: 800.00 }
+              - column: { name: currency, value: 'EUR' }
+              - column: { name: original_base_currency_amount, valueNumeric: 320000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 320000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '120 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 11 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '14 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '14 days' + TIME '10:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 10: Conference fee - BORROWED, ACTIVE (EUR, Entertainment)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 10 }
+              - column: { name: title, value: 'Conference fee' }
+              - column: { name: counterparty_name, value: 'Clara Dawson' }
+              - column: { name: original_amount, valueNumeric: 300.00 }
+              - column: { name: remaining_amount, valueNumeric: 150.00 }
+              - column: { name: currency, value: 'EUR' }
+              - column: { name: original_base_currency_amount, valueNumeric: 120000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 60000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '30 days')" }
+              - column: { name: type, value: 'BORROWED' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '50 days' + TIME '09:30')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '20 days' + TIME '15:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 11: Loan to friend - LENT, ACTIVE (HUF, Investments)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 11 }
+              - column: { name: title, value: 'Loan to friend' }
+              - column: { name: counterparty_name, value: 'Richard Michael' }
+              - column: { name: original_amount, valueNumeric: 200000.00 }
+              - column: { name: remaining_amount, valueNumeric: 100000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 200000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 100000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '60 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 11 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '80 days' + TIME '14:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '10:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 12: Laptop advance - LENT, SETTLED (HUF, Shopping)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 12 }
+              - column: { name: title, value: 'Laptop advance' }
+              - column: { name: counterparty_name, value: 'Parker Brooks' }
+              - column: { name: original_amount, valueNumeric: 75000.00 }
+              - column: { name: remaining_amount, valueNumeric: 0.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 75000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 0.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE - INTERVAL '20 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'SETTLED' }
+              - column: { name: category_id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '100 days' + TIME '09:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '20 days' + TIME '16:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 13: Old debt - LENT, EXPIRED (HUF, Investments)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 13 }
+              - column: { name: title, value: 'Old debt' }
+              - column: { name: counterparty_name, value: 'Dominic Thorne' }
+              - column: { name: original_amount, valueNumeric: 45000.00 }
+              - column: { name: remaining_amount, valueNumeric: 45000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 45000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 45000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE - INTERVAL '30 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'EXPIRED' }
+              - column: { name: category_id, valueNumeric: 11 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '180 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '00:01')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 14: Shared trip - LENT, FORGIVEN (HUF, Entertainment)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 14 }
+              - column: { name: title, value: 'Shared trip' }
+              - column: { name: counterparty_name, value: 'Weston Cole' }
+              - column: { name: original_amount, valueNumeric: 30000.00 }
+              - column: { name: remaining_amount, valueNumeric: 30000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 30000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 30000.00 }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'FORGIVEN' }
+              - column: { name: category_id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '150 days' + TIME '18:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '60 days' + TIME '12:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 15: Office equipment - LENT, ACTIVE (HUF, Shopping)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 15 }
+              - column: { name: title, value: 'Office equipment' }
+              - column: { name: counterparty_name, value: 'Global Trade Ltd.' }
+              - column: { name: original_amount, valueNumeric: 120000.00 }
+              - column: { name: remaining_amount, valueNumeric: 60000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 120000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 60000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '90 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '40 days' + TIME '08:30')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '10 days' + TIME '11:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 16: Weekend accommodation - LENT, ACTIVE (HUF, Entertainment)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 16 }
+              - column: { name: title, value: 'Weekend accommodation' }
+              - column: { name: counterparty_name, value: 'Weston Cole' }
+              - column: { name: original_amount, valueNumeric: 35000.00 }
+              - column: { name: remaining_amount, valueNumeric: 35000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 35000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 35000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '15 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '25 days' + TIME '17:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '25 days' + TIME '17:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 17: Washing machine - LENT, ACTIVE (HUF, Shopping)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 17 }
+              - column: { name: title, value: 'Washing machine' }
+              - column: { name: counterparty_name, value: 'Dominic Thorne' }
+              - column: { name: original_amount, valueNumeric: 180000.00 }
+              - column: { name: remaining_amount, valueNumeric: 90000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 180000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 90000.00 }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '70 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '35 days' + TIME '14:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 18: Tuition fee - LENT, ACTIVE (HUF, Entertainment)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 18 }
+              - column: { name: title, value: 'Tuition fee' }
+              - column: { name: counterparty_name, value: 'Silas Crawford' }
+              - column: { name: original_amount, valueNumeric: 95000.00 }
+              - column: { name: remaining_amount, valueNumeric: 95000.00 }
+              - column: { name: currency, value: 'HUF' }
+              - column: { name: original_base_currency_amount, valueNumeric: 95000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 95000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '180 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '09:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '5 days' + TIME '09:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 19: Software license - LENT, ACTIVE (EUR, Investments)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 19 }
+              - column: { name: title, value: 'Software license' }
+              - column: { name: counterparty_name, value: 'Digital Hub Zrt.' }
+              - column: { name: original_amount, valueNumeric: 500.00 }
+              - column: { name: remaining_amount, valueNumeric: 250.00 }
+              - column: { name: currency, value: 'EUR' }
+              - column: { name: original_base_currency_amount, valueNumeric: 200000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 100000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '60 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 11 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '35 days' + TIME '11:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '12 days' + TIME '15:30')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
+        # Debt 20: Expert consulting - LENT, ACTIVE (EUR, Investments)
+        - insert:
+            tableName: debt
+            columns:
+              - column: { name: id, valueNumeric: 20 }
+              - column: { name: title, value: 'Expert consulting' }
+              - column: { name: counterparty_name, value: 'Piper Rose' }
+              - column: { name: original_amount, valueNumeric: 1200.00 }
+              - column: { name: remaining_amount, valueNumeric: 1200.00 }
+              - column: { name: currency, value: 'EUR' }
+              - column: { name: original_base_currency_amount, valueNumeric: 480000.00 }
+              - column: { name: remaining_base_currency_amount, valueNumeric: 480000.00 }
+              - column: { name: deadline, valueComputed: "(CURRENT_DATE + INTERVAL '90 days')" }
+              - column: { name: type, value: 'LENT' }
+              - column: { name: status, value: 'ACTIVE' }
+              - column: { name: category_id, valueNumeric: 11 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '8 days' + TIME '14:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '8 days' + TIME '14:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
         # Reset sequences to continue from the max ID in test data
         - sql:
             sql: SELECT setval('user_id_seq', (SELECT COALESCE(MAX(id), 1) FROM _user));
@@ -7714,4 +8151,6 @@ databaseChangeLog:
             sql: SELECT setval('goal_id_seq', (SELECT COALESCE(MAX(id), 1) FROM goal));
         - sql:
             sql: SELECT setval('goal_progress_history_id_seq', (SELECT COALESCE(MAX(id), 1) FROM goal_progress_history));
+        - sql:
+            sql: SELECT setval('debt_id_seq', (SELECT COALESCE(MAX(id), 1) FROM debt));
 

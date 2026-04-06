@@ -26,6 +26,7 @@ public enum ErrorCode {
     RECURRING_TRANSACTION_NOT_FOUND(HttpStatus.NOT_FOUND, "recurring-transaction-not-found"),
     WIDGET_NOT_FOUND(HttpStatus.NOT_FOUND, "widget-not-found"),
     GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal-not-found"),
+    DEBT_NOT_FOUND(HttpStatus.NOT_FOUND, "debt-not-found"),
 
     // 409 - Conflict
     EMAIL_ALREADY_IN_USE(HttpStatus.CONFLICT, "email-already-in-use"),
@@ -39,6 +40,8 @@ public enum ErrorCode {
     INVALID_WIDGET_SETTING(HttpStatus.BAD_REQUEST, "invalid-widget-setting"),
     ADMIN_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "admin-widget-type-not-supported"),
     GOAL_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "goal-widget-type-not-supported"),
+    DEBT_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "debt-widget-type-not-supported"),
+    DEBT_PAYMENT_EXCEEDS_REMAINING(HttpStatus.BAD_REQUEST, "debt-payment-exceeds-remaining"),
     INVALID_GOAL_SETTING(HttpStatus.BAD_REQUEST, "invalid-goal-setting"),
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "validation-error"),
     ILLEGAL_ARGUMENT(HttpStatus.BAD_REQUEST, "illegal-argument"),
