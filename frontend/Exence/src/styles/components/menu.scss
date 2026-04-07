@@ -36,6 +36,10 @@ div.mat-mdc-menu-panel {
 		&:hover {
 			background-color: var(--app-hover-color);
 			color: var(--secondary-text-color);
+
+			mat-icon {
+				color: var(--secondary-text-color);
+			}
 		}
 	}
 }

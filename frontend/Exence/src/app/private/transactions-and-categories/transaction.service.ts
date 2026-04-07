@@ -38,18 +38,6 @@ export class TransactionService {
 		return this.list({ type: TransactionType.EXPENSE }, pageIndex);
 	}
 
-	public listRecurrings(pageIndex = 0): Promise<PagedResponse<TransactionGet>> {
-		return this.list({ recurring: true }, pageIndex);
-	}
-
-	public listRecurringIncomes(pageIndex = 0): Promise<PagedResponse<TransactionGet>> {
-		return this.list({ recurring: true, type: TransactionType.INCOME }, pageIndex);
-	}
-
-	public listRecurringExpenses(pageIndex = 0): Promise<PagedResponse<TransactionGet>> {
-		return this.list({ recurring: true, type: TransactionType.EXPENSE }, pageIndex);
-	}
-
 	public totals(): Promise<TransactionTotalsResponse> {
 		return lastValueFrom(this.http.get<TransactionTotalsResponse>(`${this.baseUrl}/totals`));
 	}

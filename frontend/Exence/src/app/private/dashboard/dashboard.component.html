@@ -57,36 +57,30 @@
 			</div>
 		}
 
-		@if (display.isMd()) {
-			<div class="row gap-4 gap-lg-0 h-100 overflow-hidden">
-				<ex-data-table
-					class="col-12 col-lg-6"
+		@if (display.isLg()) {
+			<div class="d-flex flex-row flex-nowrap gap-4 h-100 overflow-hidden">
+				<ex-transaction-list
+					class="flex-grow-1"
 					matIcon="money_off"
-					[transactions]="transactionStore.expenses()"
-					[isDataLoading]="transactionStore.expenseResource.isLoading()"
 					[title]="'literals.expenses' | translate"
 					[type]="transactionTypes.EXPENSE"
-					(onScroll)="onScroll(transactionTypes.EXPENSE)"
+					nonExpandable
 				/>
-				<ex-data-table
-					class="col-12 col-lg-6"
+				<ex-transaction-list
+					class="flex-grow-1"
 					matIcon="attach_money"
-					[transactions]="transactionStore.incomes()"
-					[isDataLoading]="transactionStore.incomeResource.isLoading()"
 					[title]="'literals.income' | translate"
 					[type]="transactionTypes.INCOME"
-					(onScroll)="onScroll(transactionTypes.INCOME)"
+					nonExpandable
 				/>
 			</div>
 		} @else {
 			<div class="d-flex flex-column gap-4 align-items-center h-100">
-				<ex-data-table
+				<ex-transaction-list
 					class="w-100"
 					matIcon="attach_money"
-					[transactions]="transactionStore.transactions()"
-					[isDataLoading]="transactionStore.transactionResource.isLoading()"
 					[title]="'literals.transactions' | translate"
-					(onScroll)="onScroll()"
+					nonExpandable
 				/>
 				<ng-container [ngTemplateOutlet]="mobileButtons" />
 			</div>

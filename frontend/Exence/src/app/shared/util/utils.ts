@@ -3,11 +3,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AbstractControl } from '@angular/forms';
 import { ParamMap } from '@angular/router';
 import { map } from 'rxjs';
+import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
+import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayload';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
-import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayload';
-import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
 
 export function toRawValueSignal<T>(control: AbstractControl<unknown, T>): Signal<T> {
 	return toSignal(control.valueChanges.pipe(map(() => control.getRawValue() as T)), {
@@ -34,7 +34,8 @@ export function mapToTransactionFilter(queryParam: ParamMap): TransactionFilter 
 	if (queryParam.get('type')) filter.type = queryParam.get('type')! as TransactionType;
 	if (queryParam.get('amountFrom')) filter.amountFrom = parseFloat(queryParam.get('amountFrom')!);
 	if (queryParam.get('amountTo')) filter.amountTo = parseFloat(queryParam.get('amountTo')!);
-	if (queryParam.get('recurring')) filter.recurring = queryParam.get('recurring') === 'true';
+	if (queryParam.get('createdByRecurringJob'))
+		filter.createdByRecurringJob = queryParam.get('createdByRecurringJob') === 'true';
 	return filter;
 }
 

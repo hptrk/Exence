@@ -40,7 +40,77 @@
 		"noCategories": "First create a category!",
 		"addTransaction": "Add transaction",
 		"search": "Search...",
-		"dateRange": "Enter a date range"
+		"dateRange": "Enter a date range",
+		"title": "Title",
+		"date": "Date"
+	},
+	"recurring": {
+		"info": "Submiting this will <strong>NOT</strong> add a transaction instantly.<br><br>The first transaction created will be scheduled for the given start date. If you have given the start date to be today, you will see your transaction created tomorrow (still assinged for today).",
+		"featureDisabledByRecurring": "This feature is not available for recurring transactions.",
+		"interval": "Repeat every",
+		"frequency": {
+			"WEEKLY": "week",
+			"MONTHLY": "month",
+			"YEARLY": "year"
+		},
+		"dayOfWeek": {
+			"label": "On this day",
+			"MONDAY": {
+				"full": "Monday",
+				"short": "M"
+			},
+			"TUESDAY": {
+				"full": "Tuesday",
+				"short": "T"
+			},
+			"WEDNESDAY": {
+				"full": "Wednesday",
+				"short": "W"
+			},
+			"THURSDAY": {
+				"full": "Thursday",
+				"short": "T"
+			},
+			"FRIDAY": {
+				"full": "Friday",
+				"short": "F"
+			},
+			"SATURDAY": {
+				"full": "Saturday",
+				"short": "S"
+			},
+			"SUNDAY": {
+				"full": "Sunday",
+				"short": "S"
+			}
+		},
+		"dayOfMonth": "On this date",
+		"ends": {
+			"label": "Ends:",
+			"endCondition": {
+				"NEVER": "Never",
+				"UNTIL_DATE": "On a date",
+				"AFTER_OCCURRENCES": "Occurrences"
+			}
+		},
+		"startDate": "Starting on",
+		"endDate": "Ending on this date",
+		"maxOccurrences": "Max occurrences",
+		"createInfo": "Recurring transaction '{{title}}' created successfully!",
+		"updateInfo": "Recurring transaction '{{title}}' updated successfully!",
+		"deleteInfo": "Recurring transaction deleted successfully!",
+		"details": {
+			"frequency": {
+				"label": "Frequency",
+				"WEEKLY": "{{interval}} x every week",
+				"MONTHLY": "{{interval}} x every month",
+				"YEARLY": "{{interval}} x every year"
+			},
+			"nextExecution": "Next execution date",
+			"currentOccurrence": "Occurrence count"
+		},
+		"title": "Title",
+		"nextExecutionLabel": "Next"
 	},
 	"categories": {
 		"topCategories": "Top categories",
@@ -434,7 +504,7 @@
 		"title": "Title",
 		"date": "Date",
 		"note": "Note",
-		"recurring": "Automatically recurring?",
+		"recurring": "Auto. created?",
 		"name": "Name",
 		"icon": "Icon",
 		"type": "Type",
@@ -453,7 +523,8 @@
 			"logged": "Amount in logged currency",
 			"base": "Amount in base currency"
 		},
-		"exchangeRate": "Exchange rate"
+		"exchangeRate": "Exchange rate",
+		"createdAt": "Created at:"
 	},
 	"filterMenu": {
 		"title": "Filters",
@@ -495,7 +566,11 @@
 		"min": "Min value is {{min}}!",
 		"max": "Max value is {{max}}!",
 		"filledArray": "You have to choose minimum 1 value!",
-		"theme": "You must choose two different themes!"
+		"theme": "You must choose two different themes!",
+		"dayOfWeekRequired": "You must select the day of the week!",
+		"dayOfMonthRequired": "You must select a day of the month!",
+		"endDateRequired": "End date required!",
+		"matDatepickerFilter": "Date should match the recurrence pattern and should not be in the past!"
 	},
 	"confirmExit": {
 		"title": "Unsaved changes",

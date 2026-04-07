@@ -10,7 +10,9 @@ export interface ExchangeRateRequest {
 	date: Date;
 }
 
-@Injectable()
+@Injectable({
+	providedIn: 'root',
+})
 export class ExchangeRateService {
 	private readonly http = inject(HttpService);
 

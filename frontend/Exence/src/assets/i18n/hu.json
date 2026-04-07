@@ -40,7 +40,77 @@
 		"noCategories": "Először hozzon létre egy kategóriát!",
 		"addTransaction": "Tranzakció hozzáadása",
 		"search": "Keresés...",
-		"dateRange": "Adjon meg egy dátumtartományt"
+		"dateRange": "Adjon meg egy dátumtartományt",
+		"title": "Cím",
+		"date": "Dátum"
+	},
+	"recurring": {
+		"info": "Az elküldés <strong>NEM</strong> ad hozzá azonnal tranzakciót.<br><br>Az első tranzakció a megadott kezdési dátumra lesz ütemezve. Ha a mai napot adta meg kezdési dátumként, a tranzakciót holnap fogja látni (de még mindig a mai napra lesz rendelve).",
+		"featureDisabledByRecurring": "Ez a funkció nem érhető el az ismétlődő tranzakcióknál.",
+		"interval": "Ismétlés minden",
+		"frequency": {
+			"WEEKLY": "héten",
+			"MONTHLY": "hónapban",
+			"YEARLY": "évben"
+		},
+		"dayOfWeek": {
+			"label": "Ezen a napon",
+			"MONDAY": {
+				"full": "Hétfő",
+				"short": "H"
+			},
+			"TUESDAY": {
+				"full": "Kedd",
+				"short": "K"
+			},
+			"WEDNESDAY": {
+				"full": "Szerda",
+				"short": "S"
+			},
+			"THURSDAY": {
+				"full": "Csütörtök",
+				"short": "C"
+			},
+			"FRIDAY": {
+				"full": "Péntek",
+				"short": "P"
+			},
+			"SATURDAY": {
+				"full": "Szombat",
+				"short": "S"
+			},
+			"SUNDAY": {
+				"full": "Vasárnap",
+				"short": "V"
+			}
+		},
+		"dayOfMonth": "Ezen a dátumon",
+		"ends": {
+			"label": "Vége:",
+			"endCondition": {
+				"NEVER": "Soha",
+				"UNTIL_DATE": "Egy adott dátumon",
+				"AFTER_OCCURRENCES": "Alkalmak"
+			}
+		},
+		"startDate": "Kezdés dátuma",
+		"endDate": "Ezen a dátumon ér véget",
+		"maxOccurrences": "Alkalmak",
+		"createInfo": "Az '{{title}}' ismétlődő tranzakció sikeresen létrehozva!",
+		"updateInfo": "Az '{{title}}' ismétlődő tranzakció sikeresen frissítve!",
+		"deleteInfo": "Az ismétlődő tranzakció sikeresen törölve!",
+		"details": {
+			"frequency": {
+				"label": "Gyakoriság",
+				"WEEKLY": "{{interval}} x minden héten",
+				"MONTHLY": "{{interval}} x minden hónapban",
+				"YEARLY": "{{interval}} x minden évben"
+			},
+			"nextExecution": "Következő végrehajtás dátuma",
+			"currentOccurrence": "Alkalmak száma"
+		},
+		"title": "Cím",
+		"nextExecutionLabel": "Következő"
 	},
 	"categories": {
 		"topCategories": "Felső kategóriák",
@@ -434,7 +504,7 @@
 		"title": "Cím",
 		"date": "Dátum",
 		"note": "Megjegyzés:",
-		"recurring": "Automatikusan ismétlődő?",
+		"recurring": "Auto. létrehozva?",
 		"name": "Név",
 		"icon": "Ikon",
 		"type": "Típus",
@@ -453,7 +523,8 @@
 			"logged": "Összeg a nyilvántartott pénznemben",
 			"base": "Összeg az alap pénznemben"
 		},
-		"exchangeRate": "Árfolyam"
+		"exchangeRate": "Árfolyam",
+		"createdAt": "Létrehozva:"
 	},
 	"filterMenu": {
 		"title": "Szűrők",
@@ -495,7 +566,11 @@
 		"min": "A minimális érték {{min}}!",
 		"max": "A maximális érték {{max}}!",
 		"filledArray": "Legalább 1 értéket megadása kötelező!",
-		"theme": "Válasszon két különböző témát!"
+		"theme": "Válasszon két különböző témát!",
+		"dayOfWeekRequired": "Kötelező a hét egy napját kiválasztani!",
+		"dayOfMonthRequired": "Kérjük válasszon havi napot!",
+		"endDateRequired": "A befejezési dátum megadása kötelező!",
+		"matDatepickerFilter": "A dátumnak egyeznie kell az ismétlődési mintával, és nem lehet múltbeli dátum!"
 	},
 	"confirmExit": {
 		"title": "Nem mentett módosítások",

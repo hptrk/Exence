@@ -40,7 +40,77 @@
 		"noCategories": "Najskôr vytvorte kategóriu!",
 		"addTransaction": "Pridať transakciu",
 		"search": "Hľadať...",
-		"dateRange": "Zadajte rozsah dátumov"
+		"dateRange": "Zadajte rozsah dátumov",
+		"title": "Názov",
+		"date": "Dátum"
+	},
+	"recurring": {
+		"info": "Odoslaním tohto sa <strong>NEPRIDÁ</strong> transakcia okamžite.<br><br>Prvá vytvorená transakcia bude naplánovaná na zadaný dátum začiatku. Ak ste zadali dnešný dátum ako dátum začiatku, uvidíte svoju transakciu vytvorenú zajtra (stále priradenú na dnes).",
+		"featureDisabledByRecurring": "Táto funkcia nie je dostupná pre opakujúce sa transakcie.",
+		"interval": "Opakovať každý",
+		"frequency": {
+			"WEEKLY": "týždeň",
+			"MONTHLY": "mesiac",
+			"YEARLY": "rok"
+		},
+		"dayOfWeek": {
+			"label": "V tento deň",
+			"MONDAY": {
+				"full": "Pondelok",
+				"short": "P"
+			},
+			"TUESDAY": {
+				"full": "Utorok",
+				"short": "U"
+			},
+			"WEDNESDAY": {
+				"full": "Streda",
+				"short": "S"
+			},
+			"THURSDAY": {
+				"full": "Štvrtok",
+				"short": "Š"
+			},
+			"FRIDAY": {
+				"full": "Piatok",
+				"short": "P"
+			},
+			"SATURDAY": {
+				"full": "Sobota",
+				"short": "S"
+			},
+			"SUNDAY": {
+				"full": "Nedeľa",
+				"short": "N"
+			}
+		},
+		"dayOfMonth": "Na tento dátum",
+		"ends": {
+			"label": "Končí:",
+			"endCondition": {
+				"NEVER": "Nikdy",
+				"UNTIL_DATE": "K určitému dátumu",
+				"AFTER_OCCURRENCES": "Opakovania"
+			}
+		},
+		"startDate": "Začínajúc od",
+		"endDate": "Koniec k tomuto dátumu",
+		"maxOccurrences": "Opakovania",
+		"createInfo": "Opakujúca sa transakcia '{{title}}' bola úspešne vytvorená!",
+		"updateInfo": "Opakujúca sa transakcia '{{title}}' bola úspešne aktualizovaná!",
+		"deleteInfo": "Opakujúca sa transakcia bola úspešne odstránená!",
+		"details": {
+			"frequency": {
+				"label": "Frekvencia",
+				"WEEKLY": "{{interval}} x každý týždeň",
+				"MONTHLY": "{{interval}} x každý mesiac",
+				"YEARLY": "{{interval}} x každý rok"
+			},
+			"nextExecution": "Dátum ďalšieho vykonania",
+			"currentOccurrence": "Počet opakovaní"
+		},
+		"title": "Názov",
+		"nextExecutionLabel": "Ďalší"
 	},
 	"categories": {
 		"topCategories": "Hlavné kategórie",
@@ -434,7 +504,7 @@
 		"title": "Názov",
 		"date": "Dátum",
 		"note": "Poznámka",
-		"recurring": "Automaticky opakujúca sa?",
+		"recurring": "Autom. vytvorené?",
 		"name": "Názov",
 		"icon": "Ikona",
 		"type": "Typ",
@@ -453,7 +523,8 @@
 			"logged": "Suma v zaznamenanej mene",
 			"base": "Suma v základnej mene"
 		},
-		"exchangeRate": "Výmenný kurz"
+		"exchangeRate": "Výmenný kurz",
+		"createdAt": "Vytvorené:"
 	},
 	"filterMenu": {
 		"title": "Filtre",
@@ -495,7 +566,11 @@
 		"min": "Minimálna hodnota je {{min}}!",
 		"max": "Maximálna hodnota je {{max}}!",
 		"filledArray": "Musíte vybrať aspoň 1 hodnotu!",
-		"theme": "Musíte vybrať dva rôzne motívy!"
+		"theme": "Musíte vybrať dva rôzne motívy!",
+		"dayOfWeekRequired": "Prosím vyberte deň v týždni!",
+		"dayOfMonthRequired": "Prosím vyberte deň v mesiaci!",
+		"endDateRequired": "Dátum ukončenia je povinný!",
+		"matDatepickerFilter": "Dátum by mal zodpovedať vzoru opakovania a nemal by byť v minulosti!"
 	},
 	"confirmExit": {
 		"title": "Neuložené zmeny",

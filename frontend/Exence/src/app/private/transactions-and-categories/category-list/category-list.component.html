@@ -1,0 +1,25 @@
+<ex-data-table
+	[columns]="columns"
+	[actions]="actions"
+	[data]="data()"
+	[isLoading]="isLoading()"
+	[title]="title()"
+	[matIcon]="matIcon()"
+	nonExpandable
+	inlineActions
+	(addClicked)="openCreate()"
+>
+	<ng-template exCell="name" let-row>
+		<div class="text-truncate ps-3 w-100 text-start">{{ row.name }}</div>
+	</ng-template>
+
+	<ng-template exCell="icon" let-row>
+		<div class="icon-container" [style.--icon-color]="row.color">
+			<mat-icon>{{ row.icon }}</mat-icon>
+		</div>
+	</ng-template>
+
+	<ng-template exCell="type" let-row>
+		{{ codeForCategoryType(row.type) | translate }}
+	</ng-template>
+</ex-data-table>

@@ -1,19 +1,18 @@
-import { computed, effect, inject, resource, ResourceRef, untracked } from '@angular/core';
-import { TranslocoService } from '@jsverse/transloco';
-import { patchState, signalStore, withComputed, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
+import { effect, inject, resource, ResourceRef, untracked } from '@angular/core';
+import { patchState, signalStore, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
-import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
+import { RecurringTransactionGet } from '../../data-model/modules/transaction/RecurringTransactionGet';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
-import { TransactionGet } from '../../data-model/modules/transaction/TransactionGet';
-import { TransactionPatch } from '../../data-model/modules/transaction/TransactionPatch';
-import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
-import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
-import { CurrencyService } from '../../shared/currency.service';
+import { RecurringService } from './recurring.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CategoryStore } from './category.store';
-import { TransactionService } from './transaction.service';
+import { TranslocoService } from '@jsverse/transloco';
+import { RecurringTransactionCreate } from '../../data-model/modules/transaction/RecurringTransactionCreate';
+import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { RecurringTransactionPatch } from '../../data-model/modules/transaction/RecurringTransactionPatch';
+import { CurrencyService } from '../../shared/currency.service';
 
-export interface TransactionStoreData {
+export interface RecurringTransactionStoreDate {
 	// Page
 	transactionPage: number;
 	incomePage: number;
@@ -21,67 +20,53 @@ export interface TransactionStoreData {
 
 	filters?: TransactionFilter;
 
-	// Data caches
-	transactions: PagedResponse<TransactionGet>;
-	incomes: PagedResponse<TransactionGet>;
-	expenses: PagedResponse<TransactionGet>;
+	transactions: PagedResponse<RecurringTransactionGet>;
+	incomes: PagedResponse<RecurringTransactionGet>;
+	expenses: PagedResponse<RecurringTransactionGet>;
 }
 
-const initialState: TransactionStoreData = {
+const initialState: RecurringTransactionStoreDate = {
 	transactionPage: 0,
 	incomePage: 0,
 	expensePage: 0,
 
 	filters: {} as TransactionFilter,
 
-	transactions: {} as PagedResponse<TransactionGet>,
-	incomes: {} as PagedResponse<TransactionGet>,
-	expenses: {} as PagedResponse<TransactionGet>,
+	transactions: {} as PagedResponse<RecurringTransactionGet>,
+	incomes: {} as PagedResponse<RecurringTransactionGet>,
+	expenses: {} as PagedResponse<RecurringTransactionGet>,
 };
 
-export const TransactionStore = signalStore(
+export const RecurringStore = signalStore(
 	withState(initialState),
 
-	withProps((store, transactionService = inject(TransactionService)) => ({
+	withProps((store, recurringService = inject(RecurringService)) => ({
 		transactionResource: resource<
-			PagedResponse<TransactionGet>,
+			PagedResponse<RecurringTransactionGet>,
 			{ page: number; filters?: TransactionFilter | undefined }
 		>({
-			params: () => ({ page: store.transactionPage(), filters: store.filters?.() }),
-			loader: async ({ params }) => await transactionService.list(params.filters, params.page),
+			params: () => ({ page: store.transactionPage(), filters: store.filters ? store.filters() : undefined }),
+			loader: async ({ params }) => await recurringService.list(params.filters, params.page),
 		}),
-		incomeResource: resource<PagedResponse<TransactionGet>, { page: number }>({
+		incomeResource: resource<PagedResponse<RecurringTransactionGet>, { page: number }>({
 			params: () => ({ page: store.incomePage() }),
-			loader: async ({ params }) => await transactionService.listIncomes(params.page),
+			loader: async ({ params }) => await recurringService.listIncomes(params.page),
 		}),
-		expenseResource: resource<PagedResponse<TransactionGet>, { page: number }>({
+		expenseResource: resource<PagedResponse<RecurringTransactionGet>, { page: number }>({
 			params: () => ({ page: store.expensePage() }),
-			loader: async ({ params }) => await transactionService.listExpenses(params.page),
-		}),
-		totalResource: resource<TransactionTotalsResponse, undefined>({
-			loader: async () => await transactionService.totals(),
-		}),
-	})),
-
-	withComputed(store => ({
-		totalIncome: computed(() => store.totalResource.value()?.totalIncome ?? 0),
-		totalExpense: computed(() => store.totalResource.value()?.totalExpense ?? 0),
-		balance: computed(() => {
-			const incomes = store.totalResource.value()?.totalIncome ?? 0;
-			const expenses = store.totalResource.value()?.totalExpense ?? 0;
-			return (Math.round(incomes - expenses) / 100) * 100;
+			loader: async ({ params }) => await recurringService.listExpenses(params.page),
 		}),
 	})),
 
 	withMethods(
 		(
 			store,
-			transactionService = inject(TransactionService),
+			recurringService = inject(RecurringService),
 			snackbarService = inject(SnackbarService),
 			categoryStore = inject(CategoryStore),
 			translocoService = inject(TranslocoService),
 		) => {
-			function reload(transaction: TransactionGet | TransactionCreate): void {
+			function reload(transaction: RecurringTransactionGet | RecurringTransactionCreate): void {
 				const newPages = {
 					transactionPage: store.transactionPage(),
 					incomePage: store.incomePage(),
@@ -92,24 +77,22 @@ export const TransactionStore = signalStore(
 					incomes: store.incomes(),
 					expenses: store.expenses(),
 				};
-
 				switch (transaction.type) {
 					case TransactionType.INCOME:
-						newPages.incomePage = 0;
-						newCaches.incomes = {} as PagedResponse<TransactionGet>;
+						newPages.incomePage = initialState.incomePage;
+						newCaches.incomes = initialState.incomes;
 						store.incomeResource.reload();
 						break;
 					case TransactionType.EXPENSE:
-						newPages.expensePage = 0;
-						newCaches.expenses = {} as PagedResponse<TransactionGet>;
+						newPages.expensePage = initialState.expensePage;
+						newCaches.expenses = initialState.expenses;
 						store.expenseResource.reload();
 						break;
 				}
-				newPages.transactionPage = 0;
-				newCaches.transactions = {} as PagedResponse<TransactionGet>;
+				newPages.transactionPage = initialState.transactionPage;
+				newCaches.transactions = initialState.transactions;
 				store.transactionResource.reload();
 
-				store.totalResource.reload();
 				categoryStore.topCategoriesAllResource.reload();
 				patchState(store, state => ({
 					...state,
@@ -119,14 +102,13 @@ export const TransactionStore = signalStore(
 			}
 
 			function fullReload(): void {
-				const newState: TransactionStoreData = {
+				const newState: RecurringTransactionStoreDate = {
 					...initialState,
 					filters: { ...(store.filters ? store.filters() : {}) } as TransactionFilter,
 				};
 				store.transactionResource.reload();
 				store.incomeResource.reload();
 				store.expenseResource.reload();
-				store.totalResource.reload();
 				categoryStore.topCategoriesAllResource.reload();
 				patchState(store, newState);
 			}
@@ -135,10 +117,9 @@ export const TransactionStore = signalStore(
 				const suffix = title.length > 10 ? '...' : '';
 				return `${title.slice(0, 10)}${suffix}`;
 			}
-
 			return {
-				async createTransaction(request: TransactionCreate): Promise<void> {
-					const newTransaction = await transactionService.create(request);
+				async createRecurringTransaction(request: RecurringTransactionCreate): Promise<void> {
+					const newTransaction = await recurringService.create(request);
 					snackbarService.showSuccess(
 						translocoService.translate('transaction.create.successInfo', {
 							title: formatTitle(newTransaction.title),
@@ -146,8 +127,8 @@ export const TransactionStore = signalStore(
 					);
 					reload(request);
 				},
-				async updateTransaction(transactionId: number, request: TransactionPatch): Promise<void> {
-					const updatedTransaction = await transactionService.update(transactionId, request);
+				async updateRecurringTransaction(id: number, request: RecurringTransactionPatch): Promise<void> {
+					const updatedTransaction = await recurringService.update(id, request);
 					snackbarService.showSuccess(
 						translocoService.translate('transaction.updateInfo', {
 							name: formatTitle(updatedTransaction.title),
@@ -155,8 +136,8 @@ export const TransactionStore = signalStore(
 					);
 					fullReload();
 				},
-				async deleteTransaction(request: TransactionGet): Promise<void> {
-					await transactionService.delete(request.id);
+				async deleteRecurringTransaction(request: RecurringTransactionGet): Promise<void> {
+					await recurringService.delete(request.id);
 					snackbarService.showSuccess(translocoService.translate('transaction.deleteInfo'));
 					reload(request);
 				},
@@ -166,7 +147,7 @@ export const TransactionStore = signalStore(
 						[TransactionType.EXPENSE]: store.expenseResource,
 					};
 
-					const res: ResourceRef<PagedResponse<TransactionGet> | undefined> = type
+					const res: ResourceRef<PagedResponse<RecurringTransactionGet> | undefined> = type
 						? resourceMap[type]
 						: store.transactionResource;
 
@@ -184,20 +165,6 @@ export const TransactionStore = signalStore(
 						});
 					}
 				},
-				updateFilters(filters: TransactionFilter): void {
-					if (JSON.stringify(store.filters?.()) === JSON.stringify(filters)) return;
-					patchState(store, state => ({
-						...state,
-						filters: { ...filters },
-						transactionPage: 0,
-					}));
-				},
-				clearFilters(): void {
-					const hasFilters = Object.keys(store.filters?.() ?? {}).length > 0;
-					if (hasFilters || store.transactionPage() !== 0) {
-						patchState(store, { filters: {} as TransactionFilter, transactionPage: 0 });
-					}
-				},
 				resetState(): void {
 					fullReload();
 				},
@@ -209,7 +176,7 @@ export const TransactionStore = signalStore(
 		onInit(store): void {
 			function merge(
 				type: 'transactions' | 'incomes' | 'expenses',
-				res: ResourceRef<PagedResponse<TransactionGet> | undefined>,
+				res: ResourceRef<PagedResponse<RecurringTransactionGet> | undefined>,
 				page: number,
 			): void {
 				const val = res.value();

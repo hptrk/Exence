@@ -40,7 +40,77 @@
 		"noCategories": "¡Primero cree una categoría!",
 		"addTransaction": "Añadir transacción",
 		"search": "Buscar...",
-		"dateRange": "Introduzca un rango de fechas"
+		"dateRange": "Introduzca un rango de fechas",
+		"title": "Título",
+		"date": "Fecha"
+	},
+	"recurring": {
+		"info": "Enviar esto <strong>NO</strong> añadirá una transacción de inmediato.<br><br>La primera transacción creada se programará para la fecha de inicio indicada. Si ha establecido la fecha de inicio para hoy, verá su transacción creada mañana (aún asignada para hoy).",
+		"featureDisabledByRecurring": "Esta función no está disponible para transacciones recurrentes.",
+		"interval": "Repetir cada",
+		"frequency": {
+			"WEEKLY": "semana",
+			"MONTHLY": "mes",
+			"YEARLY": "año"
+		},
+		"dayOfWeek": {
+			"label": "En este día",
+			"MONDAY": {
+				"full": "Lunes",
+				"short": "L"
+			},
+			"TUESDAY": {
+				"full": "Martes",
+				"short": "M"
+			},
+			"WEDNESDAY": {
+				"full": "Miércoles",
+				"short": "M"
+			},
+			"THURSDAY": {
+				"full": "Jueves",
+				"short": "J"
+			},
+			"FRIDAY": {
+				"full": "Viernes",
+				"short": "V"
+			},
+			"SATURDAY": {
+				"full": "Sábado",
+				"short": "S"
+			},
+			"SUNDAY": {
+				"full": "Domingo",
+				"short": "D"
+			}
+		},
+		"dayOfMonth": "En esta fecha",
+		"ends": {
+			"label": "Termina:",
+			"endCondition": {
+				"NEVER": "Nunca",
+				"UNTIL_DATE": "En una fecha",
+				"AFTER_OCCURRENCES": "Repeticiones"
+			}
+		},
+		"startDate": "A partir del",
+		"endDate": "Terminando en esta fecha",
+		"maxOccurrences": "Repeticiones",
+		"createInfo": "¡Transacción recurrente '{{title}}' creada con éxito!",
+		"updateInfo": "¡Transacción recurrente '{{title}}' actualizada con éxito!",
+		"deleteInfo": "¡Transacción recurrente eliminada con éxito!",
+		"details": {
+			"frequency": {
+				"label": "Frecuencia",
+				"WEEKLY": "{{interval}} x cada semana",
+				"MONTHLY": "{{interval}} x cada mes",
+				"YEARLY": "{{interval}} x cada año"
+			},
+			"nextExecution": "Próxima fecha de ejecución",
+			"currentOccurrence": "Contador de ocurrencias"
+		},
+		"title": "Título",
+		"nextExecutionLabel": "Siguiente"
 	},
 	"categories": {
 		"topCategories": "Categorías principales",
@@ -434,7 +504,7 @@
 		"title": "Título",
 		"date": "Fecha",
 		"note": "Nota",
-		"recurring": "¿Recurrente automáticamente?",
+		"recurring": "¿Creado auto.?",
 		"name": "Nombre",
 		"icon": "Icono",
 		"type": "Tipo",
@@ -453,7 +523,8 @@
 			"logged": "Importe en la moneda registrada",
 			"base": "Importe en la moneda base"
 		},
-		"exchangeRate": "Tipo de cambio"
+		"exchangeRate": "Tipo de cambio",
+		"createdAt": "Creado el:"
 	},
 	"filterMenu": {
 		"title": "Filtros",
@@ -495,7 +566,11 @@
 		"min": "¡El valor mínimo es {{min}}!",
 		"max": "¡El valor máximo es {{max}}!",
 		"filledArray": "¡Debe seleccionar al menos 1 valor!",
-		"theme": "¡Debe elegir dos temas diferentes!"
+		"theme": "¡Debe elegir dos temas diferentes!",
+		"dayOfWeekRequired": "¡Por favor seleccione un día de la semana!",
+		"dayOfMonthRequired": "¡Por favor seleccione un día del mes!",
+		"endDateRequired": "¡La fecha de finalización es obligatoria!",
+		"matDatepickerFilter": "¡La fecha debe coincidir con el patrón de recurrencia y no debe estar en el pasado!"
 	},
 	"confirmExit": {
 		"title": "Cambios sin guardar",

@@ -3,17 +3,18 @@ import { RouterModule } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { CurrencyService } from '../shared/currency.service';
 import { DisplayThemeService } from '../shared/display-theme.service';
-import { ExchangeRateService } from '../shared/exchange-rate.service';
 import { LanguageService } from './profile-dialog/user-settings/language-select/language.service';
 import { UserSettingsService } from './profile-dialog/user-settings/user-settinngs.service';
 import { CategoryStore } from './transactions-and-categories/category.store';
 import { TransactionStore } from './transactions-and-categories/transaction.store';
+import { RecurringStore } from './transactions-and-categories/recurring.store';
+import { RecurringService } from './transactions-and-categories/recurring.service';
 
 @Component({
 	selector: 'ex-private',
 	template: '<router-outlet />',
 	imports: [RouterModule],
-	providers: [TransactionStore, CategoryStore, ExchangeRateService],
+	providers: [TransactionStore, CategoryStore, RecurringStore, RecurringService],
 })
 export class PrivateComponent {
 	private readonly userSettingsService = inject(UserSettingsService);

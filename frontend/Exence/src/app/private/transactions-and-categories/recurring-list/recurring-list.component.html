@@ -1,0 +1,130 @@
+<ex-data-table
+	[columns]="columns()"
+	[actions]="actions"
+	[data]="data()"
+	[isLoading]="isLoading()"
+	[title]="title()"
+	[matIcon]="matIcon()"
+	[svgIcon]="svgIcon()"
+	[expandTemplate]="expandTmpl"
+	(addClicked)="openCreate()"
+	(scrolled)="onScroll()"
+>
+	<ng-template exCell="title" let-row>
+		<div style="min-width: 4px" [class.inactive]="!row.active"></div>
+		<div class="text-truncate ps-3" [matTooltip]="row.title">{{ row.title }}</div>
+	</ng-template>
+
+	<ng-template exCell="amount" let-row>
+		<span class="fw-semibold {{ row.type === transactionTypes.INCOME ? 'income' : 'expense' }}">
+			{{ row.amount | currency: row.currency }}
+		</span>
+	</ng-template>
+
+	<ng-template exCell="frequency" let-row> {{ row.interval }} × {{ row.frequency }} </ng-template>
+
+	<ng-template exCell="nextDate" let-row>
+		{{ row.nextExecutionDate ? (row.nextExecutionDate | date: 'yy/MM/dd') : '—' }}
+	</ng-template>
+
+	<ng-template exCell="category" let-row>
+		<div
+			class="icon-container"
+			[style.--icon-color]="categoryMap().get(row.categoryId)?.color"
+			[matTooltip]="categoryMap().get(row.categoryId)?.name"
+		>
+			<mat-icon>{{ categoryMap().get(row.categoryId)?.icon }}</mat-icon>
+		</div>
+	</ng-template>
+</ex-data-table>
+
+<ng-template #expandTmpl let-row>
+	<div class="details">
+		<div class="detail">
+			<mat-label>{{ 'dataTable.note' | translate }}</mat-label>
+			<div class="note">
+				@if (!row.note) {
+					&mdash;
+				}
+				{{ row.note }}
+			</div>
+		</div>
+
+		<div class="detail d-flex flex-column flex-sm-row span-cols">
+			<div class="detail gap-2 gap-lg-3">
+				<mat-label>{{ 'recurring.details.frequency.label' | translate }}</mat-label>
+				<div class="fs-6 pt-lg-1">
+					{{ codeForFrequency(row.frequency) | translate: { interval: row.interval } }}
+				</div>
+			</div>
+			@switch (row.frequency) {
+				@case (frequencies.WEEKLY) {
+					<div class="detail gap-2 gap-lg-3">
+						<mat-label>{{ 'recurring.dayOfWeek.label' | translate }}</mat-label>
+						<div class="fs-6 pt-lg-1">
+							{{ codeForDayOfWeek(row.dayOfWeek) | translate }}
+						</div>
+					</div>
+				}
+				@case (frequencies.MONTHLY) {
+					<div class="detail gap-2 gap-lg-3">
+						<mat-label>{{ 'recurring.dayOfMonth' | translate }}</mat-label>
+						<div class="fs-6 pt-lg-1">
+							{{ row.dayOfMonth | ordinal }}
+						</div>
+					</div>
+				}
+				@case (frequencies.YEARLY) {
+					<div class="detail gap-2 gap-lg-3">
+						<mat-label>{{ 'recurring.dayOfMonth' | translate }}</mat-label>
+						<div class="fs-6 pt-lg-1">
+							{{ row.nextExecutionDate | date: 'MM/dd' }}
+						</div>
+					</div>
+				}
+			}
+		</div>
+
+		<div class="detail d-flex flex-column flex-sm-row span-cols">
+			<div class="detail gap-2 gap-lg-3">
+				<mat-label>{{ 'recurring.details.nextExecution' | translate }}</mat-label>
+				<div class="fs-6 pt-lg-1">
+					{{ row.nextExecutionDate | date: 'yy/MM/dd' }}
+				</div>
+			</div>
+			<div class="detail gap-2 gap-lg-3">
+				<mat-label>{{ 'recurring.details.currentOccurrence' | translate }}</mat-label>
+				<div class="fs-6 pt-lg-1">
+					{{ row.currentOccurrences }}
+				</div>
+			</div>
+		</div>
+
+		<div class="detail d-flex flex-column flex-sm-row span-cols">
+			<div class="detail gap-2 gap-lg-3">
+				<mat-label>{{ 'recurring.ends.label' | translate }}</mat-label>
+				<div class="fs-6 pt-lg-1">
+					{{ codeForEndCondition(row.endCondition) | translate }}
+				</div>
+			</div>
+			@switch (row.endCondition) {
+				@case (endConditions.AFTER_OCCURRENCES) {
+					<div class="detail gap-2 gap-lg-3">
+						<mat-label>{{ 'recurring.maxOccurrences' | translate }}</mat-label>
+						<div class="fs-6 pt-lg-1">
+							{{ row.maxOccurrences }}
+						</div>
+					</div>
+				}
+				@case (endConditions.UNTIL_DATE) {
+					<div class="detail gap-2 gap-lg-3">
+						<mat-label>{{ 'recurring.endDate' | translate }}</mat-label>
+						<div class="fs-6 pt-lg-1">
+							{{ row.endDate | date: 'yy/MM/dd' }}
+						</div>
+					</div>
+				}
+			}
+		</div>
+	</div>
+</ng-template>

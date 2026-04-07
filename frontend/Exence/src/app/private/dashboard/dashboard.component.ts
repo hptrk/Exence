@@ -8,7 +8,7 @@ import { SummaryContainerComponent } from '../../private/dashboard/summary-conta
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
-import { DataTableComponent } from '../../shared/data-table/data-table.component';
+import { TransactionListComponent } from '../transactions-and-categories/transaction-list/transaction-list.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
@@ -24,6 +24,8 @@ import {
 import { TransactionStore } from '../transactions-and-categories/transaction.store';
 import { ChartWidget } from '../../data-model/modules/statistics/ChartWidget';
 import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
+import { RecurringTransactionCreate } from '../../data-model/modules/transaction/RecurringTransactionCreate';
+import { RecurringStore } from '../transactions-and-categories/recurring.store';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -33,7 +35,7 @@ import { TransactionCreate } from '../../data-model/modules/transaction/Transact
 		CommonModule,
 		CardSliderDirective,
 		SummaryContainerComponent,
-		DataTableComponent,
+		TransactionListComponent,
 		ChartWidgetComponent,
 		CategoriesComponent,
 		ButtonComponent,
@@ -49,14 +51,11 @@ export class DashboardComponent extends BaseComponent {
 	readonly navigation = inject(NavigationService);
 	readonly transactionStore = inject(TransactionStore);
 	readonly categoryStore = inject(CategoryStore);
+	readonly recurringStore = inject(RecurringStore);
 
 	transactionTypes = TransactionType;
 
 	user = computed(() => this.currentUserService.user());
-	categories = computed(() => this.categoryStore.categoryResource.value());
-	transactions = computed(() => this.transactionStore.transactions());
-	incomes = computed(() => this.transactionStore.incomes());
-	expenses = computed(() => this.transactionStore.expenses());
 
 	dashboardWidget = signal<ChartWidget | undefined>(undefined);
 	dashboardPayload = signal<WidgetDataPayload | undefined>(undefined);
@@ -89,13 +88,10 @@ export class DashboardComponent extends BaseComponent {
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
 		const result = await this.dialog.openNonModal<
 			CreateTransactionDialogData | undefined,
-			TransactionCreate | null
+			TransactionCreate | RecurringTransactionCreate | null
 		>(CreateTransactionDialogComponent, { type: transactionType });
 		if (!result) return;
-		this.transactionStore.createTransaction(result);
-	}
-
-	onScroll(type?: TransactionType): void {
-		this.transactionStore.loadNextPage(type!);
+		if ('date' in result) this.transactionStore.createTransaction(result as TransactionCreate);
+		else this.recurringStore.createRecurringTransaction(result as RecurringTransactionCreate);
 	}
 }

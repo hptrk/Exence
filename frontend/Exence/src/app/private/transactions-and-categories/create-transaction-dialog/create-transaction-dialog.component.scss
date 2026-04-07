@@ -10,3 +10,57 @@ ex-button {
 		width: auto;
 	}
 }
+
+ex-note-box {
+	max-width: 575px;
+}
+
+.recurring-day-card {
+	cursor: pointer;
+	background-color: var(--app-card-color);
+	color: var(--default-text-color);
+	padding: 0.5rem;
+	border-radius: 10px;
+
+	transition: 0.15s all;
+
+	@include centralize(35px);
+
+	&.selected,
+	&:hover {
+		background-color: var(--primary-color);
+		color: var(--secondary-text-color);
+	}
+}
+
+.recurring-month-grid {
+	display: grid;
+	grid-template-columns: repeat(7, 25px);
+
+	@include displaySm {
+		grid-template-columns: repeat(7, 35px);
+	}
+}
+
+.recurring-day-card {
+	cursor: pointer;
+	background-color: var(--app-card-color);
+	color: var(--default-text-color);
+	padding: 0.5rem;
+	border-radius: 5px;
+
+	transition: 0.15s all;
+
+	@include centralize(25px);
+
+	@include displaySm {
+		@include centralize(35px);
+		border-radius: 10px;
+	}
+
+	&.selected,
+	&:hover {
+		background-color: var(--primary-color);
+		color: var(--secondary-text-color);
+	}
+}

@@ -99,11 +99,6 @@
 			</mat-error>
 		</mat-form-field>
 
-		@let recurringControl = form.controls.recurring;
-		<mat-checkbox [formControl]="recurringControl">
-			{{ 'transaction.edit.recurring' | translate }}
-		</mat-checkbox>
-
 		<ex-button class="d-none" type="submit" />
 	</form>
 

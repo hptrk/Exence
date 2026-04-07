@@ -8,5 +8,5 @@ export interface TransactionFilter {
 	type?: TransactionType;
 	amountFrom?: number;
 	amountTo?: number;
-	recurring?: boolean;
+	createdByRecurringJob?: boolean;
 }

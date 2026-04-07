@@ -1,4 +1,6 @@
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { RecurrenceFrequency } from '../data-model/modules/transaction/RecurrenceFrequency';
+import { EndCondition } from '../data-model/modules/transaction/EndCondition';
 
 const passwordRegex = {
 	hasUppercase: /[A-Z]/,
@@ -43,5 +45,35 @@ export class ExtraValidators {
 		const values = Object.values(group.controls).map(c => c.value);
 		const hasDuplicate = values.length !== new Set(values).size;
 		return hasDuplicate ? { theme: true } : null;
+	}
+
+	static dayOfWeekRequiredForWeekly(control: AbstractControl): ValidationErrors | null {
+		const group = control as FormGroup;
+		const frequency = group.get('frequency')?.value as RecurrenceFrequency | null;
+		const dayOfWeek = group.get('dayOfWeek')?.value;
+		if (frequency === RecurrenceFrequency.WEEKLY && !dayOfWeek) {
+			return { dayOfWeekRequired: true };
+		}
+		return null;
+	}
+
+	static dayOfMonthRequiredForMonthly(control: AbstractControl): ValidationErrors | null {
+		const group = control as FormGroup;
+		const frequency = group.get('frequency')?.value as RecurrenceFrequency | null;
+		const dayOfMonth = group.get('dayOfMonth')?.value;
+		if (frequency === RecurrenceFrequency.MONTHLY && !dayOfMonth) {
+			return { dayOfMonthRequired: true };
+		}
+		return null;
+	}
+
+	static endDateRequiredForEndCondition(control: AbstractControl): ValidationErrors | null {
+		const group = control as FormGroup;
+		const endCondition = group.get('endCondition')?.value as EndCondition | null;
+		const endDate = group.get('endDate')?.value as Date | null;
+		if (endCondition === EndCondition.UNTIL_DATE && !endDate) {
+			return { endDateRequired: true };
+		}
+		return null;
 	}
 }
