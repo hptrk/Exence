@@ -42,7 +42,10 @@
 		"search": "Hľadať...",
 		"dateRange": "Zadajte rozsah dátumov",
 		"title": "Názov",
-		"date": "Dátum"
+		"date": "Dátum",
+		"duplicate": "Duplikovať",
+		"duplicateTitle": "Duplikovať transakciu - '{{title}}'",
+		"duplicateMessage": "Rovnaká transakcia bude vytvorená s dnešným dátumom."
 	},
 	"recurring": {
 		"info": "Odoslaním tohto sa <strong>NEPRIDÁ</strong> transakcia okamžite.<br><br>Prvá vytvorená transakcia bude naplánovaná na zadaný dátum začiatku. Ak ste zadali dnešný dátum ako dátum začiatku, uvidíte svoju transakciu vytvorenú zajtra (stále priradenú na dnes).",

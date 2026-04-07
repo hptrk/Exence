@@ -42,7 +42,10 @@
 		"search": "Suche...",
 		"dateRange": "Eingabe eines Datumsbereichs",
 		"title": "Titel",
-		"date": "Datum"
+		"date": "Datum",
+		"duplicate": "Duplizieren",
+		"duplicateTitle": "Transaktion duplizieren - '{{title}}'",
+		"duplicateMessage": "Dieselbe Transaktion wird mit dem heutigen Datum erstellt."
 	},
 	"recurring": {
 		"info": "Das Absenden fügt <strong>KEINE</strong> Transaktion sofort hinzu.<br><br>Die erste erstellte Transaktion wird für das angegebene Startdatum geplant. Wenn Sie das heutige Datum als Startdatum angegeben haben, sehen Sie Ihre Transaktion morgen erstellt (trotzdem für heute zugewiesen).",

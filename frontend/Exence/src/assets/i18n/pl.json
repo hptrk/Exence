@@ -42,7 +42,10 @@
 		"search": "Szukaj...",
 		"dateRange": "Proszę wprowadzić zakres dat",
 		"title": "Tytuł",
-		"date": "Data"
+		"date": "Data",
+		"duplicate": "Duplikuj",
+		"duplicateTitle": "Duplikuj transakcję - '{{title}}'",
+		"duplicateMessage": "Zostanie utworzona ta sama transakcja z dzisiejszą datą."
 	},
 	"recurring": {
 		"info": "Przesłanie tego <strong>NIE</strong> doda natychmiast transakcji.<br><br>Pierwsza utworzona transakcja zostanie zaplanowana na podaną datę początkową. Jeśli podałeś dzisiejszą datę jako datę początkową, zobaczysz swoją transakcję utworzoną jutro (nadal przypisaną na dziś).",

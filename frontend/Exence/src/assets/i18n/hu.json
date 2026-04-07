@@ -42,7 +42,10 @@
 		"search": "Keresés...",
 		"dateRange": "Adjon meg egy dátumtartományt",
 		"title": "Cím",
-		"date": "Dátum"
+		"date": "Dátum",
+		"duplicate": "Duplikálás",
+		"duplicateTitle": "Tranzakció duplikálása - '{{title}}'",
+		"duplicateMessage": "Ugyanez a tranzakció a mai dátummal kerül létrehozásra."
 	},
 	"recurring": {
 		"info": "Az elküldés <strong>NEM</strong> ad hozzá azonnal tranzakciót.<br><br>Az első tranzakció a megadott kezdési dátumra lesz ütemezve. Ha a mai napot adta meg kezdési dátumként, a tranzakciót holnap fogja látni (de még mindig a mai napra lesz rendelve).",
