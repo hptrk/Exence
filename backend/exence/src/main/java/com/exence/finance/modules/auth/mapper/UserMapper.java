@@ -23,6 +23,7 @@ public abstract class UserMapper {
 
     @Mapping(target = "isVerified", source = "emailVerified")
     @Mapping(target = "username", source = "displayUsername")
+    @Mapping(target = "role", source = "role")
     public abstract UserGetDTO mapToUserGetDto(User user);
 
     @Mapping(target = "password", ignore = true) // AfterMapping

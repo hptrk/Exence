@@ -11,6 +11,18 @@
 				</a>
 				<div class="d-flex flex-column h-100 w-100 flex-grow-1 fs-4 gap-3 gap-xl-2 fw-medium">
 					@if (currentUserService.isAuthenticated()) {
+						@if (isAdminUser()) {
+							<a
+								class="ex-nav-button d-flex align-items-center gap-2"
+								[routerLink]="navigationService.private().admin()"
+								routerLinkActive="active"
+							>
+								<mat-icon>shield_person</mat-icon>
+								@if (display.isXl()) {
+									{{ 'navigation.admin' | translate }}
+								}
+							</a>
+						}
 						<a
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.private().dashboard()"
@@ -153,6 +165,15 @@
 			class="d-flex flex-row justify-content-around align-items-center w-100 h-100 fs-4 gap-2 flex-grow-1 fw-medium mobile-actions"
 		>
 			@if (currentUserService.isAuthenticated()) {
+				@if (isAdminUser()) {
+					<a
+						class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+						[routerLink]="navigationService.private().admin()"
+						routerLinkActive="active"
+					>
+						<mat-icon>shield_person</mat-icon>
+					</a>
+				}
 				<a
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 					[routerLink]="navigationService.private().dashboard()"

@@ -2,22 +2,21 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { TranslocoService } from '@jsverse/transloco';
 import { mapToExChartType } from '../../data-model/modules/statistics/widget-config.model';
 import { HasChangesComponent } from '../../shared/auth/guard/has-changes.guard';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { ChartWidgetListComponent } from './chart-widget-list/chart-widget-list.component';
 import { StatCardListComponent } from './stat-card-list/stat-card-list.component';
-import { StatisticService } from './statistic.service';
 import {
 	WidgetCatalogDialogComponent,
 	WidgetCatalogDialogData,
 	WidgetCatalogDialogResult,
 } from './widget-catalog-dialog/widget-catalog-dialog.component';
 import { WidgetStore } from './widget.store';
-import { TranslocoService } from '@jsverse/transloco';
-import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
 	selector: 'ex-statistics',
@@ -32,7 +31,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 		ButtonComponent,
 		TranslatePipe,
 	],
-	providers: [StatisticService, WidgetStore],
+	providers: [WidgetStore],
 	host: {
 		'(window:beforeunload)': 'onBeforeUnload($event)',
 	},

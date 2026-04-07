@@ -193,7 +193,8 @@
 		"language": "Nyelv",
 		"home": "Kezdőlap",
 		"login": "Bejelentkezés",
-		"registration": "Regisztráció"
+		"registration": "Regisztráció",
+		"admin": "Admin"
 	},
 	"timeframe": {
 		"1W": "1Hé",
@@ -846,6 +847,33 @@
 			"tamas": "Tamás",
 			"patrik": "Patrik",
 			"copyright": "© {{year}} Exence. Minden jog fenntartva."
+		}
+	},
+	"admin": {
+		"statistics": {
+			"label": "Statisztikák",
+			"leaderboard": {
+				"result": "Eredmény: <strong>{{value}}</strong>",
+				"DATABASE_GROWTH_SUMMARY": "Adatbázis növekedés",
+				"TOP_ACTIVE_USERS": "Legaktívabb felhasználók"
+			},
+			"card": {
+				"title": "E-mail megerősítési arány"
+			},
+			"chart": {
+				"DAILY_ACTIVE_USERS": "Napi aktív felhasználók",
+				"MONTHLY_ACTIVE_USERS": "Havi aktív felhasználók",
+				"TRANSACTION_VELOCITY": "Tranzakció sebesség",
+				"CURRENCY_DISTRIBUTION": "Deviza eloszlás",
+				"AVG_TRANSACTIONS_PER_USER": "Átl. tranzakció felhasználónként",
+				"TRANSACTION_TYPE_DISTRIBUTION": "Tranzakció típus eloszlás"
+			}
+		},
+		"logs": {
+			"label": "Audit naplók"
+		},
+		"configurations": {
+			"label": "Konfigurációk"
 		}
 	}
 }

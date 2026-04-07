@@ -6,4 +6,7 @@ export enum SvgIcons {
 	linkedin = 'linkedin',
 	github = 'github',
 	hero = 'hero',
+	firstPlace = 'first-place',
+	secondPlace = 'second-place',
+	thridPlace = 'third-place',
 }

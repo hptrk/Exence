@@ -74,8 +74,20 @@ export enum WidgetType {
 	DASHBOARD_BALANCE_TREND = 'DASHBOARD_BALANCE_TREND',
 }
 
+export enum AdminWidgetType {
+	DAILY_ACTIVE_USERS = 'DAILY_ACTIVE_USERS',
+	MONTHLY_ACTIVE_USERS = 'MONTHLY_ACTIVE_USERS',
+	TRANSACTION_VELOCITY = 'TRANSACTION_VELOCITY',
+	DATABASE_GROWTH_SUMMARY = 'DATABASE_GROWTH_SUMMARY',
+	CURRENCY_DISTRIBUTION = 'CURRENCY_DISTRIBUTION',
+	AVG_TRANSACTIONS_PER_USER = 'AVG_TRANSACTIONS_PER_USER',
+	TRANSACTION_TYPE_DISTRIBUTION = 'TRANSACTION_TYPE_DISTRIBUTION',
+	TOP_ACTIVE_USERS = 'TOP_ACTIVE_USERS',
+	EMAIL_VERIFICATION_RATE = 'EMAIL_VERIFICATION_RATE',
+}
+
 /* eslint-disable-next-line complexity */
-export function mapToExChartType(widgetType: WidgetType): ExChartType {
+export function mapToExChartType(widgetType: WidgetType | AdminWidgetType): ExChartType {
 	switch (widgetType) {
 		case WidgetType.EXPENSE_FREQUENCY_STATCARD:
 		case WidgetType.INCOME_FREQUENCY_STATCARD:
@@ -143,6 +155,24 @@ export function mapToExChartType(widgetType: WidgetType): ExChartType {
 			return 'sankey';
 		case WidgetType.DASHBOARD_BALANCE_TREND:
 			return 'area';
+		case AdminWidgetType.AVG_TRANSACTIONS_PER_USER:
+			return 'line';
+		case AdminWidgetType.CURRENCY_DISTRIBUTION:
+			return 'donut';
+		case AdminWidgetType.DAILY_ACTIVE_USERS:
+			return 'area';
+		case AdminWidgetType.DATABASE_GROWTH_SUMMARY:
+			return 'leaderboard';
+		case AdminWidgetType.MONTHLY_ACTIVE_USERS:
+			return 'bar';
+		case AdminWidgetType.TOP_ACTIVE_USERS:
+			return 'leaderboard';
+		case AdminWidgetType.TRANSACTION_TYPE_DISTRIBUTION:
+			return 'pie';
+		case AdminWidgetType.TRANSACTION_VELOCITY:
+			return 'bar';
+		case AdminWidgetType.EMAIL_VERIFICATION_RATE:
+			return 'statCard';
 	}
 }
 
@@ -515,3 +545,43 @@ export const WIDGET_CATEGORY_TYPES: Partial<Record<WidgetType, CategoryType[]>> 
 export const CATEGORY_FILTERABLE_WIDGET_TYPES: WidgetType[] = Object.keys(WIDGET_CATEGORY_TYPES) as WidgetType[];
 
 export const TIMEFRAME_HIDDEN_WIDGET_TYPES: WidgetType[] = [WidgetType.SPENDING_HEATMAP];
+
+// ADMIN
+export const ADMIN_LEADERBOARD_CARDS: AdminWidgetType[] = [
+	AdminWidgetType.DATABASE_GROWTH_SUMMARY,
+	AdminWidgetType.TOP_ACTIVE_USERS,
+	AdminWidgetType.EMAIL_VERIFICATION_RATE,
+];
+
+export const ADMIN_CHART_TYPES: AdminWidgetType[] = Object.values(AdminWidgetType).filter(
+	t => !ADMIN_LEADERBOARD_CARDS.includes(t),
+);
+
+export const ADMIN_CHART_TITLES: Record<AdminWidgetType, TranslationCode> = {
+	[AdminWidgetType.DAILY_ACTIVE_USERS]: 'admin.statistics.chart.DAILY_ACTIVE_USERS',
+	[AdminWidgetType.MONTHLY_ACTIVE_USERS]: 'admin.statistics.chart.MONTHLY_ACTIVE_USERS',
+	[AdminWidgetType.TRANSACTION_VELOCITY]: 'admin.statistics.chart.TRANSACTION_VELOCITY',
+	[AdminWidgetType.CURRENCY_DISTRIBUTION]: 'admin.statistics.chart.CURRENCY_DISTRIBUTION',
+	[AdminWidgetType.AVG_TRANSACTIONS_PER_USER]: 'admin.statistics.chart.AVG_TRANSACTIONS_PER_USER',
+	[AdminWidgetType.TRANSACTION_TYPE_DISTRIBUTION]: 'admin.statistics.chart.TRANSACTION_TYPE_DISTRIBUTION',
+	[AdminWidgetType.DATABASE_GROWTH_SUMMARY]: 'admin.statistics.leaderboard.DATABASE_GROWTH_SUMMARY',
+	[AdminWidgetType.TOP_ACTIVE_USERS]: 'admin.statistics.leaderboard.TOP_ACTIVE_USERS',
+	[AdminWidgetType.EMAIL_VERIFICATION_RATE]: 'admin.statistics.card.title',
+};
+
+export const ADMIN_LEADERBOARD_CARD_DATA: Partial<Record<AdminWidgetType, TranslationCode>> = {
+	[AdminWidgetType.DATABASE_GROWTH_SUMMARY]: 'admin.statistics.leaderboard.DATABASE_GROWTH_SUMMARY',
+	[AdminWidgetType.TOP_ACTIVE_USERS]: 'admin.statistics.leaderboard.TOP_ACTIVE_USERS',
+};
+
+export const ADMIN_CHARTS: Partial<Record<AdminWidgetType, unknown>> = {
+	[AdminWidgetType.DAILY_ACTIVE_USERS]: '',
+	[AdminWidgetType.MONTHLY_ACTIVE_USERS]: '',
+	[AdminWidgetType.TRANSACTION_VELOCITY]: '',
+	[AdminWidgetType.DATABASE_GROWTH_SUMMARY]: '',
+	[AdminWidgetType.CURRENCY_DISTRIBUTION]: '',
+	[AdminWidgetType.AVG_TRANSACTIONS_PER_USER]: '',
+	[AdminWidgetType.TRANSACTION_TYPE_DISTRIBUTION]: '',
+	[AdminWidgetType.TOP_ACTIVE_USERS]: '',
+	[AdminWidgetType.EMAIL_VERIFICATION_RATE]: '',
+};

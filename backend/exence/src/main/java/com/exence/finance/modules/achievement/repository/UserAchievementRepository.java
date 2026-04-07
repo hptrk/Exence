@@ -18,6 +18,7 @@ public interface UserAchievementRepository extends JpaRepository<UserAchievement
     @Query("SELECT ua.achievement.id FROM UserAchievement ua WHERE ua.user.id = :userId")
     Set<Long> findUnlockedAchievementIdsByUserId(Long userId);
 
-    @Query("SELECT COUNT(ua) > 0 FROM UserAchievement ua WHERE ua.user.id = :userId AND ua.achievement.type = :type AND ua.achievement.tier = :tier")
+    @Query(
+            "SELECT COUNT(ua) > 0 FROM UserAchievement ua WHERE ua.user.id = :userId AND ua.achievement.type = :type AND ua.achievement.tier = :tier")
     boolean existsByUserIdAndTypeAndTier(Long userId, AchievementType type, AchievementTier tier);
 }

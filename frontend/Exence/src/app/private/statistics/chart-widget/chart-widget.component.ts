@@ -8,6 +8,7 @@ import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import {
 	mapToExChartType,
 	TIMEFRAME_HIDDEN_WIDGET_TYPES,
+	WidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
@@ -45,7 +46,7 @@ export class ChartWidgetComponent extends BaseComponent {
 	widget = input.required<ChartWidget>();
 	editing = input.required<boolean>();
 	payload = input<WidgetDataPayload>();
-	dashboardChart = input(false, { transform: booleanAttribute });
+	noRequest = input(false, { transform: booleanAttribute });
 
 	readonly timeframeChanged = output<Timeframe>();
 
@@ -54,7 +55,7 @@ export class ChartWidgetComponent extends BaseComponent {
 
 	type = computed<ExChartType>(() => mapToExChartType(this.widget().type));
 	isApexChart = computed<boolean>(() => !['sankey', 'statCard'].includes(this.type()));
-	showTimeframe = computed<boolean>(() => !TIMEFRAME_HIDDEN_WIDGET_TYPES.includes(this.widget().type));
+	showTimeframe = computed<boolean>(() => !TIMEFRAME_HIDDEN_WIDGET_TYPES.includes(this.widget().type as WidgetType));
 
 	timeframe = signal<Timeframe>(Timeframe.YEAR_TO_DATE);
 	isLoading = signal<boolean>(false);
@@ -79,7 +80,7 @@ export class ChartWidgetComponent extends BaseComponent {
 				return;
 			}
 
-			if (this.dashboardChart() && this.payload()) {
+			if (this.noRequest() && this.payload()) {
 				const payload = this.payload()!;
 				const providerFn = mapToProvider<typeof payload>(this.type());
 				this.data.set(
@@ -89,7 +90,7 @@ export class ChartWidgetComponent extends BaseComponent {
 						this.translocoService.getActiveLang(),
 						undefined,
 						(v: number) => this.currencyPipe.transform(v),
-						this.widget().type,
+						this.widget().type as WidgetType,
 					) as Partial<ApexOptions>,
 				);
 				this.isLoading.set(false);
@@ -116,7 +117,7 @@ export class ChartWidgetComponent extends BaseComponent {
 					this.translocoService.getActiveLang(),
 					(key, params) => this.translocoService.translate(key, params),
 					(v: number) => this.currencyPipe.transform(v),
-					this.widget().type,
+					this.widget().type as WidgetType,
 				) as Partial<ApexOptions>,
 			);
 		});

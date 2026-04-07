@@ -46,6 +46,8 @@ export class SidebarComponent extends BaseComponent {
 
 	initialLang = computed<string>(() => this.languageService.language());
 
+	isAdminUser = computed<boolean>(() => this.currentUserService.isAdmin());
+
 	toggleTheme(): void {
 		this.themeService.toggleTheme();
 	}

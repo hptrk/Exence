@@ -8,7 +8,9 @@ export type WidgetDataPayload =
 	| SankeyPayload
 	| SlopePayload
 	| GaugePayload
-	| StatCardPayload;
+	| StatCardPayload
+	| LeaderboardPayload
+	| SummaryPayload;
 
 export interface SeriesPayload {
 	series: SeriesItem[];
@@ -96,4 +98,24 @@ export interface StatCardPayload {
 	icon?: MaterialIcon | string;
 	iconColor?: string;
 	unit: string;
+}
+
+export interface LeaderboardPayload {
+	entries: LeaderboardEntry[];
+}
+
+export interface LeaderboardEntry {
+	rank: number;
+	username: string;
+	value: number;
+}
+
+export interface SummaryPayload {
+	items: SummaryItem[];
+}
+
+export interface SummaryItem {
+	label: string;
+	value: number;
+	icon: string;
 }

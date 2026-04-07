@@ -193,7 +193,8 @@
 		"language": "Zmień język",
 		"home": "Strona główna",
 		"login": "Zaloguj się",
-		"registration": "Rejestracja"
+		"registration": "Rejestracja",
+		"admin": "Admin"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -846,6 +847,33 @@
 			"tamas": "Tamás",
 			"patrik": "Patrik",
 			"copyright": "© {{year}} Exence. Wszelkie prawa zastrzeżone."
+		}
+	},
+	"admin": {
+		"statistics": {
+			"label": "Statystyki",
+			"leaderboard": {
+				"result": "Wynik: <strong>{{value}}</strong>",
+				"DATABASE_GROWTH_SUMMARY": "Wzrost bazy danych",
+				"TOP_ACTIVE_USERS": "Najaktywniejszi użytkownicy"
+			},
+			"card": {
+				"title": "Wskaźnik weryfikacji e-mail"
+			},
+			"chart": {
+				"DAILY_ACTIVE_USERS": "Dzienni aktywni użytkownicy",
+				"MONTHLY_ACTIVE_USERS": "Miesięczni aktywni użytkownicy",
+				"TRANSACTION_VELOCITY": "Szybkość transakcji",
+				"CURRENCY_DISTRIBUTION": "Rozkład walut",
+				"AVG_TRANSACTIONS_PER_USER": "Śr. transakcji na użytkownika",
+				"TRANSACTION_TYPE_DISTRIBUTION": "Rozkład typów transakcji"
+			}
+		},
+		"logs": {
+			"label": "Logi audytu"
+		},
+		"configurations": {
+			"label": "Konfiguracje"
 		}
 	}
 }

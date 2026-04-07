@@ -6,6 +6,8 @@ $trend-colors: (
 
 :host {
 	max-width: 600px;
+	display: flex;
+	flex-direction: column;
 }
 
 .trend {
@@ -29,6 +31,7 @@ $trend-colors: (
 }
 
 mat-card.mat-mdc-card {
+	flex: 1;
 	min-width: 350px;
 	width: 100%;
 	border: 2px solid var(--primary-color);

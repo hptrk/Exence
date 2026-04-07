@@ -11,6 +11,8 @@ import { publicRoutes } from './public/public.routes';
 import { hasChangesGuard } from './shared/auth/guard/has-changes.guard';
 import { loggedInGuard } from './shared/auth/guard/logged-in.guard';
 import { loggedOutGuard } from './shared/auth/guard/logged-out.guard';
+import { AdminComponent } from './private/admin/admin.component';
+import { adminGuard } from './shared/auth/guard/admin.guard';
 
 export const routes: Routes = [
 	...publicRoutes,
@@ -50,6 +52,11 @@ export const routes: Routes = [
 			{
 				path: 'debts',
 				component: DebtsComponent,
+			},
+			{
+				path: 'admin',
+				component: AdminComponent,
+				canActivate: [adminGuard],
 			},
 		],
 	},

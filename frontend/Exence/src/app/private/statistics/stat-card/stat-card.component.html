@@ -12,24 +12,28 @@
 	<mat-card class="d-flex flex-column justify-content-center gap-3 p-4 position-relative h-100 text-center">
 		@if (!hasIcon()) {
 			<div class="d-flex flex-column gap-0 align-items-center">
-				<div class="fs-4 fw-bold text-truncate w-100">{{ widget().title }}</div>
+				<div class="fs-4 fw-bold text-truncate w-100">
+					{{ widget()?.title || ('admin.statistics.card.title' | translate) }}
+				</div>
 				<div class="fs-2 fw-bold">{{ cardInfo.value }} {{ cardInfo.unit }}</div>
 				<div class="fs-6 fw-light">{{ cardInfo.contextLabel }}</div>
 			</div>
 
-			<div class="trend" [attr.trend]="cardInfo.trend">
-				@if (cardInfo.changePercentage !== 0) {
-					<span class="mt-1">{{ assets().prefix + cardInfo.changePercentage }}</span>
-				}
-				<mat-icon size="sm">{{ assets().suffix }}</mat-icon>
-			</div>
+			@if (!!cardInfo?.trend) {
+				<div class="trend" [attr.trend]="cardInfo.trend">
+					@if (cardInfo.changePercentage !== 0) {
+						<span class="mt-1">{{ assets().prefix + cardInfo.changePercentage }}</span>
+					}
+					<mat-icon size="sm">{{ assets().suffix }}</mat-icon>
+				</div>
+			}
 		} @else {
 			<div class="d-flex flex-row flex-nowrap gap-3 align-items-center justify-content-center">
 				<div ex-card-icon [style.--icon-color]="cardInfo.iconColor ?? 'var(--primary-color)'">
-					<mat-icon size="xl">{{ cardInfo.icon ?? predefinedStatCardIcons[widget().type] }}</mat-icon>
+					<mat-icon size="xl">{{ cardInfo.icon ?? predefinedStatCardIcons[widget()!.type] }}</mat-icon>
 				</div>
 				<div class="d-flex flex-column gap-0 justify-content-center align-items-start">
-					<div class="fw-bolder fs-6 text-truncate">{{ widget().title }}</div>
+					<div class="fw-bolder fs-6 text-truncate">{{ widget()!.title }}</div>
 					<div class="fw-bold fs-3">{{ cardInfo.value | currency: currencyService.baseCurrency() }}</div>
 					<div class="fw-light fs-6">"{{ cardInfo.contextLabel }}"</div>
 				</div>

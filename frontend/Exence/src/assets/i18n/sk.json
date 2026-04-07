@@ -193,7 +193,8 @@
 		"language": "Zmeniť jazyk",
 		"home": "Domov",
 		"login": "Prihlásiť sa",
-		"registration": "Registrácia"
+		"registration": "Registrácia",
+		"admin": "Admin"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -846,6 +847,33 @@
 			"tamas": "Tamás",
 			"patrik": "Patrik",
 			"copyright": "© {{year}} Exence. Všetky práva vyhradené."
+		}
+	},
+	"admin": {
+		"statistics": {
+			"label": "Štatistiky",
+			"leaderboard": {
+				"result": "Výsledok: <strong>{{value}}</strong>",
+				"DATABASE_GROWTH_SUMMARY": "Rast databázy",
+				"TOP_ACTIVE_USERS": "Najaktívnejší používatelia"
+			},
+			"card": {
+				"title": "Miera overenia e-mailov"
+			},
+			"chart": {
+				"DAILY_ACTIVE_USERS": "Denní aktívni používatelia",
+				"MONTHLY_ACTIVE_USERS": "Mesační aktívni používatelia",
+				"TRANSACTION_VELOCITY": "Rýchlosť transakcií",
+				"CURRENCY_DISTRIBUTION": "Distribúcia mien",
+				"AVG_TRANSACTIONS_PER_USER": "Priem. transakcií na používateľa",
+				"TRANSACTION_TYPE_DISTRIBUTION": "Distribúcia typov transakcií"
+			}
+		},
+		"logs": {
+			"label": "Protokoly auditu"
+		},
+		"configurations": {
+			"label": "Konfigurácie"
 		}
 	}
 }
