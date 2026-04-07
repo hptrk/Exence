@@ -11,4 +11,6 @@ public interface EmailService {
     void sendWelcomeEmail(User user);
 
     void sendReminderEmail(User user);
+
+    void sendBroadcastEmail(User user, String subject, String htmlContent);
 }

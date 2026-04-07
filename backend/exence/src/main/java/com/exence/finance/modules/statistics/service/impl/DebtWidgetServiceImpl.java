@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.statistics.dto.debt.DebtWidgetDataResponse;
@@ -20,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class DebtWidgetServiceImpl implements DebtWidgetService {
 
     private final List<DebtWidgetDataProvider> providers;
@@ -34,6 +34,7 @@ public class DebtWidgetServiceImpl implements DebtWidgetService {
     }
 
     @Override
+    @ReadTransactional
     public DebtWidgetDataResponse getWidgetData(DebtWidgetType type) {
         DebtWidgetDataProvider provider = providerMap.get(type);
         if (provider == null) {

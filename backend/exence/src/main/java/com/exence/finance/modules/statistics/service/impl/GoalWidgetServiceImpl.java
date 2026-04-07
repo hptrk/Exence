@@ -1,5 +1,6 @@
 package com.exence.finance.modules.statistics.service.impl;
 
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.statistics.dto.Timeframe;
@@ -24,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class GoalWidgetServiceImpl implements GoalWidgetService {
 
     private static final LocalDate DEFAULT_START_DATE = LocalDate.of(2020, 1, 1);
@@ -40,6 +40,7 @@ public class GoalWidgetServiceImpl implements GoalWidgetService {
     }
 
     @Override
+    @ReadTransactional
     public GoalWidgetDataResponse getWidgetData(GoalWidgetType type, Timeframe timeframe, Long goalId) {
         Timeframe resolvedTimeframe = timeframe != null ? timeframe : Timeframe.ALL_TIME;
 
