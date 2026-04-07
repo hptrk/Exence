@@ -27,6 +27,7 @@ public enum ErrorCode {
     WIDGET_NOT_FOUND(HttpStatus.NOT_FOUND, "widget-not-found"),
     GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal-not-found"),
     DEBT_NOT_FOUND(HttpStatus.NOT_FOUND, "debt-not-found"),
+    ACHIEVEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "achievement-not-found"),
 
     // 409 - Conflict
     EMAIL_ALREADY_IN_USE(HttpStatus.CONFLICT, "email-already-in-use"),

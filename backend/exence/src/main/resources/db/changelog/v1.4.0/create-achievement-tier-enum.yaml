@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-achievement-tier-enum
+      author: hptrk
+      comment: Create achievement_tier PostgreSQL native enum type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE achievement_tier AS ENUM ('BRONZE', 'SILVER', 'GOLD')
+
+      rollback:
+        - sql:
+            sql: DROP TYPE IF EXISTS achievement_tier

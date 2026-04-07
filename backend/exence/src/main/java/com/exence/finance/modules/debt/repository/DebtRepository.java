@@ -40,4 +40,10 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
             + "AND d.deadline < :today "
             + "AND d.status = :activeStatus")
     int expireOverdueDebts(DebtStatus newStatus, LocalDate today, DebtStatus activeStatus);
+
+    @Query("SELECT COUNT(d) FROM Debt d WHERE d.user.id = :userId")
+    long countAllByUserId(Long userId);
+
+    @Query("SELECT COUNT(d) FROM Debt d WHERE d.user.id = :userId AND d.status = :status")
+    long countByUserIdAndStatus(Long userId, DebtStatus status);
 }

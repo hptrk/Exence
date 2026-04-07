@@ -20,3 +20,18 @@ databaseChangeLog:
   - include:
       file: create-debt-table.yaml
       relativeToChangelogFile: true
+  - include:
+      file: create-achievement-sequences.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-achievement-tier-enum.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-achievement-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-user-achievement-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-achievement-progress-table.yaml
+      relativeToChangelogFile: true

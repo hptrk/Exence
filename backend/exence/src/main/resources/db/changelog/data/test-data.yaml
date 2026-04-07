@@ -8154,3 +8154,276 @@ databaseChangeLog:
         - sql:
             sql: SELECT setval('debt_id_seq', (SELECT COALESCE(MAX(id), 1) FROM debt));
 
+        # Achievements
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: name, value: 'achievement.transaction_count.bronze.name' }
+              - column: { name: description, value: 'achievement.transaction_count.bronze.description' }
+              - column: { name: tier, value: 'BRONZE' }
+              - column: { name: type, value: 'TRANSACTION_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 10 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: name, value: 'achievement.transaction_count.silver.name' }
+              - column: { name: description, value: 'achievement.transaction_count.silver.description' }
+              - column: { name: tier, value: 'SILVER' }
+              - column: { name: type, value: 'TRANSACTION_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 50 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: name, value: 'achievement.transaction_count.gold.name' }
+              - column: { name: description, value: 'achievement.transaction_count.gold.description' }
+              - column: { name: tier, value: 'GOLD' }
+              - column: { name: type, value: 'TRANSACTION_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 200 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: name, value: 'achievement.goal_count.bronze.name' }
+              - column: { name: description, value: 'achievement.goal_count.bronze.description' }
+              - column: { name: tier, value: 'BRONZE' }
+              - column: { name: type, value: 'GOAL_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 1 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: name, value: 'achievement.goal_count.silver.name' }
+              - column: { name: description, value: 'achievement.goal_count.silver.description' }
+              - column: { name: tier, value: 'SILVER' }
+              - column: { name: type, value: 'GOAL_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 5 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: name, value: 'achievement.goal_count.gold.name' }
+              - column: { name: description, value: 'achievement.goal_count.gold.description' }
+              - column: { name: tier, value: 'GOLD' }
+              - column: { name: type, value: 'GOAL_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 10 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 7 }
+              - column: { name: name, value: 'achievement.goal_completed.bronze.name' }
+              - column: { name: description, value: 'achievement.goal_completed.bronze.description' }
+              - column: { name: tier, value: 'BRONZE' }
+              - column: { name: type, value: 'GOAL_COMPLETED' }
+              - column: { name: requirement_value, valueNumeric: 1 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 8 }
+              - column: { name: name, value: 'achievement.goal_completed.silver.name' }
+              - column: { name: description, value: 'achievement.goal_completed.silver.description' }
+              - column: { name: tier, value: 'SILVER' }
+              - column: { name: type, value: 'GOAL_COMPLETED' }
+              - column: { name: requirement_value, valueNumeric: 3 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 9 }
+              - column: { name: name, value: 'achievement.goal_completed.gold.name' }
+              - column: { name: description, value: 'achievement.goal_completed.gold.description' }
+              - column: { name: tier, value: 'GOLD' }
+              - column: { name: type, value: 'GOAL_COMPLETED' }
+              - column: { name: requirement_value, valueNumeric: 5 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 10 }
+              - column: { name: name, value: 'achievement.debt_count.bronze.name' }
+              - column: { name: description, value: 'achievement.debt_count.bronze.description' }
+              - column: { name: tier, value: 'BRONZE' }
+              - column: { name: type, value: 'DEBT_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 1 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 11 }
+              - column: { name: name, value: 'achievement.debt_count.silver.name' }
+              - column: { name: description, value: 'achievement.debt_count.silver.description' }
+              - column: { name: tier, value: 'SILVER' }
+              - column: { name: type, value: 'DEBT_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 5 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 12 }
+              - column: { name: name, value: 'achievement.debt_count.gold.name' }
+              - column: { name: description, value: 'achievement.debt_count.gold.description' }
+              - column: { name: tier, value: 'GOLD' }
+              - column: { name: type, value: 'DEBT_COUNT' }
+              - column: { name: requirement_value, valueNumeric: 15 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 13 }
+              - column: { name: name, value: 'achievement.debt_settled.bronze.name' }
+              - column: { name: description, value: 'achievement.debt_settled.bronze.description' }
+              - column: { name: tier, value: 'BRONZE' }
+              - column: { name: type, value: 'DEBT_SETTLED' }
+              - column: { name: requirement_value, valueNumeric: 1 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 14 }
+              - column: { name: name, value: 'achievement.debt_settled.silver.name' }
+              - column: { name: description, value: 'achievement.debt_settled.silver.description' }
+              - column: { name: tier, value: 'SILVER' }
+              - column: { name: type, value: 'DEBT_SETTLED' }
+              - column: { name: requirement_value, valueNumeric: 3 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 15 }
+              - column: { name: name, value: 'achievement.debt_settled.gold.name' }
+              - column: { name: description, value: 'achievement.debt_settled.gold.description' }
+              - column: { name: tier, value: 'GOLD' }
+              - column: { name: type, value: 'DEBT_SETTLED' }
+              - column: { name: requirement_value, valueNumeric: 10 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 16 }
+              - column: { name: name, value: 'achievement.app_streak.bronze.name' }
+              - column: { name: description, value: 'achievement.app_streak.bronze.description' }
+              - column: { name: tier, value: 'BRONZE' }
+              - column: { name: type, value: 'APP_STREAK' }
+              - column: { name: requirement_value, valueNumeric: 7 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 17 }
+              - column: { name: name, value: 'achievement.app_streak.silver.name' }
+              - column: { name: description, value: 'achievement.app_streak.silver.description' }
+              - column: { name: tier, value: 'SILVER' }
+              - column: { name: type, value: 'APP_STREAK' }
+              - column: { name: requirement_value, valueNumeric: 30 }
+        - insert:
+            tableName: achievement
+            columns:
+              - column: { name: id, valueNumeric: 18 }
+              - column: { name: name, value: 'achievement.app_streak.gold.name' }
+              - column: { name: description, value: 'achievement.app_streak.gold.description' }
+              - column: { name: tier, value: 'GOLD' }
+              - column: { name: type, value: 'APP_STREAK' }
+              - column: { name: requirement_value, valueNumeric: 90 }
+
+        # User achievements (unlocked by test user)
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 1 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '300 days' + TIME '10:00')::timestamptz" }
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 2 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '200 days' + TIME '11:00')::timestamptz" }
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 3 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '100 days' + TIME '09:30')::timestamptz" }
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 4 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '250 days' + TIME '14:00')::timestamptz" }
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 5 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '80 days' + TIME '16:00')::timestamptz" }
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 7 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '60 days' + TIME '12:00')::timestamptz" }
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 7 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 10 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '50 days' + TIME '10:30')::timestamptz" }
+        - insert:
+            tableName: user_achievement
+            columns:
+              - column: { name: id, valueNumeric: 8 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_id, valueNumeric: 11 }
+              - column: { name: unlocked_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '15:00')::timestamptz" }
+
+        # Achievement progress
+        - insert:
+            tableName: achievement_progress
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_type, value: 'TRANSACTION_COUNT' }
+              - column: { name: current_value, valueNumeric: 400 }
+        - insert:
+            tableName: achievement_progress
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_type, value: 'GOAL_COUNT' }
+              - column: { name: current_value, valueNumeric: 6 }
+        - insert:
+            tableName: achievement_progress
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_type, value: 'GOAL_COMPLETED' }
+              - column: { name: current_value, valueNumeric: 1 }
+        - insert:
+            tableName: achievement_progress
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_type, value: 'DEBT_COUNT' }
+              - column: { name: current_value, valueNumeric: 20 }
+        - insert:
+            tableName: achievement_progress
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_type, value: 'DEBT_SETTLED' }
+              - column: { name: current_value, valueNumeric: 5 }
+        - insert:
+            tableName: achievement_progress
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: achievement_type, value: 'APP_STREAK' }
+              - column: { name: current_value, valueNumeric: 14 }
+
+        - sql:
+            sql: SELECT setval('achievement_id_seq', (SELECT COALESCE(MAX(id), 1) FROM achievement));
+        - sql:
+            sql: SELECT setval('user_achievement_id_seq', (SELECT COALESCE(MAX(id), 1) FROM user_achievement));
+        - sql:
+            sql: SELECT setval('achievement_progress_id_seq', (SELECT COALESCE(MAX(id), 1) FROM achievement_progress));
+

@@ -40,4 +40,10 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
             + "AND g.deadline < :today "
             + "AND g.status IN :activeStatuses")
     int expireOverdueGoals(GoalStatus newStatus, LocalDate today, List<GoalStatus> activeStatuses);
+
+    @Query("SELECT COUNT(g) FROM Goal g WHERE g.user.id = :userId")
+    long countAllByUserId(Long userId);
+
+    @Query("SELECT COUNT(g) FROM Goal g WHERE g.user.id = :userId AND g.status = :status")
+    long countByUserIdAndStatus(Long userId, GoalStatus status);
 }

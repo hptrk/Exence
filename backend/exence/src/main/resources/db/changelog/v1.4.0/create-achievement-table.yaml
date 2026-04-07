@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-achievement-table
+      author: hptrk
+      comment: Create achievement table for gamification achievements
+      dbms: postgresql
+      changes:
+        - createTable:
+            tableName: achievement
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_achievement
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(500)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tier
+                  type: achievement_tier
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: requirement_value
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+
+      rollback:
+        - dropTable:
+            tableName: achievement

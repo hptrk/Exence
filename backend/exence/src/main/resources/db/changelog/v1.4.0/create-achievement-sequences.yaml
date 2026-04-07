@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-achievement-sequences
+      author: hptrk
+      comment: Create sequences for achievement, user_achievement, and achievement_progress tables
+      changes:
+        - createSequence:
+            sequenceName: achievement_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: user_achievement_id_seq
+            startValue: 1
+            incrementBy: 1
+
+        - createSequence:
+            sequenceName: achievement_progress_id_seq
+            startValue: 1
+            incrementBy: 1
+
+      rollback:
+        - dropSequence:
+            sequenceName: achievement_id_seq
+        - dropSequence:
+            sequenceName: user_achievement_id_seq
+        - dropSequence:
+            sequenceName: achievement_progress_id_seq

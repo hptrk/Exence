@@ -27,4 +27,11 @@ public interface TransactionRepository
 
     @Query("SELECT COUNT(t) > 0 FROM Transaction t WHERE t.recurringTransaction.id = :rid AND t.date = :d")
     boolean existsByRecurringTransactionAndDate(@Param("rid") Long recurringTransactionId, @Param("d") LocalDate date);
+
+    // event listeners needs userId, hibernate filter does not apply
+    @Query("SELECT COUNT(t) FROM Transaction t WHERE t.user.id = :userId")
+    long countByUserId(@Param("userId") Long userId);
+
+    @Query("SELECT DISTINCT t.createdAt FROM Transaction t WHERE t.user.id = :userId ORDER BY t.createdAt ASC")
+    List<LocalDate> findDistinctCreatedAtByUserId(@Param("userId") Long userId);
 }
