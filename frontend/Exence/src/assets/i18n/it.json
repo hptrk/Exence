@@ -40,7 +40,77 @@
 		"noCategories": "Prima crei una categoria!",
 		"addTransaction": "Aggiungi transazione",
 		"search": "Cerca...",
-		"dateRange": "Inserisca un intervallo di date"
+		"dateRange": "Inserisca un intervallo di date",
+		"title": "Titolo",
+		"date": "Data"
+	},
+	"recurring": {
+		"info": "L'invio <strong>NON</strong> aggiungerà immediatamente una transazione.<br><br>La prima transazione creata sarà programmata per la data di inizio specificata. Se hai impostato la data di inizio a oggi, vedrai la tua transazione creata domani (comunque assegnata a oggi).",
+		"featureDisabledByRecurring": "Questa funzione non è disponibile per le transazioni ricorrenti.",
+		"interval": "Ripeti ogni",
+		"frequency": {
+			"WEEKLY": "settimana",
+			"MONTHLY": "mese",
+			"YEARLY": "anno"
+		},
+		"dayOfWeek": {
+			"label": "In questo giorno",
+			"MONDAY": {
+				"full": "Lunedì",
+				"short": "L"
+			},
+			"TUESDAY": {
+				"full": "Martedì",
+				"short": "M"
+			},
+			"WEDNESDAY": {
+				"full": "Mercoledì",
+				"short": "M"
+			},
+			"THURSDAY": {
+				"full": "Giovedì",
+				"short": "G"
+			},
+			"FRIDAY": {
+				"full": "Venerdì",
+				"short": "V"
+			},
+			"SATURDAY": {
+				"full": "Sabato",
+				"short": "S"
+			},
+			"SUNDAY": {
+				"full": "Domenica",
+				"short": "D"
+			}
+		},
+		"dayOfMonth": "In questa data",
+		"ends": {
+			"label": "Termina:",
+			"endCondition": {
+				"NEVER": "Mai",
+				"UNTIL_DATE": "In una data",
+				"AFTER_OCCURRENCES": "Occorrenze"
+			}
+		},
+		"startDate": "A partire dal",
+		"endDate": "Terminando in questa data",
+		"maxOccurrences": "Occorrenze",
+		"createInfo": "Transazione ricorrente '{{title}}' creata con successo!",
+		"updateInfo": "Transazione ricorrente '{{title}}' aggiornata con successo!",
+		"deleteInfo": "Transazione ricorrente eliminata con successo!",
+		"details": {
+			"frequency": {
+				"label": "Frequenza",
+				"WEEKLY": "{{interval}} x ogni settimana",
+				"MONTHLY": "{{interval}} x ogni mese",
+				"YEARLY": "{{interval}} x ogni anno"
+			},
+			"nextExecution": "Prossima data di esecuzione",
+			"currentOccurrence": "Conteggio occorrenze"
+		},
+		"title": "Titolo",
+		"nextExecutionLabel": "Prossimo"
 	},
 	"categories": {
 		"topCategories": "Categorie principali",
@@ -434,7 +504,7 @@
 		"title": "Titolo",
 		"date": "Data",
 		"note": "Nota",
-		"recurring": "Ricorrenza automatica?",
+		"recurring": "Creato auto.?",
 		"name": "Nome",
 		"icon": "Icona",
 		"type": "Tipo",
@@ -453,7 +523,8 @@
 			"logged": "Importo nella valuta registrata",
 			"base": "Importo nella valuta di base"
 		},
-		"exchangeRate": "Tasso di cambio"
+		"exchangeRate": "Tasso di cambio",
+		"createdAt": "Creato il:"
 	},
 	"filterMenu": {
 		"title": "Filtri",
@@ -495,7 +566,11 @@
 		"min": "Il valore minimo è {{min}}!",
 		"max": "Il valore massimo è {{max}}!",
 		"filledArray": "Deve selezionare almeno 1 valore!",
-		"theme": "Deve scegliere due temi diversi!"
+		"theme": "Deve scegliere due temi diversi!",
+		"dayOfWeekRequired": "Seleziona un giorno della settimana!",
+		"dayOfMonthRequired": "Seleziona un giorno del mese!",
+		"endDateRequired": "La data di fine è obbligatoria!",
+		"matDatepickerFilter": "La data deve corrispondere al modello di ricorrenza e non deve essere nel passato!"
 	},
 	"confirmExit": {
 		"title": "Modifiche non salvate",

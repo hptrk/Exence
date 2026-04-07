@@ -24,7 +24,10 @@
 			@let amountControl = form.controls.amount;
 			<ex-amount-stepper [control]="amountControl" label="transaction.create.amount" [min]="1" />
 			@let dateControl = form.controls.date;
-			<mat-form-field>
+			<mat-form-field
+				[matTooltip]="'recurring.featureDisabledByRecurring' | translate"
+				[matTooltipDisabled]="dateControl.enabled"
+			>
 				<mat-label>{{ 'transaction.create.date' | translate }}</mat-label>
 				<input matInput [matDatepicker]="picker" [formControl]="dateControl" />
 				<mat-datepicker-toggle matIconSuffix [for]="picker" />
@@ -54,14 +57,14 @@
 				label="transaction.create.exchangeRate"
 				[step]="0.1"
 				[min]="0.01"
-				[matTooltip]="'transaction.create.disabledExchangeRate' | translate"
+				[matTooltip]="exchangeRateDisabledReason() | translate"
 				[matTooltipDisabled]="exchangeRateControl.enabled"
 			/>
 		</div>
 
-		<div class="d-flex flex-column flex-md-row gap-3">
+		<div class="d-flex flex-column flex-md-row gap-3 align-items-md-baseline">
 			@let categoryControl = form.controls.category.controls;
-			<mat-form-field>
+			<mat-form-field class="flex-grow-1">
 				<mat-label>{{ 'transaction.create.category' | translate }}</mat-label>
 				<mat-select
 					selectAutoFocus
@@ -88,7 +91,153 @@
 					<ex-validator [control]="categoryControl.category" />
 				</mat-error>
 			</mat-form-field>
+
+			@let recurringControl = form.controls.recurring.controls.isRecurring;
+			<mat-checkbox class="flex-grow-1 flex-shrink-0" [formControl]="recurringControl">
+				{{ 'transaction.create.recurring' | translate }}
+			</mat-checkbox>
 		</div>
+
+		@if (recurringControl.value) {
+			@let recurringConfigs = form.controls.recurring.controls.configs.controls;
+			<div class="d-flex flex-column flex-md-row gap-3 align-items-md-center mb-3">
+				@let intervalControl = recurringConfigs.interval;
+				<ex-amount-stepper [control]="intervalControl" [step]="1" [label]="'recurring.interval'" />
+
+				@let frequencyControl = recurringConfigs.frequency;
+				<mat-form-field subscriptSizing="dynamic">
+					<mat-select [formControl]="frequencyControl">
+						@for (freq of recurrenceFrequencies | enumValue; track freq) {
+							<mat-option [value]="freq">{{ codeForFrequency(freq) | translate }}</mat-option>
+						}
+					</mat-select>
+					<mat-error>
+						<ex-validator [control]="frequencyControl" />
+					</mat-error>
+				</mat-form-field>
+			</div>
+
+			@switch (frequencyControl.value) {
+				@case (recurrenceFrequencies.WEEKLY) {
+					@let dayOfWeekControl = recurringConfigs.dayOfWeek;
+					<div class="d-flex flex-column gap-2">
+						<h4 class="m-0 fs-6">{{ 'recurring.dayOfWeek.label' | translate }}</h4>
+						<dl class="d-flex flex-row flex-wrap gap-2">
+							@for (wDay of daysOfWeek; track wDay) {
+								<dt
+									class="recurring-day-card"
+									[class.selected]="dayOfWeekControl.value === wDay"
+									(click)="dayOfWeekControl.setValue(wDay)"
+								>
+									{{ codeForDayOfWeek(wDay) | translate }}
+								</dt>
+							}
+						</dl>
+						@if (form.controls.recurring.controls.configs.hasError('dayOfWeekRequired')) {
+							<mat-error>
+								<ex-validator [control]="form.controls.recurring.controls.configs" />
+							</mat-error>
+						}
+					</div>
+				}
+				@case (recurrenceFrequencies.MONTHLY) {
+					@let dayOfMonthControl = recurringConfigs.dayOfMonth;
+					<div class="d-flex flex-column gap-2">
+						<h4 class="m-0 fs-6">{{ 'recurring.dayOfMonth' | translate }}</h4>
+
+						<dl class="recurring-month-grid gap-2">
+							@for (mDay of daysOfMonth; track mDay) {
+								<dt
+									class="recurring-day-card"
+									[class.selected]="dayOfMonthControl.value === mDay"
+									(click)="dayOfMonthControl.setValue(mDay)"
+									[matTooltip]="mDay | ordinal"
+								>
+									{{ mDay }}
+								</dt>
+							}
+						</dl>
+						@if (form.controls.recurring.controls.configs.hasError('dayOfMonthRequired')) {
+							<mat-error>
+								<ex-validator [control]="form.controls.recurring.controls.configs" />
+							</mat-error>
+						}
+					</div>
+				}
+			}
+			<mat-form-field>
+				<mat-label>{{ 'recurring.startDate' | translate }}</mat-label>
+				<input
+					matInput
+					[matDatepicker]="picker"
+					[formControl]="recurringConfigs.startDate"
+					[matDatepickerFilter]="recurringDateFilter()"
+				/>
+				<mat-datepicker-toggle matIconSuffix [for]="picker" />
+				<mat-datepicker #picker />
+				<mat-error>
+					<ex-validator [control]="recurringConfigs.startDate" />
+				</mat-error>
+			</mat-form-field>
+			<div class="d-flex flex-column flex-md-row gap-3 align-items-md-baseline">
+				@let endCondControl = recurringConfigs.endCondition;
+				<mat-form-field>
+					<mat-label>{{ 'recurring.ends.label' | translate }}</mat-label>
+					<mat-select [formControl]="endCondControl">
+						@for (cond of endConditions | enumValue; track cond) {
+							<mat-option [value]="cond">{{ codeForEndCondition(cond) | translate }}</mat-option>
+						}
+					</mat-select>
+					<mat-error>
+						<ex-validator [control]="endCondControl" />
+					</mat-error>
+				</mat-form-field>
+
+				@switch (endCondControl.value) {
+					@case (endConditions.UNTIL_DATE) {
+						<div class="d-flex flex-column gap-1">
+							<mat-form-field subscriptSizing="dynamic">
+								<mat-label>{{ 'recurring.ends.label' | translate }}</mat-label>
+								<input
+									matInput
+									[matDatepicker]="picker"
+									[formControl]="recurringConfigs.endDate"
+									[errorStateMatcher]="endDateErrorMatcher"
+									[matDatepickerFilter]="recurringDateFilter()"
+								/>
+								<mat-datepicker-toggle matIconSuffix [for]="picker" />
+								<mat-datepicker #picker />
+							</mat-form-field>
+							@if (
+								form.controls.recurring.controls.configs.hasError('endDateRequired') &&
+								recurringConfigs.endDate.touched
+							) {
+								<mat-error>
+									<ex-validator [control]="form.controls.recurring.controls.configs" />
+								</mat-error>
+							}
+							@if (
+								recurringConfigs.endDate.hasError('matDatepickerFilter') &&
+								recurringConfigs.endDate.touched
+							) {
+								<mat-error>
+									<ex-validator [control]="recurringConfigs.endDate" />
+								</mat-error>
+							}
+						</div>
+					}
+					@case (endConditions.AFTER_OCCURRENCES) {
+						@let maxOccurrencesControl = recurringConfigs.maxOccurrences;
+						<ex-amount-stepper
+							[control]="maxOccurrencesControl"
+							[step]="1"
+							[label]="'recurring.maxOccurrences'"
+						/>
+					}
+				}
+			</div>
+		}
+
 		@let noteControl = form.controls.note;
 		<mat-form-field>
 			<mat-label>{{ 'transaction.create.note' | translate }}</mat-label>
@@ -104,10 +253,11 @@
 			</mat-error>
 		</mat-form-field>
 
-		@let recurringControl = form.controls.recurring;
-		<mat-checkbox [formControl]="recurringControl">
-			{{ 'transaction.create.recurring' | translate }}
-		</mat-checkbox>
+		@if (isRecurring()) {
+			<ex-note-box type="info">
+				<span [innerHTML]="'recurring.info' | translate"></span>
+			</ex-note-box>
+		}
 
 		<ex-button class="d-none" type="submit" />
 	</form>

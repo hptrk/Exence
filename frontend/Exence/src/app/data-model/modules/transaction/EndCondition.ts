@@ -1,0 +1,5 @@
+export enum EndCondition {
+	NEVER = 'NEVER',
+	UNTIL_DATE = 'UNTIL_DATE',
+	AFTER_OCCURRENCES = 'AFTER_OCCURRENCES',
+}

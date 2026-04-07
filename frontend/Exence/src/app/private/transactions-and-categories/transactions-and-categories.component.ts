@@ -16,8 +16,6 @@ import { TransactionFilter } from '../../data-model/modules/transaction/Transact
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { AmountStepperComponent } from '../../shared/amount-stepper/amount-stepper.component';
 import { ButtonComponent } from '../../shared/button/button.component';
-import { DataTableComponent } from '../../shared/data-table/data-table.component';
-import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { FilterMenuComponent } from '../../shared/filter-menu/filter-menu.component';
 import { TranslationCode } from '../../shared/i18n/translation-types';
@@ -26,16 +24,13 @@ import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { mapToTransactionFilter, toRawValueSignal } from '../../shared/util/utils';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
+import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
 import { CategoryStore } from './category.store';
-import { CreateCategoryDialogComponent } from './create-category-dialog/create-category-dialog.component';
-import {
-	CreateTransactionDialogComponent,
-	CreateTransactionDialogData,
-} from './create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from './transaction.store';
 import { MatDividerModule } from '@angular/material/divider';
-import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
-import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
+import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { RecurringListComponent } from './recurring-list/recurring-list.component';
+import { CategoryListComponent } from './category-list/category-list.component';
 
 @Component({
 	selector: 'ex-transactions-and-categories',
@@ -56,7 +51,6 @@ import { TransactionCreate } from '../../data-model/modules/transaction/Transact
 		MatDividerModule,
 		MatLabel,
 		MatError,
-		DataTableComponent,
 		AmountStepperComponent,
 		ButtonComponent,
 		FilterMenuComponent,
@@ -65,10 +59,12 @@ import { TransactionCreate } from '../../data-model/modules/transaction/Transact
 		TranslatePipe,
 		UpperCasePipe,
 		EnumValuePipe,
+		TransactionListComponent,
+		RecurringListComponent,
+		CategoryListComponent,
 	],
 })
 export class TransactionsAndCategoriesComponent {
-	private readonly dialog = inject(DialogService);
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly route = inject(ActivatedRoute);
@@ -76,10 +72,8 @@ export class TransactionsAndCategoriesComponent {
 	readonly transactionStore = inject(TransactionStore);
 
 	categories = computed(() => this.categoryStore.categoryResource.value());
-	transactions = computed(() => this.transactionStore.transactions());
 
 	selectedIndex = 0;
-	loading = false;
 
 	transactionTypes = TransactionType;
 
@@ -111,10 +105,6 @@ export class TransactionsAndCategoriesComponent {
 		}, 0);
 	}
 
-	get canCreateTransaction(): boolean {
-		return !!this.categoryStore.categoryResource.value();
-	}
-
 	constructor() {
 		this.transactionStore.resetState();
 
@@ -129,30 +119,11 @@ export class TransactionsAndCategoriesComponent {
 			if (formValue.amountRange.max != null) filters.amountTo = formValue.amountRange.max;
 			if (formValue.category?.id != null) filters.categoryId = formValue.category.id;
 			if (formValue.type) filters.type = formValue.type;
-			if (formValue.recurring) filters.recurring = formValue.recurring;
+			if (formValue.recurring) filters.createdByRecurringJob = formValue.recurring;
 			this.transactionStore.updateFilters(filters);
 		});
 
 		this.applyQueryParamsToFilters();
-	}
-
-	async openCreateTransactionDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal<
-			CreateTransactionDialogData | undefined,
-			TransactionCreate | null
-		>(CreateTransactionDialogComponent, undefined);
-		if (!result) return;
-		this.transactionStore.createTransaction(result);
-	}
-
-	async openCreateCategoryDialog(): Promise<void> {
-		const result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
-		if (!result) return;
-		this.categoryStore.createCategory(result);
-	}
-
-	onScroll(type?: TransactionType, recurring?: boolean): void {
-		this.transactionStore.loadNextPage(type, recurring);
 	}
 
 	codeForTransactionType(type: TransactionType): TranslationCode {

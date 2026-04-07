@@ -69,6 +69,11 @@ table {
 		max-width: 35%;
 	}
 
+	th.mat-column-date {
+		padding: 0;
+		width: 50px;
+	}
+
 	th.mat-column-category {
 		max-width: 15%;
 	}
@@ -97,6 +102,23 @@ td[mat-cell].mat-mdc-cell {
 			padding: 0;
 		}
 	}
+
+	&.mat-column-title .table-row-item {
+		padding-left: 0;
+		padding-right: 1rem;
+		overflow: hidden;
+	}
+}
+
+td[mat-cell].mat-column-expand {
+	padding: 0 0.25rem;
+}
+
+tr:not(.expanded-detail-row) td[mat-cell]:first-of-type {
+	padding-left: 0.25rem;
+}
+tr:not(.expanded-detail-row) td[mat-cell]:last-of-type {
+	padding-right: 0.25rem;
 }
 
 .table-row-item {
@@ -112,8 +134,7 @@ td[mat-cell].mat-mdc-cell {
 
 // gap between rows
 tr.mat-mdc-row.expanded-detail-row,
-tr.mat-mdc-row.non-expandable,
-tr.mat-mdc-row.category-table-row {
+tr.mat-mdc-row.non-expandable {
 	border-bottom: 10px solid transparent;
 }
 
@@ -163,11 +184,10 @@ tr.table-row:nth-child(odd of .table-row) {
 // expanded row color
 tr.mat-mdc-row.table-row.expanded .table-row-item {
 	transition-delay: 0ms;
-
 	background-color: darken(var(--default-text-color), 5%);
-	&:not(.amount) {
-		color: var(--secondary-text-color);
-	}
+}
+tr.mat-mdc-row.table-row.expanded td:not(.mat-column-amount) .table-row-item {
+	color: var(--secondary-text-color);
 }
 
 tr.table-row,
@@ -186,12 +206,6 @@ tr.expanded + tr {
 
 td.mat-column-actions mat-icon {
 	cursor: pointer;
-}
-
-.recurring {
-	height: 100%;
-	overflow: hidden;
-	background-color: var(--primary-color);
 }
 
 .detail-container {
@@ -246,25 +260,6 @@ button {
 	}
 }
 
-.nowrap {
-	white-space: nowrap;
-}
-
 .category-delete-icon {
 	--mat-icon-color: var(--error-color);
-}
-
-.icon-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 40px;
-	height: 40px;
-	padding: 0.5rem;
-	border-radius: 100%;
-	background-color: color-mix(in srgb, var(--icon-color), transparent 60%);
-
-	mat-icon {
-		color: var(--icon-color);
-	}
 }

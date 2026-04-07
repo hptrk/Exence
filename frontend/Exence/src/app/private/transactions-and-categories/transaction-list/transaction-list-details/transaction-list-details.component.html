@@ -8,8 +8,24 @@
 			{{ transaction().note }}
 		</div>
 	</div>
-	<div class="detail">
-		<div class="d-flex flex-column flex-lg-row gap-4 gap-lg-2 flex-grow-1">
+	<div class="d-flex flex-column flex-sm-row gap-4 gap-lg-2 flex-grow-1">
+		<div class="detail d-flex flex-row gap-2 gap-lg-3">
+			<div class="detail gap-2 gap-lg-3">
+				<mat-label>{{ 'dataTable.createdAt' | translate }}</mat-label>
+				<div class="fs-6 pt-lg-1">
+					{{ transaction().date | date: 'yy/MM/dd' }}
+				</div>
+			</div>
+		</div>
+		<div class="detail gap-2 gap-lg-3">
+			<mat-label>{{ 'dataTable.recurring' | translate }}</mat-label>
+			<div class="fs-6 pt-lg-1">
+				{{ (transaction().createdByRecurringJob ? 'literals.yes' : 'literals.no') | translate }}
+			</div>
+		</div>
+	</div>
+	@if (transaction().currency !== baseCurrency()) {
+		<div class="detail d-flex flex-column flex-sm-row span-cols">
 			@if (showBaseCurrency()) {
 				<div class="detail gap-2 gap-lg-3">
 					<mat-label>
@@ -47,13 +63,6 @@
 					</div>
 				</div>
 			}
-		</div>
-	</div>
-	<div class="detail span-cols">
-		<div
-			class="d-flex flex-column flex-lg-row gap-2 flex-grow-1"
-			[class.gap-4]="display.isXxl() || !display.isLg()"
-		>
 			<div class="detail gap-2 gap-lg-3">
 				<mat-label>{{ 'dataTable.exchangeRate' | translate }}</mat-label>
 				<div class="d-flex flex-row flex-nowrap align-items-center">
@@ -64,12 +73,6 @@
 					>
 				</div>
 			</div>
-			<div class="detail gap-2 gap-lg-3">
-				<mat-label>{{ 'dataTable.recurring' | translate }}</mat-label>
-				<div class="fs-5 pt-lg-1">
-					{{ (transaction().recurring ? 'literals.yes' : 'literals.no') | translate }}
-				</div>
-			</div>
 		</div>
-	</div>
+	}
 </div>

@@ -49,163 +49,129 @@
 </section>
 
 <ng-template #transactionsTab>
-	<div class="d-flex flex-column justify-content-between gap-4 h-100" [class.overflow-hidden]="display.isLg()">
+	<div class="d-flex flex-column justify-content-between gap-4 flex-grow-1" [class.overflow-hidden]="display.isLg()">
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
-				<ex-data-table
-					[transactions]="transactionStore.recurringExpenses()"
-					[isDataLoading]="transactionStore.recurringExpenseResource.isLoading()"
+				<ex-recurring-list
 					matIcon="money_off"
-					nonExpandable
 					[title]="'transactionsAndCategories.recurring.expenses' | translate"
 					[type]="transactionTypes.EXPENSE"
-					[isRecurring]="true"
-					(onScroll)="onScroll(transactionTypes.EXPENSE, true)"
 				/>
-				<ex-data-table
-					[transactions]="transactionStore.recurringIncomes()"
-					[isDataLoading]="transactionStore.recurringIncomeResource.isLoading()"
+				<ex-recurring-list
 					matIcon="attach_money"
-					nonExpandable
 					[title]="'transactionsAndCategories.recurring.incomes' | translate"
 					[type]="transactionTypes.INCOME"
-					[isRecurring]="true"
-					(onScroll)="onScroll(transactionTypes.INCOME, true)"
 				/>
 			} @else {
-				<ex-data-table
-					[transactions]="transactionStore.recurrings()"
-					[isDataLoading]="transactionStore.recurringResource.isLoading()"
+				<ex-recurring-list
 					matIcon="attach_money"
-					nonExpandable
 					[title]="'transactionsAndCategories.recurring.transactions' | translate"
-					[isRecurring]="true"
-					(onScroll)="onScroll(undefined, true)"
 				/>
 			}
 		</div>
 
-		<div class="d-flex flex-column h-100 gap-2 bigger-row" [class.overflow-hidden]="display.isLg()">
+		<div class="d-flex flex-column flex-grow-1 gap-2 bigger-row" [class.overflow-hidden]="display.isLg()">
 			<div class="d-flex flex-row flex-nowrap justify-content-between">
-				<div
-					class="d-flex flex-row flex-nowrap justify-content-between gap-3 w-100"
-					[matTooltip]="!canCreateTransaction ? ('transactionsAndCategories.noCategories' | translate) : ''"
-				>
-					<ex-button
-						filled
-						matIcon="add"
-						collapsedStyle="filled"
-						collapseUnder="sm"
-						[disabled]="!canCreateTransaction"
-						(click)="openCreateTransactionDialog()"
+				<div class="d-flex flex-row flex-nowrap justify-content-end gap-3 w-100">
+					<mat-error class="align-self-center">
+						<ex-validator [control]="transactionFilterForm.controls.searchText" />
+					</mat-error>
+					<mat-form-field subscriptSizing="dynamic" class="search">
+						<ex-button iconButton matPrefix matIcon="search" color="accent" />
+						<input
+							[formControl]="transactionFilterForm.controls.searchText"
+							matInput
+							[placeholder]="'transactionsAndCategories.search' | translate"
+							autocomplete="off"
+						/>
+						<ex-input-clear [control]="transactionFilterForm.controls.searchText" matSuffix />
+					</mat-form-field>
+					<ex-filter-menu
+						class="align-self-end"
+						[form]="transactionFilterForm"
+						[appliedFiltersCount]="appliedFiltersCount"
 					>
-						{{ 'transactionsAndCategories.addTransaction' | translate }}
-					</ex-button>
-
-					<div class="d-flex flex-row flex-nowrap gap-3">
-						<mat-error class="align-self-center">
-							<ex-validator [control]="transactionFilterForm.controls.searchText" />
-						</mat-error>
-						<mat-form-field subscriptSizing="dynamic" class="search">
-							<ex-button iconButton matPrefix matIcon="search" color="accent" />
-							<input
-								[formControl]="transactionFilterForm.controls.searchText"
-								matInput
-								[placeholder]="'transactionsAndCategories.search' | translate"
-								autocomplete="off"
-							/>
-							<ex-input-clear [control]="transactionFilterForm.controls.searchText" matSuffix />
+						@let dateRangeControl = transactionFilterForm.controls.dateRange;
+						<mat-form-field subscriptSizing="dynamic">
+							<mat-label>{{ 'transactionsAndCategories.dateRange' | translate }}</mat-label>
+							<mat-date-range-input [formGroup]="dateRangeControl" [rangePicker]="dateRangePicker">
+								<input matStartDate [formControl]="dateRangeControl.controls.dateFrom" />
+								<input matEndDate [formControl]="dateRangeControl.controls.dateTo" />
+							</mat-date-range-input>
+							<mat-datepicker-toggle matIconSuffix [for]="dateRangePicker" />
+							<mat-date-range-picker #dateRangePicker />
 						</mat-form-field>
-						<ex-filter-menu
-							class="align-self-end"
-							[form]="transactionFilterForm"
-							[appliedFiltersCount]="appliedFiltersCount"
-						>
-							@let dateRangeControl = transactionFilterForm.controls.dateRange;
-							<mat-form-field subscriptSizing="dynamic">
-								<mat-label>{{ 'transactionsAndCategories.dateRange' | translate }}</mat-label>
-								<mat-date-range-input [formGroup]="dateRangeControl" [rangePicker]="dateRangePicker">
-									<input matStartDate [formControl]="dateRangeControl.controls.dateFrom" />
-									<input matEndDate [formControl]="dateRangeControl.controls.dateTo" />
-								</mat-date-range-input>
-								<mat-datepicker-toggle matIconSuffix [for]="dateRangePicker" />
-								<mat-date-range-picker #dateRangePicker />
-							</mat-form-field>
 
-							<mat-divider />
+						<mat-divider />
 
-							<div class="d-flex flex-column gap-1">
-								<div class="fs-6 ps-1 mb-1">{{ 'literals.amount' | translate }}</div>
-								@let amountRangeControl = transactionFilterForm.controls.amountRange;
-								<ex-amount-stepper
-									class="mb-3"
-									[control]="amountRangeControl.controls.min"
-									label="literals.minimum"
-									[min]="0"
-								/>
-								<ex-amount-stepper
-									[control]="amountRangeControl.controls.max"
-									label="literals.maximum"
-									[min]="0"
-								/>
-							</div>
+						<div class="d-flex flex-column gap-1">
+							<div class="fs-6 ps-1 mb-1">{{ 'literals.amount' | translate }}</div>
+							@let amountRangeControl = transactionFilterForm.controls.amountRange;
+							<ex-amount-stepper
+								class="mb-3"
+								[control]="amountRangeControl.controls.min"
+								label="literals.minimum"
+								[min]="0"
+							/>
+							<ex-amount-stepper
+								[control]="amountRangeControl.controls.max"
+								label="literals.maximum"
+								[min]="0"
+							/>
+						</div>
 
-							<mat-divider />
+						<mat-divider />
 
-							@let categoryControl = transactionFilterForm.controls.category;
-							<mat-form-field subscriptSizing="dynamic">
-								<mat-label>{{ 'literals.category' | translate }}</mat-label>
-								<mat-select [formControl]="categoryControl">
-									<mat-option [value]="null">
-										{{ 'literals.all' | translate }}
+						@let categoryControl = transactionFilterForm.controls.category;
+						<mat-form-field subscriptSizing="dynamic">
+							<mat-label>{{ 'literals.category' | translate }}</mat-label>
+							<mat-select [formControl]="categoryControl">
+								<mat-option [value]="null">
+									{{ 'literals.all' | translate }}
+								</mat-option>
+								@for (category of categories(); track category.id) {
+									<mat-option [value]="category">
+										<mat-icon [style.color]="category.color">
+											{{ category.icon }}
+										</mat-icon>
+										{{ category.name }}
 									</mat-option>
-									@for (category of categories(); track category.id) {
-										<mat-option [value]="category">
-											<mat-icon [style.color]="category.color">
-												{{ category.icon }}
-											</mat-icon>
-											{{ category.name }}
-										</mat-option>
-									}
-								</mat-select>
-								<mat-error>
-									<ex-validator [control]="categoryControl" />
-								</mat-error>
-							</mat-form-field>
+								}
+							</mat-select>
+							<mat-error>
+								<ex-validator [control]="categoryControl" />
+							</mat-error>
+						</mat-form-field>
 
-							@let typeControl = transactionFilterForm.controls.type;
-							<mat-form-field subscriptSizing="dynamic">
-								<mat-label>{{ 'literals.type' | translate }}</mat-label>
-								<mat-select [formControl]="typeControl">
-									<mat-option [value]="null">
-										{{ 'literals.all' | translate }}
+						@let typeControl = transactionFilterForm.controls.type;
+						<mat-form-field subscriptSizing="dynamic">
+							<mat-label>{{ 'literals.type' | translate }}</mat-label>
+							<mat-select [formControl]="typeControl">
+								<mat-option [value]="null">
+									{{ 'literals.all' | translate }}
+								</mat-option>
+								@for (type of transactionTypes | enumValue; track type) {
+									<mat-option [value]="type">
+										{{ codeForTransactionType(type) | translate | uppercase }}
 									</mat-option>
-									@for (type of transactionTypes | enumValue; track type) {
-										<mat-option [value]="type">
-											{{ codeForTransactionType(type) | translate | uppercase }}
-										</mat-option>
-									}
-								</mat-select>
-								<mat-error>
-									<ex-validator [control]="typeControl" />
-								</mat-error>
-							</mat-form-field>
+								}
+							</mat-select>
+							<mat-error>
+								<ex-validator [control]="typeControl" />
+							</mat-error>
+						</mat-form-field>
 
-							@let recurringControl = transactionFilterForm.controls.recurring;
-							<mat-checkbox [formControl]="recurringControl">
-								{{ 'transaction.recurring' | translate }}
-							</mat-checkbox>
-						</ex-filter-menu>
-					</div>
+						@let recurringControl = transactionFilterForm.controls.recurring;
+						<mat-checkbox [formControl]="recurringControl">
+							{{ 'transaction.recurring' | translate }}
+						</mat-checkbox>
+					</ex-filter-menu>
 				</div>
 			</div>
-			<ex-data-table
-				[transactions]="transactionStore.transactions()"
-				[isDataLoading]="transactionStore.transactionResource.isLoading()"
+			<ex-transaction-list
 				matIcon="payments"
 				[class.overflow-hidden]="display.isLg()"
 				[title]="'literals.transactions' | translate"
-				(onScroll)="onScroll()"
 			/>
 		</div>
 	</div>
@@ -213,23 +179,9 @@
 
 <ng-template #categoriesTab>
 	<div class="d-flex flex-column gap-2 flex-grow-1 mt-4" [class.overflow-hidden]="display.isLg()">
-		<div class="d-flex flex-row flex-norwap gap-2 align-items-center">
-			<ex-button
-				filled
-				matIcon="add"
-				collapsedStyle="filled"
-				collapseUnder="sm"
-				class="justify-self-end"
-				(click)="openCreateCategoryDialog()"
-			>
-				{{ 'category.addButton' | translate }}
-			</ex-button>
-		</div>
-
-		<ex-data-table
+		<ex-category-list
 			matIcon="category"
 			[title]="'literals.categories' | translate"
-			type="category"
 			[class.overflow-hidden]="display.isLg()"
 		/>
 	</div>

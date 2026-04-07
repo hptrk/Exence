@@ -1,0 +1,43 @@
+<ex-data-table
+	[columns]="columns()"
+	[actions]="actions"
+	[data]="data()"
+	[isLoading]="isLoading()"
+	[title]="title()"
+	[matIcon]="matIcon()"
+	[svgIcon]="svgIcon()"
+	[expandTemplate]="expandTmpl"
+	(addClicked)="openCreate()"
+	(scrolled)="onScroll()"
+	[nonExpandable]="nonExpandable()"
+	class="overflow-hidden"
+>
+	<ng-template exCell="title" let-row>
+		<div style="min-width: 4px" [class.recurring]="row.createdByRecurringJob"></div>
+		<div class="text-truncate ps-3" [matTooltip]="row.title">{{ row.title }}</div>
+	</ng-template>
+
+	<ng-template exCell="date" let-row>
+		{{ row.date | date: 'yy/MM/dd' }}
+	</ng-template>
+
+	<ng-template exCell="amount" let-row>
+		<span class="fw-semibold {{ row.type === transactionTypes.INCOME ? 'income' : 'expense' }}">
+			@if (showBaseCurrency()) {
+				{{ row.baseCurrencyAmount | currency }}
+			} @else {
+				{{ row.amount | currency: row.currency }}
+			}
+		</span>
+	</ng-template>
+
+	<ng-template exCell="category" let-row>
+		<div class="icon-container" [style.--icon-color]="row.category?.color" [matTooltip]="row.category?.name">
+			<mat-icon>{{ row.category?.icon }}</mat-icon>
+		</div>
+	</ng-template>
+</ex-data-table>
+
+<ng-template #expandTmpl let-row>
+	<ex-transaction-list-details [transaction]="row" />
+</ng-template>

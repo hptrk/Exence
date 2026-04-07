@@ -40,7 +40,77 @@
 		"noCategories": "Proszę najpierw utworzyć kategorię!",
 		"addTransaction": "Dodaj transakcję",
 		"search": "Szukaj...",
-		"dateRange": "Proszę wprowadzić zakres dat"
+		"dateRange": "Proszę wprowadzić zakres dat",
+		"title": "Tytuł",
+		"date": "Data"
+	},
+	"recurring": {
+		"info": "Przesłanie tego <strong>NIE</strong> doda natychmiast transakcji.<br><br>Pierwsza utworzona transakcja zostanie zaplanowana na podaną datę początkową. Jeśli podałeś dzisiejszą datę jako datę początkową, zobaczysz swoją transakcję utworzoną jutro (nadal przypisaną na dziś).",
+		"featureDisabledByRecurring": "Ta funkcja nie jest dostępna dla powtarzających się transakcji.",
+		"interval": "Powtarzaj co",
+		"frequency": {
+			"WEEKLY": "tydzień",
+			"MONTHLY": "miesiąc",
+			"YEARLY": "rok"
+		},
+		"dayOfWeek": {
+			"label": "W tym dniu",
+			"MONDAY": {
+				"full": "Poniedziałek",
+				"short": "P"
+			},
+			"TUESDAY": {
+				"full": "Wtorek",
+				"short": "W"
+			},
+			"WEDNESDAY": {
+				"full": "Środa",
+				"short": "Ś"
+			},
+			"THURSDAY": {
+				"full": "Czwartek",
+				"short": "C"
+			},
+			"FRIDAY": {
+				"full": "Piątek",
+				"short": "P"
+			},
+			"SATURDAY": {
+				"full": "Sobota",
+				"short": "S"
+			},
+			"SUNDAY": {
+				"full": "Niedziela",
+				"short": "N"
+			}
+		},
+		"dayOfMonth": "W tej dacie",
+		"ends": {
+			"label": "Kończy się:",
+			"endCondition": {
+				"NEVER": "Nigdy",
+				"UNTIL_DATE": "W określonym dniu",
+				"AFTER_OCCURRENCES": "Powtórzenia"
+			}
+		},
+		"startDate": "Począwszy od",
+		"endDate": "Kończąc w tej dacie",
+		"maxOccurrences": "Powtórzenia",
+		"createInfo": "Transakcja cykliczna '{{title}}' została pomyślnie utworzona!",
+		"updateInfo": "Transakcja cykliczna '{{title}}' została pomyślnie zaktualizowana!",
+		"deleteInfo": "Transakcja cykliczna została pomyślnie usunięta!",
+		"details": {
+			"frequency": {
+				"label": "Częstotliwość",
+				"WEEKLY": "{{interval}} x co tydzień",
+				"MONTHLY": "{{interval}} x co miesiąc",
+				"YEARLY": "{{interval}} x co rok"
+			},
+			"nextExecution": "Data następnego wykonania",
+			"currentOccurrence": "Liczba powtórzeń"
+		},
+		"title": "Tytuł",
+		"nextExecutionLabel": "Następny"
 	},
 	"categories": {
 		"topCategories": "Najważniejsze kategorie",
@@ -434,7 +504,7 @@
 		"title": "Tytuł",
 		"date": "Data",
 		"note": "Notatka",
-		"recurring": "Automatycznie cykliczna?",
+		"recurring": "Autom. utworzone?",
 		"name": "Nazwa",
 		"icon": "Ikona",
 		"type": "Typ",
@@ -453,7 +523,8 @@
 			"logged": "Kwota w walucie księgowej",
 			"base": "Kwota w walucie bazowej"
 		},
-		"exchangeRate": "Kurs wymiany"
+		"exchangeRate": "Kurs wymiany",
+		"createdAt": "Utworzono:"
 	},
 	"filterMenu": {
 		"title": "Filtry",
@@ -495,7 +566,11 @@
 		"min": "Minimalna wartość to {{min}}!",
 		"max": "Maksymalna wartość to {{max}}!",
 		"filledArray": "Należy wybrać co najmniej 1 wartość!",
-		"theme": "Należy wybrać dwa różne motywy!"
+		"theme": "Należy wybrać dwa różne motywy!",
+		"dayOfWeekRequired": "Proszę wybrać dzień tygodnia!",
+		"dayOfMonthRequired": "Proszę wybrać dzień miesiąca!",
+		"endDateRequired": "Data zakończenia jest wymagana!",
+		"matDatepickerFilter": "Data powinna pasować do wzorca powtarzania i nie powinna być w przeszłości!"
 	},
 	"confirmExit": {
 		"title": "Niezapisane zmiany",

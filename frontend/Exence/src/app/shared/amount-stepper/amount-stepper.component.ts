@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, effect, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabelType, MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,6 +27,9 @@ export class AmountStepperComponent {
 	max = input<number>();
 	step = input<number>(100);
 	subscriptSizing = input<'fixed' | 'dynamic'>('dynamic');
+	disabled = input<boolean>(false);
+
+	private _disabledByInput = false;
 
 	isAtMin = computed(() => {
 		const min = this.min();
@@ -46,11 +49,24 @@ export class AmountStepperComponent {
 
 	labelFloat = computed<FloatLabelType>(() => (this.control().value !== null ? 'always' : 'auto'));
 
-	private precision = computed(() => {
+	precision = computed(() => {
 		const stepStr = this.step().toString();
 		const dotIndex = stepStr.indexOf('.');
 		return dotIndex === -1 ? 0 : stepStr.length - dotIndex - 1;
 	});
+
+	constructor() {
+		effect(() => {
+			const ctrl = this.control();
+			if (this.disabled()) {
+				this._disabledByInput = true;
+				ctrl.disable({ emitEvent: false });
+			} else if (this._disabledByInput) {
+				this._disabledByInput = false;
+				ctrl.enable({ emitEvent: false });
+			}
+		});
+	}
 
 	decrement(): void {
 		const next = this.round((this.control().value ?? 0) - this.step());

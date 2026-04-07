@@ -40,7 +40,77 @@
 		"noCategories": "Erstellen Sie zunächst eine Kategorie!",
 		"addTransaction": "Transaktion hinzufügen",
 		"search": "Suche...",
-		"dateRange": "Eingabe eines Datumsbereichs"
+		"dateRange": "Eingabe eines Datumsbereichs",
+		"title": "Titel",
+		"date": "Datum"
+	},
+	"recurring": {
+		"info": "Das Absenden fügt <strong>KEINE</strong> Transaktion sofort hinzu.<br><br>Die erste erstellte Transaktion wird für das angegebene Startdatum geplant. Wenn Sie das heutige Datum als Startdatum angegeben haben, sehen Sie Ihre Transaktion morgen erstellt (trotzdem für heute zugewiesen).",
+		"featureDisabledByRecurring": "Diese Funktion ist für wiederkehrende Transaktionen nicht verfügbar.",
+		"interval": "Wiederholen alle",
+		"frequency": {
+			"WEEKLY": "Woche",
+			"MONTHLY": "Monat",
+			"YEARLY": "Jahr"
+		},
+		"dayOfWeek": {
+			"label": "An diesem Tag",
+			"MONDAY": {
+				"full": "Montag",
+				"short": "M"
+			},
+			"TUESDAY": {
+				"full": "Dienstag",
+				"short": "D"
+			},
+			"WEDNESDAY": {
+				"full": "Mittwoch",
+				"short": "M"
+			},
+			"THURSDAY": {
+				"full": "Donnerstag",
+				"short": "D"
+			},
+			"FRIDAY": {
+				"full": "Freitag",
+				"short": "F"
+			},
+			"SATURDAY": {
+				"full": "Samstag",
+				"short": "S"
+			},
+			"SUNDAY": {
+				"full": "Sonntag",
+				"short": "S"
+			}
+		},
+		"dayOfMonth": "An diesem Datum",
+		"ends": {
+			"label": "Endet:",
+			"endCondition": {
+				"NEVER": "Nie",
+				"UNTIL_DATE": "Bis zu einem Datum",
+				"AFTER_OCCURRENCES": "Wiederholungen"
+			}
+		},
+		"startDate": "Beginnend am",
+		"endDate": "Endet an diesem Datum",
+		"maxOccurrences": "Wiederholungen",
+		"createInfo": "Wiederkehrende Transaktion '{{title}}' erfolgreich erstellt!",
+		"updateInfo": "Wiederkehrende Transaktion '{{title}}' erfolgreich aktualisiert!",
+		"deleteInfo": "Wiederkehrende Transaktion erfolgreich gelöscht!",
+		"details": {
+			"frequency": {
+				"label": "Häufigkeit",
+				"WEEKLY": "{{interval}} x jede Woche",
+				"MONTHLY": "{{interval}} x jeden Monat",
+				"YEARLY": "{{interval}} x jedes Jahr"
+			},
+			"nextExecution": "Nächstes Ausführungsdatum",
+			"currentOccurrence": "Anzahl der Wiederholungen"
+		},
+		"title": "Titel",
+		"nextExecutionLabel": "Nächster"
 	},
 	"categories": {
 		"topCategories": "Top-Kategorien",
@@ -434,7 +504,7 @@
 		"title": "Titel",
 		"date": "Datum",
 		"note": "Hinweis",
-		"recurring": "Automatisch wiederkehrend?",
+		"recurring": "Autom. erstellt?",
 		"name": "Name",
 		"icon": "Icon",
 		"type": "Typ",
@@ -453,7 +523,8 @@
 			"logged": "Betrag in Buchungswährung",
 			"base": "Betrag in Basiswährung"
 		},
-		"exchangeRate": "Wechselkurs"
+		"exchangeRate": "Wechselkurs",
+		"createdAt": "Erstellt am:"
 	},
 	"filterMenu": {
 		"title": "Filter",
@@ -495,7 +566,11 @@
 		"min": "Der Mindestwert ist {{min}}!",
 		"max": "Der Höchstwert ist {{max}}!",
 		"filledArray": "Sie müssen mindestens einen Wert auswählen!",
-		"theme": "Sie müssen zwei verschiedene Themen auswählen!"
+		"theme": "Sie müssen zwei verschiedene Themen auswählen!",
+		"dayOfWeekRequired": "Bitte wählen Sie einen Wochentag aus!",
+		"dayOfMonthRequired": "Bitte wählen Sie einen Tag des Monats aus!",
+		"endDateRequired": "Enddatum erforderlich!",
+		"matDatepickerFilter": "Datum sollte dem Wiederholungsmuster entsprechen und nicht in der Vergangenheit liegen!"
 	},
 	"confirmExit": {
 		"title": "Nicht gespeicherte Änderungen",

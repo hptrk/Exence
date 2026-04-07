@@ -52,6 +52,5 @@ export class LandingComponent extends BaseComponent {
 
 	scrollToTop(): void {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
-		console.log('scrolling');
 	}
 }

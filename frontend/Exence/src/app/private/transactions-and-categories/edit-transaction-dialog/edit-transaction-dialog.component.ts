@@ -91,7 +91,6 @@ export class EditTransactionDialogComponent extends DialogComponent<
 		exchangeRate: this.fb.control<number | null>(this.data.transaction.exchangeRate, [
 			Validators.min(0.0000000001),
 		]),
-		recurring: this.fb.control<boolean>(this.data.transaction.recurring),
 		category: this.fb.group({
 			category: this.fb.control<CategoryGet | null>(this.data.transaction.category, [Validators.required]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
@@ -172,7 +171,7 @@ export class EditTransactionDialogComponent extends DialogComponent<
 			date: format(formValue.date, 'yyyy-MM-dd'),
 			amount: formValue.amount!,
 			type: formValue.type,
-			recurring: formValue.recurring,
+			// recurring: formValue.recurring,
 			categoryId: formValue.category.category!.id,
 			currency: formValue.currency,
 			exchangeRate: formValue.exchangeRate!,

@@ -1,0 +1,24 @@
+:host {
+	display: block;
+	position: relative;
+	border: 1px solid var(--note-color);
+	border-radius: 10px;
+	background-color: color-mix(in srgb, var(--note-color), transparent 60%);
+	overflow: hidden;
+}
+
+.content {
+	display: block;
+	padding: 1.5rem;
+	position: relative;
+	z-index: 1;
+}
+
+.bg-icon {
+	position: absolute;
+	bottom: -0.75rem;
+	right: -0.75rem;
+	color: var(--note-color);
+	opacity: 0.2;
+	pointer-events: none;
+}

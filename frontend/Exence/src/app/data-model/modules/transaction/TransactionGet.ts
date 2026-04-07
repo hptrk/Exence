@@ -8,7 +8,8 @@ export interface TransactionGet {
 	date: string; // String to represent date in yyyy-MM-dd format
 	amount: number;
 	type: TransactionType;
-	recurring: boolean;
+	createdByRecurringJob: boolean;
+	recurringTransactionId?: number;
 	categoryId: number;
 	currency: SupportedCurrency;
 	exchangeRate: number;
