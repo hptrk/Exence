@@ -876,7 +876,10 @@
 			"label": "Registros de auditoría"
 		},
 		"configurations": {
-			"label": "Configuraciones"
+			"label": "Configuraciones",
+			"registration": {
+				"title": "Crear un nuevo usuario administrador"
+			}
 		}
 	}
 }

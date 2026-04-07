@@ -4,32 +4,30 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router, RouterLink } from '@angular/router';
-import { RegisterRequest } from '../../data-model/modules/auth/RegisterRequest';
-import { BaseComponent } from '../../shared/base-component/base.component';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
-import { NavigationService } from '../../shared/navigation/navigation.service';
-import { ExtraValidators } from '../../shared/validators';
-import { AuthService } from '../../shared/auth/auth.service';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
-import { ValidatorComponent } from '../../shared/validator/validator.component';
-import { AutoTrimDirective } from '../../shared/auto-trim.directive';
-import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
-import { TranslocoService } from '@jsverse/transloco';
-import { TranslatePipe } from '../../shared/pipes/translate.pipe';
-import { ShowPasswordComponent } from '../../shared/show-password/show-password.component';
-import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
-import { CurrencyService } from '../../shared/currency.service';
-import { EnumValuePipe } from '../../shared/pipes/enum-value.pipe';
-import { localizeCurrency } from '../../shared/util/utils';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { RegisterRequest } from '../../../../data-model/modules/auth/RegisterRequest';
+import { BaseComponent } from '../../../../shared/base-component/base.component';
+import { ButtonComponent } from '../../../../shared/button/button.component';
+import { CurrencyService } from '../../../../shared/currency.service';
+import { InputClearButtonComponent } from '../../../../shared/input-clear-button/input-clear-button.component';
+import { EnumValuePipe } from '../../../../shared/pipes/enum-value.pipe';
+import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { ShowPasswordComponent } from '../../../../shared/show-password/show-password.component';
+import { SnackbarService } from '../../../../shared/snackbar/snackbar.service';
+import { AutoTrimDirective } from '../../../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../../../shared/stop-propagation.directive';
+import { ValidatorComponent } from '../../../../shared/validator/validator.component';
+import { ExtraValidators } from '../../../../shared/validators';
+import { SupportedCurrency } from '../../../../data-model/modules/user-settings/SupportedCurrency';
+import { localizeCurrency } from '../../../../shared/util/utils';
+import { TranslocoService } from '@jsverse/transloco';
+import { AdminAuthService } from '../../admin-auth.service';
 
 @Component({
-	selector: 'ex-registration',
-	templateUrl: './registration.component.html',
-	styleUrl: './registration.component.scss',
+	selector: 'ex-admin-registration',
+	templateUrl: './admin-registration.component.html',
+	styleUrl: './admin-registration.component.scss',
 	imports: [
 		MatCardModule,
 		MatIconModule,
@@ -37,7 +35,6 @@ import { MatSelectModule } from '@angular/material/select';
 		MatFormFieldModule,
 		MatTooltipModule,
 		MatSelectModule,
-		RouterLink,
 		MatInput,
 		ButtonComponent,
 		InputClearButtonComponent,
@@ -48,15 +45,14 @@ import { MatSelectModule } from '@angular/material/select';
 		TranslatePipe,
 		EnumValuePipe,
 	],
+	providers: [AdminAuthService],
 })
-export class RegistrationComponent extends BaseComponent {
+export class AdminRegistrationComponent extends BaseComponent {
 	private readonly fb = inject(NonNullableFormBuilder);
-	private readonly authService = inject(AuthService);
-	private readonly router = inject(Router);
+	private readonly adminAuthService = inject(AdminAuthService);
 	private readonly snackbarService = inject(SnackbarService);
 	private readonly translocoService = inject(TranslocoService);
 	private readonly currencyService = inject(CurrencyService);
-	readonly navigate = inject(NavigationService);
 
 	showPassword = signal<boolean>(false);
 
@@ -87,9 +83,9 @@ export class RegistrationComponent extends BaseComponent {
 			confirmPassword: formValue.confirmPassword,
 			baseCurrency: formValue.currency,
 		};
-		await this.authService.register(request);
-		this.snackbarService.showSuccess(this.translocoService.translate('registration.success'));
-		this.router.navigateByUrl(this.navigate.account().login());
+		await this.adminAuthService.register(request);
+		this.snackbarService.showSuccess('Admin user created successfully.');
+		this.form.reset();
 	}
 
 	localizeCurrency(currency: SupportedCurrency): string {

@@ -876,7 +876,10 @@
 			"label": "Prüfprotokolle"
 		},
 		"configurations": {
-			"label": "Konfigurationen"
+			"label": "Konfigurationen",
+			"registration": {
+				"title": "Neuen Admin-Benutzer anlegen"
+			}
 		}
 	}
 }

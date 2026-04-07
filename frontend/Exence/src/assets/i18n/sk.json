@@ -876,7 +876,10 @@
 			"label": "Protokoly auditu"
 		},
 		"configurations": {
-			"label": "Konfigurácie"
+			"label": "Konfigurácie",
+			"registration": {
+				"title": "Vytvoriť nového správcu"
+			}
 		}
 	}
 }

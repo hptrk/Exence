@@ -876,7 +876,10 @@
 			"label": "Logi audytu"
 		},
 		"configurations": {
-			"label": "Konfiguracje"
+			"label": "Konfiguracje",
+			"registration": {
+				"title": "Utwórz nowego użytkownika administratora"
+			}
 		}
 	}
 }

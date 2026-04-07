@@ -6,12 +6,20 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AdminStatisticsService } from './admin-statistic.service';
 import { AdminStatisticsListComponent } from './admin-statistics-list/admin-statistics-list.component';
+import { AdminConfigsComponent } from './admin-configs/admin-configs.component';
 
 @Component({
 	selector: 'ex-admin',
 	templateUrl: './admin.component.html',
 	styleUrl: './admin.component.scss',
-	imports: [CommonModule, MatTabsModule, MatIconModule, AdminStatisticsListComponent, TranslatePipe],
+	imports: [
+		CommonModule,
+		MatTabsModule,
+		MatIconModule,
+		AdminStatisticsListComponent,
+		AdminConfigsComponent,
+		TranslatePipe,
+	],
 	providers: [AdminStatisticsService],
 })
 export class AdminComponent {
