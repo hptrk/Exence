@@ -879,6 +879,16 @@
 			"label": "Configs",
 			"registration": {
 				"title": "Create new Admin user"
+			},
+			"emailBroadcast": {
+				"title": "Broadcast Email",
+				"subject": "Email subject",
+				"clear": "Clear",
+				"send": "Send",
+				"confirmTitle": "Send broadcast email",
+				"confirmMessage": "Are you sure you want to send this email to every user?",
+				"success": "Email sent to every user!",
+				"sendDisabled": "You cannot send the email without setting the subject and content before."
 			}
 		}
 	}

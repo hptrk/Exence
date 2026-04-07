@@ -68,5 +68,13 @@
 </ng-template>
 
 <ng-template #configurationsTab>
-	<ex-admin-configs />
+	<section class="d-flex flex-column gap-3 overflow-y-auto px-2">
+		<ex-admin-registration />
+
+		<mat-divider />
+
+		<ex-email-broadcast />
+
+		<mat-divider />
+	</section>
 </ng-template>

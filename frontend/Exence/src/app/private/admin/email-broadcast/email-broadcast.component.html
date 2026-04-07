@@ -1,0 +1,29 @@
+<h2 class="mb-4 fs-4">{{ 'admin.configurations.emailBroadcast.title' | translate }}</h2>
+
+<form [formGroup]="form" (submit)="send()" class="d-flex flex-column gap-4 w-100">
+	@let subjectControl = form.controls.subject;
+	<mat-form-field>
+		<mat-label>{{ 'admin.configurations.emailBroadcast.subject' | translate }}</mat-label>
+		<input matInput [formControl]="subjectControl" autoTrim />
+		<ex-input-clear matSuffix [control]="subjectControl" />
+		<mat-error>
+			<ex-validator [control]="subjectControl" />
+		</mat-error>
+	</mat-form-field>
+
+	<ex-markdown-editor [formControl]="form.controls.content" />
+
+	<div class="d-flex gap-2 justify-content-end">
+		<ex-button matIcon="mop" type="button" outlined (click)="clear()">
+			{{ 'admin.configurations.emailBroadcast.clear' | translate }}
+		</ex-button>
+		<div
+			[matTooltip]="'admin.configurations.emailBroadcast.sendDisabled' | translate"
+			[matTooltipDisabled]="form.valid"
+		>
+			<ex-button matIcon="mail" iconPositionEnd filled type="submit" [disabled]="form.invalid || sending()">
+				{{ 'admin.configurations.emailBroadcast.send' | translate }}
+			</ex-button>
+		</div>
+	</div>
+</form>

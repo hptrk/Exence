@@ -879,6 +879,16 @@
 			"label": "Configurazioni",
 			"registration": {
 				"title": "Crea un nuovo utente amministratore"
+			},
+			"emailBroadcast": {
+				"title": "E-mail di massa",
+				"subject": "Oggetto dell'e-mail",
+				"clear": "Cancella",
+				"send": "Invia",
+				"confirmTitle": "Invia e-mail di massa",
+				"confirmMessage": "Sei sicuro di voler inviare questa e-mail a tutti gli utenti?",
+				"success": "E-mail inviata a tutti gli utenti!",
+				"sendDisabled": "Non è possibile inviare l'e-mail senza aver prima impostato l'oggetto e il contenuto."
 			}
 		}
 	}

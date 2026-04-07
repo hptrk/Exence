@@ -1,0 +1,44 @@
+.EasyMDEContainer {
+	.editor-toolbar {
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		border-color: var(--mat-sys-outline);
+
+		background-color: var(--primary-color);
+
+		.separator {
+			border-color: var(--border-color);
+		}
+
+		button[type='button'] {
+			color: var(--secondary-text-color);
+			transition: 0.15s;
+			border-radius: 5px;
+
+			&.active,
+			&:hover {
+				background-color: var(--secondary-color);
+				color: var(--primary-color);
+				border-color: var(--primary-color);
+			}
+		}
+	}
+
+	.CodeMirror {
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		border-color: var(--mat-sys-outline);
+
+		background-color: var(--app-card-color);
+		color: var(--default-text-color);
+	}
+
+	.editor-preview {
+		background-color: var(--app-card-color);
+		color: var(--default-text-color);
+	}
+
+	.editor-statusbar {
+		color: var(--default-text-color);
+	}
+}

@@ -879,6 +879,16 @@
 			"label": "Konfigurácie",
 			"registration": {
 				"title": "Vytvoriť nového správcu"
+			},
+			"emailBroadcast": {
+				"title": "Hromadný e-mail",
+				"subject": "Predmet e-mailu",
+				"clear": "Vymazať",
+				"send": "Odoslať",
+				"confirmTitle": "Odoslať hromadný e-mail",
+				"confirmMessage": "Ste si istí, že chcete poslať tento e-mail každému používateľovi?",
+				"success": "E-mail odoslaný každému používateľovi!",
+				"sendDisabled": "E-mail nemôžete odoslať, pokiaľ predtým nenastavíte predmet a obsah."
 			}
 		}
 	}

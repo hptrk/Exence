@@ -879,6 +879,16 @@
 			"label": "Konfigurationen",
 			"registration": {
 				"title": "Neuen Admin-Benutzer anlegen"
+			},
+			"emailBroadcast": {
+				"title": "Massen-E-Mail",
+				"subject": "E-Mail-Betreff",
+				"clear": "Löschen",
+				"send": "Senden",
+				"confirmTitle": "Massen-E-Mail senden",
+				"confirmMessage": "Sind Sie sicher, dass Sie diese E-Mail an alle Benutzer senden möchten?",
+				"success": "E-Mail an alle Benutzer gesendet!",
+				"sendDisabled": "Sie können die E-Mail nicht versenden, ohne zuvor den Betreff und den Inhalt festzulegen."
 			}
 		}
 	}

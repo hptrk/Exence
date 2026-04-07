@@ -2,6 +2,7 @@
 @import './imports';
 @import './themes/app-theme.scss';
 @import './bootstrap.scss';
+@import 'easymde/dist/easymde.min.css';
 @import './components/icon.scss';
 @import './components/menu.scss';
 @import './components/card.scss';
@@ -20,6 +21,7 @@
 @import './components/tab-group.scss';
 @import './components/stepper.scss';
 @import './components/sidenav.scss';
+@import './components/markdown-editor.scss';
 @import './fonts/material-icons.scss';
 
 * {

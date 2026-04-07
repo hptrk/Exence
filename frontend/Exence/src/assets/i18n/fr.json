@@ -879,6 +879,16 @@
 			"label": "Configurations",
 			"registration": {
 				"title": "Créer un nouvel utilisateur administrateur"
+			},
+			"emailBroadcast": {
+				"title": "E-mail groupé",
+				"subject": "Objet de l'e-mail",
+				"clear": "Effacer",
+				"send": "Envoyer",
+				"confirmTitle": "Envoyer l'e-mail groupé",
+				"confirmMessage": "Êtes-vous sûr de vouloir envoyer cet e-mail à tous les utilisateurs ?",
+				"success": "E-mail envoyé à tous les utilisateurs !",
+				"sendDisabled": "Vous ne pouvez pas envoyer l'e-mail sans avoir préalablement défini l'objet et le contenu."
 			}
 		}
 	}

@@ -6,7 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AdminStatisticsService } from './admin-statistic.service';
 import { AdminStatisticsListComponent } from './admin-statistics-list/admin-statistics-list.component';
-import { AdminConfigsComponent } from './admin-configs/admin-configs.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { AdminRegistrationComponent } from './admin-registration/admin-registration.component';
+import { EmailBroadcastComponent } from './email-broadcast/email-broadcast.component';
 
 @Component({
 	selector: 'ex-admin',
@@ -16,8 +18,10 @@ import { AdminConfigsComponent } from './admin-configs/admin-configs.component';
 		CommonModule,
 		MatTabsModule,
 		MatIconModule,
+		MatDividerModule,
 		AdminStatisticsListComponent,
-		AdminConfigsComponent,
+		AdminRegistrationComponent,
+		EmailBroadcastComponent,
 		TranslatePipe,
 	],
 	providers: [AdminStatisticsService],

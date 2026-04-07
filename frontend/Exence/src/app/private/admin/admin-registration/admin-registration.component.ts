@@ -6,28 +6,27 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RegisterRequest } from '../../../../data-model/modules/auth/RegisterRequest';
-import { BaseComponent } from '../../../../shared/base-component/base.component';
-import { ButtonComponent } from '../../../../shared/button/button.component';
-import { CurrencyService } from '../../../../shared/currency.service';
-import { InputClearButtonComponent } from '../../../../shared/input-clear-button/input-clear-button.component';
-import { EnumValuePipe } from '../../../../shared/pipes/enum-value.pipe';
-import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
-import { ShowPasswordComponent } from '../../../../shared/show-password/show-password.component';
-import { SnackbarService } from '../../../../shared/snackbar/snackbar.service';
-import { AutoTrimDirective } from '../../../../shared/auto-trim.directive';
-import { StopPropagationDirective } from '../../../../shared/stop-propagation.directive';
-import { ValidatorComponent } from '../../../../shared/validator/validator.component';
-import { ExtraValidators } from '../../../../shared/validators';
-import { SupportedCurrency } from '../../../../data-model/modules/user-settings/SupportedCurrency';
-import { localizeCurrency } from '../../../../shared/util/utils';
+import { RegisterRequest } from '../../../data-model/modules/auth/RegisterRequest';
+import { BaseComponent } from '../../../shared/base-component/base.component';
+import { ButtonComponent } from '../../../shared/button/button.component';
+import { CurrencyService } from '../../../shared/currency.service';
+import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { ShowPasswordComponent } from '../../../shared/show-password/show-password.component';
+import { SnackbarService } from '../../../shared/snackbar/snackbar.service';
+import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
+import { StopPropagationDirective } from '../../../shared/stop-propagation.directive';
+import { ValidatorComponent } from '../../../shared/validator/validator.component';
+import { ExtraValidators } from '../../../shared/validators';
+import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
+import { localizeCurrency } from '../../../shared/util/utils';
 import { TranslocoService } from '@jsverse/transloco';
-import { AdminAuthService } from '../../admin-auth.service';
+import { AdminAuthService } from '../admin-auth.service';
 
 @Component({
 	selector: 'ex-admin-registration',
 	templateUrl: './admin-registration.component.html',
-	styleUrl: './admin-registration.component.scss',
 	imports: [
 		MatCardModule,
 		MatIconModule,
