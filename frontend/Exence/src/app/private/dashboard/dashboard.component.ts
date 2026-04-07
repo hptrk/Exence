@@ -1,14 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
+import { ChartWidget } from '../../data-model/modules/statistics/ChartWidget';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
+import { RecurringTransactionCreate } from '../../data-model/modules/transaction/RecurringTransactionCreate';
+import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CategoriesComponent } from '../../private/dashboard/categories/categories.component';
 import { SummaryContainerComponent } from '../../private/dashboard/summary-container/summary-container.component';
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { CardSliderDirective } from '../../shared/card-slider.directive';
-import { TransactionListComponent } from '../transactions-and-categories/transaction-list/transaction-list.component';
 import { DialogService } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
@@ -21,11 +23,9 @@ import {
 	CreateTransactionDialogComponent,
 	CreateTransactionDialogData,
 } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
-import { TransactionStore } from '../transactions-and-categories/transaction.store';
-import { ChartWidget } from '../../data-model/modules/statistics/ChartWidget';
-import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
-import { RecurringTransactionCreate } from '../../data-model/modules/transaction/RecurringTransactionCreate';
 import { RecurringStore } from '../transactions-and-categories/recurring.store';
+import { TransactionListComponent } from '../transactions-and-categories/transaction-list/transaction-list.component';
+import { TransactionStore } from '../transactions-and-categories/transaction.store';
 
 @Component({
 	selector: 'ex-dashboard',
@@ -41,7 +41,6 @@ import { RecurringStore } from '../transactions-and-categories/recurring.store';
 		ButtonComponent,
 		TranslatePipe,
 	],
-	providers: [StatisticService],
 })
 export class DashboardComponent extends BaseComponent {
 	private readonly currentUserService = inject(CurrentUserService);

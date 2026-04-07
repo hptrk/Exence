@@ -1,3 +1,4 @@
+import { EChartsOption } from 'echarts/types/dist/shared';
 import {
 	ApexAxisChartSeries,
 	ApexChart,
@@ -6,6 +7,22 @@ import {
 	ApexOptions,
 	ApexYAxis,
 } from 'ng-apexcharts';
+import { ExChartType } from '../../data-model/modules/statistics/ChartType';
+import { WidgetType } from '../../data-model/modules/statistics/widget-config.model';
+import {
+	BoxplotPayload,
+	BubblePayload,
+	DistributionPayload,
+	GaugePayload,
+	LeaderboardPayload,
+	SankeyPayload,
+	SeriesPayload,
+	SlopePayload,
+	StatCardPayload,
+	SummaryPayload,
+	WidgetDataPayload,
+} from '../../data-model/modules/statistics/WidgetDataPayload';
+import { SvgIcons } from '../../shared/svg-icons/svg-icons';
 import {
 	buildLinks,
 	buildNodeMap,
@@ -17,20 +34,7 @@ import {
 	getCssVariableValue,
 	lightenHexColor,
 } from '../../shared/util/utils';
-import { ExChartType } from '../../data-model/modules/statistics/ChartType';
-import {
-	BoxplotPayload,
-	BubblePayload,
-	DistributionPayload,
-	GaugePayload,
-	SankeyPayload,
-	SeriesPayload,
-	SlopePayload,
-	StatCardPayload,
-	WidgetDataPayload,
-} from '../../data-model/modules/statistics/WidgetDataPayload';
-import { EChartsOption } from 'echarts/types/dist/shared';
-import { WidgetType } from '../../data-model/modules/statistics/widget-config.model';
+import { PlacementInfo } from '../leaderboard/leaderboard.component';
 
 export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
 	data: T,
@@ -39,7 +43,7 @@ export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 	widgetType?: WidgetType,
-) => Partial<ApexOptions> | T | EChartsOption;
+) => Partial<ApexOptions> | T | EChartsOption | PlacementInfo[];
 
 function truncateTitle(title: string, max = 25): string {
 	return title.length > max ? title.slice(0, max).trimEnd() + '…' : title;
@@ -219,6 +223,35 @@ const StatCardProvider: ProviderFn<StatCardPayload> = (
 	_formatCurrency?: (value: number) => string,
 ): StatCardPayload => {
 	return { ...data };
+};
+
+const LeaderboardProvider: ProviderFn<LeaderboardPayload> = (
+	data: LeaderboardPayload | SummaryPayload,
+	_title: string,
+	_locale: string,
+	_translate?: (key: string, params?: Record<string, unknown>) => string,
+	_formatCurrency?: (value: number) => string,
+): PlacementInfo[] => {
+	const isRanking = 'entries' in data;
+	const rankIcons: Record<number, SvgIcons> = {
+		1: SvgIcons.firstPlace,
+		2: SvgIcons.secondPlace,
+		3: SvgIcons.thridPlace,
+	};
+
+	if (isRanking) {
+		return data.entries.map(entry => ({
+			svgIcon: rankIcons[entry.rank],
+			label: entry.username,
+			value: entry.value,
+		}));
+	} else {
+		return (data as SummaryPayload).items.map(item => ({
+			matIcon: item.icon,
+			label: item.label,
+			value: item.value,
+		}));
+	}
 };
 
 const LineProvider: ProviderFn<SeriesPayload> = (
@@ -511,11 +544,19 @@ const PieProvider: ProviderFn<DistributionPayload> = (
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const fallbackColors = [
+		getCssVariableValue('--primary-color'),
+		getCssVariableValue('--accent-text-color'),
+		getCssVariableValue('--tertiary-color'),
+		getCssVariableValue('--error-color'),
+		getCssVariableValue('--warn-color'),
+		getCssVariableValue('--secondary-color'),
+	];
 	const colors: string[] = [];
 	const labels: string[] = [];
 	const data: number[] = [];
-	payload.data.map(di => {
-		colors.push(di.color ?? 'var(--primary-color)');
+	payload.data.map((di, i) => {
+		colors.push(di.color ?? fallbackColors[i % fallbackColors.length]);
 		labels.push(di.name);
 		data.push(di.amount);
 	});
@@ -577,11 +618,19 @@ const DonutProvider: ProviderFn<DistributionPayload> = (
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
 ): ApexOptions => {
+	const fallbackColors = [
+		getCssVariableValue('--primary-color'),
+		getCssVariableValue('--accent-text-color'),
+		getCssVariableValue('--tertiary-color'),
+		getCssVariableValue('--error-color'),
+		getCssVariableValue('--warn-color'),
+		getCssVariableValue('--secondary-color'),
+	];
 	const colors: string[] = [];
 	const labels: string[] = [];
 	const data: number[] = [];
-	payload.data.map(di => {
-		colors.push(di.color ?? 'var(--primary-color)');
+	payload.data.map((di, i) => {
+		colors.push(di.color ?? fallbackColors[i % fallbackColors.length]);
 		labels.push(di.name);
 		data.push(di.amount);
 	});
@@ -1168,6 +1217,7 @@ const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 	const data: number[] = [];
 	payload.data.forEach((di, i) => {
 		colors.push(di.color ?? fallbackColors[i % fallbackColors.length]);
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		labels.push(formatDateLabel(di.name, locale) ?? di.name);
 		data.push(di.amount);
 	});
@@ -1223,6 +1273,7 @@ const PolarAreaProvider: ProviderFn<DistributionPayload> = (
 const CHART_PROVIDER_REGISTRY: Record<ExChartType, ProviderFn<any>> = {
 	sankey: SankeyProvider,
 	statCard: StatCardProvider,
+	leaderboard: LeaderboardProvider,
 	line: LineProvider,
 	area: AreaProvider,
 	bar: BarProvider,

@@ -3,6 +3,9 @@ export class PrivateRoutes {
 		return '/';
 	}
 
+	admin(): string {
+		return '/admin';
+	}
 	dashboard(): string {
 		return '/dashboard';
 	}

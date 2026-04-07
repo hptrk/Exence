@@ -14,6 +14,7 @@ import { StatisticService } from '../statistic.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
+import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
 
 echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 
@@ -79,7 +80,7 @@ export class SankeyChartComponent {
 					this.translocoService.getActiveLang(),
 					(key, params) => this.translocoService.translate(key, params),
 					(v: number) => this.currencyPipe.transform(v),
-					this.widget().type,
+					this.widget().type as WidgetType,
 				) as Partial<EChartsOption>,
 			);
 		});

@@ -6,15 +6,24 @@ import { DisplayThemeService } from '../shared/display-theme.service';
 import { LanguageService } from './profile-dialog/user-settings/language-select/language.service';
 import { UserSettingsService } from './profile-dialog/user-settings/user-settinngs.service';
 import { CategoryStore } from './transactions-and-categories/category.store';
-import { TransactionStore } from './transactions-and-categories/transaction.store';
-import { RecurringStore } from './transactions-and-categories/recurring.store';
 import { RecurringService } from './transactions-and-categories/recurring.service';
+import { RecurringStore } from './transactions-and-categories/recurring.store';
+import { TransactionStore } from './transactions-and-categories/transaction.store';
+import { StatisticService } from './statistics/statistic.service';
+import { AdminStatisticsService } from './admin/admin-statistic.service';
 
 @Component({
 	selector: 'ex-private',
 	template: '<router-outlet />',
 	imports: [RouterModule],
-	providers: [TransactionStore, CategoryStore, RecurringStore, RecurringService],
+	providers: [
+		TransactionStore,
+		CategoryStore,
+		RecurringStore,
+		RecurringService,
+		StatisticService,
+		AdminStatisticsService,
+	],
 })
 export class PrivateComponent {
 	private readonly userSettingsService = inject(UserSettingsService);

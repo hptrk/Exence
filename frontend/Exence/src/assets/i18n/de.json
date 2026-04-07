@@ -193,7 +193,8 @@
 		"language": "Sprache ändern",
 		"home": "Startseite",
 		"login": "Anmelden",
-		"registration": "Registrierung"
+		"registration": "Registrierung",
+		"admin": "Admin"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -846,6 +847,33 @@
 			"tamas": "Tamás",
 			"patrik": "Patrik",
 			"copyright": "© {{year}} Exence. Alle Rechte vorbehalten."
+		}
+	},
+	"admin": {
+		"statistics": {
+			"label": "Statistiken",
+			"leaderboard": {
+				"result": "Ergebnis: <strong>{{value}}</strong>",
+				"DATABASE_GROWTH_SUMMARY": "Datenbankwachstum",
+				"TOP_ACTIVE_USERS": "Top-Nutzer"
+			},
+			"card": {
+				"title": "E-Mail-Verifizierungsrate"
+			},
+			"chart": {
+				"DAILY_ACTIVE_USERS": "Täglich aktive Nutzer",
+				"MONTHLY_ACTIVE_USERS": "Monatlich aktive Nutzer",
+				"TRANSACTION_VELOCITY": "Transaktionsgeschwindigkeit",
+				"CURRENCY_DISTRIBUTION": "Währungsverteilung",
+				"AVG_TRANSACTIONS_PER_USER": "Ø Transaktionen pro Nutzer",
+				"TRANSACTION_TYPE_DISTRIBUTION": "Transaktionstyp-Verteilung"
+			}
+		},
+		"logs": {
+			"label": "Prüfprotokolle"
+		},
+		"configurations": {
+			"label": "Konfigurationen"
 		}
 	}
 }

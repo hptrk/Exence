@@ -1,13 +1,15 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
+import { StatCardWidget } from '../../../data-model/modules/statistics/StatCardWidget';
+import { AdminWidgetType, WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
-import { StatisticService } from '../statistic.service';
-import { CurrencyPipe } from '@angular/common';
 import { CurrencyService } from '../../../shared/currency.service';
-import { StatCardWidget } from '../../../data-model/modules/statistics/StatCardWidget';
+import { AdminStatisticsService } from '../../admin/admin-statistic.service';
+import { StatisticService } from '../statistic.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 interface StatCardAssetInfo {
 	prefix: string;
@@ -18,13 +20,15 @@ interface StatCardAssetInfo {
 	selector: 'ex-stat-card',
 	templateUrl: './stat-card.component.html',
 	styleUrl: './stat-card.component.scss',
-	imports: [MatCardModule, MatIconModule, AnimatedSkeletonLoaderComponent, CurrencyPipe],
+	imports: [MatCardModule, MatIconModule, AnimatedSkeletonLoaderComponent, CurrencyPipe, TranslatePipe],
 })
 export class StatCardComponent {
 	private readonly statisticService = inject(StatisticService);
+	private readonly adminStatisticService = inject(AdminStatisticsService);
 	readonly currencyService = inject(CurrencyService);
 
-	widget = input.required<StatCardWidget>();
+	widget = input<StatCardWidget>();
+	adminCardType = input<AdminWidgetType>();
 
 	isLoading = signal<boolean>(false);
 	data = signal<StatCardPayload | null>(null);
@@ -51,11 +55,21 @@ export class StatCardComponent {
 
 	constructor() {
 		effect(() => {
+			if (this.adminCardType() || !this.widget()) return;
 			this.isLoading.set(true);
-			this.statisticService.getWidgetData<StatCardPayload>(this.widget().id).then(response => {
-				this.data.set(response.payload);
-				this.isLoading.set(false);
-			});
+			this.statisticService
+				.getWidgetData<StatCardPayload>(this.widget()!.id)
+				.then(response => this.data.set(response.payload))
+				.finally(() => this.isLoading.set(false));
+		});
+
+		effect(() => {
+			if (!this.adminCardType()) return;
+			this.isLoading.set(true);
+			this.adminStatisticService
+				.getWidgetData(this.adminCardType()!)
+				.then(response => this.data.set(response.payload as StatCardPayload))
+				.finally(() => this.isLoading.set(false));
 		});
 	}
 }

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class TopActiveUsersProvider implements AdminWidgetDataProvider {
 
-    private static final int TOP_N = 10;
+    private static final int TOP_N = 3;
 
     private final AdminStatisticsQueryService adminStatisticsQueryService;
 

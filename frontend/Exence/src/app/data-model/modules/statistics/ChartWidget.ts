@@ -1,10 +1,10 @@
 import { Timeframe } from './Timeframe';
-import { WidgetType } from './widget-config.model';
+import { AdminWidgetType, WidgetType } from './widget-config.model';
 import { WidgetSetting } from './WidgetSetting';
 
 export interface ChartWidget {
 	id: number;
-	type: WidgetType;
+	type: WidgetType | AdminWidgetType;
 	title: string;
 	timeframe: Timeframe;
 	x: number;

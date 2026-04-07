@@ -1,0 +1,17 @@
+<section class="d-flex flex-column gap-3 overflow-y-auto">
+	<article class="card-grid">
+		@for (cardType of cardTypes; track cardType) {
+			@if (cardType === widgetType.EMAIL_VERIFICATION_RATE) {
+				<ex-stat-card class="flex-grow-1" [adminCardType]="cardType" />
+			} @else {
+				<ex-leaderboard class="flex-grow-1" [type]="cardType" [title]="cardData[cardType]! | translate" />
+			}
+		}
+	</article>
+
+	<article class="chart-grid">
+		@for (chartType of chartTypes; track chartType) {
+			<ex-admin-chart [type]="chartType" />
+		}
+	</article>
+</section>

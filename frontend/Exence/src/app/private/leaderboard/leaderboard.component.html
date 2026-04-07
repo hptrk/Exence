@@ -1,0 +1,21 @@
+<mat-card class="d-flex flex-column justify-content-start p-4 h-100">
+	<h3 class="m-0 fs-5 fw-bold mb-3">{{ title() }}</h3>
+	@for (place of placements(); track place.label) {
+		<dl class="d-flex flex-row flex-nowrap align-items-center justify-content-between mb-2">
+			<dt class="d-flex flex-row flex-nowrap gap-2 align-items-center">
+				<div class="icon-container">
+					@if (place.matIcon) {
+						<mat-icon size="sm">{{ place.matIcon }}</mat-icon>
+					} @else {
+						<mat-icon size="sm" [svgIcon]="place.svgIcon!" />
+					}
+				</div>
+				{{ place.label }}
+			</dt>
+			<dd
+				class="m-0"
+				[innerHTML]="'admin.statistics.leaderboard.result' | translate: { value: place.value }"
+			></dd>
+		</dl>
+	}
+</mat-card>
