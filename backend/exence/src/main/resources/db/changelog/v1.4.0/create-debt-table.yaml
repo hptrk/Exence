@@ -1,0 +1,126 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-debt-sequences
+      author: hptrk
+      comment: Create sequence for debt table
+      changes:
+        - createSequence:
+            sequenceName: debt_id_seq
+            startValue: 1
+            incrementBy: 1
+
+      rollback:
+        - dropSequence:
+            sequenceName: debt_id_seq
+
+  - changeSet:
+      id: create-debt-table
+      author: hptrk
+      comment: Create debt table for tracking personal debts
+      dbms: postgresql
+      changes:
+        - createTable:
+            tableName: debt
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_debt
+                    nullable: false
+              - column:
+                  name: title
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: counterparty_name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: original_amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: remaining_amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: original_base_currency_amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: remaining_base_currency_amount
+                  type: DECIMAL(19, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: currency
+                  type: supported_currency
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deadline
+                  type: DATE
+              - column:
+                  name: type
+                  type: debt_type
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: debt_status
+                  defaultValue: ACTIVE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: TIMESTAMP WITH TIME ZONE
+              - column:
+                  name: created_by
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_by
+                  type: VARCHAR(100)
+
+        - addForeignKeyConstraint:
+            baseTableName: debt
+            baseColumnNames: category_id
+            constraintName: fk_debt_category
+            referencedTableName: category
+            referencedColumnNames: id
+            onDelete: RESTRICT
+
+        - addForeignKeyConstraint:
+            baseTableName: debt
+            baseColumnNames: user_id
+            constraintName: fk_debt_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+      rollback:
+        - dropTable:
+            tableName: debt

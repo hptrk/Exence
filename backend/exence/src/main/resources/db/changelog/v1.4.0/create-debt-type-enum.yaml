@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-debt-type-enum
+      author: hptrk
+      comment: Create debt_type PostgreSQL native enum type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE debt_type AS ENUM ('BORROWED', 'LENT')
+
+      rollback:
+        - sql:
+            sql: DROP TYPE IF EXISTS debt_type

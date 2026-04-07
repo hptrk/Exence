@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-debt-status-enum
+      author: hptrk
+      comment: Create debt_status PostgreSQL native enum type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE debt_status AS ENUM ('ACTIVE', 'SETTLED', 'EXPIRED', 'FORGIVEN')
+
+      rollback:
+        - sql:
+            sql: DROP TYPE IF EXISTS debt_status

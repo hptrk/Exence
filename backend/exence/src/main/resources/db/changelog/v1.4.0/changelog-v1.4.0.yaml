@@ -11,3 +11,12 @@ databaseChangeLog:
   - include:
       file: create-goal-progress-history-table.yaml
       relativeToChangelogFile: true
+  - include:
+      file: create-debt-type-enum.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-debt-status-enum.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-debt-table.yaml
+      relativeToChangelogFile: true

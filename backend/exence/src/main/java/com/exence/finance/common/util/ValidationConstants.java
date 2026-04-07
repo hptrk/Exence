@@ -49,6 +49,11 @@ public final class ValidationConstants {
     public static final String GOAL_AMOUNT_MIN = "0.01";
     public static final String GOAL_CURRENT_AMOUNT_MIN = "0.00";
 
+    // Debt validations
+    public static final int DEBT_TITLE_MAX_LENGTH = 100;
+    public static final int DEBT_COUNTERPARTY_NAME_MAX_LENGTH = 100;
+    public static final String DEBT_AMOUNT_MIN = "0.01";
+
     // Transaction validations
     public static final int TRANSACTION_TITLE_MIN_LENGTH = 1;
     public static final int TRANSACTION_TITLE_MAX_LENGTH = 100;

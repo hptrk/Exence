@@ -1,0 +1,150 @@
+package com.exence.finance.modules.debt.service.impl;
+
+import com.exence.finance.common.annotations.transaction.ReadTransactional;
+import com.exence.finance.common.annotations.transaction.WriteTransactional;
+import com.exence.finance.common.dto.SupportedCurrency;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
+import com.exence.finance.modules.auth.service.UserService;
+import com.exence.finance.modules.auth.service.UserSettingsService;
+import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.debt.dto.DebtCreateDTO;
+import com.exence.finance.modules.debt.dto.DebtGetDTO;
+import com.exence.finance.modules.debt.dto.DebtPatchDTO;
+import com.exence.finance.modules.debt.dto.DebtPaymentDTO;
+import com.exence.finance.modules.debt.entity.Debt;
+import com.exence.finance.modules.debt.enums.DebtStatus;
+import com.exence.finance.modules.debt.enums.DebtType;
+import com.exence.finance.modules.debt.mapper.DebtMapper;
+import com.exence.finance.modules.debt.repository.DebtRepository;
+import com.exence.finance.modules.debt.service.DebtService;
+import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class DebtServiceImpl implements DebtService {
+
+    private final DebtRepository debtRepository;
+    private final CategoryRepository categoryRepository;
+    private final UserService userService;
+    private final ExchangeRateService exchangeRateService;
+    private final DebtMapper debtMapper;
+    private final UserSettingsService userSettingsService;
+
+    @ReadTransactional
+    public List<DebtGetDTO> getDebts(List<DebtStatus> statuses, DebtType type) {
+        boolean hasStatuses = statuses != null && !statuses.isEmpty();
+        boolean hasType = type != null;
+
+        // TODO: dynamic querydsl for filters
+        List<Debt> debts;
+        if (hasStatuses && hasType) {
+            debts = debtRepository.findByStatusInAndType(statuses, type);
+        } else if (hasStatuses) {
+            debts = debtRepository.findByStatusIn(statuses);
+        } else if (hasType) {
+            debts = debtRepository.findByType(type);
+        } else {
+            debts = debtRepository.findAllUserFiltered();
+        }
+        return debts.stream().map(debtMapper::mapToGetDTO).toList();
+    }
+
+    @ReadTransactional
+    public DebtGetDTO getDebtById(Long id) {
+        return debtMapper.mapToGetDTO(getDebt(id));
+    }
+
+    @WriteTransactional
+    public DebtGetDTO createDebt(DebtCreateDTO dto) {
+        Category category = categoryRepository
+                .find(dto.categoryId())
+                .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        Debt debt = debtMapper.mapFromCreateDTO(dto);
+        debt.setUser(userService.getCurrentUser());
+        debt.setCategory(category);
+        debt.setRemainingAmount(dto.originalAmount());
+        debt.setStatus(DebtStatus.ACTIVE);
+
+        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
+        BigDecimal originalBaseCurrencyAmount =
+                calculateBaseCurrencyAmount(dto.originalAmount(), dto.currency(), baseCurrency);
+        debt.setOriginalBaseCurrencyAmount(originalBaseCurrencyAmount);
+        debt.setRemainingBaseCurrencyAmount(originalBaseCurrencyAmount);
+
+        return debtMapper.mapToGetDTO(debtRepository.save(debt));
+    }
+
+    @WriteTransactional
+    public DebtGetDTO patchDebt(Long id, DebtPatchDTO dto) {
+        Debt debt = getDebt(id);
+
+        if (dto.categoryId() != null
+                && !dto.categoryId().equals(debt.getCategory().getId())) {
+            Category category = categoryRepository
+                    .find(dto.categoryId())
+                    .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+            debt.setCategory(category);
+        }
+
+        debtMapper.updateDebtFromPatchDTO(dto, debt);
+        return debtMapper.mapToGetDTO(debtRepository.save(debt));
+    }
+
+    @WriteTransactional
+    public DebtGetDTO makePayment(Long id, DebtPaymentDTO dto) {
+        Debt debt = getDebt(id);
+
+        if (dto.amount().compareTo(debt.getRemainingAmount()) > 0) {
+            throw new ExenceException(ErrorCode.DEBT_PAYMENT_EXCEEDS_REMAINING);
+        }
+
+        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
+        SupportedCurrency currency = debt.getCurrency();
+
+        BigDecimal newRemaining = debt.getRemainingAmount().subtract(dto.amount());
+        debt.setRemainingAmount(newRemaining);
+
+        BigDecimal paymentBase = calculateBaseCurrencyAmount(dto.amount(), currency, baseCurrency);
+        BigDecimal newRemainingBase =
+                debt.getRemainingBaseCurrencyAmount().subtract(paymentBase).max(BigDecimal.ZERO);
+        debt.setRemainingBaseCurrencyAmount(newRemainingBase);
+
+        if (newRemaining.compareTo(BigDecimal.ZERO) == 0) {
+            debt.setStatus(DebtStatus.SETTLED);
+        }
+
+        return debtMapper.mapToGetDTO(debtRepository.save(debt));
+    }
+
+    @WriteTransactional
+    public void deleteDebt(Long id) {
+        Debt debt = getDebt(id);
+        debtRepository.delete(debt);
+    }
+
+    @WriteTransactional
+    public int expireOverdueDebts() {
+        return debtRepository.expireOverdueDebts(DebtStatus.EXPIRED, LocalDate.now(), DebtStatus.ACTIVE);
+    }
+
+    private Debt getDebt(Long id) {
+        return debtRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.DEBT_NOT_FOUND));
+    }
+
+    private BigDecimal calculateBaseCurrencyAmount(
+            BigDecimal amount, SupportedCurrency currency, SupportedCurrency baseCurrency) {
+        if (currency == baseCurrency) {
+            return amount;
+        }
+        BigDecimal rate = exchangeRateService.getRate(currency, baseCurrency, LocalDate.now());
+        return exchangeRateService.calculateBaseCurrencyAmount(amount, currency, baseCurrency, LocalDate.now(), rate);
+    }
+}
