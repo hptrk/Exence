@@ -63,9 +63,21 @@ public class EmailServiceImpl implements EmailService {
         sendTemplatedEmail(user, EmailType.REMINDER, variables);
     }
 
+    @Override
+    public void sendBroadcastEmail(User user, String subject, String htmlContent) {
+        Map<String, String> variables = new HashMap<>();
+        variables.put("subject", subject);
+        variables.put("content", htmlContent);
+
+        sendTemplatedEmail(user, EmailType.BROADCAST, subject, variables);
+    }
+
     private void sendTemplatedEmail(User user, EmailType emailType, Map<String, String> variables) {
+        sendTemplatedEmail(user, emailType, emailType.getSubject(), variables);
+    }
+
+    private void sendTemplatedEmail(User user, EmailType emailType, String subject, Map<String, String> variables) {
         String recipientEmail = user.getEmail();
-        String subject = emailType.getSubject();
 
         try {
             String htmlContent = emailTemplateService.processTemplate(emailType, variables);

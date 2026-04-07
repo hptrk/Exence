@@ -9,7 +9,8 @@ public enum EmailType {
     EMAIL_VERIFICATION("verify-email", "Verify your Exence account"),
     PASSWORD_RESET("reset-password", "Reset your Exence password"),
     WELCOME("welcome", "Welcome to Exence!"),
-    REMINDER("reminder", "Just checking in!");
+    REMINDER("reminder", "Just checking in!"),
+    BROADCAST("broadcast", "Exence Announcement");
 
     private final String templateName;
 
