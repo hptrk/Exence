@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-achievement-progress-table
+      author: hptrk
+      comment: Create achievement_progress table to track per-user progress toward each achievement type
+      dbms: postgresql
+      changes:
+        - createTable:
+            tableName: achievement_progress
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_achievement_progress
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: achievement_type
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: current_value
+                  type: BIGINT
+                  defaultValueNumeric: 0
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: achievement_progress
+            baseColumnNames: user_id
+            constraintName: fk_achievement_progress_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: achievement_progress
+            columnNames: user_id, achievement_type
+            constraintName: uq_achievement_progress_user_type
+
+      rollback:
+        - dropTable:
+            tableName: achievement_progress

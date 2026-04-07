@@ -20,6 +20,7 @@ import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.event.BaseCurrencyChangedEvent;
+import com.exence.finance.modules.transaction.event.TransactionCreatedEvent;
 import com.exence.finance.modules.transaction.mapper.TransactionMapper;
 import com.exence.finance.modules.transaction.repository.TransactionPredicateBuilder;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
@@ -90,6 +91,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         Transaction savedTransaction = transactionRepository.save(transaction);
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
+        eventPublisher.publishEvent(new TransactionCreatedEvent(user.getId()));
         return transactionMapper.mapToTransactionGetDTO(savedTransaction);
     }
 

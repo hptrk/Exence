@@ -1,0 +1,57 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user-achievement-table
+      author: hptrk
+      comment: Create user_achievement table to track unlocked achievements per user
+      dbms: postgresql
+      changes:
+        - createTable:
+            tableName: user_achievement
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_user_achievement
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: achievement_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unlocked_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: user_achievement
+            baseColumnNames: user_id
+            constraintName: fk_user_achievement_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: user_achievement
+            baseColumnNames: achievement_id
+            constraintName: fk_user_achievement_achievement
+            referencedTableName: achievement
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: user_achievement
+            columnNames: user_id, achievement_id
+            constraintName: uq_user_achievement
+
+      rollback:
+        - dropTable:
+            tableName: user_achievement

@@ -16,6 +16,8 @@ import com.exence.finance.modules.goal.dto.GoalPatchDTO;
 import com.exence.finance.modules.goal.entity.Goal;
 import com.exence.finance.modules.goal.entity.GoalProgressHistory;
 import com.exence.finance.modules.goal.enums.GoalStatus;
+import com.exence.finance.modules.goal.event.GoalCompletedEvent;
+import com.exence.finance.modules.goal.event.GoalCreatedEvent;
 import com.exence.finance.modules.goal.mapper.GoalMapper;
 import com.exence.finance.modules.goal.repository.GoalProgressRepository;
 import com.exence.finance.modules.goal.repository.GoalRepository;
@@ -24,6 +26,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,6 +40,7 @@ public class GoalServiceImpl implements GoalService {
     private final ExchangeRateService exchangeRateService;
     private final GoalMapper goalMapper;
     private final UserSettingsService userSettingsService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @ReadTransactional
     public List<GoalGetDTO> getGoalsByStatuses(List<GoalStatus> statuses) {
@@ -77,12 +81,19 @@ public class GoalServiceImpl implements GoalService {
         Goal savedGoal = goalRepository.save(goal);
         recordProgress(savedGoal, initialAmount);
 
+        eventPublisher.publishEvent(new GoalCreatedEvent(savedGoal.getUser().getId()));
+        if (status == GoalStatus.COMPLETED) {
+            eventPublisher.publishEvent(
+                    new GoalCompletedEvent(savedGoal.getUser().getId()));
+        }
+
         return goalMapper.mapToGetDTO(savedGoal);
     }
 
     @WriteTransactional
     public GoalGetDTO patchGoal(Long id, GoalPatchDTO dto) {
         Goal goal = getGoal(id);
+        GoalStatus previousStatus = goal.getStatus();
         SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         SupportedCurrency currency = goal.getCurrency();
 
@@ -115,6 +126,12 @@ public class GoalServiceImpl implements GoalService {
 
         goalMapper.updateGoalFromPatchDTO(dto, goal);
         Goal savedGoal = goalRepository.save(goal);
+
+        if (savedGoal.getStatus() == GoalStatus.COMPLETED && previousStatus != GoalStatus.COMPLETED) {
+            eventPublisher.publishEvent(
+                    new GoalCompletedEvent(savedGoal.getUser().getId()));
+        }
+
         return goalMapper.mapToGetDTO(savedGoal);
     }
 

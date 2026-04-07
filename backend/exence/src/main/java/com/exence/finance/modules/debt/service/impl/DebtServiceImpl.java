@@ -16,6 +16,7 @@ import com.exence.finance.modules.debt.dto.DebtPaymentDTO;
 import com.exence.finance.modules.debt.entity.Debt;
 import com.exence.finance.modules.debt.enums.DebtStatus;
 import com.exence.finance.modules.debt.enums.DebtType;
+import com.exence.finance.modules.debt.event.DebtSettledEvent;
 import com.exence.finance.modules.debt.mapper.DebtMapper;
 import com.exence.finance.modules.debt.repository.DebtRepository;
 import com.exence.finance.modules.debt.service.DebtService;
@@ -24,6 +25,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,6 +38,7 @@ public class DebtServiceImpl implements DebtService {
     private final ExchangeRateService exchangeRateService;
     private final DebtMapper debtMapper;
     private final UserSettingsService userSettingsService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @ReadTransactional
     public List<DebtGetDTO> getDebts(List<DebtStatus> statuses, DebtType type) {
@@ -79,12 +82,15 @@ public class DebtServiceImpl implements DebtService {
         debt.setOriginalBaseCurrencyAmount(originalBaseCurrencyAmount);
         debt.setRemainingBaseCurrencyAmount(originalBaseCurrencyAmount);
 
-        return debtMapper.mapToGetDTO(debtRepository.save(debt));
+        Debt savedDebt = debtRepository.save(debt);
+        eventPublisher.publishEvent(savedDebt.getUser().getId());
+        return debtMapper.mapToGetDTO(savedDebt);
     }
 
     @WriteTransactional
     public DebtGetDTO patchDebt(Long id, DebtPatchDTO dto) {
         Debt debt = getDebt(id);
+        DebtStatus previousStatus = debt.getStatus();
 
         if (dto.categoryId() != null
                 && !dto.categoryId().equals(debt.getCategory().getId())) {
@@ -95,7 +101,13 @@ public class DebtServiceImpl implements DebtService {
         }
 
         debtMapper.updateDebtFromPatchDTO(dto, debt);
-        return debtMapper.mapToGetDTO(debtRepository.save(debt));
+        Debt savedDebt = debtRepository.save(debt);
+
+        if (savedDebt.getStatus() == DebtStatus.SETTLED && previousStatus != DebtStatus.SETTLED) {
+            eventPublisher.publishEvent(new DebtSettledEvent(savedDebt.getUser().getId()));
+        }
+
+        return debtMapper.mapToGetDTO(savedDebt);
     }
 
     @WriteTransactional
@@ -117,11 +129,16 @@ public class DebtServiceImpl implements DebtService {
                 debt.getRemainingBaseCurrencyAmount().subtract(paymentBase).max(BigDecimal.ZERO);
         debt.setRemainingBaseCurrencyAmount(newRemainingBase);
 
-        if (newRemaining.compareTo(BigDecimal.ZERO) == 0) {
+        boolean nowSettled = newRemaining.compareTo(BigDecimal.ZERO) == 0;
+        if (nowSettled) {
             debt.setStatus(DebtStatus.SETTLED);
         }
 
-        return debtMapper.mapToGetDTO(debtRepository.save(debt));
+        Debt savedDebt = debtRepository.save(debt);
+        if (nowSettled) {
+            eventPublisher.publishEvent(new DebtSettledEvent(savedDebt.getUser().getId()));
+        }
+        return debtMapper.mapToGetDTO(savedDebt);
     }
 
     @WriteTransactional
