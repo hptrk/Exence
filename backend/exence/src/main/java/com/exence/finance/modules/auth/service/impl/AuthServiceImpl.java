@@ -6,6 +6,7 @@ import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.config.properties.EmailBusinessProperties;
 import com.exence.finance.modules.auth.dto.EmailType;
+import com.exence.finance.modules.auth.entity.Role;
 import com.exence.finance.modules.auth.dto.Theme;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.dto.request.EmailVerificationRequest;
@@ -71,12 +72,22 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @WriteTransactional
     public AuthenticationResponse register(RegisterRequest request) {
+        return internalRegister(request, Role.USER);
+    }
+
+    @Override
+    @WriteTransactional
+    public AuthenticationResponse registerAdmin(RegisterRequest request) {
+        return internalRegister(request, Role.ADMIN);
+    }
+
+    private AuthenticationResponse internalRegister(RegisterRequest request, Role role) {
         User user = userMapper.mapRegisterRequestToUser(request);
+        user.setRole(role);
         user = userRepository.save(user);
 
         createUserSettings(user, request.baseCurrency());
         createDefaultDashboardWidget(user);
-
         sendEmailVerification(user);
 
         return createAuthenticationResponse(user);

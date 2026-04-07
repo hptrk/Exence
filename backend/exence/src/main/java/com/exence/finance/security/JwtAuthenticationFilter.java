@@ -58,7 +58,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean isAuthenticationPath(HttpServletRequest request) {
-        return request.getServletPath().contains("/auth");
+        String servletPath = request.getServletPath();
+        return "/api/auth".equals(servletPath) || servletPath.startsWith("/api/auth/");
     }
 
     private void authenticateRequest(HttpServletRequest request, String jwt) {
