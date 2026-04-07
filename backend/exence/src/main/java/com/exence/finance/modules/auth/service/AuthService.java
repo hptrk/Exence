@@ -23,5 +23,7 @@ public interface AuthService {
 
     void resetPassword(PasswordResetRequest request);
 
+    AuthenticationResponse registerAdmin(RegisterRequest request);
+
     void sendEmailVerification(User user);
 }
