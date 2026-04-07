@@ -873,7 +873,10 @@
 			"label": "Journaux d'audit"
 		},
 		"configurations": {
-			"label": "Configurations"
+			"label": "Configurations",
+			"registration": {
+				"title": "Créer un nouvel utilisateur administrateur"
+			}
 		}
 	}
 }

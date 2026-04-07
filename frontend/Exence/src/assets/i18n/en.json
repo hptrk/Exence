@@ -873,7 +873,10 @@
 			"label": "Logs"
 		},
 		"configurations": {
-			"label": "Configs"
+			"label": "Configs",
+			"registration": {
+				"title": "Create new Admin user"
+			}
 		}
 	}
 }

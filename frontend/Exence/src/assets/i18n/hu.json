@@ -873,7 +873,10 @@
 			"label": "Audit naplók"
 		},
 		"configurations": {
-			"label": "Konfigurációk"
+			"label": "Konfigurációk",
+			"registration": {
+				"title": "Új rendszergazda létrehozása"
+			}
 		}
 	}
 }

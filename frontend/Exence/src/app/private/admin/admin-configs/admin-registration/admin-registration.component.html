@@ -1,0 +1,77 @@
+<h2 class="mb-4 fs-4">{{ 'admin.configurations.registration.title' | translate }}</h2>
+
+<form [formGroup]="form" (submit)="register()" stopPropagation class="d-flex flex-column w-100">
+	<mat-card-content class="d-flex flex-column gap-4">
+		<div class="d-flex flex-column flex-md-row gap-4">
+			@let nameControl = form.controls.username;
+			<mat-form-field>
+				<mat-label>{{ 'registration.username' | translate }}</mat-label>
+				<input matInput autoTrim [formControl]="nameControl" />
+				<ex-input-clear matSuffix [control]="nameControl" />
+				<mat-error>
+					<ex-validator [control]="nameControl" />
+				</mat-error>
+			</mat-form-field>
+			@let currencyControl = form.controls.currency;
+			<mat-form-field>
+				<mat-label>{{ 'transaction.create.currency' | translate }}</mat-label>
+				<mat-select [formControl]="currencyControl">
+					@for (currency of currencies | enumValue; track currency) {
+						<mat-option [value]="currency">{{ currency }} - {{ localizeCurrency(currency) }}</mat-option>
+					}
+				</mat-select>
+				<mat-error>
+					<ex-validator [control]="currencyControl" />
+				</mat-error>
+			</mat-form-field>
+		</div>
+		@let emailControl = form.controls.email;
+		<mat-form-field>
+			<mat-label>{{ 'registration.email' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="emailControl" type="email" />
+			<ex-input-clear matSuffix [control]="emailControl" />
+			<mat-error>
+				<ex-validator [control]="emailControl" />
+			</mat-error>
+		</mat-form-field>
+
+		<div class="d-flex flex-column flex-md-row align-items-baseline gap-4">
+			@let pwdControl = form.controls.password;
+			<mat-form-field [matTooltip]="'registration.passwordInfo' | translate">
+				<mat-label>{{ 'registration.password' | translate }}</mat-label>
+				<input matInput [formControl]="pwdControl" [type]="showPassword() ? 'text' : 'password'" />
+				<ex-show-password
+					matSuffix
+					[showPassword]="showPassword()"
+					[control]="pwdControl"
+					(toggled)="togglePassword()"
+				/>
+				<ex-input-clear matSuffix [control]="pwdControl" />
+				<mat-error>
+					<ex-validator [control]="pwdControl" />
+				</mat-error>
+			</mat-form-field>
+			@let confirmControl = form.controls.confirmPassword;
+			<mat-form-field>
+				<mat-label>{{ 'registration.confirmPassword' | translate }}</mat-label>
+				<input matInput [formControl]="confirmControl" [type]="showPassword() ? 'text' : 'password'" />
+				<ex-show-password
+					matSuffix
+					[showPassword]="showPassword()"
+					[control]="confirmControl"
+					(toggled)="togglePassword()"
+				/>
+				<ex-input-clear matSuffix [control]="confirmControl" />
+				<mat-error>
+					<ex-validator [control]="confirmControl" />
+				</mat-error>
+			</mat-form-field>
+		</div>
+	</mat-card-content>
+
+	<mat-card-actions class="d-flex flex-column gap-3 w-100">
+		<ex-button class="w-100" [disabled]="form.invalid" filled type="submit">
+			{{ 'registration.createButton' | translate }}
+		</ex-button>
+	</mat-card-actions>
+</form>

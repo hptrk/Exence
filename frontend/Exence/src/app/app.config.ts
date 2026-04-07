@@ -4,8 +4,7 @@ import { provideRouter } from '@angular/router';
 
 import { LayoutModule } from '@angular/cdk/layout';
 import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { ErrorStateMatcher, MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { enUS } from 'date-fns/locale';
 import { CookieService } from 'ngx-cookie-service';
@@ -16,6 +15,14 @@ import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import './shared/i18n/locale-parity-check';
 import { languageInterceptor } from './shared/auth/interceptors/language.interceptor';
+import { AbstractControl } from '@angular/forms';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+
+class TouchedErrorStateMatcher implements ErrorStateMatcher {
+	isErrorState(control: AbstractControl | null): boolean {
+		return !!(control?.invalid && control?.touched);
+	}
+}
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -30,6 +37,7 @@ export const appConfig: ApplicationConfig = {
 			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
 			useValue: { appearance: 'outline' },
 		},
+		{ provide: ErrorStateMatcher, useClass: TouchedErrorStateMatcher },
 		{ provide: MAT_DATE_LOCALE, useValue: enUS },
 		provideDateFnsAdapter(),
 		CookieService,

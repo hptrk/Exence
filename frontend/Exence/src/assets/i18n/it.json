@@ -873,7 +873,10 @@
 			"label": "Log di audit"
 		},
 		"configurations": {
-			"label": "Configurazioni"
+			"label": "Configurazioni",
+			"registration": {
+				"title": "Crea un nuovo utente amministratore"
+			}
 		}
 	}
 }
