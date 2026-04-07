@@ -42,7 +42,10 @@
 		"search": "Buscar...",
 		"dateRange": "Introduzca un rango de fechas",
 		"title": "Título",
-		"date": "Fecha"
+		"date": "Fecha",
+		"duplicate": "Duplicar",
+		"duplicateTitle": "Duplicar transacción - '{{title}}'",
+		"duplicateMessage": "Se creará la misma transacción con la fecha de hoy."
 	},
 	"recurring": {
 		"info": "Enviar esto <strong>NO</strong> añadirá una transacción de inmediato.<br><br>La primera transacción creada se programará para la fecha de inicio indicada. Si ha establecido la fecha de inicio para hoy, verá su transacción creada mañana (aún asignada para hoy).",

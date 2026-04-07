@@ -27,6 +27,12 @@ import {
 import { TransactionStore } from '../transaction.store';
 import { TransactionListDetailsComponent } from './transaction-list-details/transaction-list-details.component';
 import { TranslocoService } from '@jsverse/transloco';
+import {
+	MessageDialogButtonConfig,
+	MessageDialogComponent,
+	PredefiedButtons,
+} from '../../../shared/message-dialog/message-dialog.component';
+import { format } from 'date-fns';
 
 @Component({
 	selector: 'ex-transaction-list',
@@ -104,12 +110,18 @@ export class TransactionListComponent {
 
 	actions: TableAction<TransactionModel>[] = [
 		{
-			label: 'Edit',
+			label: this.translocoService.translate('transactionsAndCategories.duplicate'),
+			icon: 'add_box',
+			handler: row => this.dupliateTransaction(row),
+			disabled: row => row.createdByRecurringJob,
+		},
+		{
+			label: this.translocoService.translate('literals.edit'),
 			icon: 'edit',
 			handler: row => this.editTransaction(row),
 		},
 		{
-			label: 'Delete',
+			label: this.translocoService.translate('literals.delete'),
 			icon: 'delete',
 			color: 'var(--error-color)',
 			handler: row => this.transactionStore.deleteTransaction(row),
@@ -127,6 +139,36 @@ export class TransactionListComponent {
 		>(CreateTransactionDialogComponent, this.type() ? { type: this.type()! } : undefined);
 		if (!result) return;
 		this.transactionStore.createTransaction(result as TransactionCreate);
+	}
+
+	private async dupliateTransaction(row: TransactionModel): Promise<void> {
+		const result = await this.dialog.openModal(MessageDialogComponent, {
+			title: this.translocoService.translate('transactionsAndCategories.duplicateTitle', { title: row.title }),
+			message: this.translocoService.translate('transactionsAndCategories.duplicateMessage'),
+			hideCloseIcon: false,
+			buttons: MessageDialogButtonConfig.custom(
+				{
+					text: this.translocoService.translate('transactionsAndCategories.duplicate'),
+					value: true,
+					color: 'primary',
+					iconPositionEnd: true,
+					matIcon: 'add_box',
+				},
+				PredefiedButtons.CANCEL,
+			),
+		});
+		if (!result) return;
+		const request: TransactionCreate = {
+			title: row.title,
+			note: row.note ?? '',
+			date: format(new Date(), 'yyyy-MM-dd'),
+			amount: row.amount,
+			type: row.type,
+			categoryId: row.categoryId,
+			currency: row.currency,
+			exchangeRate: row.exchangeRate,
+		};
+		this.transactionStore.createTransaction(request);
 	}
 
 	private async editTransaction(row: TransactionModel): Promise<void> {

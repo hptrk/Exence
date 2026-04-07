@@ -42,7 +42,10 @@
 		"search": "Search...",
 		"dateRange": "Enter a date range",
 		"title": "Title",
-		"date": "Date"
+		"date": "Date",
+		"duplicate": "Duplicate",
+		"duplicateTitle": "Dupliate transaction - '{{title}}'",
+		"duplicateMessage": "The same transaction with the date set to today will be created."
 	},
 	"recurring": {
 		"info": "Submiting this will <strong>NOT</strong> add a transaction instantly.<br><br>The first transaction created will be scheduled for the given start date. If you have given the start date to be today, you will see your transaction created tomorrow (still assinged for today).",

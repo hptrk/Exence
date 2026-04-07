@@ -42,7 +42,10 @@
 		"search": "Rechercher...",
 		"dateRange": "Saisissez une plage de dates",
 		"title": "Titre",
-		"date": "Date"
+		"date": "Date",
+		"duplicate": "Dupliquer",
+		"duplicateTitle": "Dupliquer la transaction - '{{title}}'",
+		"duplicateMessage": "La même transaction sera créée avec la date d'aujourd'hui."
 	},
 	"recurring": {
 		"info": "Soumettre ceci <strong>N'</strong>ajoutera <strong>PAS</strong> immédiatement une transaction.<br><br>La première transaction créée sera planifiée à la date de début indiquée. Si vous avez défini la date de début à aujourd'hui, vous verrez votre transaction créée demain (toujours assignée à aujourd'hui).",
