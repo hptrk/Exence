@@ -6,8 +6,9 @@
 			<mat-icon class="flex-shrink-0" size="lg">desktop_windows</mat-icon>
 			<div class="flex-shink-1">
 				<div class="name text-truncate">
-					{{ currSession?.operatingSystem }} -
-					{{ currSession?.deviceName }}
+					Windows 11 - YourPC
+					<!-- {{ currSession?.operatingSystem }} -
+					{{ currSession?.deviceName }} -->
 				</div>
 				<div>
 					{{ 'sessionList.lastUsed' | translate }}
@@ -63,6 +64,46 @@
 				</ex-button>
 			</div>
 		}
+
+		<mat-divider />
+		<h3 class="m-0 text-start fs-2 mt-5">{{ 'sessionList.otherSessions' | translate }}</h3>
+		<li class="d-flex flex-row flex-nowrap align-items-center justify-content-start gap-4 ms-2 my-4">
+			<mat-icon class="flex-shrink-0" size="lg">desktop_windows</mat-icon>
+			<div class="flex-shink-1">
+				<div class="name text-truncate">Arch Linux - LaptopARCH</div>
+				<div>
+					{{ 'sessionList.lastUsed' | translate }}
+					<span class="emphasis">3 days ago</span>
+				</div>
+			</div>
+			<ex-button iconButton color="error" matIcon="delete" class="flex-shrink-0" />
+		</li>
+		<mat-divider />
+		<li class="d-flex flex-row flex-nowrap align-items-center justify-content-start gap-4 ms-2 my-4">
+			<mat-icon class="flex-shrink-0" size="lg">desktop_windows</mat-icon>
+			<div class="flex-shink-1">
+				<div class="name text-truncate">IOS iPhone - Tamás iPhone-ja</div>
+				<div>
+					{{ 'sessionList.lastUsed' | translate }}
+					<span class="emphasis">1 month ago</span>
+				</div>
+			</div>
+			<ex-button iconButton color="error" matIcon="delete" class="flex-shrink-0" />
+		</li>
+		<mat-divider />
+		<div class="d-flex">
+			<ex-button
+				outlined
+				color="primary"
+				matIcon="delete"
+				collapsedStyle="filled"
+				collapseUnder="sm"
+				class="mt-2 delete-all"
+				(click)="deleteAllSessions()"
+			>
+				{{ 'sessionList.deleteAll' | translate }}
+			</ex-button>
+		</div>
 	</ul>
 </div>
 
