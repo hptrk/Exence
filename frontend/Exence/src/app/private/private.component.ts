@@ -13,6 +13,8 @@ import { StatisticService } from './statistics/statistic.service';
 import { AdminStatisticsService } from './admin/admin-statistic.service';
 import { GoalService } from './goals/goal.service';
 import { GoalStore } from './goals/goal.store';
+import { DebtService } from './debts/debt.service';
+import { DebtStore } from './debts/debt.store';
 
 @Component({
 	selector: 'ex-private',
@@ -27,6 +29,8 @@ import { GoalStore } from './goals/goal.store';
 		AdminStatisticsService,
 		GoalService,
 		GoalStore,
+		DebtService,
+		DebtStore,
 	],
 })
 export class PrivateComponent {

@@ -1,0 +1,6 @@
+export enum DebtStatus {
+	ACTIVE = 'ACTIVE',
+	SETTLED = 'SETTLED',
+	EXPIRED = 'EXPIRED',
+	FORGIVEN = 'FORGIVEN',
+}

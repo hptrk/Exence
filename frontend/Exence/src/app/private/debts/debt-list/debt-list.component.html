@@ -1,0 +1,105 @@
+<ex-data-table
+	[columns]="columns()"
+	[actions]="actions"
+	[data]="data()"
+	[isLoading]="isLoading()"
+	[title]="title()"
+	[matIcon]="matIcon()"
+	[svgIcon]="svgIcon()"
+	[expandTemplate]="expandTmpl"
+	(addClicked)="openCreate()"
+	[nonExpandable]="false"
+	class="overflow-hidden"
+>
+	<ng-template exCell="title" let-row>
+		<div
+			class="status"
+			style="min-width: 4px"
+			[attr.status]="row.status"
+			[matTooltip]="codeForStatus(row.status) | translate"
+		></div>
+		<div class="text-truncate ps-3" [matTooltip]="row.title">{{ row.title }}</div>
+	</ng-template>
+
+	<ng-template exCell="remaining" let-row>
+		<span class="fw-semibold amount">
+			@if (showBaseCurrency()) {
+				{{ row.remainingBaseCurrencyAmount | currency }}
+			} @else {
+				{{ row.remainingAmount | currency: row.currency }}
+			}
+		</span>
+	</ng-template>
+
+	<ng-template exCell="days" let-row>
+		@if (daysUntilDeadline(row.deadline) !== null) {
+			{{ daysUntilDeadline(row.deadline) }} {{ 'debts.daysUnit' | translate }}
+		} @else {
+			&mdash;
+		}
+	</ng-template>
+
+	<ng-template exCell="category" let-row>
+		<div class="icon-container" [style.--icon-color]="row.category?.color" [matTooltip]="row.category?.name">
+			<mat-icon>{{ row.category?.icon }}</mat-icon>
+		</div>
+	</ng-template>
+</ex-data-table>
+
+<ng-template #expandTmpl let-row>
+	<div class="details">
+		<div class="detail">
+			<mat-label>{{ 'debts.counterparty' | translate }}</mat-label>
+			<div class="fs-6 fw-semibold">{{ row.counterpartyName }}</div>
+		</div>
+
+		<div class="detail">
+			<mat-label>{{ 'debts.originalAmount' | translate }}</mat-label>
+			<div class="fs-6 fw-semibold">
+				@if (showBaseCurrency()) {
+					{{ row.originalBaseCurrencyAmount | currency }}
+				} @else {
+					{{ row.originalAmount | currency: row.currency }}
+				}
+			</div>
+		</div>
+
+		<div class="detail">
+			<mat-label>{{ 'debts.deadline' | translate }}</mat-label>
+			<div class="fs-6">
+				@if (row.deadline) {
+					{{ row.deadline | date: 'yy/MM/dd' }}
+				} @else {
+					&mdash;
+				}
+			</div>
+		</div>
+
+		@if (row.currency !== baseCurrency()) {
+			@if (showBaseCurrency()) {
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>{{ 'debts.currency.logged' | translate }}</mat-label>
+					<div class="fs-6">{{ row.currency }} - {{ localizeCurrency(row.currency) }}</div>
+				</div>
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>{{ 'debts.amount.logged' | translate }}</mat-label>
+					<div class="fs-6 fw-semibold">{{ row.remainingAmount | currency: row.currency }}</div>
+				</div>
+			} @else {
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>{{ 'debts.currency.base' | translate }}</mat-label>
+					<div class="fs-6">{{ baseCurrency() }} - {{ localizeCurrency(baseCurrency()) }}</div>
+				</div>
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>{{ 'debts.amount.base' | translate }}</mat-label>
+					<div class="fs-6 fw-semibold">{{ row.remainingBaseCurrencyAmount | currency }}</div>
+				</div>
+			}
+		}
+
+		<div class="detail">
+			<mat-label>{{ 'debts.progress' | translate }}</mat-label>
+			<mat-progress-bar [value]="row.paidPercentage" />
+		</div>
+	</div>
+</ng-template>

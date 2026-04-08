@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { StatCardWidget } from '../../../data-model/modules/statistics/StatCardWidget';
 import {
 	AdminWidgetType,
+	DebtWidgetType,
 	GoalWidgetType,
 	WidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
@@ -13,6 +14,7 @@ import { CurrencyService } from '../../../shared/currency.service';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { AdminStatisticsService } from '../../admin/admin-statistic.service';
 import { GoalService } from '../../goals/goal.service';
+import { DebtService } from '../../debts/debt.service';
 import { StatisticService } from '../statistic.service';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 
@@ -31,11 +33,13 @@ export class StatCardComponent {
 	private readonly statisticService = inject(StatisticService);
 	private readonly adminStatisticService = inject(AdminStatisticsService);
 	private readonly goalService = inject(GoalService);
+	private readonly debtService = inject(DebtService);
 	readonly currencyService = inject(CurrencyService);
 
 	widget = input<StatCardWidget>();
 	adminCardType = input<AdminWidgetType>();
 	goalCardType = input<GoalWidgetType>();
+	debtCardType = input<DebtWidgetType>();
 	customTitle = input<string>();
 
 	isLoading = signal<boolean>(false);
@@ -91,6 +95,15 @@ export class StatCardComponent {
 			this.isLoading.set(true);
 			this.goalService
 				.getWidgetData(this.goalCardType()!)
+				.then(response => this.data.set(response.payload as StatCardPayload))
+				.finally(() => this.isLoading.set(false));
+		});
+
+		effect(() => {
+			if (!this.debtCardType()) return;
+			this.isLoading.set(true);
+			this.debtService
+				.getWidgetData(this.debtCardType()!)
 				.then(response => this.data.set(response.payload as StatCardPayload))
 				.finally(() => this.isLoading.set(false));
 		});

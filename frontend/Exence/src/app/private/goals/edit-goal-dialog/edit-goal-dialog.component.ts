@@ -108,10 +108,6 @@ export class EditGoalDialogComponent extends DialogComponent<EditGoalDialogData,
 		return `goals.status.${status}`;
 	}
 
-	close(): void {
-		this.dialogRef.close(null);
-	}
-
 	save(): void {
 		if (this.form.invalid) return;
 		const formValue = this.form.getRawValue();

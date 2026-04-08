@@ -1,10 +1,10 @@
 <ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
-	<div ex-dialog-card-title>{{ 'goals.create.title' | translate }}</div>
+	<div ex-dialog-card-title>{{ 'debts.create.title' | translate }}</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
 		@let titleControl = form.controls.title;
 		<mat-form-field>
-			<mat-label>{{ 'goals.create.titleLabel' | translate }}</mat-label>
+			<mat-label>{{ 'debts.create.titleLabel' | translate }}</mat-label>
 			<input matInput autoTrim [formControl]="titleControl" />
 			<ex-input-clear matSuffix [control]="titleControl" />
 			<mat-error>
@@ -12,30 +12,27 @@
 			</mat-error>
 		</mat-form-field>
 
-		<div class="d-flex flex-column flex-sm-row gap-3">
-			<ex-amount-stepper
-				class="mb-3"
-				[control]="form.controls.targetAmount"
-				[label]="'goals.create.targetAmount'"
-				[min]="1"
-			/>
-			<ex-amount-stepper
-				class="mb-3"
-				[control]="form.controls.initialAmount"
-				[label]="'goals.create.initialAmount'"
-				[min]="0"
-			/>
-		</div>
-		@if (form.hasError('initialAmountMax')) {
+		@let counterpartyControl = form.controls.counterpartyName;
+		<mat-form-field>
+			<mat-label>{{ 'debts.create.counterpartyName' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="counterpartyControl" />
+			<ex-input-clear matSuffix [control]="counterpartyControl" />
 			<mat-error>
-				<ex-validator [control]="form" />
+				<ex-validator [control]="counterpartyControl" />
 			</mat-error>
-		}
+		</mat-form-field>
 
 		<div class="d-flex flex-column flex-sm-row gap-3">
+			<ex-amount-stepper
+				class="mb-3"
+				[control]="form.controls.originalAmount"
+				[label]="'debts.create.originalAmount'"
+				[min]="1"
+			/>
+
 			@let currencyControl = form.controls.currency;
 			<mat-form-field>
-				<mat-label>{{ 'goals.create.currency' | translate }}</mat-label>
+				<mat-label>{{ 'debts.create.currency' | translate }}</mat-label>
 				<mat-select [formControl]="currencyControl">
 					@for (currency of currencies | enumValue; track currency) {
 						<mat-option [value]="currency">{{ currency }} - {{ localizeCurrency(currency) }}</mat-option>
@@ -45,16 +42,26 @@
 					<ex-validator [control]="currencyControl" />
 				</mat-error>
 			</mat-form-field>
+		</div>
+
+		<div class="d-flex flex-column flex-sm-row gap-3">
+			@let typeControl = form.controls.type;
+			<mat-form-field>
+				<mat-label>{{ 'debts.create.type' | translate }}</mat-label>
+				<mat-select [formControl]="typeControl">
+					@for (type of debtTypes | enumValue; track type) {
+						<mat-option [value]="type">{{ codeForType(type) | translate }}</mat-option>
+					}
+				</mat-select>
+				<mat-error>
+					<ex-validator [control]="typeControl" />
+				</mat-error>
+			</mat-form-field>
 
 			@let deadlineControl = form.controls.deadline;
 			<mat-form-field>
-				<mat-label>{{ 'goals.create.deadline' | translate }}</mat-label>
-				<input
-					matInput
-					[matDatepicker]="deadlinePicker"
-					[formControl]="deadlineControl"
-					[matDatepickerFilter]="deadlineDateFilter"
-				/>
+				<mat-label>{{ 'debts.create.deadline' | translate }}</mat-label>
+				<input matInput [matDatepicker]="deadlinePicker" [formControl]="deadlineControl" />
 				<mat-datepicker-toggle matIconSuffix [for]="deadlinePicker" />
 				<mat-datepicker #deadlinePicker />
 				<mat-error>
@@ -65,7 +72,7 @@
 
 		@let categoryControl = form.controls.category.controls;
 		<mat-form-field>
-			<mat-label>{{ 'goals.create.category' | translate }}</mat-label>
+			<mat-label>{{ 'debts.create.category' | translate }}</mat-label>
 			<mat-select
 				selectAutoFocus
 				[focusedInput]="searchCategoryInput"
@@ -73,7 +80,7 @@
 				(closed)="categoryControl.searchText.reset()"
 			>
 				<mat-form-field subscriptSizing="dynamic" class="search-with-select">
-					<mat-label>{{ 'goals.create.search' | translate }}</mat-label>
+					<mat-label>{{ 'debts.create.search' | translate }}</mat-label>
 					<input autoTrim matInput [formControl]="categoryControl.searchText" #searchCategoryInput />
 					<ex-input-clear [control]="categoryControl.searchText" />
 					<mat-error>
@@ -89,21 +96,6 @@
 			</mat-select>
 			<mat-error>
 				<ex-validator [control]="categoryControl.category" />
-			</mat-error>
-		</mat-form-field>
-
-		@let descriptionControl = form.controls.description;
-		<mat-form-field>
-			<mat-label>{{ 'goals.create.description' | translate }}</mat-label>
-			<textarea
-				matInput
-				autoTrim
-				cdkTextareaAutosize
-				cdkAutosizeMinRows="3"
-				[formControl]="descriptionControl"
-			></textarea>
-			<mat-error>
-				<ex-validator [control]="descriptionControl" />
 			</mat-error>
 		</mat-form-field>
 

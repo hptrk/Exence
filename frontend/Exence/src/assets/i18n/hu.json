@@ -25,7 +25,8 @@
 		"from": "Tól",
 		"to": "Ig",
 		"yes": "Igen",
-		"no": "Nem"
+		"no": "Nem",
+		"duplicate": "Duplicate"
 	},
 	"dashboard": {
 		"title": "Üdvözöllek újra, <span class='username'>{{username}}</span>!",
@@ -956,5 +957,70 @@
 		},
 		"updateInfo": "Cél sikeresen frissítve!",
 		"deleteInfo": "Cél sikeresen törölve!"
+	},
+	"debts": {
+		"title": "Debts",
+		"myDebts": "My Debts",
+		"owedToMe": "Owed to Me",
+		"titleLabel": "Title",
+		"counterparty": "Counterparty",
+		"originalAmount": "Original Amount",
+		"deadline": "Deadline",
+		"days": "Days",
+		"daysUnit": "days",
+		"progress": "Paid progress",
+		"makePayment": "Make a Payment",
+		"paymentAmount": "Payment amount",
+		"pay": "Pay",
+		"status": {
+			"label": "Status",
+			"ACTIVE": "Active",
+			"SETTLED": "Settled",
+			"EXPIRED": "Expired",
+			"FORGIVEN": "Forgiven"
+		},
+		"type": {
+			"BORROWED": "I borrowed",
+			"LENT": "I lent"
+		},
+		"currency": {
+			"logged": "Logged currency",
+			"base": "Base currency"
+		},
+		"amount": {
+			"logged": "Amount in logged currency",
+			"base": "Amount in base currency"
+		},
+		"create": {
+			"title": "New Debt",
+			"titleLabel": "Title",
+			"counterpartyName": "Counterparty name",
+			"originalAmount": "Amount",
+			"currency": "Currency",
+			"deadline": "Deadline (optional)",
+			"type": "Type",
+			"category": "Category",
+			"search": "Search",
+			"successInfo": "Debt '{{title}}' created successfully!"
+		},
+		"edit": {
+			"title": "Edit Debt",
+			"titleLabel": "Title",
+			"counterpartyName": "Counterparty name",
+			"deadline": "Deadline",
+			"type": "Type",
+			"status": "Status",
+			"category": "Category",
+			"search": "Search"
+		},
+		"statistics": {
+			"card": {
+				"DEBT_TOTAL_I_OWE_STATCARD": "Total I Owe",
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total Owed to Me"
+			}
+		},
+		"updateInfo": "Debt updated successfully!",
+		"deleteInfo": "Debt deleted successfully!",
+		"paymentInfo": "Payment recorded successfully!"
 	}
 }
