@@ -11,6 +11,8 @@ import { RecurringStore } from './transactions-and-categories/recurring.store';
 import { TransactionStore } from './transactions-and-categories/transaction.store';
 import { StatisticService } from './statistics/statistic.service';
 import { AdminStatisticsService } from './admin/admin-statistic.service';
+import { GoalService } from './goals/goal.service';
+import { GoalStore } from './goals/goal.store';
 
 @Component({
 	selector: 'ex-private',
@@ -23,6 +25,8 @@ import { AdminStatisticsService } from './admin/admin-statistic.service';
 		RecurringService,
 		StatisticService,
 		AdminStatisticsService,
+		GoalService,
+		GoalStore,
 	],
 })
 export class PrivateComponent {

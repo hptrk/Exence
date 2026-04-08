@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "Veuillez sélectionner un jour de la semaine !",
 		"dayOfMonthRequired": "Veuillez sélectionner un jour du mois !",
 		"endDateRequired": "La date de fin est requise !",
-		"matDatepickerFilter": "La date doit correspondre au modèle de récurrence et ne doit pas être dans le passé !"
+		"matDatepickerFilter": "La date doit correspondre au modèle de récurrence et ne doit pas être dans le passé !",
+		"initialAmountMax": "Le montant initial ne doit pas dépasser le montant cible !",
+		"currentAmountMax": "Le montant actuel ne doit pas dépasser le montant cible !",
+		"fieldNotLessThan": "Le montant cible ne peut pas être inférieur au montant actuel !"
 	},
 	"confirmExit": {
 		"title": "Modifications non enregistrées",
@@ -891,5 +894,67 @@
 				"sendDisabled": "Vous ne pouvez pas envoyer l'e-mail sans avoir préalablement défini l'objet et le contenu."
 			}
 		}
+	},
+	"goals": {
+		"title": "Objectifs et épargnes",
+		"selectedGoal": "Objectif",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Tendance de progression",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Répartition des objectifs"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Nombre d'objectifs actifs",
+				"GOAL_AVG_PROGRESS_STATCARD": "Progression moyenne des objectifs",
+				"GOAL_COMPLETION_RATE_STATCARD": "Taux d'accomplissement",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Jours avant la prochaine échéance",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Montant total épargné pour les objectifs",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Épargne totale"
+			}
+		},
+		"status": {
+			"label": "Statut",
+			"ACTIVE": "ACTIF",
+			"PAUSED": "EN PAUSE",
+			"COMPLETED": "TERMINÉ",
+			"EXPIRED": "EXPIRÉ"
+		},
+		"note": "Note",
+		"currency": {
+			"logged": "Devise enregistrée",
+			"base": "Devise de base"
+		},
+		"amount": {
+			"logged": "Montant en devise enregistrée",
+			"base": "Montant en devise de base"
+		},
+		"progress": "Progression actuelle",
+		"date": "Échéance",
+		"titleLabel": "Titre",
+		"create": {
+			"title": "Nouvel objectif",
+			"titleLabel": "Titre",
+			"targetAmount": "Montant cible",
+			"initialAmount": "Montant initial",
+			"currency": "Devise",
+			"deadline": "Échéance",
+			"description": "Description",
+			"category": "Catégorie",
+			"search": "Recherche",
+			"successInfo": "Objectif '{{title}}' créé avec succès !"
+		},
+		"edit": {
+			"title": "Modifier l'objectif",
+			"titleLabel": "Titre",
+			"targetAmount": "Montant cible",
+			"currentAmount": "Montant actuel",
+			"deadline": "Échéance",
+			"description": "Description",
+			"category": "Catégorie",
+			"search": "Recherche",
+			"status": "Statut"
+		},
+		"updateInfo": "Objectif mis à jour avec succès !",
+		"deleteInfo": "Objectif supprimé avec succès !"
 	}
 }

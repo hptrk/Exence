@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "You must select the day of the week!",
 		"dayOfMonthRequired": "You must select a day of the month!",
 		"endDateRequired": "End date required!",
-		"matDatepickerFilter": "Date should match the recurrence pattern and should not be in the past!"
+		"matDatepickerFilter": "Date should match the recurrence pattern and should not be in the past!",
+		"initialAmountMax": "Initial amount must not exceed the target amount!",
+		"currentAmountMax": "Current amount must not exceed the target amount!",
+		"fieldNotLessThan": "Target amount cannot be less than the current amount!"
 	},
 	"confirmExit": {
 		"title": "Unsaved changes",
@@ -891,5 +894,67 @@
 				"sendDisabled": "You cannot send the email without setting the subject and content before."
 			}
 		}
+	},
+	"goals": {
+		"title": "Goals & Savings",
+		"selectedGoal": "Goal",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Progress trend",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Target distribution"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Number of active goals",
+				"GOAL_AVG_PROGRESS_STATCARD": "Average goal progress",
+				"GOAL_COMPLETION_RATE_STATCARD": "Completion rate",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Days until next deadline",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Sum amount saved for goals",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Total saving"
+			}
+		},
+		"status": {
+			"label": "Status",
+			"ACTIVE": "ACTIVE",
+			"PAUSED": "PAUSED",
+			"COMPLETED": "COMPLETED",
+			"EXPIRED": "EXPIRED"
+		},
+		"note": "Note",
+		"currency": {
+			"logged": "Logged currency",
+			"base": "Base currency"
+		},
+		"amount": {
+			"logged": "Amount in logged currency",
+			"base": "Amount in base currency"
+		},
+		"progress": "Current progress",
+		"date": "Deadline",
+		"titleLabel": "Title",
+		"create": {
+			"title": "New goal",
+			"titleLabel": "Title",
+			"targetAmount": "Target amount",
+			"initialAmount": "Initial amount",
+			"currency": "Currency",
+			"deadline": "Deadline",
+			"description": "Description",
+			"category": "Category",
+			"search": "Search",
+			"successInfo": "Goal '{{title}}' created successfully!"
+		},
+		"edit": {
+			"title": "Edit goal",
+			"titleLabel": "Title",
+			"targetAmount": "Target amount",
+			"currentAmount": "Current amount",
+			"deadline": "Deadline",
+			"description": "Description",
+			"category": "Category",
+			"search": "Search",
+			"status": "Status"
+		},
+		"updateInfo": "Goal updated successfully!",
+		"deleteInfo": "Goal deleted successfully!"
 	}
 }

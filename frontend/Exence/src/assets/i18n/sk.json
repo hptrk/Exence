@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "Prosím vyberte deň v týždni!",
 		"dayOfMonthRequired": "Prosím vyberte deň v mesiaci!",
 		"endDateRequired": "Dátum ukončenia je povinný!",
-		"matDatepickerFilter": "Dátum by mal zodpovedať vzoru opakovania a nemal by byť v minulosti!"
+		"matDatepickerFilter": "Dátum by mal zodpovedať vzoru opakovania a nemal by byť v minulosti!",
+		"initialAmountMax": "Počiatočná suma nesmie presiahnuť cieľovú sumu!",
+		"currentAmountMax": "Aktuálna suma nesmie presiahnuť cieľovú sumu!",
+		"fieldNotLessThan": "Cieľová suma nesmie byť nižšia ako aktuálna suma!"
 	},
 	"confirmExit": {
 		"title": "Neuložené zmeny",
@@ -891,5 +894,67 @@
 				"sendDisabled": "E-mail nemôžete odoslať, pokiaľ predtým nenastavíte predmet a obsah."
 			}
 		}
+	},
+	"goals": {
+		"title": "Ciele a úspory",
+		"selectedGoal": "Cieľ",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Trend pokroku",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Rozdelenie cieľov"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Počet aktívnych cieľov",
+				"GOAL_AVG_PROGRESS_STATCARD": "Priemerný pokrok cieľov",
+				"GOAL_COMPLETION_RATE_STATCARD": "Miera dokončenia",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Dni do ďalšieho termínu",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Celková úspora pre ciele",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Celkové úspory"
+			}
+		},
+		"status": {
+			"label": "Stav",
+			"ACTIVE": "AKTÍVNY",
+			"PAUSED": "POZASTAVENÝ",
+			"COMPLETED": "DOKONČENÝ",
+			"EXPIRED": "VYPRŠANÝ"
+		},
+		"note": "Poznámka",
+		"currency": {
+			"logged": "Zaznamenaná mena",
+			"base": "Základná mena"
+		},
+		"amount": {
+			"logged": "Suma v zaznamenanej mene",
+			"base": "Suma v základnej mene"
+		},
+		"progress": "Aktuálny pokrok",
+		"date": "Termín",
+		"titleLabel": "Názov",
+		"create": {
+			"title": "Nový cieľ",
+			"titleLabel": "Názov",
+			"targetAmount": "Cieľová suma",
+			"initialAmount": "Počiatočná suma",
+			"currency": "Mena",
+			"deadline": "Termín",
+			"description": "Popis",
+			"category": "Kategória",
+			"search": "Hľadať",
+			"successInfo": "Cieľ '{{title}}' bol úspešne vytvorený!"
+		},
+		"edit": {
+			"title": "Upraviť cieľ",
+			"titleLabel": "Názov",
+			"targetAmount": "Cieľová suma",
+			"currentAmount": "Aktuálna suma",
+			"deadline": "Termín",
+			"description": "Popis",
+			"category": "Kategória",
+			"search": "Hľadať",
+			"status": "Stav"
+		},
+		"updateInfo": "Cieľ bol úspešne aktualizovaný!",
+		"deleteInfo": "Cieľ bol úspešne odstránený!"
 	}
 }

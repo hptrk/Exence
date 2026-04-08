@@ -80,7 +80,7 @@ export class DataTableComponent<T extends { id: number }> extends BaseComponent 
 
 	columns = input.required<ColumnDef[]>();
 	actions = input<TableAction<T>[]>([]);
-	data = input<PagedResponse<T>>();
+	data = input<PagedResponse<T> | T[]>();
 	isLoading = input<boolean>(false);
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
@@ -96,18 +96,25 @@ export class DataTableComponent<T extends { id: number }> extends BaseComponent 
 
 	expandedRowId = signal<number | null>(null);
 
-	dataSource = computed(() => new MatTableDataSource(this.data()?.content ?? []));
+	private resolvedContent = computed(() => {
+		const d = this.data();
+		return Array.isArray(d) ? d : (d?.content ?? []);
+	});
+
+	dataSource = computed(() => new MatTableDataSource(this.resolvedContent()));
 
 	displayedColumns = computed(() => this.columns().map(c => c.key));
 
-	isEmpty = computed(() => !this.data()?.content?.length && !this.isLoading());
+	isEmpty = computed(() => !this.resolvedContent().length && !this.isLoading());
 
 	constructor() {
 		super();
 
 		effect(() => {
-			const content = this.data()?.content;
-			if (content && this.data()?.page === 0) this.scrollToTop();
+			const d = this.data();
+			const content = Array.isArray(d) ? d : d?.content;
+			const isFirstPage = Array.isArray(d) || (d as PagedResponse<T>)?.page === 0;
+			if (content && isFirstPage) this.scrollToTop();
 		});
 	}
 

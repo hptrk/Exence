@@ -1,7 +1,7 @@
 mat-progress-bar.mat-mdc-progress-bar {
 	--mat-progress-bar-track-shape: 2px;
 	--mat-progress-bar-active-indicator-color: var(--primary-color);
-	--mat-progress-bar-track-color: var(--default-text-color);
+	--mat-progress-bar-track-color: var(--skeleton-surface-color);
 
 	border-radius: var(--mat-progress-bar-track-shape);
 }

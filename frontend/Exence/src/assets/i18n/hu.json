@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "Kötelező a hét egy napját kiválasztani!",
 		"dayOfMonthRequired": "Kérjük válasszon havi napot!",
 		"endDateRequired": "A befejezési dátum megadása kötelező!",
-		"matDatepickerFilter": "A dátumnak egyeznie kell az ismétlődési mintával, és nem lehet múltbeli dátum!"
+		"matDatepickerFilter": "A dátumnak egyeznie kell az ismétlődési mintával, és nem lehet múltbeli dátum!",
+		"initialAmountMax": "A kezdeti összeg nem haladhatja meg a célösszeget!",
+		"currentAmountMax": "A jelenlegi összeg nem haladhatja meg a célösszeget!",
+		"fieldNotLessThan": "A célösszeg nem lehet kisebb a jelenlegi összegnél!"
 	},
 	"confirmExit": {
 		"title": "Nem mentett módosítások",
@@ -891,5 +894,67 @@
 				"sendDisabled": "Tárgy és a szöveg megadása nélkül nem küldheti el az e-mailt."
 			}
 		}
+	},
+	"goals": {
+		"title": "Célok és megtakarítások",
+		"selectedGoal": "Cél",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Haladási trend",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Céleloszlás"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Aktív célok száma",
+				"GOAL_AVG_PROGRESS_STATCARD": "Átlagos cél előrehaladás",
+				"GOAL_COMPLETION_RATE_STATCARD": "Teljesítési arány",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Napok a következő határidőig",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Célokra megtakarított összeg",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Összes megtakarítás"
+			}
+		},
+		"status": {
+			"label": "Állapot",
+			"ACTIVE": "AKTÍV",
+			"PAUSED": "SZÜNETELTETETT",
+			"COMPLETED": "BEFEJEZETT",
+			"EXPIRED": "LEJÁRT"
+		},
+		"note": "Megjegyzés",
+		"currency": {
+			"logged": "Naplózott pénznem",
+			"base": "Alap pénznem"
+		},
+		"amount": {
+			"logged": "Összeg naplózott pénznemben",
+			"base": "Összeg alap pénznemben"
+		},
+		"progress": "Jelenlegi haladás",
+		"date": "Határidő",
+		"titleLabel": "Cím",
+		"create": {
+			"title": "Új cél",
+			"titleLabel": "Cím",
+			"targetAmount": "Célösszeg",
+			"initialAmount": "Kezdeti összeg",
+			"currency": "Pénznem",
+			"deadline": "Határidő",
+			"description": "Leírás",
+			"category": "Kategória",
+			"search": "Keresés",
+			"successInfo": "A(z) '{{title}}' cél sikeresen létrehozva!"
+		},
+		"edit": {
+			"title": "Cél szerkesztése",
+			"titleLabel": "Cím",
+			"targetAmount": "Célösszeg",
+			"currentAmount": "Jelenlegi összeg",
+			"deadline": "Határidő",
+			"description": "Leírás",
+			"category": "Kategória",
+			"search": "Keresés",
+			"status": "Státusz"
+		},
+		"updateInfo": "Cél sikeresen frissítve!",
+		"deleteInfo": "Cél sikeresen törölve!"
 	}
 }

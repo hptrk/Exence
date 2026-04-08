@@ -1,0 +1,17 @@
+<section class="d-flex flex-column gap-3 overflow-y-auto">
+	<article class="card-grid">
+		@for (card of cards; track card) {
+			<ex-stat-card class="flex-grow-1" [goalCardType]="card" [customTitle]="widgetTitles[card] | translate" />
+		}
+	</article>
+
+	<article class="chart-grid">
+		@for (chart of charts; track chart) {
+			@if (store.goalResource.isLoading()) {
+				<ex-animated-skeleton-loader height="600px" width="100%" />
+			} @else {
+				<ex-goal-chart [type]="chart" [goals]="store.goalResource.value()!" />
+			}
+		}
+	</article>
+</section>

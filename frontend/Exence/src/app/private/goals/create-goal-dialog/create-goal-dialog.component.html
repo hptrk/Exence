@@ -1,0 +1,124 @@
+<ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
+	<div ex-dialog-card-title>{{ 'goals.create.title' | translate }}</div>
+
+	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
+		@let titleControl = form.controls.title;
+		<mat-form-field>
+			<mat-label>{{ 'goals.create.titleLabel' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="titleControl" />
+			<ex-input-clear matSuffix [control]="titleControl" />
+			<mat-error>
+				<ex-validator [control]="titleControl" />
+			</mat-error>
+		</mat-form-field>
+
+		<div class="d-flex flex-column flex-sm-row gap-3">
+			<ex-amount-stepper
+				class="mb-3"
+				[control]="form.controls.targetAmount"
+				[label]="'goals.create.targetAmount'"
+				[min]="1"
+			/>
+			<ex-amount-stepper
+				class="mb-3"
+				[control]="form.controls.initialAmount"
+				[label]="'goals.create.initialAmount'"
+				[min]="0"
+			/>
+		</div>
+		@if (form.hasError('initialAmountMax')) {
+			<mat-error>
+				<ex-validator [control]="form" />
+			</mat-error>
+		}
+
+		<div class="d-flex flex-column flex-sm-row gap-3">
+			@let currencyControl = form.controls.currency;
+			<mat-form-field>
+				<mat-label>{{ 'goals.create.currency' | translate }}</mat-label>
+				<mat-select [formControl]="currencyControl">
+					@for (currency of currencies | enumValue; track currency) {
+						<mat-option [value]="currency">{{ currency }} - {{ localizeCurrency(currency) }}</mat-option>
+					}
+				</mat-select>
+				<mat-error>
+					<ex-validator [control]="currencyControl" />
+				</mat-error>
+			</mat-form-field>
+
+			@let deadlineControl = form.controls.deadline;
+			<mat-form-field>
+				<mat-label>{{ 'goals.create.deadline' | translate }}</mat-label>
+				<input
+					matInput
+					[matDatepicker]="deadlinePicker"
+					[formControl]="deadlineControl"
+					[matDatepickerFilter]="deadlineDateFilter"
+				/>
+				<mat-datepicker-toggle matIconSuffix [for]="deadlinePicker" />
+				<mat-datepicker #deadlinePicker />
+				<mat-error>
+					<ex-validator [control]="deadlineControl" />
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+		@let categoryControl = form.controls.category.controls;
+		<mat-form-field>
+			<mat-label>{{ 'goals.create.category' | translate }}</mat-label>
+			<mat-select
+				selectAutoFocus
+				[focusedInput]="searchCategoryInput"
+				[formControl]="categoryControl.category"
+				(closed)="categoryControl.searchText.reset()"
+			>
+				<mat-form-field subscriptSizing="dynamic" class="search-with-select">
+					<mat-label>{{ 'goals.create.search' | translate }}</mat-label>
+					<input autoTrim matInput [formControl]="categoryControl.searchText" #searchCategoryInput />
+					<ex-input-clear [control]="categoryControl.searchText" />
+					<mat-error>
+						<ex-validator [control]="categoryControl.searchText" />
+					</mat-error>
+				</mat-form-field>
+				@for (category of filteredCategories(); track category.id) {
+					<mat-option [value]="category">
+						<mat-icon [style.color]="category.color">{{ category.icon }}</mat-icon>
+						{{ category.name }}
+					</mat-option>
+				}
+			</mat-select>
+			<mat-error>
+				<ex-validator [control]="categoryControl.category" />
+			</mat-error>
+		</mat-form-field>
+
+		@let descriptionControl = form.controls.description;
+		<mat-form-field>
+			<mat-label>{{ 'goals.create.description' | translate }}</mat-label>
+			<textarea
+				matInput
+				autoTrim
+				cdkTextareaAutosize
+				cdkAutosizeMinRows="3"
+				[formControl]="descriptionControl"
+			></textarea>
+			<mat-error>
+				<ex-validator [control]="descriptionControl" />
+			</mat-error>
+		</mat-form-field>
+
+		<ex-button class="d-none" type="submit" />
+	</form>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()">
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
+		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="create()">
+			{{ 'literals.create' | translate }}
+		</ex-button>
+	</div>
+</ex-dialog-card>

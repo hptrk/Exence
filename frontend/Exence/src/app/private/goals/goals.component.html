@@ -1,1 +1,9 @@
-<p>goals works!</p>
+<main
+	class="d-flex flex-column-reverse flex-lg-column p-2 pb-0 p-sm-3 p-md-4 gap-4"
+	[class.overflow-hidden]="display.isMd()"
+	[class.h-100]="display.isMd()"
+>
+	<ex-goal-statistics />
+
+	<ex-goal-list class="flex-grow-1" matIcon="sports_score" [title]="'goals.title' | translate" />
+</main>

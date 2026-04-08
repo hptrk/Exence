@@ -1,4 +1,4 @@
-<section class="d-flex flex-column h-100 p-2 pb-0 p-sm-3 p-md-4 gap-4" [class.overflow-hidden]="display.isLg()">
+<main class="d-flex flex-column h-100 p-2 pb-0 p-sm-3 p-md-4 gap-4" [class.overflow-hidden]="display.isLg()">
 	<div
 		class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center gap-2"
 	>
@@ -57,7 +57,7 @@
 	} @else {
 		<ng-container [ngTemplateOutlet]="configurationsTab" />
 	}
-</section>
+</main>
 
 <ng-template #statisticsTab>
 	<ex-admin-statistics-list />

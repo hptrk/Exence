@@ -1,0 +1,109 @@
+<ex-data-table
+	[columns]="columns()"
+	[actions]="actions"
+	[data]="data()"
+	[isLoading]="isLoading()"
+	[title]="title()"
+	[matIcon]="matIcon()"
+	[svgIcon]="svgIcon()"
+	[expandTemplate]="expandTmpl"
+	(addClicked)="openCreate()"
+	[nonExpandable]="false"
+	class="overflow-hidden"
+>
+	<ng-template exCell="title" let-row>
+		<div
+			class="status"
+			style="min-width: 4px"
+			[attr.status]="row.status"
+			[matTooltip]="codeForStatus(row.status) | translate"
+		></div>
+		<div class="text-truncate ps-3" [matTooltip]="row.title">{{ row.title }}</div>
+	</ng-template>
+
+	<ng-template exCell="deadline" let-row>
+		{{ row.deadline | date: 'yy/MM/dd' }}
+	</ng-template>
+
+	<ng-template exCell="amount" let-row>
+		<span class="fw-semibold amount">
+			@if (showBaseCurrency()) {
+				{{ row.targetBaseCurrencyAmount | currency }}
+			} @else {
+				{{ row.targetAmount | currency: row.currency }}
+			}
+		</span>
+	</ng-template>
+
+	<ng-template exCell="category" let-row>
+		<div class="icon-container" [style.--icon-color]="row.category?.color" [matTooltip]="row.category?.name">
+			<mat-icon>{{ row.category?.icon }}</mat-icon>
+		</div>
+	</ng-template>
+</ex-data-table>
+
+<ng-template #expandTmpl let-row>
+	<div class="details">
+		<div class="detail">
+			<mat-label>{{ 'goals.note' | translate }}</mat-label>
+			<div class="note">
+				@if (!row.description) {
+					&mdash;
+				}
+				{{ row.description }}
+			</div>
+		</div>
+
+		<div class="detail">
+			<mat-label>{{ 'goals.status.label' | translate }}</mat-label>
+			<div class="fs-6 fw-semibold status-detail" [attr.status]="row.status">
+				{{ codeForStatus(row.status) | translate }}
+			</div>
+		</div>
+
+		@if (row.currency !== baseCurrency()) {
+			@if (showBaseCurrency()) {
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'goals.currency.logged' | translate }}
+					</mat-label>
+					<div class="fs-6">
+						{{ row.currency }} -
+						{{ localizeCurrency(row.currency) }}
+					</div>
+				</div>
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'goals.amount.logged' | translate }}
+					</mat-label>
+					<div class="fs-6 fw-semibold">
+						{{ row.currentAmount | currency: row.currency }}
+					</div>
+				</div>
+			} @else {
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'goals.currency.base' | translate }}
+					</mat-label>
+					<div class="fs-6">
+						{{ baseCurrency() }} -
+						{{ localizeCurrency(baseCurrency()) }}
+					</div>
+				</div>
+				<div class="detail gap-2 gap-lg-3">
+					<mat-label>
+						{{ 'goals.amount.base' | translate }}
+					</mat-label>
+					<div class="fs-6 fw-semibold">
+						{{ row.currentBaseCurrencyAmount | currency }}
+					</div>
+				</div>
+			}
+		}
+
+		<div class="detail">
+			<mat-label>{{ 'goals.progress' | translate }}</mat-label>
+			<mat-progress-bar [value]="row.progressPercentage" />
+		</div>
+	</div>
+</ng-template>
