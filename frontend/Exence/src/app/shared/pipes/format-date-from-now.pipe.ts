@@ -50,7 +50,7 @@ export class FormatDateFromNowPipe implements PipeTransform {
 		const diffInDays = Math.floor(diffInHours / 24);
 		if (diffInDays < 7) {
 			const suffix = diffInDays === 1 ? 'day' : 'days';
-			return this.translocoService.translate(`formattedDate${suffix}`, { value: diffInDays });
+			return this.translocoService.translate(`formattedDate.${suffix}`, { value: diffInDays });
 		}
 
 		// Below 1 year - use "MMM d" format
