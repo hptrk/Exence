@@ -97,8 +97,15 @@ export enum GoalWidgetType {
 	GOAL_TOTAL_SAVINGS_STATCARD = 'GOAL_TOTAL_SAVINGS_STATCARD',
 }
 
+export enum DebtWidgetType {
+	DEBT_TOTAL_I_OWE_STATCARD = 'DEBT_TOTAL_I_OWE_STATCARD',
+	DEBT_TOTAL_OWED_TO_ME_STATCARD = 'DEBT_TOTAL_OWED_TO_ME_STATCARD',
+}
+
 /* eslint-disable-next-line complexity */
-export function mapToExChartType(widgetType: WidgetType | AdminWidgetType | GoalWidgetType): ExChartType {
+export function mapToExChartType(
+	widgetType: WidgetType | AdminWidgetType | GoalWidgetType | DebtWidgetType,
+): ExChartType {
 	switch (widgetType) {
 		case WidgetType.EXPENSE_FREQUENCY_STATCARD:
 		case WidgetType.INCOME_FREQUENCY_STATCARD:
@@ -195,6 +202,9 @@ export function mapToExChartType(widgetType: WidgetType | AdminWidgetType | Goal
 			return 'area';
 		case GoalWidgetType.GOAL_TARGET_DISTRIBUTION_PIE:
 			return 'pie';
+		case DebtWidgetType.DEBT_TOTAL_I_OWE_STATCARD:
+		case DebtWidgetType.DEBT_TOTAL_OWED_TO_ME_STATCARD:
+			return 'statCard';
 	}
 }
 
@@ -621,4 +631,17 @@ export const GOAL_WIDGET_TITLES: Record<GoalWidgetType, TranslationCode> = {
 	[GoalWidgetType.GOAL_TOTAL_SAVINGS_STATCARD]: 'goals.statistics.card.GOAL_TOTAL_SAVINGS_STATCARD',
 	[GoalWidgetType.GOAL_PROGRESS_TREND]: 'goals.statistics.chart.GOAL_PROGRESS_TREND',
 	[GoalWidgetType.GOAL_TARGET_DISTRIBUTION_PIE]: 'goals.statistics.chart.GOAL_TARGET_DISTRIBUTION_PIE',
+};
+
+// Debts
+type DEBT_STATISTICS_GROUP = 'all' | 'card';
+
+export const DEBT_GROUP_WIDGET_TYPES: Record<DEBT_STATISTICS_GROUP, DebtWidgetType[]> = {
+	all: Object.values(DebtWidgetType),
+	card: [DebtWidgetType.DEBT_TOTAL_I_OWE_STATCARD, DebtWidgetType.DEBT_TOTAL_OWED_TO_ME_STATCARD],
+};
+
+export const DEBT_WIDGET_TITLES: Record<DebtWidgetType, TranslationCode> = {
+	[DebtWidgetType.DEBT_TOTAL_I_OWE_STATCARD]: 'debts.statistics.card.DEBT_TOTAL_I_OWE_STATCARD',
+	[DebtWidgetType.DEBT_TOTAL_OWED_TO_ME_STATCARD]: 'debts.statistics.card.DEBT_TOTAL_OWED_TO_ME_STATCARD',
 };

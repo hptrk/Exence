@@ -1,0 +1,5 @@
+<section class="d-flex flex-row gap-3">
+	@for (card of cards; track card) {
+		<ex-stat-card class="flex-grow-1" [debtCardType]="card" [customTitle]="widgetTitles[card] | translate" />
+	}
+</section>
