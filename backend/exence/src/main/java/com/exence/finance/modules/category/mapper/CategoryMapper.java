@@ -5,7 +5,7 @@ import com.exence.finance.modules.category.dto.CategoryGetDTO;
 import com.exence.finance.modules.category.dto.CategoryPatchDTO;
 import com.exence.finance.modules.category.dto.MaterialIcon;
 import com.exence.finance.modules.category.entity.Category;
-import java.util.List;
+import java.math.BigDecimal;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +15,11 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
 
+    @Mapping(target = "balance", ignore = true)
     CategoryGetDTO mapToCategoryGetDTO(Category category);
+
+    @Mapping(target = "balance", source = "balance")
+    CategoryGetDTO mapToCategoryGetDTO(Category category, BigDecimal balance);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
@@ -35,8 +39,6 @@ public interface CategoryMapper {
     @Mapping(target = "updatedBy", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateCategoryFromPatchDto(CategoryPatchDTO categoryPatchDTO, @MappingTarget Category category);
-
-    List<CategoryGetDTO> mapToCategoryGetDTOList(List<Category> category);
 
     default String map(MaterialIcon icon) {
         return icon != null ? icon.name() : null;

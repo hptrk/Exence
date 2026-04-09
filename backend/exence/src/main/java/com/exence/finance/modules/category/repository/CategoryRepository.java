@@ -2,6 +2,7 @@ package com.exence.finance.modules.category.repository;
 
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.dto.CategoryType;
+import com.exence.finance.modules.category.dto.projection.CategoryBalanceSums;
 import com.exence.finance.modules.category.entity.Category;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +24,17 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("SELECT c.id FROM Category c WHERE c.id IN :ids")
     Set<Long> findExistingIds(@Param("ids") Collection<Long> ids);
+
+    @Query(
+            """
+                SELECT c.id AS id,
+                       COALESCE(SUM(CASE WHEN CAST(t.type AS string) = 'INCOME' THEN t.baseCurrencyAmount ELSE 0 END), 0) AS totalIncome,
+                       COALESCE(SUM(CASE WHEN CAST(t.type AS string) = 'EXPENSE' THEN t.baseCurrencyAmount ELSE 0 END), 0) AS totalExpense
+                FROM Category c
+                LEFT JOIN c.transactions t
+                GROUP BY c.id
+            """)
+    List<CategoryBalanceSums> findCategoryBalances();
 
     @Query(
             """
