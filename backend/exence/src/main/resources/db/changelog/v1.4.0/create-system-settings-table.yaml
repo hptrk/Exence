@@ -1,0 +1,85 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-system-settings-table
+      author: hptrk
+      comment: Create system_settings table for runtime-configurable application settings
+      changes:
+        - createTable:
+            tableName: system_settings
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_system_settings
+                    nullable: false
+              - column:
+                  name: domain_whitelist_only
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: verification_required_paths
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rate_limiting_enabled
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rate_limiting_cooldown_minutes
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+              - column:
+                  name: logout_from_all_devices
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password_history_count
+                  type: INTEGER
+                  constraints:
+                    nullable: false
+
+      rollback:
+        - dropTable:
+            tableName: system_settings
+
+  - changeSet:
+      id: insert-system-settings-defaults
+      author: hptrk
+      comment: Insert default system settings row (singleton, id=1)
+      changes:
+        - insert:
+            tableName: system_settings
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: domain_whitelist_only
+                  valueBoolean: false
+              - column:
+                  name: verification_required_paths
+                  value: /api/statistics,/api/goals,/api/debts
+              - column:
+                  name: rate_limiting_enabled
+                  valueBoolean: true
+              - column:
+                  name: rate_limiting_cooldown_minutes
+                  valueNumeric: 2
+              - column:
+                  name: logout_from_all_devices
+                  valueBoolean: false
+              - column:
+                  name: password_history_count
+                  valueNumeric: 3
+
+      rollback:
+        - delete:
+            tableName: system_settings
+            where: id=1

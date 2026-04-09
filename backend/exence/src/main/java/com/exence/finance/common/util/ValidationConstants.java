@@ -109,4 +109,7 @@ public final class ValidationConstants {
             "trashmail.com",
             "maildrop.cc");
     public static final int ERROR_MESSAGE_MAX_LENGTH = 500;
+
+    // System settings
+    public static final int PATHS_MAX_LENGTH = 1000;
 }

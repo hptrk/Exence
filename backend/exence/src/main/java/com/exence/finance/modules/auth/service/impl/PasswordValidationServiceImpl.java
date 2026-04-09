@@ -2,11 +2,11 @@ package com.exence.finance.modules.auth.service.impl;
 
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.config.properties.ExenceProperties;
 import com.exence.finance.modules.auth.entity.PasswordHistory;
 import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.repository.PasswordHistoryRepository;
 import com.exence.finance.modules.auth.service.PasswordValidationService;
+import com.exence.finance.modules.systemsettings.service.SystemSettingsService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class PasswordValidationServiceImpl implements PasswordValidationService {
     private final PasswordEncoder passwordEncoder;
     private final PasswordHistoryRepository passwordHistoryRepository;
-    private final ExenceProperties exenceProperties;
+    private final SystemSettingsService systemSettingsService;
 
     @Override
     public void validatePasswordReset(User user, String newPassword) {
@@ -45,14 +45,15 @@ public class PasswordValidationServiceImpl implements PasswordValidationService 
     }
 
     private void validatePasswordNotInHistory(User user, String newPassword) {
-        List<PasswordHistory> recentPasswords = passwordHistoryRepository.findRecentPasswordsByUserId(
-                user.getId(), exenceProperties.passwordHistoryCount());
+        int passwordHistoryCount = systemSettingsService.getSettings().getPasswordHistoryCount();
+        List<PasswordHistory> recentPasswords =
+                passwordHistoryRepository.findRecentPasswordsByUserId(user.getId(), passwordHistoryCount);
 
         boolean isPasswordReused =
                 recentPasswords.stream().anyMatch(ph -> passwordEncoder.matches(newPassword, ph.getPasswordHash()));
 
         if (isPasswordReused) {
-            throw new ExenceException(ErrorCode.INVALID_PASSWORD, "reused", exenceProperties.passwordHistoryCount());
+            throw new ExenceException(ErrorCode.INVALID_PASSWORD, "reused", passwordHistoryCount);
         }
     }
 }
