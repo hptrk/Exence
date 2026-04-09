@@ -41,3 +41,6 @@ databaseChangeLog:
   - include:
       file: create-investment-table.yaml
       relativeToChangelogFile: true
+  - include:
+      file: create-system-settings-table.yaml
+      relativeToChangelogFile: true

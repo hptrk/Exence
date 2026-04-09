@@ -3,7 +3,6 @@ package com.exence.finance.modules.auth.service.impl;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.config.properties.ExenceProperties;
 import com.exence.finance.modules.auth.dto.TokenType;
 import com.exence.finance.modules.auth.entity.Token;
 import com.exence.finance.modules.auth.entity.User;
@@ -11,6 +10,7 @@ import com.exence.finance.modules.auth.repository.UserRepository;
 import com.exence.finance.modules.auth.service.CookieService;
 import com.exence.finance.modules.auth.service.LogoutService;
 import com.exence.finance.modules.auth.service.TokenManagementService;
+import com.exence.finance.modules.systemsettings.service.SystemSettingsService;
 import com.exence.finance.security.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +29,7 @@ import org.springframework.stereotype.Service;
 public class LogoutServiceImpl implements LogoutHandler, LogoutService {
     private final JwtService jwtService;
     private final UserRepository userRepository;
-    private final ExenceProperties exenceProperties;
+    private final SystemSettingsService systemSettingsService;
     private final TokenManagementService tokenManagementService;
     private final CookieService cookieService;
 
@@ -42,7 +42,7 @@ public class LogoutServiceImpl implements LogoutHandler, LogoutService {
 
         try {
             if (jwt != null) {
-                if (exenceProperties.logoutFromAllDevices()) {
+                if (systemSettingsService.getSettings().isLogoutFromAllDevices()) {
                     logoutFromAllDevices(jwt);
                 } else {
                     logoutFromCurrentDevice(jwt);

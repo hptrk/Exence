@@ -4,7 +4,7 @@ import static com.exence.finance.common.util.ValidationConstants.BLACKLISTED_DOM
 import static com.exence.finance.common.util.ValidationConstants.WHITELISTED_DOMAINS;
 
 import com.exence.finance.common.annotations.ValidEmailDomain;
-import com.exence.finance.config.properties.EmailBusinessProperties;
+import com.exence.finance.modules.systemsettings.service.SystemSettingsService;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomain, String> {
 
-    private final EmailBusinessProperties emailBusinessProperties;
+    private final SystemSettingsService systemSettingsService;
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
@@ -34,7 +34,8 @@ public class EmailDomainValidator implements ConstraintValidator<ValidEmailDomai
             return false;
         }
 
-        if (emailBusinessProperties.domainWhitelistOnly() && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
+        if (systemSettingsService.getSettings().isDomainWhitelistOnly()
+                && !WHITELISTED_DOMAINS.contains(domain.toLowerCase())) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("{validation.email.domain.whitelisted-only}")
                     .addConstraintViolation();

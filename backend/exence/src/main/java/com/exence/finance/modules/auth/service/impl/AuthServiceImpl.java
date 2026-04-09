@@ -4,7 +4,6 @@ import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.config.properties.EmailBusinessProperties;
 import com.exence.finance.modules.auth.dto.EmailType;
 import com.exence.finance.modules.auth.dto.Theme;
 import com.exence.finance.modules.auth.dto.TokenType;
@@ -35,10 +34,12 @@ import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.entity.Widget;
 import com.exence.finance.modules.statistics.repository.WidgetRepository;
+import com.exence.finance.modules.systemsettings.service.SystemSettingsService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
     private final RequestContextService requestContextService;
     private final PasswordValidationService passwordValidationService;
     private final PasswordHistoryService passwordHistoryService;
-    private final EmailBusinessProperties emailBusinessProperties;
+    private final SystemSettingsService systemSettingsService;
     private final CookieService cookieService;
     private final UserSettingsRepository userSettingsRepository;
 
@@ -161,11 +162,11 @@ public class AuthServiceImpl implements AuthService {
 
         User user = userOptional.get();
 
-        if (emailBusinessProperties.rateLimiting().enabled()
-                && emailLogService.hasRecentEmail(
-                        user,
-                        EmailType.PASSWORD_RESET,
-                        emailBusinessProperties.rateLimiting().cooldownMinutesBetweenSends())) {
+        if (systemSettingsService.getSettings().isRateLimitingEnabled()
+            && emailLogService.hasRecentEmail(
+            user,
+            EmailType.PASSWORD_RESET,
+            systemSettingsService.getSettings().getRateLimitingCooldownMinutes())) {
             throw new ExenceException(ErrorCode.TOO_MANY_EMAILS);
         }
 
