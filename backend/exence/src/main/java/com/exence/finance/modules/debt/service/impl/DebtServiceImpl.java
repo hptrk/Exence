@@ -152,5 +152,4 @@ public class DebtServiceImpl implements DebtService {
     private Debt getDebt(Long id) {
         return debtRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.DEBT_NOT_FOUND));
     }
-
 }

@@ -129,7 +129,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     @Override
-    public BigDecimal calculateBaseCurrencyAmount(BigDecimal amount, SupportedCurrency currency, LocalDate date, BigDecimal rate) {
+    public BigDecimal calculateBaseCurrencyAmount(
+            BigDecimal amount, SupportedCurrency currency, LocalDate date, BigDecimal rate) {
         return amount.multiply(rate).setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
     }
 
@@ -144,7 +145,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         if (currency == baseCurrency) {
             return amount;
         }
-        return amount.multiply(getRate(currency, baseCurrency, date, ratesCache)).setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
+        return amount.multiply(getRate(currency, baseCurrency, date, ratesCache))
+                .setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
     }
 
     @Override

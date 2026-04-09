@@ -155,5 +155,4 @@ public class GoalServiceImpl implements GoalService {
                 GoalProgressHistory.builder().goal(goal).amount(amount).build();
         goalProgressRepository.save(history);
     }
-
 }

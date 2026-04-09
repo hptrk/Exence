@@ -41,7 +41,8 @@ public interface ExchangeRateService {
      * Convert amount to base currency using a pre-fetched rate.
      * The caller is responsible for the same-currency check before calling this.
      */
-    BigDecimal calculateBaseCurrencyAmount(BigDecimal amount, SupportedCurrency currency, LocalDate date, BigDecimal rate);
+    BigDecimal calculateBaseCurrencyAmount(
+            BigDecimal amount, SupportedCurrency currency, LocalDate date, BigDecimal rate);
 
     /**
      * Convert amount to base currency using a rates cache (bulk operations).
