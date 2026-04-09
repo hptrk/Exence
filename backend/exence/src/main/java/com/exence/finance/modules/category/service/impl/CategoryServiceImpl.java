@@ -11,12 +11,16 @@ import com.exence.finance.modules.category.dto.CategoryFilter;
 import com.exence.finance.modules.category.dto.CategoryGetDTO;
 import com.exence.finance.modules.category.dto.CategoryPatchDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
+import com.exence.finance.modules.category.dto.projection.CategoryBalanceSums;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -40,8 +44,24 @@ public class CategoryServiceImpl implements CategoryService {
     @ReadTransactional
     public List<CategoryGetDTO> getCategories() {
         List<Category> categories = categoryRepository.findAll();
+        Map<Long, CategoryBalanceSums> balanceMap = categoryRepository.findCategoryBalances().stream()
+                .collect(Collectors.toMap(CategoryBalanceSums::getId, b -> b));
 
-        return categoryMapper.mapToCategoryGetDTOList(categories);
+        return categories.stream()
+                .map(category -> categoryMapper.mapToCategoryGetDTO(category, calculateBalance(category, balanceMap)))
+                .toList();
+    }
+
+    private BigDecimal calculateBalance(Category category, Map<Long, CategoryBalanceSums> balanceMap) {
+        CategoryBalanceSums sums = balanceMap.get(category.getId());
+        BigDecimal totalIncome = sums != null ? sums.getTotalIncome() : BigDecimal.ZERO;
+        BigDecimal totalExpense = sums != null ? sums.getTotalExpense() : BigDecimal.ZERO;
+
+        return switch (category.getType()) {
+            case INCOME -> totalIncome;
+            case EXPENSE -> totalExpense;
+            case MIXED -> totalIncome.subtract(totalExpense);
+        };
     }
 
     @ReadTransactional
