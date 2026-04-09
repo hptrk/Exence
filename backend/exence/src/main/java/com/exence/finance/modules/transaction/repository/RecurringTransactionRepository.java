@@ -1,5 +1,6 @@
 package com.exence.finance.modules.transaction.repository;
 
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.RecurringTransaction;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,9 @@ public interface RecurringTransactionRepository extends JpaRepository<RecurringT
 
     @Query("SELECT rt FROM RecurringTransaction rt")
     Page<RecurringTransaction> findAllUserFiltered(Pageable pageable);
+
+    @Query("SELECT rt FROM RecurringTransaction rt WHERE rt.type = :type")
+    Page<RecurringTransaction> findAllUserFilteredByType(@Param("type") TransactionType type, Pageable pageable);
 
     @Query("SELECT rt FROM RecurringTransaction rt WHERE rt.active = true AND rt.nextExecutionDate <= :date")
     List<RecurringTransaction> findAllDue(@Param("date") LocalDate date);

@@ -8,6 +8,7 @@ import com.exence.finance.modules.transaction.controller.RecurringTransactionCon
 import com.exence.finance.modules.transaction.dto.RecurringTransactionCreateDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionGetDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionPatchDTO;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.RecurringTransaction;
 import com.exence.finance.modules.transaction.service.RecurringTransactionService;
 import jakarta.validation.Valid;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,8 +48,9 @@ public class RecurringTransactionControllerImpl implements RecurringTransactionC
                             size = DEFAULT_PAGE_SIZE,
                             sort = RecurringTransaction.Fields.nextExecutionDate,
                             direction = Sort.Direction.ASC)
-                    Pageable pageable) {
-        Page<RecurringTransactionGetDTO> page = recurringTransactionService.getAll(pageable);
+                    Pageable pageable,
+            @RequestParam(required = false) TransactionType type) {
+        Page<RecurringTransactionGetDTO> page = recurringTransactionService.getAll(pageable, type);
         return ResponseFactory.page(page);
     }
 

@@ -15,6 +15,7 @@ import com.exence.finance.modules.transaction.dto.RecurrenceFrequency;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionCreateDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionGetDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionPatchDTO;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.RecurringTransaction;
 import com.exence.finance.modules.transaction.mapper.RecurringTransactionMapper;
 import com.exence.finance.modules.transaction.repository.RecurringTransactionRepository;
@@ -45,7 +46,12 @@ public class RecurringTransactionServiceImpl implements RecurringTransactionServ
     }
 
     @ReadTransactional
-    public Page<RecurringTransactionGetDTO> getAll(Pageable pageable) {
+    public Page<RecurringTransactionGetDTO> getAll(Pageable pageable, TransactionType type) {
+        if (type != null) {
+            return recurringTransactionRepository
+                    .findAllUserFilteredByType(type, pageable)
+                    .map(mapper::mapToGetDTO);
+        }
         return recurringTransactionRepository.findAllUserFiltered(pageable).map(mapper::mapToGetDTO);
     }
 
