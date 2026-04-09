@@ -879,6 +879,16 @@
 			"label": "Konfigurációk",
 			"registration": {
 				"title": "Új rendszergazda létrehozása"
+			},
+			"emailBroadcast": {
+				"title": "Tömeges e-mail",
+				"subject": "E-mail tárgya",
+				"clear": "Törlés",
+				"send": "Küldés",
+				"confirmTitle": "Tömeges e-mail küldése",
+				"confirmMessage": "Biztosan el szeretnéd küldeni ezt az e-mailt minden felhasználónak?",
+				"success": "E-mail elküldve minden felhasználónak!",
+				"sendDisabled": "Tárgy és a szöveg megadása nélkül nem küldheti el az e-mailt."
 			}
 		}
 	}

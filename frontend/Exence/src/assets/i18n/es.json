@@ -879,6 +879,16 @@
 			"label": "Configuraciones",
 			"registration": {
 				"title": "Crear un nuevo usuario administrador"
+			},
+			"emailBroadcast": {
+				"title": "Correo masivo",
+				"subject": "Asunto del correo",
+				"clear": "Limpiar",
+				"send": "Enviar",
+				"confirmTitle": "Enviar correo masivo",
+				"confirmMessage": "¿Está seguro de que desea enviar este correo a todos los usuarios?",
+				"success": "¡Correo enviado a todos los usuarios!",
+				"sendDisabled": "No puedes enviar el correo electrónico sin haber configurado antes el asunto y el contenido."
 			}
 		}
 	}

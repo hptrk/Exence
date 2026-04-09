@@ -20,7 +20,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 class TouchedErrorStateMatcher implements ErrorStateMatcher {
 	isErrorState(control: AbstractControl | null): boolean {
-		return !!(control?.invalid && control?.touched);
+		return !!(control?.invalid && control.touched);
 	}
 }
 

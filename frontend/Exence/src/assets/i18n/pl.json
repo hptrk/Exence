@@ -879,6 +879,16 @@
 			"label": "Konfiguracje",
 			"registration": {
 				"title": "Utwórz nowego użytkownika administratora"
+			},
+			"emailBroadcast": {
+				"title": "Masowa wiadomość e-mail",
+				"subject": "Temat wiadomości e-mail",
+				"clear": "Wyczyść",
+				"send": "Wyślij",
+				"confirmTitle": "Wyślij masową wiadomość e-mail",
+				"confirmMessage": "Czy na pewno chcesz wysłać tę wiadomość e-mail do każdego użytkownika?",
+				"success": "Wiadomość e-mail wysłana do każdego użytkownika!",
+				"sendDisabled": "Nie można wysłać wiadomości e-mail bez uprzedniego podania tematu i treści."
 			}
 		}
 	}
