@@ -6,7 +6,6 @@ import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
@@ -39,7 +38,6 @@ public class GoalServiceImpl implements GoalService {
     private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final GoalMapper goalMapper;
-    private final UserSettingsService userSettingsService;
     private final ApplicationEventPublisher eventPublisher;
 
     @ReadTransactional
@@ -68,10 +66,10 @@ public class GoalServiceImpl implements GoalService {
         BigDecimal initialAmount = dto.initialAmount() != null ? dto.initialAmount() : BigDecimal.ZERO;
         goal.setCurrentAmount(initialAmount);
 
-        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         BigDecimal targetBaseCurrencyAmount =
-                calculateBaseCurrencyAmount(dto.targetAmount(), dto.currency(), baseCurrency);
-        BigDecimal currentBaseCurrencyAmount = calculateBaseCurrencyAmount(initialAmount, dto.currency(), baseCurrency);
+                exchangeRateService.calculateBaseCurrencyAmount(dto.targetAmount(), dto.currency(), LocalDate.now());
+        BigDecimal currentBaseCurrencyAmount =
+                exchangeRateService.calculateBaseCurrencyAmount(initialAmount, dto.currency(), LocalDate.now());
         goal.setTargetBaseCurrencyAmount(targetBaseCurrencyAmount);
         goal.setCurrentBaseCurrencyAmount(currentBaseCurrencyAmount);
 
@@ -94,19 +92,20 @@ public class GoalServiceImpl implements GoalService {
     public GoalGetDTO patchGoal(Long id, GoalPatchDTO dto) {
         Goal goal = getGoal(id);
         GoalStatus previousStatus = goal.getStatus();
-        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         SupportedCurrency currency = goal.getCurrency();
 
         if (dto.targetAmount() != null && !dto.targetAmount().equals(goal.getTargetAmount())) {
             goal.setTargetAmount(dto.targetAmount());
-            goal.setTargetBaseCurrencyAmount(calculateBaseCurrencyAmount(dto.targetAmount(), currency, baseCurrency));
+            goal.setTargetBaseCurrencyAmount(
+                    exchangeRateService.calculateBaseCurrencyAmount(dto.targetAmount(), currency, LocalDate.now()));
         }
 
         boolean progressChanged =
                 dto.currentAmount() != null && !dto.currentAmount().equals(goal.getCurrentAmount());
         if (progressChanged) {
             goal.setCurrentAmount(dto.currentAmount());
-            goal.setCurrentBaseCurrencyAmount(calculateBaseCurrencyAmount(dto.currentAmount(), currency, baseCurrency));
+            goal.setCurrentBaseCurrencyAmount(
+                    exchangeRateService.calculateBaseCurrencyAmount(dto.currentAmount(), currency, LocalDate.now()));
             recordProgress(goal, dto.currentAmount());
         }
 
@@ -157,12 +156,4 @@ public class GoalServiceImpl implements GoalService {
         goalProgressRepository.save(history);
     }
 
-    private BigDecimal calculateBaseCurrencyAmount(
-            BigDecimal amount, SupportedCurrency currency, SupportedCurrency baseCurrency) {
-        if (currency == baseCurrency) {
-            return amount;
-        }
-        BigDecimal rate = exchangeRateService.getRate(currency, baseCurrency, LocalDate.now());
-        return exchangeRateService.calculateBaseCurrencyAmount(amount, currency, baseCurrency, LocalDate.now(), rate);
-    }
 }

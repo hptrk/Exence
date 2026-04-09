@@ -33,24 +33,23 @@ public interface ExchangeRateService {
     void fetchAndCacheRatesForDateRange(LocalDate startDate, LocalDate endDate, Set<SupportedCurrency> currencies);
 
     /**
-     * Calculate the base currency amount from the original amount, currency, and user's base currency.
-     * Returns amount * getRate(currency, baseCurrency, date).
+     * Convert amount to base currency. Fetches the current user's base currency and exchange rate.
      */
-    BigDecimal calculateBaseCurrencyAmount(
-            BigDecimal amount,
-            SupportedCurrency currency,
-            SupportedCurrency baseCurrency,
-            LocalDate date,
-            BigDecimal exchangeRate);
+    BigDecimal calculateBaseCurrencyAmount(BigDecimal amount, SupportedCurrency currency, LocalDate date);
 
     /**
-     * Calculate the base currency amount from the original amount, currency, and user's base currency.
-     * Returns amount * getRate(currency, baseCurrency, date).
+     * Convert amount to base currency using a pre-fetched rate.
+     * The caller is responsible for the same-currency check before calling this.
+     */
+    BigDecimal calculateBaseCurrencyAmount(BigDecimal amount, SupportedCurrency currency, LocalDate date, BigDecimal rate);
+
+    /**
+     * Convert amount to base currency using a rates cache (bulk operations).
+     * Fetches the current user's base currency internally.
      */
     BigDecimal calculateBaseCurrencyAmount(
             BigDecimal amount,
             SupportedCurrency currency,
-            SupportedCurrency baseCurrency,
             LocalDate date,
             Map<LocalDate, Map<SupportedCurrency, BigDecimal>> ratesCache);
 

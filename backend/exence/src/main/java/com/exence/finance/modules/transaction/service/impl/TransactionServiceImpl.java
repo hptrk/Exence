@@ -173,7 +173,7 @@ public class TransactionServiceImpl implements TransactionService {
             BigDecimal exchangeRate = exchangeRateService.getRate(txCurrency, newBaseCurrency, txDate, rates);
 
             BigDecimal baseAmount = exchangeRateService.calculateBaseCurrencyAmount(
-                    transaction.getAmount(), txCurrency, newBaseCurrency, txDate, rates);
+                    transaction.getAmount(), txCurrency, txDate, rates);
 
             transaction.setExchangeRate(exchangeRate);
             transaction.setBaseCurrencyAmount(baseAmount);
@@ -200,7 +200,7 @@ public class TransactionServiceImpl implements TransactionService {
 
             transaction.setExchangeRate(exchangeRate);
             transaction.setBaseCurrencyAmount(exchangeRateService.calculateBaseCurrencyAmount(
-                    transaction.getAmount(), currency, baseCurrency, transaction.getDate(), exchangeRate));
+                    transaction.getAmount(), currency, transaction.getDate(), exchangeRate));
         }
     }
 }
