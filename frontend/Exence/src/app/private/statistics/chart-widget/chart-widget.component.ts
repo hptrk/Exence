@@ -1,10 +1,12 @@
 import { booleanAttribute, Component, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { ApexOptions, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { ExChartType } from '../../../data-model/modules/statistics/ChartType';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
+import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 import {
 	mapToExChartType,
 	TIMEFRAME_HIDDEN_WIDGET_TYPES,
@@ -47,15 +49,23 @@ export class ChartWidgetComponent extends BaseComponent {
 	editing = input.required<boolean>();
 	payload = input<WidgetDataPayload>();
 	noRequest = input(false, { transform: booleanAttribute });
+	hideTimeframe = input(false, { transform: booleanAttribute });
+	disableCurrencyFormat = input(false, { transform: booleanAttribute });
+	currency = input<SupportedCurrency | undefined>(undefined);
 
 	readonly timeframeChanged = output<Timeframe>();
 
 	private readonly chart = viewChild<ChartComponent>('chart');
 	private readonly cachedPayload = signal<WidgetDataPayload | undefined>(undefined);
+	private readonly activeLang = toSignal(this.translocoService.langChanges$, {
+		initialValue: this.translocoService.getActiveLang(),
+	});
 
 	type = computed<ExChartType>(() => mapToExChartType(this.widget().type));
 	isApexChart = computed<boolean>(() => !['sankey', 'statCard'].includes(this.type()));
-	showTimeframe = computed<boolean>(() => !TIMEFRAME_HIDDEN_WIDGET_TYPES.includes(this.widget().type as WidgetType));
+	showTimeframe = computed<boolean>(
+		() => !TIMEFRAME_HIDDEN_WIDGET_TYPES.includes(this.widget().type as WidgetType) && !this.hideTimeframe(),
+	);
 
 	timeframe = signal<Timeframe>(Timeframe.YEAR_TO_DATE);
 	isLoading = signal<boolean>(false);
@@ -74,6 +84,7 @@ export class ChartWidgetComponent extends BaseComponent {
 
 		effect(() => {
 			const timeframe = this.timeframe();
+			const currency = this.currency();
 			this.isLoading.set(true);
 			if (!this.isApexChart()) {
 				this.isLoading.set(false);
@@ -83,13 +94,16 @@ export class ChartWidgetComponent extends BaseComponent {
 			if (this.noRequest() && this.payload()) {
 				const payload = this.payload()!;
 				const providerFn = mapToProvider<typeof payload>(this.type());
+				const currencyFormatter = this.disableCurrencyFormat()
+					? undefined
+					: (v: number) => this.currencyPipe.transform(v, currency);
 				this.data.set(
 					providerFn(
 						payload,
 						this.widget().title,
 						this.translocoService.getActiveLang(),
 						undefined,
-						(v: number) => this.currencyPipe.transform(v),
+						currencyFormatter,
 						this.widget().type as WidgetType,
 					) as Partial<ApexOptions>,
 				);
@@ -106,17 +120,22 @@ export class ChartWidgetComponent extends BaseComponent {
 
 		effect(() => {
 			this.themeService.displayThemeSignal(); // dependency
-			const payload = this.cachedPayload();
+			this.activeLang(); // dependency — re-render chart when language changes
+			const currency = this.currency();
+			const payload = (this.noRequest() ? this.payload() : undefined) ?? this.cachedPayload();
 			if (!payload) return;
 
 			const providerFn = mapToProvider<typeof payload>(this.type());
+			const currencyFormatter = this.disableCurrencyFormat()
+				? undefined
+				: (v: number) => this.currencyPipe.transform(v, currency);
 			this.data.set(
 				providerFn(
 					payload,
 					this.widget().title,
 					this.translocoService.getActiveLang(),
 					(key, params) => this.translocoService.translate(key, params),
-					(v: number) => this.currencyPipe.transform(v),
+					currencyFormatter,
 					this.widget().type as WidgetType,
 				) as Partial<ApexOptions>,
 			);

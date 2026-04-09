@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "Proszę wybrać dzień tygodnia!",
 		"dayOfMonthRequired": "Proszę wybrać dzień miesiąca!",
 		"endDateRequired": "Data zakończenia jest wymagana!",
-		"matDatepickerFilter": "Data powinna pasować do wzorca powtarzania i nie powinna być w przeszłości!"
+		"matDatepickerFilter": "Data powinna pasować do wzorca powtarzania i nie powinna być w przeszłości!",
+		"initialAmountMax": "Kwota początkowa nie może przekraczać kwoty docelowej!",
+		"currentAmountMax": "Kwota bieżąca nie może przekraczać kwoty docelowej!",
+		"fieldNotLessThan": "Kwota docelowa nie może być mniejsza od kwoty bieżącej!"
 	},
 	"confirmExit": {
 		"title": "Niezapisane zmiany",
@@ -891,5 +894,67 @@
 				"sendDisabled": "Nie można wysłać wiadomości e-mail bez uprzedniego podania tematu i treści."
 			}
 		}
+	},
+	"goals": {
+		"title": "Cele i oszczędności",
+		"selectedGoal": "Cel",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Trend postępu",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Rozkład celów"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Liczba aktywnych celów",
+				"GOAL_AVG_PROGRESS_STATCARD": "Średni postęp celów",
+				"GOAL_COMPLETION_RATE_STATCARD": "Wskaźnik ukończenia",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Dni do następnego terminu",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Łączna kwota zaoszczędzona na cele",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Łączne oszczędności"
+			}
+		},
+		"status": {
+			"label": "Status",
+			"ACTIVE": "AKTYWNY",
+			"PAUSED": "WSTRZYMANY",
+			"COMPLETED": "UKOŃCZONY",
+			"EXPIRED": "WYGASŁY"
+		},
+		"note": "Notatka",
+		"currency": {
+			"logged": "Zarejestrowana waluta",
+			"base": "Waluta bazowa"
+		},
+		"amount": {
+			"logged": "Kwota w zarejestrowanej walucie",
+			"base": "Kwota w walucie bazowej"
+		},
+		"progress": "Aktualny postęp",
+		"date": "Termin",
+		"titleLabel": "Tytuł",
+		"create": {
+			"title": "Nowy cel",
+			"titleLabel": "Tytuł",
+			"targetAmount": "Kwota docelowa",
+			"initialAmount": "Kwota początkowa",
+			"currency": "Waluta",
+			"deadline": "Termin",
+			"description": "Opis",
+			"category": "Kategoria",
+			"search": "Szukaj",
+			"successInfo": "Cel '{{title}}' został pomyślnie utworzony!"
+		},
+		"edit": {
+			"title": "Edytuj cel",
+			"titleLabel": "Tytuł",
+			"targetAmount": "Kwota docelowa",
+			"currentAmount": "Kwota bieżąca",
+			"deadline": "Termin",
+			"description": "Opis",
+			"category": "Kategoria",
+			"search": "Szukaj",
+			"status": "Status"
+		},
+		"updateInfo": "Cel został pomyślnie zaktualizowany!",
+		"deleteInfo": "Cel został pomyślnie usunięty!"
 	}
 }

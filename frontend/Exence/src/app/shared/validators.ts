@@ -76,4 +76,36 @@ export class ExtraValidators {
 		}
 		return null;
 	}
+
+	static initialAmountMax(control: AbstractControl): ValidationErrors | null {
+		const group = control as FormGroup;
+		const target = group.get('targetAmount')?.value as number | null;
+		const initial = group.get('initialAmount')?.value as number | null;
+		if (target !== null && initial !== null && initial > target) {
+			return { initialAmountMax: true };
+		}
+		return null;
+	}
+
+	static currentAmountMax(control: AbstractControl): ValidationErrors | null {
+		const group = control as FormGroup;
+		const target = group.get('targetAmount')?.value as number | null;
+		const current = group.get('currentAmount')?.value as number | null;
+		if (target !== null && current !== null && current > target) {
+			return { currentAmountMax: true };
+		}
+		return null;
+	}
+
+	static fieldNotLessThan(fieldName: string, minFieldName: string): ValidatorFn {
+		return (control: AbstractControl): ValidationErrors | null => {
+			const group = control as FormGroup;
+			const value = group.get(fieldName)?.value as number | null;
+			const min = group.get(minFieldName)?.value as number | null;
+			if (value !== null && min !== null && value < min) {
+				return { fieldNotLessThan: true };
+			}
+			return null;
+		};
+	}
 }

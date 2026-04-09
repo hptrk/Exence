@@ -143,6 +143,7 @@ export function detectDateGranularity(value: string): DateGranularity | null {
 
 export function formatDateLabel(value: string | number, locale: string, granularity?: DateGranularity | null): string {
 	const resolved = granularity ?? (typeof value === 'string' ? detectDateGranularity(value) : null);
+
 	if (!resolved) return String(value);
 
 	const date = typeof value === 'number' ? new Date(value) : new Date(value);

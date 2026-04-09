@@ -28,7 +28,9 @@ public final class GoalTargetDistributionPieProvider implements GoalWidgetDataPr
 
         List<DistributionItem> items = goals.stream()
                 .map(g -> new DistributionItem(
-                        g.getTitle(), g.getTargetAmount(), g.getCategory().getColor()))
+                        g.getTitle(),
+                        g.getTargetBaseCurrencyAmount(),
+                        g.getCategory().getColor()))
                 .toList();
 
         return new DistributionPayload(items);

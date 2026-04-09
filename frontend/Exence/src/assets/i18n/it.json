@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "Seleziona un giorno della settimana!",
 		"dayOfMonthRequired": "Seleziona un giorno del mese!",
 		"endDateRequired": "La data di fine è obbligatoria!",
-		"matDatepickerFilter": "La data deve corrispondere al modello di ricorrenza e non deve essere nel passato!"
+		"matDatepickerFilter": "La data deve corrispondere al modello di ricorrenza e non deve essere nel passato!",
+		"initialAmountMax": "L'importo iniziale non deve superare l'importo obiettivo!",
+		"currentAmountMax": "L'importo attuale non deve superare l'importo obiettivo!",
+		"fieldNotLessThan": "L'importo obiettivo non può essere inferiore all'importo attuale!"
 	},
 	"confirmExit": {
 		"title": "Modifiche non salvate",
@@ -891,5 +894,67 @@
 				"sendDisabled": "Non è possibile inviare l'e-mail senza aver prima impostato l'oggetto e il contenuto."
 			}
 		}
+	},
+	"goals": {
+		"title": "Obiettivi e risparmi",
+		"selectedGoal": "Obiettivo",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Tendenza di progresso",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Distribuzione degli obiettivi"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Numero di obiettivi attivi",
+				"GOAL_AVG_PROGRESS_STATCARD": "Progresso medio degli obiettivi",
+				"GOAL_COMPLETION_RATE_STATCARD": "Tasso di completamento",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Giorni alla prossima scadenza",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Importo totale risparmiato per gli obiettivi",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Risparmio totale"
+			}
+		},
+		"status": {
+			"label": "Stato",
+			"ACTIVE": "ATTIVO",
+			"PAUSED": "IN PAUSA",
+			"COMPLETED": "COMPLETATO",
+			"EXPIRED": "SCADUTO"
+		},
+		"note": "Nota",
+		"currency": {
+			"logged": "Valuta registrata",
+			"base": "Valuta base"
+		},
+		"amount": {
+			"logged": "Importo nella valuta registrata",
+			"base": "Importo nella valuta base"
+		},
+		"progress": "Progresso attuale",
+		"date": "Scadenza",
+		"titleLabel": "Titolo",
+		"create": {
+			"title": "Nuovo obiettivo",
+			"titleLabel": "Titolo",
+			"targetAmount": "Importo obiettivo",
+			"initialAmount": "Importo iniziale",
+			"currency": "Valuta",
+			"deadline": "Scadenza",
+			"description": "Descrizione",
+			"category": "Categoria",
+			"search": "Cerca",
+			"successInfo": "Obiettivo '{{title}}' creato con successo!"
+		},
+		"edit": {
+			"title": "Modifica obiettivo",
+			"titleLabel": "Titolo",
+			"targetAmount": "Importo obiettivo",
+			"currentAmount": "Importo attuale",
+			"deadline": "Scadenza",
+			"description": "Descrizione",
+			"category": "Categoria",
+			"search": "Cerca",
+			"status": "Stato"
+		},
+		"updateInfo": "Obiettivo aggiornato con successo!",
+		"deleteInfo": "Obiettivo eliminato con successo!"
 	}
 }

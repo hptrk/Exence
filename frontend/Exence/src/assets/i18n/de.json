@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "Bitte wählen Sie einen Wochentag aus!",
 		"dayOfMonthRequired": "Bitte wählen Sie einen Tag des Monats aus!",
 		"endDateRequired": "Enddatum erforderlich!",
-		"matDatepickerFilter": "Datum sollte dem Wiederholungsmuster entsprechen und nicht in der Vergangenheit liegen!"
+		"matDatepickerFilter": "Datum sollte dem Wiederholungsmuster entsprechen und nicht in der Vergangenheit liegen!",
+		"initialAmountMax": "Der Anfangsbetrag darf den Zielbetrag nicht überschreiten!",
+		"currentAmountMax": "Der aktuelle Betrag darf den Zielbetrag nicht überschreiten!",
+		"fieldNotLessThan": "Der Zielbetrag darf nicht kleiner als der aktuelle Betrag sein!"
 	},
 	"confirmExit": {
 		"title": "Nicht gespeicherte Änderungen",
@@ -891,5 +894,67 @@
 				"sendDisabled": "Sie können die E-Mail nicht versenden, ohne zuvor den Betreff und den Inhalt festzulegen."
 			}
 		}
+	},
+	"goals": {
+		"title": "Ziele & Ersparnisse",
+		"selectedGoal": "Ziel",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Fortschrittstrend",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Zielverteilung"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Anzahl aktiver Ziele",
+				"GOAL_AVG_PROGRESS_STATCARD": "Durchschnittlicher Zielfortschritt",
+				"GOAL_COMPLETION_RATE_STATCARD": "Abschlussrate",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Tage bis zur nächsten Frist",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Gesamtbetrag für Ziele gespart",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Gesamtersparnis"
+			}
+		},
+		"status": {
+			"label": "Status",
+			"ACTIVE": "AKTIV",
+			"PAUSED": "PAUSIERT",
+			"COMPLETED": "ABGESCHLOSSEN",
+			"EXPIRED": "ABGELAUFEN"
+		},
+		"note": "Notiz",
+		"currency": {
+			"logged": "Protokollierte Währung",
+			"base": "Basiswährung"
+		},
+		"amount": {
+			"logged": "Betrag in protokollierter Währung",
+			"base": "Betrag in Basiswährung"
+		},
+		"progress": "Aktueller Fortschritt",
+		"date": "Frist",
+		"titleLabel": "Titel",
+		"create": {
+			"title": "Neues Ziel",
+			"titleLabel": "Titel",
+			"targetAmount": "Zielbetrag",
+			"initialAmount": "Anfangsbetrag",
+			"currency": "Währung",
+			"deadline": "Frist",
+			"description": "Beschreibung",
+			"category": "Kategorie",
+			"search": "Suche",
+			"successInfo": "Ziel '{{title}}' erfolgreich erstellt!"
+		},
+		"edit": {
+			"title": "Ziel bearbeiten",
+			"titleLabel": "Titel",
+			"targetAmount": "Zielbetrag",
+			"currentAmount": "Aktueller Betrag",
+			"deadline": "Frist",
+			"description": "Beschreibung",
+			"category": "Kategorie",
+			"search": "Suche",
+			"status": "Status"
+		},
+		"updateInfo": "Ziel erfolgreich aktualisiert!",
+		"deleteInfo": "Ziel erfolgreich gelöscht!"
 	}
 }

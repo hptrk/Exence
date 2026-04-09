@@ -574,7 +574,10 @@
 		"dayOfWeekRequired": "¡Por favor seleccione un día de la semana!",
 		"dayOfMonthRequired": "¡Por favor seleccione un día del mes!",
 		"endDateRequired": "¡La fecha de finalización es obligatoria!",
-		"matDatepickerFilter": "¡La fecha debe coincidir con el patrón de recurrencia y no debe estar en el pasado!"
+		"matDatepickerFilter": "¡La fecha debe coincidir con el patrón de recurrencia y no debe estar en el pasado!",
+		"initialAmountMax": "¡El importe inicial no debe superar el importe objetivo!",
+		"currentAmountMax": "¡El importe actual no debe superar el importe objetivo!",
+		"fieldNotLessThan": "¡El importe objetivo no puede ser inferior al importe actual!"
 	},
 	"confirmExit": {
 		"title": "Cambios sin guardar",
@@ -891,5 +894,67 @@
 				"sendDisabled": "No puedes enviar el correo electrónico sin haber configurado antes el asunto y el contenido."
 			}
 		}
+	},
+	"goals": {
+		"title": "Objetivos y ahorros",
+		"selectedGoal": "Objetivo",
+		"statistics": {
+			"chart": {
+				"GOAL_PROGRESS_TREND": "Tendencia de progreso",
+				"GOAL_TARGET_DISTRIBUTION_PIE": "Distribución de objetivos"
+			},
+			"card": {
+				"GOAL_ACTIVE_COUNT_STATCARD": "Número de objetivos activos",
+				"GOAL_AVG_PROGRESS_STATCARD": "Progreso promedio de objetivos",
+				"GOAL_COMPLETION_RATE_STATCARD": "Tasa de finalización",
+				"GOAL_NEXT_DEADLINE_STATCARD": "Días hasta el próximo plazo",
+				"GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD": "Monto total ahorrado para objetivos",
+				"GOAL_TOTAL_SAVINGS_STATCARD": "Ahorro total"
+			}
+		},
+		"status": {
+			"label": "Estado",
+			"ACTIVE": "ACTIVO",
+			"PAUSED": "PAUSADO",
+			"COMPLETED": "COMPLETADO",
+			"EXPIRED": "EXPIRADO"
+		},
+		"note": "Nota",
+		"currency": {
+			"logged": "Moneda registrada",
+			"base": "Moneda base"
+		},
+		"amount": {
+			"logged": "Monto en moneda registrada",
+			"base": "Monto en moneda base"
+		},
+		"progress": "Progreso actual",
+		"date": "Fecha límite",
+		"titleLabel": "Título",
+		"create": {
+			"title": "Nuevo objetivo",
+			"titleLabel": "Título",
+			"targetAmount": "Importe objetivo",
+			"initialAmount": "Importe inicial",
+			"currency": "Moneda",
+			"deadline": "Fecha límite",
+			"description": "Descripción",
+			"category": "Categoría",
+			"search": "Buscar",
+			"successInfo": "¡Objetivo '{{title}}' creado con éxito!"
+		},
+		"edit": {
+			"title": "Editar objetivo",
+			"titleLabel": "Título",
+			"targetAmount": "Importe objetivo",
+			"currentAmount": "Importe actual",
+			"deadline": "Fecha límite",
+			"description": "Descripción",
+			"category": "Categoría",
+			"search": "Buscar",
+			"status": "Estado"
+		},
+		"updateInfo": "¡Objetivo actualizado con éxito!",
+		"deleteInfo": "¡Objetivo eliminado con éxito!"
 	}
 }

@@ -86,8 +86,19 @@ export enum AdminWidgetType {
 	EMAIL_VERIFICATION_RATE = 'EMAIL_VERIFICATION_RATE',
 }
 
+export enum GoalWidgetType {
+	GOAL_ACTIVE_COUNT_STATCARD = 'GOAL_ACTIVE_COUNT_STATCARD',
+	GOAL_AVG_PROGRESS_STATCARD = 'GOAL_AVG_PROGRESS_STATCARD',
+	GOAL_COMPLETION_RATE_STATCARD = 'GOAL_COMPLETION_RATE_STATCARD',
+	GOAL_NEXT_DEADLINE_STATCARD = 'GOAL_NEXT_DEADLINE_STATCARD',
+	GOAL_PROGRESS_TREND = 'GOAL_PROGRESS_TREND',
+	GOAL_TARGET_DISTRIBUTION_PIE = 'GOAL_TARGET_DISTRIBUTION_PIE',
+	GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD = 'GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD',
+	GOAL_TOTAL_SAVINGS_STATCARD = 'GOAL_TOTAL_SAVINGS_STATCARD',
+}
+
 /* eslint-disable-next-line complexity */
-export function mapToExChartType(widgetType: WidgetType | AdminWidgetType): ExChartType {
+export function mapToExChartType(widgetType: WidgetType | AdminWidgetType | GoalWidgetType): ExChartType {
 	switch (widgetType) {
 		case WidgetType.EXPENSE_FREQUENCY_STATCARD:
 		case WidgetType.INCOME_FREQUENCY_STATCARD:
@@ -173,6 +184,17 @@ export function mapToExChartType(widgetType: WidgetType | AdminWidgetType): ExCh
 			return 'bar';
 		case AdminWidgetType.EMAIL_VERIFICATION_RATE:
 			return 'statCard';
+		case GoalWidgetType.GOAL_ACTIVE_COUNT_STATCARD:
+		case GoalWidgetType.GOAL_AVG_PROGRESS_STATCARD:
+		case GoalWidgetType.GOAL_COMPLETION_RATE_STATCARD:
+		case GoalWidgetType.GOAL_NEXT_DEADLINE_STATCARD:
+		case GoalWidgetType.GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD:
+		case GoalWidgetType.GOAL_TOTAL_SAVINGS_STATCARD:
+			return 'statCard';
+		case GoalWidgetType.GOAL_PROGRESS_TREND:
+			return 'area';
+		case GoalWidgetType.GOAL_TARGET_DISTRIBUTION_PIE:
+			return 'pie';
 	}
 }
 
@@ -574,14 +596,29 @@ export const ADMIN_LEADERBOARD_CARD_DATA: Partial<Record<AdminWidgetType, Transl
 	[AdminWidgetType.TOP_ACTIVE_USERS]: 'admin.statistics.leaderboard.TOP_ACTIVE_USERS',
 };
 
-export const ADMIN_CHARTS: Partial<Record<AdminWidgetType, unknown>> = {
-	[AdminWidgetType.DAILY_ACTIVE_USERS]: '',
-	[AdminWidgetType.MONTHLY_ACTIVE_USERS]: '',
-	[AdminWidgetType.TRANSACTION_VELOCITY]: '',
-	[AdminWidgetType.DATABASE_GROWTH_SUMMARY]: '',
-	[AdminWidgetType.CURRENCY_DISTRIBUTION]: '',
-	[AdminWidgetType.AVG_TRANSACTIONS_PER_USER]: '',
-	[AdminWidgetType.TRANSACTION_TYPE_DISTRIBUTION]: '',
-	[AdminWidgetType.TOP_ACTIVE_USERS]: '',
-	[AdminWidgetType.EMAIL_VERIFICATION_RATE]: '',
+// Goals
+type GOAL_STATISTICS_GROUP = 'all' | 'card' | 'chart';
+
+export const GOAL_GROUP_WIDGET_TYPES: Record<GOAL_STATISTICS_GROUP, GoalWidgetType[]> = {
+	all: Object.values(GoalWidgetType),
+	card: [
+		GoalWidgetType.GOAL_ACTIVE_COUNT_STATCARD,
+		GoalWidgetType.GOAL_AVG_PROGRESS_STATCARD,
+		GoalWidgetType.GOAL_COMPLETION_RATE_STATCARD,
+		GoalWidgetType.GOAL_NEXT_DEADLINE_STATCARD,
+		GoalWidgetType.GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD,
+		GoalWidgetType.GOAL_TOTAL_SAVINGS_STATCARD,
+	],
+	chart: [GoalWidgetType.GOAL_PROGRESS_TREND, GoalWidgetType.GOAL_TARGET_DISTRIBUTION_PIE],
+};
+
+export const GOAL_WIDGET_TITLES: Record<GoalWidgetType, TranslationCode> = {
+	[GoalWidgetType.GOAL_ACTIVE_COUNT_STATCARD]: 'goals.statistics.card.GOAL_ACTIVE_COUNT_STATCARD',
+	[GoalWidgetType.GOAL_AVG_PROGRESS_STATCARD]: 'goals.statistics.card.GOAL_AVG_PROGRESS_STATCARD',
+	[GoalWidgetType.GOAL_COMPLETION_RATE_STATCARD]: 'goals.statistics.card.GOAL_COMPLETION_RATE_STATCARD',
+	[GoalWidgetType.GOAL_NEXT_DEADLINE_STATCARD]: 'goals.statistics.card.GOAL_NEXT_DEADLINE_STATCARD',
+	[GoalWidgetType.GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD]: 'goals.statistics.card.GOAL_TOTAL_SAVED_THIS_YEAR_STATCARD',
+	[GoalWidgetType.GOAL_TOTAL_SAVINGS_STATCARD]: 'goals.statistics.card.GOAL_TOTAL_SAVINGS_STATCARD',
+	[GoalWidgetType.GOAL_PROGRESS_TREND]: 'goals.statistics.chart.GOAL_PROGRESS_TREND',
+	[GoalWidgetType.GOAL_TARGET_DISTRIBUTION_PIE]: 'goals.statistics.chart.GOAL_TARGET_DISTRIBUTION_PIE',
 };

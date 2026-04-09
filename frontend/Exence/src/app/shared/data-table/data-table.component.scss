@@ -186,7 +186,8 @@ tr.mat-mdc-row.table-row.expanded .table-row-item {
 	transition-delay: 0ms;
 	background-color: darken(var(--default-text-color), 5%);
 }
-tr.mat-mdc-row.table-row.expanded td:not(.mat-column-amount) .table-row-item {
+tr.mat-mdc-row.table-row.expanded td:not(.mat-column-amount.income) .table-row-item,
+tr.mat-mdc-row.table-row.expanded td:not(.mat-column-amount.expense) .table-row-item {
 	color: var(--secondary-text-color);
 }
 

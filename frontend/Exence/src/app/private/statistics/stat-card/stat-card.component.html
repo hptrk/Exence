@@ -13,15 +13,21 @@
 		@if (!hasIcon()) {
 			<div class="d-flex flex-column gap-0 align-items-center">
 				<div class="fs-4 fw-bold text-truncate w-100">
-					{{ widget()?.title || ('admin.statistics.card.title' | translate) }}
+					{{ widget()?.title || customTitle() }}
 				</div>
-				<div class="fs-2 fw-bold">{{ cardInfo.value }} {{ cardInfo.unit }}</div>
+				@if (unitIsCurrency()) {
+					<div class="fs-2 fw-bold">
+						{{ cardInfo.value | currency: unitToCurrency(cardInfo.unit) }}
+					</div>
+				} @else {
+					<div class="fs-2 fw-bold">{{ cardInfo.value }} {{ cardInfo.unit }}</div>
+				}
 				<div class="fs-6 fw-light">{{ cardInfo.contextLabel }}</div>
 			</div>
 
 			@if (!!cardInfo?.trend) {
 				<div class="trend" [attr.trend]="cardInfo.trend">
-					@if (cardInfo.changePercentage !== 0) {
+					@if (!!cardInfo.changePercentage) {
 						<span class="mt-1">{{ assets().prefix + cardInfo.changePercentage }}</span>
 					}
 					<mat-icon size="sm">{{ assets().suffix }}</mat-icon>

@@ -109,6 +109,11 @@ const commonChartOptions: Partial<ApexOptions> = {
 		},
 		offsetX: 25,
 	},
+	grid: {
+		padding: {
+			bottom: 10,
+		},
+	},
 };
 
 function getCommonChart(translate?: (key: string) => string): ApexChart {
