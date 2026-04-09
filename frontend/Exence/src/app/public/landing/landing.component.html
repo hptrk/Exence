@@ -129,12 +129,11 @@
 						{{ 'landing.features.transparentSecurity.description' | translate }}
 					</p>
 				</div>
-				<!-- TODO CHANGE IMAGE WHEN SESSIONS BUG FIXED -->
 				<div class="feature-image flex-1">
 					<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
 					<img
 						class="w-100"
-						src="assets/landing-page/SETTINGS_{{ themeService.displayThemeSignal().toString() }}.webp"
+						src="assets/landing-page/SESSIONS_{{ themeService.displayThemeSignal().toString() }}.webp"
 						[alt]="'landing.features.transparentSecurity.alt' | translate"
 						style="display: none"
 						onload="
@@ -207,7 +206,7 @@
 						<div class="testimonial-avatar">
 							<ex-animated-skeleton-loader class="d-block" width="62.5px" height="62.5px" />
 							<img
-								src="assets/landing-page/testimonial-1.webp"
+								src="assets/landing-page/user1.jpg"
 								[alt]="'landing.testimonials.imageAlt' | translate"
 								style="display: none"
 								onload="
@@ -225,7 +224,7 @@
 						<div class="testimonial-avatar">
 							<ex-animated-skeleton-loader class="d-block" width="62.5px" height="62.5px" />
 							<img
-								src="assets/landing-page/testimonial-2.webp"
+								src="assets/landing-page/user2.jpg"
 								[alt]="'landing.testimonials.imageAlt' | translate"
 								style="display: none"
 								onload="
@@ -243,7 +242,7 @@
 						<div class="testimonial-avatar">
 							<ex-animated-skeleton-loader class="d-block" width="62.5px" height="62.5px" />
 							<img
-								src="assets/landing-page/testimonial-3.webp"
+								src="assets/landing-page/user3.jpg"
 								[alt]="'landing.testimonials.imageAlt' | translate"
 								style="display: none"
 								onload="
@@ -310,10 +309,9 @@
 		<section class="who-we-are d-flex flex-column flex-md-row align-items-center gap-4 pt-5">
 			<div class="who-image">
 				<ex-animated-skeleton-loader class="d-block" width="100%" height="300px" />
-				<!-- TODO CHANGE IMAGE WHEN ACQUIRED -->
 				<img
 					class="w-100"
-					src="assets/landing-page/SETTINGS_{{ themeService.displayThemeSignal().toString() }}.webp"
+					src="assets/landing-page/developers.jpg"
 					[alt]="'landing.features.transparentSecurity.alt' | translate"
 					style="display: none"
 					onload="
