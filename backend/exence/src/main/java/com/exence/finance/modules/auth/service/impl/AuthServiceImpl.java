@@ -152,9 +152,14 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @WriteTransactional
     public void forgotPassword(ForgotPasswordRequest request) {
-        User user = userRepository
-                .findByEmail(request.email())
-                .orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
+        Optional<User> userOptional = userRepository.findByEmail(request.email());
+
+        if (userOptional.isEmpty()) {
+            log.debug("Forgot password requested for unregistered email: {}", request.email());
+            return;
+        }
+
+        User user = userOptional.get();
 
         if (emailBusinessProperties.rateLimiting().enabled()
                 && emailLogService.hasRecentEmail(
