@@ -28,6 +28,7 @@ public enum ErrorCode {
     GOAL_NOT_FOUND(HttpStatus.NOT_FOUND, "goal-not-found"),
     DEBT_NOT_FOUND(HttpStatus.NOT_FOUND, "debt-not-found"),
     ACHIEVEMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "achievement-not-found"),
+    INVESTMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "investment-not-found"),
 
     // 409 - Conflict
     EMAIL_ALREADY_IN_USE(HttpStatus.CONFLICT, "email-already-in-use"),
@@ -42,6 +43,7 @@ public enum ErrorCode {
     ADMIN_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "admin-widget-type-not-supported"),
     GOAL_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "goal-widget-type-not-supported"),
     DEBT_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "debt-widget-type-not-supported"),
+    INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED(HttpStatus.BAD_REQUEST, "investment-widget-type-not-supported"),
     DEBT_PAYMENT_EXCEEDS_REMAINING(HttpStatus.BAD_REQUEST, "debt-payment-exceeds-remaining"),
     INVALID_GOAL_SETTING(HttpStatus.BAD_REQUEST, "invalid-goal-setting"),
     VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "validation-error"),

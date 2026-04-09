@@ -8420,10 +8420,204 @@ databaseChangeLog:
               - column: { name: achievement_type, value: 'APP_STREAK' }
               - column: { name: current_value, valueNumeric: 14 }
 
+        # Investments
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 1 }
+              - column: { name: asset, value: 'Bitcoin' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '420 days')::date" }
+              - column: { name: type, value: 'CRYPTO' }
+              - column: { name: amount, valueNumeric: 3000.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 1140000.00 }
+              - column: { name: note, value: 'First BTC purchase — long-term hold' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '420 days' + TIME '09:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '420 days' + TIME '09:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: asset, value: 'Bitcoin' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '200 days')::date" }
+              - column: { name: type, value: 'CRYPTO' }
+              - column: { name: amount, valueNumeric: 2000.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 760000.00 }
+              - column: { name: note, value: 'DCA purchase' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '200 days' + TIME '10:30')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '200 days' + TIME '10:30')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: asset, value: 'S&P 500' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '380 days')::date" }
+              - column: { name: type, value: 'ETF' }
+              - column: { name: amount, valueNumeric: 2250.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 855000.00 }
+              - column: { name: note, value: 'Index ETF — passive strategy' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '380 days' + TIME '11:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '380 days' + TIME '11:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 4 }
+              - column: { name: asset, value: 'S&P 500' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '90 days')::date" }
+              - column: { name: type, value: 'ETF' }
+              - column: { name: amount, valueNumeric: 2600.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 988000.00 }
+              - column: { name: note, value: 'Monthly DCA' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '90 days' + TIME '09:15')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '90 days' + TIME '09:15')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 5 }
+              - column: { name: asset, value: 'Gold' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '310 days')::date" }
+              - column: { name: type, value: 'METAL' }
+              - column: { name: amount, valueNumeric: 1800.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 684000.00 }
+              - column: { name: note, value: 'Safe haven allocation' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '310 days' + TIME '14:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '310 days' + TIME '14:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 6 }
+              - column: { name: asset, value: 'Gold' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '60 days')::date" }
+              - column: { name: type, value: 'METAL' }
+              - column: { name: amount, valueNumeric: 2100.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 798000.00 }
+              - column: { name: note, value: 'Added to gold position' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '60 days' + TIME '15:30')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '60 days' + TIME '15:30')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 7 }
+              - column: { name: asset, value: 'Treasury Bill' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '180 days')::date" }
+              - column: { name: type, value: 'BOND' }
+              - column: { name: amount, valueNumeric: 5000.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 1900000.00 }
+              - column: { name: note, value: '6-month T-bill' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '180 days' + TIME '08:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '180 days' + TIME '08:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 8 }
+              - column: { name: asset, value: 'Apple Inc.' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '450 days')::date" }
+              - column: { name: type, value: 'STOCK' }
+              - column: { name: amount, valueNumeric: 1500.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 570000.00 }
+              - column: { name: note, value: 'Long-term hold' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '450 days' + TIME '13:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '450 days' + TIME '13:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 9 }
+              - column: { name: asset, value: 'Apple Inc.' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '150 days')::date" }
+              - column: { name: type, value: 'STOCK' }
+              - column: { name: amount, valueNumeric: 1750.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 665000.00 }
+              - column: { name: note, value: 'Added on dip' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '150 days' + TIME '10:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '150 days' + TIME '10:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 10 }
+              - column: { name: asset, value: 'iShares Nasdaq 100' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '270 days')::date" }
+              - column: { name: type, value: 'ETF' }
+              - column: { name: amount, valueNumeric: 1200.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 456000.00 }
+              - column: { name: note, value: 'Nasdaq 100 non-financial companies' }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '270 days' + TIME '16:00')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '270 days' + TIME '16:00')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 11 }
+              - column: { name: asset, value: 'iShares Nasdaq 100' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '30 days')::date" }
+              - column: { name: type, value: 'ETF' }
+              - column: { name: amount, valueNumeric: 960.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 364800.00 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '11:30')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '11:30')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+        - insert:
+            tableName: investment
+            columns:
+              - column: { name: id, valueNumeric: 12 }
+              - column: { name: asset, value: 'iShares Nasdaq 100' }
+              - column: { name: purchase_date, valueComputed: "(CURRENT_DATE - INTERVAL '15 days')::date" }
+              - column: { name: type, value: 'ETF' }
+              - column: { name: amount, valueNumeric: 1250.00 }
+              - column: { name: currency, value: 'USD' }
+              - column: { name: base_currency_amount, valueNumeric: 475000.00 }
+              - column: { name: user_id, valueNumeric: 1 }
+              - column: { name: created_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '11:30')::timestamptz" }
+              - column: { name: updated_at, valueComputed: "(CURRENT_DATE - INTERVAL '30 days' + TIME '11:30')::timestamptz" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
+
         - sql:
             sql: SELECT setval('achievement_id_seq', (SELECT COALESCE(MAX(id), 1) FROM achievement));
         - sql:
             sql: SELECT setval('user_achievement_id_seq', (SELECT COALESCE(MAX(id), 1) FROM user_achievement));
         - sql:
             sql: SELECT setval('achievement_progress_id_seq', (SELECT COALESCE(MAX(id), 1) FROM achievement_progress));
+        - sql:
+            sql: SELECT setval('investment_id_seq', (SELECT COALESCE(MAX(id), 1) FROM investment));
 

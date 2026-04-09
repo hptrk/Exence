@@ -54,6 +54,11 @@ public final class ValidationConstants {
     public static final int DEBT_COUNTERPARTY_NAME_MAX_LENGTH = 100;
     public static final String DEBT_AMOUNT_MIN = "0.01";
 
+    // Investment validations
+    public static final int INVESTMENT_ASSET_MAX_LENGTH = 100;
+    public static final int INVESTMENT_NOTE_MAX_LENGTH = 500;
+    public static final String INVESTMENT_AMOUNT_MIN = "0.01";
+
     // Achievement validations
     public static final int ACHIEVEMENT_NAME_MAX_LENGTH = 255;
     public static final int ACHIEVEMENT_DESCRIPTION_MAX_LENGTH = 500;
