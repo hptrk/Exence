@@ -1,0 +1,37 @@
+<ex-data-table
+	[columns]="columns()"
+	[actions]="actions"
+	[data]="data()"
+	[isLoading]="isLoading()"
+	title="{{ 'investments.purchaseLog' | translate }}"
+	matIcon="trending_up"
+	[expandTemplate]="expandTmpl"
+	(addClicked)="openCreate()"
+	[nonExpandable]="false"
+	class="overflow-hidden"
+>
+	<ng-template exCell="title" let-row>
+		<div class="text-truncate ps-3" [matTooltip]="row.name">{{ row.name }}</div>
+	</ng-template>
+
+	<ng-template exCell="lastAction" let-row>
+		{{ row.daysSinceLastAction }} {{ 'investments.daysAgo' | translate }}
+	</ng-template>
+
+	<ng-template exCell="totalInvested" let-row>
+		<span class="fw-semibold">{{ row.totalInvested | currency }}</span>
+	</ng-template>
+
+	<ng-template exCell="type" let-row>
+		{{ codeForType(row.type) | translate }}
+	</ng-template>
+
+	<ng-template exCell="purchases" let-row>
+		<strong>{{ row.purchasesCount }}</strong
+		>&nbsp;{{ (row.purchasesCount === 1 ? 'investments.purchase' : 'investments.purchases') | translate }}
+	</ng-template>
+</ex-data-table>
+
+<ng-template #expandTmpl let-row>
+	<ex-investment-list-detail [purchases]="row.purchases" />
+</ng-template>

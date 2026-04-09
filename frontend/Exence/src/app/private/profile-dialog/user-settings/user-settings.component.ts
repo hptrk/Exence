@@ -97,7 +97,7 @@ export class UserSettingsComponent implements OnInit {
 		const response = await this.userSettingService.update(request);
 		this.snackbarService.showSuccess(
 			this.translocoService.translate(
-				'profile.userSettings.theme.success',
+				'profile.userSettings.success',
 				{},
 				request.language ?? this.translocoService.getActiveLang(),
 			),

@@ -6,6 +6,7 @@ import {
 	AdminWidgetType,
 	DebtWidgetType,
 	GoalWidgetType,
+	InvestmentWidgetType,
 	WidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
@@ -15,6 +16,7 @@ import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { AdminStatisticsService } from '../../admin/admin-statistic.service';
 import { GoalService } from '../../goals/goal.service';
 import { DebtService } from '../../debts/debt.service';
+import { InvestmentService } from '../../investments/investment.service';
 import { StatisticService } from '../statistic.service';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 
@@ -34,12 +36,14 @@ export class StatCardComponent {
 	private readonly adminStatisticService = inject(AdminStatisticsService);
 	private readonly goalService = inject(GoalService);
 	private readonly debtService = inject(DebtService);
+	private readonly investmentService = inject(InvestmentService);
 	readonly currencyService = inject(CurrencyService);
 
 	widget = input<StatCardWidget>();
 	adminCardType = input<AdminWidgetType>();
 	goalCardType = input<GoalWidgetType>();
 	debtCardType = input<DebtWidgetType>();
+	investmentCardType = input<InvestmentWidgetType>();
 	customTitle = input<string>();
 
 	isLoading = signal<boolean>(false);
@@ -91,6 +95,8 @@ export class StatCardComponent {
 		});
 
 		effect(() => {
+			this.currencyService.baseCurrency();
+			this.currencyService.showBaseCurrency();
 			if (!this.goalCardType()) return;
 			this.isLoading.set(true);
 			this.goalService
@@ -100,10 +106,23 @@ export class StatCardComponent {
 		});
 
 		effect(() => {
+			this.currencyService.baseCurrency();
+			this.currencyService.showBaseCurrency();
 			if (!this.debtCardType()) return;
 			this.isLoading.set(true);
 			this.debtService
 				.getWidgetData(this.debtCardType()!)
+				.then(response => this.data.set(response.payload as StatCardPayload))
+				.finally(() => this.isLoading.set(false));
+		});
+
+		effect(() => {
+			this.currencyService.baseCurrency();
+			this.currencyService.showBaseCurrency();
+			if (!this.investmentCardType()) return;
+			this.isLoading.set(true);
+			this.investmentService
+				.getWidgetData(this.investmentCardType()!)
 				.then(response => this.data.set(response.payload as StatCardPayload))
 				.finally(() => this.isLoading.set(false));
 		});

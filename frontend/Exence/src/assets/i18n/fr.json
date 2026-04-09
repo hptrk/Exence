@@ -170,7 +170,8 @@
 					"label": "Afficher la devise de base",
 					"info": "Quelle que soit la devise attribuée à une transaction, lorsque cette option est sélectionnée, chaque transaction s'affichera dans la devise de base choisie."
 				}
-			}
+			},
+			"success": "Paramètres utilisateur mis à jour avec succès !"
 		},
 		"sessions": {
 			"label": "Sessions"
@@ -198,7 +199,8 @@
 		"home": "Accueil",
 		"login": "Se connecter",
 		"registration": "Inscription",
-		"admin": "Admin"
+		"admin": "Admin",
+		"investments": "Investissements"
 	},
 	"timeframe": {
 		"1W": "1S",
@@ -997,7 +999,7 @@
 			"counterpartyName": "Counterparty name",
 			"originalAmount": "Amount",
 			"currency": "Currency",
-			"deadline": "Deadline (optional)",
+			"deadline": "Deadline",
 			"type": "Type",
 			"category": "Category",
 			"search": "Search",
@@ -1022,5 +1024,58 @@
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
 		"paymentInfo": "Payment recorded successfully!"
+	},
+	"investments": {
+		"title": "Investissements",
+		"purchaseLog": "Journal d'achats",
+		"name": "Nom",
+		"lastAction": "Dernière action",
+		"totalInvested": "Total investi",
+		"type": "Type",
+		"transactions": "Transactions",
+		"purchases": "achats",
+		"purchase": "achat",
+		"daysAgo": "jours",
+		"note": "Note",
+		"date": "Date",
+		"amount": "Montant",
+		"addPurchase": "Ajouter un achat",
+		"type_label": {
+			"CRYPTO": "Crypto",
+			"ETF": "ETF",
+			"METAL": "Métal",
+			"BOND": "Obligation",
+			"STOCK": "Action",
+			"REAL_ESTATE": "Immobilier",
+			"CASH": "Espèces",
+			"OTHER": "Autre"
+		},
+		"create": {
+			"newAssetTitle": "Nouvel actif",
+			"addPurchaseTitle": "Ajouter un achat",
+			"asset": "Nom de l'actif",
+			"date": "Date d'achat",
+			"type": "Type",
+			"amount": "Montant",
+			"currency": "Devise",
+			"note": "Note (facultatif)",
+			"successInfo": "Investissement dans '{{asset}}' créé avec succès !"
+		},
+		"edit": {
+			"title": "Modifier l'achat",
+			"asset": "Nom de l'actif",
+			"date": "Date d'achat",
+			"type": "Type",
+			"amount": "Montant",
+			"note": "Note (facultatif)"
+		},
+		"statistics": {
+			"card": {
+				"INVESTMENT_TOTAL_VALUE_STATCARD": "Valeur totale investie",
+				"INVESTMENT_ASSET_COUNT_STATCARD": "Nombre d'actifs"
+			}
+		},
+		"updateInfo": "Investissement mis à jour avec succès !",
+		"deleteInfo": "Investissement supprimé avec succès !"
 	}
 }

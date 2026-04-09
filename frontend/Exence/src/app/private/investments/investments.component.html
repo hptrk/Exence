@@ -1,0 +1,9 @@
+<main
+	class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 gap-4"
+	[class.overflow-hidden]="display.isLg()"
+	[class.h-100]="display.isLg()"
+>
+	<ex-investment-statistics />
+
+	<ex-investment-list class="flex-grow-1 overflow-hidden" [class.h-100]="display.isLg()" />
+</main>

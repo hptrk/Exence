@@ -170,7 +170,8 @@
 					"label": "Zobraziť základnú menu",
 					"info": "Bez ohľadu na to, aká mena bola priradená k transakcii, po výbere sa každá transakcia zobrazí vo vybranej základnej mene."
 				}
-			}
+			},
+			"success": "Nastavenia používateľa boli úspešne aktualizované!"
 		},
 		"sessions": {
 			"label": "Relácie"
@@ -198,7 +199,8 @@
 		"home": "Domov",
 		"login": "Prihlásiť sa",
 		"registration": "Registrácia",
-		"admin": "Admin"
+		"admin": "Admin",
+		"investments": "Investície"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -997,7 +999,7 @@
 			"counterpartyName": "Counterparty name",
 			"originalAmount": "Amount",
 			"currency": "Currency",
-			"deadline": "Deadline (optional)",
+			"deadline": "Deadline",
 			"type": "Type",
 			"category": "Category",
 			"search": "Search",
@@ -1022,5 +1024,58 @@
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
 		"paymentInfo": "Payment recorded successfully!"
+	},
+	"investments": {
+		"title": "Investície",
+		"purchaseLog": "Denník nákupov",
+		"name": "Názov",
+		"lastAction": "Posledná akcia",
+		"totalInvested": "Celkovo investované",
+		"type": "Typ",
+		"transactions": "Transakcie",
+		"purchases": "nákupov",
+		"purchase": "nákup",
+		"daysAgo": "dní",
+		"note": "Poznámka",
+		"date": "Dátum",
+		"amount": "Suma",
+		"addPurchase": "Pridať nákup",
+		"type_label": {
+			"CRYPTO": "Krypto",
+			"ETF": "ETF",
+			"METAL": "Kov",
+			"BOND": "Dlhopis",
+			"STOCK": "Akcia",
+			"REAL_ESTATE": "Nehnuteľnosť",
+			"CASH": "Hotovosť",
+			"OTHER": "Iné"
+		},
+		"create": {
+			"newAssetTitle": "Nové aktívum",
+			"addPurchaseTitle": "Pridať nákup",
+			"asset": "Názov aktíva",
+			"date": "Dátum nákupu",
+			"type": "Typ",
+			"amount": "Suma",
+			"currency": "Mena",
+			"note": "Poznámka (voliteľné)",
+			"successInfo": "Investícia do '{{asset}}' bola úspešne vytvorená!"
+		},
+		"edit": {
+			"title": "Upraviť nákup",
+			"asset": "Názov aktíva",
+			"date": "Dátum nákupu",
+			"type": "Typ",
+			"amount": "Suma",
+			"note": "Poznámka (voliteľné)"
+		},
+		"statistics": {
+			"card": {
+				"INVESTMENT_TOTAL_VALUE_STATCARD": "Celková investovaná hodnota",
+				"INVESTMENT_ASSET_COUNT_STATCARD": "Počet aktív"
+			}
+		},
+		"updateInfo": "Investícia bola úspešne aktualizovaná!",
+		"deleteInfo": "Investícia bola úspešne vymazaná!"
 	}
 }

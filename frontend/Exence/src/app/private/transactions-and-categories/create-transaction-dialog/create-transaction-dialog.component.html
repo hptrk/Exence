@@ -20,7 +20,7 @@
 			</mat-error>
 		</mat-form-field>
 
-		<div class="d-flex flex-column flex-sm-row gap-3">
+		<div class="d-flex flex-column flex-sm-row align-items-sm-start gap-3">
 			@let amountControl = form.controls.amount;
 			<ex-amount-stepper [control]="amountControl" label="transaction.create.amount" [min]="1" />
 			@let dateControl = form.controls.date;
@@ -38,7 +38,7 @@
 			</mat-form-field>
 		</div>
 
-		<div class="d-flex flex-column flex-sm-row gap-3">
+		<div class="d-flex flex-column flex-sm-row align-items-sm-start gap-3">
 			@let currencyControl = form.controls.currency;
 			<mat-form-field>
 				<mat-label>{{ 'transaction.create.currency' | translate }}</mat-label>
@@ -100,7 +100,7 @@
 
 		@if (recurringControl.value) {
 			@let recurringConfigs = form.controls.recurring.controls.configs.controls;
-			<div class="d-flex flex-column flex-md-row gap-3 align-items-md-center mb-3">
+			<div class="d-flex flex-column flex-md-row align-items-md-start gap-3 mb-3">
 				@let intervalControl = recurringConfigs.interval;
 				<ex-amount-stepper [control]="intervalControl" [step]="1" [label]="'recurring.interval'" />
 
@@ -179,7 +179,7 @@
 					<ex-validator [control]="recurringConfigs.startDate" />
 				</mat-error>
 			</mat-form-field>
-			<div class="d-flex flex-column flex-md-row gap-3 align-items-md-baseline">
+			<div class="d-flex flex-column flex-md-row align-items-md-start gap-3">
 				@let endCondControl = recurringConfigs.endCondition;
 				<mat-form-field>
 					<mat-label>{{ 'recurring.ends.label' | translate }}</mat-label>

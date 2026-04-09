@@ -170,7 +170,8 @@
 					"label": "Mostra valuta di riferimento",
 					"info": "Indipendentemente dalla valuta assegnata a una transazione, se questa opzione è selezionata, ogni transazione verrà visualizzata nella valuta di riferimento selezionata."
 				}
-			}
+			},
+			"success": "Impostazioni utente aggiornate con successo!"
 		},
 		"sessions": {
 			"label": "Sessioni"
@@ -198,7 +199,8 @@
 		"home": "Home",
 		"login": "Accesso",
 		"registration": "Registrazione",
-		"admin": "Admin"
+		"admin": "Admin",
+		"investments": "Investimenti"
 	},
 	"timeframe": {
 		"1W": "1S",
@@ -997,7 +999,7 @@
 			"counterpartyName": "Counterparty name",
 			"originalAmount": "Amount",
 			"currency": "Currency",
-			"deadline": "Deadline (optional)",
+			"deadline": "Deadline",
 			"type": "Type",
 			"category": "Category",
 			"search": "Search",
@@ -1022,5 +1024,58 @@
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
 		"paymentInfo": "Payment recorded successfully!"
+	},
+	"investments": {
+		"title": "Investimenti",
+		"purchaseLog": "Registro acquisti",
+		"name": "Nome",
+		"lastAction": "Ultima azione",
+		"totalInvested": "Totale investito",
+		"type": "Tipo",
+		"transactions": "Transazioni",
+		"purchases": "acquisti",
+		"purchase": "acquisto",
+		"daysAgo": "giorni fa",
+		"note": "Nota",
+		"date": "Data",
+		"amount": "Importo",
+		"addPurchase": "Aggiungi acquisto",
+		"type_label": {
+			"CRYPTO": "Cripto",
+			"ETF": "ETF",
+			"METAL": "Metallo",
+			"BOND": "Obbligazione",
+			"STOCK": "Azione",
+			"REAL_ESTATE": "Immobile",
+			"CASH": "Contante",
+			"OTHER": "Altro"
+		},
+		"create": {
+			"newAssetTitle": "Nuovo asset",
+			"addPurchaseTitle": "Aggiungi acquisto",
+			"asset": "Nome asset",
+			"date": "Data acquisto",
+			"type": "Tipo",
+			"amount": "Importo",
+			"currency": "Valuta",
+			"note": "Nota (facoltativo)",
+			"successInfo": "Investimento in '{{asset}}' creato con successo!"
+		},
+		"edit": {
+			"title": "Modifica acquisto",
+			"asset": "Nome asset",
+			"date": "Data acquisto",
+			"type": "Tipo",
+			"amount": "Importo",
+			"note": "Nota (facoltativo)"
+		},
+		"statistics": {
+			"card": {
+				"INVESTMENT_TOTAL_VALUE_STATCARD": "Valore totale investito",
+				"INVESTMENT_ASSET_COUNT_STATCARD": "Numero di asset"
+			}
+		},
+		"updateInfo": "Investimento aggiornato con successo!",
+		"deleteInfo": "Investimento eliminato con successo!"
 	}
 }

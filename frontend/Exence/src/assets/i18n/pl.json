@@ -170,7 +170,8 @@
 					"label": "Pokaż walutę bazową",
 					"info": "Niezależnie od tego, jaka waluta została przypisana do transakcji, po zaznaczeniu tej opcji każda transakcja będzie wyświetlana w wybranej walucie bazowej."
 				}
-			}
+			},
+			"success": "Ustawienia użytkownika zostały pomyślnie zaktualizowane!"
 		},
 		"sessions": {
 			"label": "Sesje"
@@ -198,7 +199,8 @@
 		"home": "Strona główna",
 		"login": "Zaloguj się",
 		"registration": "Rejestracja",
-		"admin": "Admin"
+		"admin": "Admin",
+		"investments": "Inwestycje"
 	},
 	"timeframe": {
 		"1W": "1T",
@@ -997,7 +999,7 @@
 			"counterpartyName": "Counterparty name",
 			"originalAmount": "Amount",
 			"currency": "Currency",
-			"deadline": "Deadline (optional)",
+			"deadline": "Deadline",
 			"type": "Type",
 			"category": "Category",
 			"search": "Search",
@@ -1022,5 +1024,58 @@
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
 		"paymentInfo": "Payment recorded successfully!"
+	},
+	"investments": {
+		"title": "Inwestycje",
+		"purchaseLog": "Dziennik zakupów",
+		"name": "Nazwa",
+		"lastAction": "Ostatnia akcja",
+		"totalInvested": "Łącznie zainwestowano",
+		"type": "Typ",
+		"transactions": "Transakcje",
+		"purchases": "zakupów",
+		"purchase": "zakup",
+		"daysAgo": "dni temu",
+		"note": "Notatka",
+		"date": "Data",
+		"amount": "Kwota",
+		"addPurchase": "Dodaj zakup",
+		"type_label": {
+			"CRYPTO": "Krypto",
+			"ETF": "ETF",
+			"METAL": "Metal",
+			"BOND": "Obligacja",
+			"STOCK": "Akcja",
+			"REAL_ESTATE": "Nieruchomość",
+			"CASH": "Gotówka",
+			"OTHER": "Inne"
+		},
+		"create": {
+			"newAssetTitle": "Nowy zasób",
+			"addPurchaseTitle": "Dodaj zakup",
+			"asset": "Nazwa zasobu",
+			"date": "Data zakupu",
+			"type": "Typ",
+			"amount": "Kwota",
+			"currency": "Waluta",
+			"note": "Notatka (opcjonalnie)",
+			"successInfo": "Inwestycja w '{{asset}}' została utworzona!"
+		},
+		"edit": {
+			"title": "Edytuj zakup",
+			"asset": "Nazwa zasobu",
+			"date": "Data zakupu",
+			"type": "Typ",
+			"amount": "Kwota",
+			"note": "Notatka (opcjonalnie)"
+		},
+		"statistics": {
+			"card": {
+				"INVESTMENT_TOTAL_VALUE_STATCARD": "Łączna zainwestowana wartość",
+				"INVESTMENT_ASSET_COUNT_STATCARD": "Liczba aktywów"
+			}
+		},
+		"updateInfo": "Inwestycja zaktualizowana pomyślnie!",
+		"deleteInfo": "Inwestycja usunięta pomyślnie!"
 	}
 }

@@ -1,0 +1,77 @@
+<ex-dialog-card [formGroup]="form" (submit)="save()" [confirmExitDialog]="dialogRef">
+	<div ex-dialog-card-title>{{ 'investments.edit.title' | translate }}</div>
+
+	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
+		@let assetControl = form.controls.asset;
+		<mat-form-field>
+			<mat-label>{{ 'investments.edit.asset' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="assetControl" [matAutocomplete]="assetAuto" />
+			<ex-input-clear matSuffix [control]="assetControl" />
+			<mat-error>
+				<ex-validator [control]="assetControl" />
+			</mat-error>
+			<mat-autocomplete #assetAuto (optionSelected)="onAssetSelected($event)">
+				@for (asset of filteredAssets(); track asset.name) {
+					<mat-option [value]="asset.name">{{ asset.name }}</mat-option>
+				}
+			</mat-autocomplete>
+		</mat-form-field>
+
+		<div class="d-flex flex-column flex-sm-row gap-3">
+			@let dateControl = form.controls.purchaseDate;
+			<mat-form-field>
+				<mat-label>{{ 'investments.edit.date' | translate }}</mat-label>
+				<input matInput [matDatepicker]="datePicker" [formControl]="dateControl" />
+				<mat-datepicker-toggle matIconSuffix [for]="datePicker" />
+				<mat-datepicker #datePicker />
+				<mat-error>
+					<ex-validator [control]="dateControl" />
+				</mat-error>
+			</mat-form-field>
+
+			@let typeControl = form.controls.type;
+			<mat-form-field>
+				<mat-label>{{ 'investments.edit.type' | translate }}</mat-label>
+				<mat-select [formControl]="typeControl">
+					@for (type of investmentTypes | enumValue; track type) {
+						<mat-option [value]="type">{{ codeForType(type) | translate }}</mat-option>
+					}
+				</mat-select>
+				<mat-error>
+					<ex-validator [control]="typeControl" />
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+		<ex-amount-stepper
+			class="mb-3"
+			[control]="form.controls.amount"
+			[label]="'investments.edit.amount'"
+			[min]="0.01"
+		/>
+
+		@let noteControl = form.controls.note;
+		<mat-form-field>
+			<mat-label>{{ 'investments.edit.note' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="noteControl" />
+			<ex-input-clear matSuffix [control]="noteControl" />
+			<mat-error>
+				<ex-validator [control]="noteControl" />
+			</mat-error>
+		</mat-form-field>
+
+		<ex-button class="d-none" type="submit" />
+	</form>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
+		<ex-button filled color="primary" matIcon="save" [disabled]="form.invalid" (click)="save()">
+			{{ 'literals.save' | translate }}
+		</ex-button>
+	</div>
+</ex-dialog-card>
