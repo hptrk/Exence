@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-investment-type-enum
+      author: hptrk
+      comment: Create investment_type PostgreSQL native enum type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE investment_type AS ENUM ('CRYPTO', 'ETF', 'METAL', 'BOND', 'STOCK', 'REAL_ESTATE', 'CASH', 'OTHER')
+
+      rollback:
+        - sql:
+            sql: DROP TYPE IF EXISTS investment_type

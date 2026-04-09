@@ -35,3 +35,9 @@ databaseChangeLog:
   - include:
       file: create-achievement-progress-table.yaml
       relativeToChangelogFile: true
+  - include:
+      file: create-investment-type-enum.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-investment-table.yaml
+      relativeToChangelogFile: true
