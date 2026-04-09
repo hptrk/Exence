@@ -85,6 +85,7 @@ public final class ValidationConstants {
     public static final int EXCHANGE_RATE_PRECISION = 19; // integer + fraction
 
     // Email
+    public static final int EMAIL_SUBJECT_MAX_LENGTH = 255;
     public static final Set<String> WHITELISTED_DOMAINS = Set.of(
             "gmail.com",
             "yahoo.com",

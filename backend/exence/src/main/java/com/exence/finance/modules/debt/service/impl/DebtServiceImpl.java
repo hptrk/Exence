@@ -6,7 +6,6 @@ import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.debt.dto.DebtCreateDTO;
@@ -37,7 +36,6 @@ public class DebtServiceImpl implements DebtService {
     private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final DebtMapper debtMapper;
-    private final UserSettingsService userSettingsService;
     private final ApplicationEventPublisher eventPublisher;
 
     @ReadTransactional
@@ -76,9 +74,8 @@ public class DebtServiceImpl implements DebtService {
         debt.setRemainingAmount(dto.originalAmount());
         debt.setStatus(DebtStatus.ACTIVE);
 
-        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         BigDecimal originalBaseCurrencyAmount =
-                calculateBaseCurrencyAmount(dto.originalAmount(), dto.currency(), baseCurrency);
+                exchangeRateService.calculateBaseCurrencyAmount(dto.originalAmount(), dto.currency(), LocalDate.now());
         debt.setOriginalBaseCurrencyAmount(originalBaseCurrencyAmount);
         debt.setRemainingBaseCurrencyAmount(originalBaseCurrencyAmount);
 
@@ -118,13 +115,13 @@ public class DebtServiceImpl implements DebtService {
             throw new ExenceException(ErrorCode.DEBT_PAYMENT_EXCEEDS_REMAINING);
         }
 
-        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         SupportedCurrency currency = debt.getCurrency();
 
         BigDecimal newRemaining = debt.getRemainingAmount().subtract(dto.amount());
         debt.setRemainingAmount(newRemaining);
 
-        BigDecimal paymentBase = calculateBaseCurrencyAmount(dto.amount(), currency, baseCurrency);
+        BigDecimal paymentBase =
+                exchangeRateService.calculateBaseCurrencyAmount(dto.amount(), currency, LocalDate.now());
         BigDecimal newRemainingBase =
                 debt.getRemainingBaseCurrencyAmount().subtract(paymentBase).max(BigDecimal.ZERO);
         debt.setRemainingBaseCurrencyAmount(newRemainingBase);
@@ -154,14 +151,5 @@ public class DebtServiceImpl implements DebtService {
 
     private Debt getDebt(Long id) {
         return debtRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.DEBT_NOT_FOUND));
-    }
-
-    private BigDecimal calculateBaseCurrencyAmount(
-            BigDecimal amount, SupportedCurrency currency, SupportedCurrency baseCurrency) {
-        if (currency == baseCurrency) {
-            return amount;
-        }
-        BigDecimal rate = exchangeRateService.getRate(currency, baseCurrency, LocalDate.now());
-        return exchangeRateService.calculateBaseCurrencyAmount(amount, currency, baseCurrency, LocalDate.now(), rate);
     }
 }

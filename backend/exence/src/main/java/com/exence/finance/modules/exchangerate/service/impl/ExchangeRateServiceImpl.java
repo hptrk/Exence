@@ -5,6 +5,7 @@ import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
+import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.exchangerate.client.FrankfurterClient;
 import com.exence.finance.modules.exchangerate.entity.ExchangeRate;
 import com.exence.finance.modules.exchangerate.repository.ExchangeRateRepository;
@@ -31,6 +32,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     private final ExchangeRateRepository exchangeRateRepository;
     private final FrankfurterClient frankfurterClient;
+    private final UserSettingsService userSettingsService;
 
     @Override
     @WriteTransactional
@@ -118,34 +120,33 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     @WriteTransactional
-    public BigDecimal calculateBaseCurrencyAmount(
-            BigDecimal amount,
-            SupportedCurrency currency,
-            SupportedCurrency baseCurrency,
-            LocalDate date,
-            BigDecimal exchangeRate) {
+    public BigDecimal calculateBaseCurrencyAmount(BigDecimal amount, SupportedCurrency currency, LocalDate date) {
+        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         if (currency == baseCurrency) {
             return amount;
         }
+        return amount.multiply(getRate(currency, baseCurrency, date)).setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
+    }
 
-        BigDecimal rate = exchangeRate != null ? exchangeRate : getRate(currency, baseCurrency, date);
+    @Override
+    public BigDecimal calculateBaseCurrencyAmount(
+            BigDecimal amount, SupportedCurrency currency, LocalDate date, BigDecimal rate) {
         return amount.multiply(rate).setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
     }
 
-    // using rates from memory explicitly
     @Override
+    @WriteTransactional
     public BigDecimal calculateBaseCurrencyAmount(
             BigDecimal amount,
             SupportedCurrency currency,
-            SupportedCurrency baseCurrency,
             LocalDate date,
             Map<LocalDate, Map<SupportedCurrency, BigDecimal>> ratesCache) {
+        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         if (currency == baseCurrency) {
             return amount;
         }
-
-        BigDecimal rate = getRate(currency, baseCurrency, date, ratesCache);
-        return amount.multiply(rate).setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
+        return amount.multiply(getRate(currency, baseCurrency, date, ratesCache))
+                .setScale(AMOUNT_SCALE, RoundingMode.HALF_UP);
     }
 
     @Override

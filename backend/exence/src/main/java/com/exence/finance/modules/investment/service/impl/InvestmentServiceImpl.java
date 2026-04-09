@@ -2,11 +2,9 @@ package com.exence.finance.modules.investment.service.impl;
 
 import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
-import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.investment.dto.InvestmentCreateDTO;
 import com.exence.finance.modules.investment.dto.InvestmentGetDTO;
@@ -32,7 +30,6 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     private final InvestmentRepository investmentRepository;
     private final UserService userService;
-    private final UserSettingsService userSettingsService;
     private final ExchangeRateService exchangeRateService;
     private final InvestmentMapper investmentMapper;
 
@@ -85,9 +82,8 @@ public class InvestmentServiceImpl implements InvestmentService {
         Investment investment = investmentMapper.mapFromCreateDTO(dto);
         investment.setUser(userService.getCurrentUser());
 
-        SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
         investment.setBaseCurrencyAmount(
-                calculateBaseCurrencyAmount(dto.amount(), dto.currency(), baseCurrency, dto.purchaseDate()));
+                exchangeRateService.calculateBaseCurrencyAmount(dto.amount(), dto.currency(), dto.purchaseDate()));
 
         return investmentMapper.mapToGetDTO(investmentRepository.save(investment));
     }
@@ -100,9 +96,8 @@ public class InvestmentServiceImpl implements InvestmentService {
         investmentMapper.updateInvestmentFromPatchDTO(dto, investment);
 
         if (dto.amount() != null || dto.purchaseDate() != null) {
-            SupportedCurrency baseCurrency = userSettingsService.getUserBaseCurrency();
-            investment.setBaseCurrencyAmount(calculateBaseCurrencyAmount(
-                    investment.getAmount(), investment.getCurrency(), baseCurrency, investment.getPurchaseDate()));
+            investment.setBaseCurrencyAmount(exchangeRateService.calculateBaseCurrencyAmount(
+                    investment.getAmount(), investment.getCurrency(), investment.getPurchaseDate()));
         }
 
         return investmentMapper.mapToGetDTO(investmentRepository.save(investment));
@@ -117,14 +112,5 @@ public class InvestmentServiceImpl implements InvestmentService {
 
     private Investment getInvestment(Long id) {
         return investmentRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.INVESTMENT_NOT_FOUND));
-    }
-
-    private BigDecimal calculateBaseCurrencyAmount(
-            BigDecimal amount, SupportedCurrency currency, SupportedCurrency baseCurrency, LocalDate date) {
-        if (currency == baseCurrency) {
-            return amount;
-        }
-        BigDecimal rate = exchangeRateService.getRate(currency, baseCurrency, date);
-        return exchangeRateService.calculateBaseCurrencyAmount(amount, currency, baseCurrency, date, rate);
     }
 }

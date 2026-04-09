@@ -94,7 +94,7 @@ public class RecurringTransactionScheduler {
         } else {
             exchangeRate = exchangeRateService.getRate(currency, baseCurrency, executionDate);
             baseCurrencyAmount = exchangeRateService.calculateBaseCurrencyAmount(
-                    rt.getAmount(), currency, baseCurrency, executionDate, exchangeRate);
+                    rt.getAmount(), currency, executionDate, exchangeRate);
         }
 
         return Transaction.builder()
