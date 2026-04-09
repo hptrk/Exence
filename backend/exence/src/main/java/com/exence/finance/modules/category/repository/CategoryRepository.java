@@ -28,8 +28,10 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(
             """
                 SELECT c.id AS id,
-                       COALESCE(SUM(CASE WHEN CAST(t.type AS string) = 'INCOME' THEN t.baseCurrencyAmount ELSE 0 END), 0) AS totalIncome,
-                       COALESCE(SUM(CASE WHEN CAST(t.type AS string) = 'EXPENSE' THEN t.baseCurrencyAmount ELSE 0 END), 0) AS totalExpense
+                       COALESCE(SUM(CASE WHEN CAST(t.type AS string) = 'INCOME'
+                                   THEN t.baseCurrencyAmount ELSE 0 END), 0) AS totalIncome,
+                       COALESCE(SUM(CASE WHEN CAST(t.type AS string) = 'EXPENSE'
+                                   THEN t.baseCurrencyAmount ELSE 0 END), 0) AS totalExpense
                 FROM Category c
                 LEFT JOIN c.transactions t
                 GROUP BY c.id

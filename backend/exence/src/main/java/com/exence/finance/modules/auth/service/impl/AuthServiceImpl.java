@@ -163,10 +163,10 @@ public class AuthServiceImpl implements AuthService {
         User user = userOptional.get();
 
         if (systemSettingsService.getSettings().isRateLimitingEnabled()
-            && emailLogService.hasRecentEmail(
-            user,
-            EmailType.PASSWORD_RESET,
-            systemSettingsService.getSettings().getRateLimitingCooldownMinutes())) {
+                && emailLogService.hasRecentEmail(
+                        user,
+                        EmailType.PASSWORD_RESET,
+                        systemSettingsService.getSettings().getRateLimitingCooldownMinutes())) {
             throw new ExenceException(ErrorCode.TOO_MANY_EMAILS);
         }
 

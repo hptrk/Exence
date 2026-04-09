@@ -3,7 +3,6 @@ package com.exence.finance.modules.systemsettings.entity;
 import static com.exence.finance.common.util.ValidationConstants.PATHS_MAX_LENGTH;
 
 import com.exence.finance.common.converter.StringListConverter;
-import com.exence.finance.common.entity.BaseAuditableEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;

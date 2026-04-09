@@ -9,4 +9,3 @@ public interface CategoryBalanceSums {
 
     BigDecimal getTotalExpense();
 }
-
