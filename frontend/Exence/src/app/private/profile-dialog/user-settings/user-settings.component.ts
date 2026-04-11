@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslocoService } from '@jsverse/transloco';
 import { UpdateUserSettingsRequest } from '../../../data-model/modules/user-settings/UpdateUserSettingsRequest';
 import { UserSettingsResponse } from '../../../data-model/modules/user-settings/UserSettingsResponse';
@@ -22,6 +23,7 @@ import { CurrencyInfo, CurrencySelectComponent } from './currency-select/currenc
 	styleUrl: './user-settings.component.scss',
 	imports: [
 		MatDividerModule,
+		MatProgressSpinnerModule,
 		ThemeSelectComponent,
 		LanguageSelectComponent,
 		CurrencySelectComponent,
@@ -41,6 +43,7 @@ export class UserSettingsComponent implements OnInit {
 	dialogRef = input.required<DialogRef<void, void>>();
 	readonly hasChangesChange = output<boolean>();
 
+	saving = signal(false);
 	userSettings = signal<UserSettingsResponse | null>(null);
 	themes = signal<ThemeData | null>(null);
 	language = signal<string | null>(null);
@@ -94,7 +97,13 @@ export class UserSettingsComponent implements OnInit {
 		if (this.currencyInfo()?.showBaseCurrency !== undefined)
 			request.showBaseCurrency = this.currencyInfo()!.showBaseCurrency!;
 
-		const response = await this.userSettingService.update(request);
+		this.saving.set(true);
+		let response;
+		try {
+			response = await this.userSettingService.update(request);
+		} finally {
+			this.saving.set(false);
+		}
 		this.snackbarService.showSuccess(
 			this.translocoService.translate(
 				'profile.userSettings.success',
