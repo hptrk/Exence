@@ -8,5 +8,5 @@ import java.util.List;
         title = "Distribution Payload DTO",
         description =
                 "Contains a list of DistributionItem objects, each representing a single item in a distribution chart.")
-public record DistributionPayload(
-        @Schema(example = "EXPENSE_PIE") WidgetType type, List<DistributionItem> data) implements WidgetDataPayload {}
+public record DistributionPayload(@Schema(example = "EXPENSE_PIE") WidgetType type, List<DistributionItem> data)
+        implements WidgetDataPayload {}

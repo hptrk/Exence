@@ -8,5 +8,5 @@ import java.util.List;
         title = "Sankey Payload DTO",
         description =
                 "Payload for Sankey chart widgets, containing a list of links representing flows between categories.")
-public record SankeyPayload(
-        @Schema(example = "CATEGORY_SANKEY") WidgetType type, List<SankeyLink> data) implements WidgetDataPayload {}
+public record SankeyPayload(@Schema(example = "CATEGORY_SANKEY") WidgetType type, List<SankeyLink> data)
+        implements WidgetDataPayload {}

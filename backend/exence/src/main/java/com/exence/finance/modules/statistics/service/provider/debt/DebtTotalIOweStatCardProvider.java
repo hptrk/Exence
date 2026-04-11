@@ -26,6 +26,7 @@ public final class DebtTotalIOweStatCardProvider implements DebtWidgetDataProvid
     public StatCardPayload getData() {
         BigDecimal total =
                 debtRepository.sumRemainingBaseCurrencyAmountByTypeAndStatus(DebtType.BORROWED, DebtStatus.ACTIVE);
-        return new StatCardPayload(total, providerHelper.getUserCurrencySymbol(), null, null, null, null, null);
+        return new StatCardPayload(
+                getSupportedType(), total, providerHelper.getUserCurrencySymbol(), null, null, null, null, null);
     }
 }

@@ -2,8 +2,8 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DistributionItem;
 import com.exence.finance.modules.statistics.dto.payload.DistributionPayload;
 import com.exence.finance.modules.statistics.dto.result.MonthlyBalanceResult;
@@ -24,8 +24,8 @@ public final class MonthlyPeakPolarProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.MONTHLY_PEAK_POLAR;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.MONTHLY_PEAK_POLAR;
     }
 
     @Override

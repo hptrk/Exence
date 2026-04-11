@@ -4,8 +4,8 @@ import static com.exence.finance.common.util.DateUtils.toDisplayDate;
 
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -24,8 +24,8 @@ public final class BalanceTrendProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.BALANCE_TREND;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.BALANCE_TREND;
     }
 
     @Override

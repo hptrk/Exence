@@ -2,8 +2,8 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.BoxplotPayload;
 import com.exence.finance.modules.statistics.dto.payload.BoxplotPoint;
 import com.exence.finance.modules.statistics.dto.result.MonthlyBoxplotResult;
@@ -26,8 +26,8 @@ public final class MonthlyBoxplotProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.MONTHLY_BOXPLOT;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.MONTHLY_BOXPLOT;
     }
 
     @Override

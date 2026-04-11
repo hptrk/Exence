@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.GaugePayload;
 import com.exence.finance.modules.statistics.dto.result.TypeAmountResult;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
@@ -23,8 +23,8 @@ public final class SavingsGaugeProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.SAVINGS_RATE_GAUGE;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.SAVINGS_RATE_GAUGE;
     }
 
     @Override

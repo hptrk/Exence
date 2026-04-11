@@ -3,8 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -30,8 +30,8 @@ public final class TransactionCountExpenseComboProvider implements WidgetDataPro
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.TRANSACTION_COUNT_EXPENSE_COMBO;
     }
 
     @Override
@@ -58,8 +58,11 @@ public final class TransactionCountExpenseComboProvider implements WidgetDataPro
         return new SeriesPayload(
                 getSupportedType(),
                 List.of(
-                new SeriesItem(
-                        i18n.get("label.expense"), "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints),
-                new SeriesItem(i18n.get("label.transaction-count"), "line", null, countPoints)));
+                        new SeriesItem(
+                                i18n.get("label.expense"),
+                                "column",
+                                StatisticsConstants.COLOR_EXPENSE_RED,
+                                expensePoints),
+                        new SeriesItem(i18n.get("label.transaction-count"), "line", null, countPoints)));
     }
 }

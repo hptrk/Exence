@@ -3,8 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
 import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
@@ -22,8 +22,8 @@ public final class NoSpendDaysStatCardProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.NO_SPEND_DAYS_STATCARD;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.NO_SPEND_DAYS_STATCARD;
     }
 
     @Override

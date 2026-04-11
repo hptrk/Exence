@@ -2,8 +2,8 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
 import com.exence.finance.modules.statistics.dto.result.MonthlyCategoryResult;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
@@ -24,8 +24,8 @@ public final class IncomeCategoryTrendProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.INCOME_CATEGORY_TREND;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.INCOME_CATEGORY_TREND;
     }
 
     @Override

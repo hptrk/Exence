@@ -28,9 +28,11 @@ public final class DatabaseGrowthSummaryProvider implements AdminWidgetDataProvi
         long totalTransactions = adminStatisticsQueryService.countTotalTransactions();
         long totalCategories = adminStatisticsQueryService.countTotalCategories();
 
-        return new SummaryPayload(List.of(
-                new SummaryItem(i18n.get("label.admin.total-users"), totalUsers, "people"),
-                new SummaryItem(i18n.get("label.admin.total-transactions"), totalTransactions, "receipt-text"),
-                new SummaryItem(i18n.get("label.admin.total-categories"), totalCategories, "tag")));
+        return new SummaryPayload(
+                getSupportedType(),
+                List.of(
+                        new SummaryItem(i18n.get("label.admin.total-users"), totalUsers, "people"),
+                        new SummaryItem(i18n.get("label.admin.total-transactions"), totalTransactions, "receipt-text"),
+                        new SummaryItem(i18n.get("label.admin.total-categories"), totalCategories, "tag")));
     }
 }

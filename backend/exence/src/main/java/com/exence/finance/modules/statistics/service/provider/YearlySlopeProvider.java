@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.SlopeItem;
 import com.exence.finance.modules.statistics.dto.payload.SlopePayload;
 import com.exence.finance.modules.statistics.dto.result.YearlyCategoryResult;
@@ -25,8 +25,8 @@ public final class YearlySlopeProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.YEARLY_SLOPE;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.YEARLY_SLOPE;
     }
 
     @Override

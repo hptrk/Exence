@@ -1,5 +1,7 @@
 package com.exence.finance.modules.statistics.entity;
 
+import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetSetting;
 import com.exence.finance.modules.statistics.dto.WidgetType;
@@ -42,7 +44,7 @@ public class Widget {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
-    private WidgetType type;
+    private StatisticsWidgetType type;
 
     @Column(name = "title", nullable = false)
     private String title;

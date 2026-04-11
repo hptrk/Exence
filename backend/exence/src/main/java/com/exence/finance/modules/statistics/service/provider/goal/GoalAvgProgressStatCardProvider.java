@@ -39,6 +39,6 @@ public final class GoalAvgProgressStatCardProvider implements GoalWidgetDataProv
                         .reduce(BigDecimal.ZERO, BigDecimal::add)
                         .divide(BigDecimal.valueOf(activeGoals.size()), 2, RoundingMode.HALF_UP);
 
-        return new StatCardPayload(avgProgress, "%", null, null, null, null, null);
+        return new StatCardPayload(getSupportedType(), avgProgress, "%", null, null, null, null, null);
     }
 }

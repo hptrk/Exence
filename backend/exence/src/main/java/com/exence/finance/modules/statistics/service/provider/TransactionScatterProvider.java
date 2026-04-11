@@ -3,8 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import static com.exence.finance.common.util.DateUtils.toDisplayDate;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -28,8 +28,8 @@ public final class TransactionScatterProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.TRANSACTION_SCATTER;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.TRANSACTION_SCATTER;
     }
 
     @Override

@@ -33,6 +33,6 @@ public final class GoalTargetDistributionPieProvider implements GoalWidgetDataPr
                         g.getCategory().getColor()))
                 .toList();
 
-        return new DistributionPayload(items);
+        return new DistributionPayload(getSupportedType(), items);
     }
 }

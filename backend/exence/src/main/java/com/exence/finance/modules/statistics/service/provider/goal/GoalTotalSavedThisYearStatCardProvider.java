@@ -42,6 +42,7 @@ public final class GoalTotalSavedThisYearStatCardProvider implements GoalWidgetD
         TrendResult trend = providerHelper.computeTrendByDifference(request, currentSaved, this::calculateTotalSaved);
 
         return new StatCardPayload(
+                getSupportedType(),
                 currentSaved,
                 providerHelper.getUserCurrencySymbol(),
                 null,

@@ -36,6 +36,13 @@ public final class EmailVerificationRateProvider implements AdminWidgetDataProvi
                 : BigDecimal.ZERO;
 
         return new StatCardPayload(
-                percentage, "%", i18n.get("context.admin.of-users-verified"), null, null, null, null);
+                getSupportedType(),
+                percentage,
+                "%",
+                i18n.get("context.admin.of-users-verified"),
+                null,
+                null,
+                null,
+                null);
     }
 }

@@ -24,6 +24,7 @@ public final class GoalTotalSavingsStatCardProvider implements GoalWidgetDataPro
     @Override
     public StatCardPayload getData(WidgetRequest request) {
         BigDecimal total = goalRepository.sumCurrentBaseCurrencyAmount();
-        return new StatCardPayload(total, providerHelper.getUserCurrencySymbol(), null, null, null, null, null);
+        return new StatCardPayload(
+                getSupportedType(), total, providerHelper.getUserCurrencySymbol(), null, null, null, null, null);
     }
 }

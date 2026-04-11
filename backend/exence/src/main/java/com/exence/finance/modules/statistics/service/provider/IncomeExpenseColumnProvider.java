@@ -3,8 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -30,8 +30,8 @@ public final class IncomeExpenseColumnProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.INCOME_EXPENSE_COLUMN;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.INCOME_EXPENSE_COLUMN;
     }
 
     @Override
@@ -59,9 +59,15 @@ public final class IncomeExpenseColumnProvider implements WidgetDataProvider {
         return new SeriesPayload(
                 getSupportedType(),
                 List.of(
-                new SeriesItem(
-                        i18n.get("label.income"), "column", StatisticsConstants.COLOR_INCOME_GREEN, incomePoints),
-                new SeriesItem(
-                        i18n.get("label.expense"), "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints)));
+                        new SeriesItem(
+                                i18n.get("label.income"),
+                                "column",
+                                StatisticsConstants.COLOR_INCOME_GREEN,
+                                incomePoints),
+                        new SeriesItem(
+                                i18n.get("label.expense"),
+                                "column",
+                                StatisticsConstants.COLOR_EXPENSE_RED,
+                                expensePoints)));
     }
 }

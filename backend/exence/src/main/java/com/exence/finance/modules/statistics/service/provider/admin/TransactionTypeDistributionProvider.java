@@ -30,6 +30,6 @@ public final class TransactionTypeDistributionProvider implements AdminWidgetDat
                         .map(r -> new DistributionItem(r.type().name(), BigDecimal.valueOf(r.count()), null))
                         .toList();
 
-        return new DistributionPayload(items);
+        return new DistributionPayload(getSupportedType(), items);
     }
 }

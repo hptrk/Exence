@@ -1,7 +1,7 @@
 package com.exence.finance.modules.statistics.service.provider;
 
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.WidgetDataPayload;
 
 public sealed interface WidgetDataProvider
@@ -42,7 +42,7 @@ public sealed interface WidgetDataProvider
                 WealthGrowthComboProvider,
                 YearlySlopeProvider {
 
-    WidgetType getSupportedType();
+    StatisticsWidgetType getSupportedType();
 
     WidgetDataPayload getData(WidgetRequest request);
 }
