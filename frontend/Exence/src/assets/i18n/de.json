@@ -471,8 +471,8 @@
 		"login": "Anmeldung",
 		"resetSuccess": "Passwort erfolgreich aktualisiert!",
 		"emailSent": {
-			"title": "E-Mail gesendet",
-			"subtitle": "Wir haben Ihnen eine E-Mail an <strong>{{email}}</strong> gesendet. Prüfen Sie Ihren Posteingang und folgen Sie den Anweisungen, um Ihr Kontopasswort zurückzusetzen.",
+			"title": "Überprüfen Sie Ihre E-Mail",
+			"subtitle": "Wenn Ihre E-Mail-Adresse in unserem System registriert ist, haben wir Ihnen einen Link zum Zurücksetzen des Passworts gesendet. Bitte prüfen Sie auch Ihren Spam-Ordner.",
 			"notRecieved": "Sie haben die E-Mail nicht erhalten?",
 			"retry": "E-Mail erneut senden",
 			"badEmail": "Falsche E-Mail Adresse?",

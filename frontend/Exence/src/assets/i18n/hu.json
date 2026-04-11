@@ -471,8 +471,8 @@
 		"login": "Bejelentkezés",
 		"resetSuccess": "Jelszó sikeresen frissítve!",
 		"emailSent": {
-			"title": "Elküldött e-mail",
-			"subtitle": "Küldtünk Önnek egy e-mailt a <strong>{{email}}1XTOKENX</strong> címre. Ellenőrizze postaládáját, és kövesse az utasításokat a fiókjelszó visszaállításához.",
+			"title": "Ellenőrizze e-mailjét",
+			"subtitle": "Ha az e-mail cím szerepel a rendszerünkben, elküldtük a jelszó-visszaállítási linket. Kérjük, ellenőrizze a spam/levélszemét mappáját is.",
 			"notRecieved": "Nem kapta meg az e-mailt?",
 			"retry": "E-mail újraküldése",
 			"badEmail": "Rossz e-mail cím?",

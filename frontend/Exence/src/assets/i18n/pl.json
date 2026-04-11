@@ -471,8 +471,8 @@
 		"login": "Zaloguj się",
 		"resetSuccess": "Hasło zostało pomyślnie zaktualizowane!",
 		"emailSent": {
-			"title": "E-mail wysłany",
-			"subtitle": "Wysłaliśmy Państwu wiadomość e-mail na adres <strong>{{email}}</strong>. Proszę sprawdzić skrzynkę odbiorczą i postępować zgodnie z instrukcjami, aby zresetować hasło konta.",
+			"title": "Sprawdź swoją pocztę e-mail",
+			"subtitle": "Jeśli Państwa adres e-mail jest zarejestrowany w naszym systemie, wysłaliśmy Państwu link do zresetowania hasła. Prosimy sprawdzić również folder spam.",
 			"notRecieved": "Nie otrzymali Państwo wiadomości e-mail?",
 			"retry": "Wyślij ponownie e-mail",
 			"badEmail": "Błędny adres e-mail?",
