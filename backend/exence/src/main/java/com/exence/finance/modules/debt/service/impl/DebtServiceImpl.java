@@ -6,8 +6,7 @@ import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.category.entity.Category;
-import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.debt.dto.DebtCreateDTO;
 import com.exence.finance.modules.debt.dto.DebtGetDTO;
 import com.exence.finance.modules.debt.dto.DebtPatchDTO;
@@ -32,7 +31,7 @@ import org.springframework.stereotype.Service;
 public class DebtServiceImpl implements DebtService {
 
     private final DebtRepository debtRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final DebtMapper debtMapper;
@@ -64,13 +63,9 @@ public class DebtServiceImpl implements DebtService {
 
     @WriteTransactional
     public DebtGetDTO createDebt(DebtCreateDTO dto) {
-        Category category = categoryRepository
-                .find(dto.categoryId())
-                .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
-
         Debt debt = debtMapper.mapFromCreateDTO(dto);
         debt.setUser(userService.getCurrentUser());
-        debt.setCategory(category);
+        debt.setCategory(categoryService.getCategory(dto.categoryId()));
         debt.setRemainingAmount(dto.originalAmount());
         debt.setStatus(DebtStatus.ACTIVE);
 
@@ -91,10 +86,7 @@ public class DebtServiceImpl implements DebtService {
 
         if (dto.categoryId() != null
                 && !dto.categoryId().equals(debt.getCategory().getId())) {
-            Category category = categoryRepository
-                    .find(dto.categoryId())
-                    .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
-            debt.setCategory(category);
+            debt.setCategory(categoryService.getCategory(dto.categoryId()));
         }
 
         debtMapper.updateDebtFromPatchDTO(dto, debt);

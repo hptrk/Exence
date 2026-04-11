@@ -9,7 +9,7 @@ import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.category.entity.Category;
-import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
 import com.exence.finance.modules.transaction.dto.TransactionCreateDTO;
@@ -45,7 +45,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final TransactionMapper transactionMapper;
@@ -79,9 +79,7 @@ public class TransactionServiceImpl implements TransactionService {
         User user = userService.getCurrentUser();
         Transaction transaction = transactionMapper.mapToTransaction(transactionCreateDTO);
 
-        Category category = categoryRepository
-                .find(transactionCreateDTO.categoryId())
-                .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = categoryService.getCategory(transactionCreateDTO.categoryId());
 
         transaction.setCategory(category);
         transaction.setUser(user);
@@ -105,11 +103,7 @@ public class TransactionServiceImpl implements TransactionService {
                         .categoryId()
                         .equals(transaction.getCategory().getId())) {
 
-            Category category = categoryRepository
-                    .find(transactionPatchDTO.categoryId())
-                    .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
-
-            transaction.setCategory(category);
+            transaction.setCategory(categoryService.getCategory(transactionPatchDTO.categoryId()));
         }
 
         transactionMapper.updateTransactionFromPatchDto(transactionPatchDTO, transaction);

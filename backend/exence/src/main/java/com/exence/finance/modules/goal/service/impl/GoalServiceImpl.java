@@ -6,8 +6,7 @@ import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.service.UserService;
-import com.exence.finance.modules.category.entity.Category;
-import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.goal.dto.GoalCreateDTO;
 import com.exence.finance.modules.goal.dto.GoalGetDTO;
@@ -34,11 +33,16 @@ public class GoalServiceImpl implements GoalService {
 
     private final GoalRepository goalRepository;
     private final GoalProgressRepository goalProgressRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final GoalMapper goalMapper;
     private final ApplicationEventPublisher eventPublisher;
+
+    @ReadTransactional
+    public Goal getGoal(Long id) {
+        return goalRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.GOAL_NOT_FOUND));
+    }
 
     @ReadTransactional
     public List<GoalGetDTO> getGoalsByStatuses(List<GoalStatus> statuses) {
@@ -55,13 +59,9 @@ public class GoalServiceImpl implements GoalService {
 
     @WriteTransactional
     public GoalGetDTO createGoal(GoalCreateDTO dto) {
-        Category category = categoryRepository
-                .find(dto.categoryId())
-                .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
-
         Goal goal = goalMapper.mapFromCreateDTO(dto);
         goal.setUser(userService.getCurrentUser());
-        goal.setCategory(category);
+        goal.setCategory(categoryService.getCategory(dto.categoryId()));
 
         BigDecimal initialAmount = dto.initialAmount() != null ? dto.initialAmount() : BigDecimal.ZERO;
         goal.setCurrentAmount(initialAmount);
@@ -117,10 +117,7 @@ public class GoalServiceImpl implements GoalService {
 
         if (dto.categoryId() != null
                 && !dto.categoryId().equals(goal.getCategory().getId())) {
-            Category category = categoryRepository
-                    .find(dto.categoryId())
-                    .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
-            goal.setCategory(category);
+            goal.setCategory(categoryService.getCategory(dto.categoryId()));
         }
 
         goalMapper.updateGoalFromPatchDTO(dto, goal);
@@ -144,10 +141,6 @@ public class GoalServiceImpl implements GoalService {
     public int expireOverdueGoals() {
         return goalRepository.expireOverdueGoals(
                 GoalStatus.EXPIRED, LocalDate.now(), List.of(GoalStatus.ACTIVE, GoalStatus.PAUSED));
-    }
-
-    private Goal getGoal(Long id) {
-        return goalRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.GOAL_NOT_FOUND));
     }
 
     private void recordProgress(Goal goal, BigDecimal amount) {

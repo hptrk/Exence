@@ -34,11 +34,13 @@ public class CategoryServiceImpl implements CategoryService {
     private final ApplicationEventPublisher eventPublisher;
 
     @ReadTransactional
-    public CategoryGetDTO getCategoryById(Long id) {
-        Category category =
-                categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+    public Category getCategory(Long id) {
+        return categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+    }
 
-        return categoryMapper.mapToCategoryGetDTO(category);
+    @ReadTransactional
+    public CategoryGetDTO getCategoryById(Long id) {
+        return categoryMapper.mapToCategoryGetDTO(getCategory(id));
     }
 
     @ReadTransactional
@@ -86,8 +88,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @WriteTransactional
     public CategoryGetDTO updateCategory(Long id, CategoryPatchDTO categoryPatchDTO) {
-        Category category =
-                categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = getCategory(id);
 
         if (categoryPatchDTO.name() != null && categoryRepository.existsByNameAndIdNot(categoryPatchDTO.name(), id)) {
             throw new ExenceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
@@ -102,8 +103,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @WriteTransactional
     public void deleteCategory(Long id) {
-        Category category =
-                categoryRepository.find(id).orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = getCategory(id);
 
         if (category.getTransactions() != null && !category.getTransactions().isEmpty()) {
             throw new ExenceException(ErrorCode.CATEGORY_IN_USE);

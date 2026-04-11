@@ -5,7 +5,7 @@ import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.goal.entity.Goal;
 import com.exence.finance.modules.goal.entity.GoalProgressHistory;
 import com.exence.finance.modules.goal.repository.GoalProgressRepository;
-import com.exence.finance.modules.goal.repository.GoalRepository;
+import com.exence.finance.modules.goal.service.GoalService;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.WidgetSetting;
 import com.exence.finance.modules.statistics.dto.goal.GoalWidgetType;
@@ -29,7 +29,7 @@ public final class GoalProgressTrendProvider implements GoalWidgetDataProvider {
     private static final int END_OF_DAY_MINUTE = 59;
     private static final int END_OF_DAY_SECOND = 59;
 
-    private final GoalRepository goalRepository;
+    private final GoalService goalService;
     private final GoalProgressRepository goalProgressRepository;
 
     @Override
@@ -40,7 +40,7 @@ public final class GoalProgressTrendProvider implements GoalWidgetDataProvider {
     @Override
     public SeriesPayload getData(WidgetRequest request) {
         Long goalId = extractGoalId(request);
-        Goal goal = goalRepository.find(goalId).orElseThrow(() -> new ExenceException(ErrorCode.GOAL_NOT_FOUND));
+        Goal goal = goalService.getGoal(goalId);
 
         List<GoalProgressHistory> history = goalProgressRepository.findByGoalIdOrderByRecordedAt(goalId);
 
