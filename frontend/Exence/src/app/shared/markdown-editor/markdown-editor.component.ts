@@ -68,8 +68,8 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
 		});
 	}
 
-	writeValue(value: string): void {
-		const normalized = value;
+	writeValue(value: string | null | undefined): void {
+		const normalized = value ?? '';
 		if (this.easyMDE) {
 			this.easyMDE.value(normalized);
 		} else {

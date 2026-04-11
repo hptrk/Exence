@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { fillAndBlur } from '../../form/utils/form-utils';
-import { getErrorSnackbar, getSnackbarCloseBtn } from '../../snackbar/locators/snackbar-locators';
+import { getErrorSnackbar, getSnackbarCloseBtn, getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
 import data from '../data/forgot-password.data.json';
 import {
 	getChangeEmailBtn,
@@ -56,15 +56,13 @@ test.describe('Forgot Password', () => {
 	});
 
 	test('should handle full forgot password flow', async ({ page }) => {
-		const snackbar = page.locator('mat-snack-bar-container');
-
 		// Send email to existing user
 		await fillAndBlur(getEmailField(page), data['valid'].email);
 		await expect(getSendEmailBtn(page)).not.toBeDisabled();
 		await getSendEmailBtn(page).click();
 
 		// Check snackbar first (transient) then persistent UI
-		await expect(snackbar.last().getByText('Email sent!')).toBeVisible();
+		await expect(getSuccessSnackbar(page)).toBeVisible();
 		await expect(getEmailSentTitle(page)).toBeVisible();
 		await expect(getResendEmailBtn(page)).toBeVisible();
 		await expect(getChangeEmailBtn(page)).toBeVisible();
@@ -73,11 +71,11 @@ test.describe('Forgot Password', () => {
 		// Resend email
 		await getResendEmailBtn(page).click();
 		await expect(getEmailSentTitle(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
+		if (await getSnackbarCloseBtn(page).isVisible()) await getSnackbarCloseBtn(page).click();
 
 		// Rapid resend should trigger rate limit error
 		await getResendEmailBtn(page).click();
-		await expect(snackbar.last().getByText('You have requested too many emails in a short period.')).toBeVisible();
+		await expect(getErrorSnackbar(page)).toBeVisible();
 		await getSnackbarCloseBtn(page).click();
 
 		// Change email address - should go back to main forgot password form
@@ -89,7 +87,7 @@ test.describe('Forgot Password', () => {
 
 		// Try sending same email again - should fail with rate limit
 		await getSendEmailBtn(page).click();
-		await expect(snackbar.last().getByText('You have requested too many emails in a short period.')).toBeVisible();
+		await expect(getErrorSnackbar(page)).toBeVisible();
 		if (await getSnackbarCloseBtn(page).isVisible()) await getSnackbarCloseBtn(page).click();
 
 		// Change to a different email that works
@@ -97,7 +95,7 @@ test.describe('Forgot Password', () => {
 		await fillAndBlur(getEmailField(page), data['valid'].successfulResendEmail);
 		await getSendEmailBtn(page).click();
 
-		await expect(snackbar.last().getByText('Email sent!')).toBeVisible();
+		await expect(getSuccessSnackbar(page)).toBeVisible();
 		await expect(getEmailSentTitle(page)).toBeVisible();
 		await expect(getResendEmailBtn(page)).toBeVisible();
 		await expect(getChangeEmailBtn(page)).toBeVisible();

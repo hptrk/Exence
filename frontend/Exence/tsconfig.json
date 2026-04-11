@@ -27,8 +27,5 @@
 		"strictStandalone": true,
 		"strictInputAccessModifiers": true
 	},
-	"references": [
-		{ "path": "./tsconfig.app.json" },
-		{ "path": "./tsconfig.spec.json" }
-	]
+	"references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.spec.json" }]
 }
