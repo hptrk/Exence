@@ -1,0 +1,22 @@
+<ex-dialog-card>
+	<div ex-dialog-card-title>{{ 'admin.configurations.systemSettings.verificationRequiredPaths' | translate }}</div>
+
+	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2" [formGroup]="form" (submit)="add()">
+		<mat-form-field>
+			<mat-label>{{ 'admin.configurations.systemSettings.addPath' | translate }}</mat-label>
+			<input matInput [formControl]="form.controls.path" (keydown.enter)="add(); $event.preventDefault()" />
+		</mat-form-field>
+	</form>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" (click)="dialogRef.close(null)">
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
+		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="add()">
+			{{ 'literals.add' | translate }}
+		</ex-button>
+	</div>
+</ex-dialog-card>

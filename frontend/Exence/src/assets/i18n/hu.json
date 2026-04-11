@@ -26,7 +26,8 @@
 		"to": "Ig",
 		"yes": "Igen",
 		"no": "Nem",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Hozzáadás"
 	},
 	"dashboard": {
 		"title": "Üdvözöllek újra, <span class='username'>{{username}}</span>!",
@@ -895,6 +896,24 @@
 				"confirmMessage": "Biztosan el szeretnéd küldeni ezt az e-mailt minden felhasználónak?",
 				"success": "E-mail elküldve minden felhasználónak!",
 				"sendDisabled": "Tárgy és a szöveg megadása nélkül nem küldheti el az e-mailt."
+			},
+			"systemSettings": {
+				"title": "Rendszerbeállítások",
+				"domainWhitelistOnly": "Csak engedélyezett domének",
+				"domainWhitelistOnlyDescription": "Regisztrációk korlátozása engedélyezett e-mail doménekre",
+				"domainWhitelistOnlyTooltip": "Ha engedélyezve van, csak a konfigurált domain fehérlistán szereplő e-mail-címmel rendelkező felhasználók regisztrálhatnak. Minden más regisztrációs kísérletet el kell utasítani.",
+				"rateLimitingEnabled": "Rate limiting engedélyezve",
+				"rateLimitingEnabledDescription": "Ismételt kérések korlátozása brute-force támadások megelőzéséhez",
+				"rateLimitingEnabledTooltip": "Ha engedélyezve van, az igénylési korlátot túllépő felhasználók ideiglenesen blokkolva lesznek a konfigurált lehűlési időszakra a visszaélések megelőzése érdekében.",
+				"logoutFromAllDevices": "Kijelentkezés jelszóváltoztatáskor",
+				"logoutFromAllDevicesDescription": "Minden munkamenet kijelentkeztetése jelszóváltoztatáskor",
+				"logoutFromAllDevicesTooltip": "Ha engedélyezve van, a jelszó megváltoztatása automatikusan érvényteleníti az összes aktív munkamenetet minden eszközön, és újbóli bejelentkezést igényel.",
+				"rateLimitingCooldownMinutes": "Rate limiting visszaszámlálás (perc)",
+				"rateLimitingCooldownDisabled": "Engedélyezze a rate limitinget a visszaszámlálás beállításához",
+				"passwordHistoryCount": "Jelszóelőzmények száma",
+				"verificationRequiredPaths": "Hitelesítést igénylő útvonalak",
+				"addPath": "Útvonal hozzáadása (pl. /api/goals)",
+				"success": "Rendszerbeállítások sikeresen frissítve!"
 			}
 		}
 	},

@@ -8,6 +8,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { AdminRegistrationComponent } from './admin-registration/admin-registration.component';
 import { AdminStatisticsListComponent } from './admin-statistics-list/admin-statistics-list.component';
 import { EmailBroadcastComponent } from './email-broadcast/email-broadcast.component';
+import { SystemSettingsComponent } from './system-settings/system-settings.component';
 
 @Component({
 	selector: 'ex-admin',
@@ -21,6 +22,7 @@ import { EmailBroadcastComponent } from './email-broadcast/email-broadcast.compo
 		AdminStatisticsListComponent,
 		AdminRegistrationComponent,
 		EmailBroadcastComponent,
+		SystemSettingsComponent,
 		TranslatePipe,
 	],
 })

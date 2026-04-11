@@ -26,7 +26,8 @@
 		"to": "Do",
 		"yes": "Tak",
 		"no": "Nie",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Dodaj"
 	},
 	"dashboard": {
 		"title": "Witamy ponownie, <span class='username'>{{username}}</span>!",
@@ -895,6 +896,24 @@
 				"confirmMessage": "Czy na pewno chcesz wysłać tę wiadomość e-mail do każdego użytkownika?",
 				"success": "Wiadomość e-mail wysłana do każdego użytkownika!",
 				"sendDisabled": "Nie można wysłać wiadomości e-mail bez uprzedniego podania tematu i treści."
+			},
+			"systemSettings": {
+				"title": "Ustawienia systemu",
+				"domainWhitelistOnly": "Tylko domeny z białej listy",
+				"domainWhitelistOnlyDescription": "Ogranicz rejestracje do dozwolonych domen e-mail",
+				"domainWhitelistOnlyTooltip": "Gdy włączone, tylko użytkownicy z adresami e-mail z dozwolonych domen mogą się rejestrować. Wszystkie inne próby rejestracji zostaną odrzucone.",
+				"rateLimitingEnabled": "Ograniczenie szybkości włączone",
+				"rateLimitingEnabledDescription": "Ogranicz powtarzające się żądania, aby zapobiec atakom brute-force",
+				"rateLimitingEnabledTooltip": "Gdy włączone, użytkownicy przekraczający limit żądań zostaną tymczasowo zablokowani na skonfigurowany okres, aby zapobiec nadużyciom.",
+				"logoutFromAllDevices": "Wylogowanie przy zmianie hasła",
+				"logoutFromAllDevicesDescription": "Wyloguj wszystkie sesje przy zmianie hasła",
+				"logoutFromAllDevicesTooltip": "Gdy włączone, zmiana hasła automatycznie unieważni wszystkie aktywne sesje na wszystkich urządzeniach, wymagając ponownego zalogowania.",
+				"rateLimitingCooldownMinutes": "Czas odnowienia ograniczenia (minuty)",
+				"rateLimitingCooldownDisabled": "Włącz ograniczenie szybkości, aby skonfigurować czas odnowienia",
+				"passwordHistoryCount": "Liczba haseł w historii",
+				"verificationRequiredPaths": "Ścieżki wymagające weryfikacji",
+				"addPath": "Dodaj ścieżkę (np. /api/goals)",
+				"success": "Ustawienia systemu zaktualizowane pomyślnie!"
 			}
 		}
 	},
