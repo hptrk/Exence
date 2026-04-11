@@ -26,7 +26,8 @@
 		"to": "An",
 		"yes": "Ja",
 		"no": "Nein",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Hinzufügen"
 	},
 	"dashboard": {
 		"title": "Willkommen zurück, <span class='username'>{{username}}</span>!",
@@ -895,6 +896,24 @@
 				"confirmMessage": "Sind Sie sicher, dass Sie diese E-Mail an alle Benutzer senden möchten?",
 				"success": "E-Mail an alle Benutzer gesendet!",
 				"sendDisabled": "Sie können die E-Mail nicht versenden, ohne zuvor den Betreff und den Inhalt festzulegen."
+			},
+			"systemSettings": {
+				"title": "Systemeinstellungen",
+				"domainWhitelistOnly": "Nur Whitelist-Domains",
+				"domainWhitelistOnlyDescription": "Registrierungen auf zugelassene E-Mail-Domains beschränken",
+				"domainWhitelistOnlyTooltip": "Wenn aktiviert, können sich nur Benutzer mit E-Mail-Adressen aus der konfigurierten Domain-Whitelist registrieren. Alle anderen Registrierungsversuche werden abgelehnt.",
+				"rateLimitingEnabled": "Rate-Limiting aktiviert",
+				"rateLimitingEnabledDescription": "Wiederholte Anfragen begrenzen, um Brute-Force-Angriffe zu verhindern",
+				"rateLimitingEnabledTooltip": "Wenn aktiviert, werden Benutzer, die das Anfragelimit überschreiten, vorübergehend für die konfigurierte Abkühlzeit gesperrt, um Missbrauch zu verhindern.",
+				"logoutFromAllDevices": "Abmelden bei Passwortänderung",
+				"logoutFromAllDevicesDescription": "Alle Sitzungen bei Passwortänderung abmelden",
+				"logoutFromAllDevicesTooltip": "Wenn aktiviert, werden bei einer Passwortänderung automatisch alle aktiven Sitzungen auf allen Geräten ungültig gemacht und erneutes Anmelden erforderlich.",
+				"rateLimitingCooldownMinutes": "Rate-Limiting Abklingzeit (Minuten)",
+				"rateLimitingCooldownDisabled": "Rate-Limiting aktivieren, um die Abklingzeit zu konfigurieren",
+				"passwordHistoryCount": "Passwort-Verlauf Anzahl",
+				"verificationRequiredPaths": "Verifizierungspflichtige Pfade",
+				"addPath": "Pfad hinzufügen (z.B. /api/goals)",
+				"success": "Systemeinstellungen erfolgreich aktualisiert!"
 			}
 		}
 	},

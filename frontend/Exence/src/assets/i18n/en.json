@@ -26,7 +26,8 @@
 		"to": "To",
 		"yes": "Yes",
 		"no": "No",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Add"
 	},
 	"dashboard": {
 		"title": "Welcome back, <span class='username'>{{username}}</span>!",
@@ -895,6 +896,24 @@
 				"confirmMessage": "Are you sure you want to send this email to every user?",
 				"success": "Email sent to every user!",
 				"sendDisabled": "You cannot send the email without setting the subject and content before."
+			},
+			"systemSettings": {
+				"title": "System Settings",
+				"domainWhitelistOnly": "Domain whitelist only",
+				"domainWhitelistOnlyDescription": "Restrict registrations to whitelisted email domains only",
+				"domainWhitelistOnlyTooltip": "When enabled, only users with email addresses from the configured domain whitelist can register. All other registration attempts will be rejected.",
+				"rateLimitingEnabled": "Rate limiting enabled",
+				"rateLimitingEnabledDescription": "Limit repeated requests to prevent brute-force attacks",
+				"rateLimitingEnabledTooltip": "When enabled, users who exceed the request limit will be temporarily blocked for the configured cooldown period to prevent abuse and brute-force attacks.",
+				"logoutFromAllDevices": "Logout on password change",
+				"logoutFromAllDevicesDescription": "Sign out all sessions when password is changed",
+				"logoutFromAllDevicesTooltip": "When enabled, changing a user's password will automatically invalidate all active sessions across all devices, requiring them to log in again.",
+				"rateLimitingCooldownMinutes": "Rate limiting cooldown (minutes)",
+				"rateLimitingCooldownDisabled": "Enable rate limiting to configure the cooldown",
+				"passwordHistoryCount": "Password history count",
+				"verificationRequiredPaths": "Verification required paths",
+				"addPath": "Add path (e.g. /api/goals)",
+				"success": "System settings updated successfully!"
 			}
 		}
 	},

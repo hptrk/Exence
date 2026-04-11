@@ -26,7 +26,8 @@
 		"to": "Do",
 		"yes": "Áno",
 		"no": "Nie",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Pridať"
 	},
 	"dashboard": {
 		"title": "Vitajte späť, <span class='username'>{{username}}</span>!",
@@ -895,6 +896,24 @@
 				"confirmMessage": "Ste si istí, že chcete poslať tento e-mail každému používateľovi?",
 				"success": "E-mail odoslaný každému používateľovi!",
 				"sendDisabled": "E-mail nemôžete odoslať, pokiaľ predtým nenastavíte predmet a obsah."
+			},
+			"systemSettings": {
+				"title": "Systémové nastavenia",
+				"domainWhitelistOnly": "Iba domény na bielej listine",
+				"domainWhitelistOnlyDescription": "Obmedziť registrácie na povolené e-mailové domény",
+				"domainWhitelistOnlyTooltip": "Keď je povolené, iba používatelia s e-mailovými adresami z nakonfigurovaného zoznamu domén sa môžu registrovať. Všetky ostatné pokusy o registráciu budú zamietnuté.",
+				"rateLimitingEnabled": "Obmedzenie rýchlosti povolené",
+				"rateLimitingEnabledDescription": "Obmedziť opakované požiadavky na prevenciu brute-force útokov",
+				"rateLimitingEnabledTooltip": "Keď je povolené, používatelia, ktorí prekročia limit požiadaviek, budú dočasne zablokovaní na nakonfigurované obdobie, aby sa predišlo zneužívaniu.",
+				"logoutFromAllDevices": "Odhlásenie pri zmene hesla",
+				"logoutFromAllDevicesDescription": "Odhlásiť všetky relácie pri zmene hesla",
+				"logoutFromAllDevicesTooltip": "Keď je povolené, zmena hesla automaticky zneplatní všetky aktívne relácie na všetkých zariadeniach a vyžaduje opätovné prihlásenie.",
+				"rateLimitingCooldownMinutes": "Čas obnovenia obmedzenia (minúty)",
+				"rateLimitingCooldownDisabled": "Povoľte obmedzenie rýchlosti na konfiguráciu času obnovenia",
+				"passwordHistoryCount": "Počet hesiel v histórii",
+				"verificationRequiredPaths": "Cesty vyžadujúce overenie",
+				"addPath": "Pridať cestu (napr. /api/goals)",
+				"success": "Systémové nastavenia úspešne aktualizované!"
 			}
 		}
 	},

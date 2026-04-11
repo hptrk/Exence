@@ -26,7 +26,8 @@
 		"to": "À",
 		"yes": "Oui",
 		"no": "Non",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Ajouter"
 	},
 	"dashboard": {
 		"title": "Bon retour, <span class='username'>{{username}}</span> !",
@@ -895,6 +896,24 @@
 				"confirmMessage": "Êtes-vous sûr de vouloir envoyer cet e-mail à tous les utilisateurs ?",
 				"success": "E-mail envoyé à tous les utilisateurs !",
 				"sendDisabled": "Vous ne pouvez pas envoyer l'e-mail sans avoir préalablement défini l'objet et le contenu."
+			},
+			"systemSettings": {
+				"title": "Paramètres système",
+				"domainWhitelistOnly": "Domaines en liste blanche uniquement",
+				"domainWhitelistOnlyDescription": "Limiter les inscriptions aux domaines de messagerie autorisés",
+				"domainWhitelistOnlyTooltip": "Lorsque cette option est activée, seuls les utilisateurs avec des adresses e-mail provenant de la liste blanche de domaines peuvent s'inscrire. Toutes les autres tentatives seront rejetées.",
+				"rateLimitingEnabled": "Limitation de débit activée",
+				"rateLimitingEnabledDescription": "Limiter les requêtes répétées pour prévenir les attaques par force brute",
+				"rateLimitingEnabledTooltip": "Lorsque cette option est activée, les utilisateurs dépassant la limite de requêtes seront temporairement bloqués pendant la période de refroidissement configurée.",
+				"logoutFromAllDevices": "Déconnexion au changement de mot de passe",
+				"logoutFromAllDevicesDescription": "Déconnecter toutes les sessions lors d'un changement de mot de passe",
+				"logoutFromAllDevicesTooltip": "Lorsque cette option est activée, le changement de mot de passe invalidera automatiquement toutes les sessions actives sur tous les appareils.",
+				"rateLimitingCooldownMinutes": "Délai de récupération de la limitation (minutes)",
+				"rateLimitingCooldownDisabled": "Activez la limitation de débit pour configurer le délai de récupération",
+				"passwordHistoryCount": "Nombre d'historiques de mots de passe",
+				"verificationRequiredPaths": "Chemins nécessitant une vérification",
+				"addPath": "Ajouter un chemin (ex: /api/goals)",
+				"success": "Paramètres système mis à jour avec succès !"
 			}
 		}
 	},

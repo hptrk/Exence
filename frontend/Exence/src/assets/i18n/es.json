@@ -26,7 +26,8 @@
 		"to": "Hasta",
 		"yes": "Sí",
 		"no": "No",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Agregar"
 	},
 	"dashboard": {
 		"title": "Bienvenido/a de nuevo, <span class='username'>{{username}}</span>!",
@@ -895,6 +896,24 @@
 				"confirmMessage": "¿Está seguro de que desea enviar este correo a todos los usuarios?",
 				"success": "¡Correo enviado a todos los usuarios!",
 				"sendDisabled": "No puedes enviar el correo electrónico sin haber configurado antes el asunto y el contenido."
+			},
+			"systemSettings": {
+				"title": "Configuración del sistema",
+				"domainWhitelistOnly": "Solo dominios en lista blanca",
+				"domainWhitelistOnlyDescription": "Restringir registros solo a dominios de correo permitidos",
+				"domainWhitelistOnlyTooltip": "Cuando está habilitado, solo los usuarios con direcciones de correo de la lista de dominios permitidos pueden registrarse. Todos los demás intentos serán rechazados.",
+				"rateLimitingEnabled": "Limitación de velocidad activada",
+				"rateLimitingEnabledDescription": "Limitar solicitudes repetidas para prevenir ataques de fuerza bruta",
+				"rateLimitingEnabledTooltip": "Cuando está habilitado, los usuarios que superen el límite de solicitudes serán bloqueados temporalmente durante el período de enfriamiento configurado.",
+				"logoutFromAllDevices": "Cerrar sesión al cambiar contraseña",
+				"logoutFromAllDevicesDescription": "Cerrar sesión en todos los dispositivos al cambiar contraseña",
+				"logoutFromAllDevicesTooltip": "Cuando está habilitado, cambiar la contraseña invalidará automáticamente todas las sesiones activas en todos los dispositivos.",
+				"rateLimitingCooldownMinutes": "Tiempo de enfriamiento de la limitación (minutos)",
+				"rateLimitingCooldownDisabled": "Activa la limitación de velocidad para configurar el tiempo de enfriamiento",
+				"passwordHistoryCount": "Número de contraseñas históricas",
+				"verificationRequiredPaths": "Rutas que requieren verificación",
+				"addPath": "Agregar ruta (p.ej. /api/goals)",
+				"success": "¡Configuración del sistema actualizada con éxito!"
 			}
 		}
 	},

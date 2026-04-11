@@ -1,0 +1,18 @@
+:host {
+	display: block;
+	padding: 1rem;
+	border-radius: 10px;
+	border: 1px solid var(--primary-color);
+	background-color: var(--app-card-color);
+	box-shadow: 0 0 7px var(--shadow-color);
+	transition: box-shadow 0.3s ease;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 1rem;
+
+	&.active {
+		box-shadow: 0 0 14px 2px var(--primary-color);
+	}
+}
