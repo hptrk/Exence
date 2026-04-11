@@ -1,0 +1,42 @@
+<div class="purchase-grid">
+	<span class="purchase-header-cell">{{ 'investments.amount' | translate }}</span>
+	<span class="purchase-header-cell">{{ 'investments.date' | translate }}</span>
+	<span class="purchase-header-cell">{{ 'investments.type' | translate }}</span>
+	<span class="purchase-header-cell">{{ 'investments.note' | translate }}</span>
+	<span class="purchase-header-cell"></span>
+
+	@for (purchase of purchases(); track purchase.id) {
+		<div class="purchase-data-cell fs-6 fw-semibold">
+			@if (showBaseCurrency()) {
+				{{ purchase.baseCurrencyAmount | currency }}
+			} @else {
+				{{ purchase.amount | currency: purchase.currency }}
+			}
+		</div>
+		<div class="purchase-data-cell fs-6">
+			{{ purchase.purchaseDate | date: 'yy/MM/dd' }}
+		</div>
+		<div class="purchase-data-cell fs-6">
+			{{ codeForType(purchase.type) | translate }}
+		</div>
+		<div class="purchase-data-cell fs-6" [matTooltip]="purchase.note ?? ''" [matTooltipDisabled]="!purchase.note">
+			{{ purchase.note || '—' }}
+		</div>
+		<div class="purchase-data-cell d-flex flex-row gap-1 justify-content-end">
+			<ex-button
+				iconButton
+				matIcon="edit"
+				color="accent"
+				[matTooltip]="'literals.edit' | translate"
+				(click)="editPurchase(purchase)"
+			/>
+			<ex-button
+				iconButton
+				matIcon="delete"
+				color="error"
+				[matTooltip]="'literals.delete' | translate"
+				(click)="deletePurchase(purchase.id)"
+			/>
+		</div>
+	}
+</div>

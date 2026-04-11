@@ -21,6 +21,9 @@ export class PrivateRoutes {
 	debts(): string {
 		return '/debts';
 	}
+	investments(): string {
+		return '/investments';
+	}
 }
 
 export class NavigationServiceForPrivate {

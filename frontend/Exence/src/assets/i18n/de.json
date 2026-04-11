@@ -170,7 +170,8 @@
 					"label": "Basiswährung anzeigen",
 					"info": "Unabhängig davon, welche Währung einer Transaktion zugewiesen wurde, wird jede Transaktion bei Auswahl in der ausgewählten Basiswährung angezeigt."
 				}
-			}
+			},
+			"success": "Benutzereinstellungen erfolgreich aktualisiert!"
 		},
 		"sessions": {
 			"label": "Sitzungen"
@@ -198,7 +199,8 @@
 		"home": "Startseite",
 		"login": "Anmelden",
 		"registration": "Registrierung",
-		"admin": "Admin"
+		"admin": "Admin",
+		"investments": "Investitionen"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -997,7 +999,7 @@
 			"counterpartyName": "Counterparty name",
 			"originalAmount": "Amount",
 			"currency": "Currency",
-			"deadline": "Deadline (optional)",
+			"deadline": "Deadline",
 			"type": "Type",
 			"category": "Category",
 			"search": "Search",
@@ -1022,5 +1024,58 @@
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
 		"paymentInfo": "Payment recorded successfully!"
+	},
+	"investments": {
+		"title": "Investitionen",
+		"purchaseLog": "Kaufprotokoll",
+		"name": "Name",
+		"lastAction": "Letzte Aktion",
+		"totalInvested": "Gesamt investiert",
+		"type": "Typ",
+		"transactions": "Transaktionen",
+		"purchases": "Käufe",
+		"purchase": "Kauf",
+		"daysAgo": "Tage her",
+		"note": "Notiz",
+		"date": "Datum",
+		"amount": "Betrag",
+		"addPurchase": "Kauf hinzufügen",
+		"type_label": {
+			"CRYPTO": "Krypto",
+			"ETF": "ETF",
+			"METAL": "Metall",
+			"BOND": "Anleihe",
+			"STOCK": "Aktie",
+			"REAL_ESTATE": "Immobilien",
+			"CASH": "Bargeld",
+			"OTHER": "Sonstiges"
+		},
+		"create": {
+			"newAssetTitle": "Neues Asset",
+			"addPurchaseTitle": "Kauf hinzufügen",
+			"asset": "Asset-Name",
+			"date": "Kaufdatum",
+			"type": "Typ",
+			"amount": "Betrag",
+			"currency": "Währung",
+			"note": "Notiz",
+			"successInfo": "Investition in '{{asset}}' erfolgreich erstellt!"
+		},
+		"edit": {
+			"title": "Kauf bearbeiten",
+			"asset": "Asset-Name",
+			"date": "Kaufdatum",
+			"type": "Typ",
+			"amount": "Betrag",
+			"note": "Notiz"
+		},
+		"statistics": {
+			"card": {
+				"INVESTMENT_TOTAL_VALUE_STATCARD": "Gesamter investierter Wert",
+				"INVESTMENT_ASSET_COUNT_STATCARD": "Anzahl der Assets"
+			}
+		},
+		"updateInfo": "Investition erfolgreich aktualisiert!",
+		"deleteInfo": "Investition erfolgreich gelöscht!"
 	}
 }

@@ -102,9 +102,14 @@ export enum DebtWidgetType {
 	DEBT_TOTAL_OWED_TO_ME_STATCARD = 'DEBT_TOTAL_OWED_TO_ME_STATCARD',
 }
 
+export enum InvestmentWidgetType {
+	INVESTMENT_TOTAL_VALUE_STATCARD = 'INVESTMENT_TOTAL_VALUE_STATCARD',
+	INVESTMENT_ASSET_COUNT_STATCARD = 'INVESTMENT_ASSET_COUNT_STATCARD',
+}
+
 /* eslint-disable-next-line complexity */
 export function mapToExChartType(
-	widgetType: WidgetType | AdminWidgetType | GoalWidgetType | DebtWidgetType,
+	widgetType: WidgetType | AdminWidgetType | GoalWidgetType | DebtWidgetType | InvestmentWidgetType,
 ): ExChartType {
 	switch (widgetType) {
 		case WidgetType.EXPENSE_FREQUENCY_STATCARD:
@@ -204,6 +209,9 @@ export function mapToExChartType(
 			return 'pie';
 		case DebtWidgetType.DEBT_TOTAL_I_OWE_STATCARD:
 		case DebtWidgetType.DEBT_TOTAL_OWED_TO_ME_STATCARD:
+			return 'statCard';
+		case InvestmentWidgetType.INVESTMENT_TOTAL_VALUE_STATCARD:
+		case InvestmentWidgetType.INVESTMENT_ASSET_COUNT_STATCARD:
 			return 'statCard';
 	}
 }
@@ -644,4 +652,19 @@ export const DEBT_GROUP_WIDGET_TYPES: Record<DEBT_STATISTICS_GROUP, DebtWidgetTy
 export const DEBT_WIDGET_TITLES: Record<DebtWidgetType, TranslationCode> = {
 	[DebtWidgetType.DEBT_TOTAL_I_OWE_STATCARD]: 'debts.statistics.card.DEBT_TOTAL_I_OWE_STATCARD',
 	[DebtWidgetType.DEBT_TOTAL_OWED_TO_ME_STATCARD]: 'debts.statistics.card.DEBT_TOTAL_OWED_TO_ME_STATCARD',
+};
+
+// Investments
+type INVESTMENT_STATISTICS_GROUP = 'all' | 'card';
+
+export const INVESTMENT_GROUP_WIDGET_TYPES: Record<INVESTMENT_STATISTICS_GROUP, InvestmentWidgetType[]> = {
+	all: Object.values(InvestmentWidgetType),
+	card: [InvestmentWidgetType.INVESTMENT_TOTAL_VALUE_STATCARD, InvestmentWidgetType.INVESTMENT_ASSET_COUNT_STATCARD],
+};
+
+export const INVESTMENT_WIDGET_TITLES: Record<InvestmentWidgetType, TranslationCode> = {
+	[InvestmentWidgetType.INVESTMENT_TOTAL_VALUE_STATCARD]:
+		'investments.statistics.card.INVESTMENT_TOTAL_VALUE_STATCARD',
+	[InvestmentWidgetType.INVESTMENT_ASSET_COUNT_STATCARD]:
+		'investments.statistics.card.INVESTMENT_ASSET_COUNT_STATCARD',
 };

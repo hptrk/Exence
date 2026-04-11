@@ -170,7 +170,8 @@
 					"label": "Show base currency",
 					"info": "Regardless of what currency had been assigned to a transaction, when selected each transaction will appear in the selected base currency."
 				}
-			}
+			},
+			"success": "User settings updated successfully!"
 		},
 		"sessions": {
 			"label": "Sessions"
@@ -198,7 +199,8 @@
 		"home": "Home",
 		"login": "Log in",
 		"registration": "Registration",
-		"admin": "Admin"
+		"admin": "Admin",
+		"investments": "Investments"
 	},
 	"timeframe": {
 		"1W": "1W",
@@ -997,7 +999,7 @@
 			"counterpartyName": "Counterparty name",
 			"originalAmount": "Amount",
 			"currency": "Currency",
-			"deadline": "Deadline (optional)",
+			"deadline": "Deadline",
 			"type": "Type",
 			"category": "Category",
 			"search": "Search",
@@ -1022,5 +1024,58 @@
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
 		"paymentInfo": "Payment recorded successfully!"
+	},
+	"investments": {
+		"title": "Investments",
+		"purchaseLog": "Purchase log",
+		"name": "Name",
+		"lastAction": "Last Action",
+		"totalInvested": "Total Invested",
+		"type": "Type",
+		"transactions": "Transactions",
+		"purchases": "purchases",
+		"purchase": "purchase",
+		"daysAgo": "days ago",
+		"note": "Note",
+		"date": "Date",
+		"amount": "Amount",
+		"addPurchase": "Add purchase",
+		"type_label": {
+			"CRYPTO": "Crypto",
+			"ETF": "ETF",
+			"METAL": "Metal",
+			"BOND": "Bond",
+			"STOCK": "Stock",
+			"REAL_ESTATE": "Real Estate",
+			"CASH": "Cash",
+			"OTHER": "Other"
+		},
+		"create": {
+			"newAssetTitle": "New Asset",
+			"addPurchaseTitle": "Add Purchase",
+			"asset": "Asset name",
+			"date": "Purchase date",
+			"type": "Type",
+			"amount": "Amount",
+			"currency": "Currency",
+			"note": "Note",
+			"successInfo": "Investment in '{{asset}}' created successfully!"
+		},
+		"edit": {
+			"title": "Edit Purchase",
+			"asset": "Asset name",
+			"date": "Purchase date",
+			"type": "Type",
+			"amount": "Amount",
+			"note": "Note"
+		},
+		"statistics": {
+			"card": {
+				"INVESTMENT_TOTAL_VALUE_STATCARD": "Total Invested Value",
+				"INVESTMENT_ASSET_COUNT_STATCARD": "Asset Count"
+			}
+		},
+		"updateInfo": "Investment updated successfully!",
+		"deleteInfo": "Investment deleted successfully!"
 	}
 }

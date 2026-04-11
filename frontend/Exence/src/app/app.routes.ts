@@ -12,6 +12,7 @@ import { hasChangesGuard } from './shared/auth/guard/has-changes.guard';
 import { loggedInGuard } from './shared/auth/guard/logged-in.guard';
 import { loggedOutGuard } from './shared/auth/guard/logged-out.guard';
 import { AdminComponent } from './private/admin/admin.component';
+import { InvestmentsComponent } from './private/investments/investments.component';
 import { adminGuard } from './shared/auth/guard/admin.guard';
 
 export const routes: Routes = [
@@ -52,6 +53,10 @@ export const routes: Routes = [
 			{
 				path: 'debts',
 				component: DebtsComponent,
+			},
+			{
+				path: 'investments',
+				component: InvestmentsComponent,
 			},
 			{
 				path: 'admin',

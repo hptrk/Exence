@@ -1,0 +1,35 @@
+:host {
+	width: 100%;
+}
+
+.purchase-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 2fr auto;
+	column-gap: 1rem;
+	align-items: center;
+	justify-content: start;
+	padding: 1.5rem;
+	width: 100%;
+
+	* {
+		text-align: start;
+	}
+}
+
+.purchase-header-cell {
+	font-size: 1rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	color: var(--default-text-color);
+	padding-bottom: 0.5rem;
+	border-bottom: 1px solid var(--border-color);
+}
+
+.purchase-data-cell {
+	padding: 0.4rem 0;
+	border-bottom: 1px solid var(--border-color);
+
+	&:nth-last-child(-n + 5) {
+		border-bottom: none;
+	}
+}

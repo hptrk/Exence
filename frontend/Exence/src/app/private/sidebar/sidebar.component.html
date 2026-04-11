@@ -73,6 +73,16 @@
 								{{ 'navigation.debts' | translate }}
 							}
 						</a>
+						<a
+							class="ex-nav-button d-flex align-items-center gap-2"
+							[routerLink]="navigationService.private().investments()"
+							routerLinkActive="active"
+						>
+							<mat-icon>finance_mode</mat-icon>
+							@if (display.isXl()) {
+								{{ 'navigation.investments' | translate }}
+							}
+						</a>
 					} @else {
 						<a
 							class="ex-nav-button d-flex align-items-center gap-2"
@@ -209,6 +219,13 @@
 					routerLinkActive="active"
 				>
 					<mat-icon>account_balance</mat-icon>
+				</a>
+				<a
+					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
+					[routerLink]="navigationService.private().investments()"
+					routerLinkActive="active"
+				>
+					<mat-icon>finance_mode</mat-icon>
 				</a>
 			} @else {
 				<a
