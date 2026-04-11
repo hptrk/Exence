@@ -471,8 +471,8 @@
 		"login": "Connexion",
 		"resetSuccess": "Mot de passe mis à jour avec succès !",
 		"emailSent": {
-			"title": "E-mail envoyé",
-			"subtitle": "Nous vous avons envoyé un e-mail à <strong>{{email}}</strong>. Vérifiez votre boîte de réception et suivez les instructions pour réinitialiser le mot de passe de votre compte.",
+			"title": "Vérifiez votre e-mail",
+			"subtitle": "Si votre adresse e-mail est enregistrée dans notre système, nous vous avons envoyé un lien de réinitialisation du mot de passe. Veuillez également vérifier votre dossier spam.",
 			"notRecieved": "Vous n'avez pas reçu l'e-mail ?",
 			"retry": "Renvoyer l'e-mail",
 			"badEmail": "Mauvaise adresse e-mail ?",

@@ -48,13 +48,6 @@ test.describe('Forgot Password', () => {
 		await expect(getEmailField(page)).toHaveValue('');
 	});
 
-	test('should show error snackbar for non-existing email', async ({ page }) => {
-		await fillAndBlur(getEmailField(page), data['incorrect'].nonExistingEmail);
-		await expect(getSendEmailBtn(page)).not.toBeDisabled();
-		await getSendEmailBtn(page).click();
-		await expect(getErrorSnackbar(page)).toBeVisible();
-	});
-
 	test('should handle full forgot password flow', async ({ page }) => {
 		// Send email to existing user
 		await fillAndBlur(getEmailField(page), data['valid'].email);

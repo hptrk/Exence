@@ -471,8 +471,8 @@
 		"login": "Accedi",
 		"resetSuccess": "Password aggiornata con successo!",
 		"emailSent": {
-			"title": "E-mail inviata",
-			"subtitle": "Le abbiamo inviato un'e-mail all'indirizzo <strong>{{email}}</strong>. Controlli la Sua casella di posta e segua le istruzioni per reimpostare la password del Suo account.",
+			"title": "Controlla la tua e-mail",
+			"subtitle": "Se il Suo indirizzo e-mail è registrato nel nostro sistema, Le abbiamo inviato un link per reimpostare la password. Controlli anche la cartella spam.",
 			"notRecieved": "Non ha ricevuto l'e-mail?",
 			"retry": "Invia nuovamente l'e-mail",
 			"badEmail": "Indirizzo e-mail errato?",

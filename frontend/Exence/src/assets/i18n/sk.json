@@ -471,8 +471,8 @@
 		"login": "Prihlásiť sa",
 		"resetSuccess": "Heslo bolo úspešne aktualizované!",
 		"emailSent": {
-			"title": "E-mail odoslaný",
-			"subtitle": "Poslali sme Vám e-mail na adresu <strong>{{email}}</strong>. Skontrolujte svoju schránku a postupujte podľa pokynov na obnovenie hesla Vášho účtu.",
+			"title": "Skontrolujte svoju e-mailovú schránku",
+			"subtitle": "Ak je Vaša e-mailová adresa registrovaná v našom systéme, poslali sme Vám odkaz na obnovenie hesla. Skontrolujte tiež priečinok spam.",
 			"notRecieved": "Nedostali ste e-mail?",
 			"retry": "Znovu odoslať e-mail",
 			"badEmail": "Nesprávna e-mailová adresa?",
