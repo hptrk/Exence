@@ -100,7 +100,7 @@
 
 		@if (recurringControl.value) {
 			@let recurringConfigs = form.controls.recurring.controls.configs.controls;
-			<div class="d-flex flex-column flex-md-row align-items-md-start gap-3 mb-3">
+			<div data-testid="recurring-config" class="d-flex flex-column flex-md-row align-items-md-start gap-3 mb-3">
 				@let intervalControl = recurringConfigs.interval;
 				<ex-amount-stepper [control]="intervalControl" [step]="1" [label]="'recurring.interval'" />
 
@@ -120,7 +120,7 @@
 			@switch (frequencyControl.value) {
 				@case (recurrenceFrequencies.WEEKLY) {
 					@let dayOfWeekControl = recurringConfigs.dayOfWeek;
-					<div class="d-flex flex-column gap-2">
+					<div data-testid="day-of-week-selector" class="d-flex flex-column gap-2">
 						<h4 class="m-0 fs-6">{{ 'recurring.dayOfWeek.label' | translate }}</h4>
 						<dl class="d-flex flex-row flex-wrap gap-2">
 							@for (wDay of daysOfWeek; track wDay) {
@@ -142,7 +142,7 @@
 				}
 				@case (recurrenceFrequencies.MONTHLY) {
 					@let dayOfMonthControl = recurringConfigs.dayOfMonth;
-					<div class="d-flex flex-column gap-2">
+					<div data-testid="day-of-month-selector" class="d-flex flex-column gap-2">
 						<h4 class="m-0 fs-6">{{ 'recurring.dayOfMonth' | translate }}</h4>
 
 						<dl class="recurring-month-grid gap-2">
@@ -269,7 +269,14 @@
 		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()">
 			{{ 'literals.cancel' | translate }}
 		</ex-button>
-		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="create()">
+		<ex-button
+			data-testid="create-btn"
+			filled
+			color="primary"
+			matIcon="add"
+			[disabled]="form.invalid"
+			(click)="create()"
+		>
 			{{ 'literals.create' | translate }}
 		</ex-button>
 	</div>

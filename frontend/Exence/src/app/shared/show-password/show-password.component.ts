@@ -10,6 +10,7 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 	template: `
 		@if (control().value) {
 			<ex-button
+				data-testid="toggle-password-btn"
 				iconButton
 				color="accent"
 				[matTooltip]="codeForTogglePassword() | translate"

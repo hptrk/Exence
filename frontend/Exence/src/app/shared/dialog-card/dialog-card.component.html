@@ -5,7 +5,7 @@
 	>
 		<ng-content select="[ex-dialog-card-title]" />
 		@if (!hideCloseButton()) {
-			<ex-button iconButton matIcon="close" (click)="onCloseClick()" color="accent" />
+			<ex-button data-testid="close-btn" iconButton matIcon="close" (click)="onCloseClick()" color="accent" />
 		}
 	</h2>
 

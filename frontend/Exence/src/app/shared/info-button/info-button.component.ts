@@ -7,6 +7,7 @@ import { StopPropagationDirective } from '../stop-propagation.directive';
 	selector: 'ex-info-button',
 	template: `
 		<ex-button
+			data-testid="info-btn"
 			#tooltipButton="matTooltip"
 			iconButton
 			stopPropagation
