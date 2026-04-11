@@ -18,6 +18,7 @@ const mockCategory: CategoryGet = {
 	icon: MaterialIcon.SHOPPING_CART,
 	color: '#FF5733',
 	type: CategoryType.EXPENSE,
+	balance: -200,
 };
 
 const mockTopCategories: Record<CategoryType, CategorySummaryResponse[]> = {
@@ -103,6 +104,26 @@ describe('CategoryStore', () => {
 			await store.createCategory(createRequest);
 			expect(store.categoryResource.reload).toHaveBeenCalled();
 			expect(store.topCategoriesAllResource.reload).toHaveBeenCalled();
+		});
+	});
+
+	// categoryResource
+	describe('categoryResource', () => {
+		async function waitForResource(): Promise<void> {
+			await new Promise(resolve => setTimeout(resolve, 0));
+			TestBed.flushEffects();
+		}
+
+		it('loads categories including balance from the service', async () => {
+			store.categoryResource.reload();
+			await waitForResource();
+			expect(store.categoryResource.value()).toEqual([mockCategory]);
+		});
+
+		it('exposes the balance on each loaded category', async () => {
+			store.categoryResource.reload();
+			await waitForResource();
+			expect(store.categoryResource.value()?.[0].balance).toBe(-200);
 		});
 	});
 
