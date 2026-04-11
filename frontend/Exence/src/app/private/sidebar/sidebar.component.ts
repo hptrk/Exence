@@ -16,7 +16,7 @@ import { DialogService } from '../../shared/dialog/dialog.service';
 import { LanguageSelectComponent } from '../profile-dialog/user-settings/language-select/language-select.component';
 import { LanguageService } from '../profile-dialog/user-settings/language-select/language.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
-import { StopPropagationDirective } from 'src/app/shared/stop-propagation.directive';
+import { StopPropagationDirective } from '../../shared/stop-propagation.directive';
 
 @Component({
 	selector: 'ex-sidebar',

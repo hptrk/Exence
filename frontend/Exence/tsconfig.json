@@ -3,7 +3,6 @@
 {
 	"compileOnSave": false,
 	"compilerOptions": {
-		"baseUrl": "./",
 		"moduleResolution": "bundler",
 		"target": "ES2022",
 		"module": "ES2022",
