@@ -51,6 +51,7 @@
 				[control]="form.controls.amount"
 				[label]="'investments.create.amount'"
 				[min]="0.01"
+				[step]="amountStep()"
 			/>
 
 			@let currencyControl = form.controls.currency;

@@ -105,6 +105,7 @@
 					[control]="paymentForm.controls.amount"
 					[label]="'debts.paymentAmount'"
 					[min]="0.01"
+					[step]="amountStep()"
 				/>
 				<ex-button
 					filled

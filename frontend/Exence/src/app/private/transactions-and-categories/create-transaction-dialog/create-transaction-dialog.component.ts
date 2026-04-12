@@ -36,7 +36,7 @@ import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { OrdinalPipe } from '../../../shared/pipes/ordinal.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
-import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
+import { getAmountStep, localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { ExtraValidators } from '../../../shared/validators';
 import { CategoryService } from '../category.service';
@@ -160,6 +160,8 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 	private searchText = toRawValueSignal(this.form.controls.category.controls.searchText);
 	private dateValue = toRawValueSignal(this.form.controls.date);
 	private currencyValue = toRawValueSignal(this.form.controls.currency);
+
+	amountStep = computed(() => getAmountStep(1, this.currencyValue()));
 
 	recurringDateFilter = computed((): DateFilterFn<Date | null> => {
 		const frequency = this.frequencyValue();
