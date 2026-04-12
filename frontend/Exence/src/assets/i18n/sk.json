@@ -494,7 +494,8 @@
 		"email": "E-mail",
 		"password": "Heslo",
 		"forgotPassword": "Zabudli ste heslo?",
-		"button": "Prihlásiť sa"
+		"button": "Prihlásiť sa",
+		"invalidCredentials": "Nesprávna kombinácia používateľského mena a hesla! Skúste to prosím znova."
 	},
 	"registration": {
 		"title": "Vytvoriť účet",

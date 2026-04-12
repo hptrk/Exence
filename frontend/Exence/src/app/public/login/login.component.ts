@@ -6,12 +6,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 import { LoginRequest } from '../../data-model/modules/auth/LoginRequest';
 import { AuthService } from '../../shared/auth/auth.service';
 import { BaseComponent } from '../../shared/base-component/base.component';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { InputClearButtonComponent } from '../../shared/input-clear-button/input-clear-button.component';
 import { NavigationService } from '../../shared/navigation/navigation.service';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
@@ -46,6 +48,8 @@ export class LoginComponent extends BaseComponent {
 	private readonly authService = inject(AuthService);
 	private readonly router = inject(Router);
 	private readonly currentUserService = inject(CurrentUserService);
+	private readonly snackbarService = inject(SnackbarService);
+	private readonly translocoService = inject(TranslocoService);
 	readonly navigationService = inject(NavigationService);
 
 	showPassword = signal<boolean>(false);
@@ -66,6 +70,11 @@ export class LoginComponent extends BaseComponent {
 			password: formValue.password,
 		};
 		const resp = await this.authService.login(request);
+		if (!resp.user.isVerified) {
+			await this.authService.logout();
+			this.snackbarService.showError(this.translocoService.translate('login.invalidCredentials'));
+			return;
+		}
 		this.currentUserService.user = resp.user;
 		this.router.navigateByUrl(this.navigationService.private().dashboard());
 	}
