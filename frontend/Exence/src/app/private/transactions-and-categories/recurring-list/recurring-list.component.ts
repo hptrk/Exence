@@ -8,6 +8,7 @@ import { PagedResponse } from '../../../data-model/modules/common/PagedResponse'
 import { ColumnDef, DataTableComponent, TableAction } from '../../../shared/data-table/data-table.component';
 import { ExCellDirective } from '../../../shared/data-table/ex-cell.directive';
 import { RecurringStore } from '../recurring.store';
+import { TransactionStore } from '../transaction.store';
 import { CategoryStore } from '../category.store';
 import { DialogService } from '../../../shared/dialog/dialog.service';
 import { SvgIcons } from '../../../shared/svg-icons/svg-icons';
@@ -17,6 +18,7 @@ import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import {
 	CreateTransactionDialogComponent,
 	CreateTransactionDialogData,
+	CreateTransactionDialogResult,
 } from '../create-transaction-dialog/create-transaction-dialog.component';
 import { DisplaySizeService } from '../../../shared/display-size.service';
 import { MatLabel } from '@angular/material/form-field';
@@ -48,6 +50,7 @@ import { DayOfWeek } from '../../../data-model/modules/transaction/DayOfWeek';
 })
 export class RecurringListComponent {
 	private readonly recurringStore = inject(RecurringStore);
+	private readonly transactionStore = inject(TransactionStore);
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly dialog = inject(DialogService);
 	private readonly display = inject(DisplaySizeService);
@@ -134,12 +137,16 @@ export class RecurringListComponent {
 	async openCreate(): Promise<void> {
 		const result = await this.dialog.openNonModal<
 			CreateTransactionDialogData,
-			TransactionCreate | RecurringTransactionCreate | null
+			CreateTransactionDialogResult | null
 		>(
 			CreateTransactionDialogComponent,
 			this.type() ? { type: this.type()!, isRecurring: true } : { isRecurring: true },
 		);
 		if (!result) return;
-		this.recurringStore.createRecurringTransaction(result as RecurringTransactionCreate);
+		if (result.isRecurring) {
+			this.recurringStore.createRecurringTransaction(result.result as RecurringTransactionCreate);
+		} else {
+			this.transactionStore.createTransaction(result.result as TransactionCreate);
+		}
 	}
 }

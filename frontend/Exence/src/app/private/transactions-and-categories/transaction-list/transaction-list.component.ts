@@ -3,6 +3,7 @@ import { booleanAttribute, Component, computed, inject, input } from '@angular/c
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { PagedResponse } from '../../../data-model/modules/common/PagedResponse';
+import { RecurringTransactionCreate } from '../../../data-model/modules/transaction/RecurringTransactionCreate';
 import { TransactionCreate } from '../../../data-model/modules/transaction/TransactionCreate';
 import { TransactionGet } from '../../../data-model/modules/transaction/TransactionGet';
 import { TransactionModel } from '../../../data-model/modules/transaction/TransactionModel';
@@ -19,11 +20,13 @@ import { CategoryStore } from '../category.store';
 import {
 	CreateTransactionDialogComponent,
 	CreateTransactionDialogData,
+	CreateTransactionDialogResult,
 } from '../create-transaction-dialog/create-transaction-dialog.component';
 import {
 	EditTransactionDialogComponent,
 	EditTransactionDialogData,
 } from '../edit-transaction-dialog/edit-transaction-dialog.component';
+import { RecurringStore } from '../recurring.store';
 import { TransactionStore } from '../transaction.store';
 import { TransactionListDetailsComponent } from './transaction-list-details/transaction-list-details.component';
 import { TranslocoService } from '@jsverse/transloco';
@@ -50,6 +53,7 @@ import { format } from 'date-fns';
 })
 export class TransactionListComponent {
 	private readonly transactionStore = inject(TransactionStore);
+	private readonly recurringStore = inject(RecurringStore);
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly dialog = inject(DialogService);
 	private readonly currencyService = inject(CurrencyService);
@@ -135,10 +139,14 @@ export class TransactionListComponent {
 	async openCreate(): Promise<void> {
 		const result = await this.dialog.openNonModal<
 			CreateTransactionDialogData | undefined,
-			TransactionCreate | null
+			CreateTransactionDialogResult | null
 		>(CreateTransactionDialogComponent, this.type() ? { type: this.type()! } : undefined);
 		if (!result) return;
-		this.transactionStore.createTransaction(result as TransactionCreate);
+		if (result.isRecurring) {
+			this.recurringStore.createRecurringTransaction(result.result as RecurringTransactionCreate);
+		} else {
+			this.transactionStore.createTransaction(result.result as TransactionCreate);
+		}
 	}
 
 	private async dupliateTransaction(row: TransactionModel): Promise<void> {
