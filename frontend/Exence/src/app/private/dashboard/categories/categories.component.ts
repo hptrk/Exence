@@ -8,6 +8,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
 import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
+import { RecurringTransactionCreate } from '../../../data-model/modules/transaction/RecurringTransactionCreate';
 import { TransactionCreate } from '../../../data-model/modules/transaction/TransactionCreate';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../../../shared/base-component/base.component';
@@ -21,7 +22,9 @@ import { CreateCategoryDialogComponent } from '../../transactions-and-categories
 import {
 	CreateTransactionDialogComponent,
 	CreateTransactionDialogData,
+	CreateTransactionDialogResult,
 } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
+import { RecurringStore } from '../../transactions-and-categories/recurring.store';
 import { TransactionStore } from '../../transactions-and-categories/transaction.store';
 
 @Component({
@@ -44,6 +47,7 @@ export class CategoriesComponent extends BaseComponent {
 	private readonly dialog = inject(DialogService);
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly transactionStore = inject(TransactionStore);
+	private readonly recurringStore = inject(RecurringStore);
 	readonly display = inject(DisplaySizeService);
 
 	isLoading = input.required<boolean>();
@@ -69,10 +73,14 @@ export class CategoriesComponent extends BaseComponent {
 	async openCreateTransactionDialog(): Promise<void> {
 		const result = await this.dialog.openNonModal<
 			CreateTransactionDialogData | undefined,
-			TransactionCreate | null
+			CreateTransactionDialogResult | null
 		>(CreateTransactionDialogComponent, undefined);
 		if (!result) return;
-		this.transactionStore.createTransaction(result);
+		if (result.isRecurring) {
+			this.recurringStore.createRecurringTransaction(result.result as RecurringTransactionCreate);
+		} else {
+			this.transactionStore.createTransaction(result.result as TransactionCreate);
+		}
 	}
 
 	calcPercentage(amount: number): number {
