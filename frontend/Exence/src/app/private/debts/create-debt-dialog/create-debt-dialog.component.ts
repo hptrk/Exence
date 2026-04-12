@@ -23,7 +23,7 @@ import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
-import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
+import { getAmountStep, localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { MatDialogClose } from '@angular/material/dialog';
@@ -77,6 +77,8 @@ export class CreateDebtDialogComponent extends DialogComponent<DebtType | undefi
 	});
 
 	private readonly searchText = toRawValueSignal(this.form.controls.category.controls.searchText);
+	private readonly currencyValue = toRawValueSignal(this.form.controls.currency);
+	amountStep = computed(() => getAmountStep(1, this.currencyValue()));
 
 	filteredCategories = computed(() => {
 		const search = this.searchText();

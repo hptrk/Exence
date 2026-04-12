@@ -25,7 +25,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
-import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
+import { getAmountStep, localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../category.service';
 import { ExchangeRateRequest, ExchangeRateService } from '../../../shared/exchange-rate.service';
@@ -101,6 +101,8 @@ export class EditTransactionDialogComponent extends DialogComponent<
 	private dateValue = toRawValueSignal(this.form.controls.date);
 	private currencyValue = toRawValueSignal(this.form.controls.currency);
 	private selectedType = toRawValueSignal(this.form.controls.type);
+
+	amountStep = computed(() => getAmountStep(1, this.currencyValue()));
 
 	private categories = signal<CategoryGet[]>([]);
 

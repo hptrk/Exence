@@ -13,8 +13,18 @@
 		</mat-form-field>
 
 		<div class="d-flex flex-column flex-sm-row gap-3">
-			<ex-amount-stepper [control]="form.controls.targetAmount" [label]="'goals.edit.targetAmount'" [min]="1" />
-			<ex-amount-stepper [control]="form.controls.currentAmount" [label]="'goals.edit.currentAmount'" [min]="0" />
+			<ex-amount-stepper
+				[control]="form.controls.targetAmount"
+				[label]="'goals.edit.targetAmount'"
+				[min]="1"
+				[step]="amountStep()"
+			/>
+			<ex-amount-stepper
+				[control]="form.controls.currentAmount"
+				[label]="'goals.edit.currentAmount'"
+				[min]="0"
+				[step]="amountStep()"
+			/>
 		</div>
 		@if (form.hasError('fieldNotLessThan')) {
 			<mat-error>

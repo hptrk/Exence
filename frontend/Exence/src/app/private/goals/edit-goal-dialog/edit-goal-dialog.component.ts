@@ -21,7 +21,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
-import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
+import { getAmountStep, localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { ExtraValidators } from '../../../shared/validators';
 import { CategoryService } from '../../transactions-and-categories/category.service';
@@ -60,6 +60,7 @@ export class EditGoalDialogComponent extends DialogComponent<EditGoalDialogData,
 	private readonly translocoService = inject(TranslocoService);
 
 	data = this.dialogRef.value;
+	amountStep = computed(() => getAmountStep(1, this.data.goal.currency));
 
 	currencies = SupportedCurrency;
 	goalStatuses = GoalStatus;

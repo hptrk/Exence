@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -22,6 +22,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
+import { getAmountStep, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 
 export interface CreateInvestmentDialogData {
@@ -73,6 +74,9 @@ export class CreateInvestmentDialogComponent extends DialogComponent<
 		currency: this.fb.control<SupportedCurrency>(this.currencyService.baseCurrency(), [Validators.required]),
 		note: this.fb.control<string>('', [Validators.maxLength(500)]),
 	});
+
+	private currencyValue = toRawValueSignal(this.form.controls.currency);
+	amountStep = computed(() => getAmountStep(1, this.currencyValue()));
 
 	filteredAssets = signal<{ name: string; type: InvestmentType }[]>([]);
 

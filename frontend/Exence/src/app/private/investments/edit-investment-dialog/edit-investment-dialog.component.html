@@ -48,6 +48,7 @@
 			[control]="form.controls.amount"
 			[label]="'investments.edit.amount'"
 			[min]="0.01"
+			[step]="amountStep()"
 		/>
 
 		@let noteControl = form.controls.note;

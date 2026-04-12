@@ -9,6 +9,22 @@ import { TransactionFilter } from '../../data-model/modules/transaction/Transact
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
 
+const CURRENCY_STEP_MULTIPLIERS: Record<SupportedCurrency, number> = {
+	[SupportedCurrency.HUF]: 100,
+	[SupportedCurrency.EUR]: 1,
+	[SupportedCurrency.USD]: 1,
+	[SupportedCurrency.CAD]: 1,
+	[SupportedCurrency.GBP]: 1,
+	[SupportedCurrency.CHF]: 1,
+	[SupportedCurrency.PLN]: 1,
+	[SupportedCurrency.CZK]: 5,
+	[SupportedCurrency.RON]: 1,
+};
+
+export function getAmountStep(eurAmount: number, currency: SupportedCurrency): number {
+	return eurAmount * CURRENCY_STEP_MULTIPLIERS[currency];
+}
+
 export function toRawValueSignal<T>(control: AbstractControl<unknown, T>): Signal<T> {
 	return toSignal(control.valueChanges.pipe(map(() => control.getRawValue() as T)), {
 		initialValue: control.getRawValue() as T,
