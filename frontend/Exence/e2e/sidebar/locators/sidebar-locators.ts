@@ -11,6 +11,9 @@ export const getNavHomeBtn = (page: Page): Locator => page.getByTestId('navHomeB
 export const getNavLoginBtn = (page: Page): Locator => page.getByTestId('navLoginBtn');
 export const getNavRegisterBtn = (page: Page): Locator => page.getByTestId('navRegisterBtn');
 
+// Drawer — authenticated nav (admin)
+export const getNavAdminBtn = (page: Page): Locator => page.getByTestId('navAdminBtn');
+
 // Drawer — authenticated nav
 export const getNavDashboardBtn = (page: Page): Locator => page.getByTestId('navDashboardBtn');
 export const getNavTransactionsBtn = (page: Page): Locator => page.getByTestId('navTransactionsBtn');
@@ -34,6 +37,9 @@ export const getMobileNavigation = (page: Page): Locator => page.getByTestId('mo
 export const getMobileNavHomeBtn = (page: Page): Locator => page.getByTestId('mobileNavHomeBtn');
 export const getMobileNavLoginBtn = (page: Page): Locator => page.getByTestId('mobileNavLoginBtn');
 export const getMobileNavRegisterBtn = (page: Page): Locator => page.getByTestId('mobileNavRegisterBtn');
+
+// Mobile — authenticated nav (admin)
+export const getMobileNavAdminBtn = (page: Page): Locator => page.getByTestId('mobileNavAdminBtn');
 
 // Mobile — authenticated nav
 export const getMobileNavDashboardBtn = (page: Page): Locator => page.getByTestId('mobileNavDashboardBtn');

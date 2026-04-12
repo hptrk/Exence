@@ -5,19 +5,24 @@ import { getLoginBtn, getLoginEmailField, getLoginPasswordField } from '../login
 import dataJson from './data/auth.data.json';
 import { fillAndBlur } from '../form/utils/form-utils';
 
+interface LoginCredentials {
+	admin: LoginRequest;
+	user: LoginRequest;
+}
+
+interface AuthData {
+	login: LoginCredentials;
+	register: RegisterRequest;
+}
+
 interface AuthInfo {
 	admin: AuthData;
 	user: AuthData;
 }
 
-interface AuthData {
-	login: LoginRequest;
-	register: RegisterRequest;
-}
-
 export async function attemptLogin(page: Page, type: 'user' | 'admin'): Promise<void> {
 	const data: AuthInfo = JSON.parse(JSON.stringify(dataJson));
-	const credentials = data[type].login;
+	const credentials = data[type].login[type];
 
 	await page.goto('/public/login');
 

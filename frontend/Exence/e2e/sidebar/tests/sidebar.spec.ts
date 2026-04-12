@@ -11,6 +11,7 @@ import {
 	getLogoutMenuItem,
 	getManageAccountsBtn,
 	getMobileMoreActionsBtn,
+	getMobileNavAdminBtn,
 	getMobileNavDashboardBtn,
 	getMobileNavDebtsBtn,
 	getMobileNavGoalsBtn,
@@ -21,6 +22,7 @@ import {
 	getMobileNavTransactionsBtn,
 	getMobileNavigation,
 	getMoreActionsBtn,
+	getNavAdminBtn,
 	getNavDashboardBtn,
 	getNavDebtsBtn,
 	getNavGoalsBtn,
@@ -748,5 +750,112 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 
 		const after2 = await page.evaluate(() => localStorage.getItem('themePreference'));
 		expect(after2).toBe('primary');
+	});
+});
+
+test.describe('Sidebar — admin, xl (≥1280px)', () => {
+	test.use({ viewport: { width: 1400, height: 900 } });
+
+	test.beforeEach(async ({ page, context }) => {
+		await context.clearCookies({ domain: 'localhost' });
+		await page.addInitScript(() => {
+			localStorage.setItem('language', 'en');
+			localStorage.removeItem('themePreference');
+		});
+		await attemptLogin(page, 'admin');
+		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.waitForURL('/dashboard');
+	});
+
+	test('should display admin nav button with text', async ({ page }) => {
+		await expect(getNavAdminBtn(page)).toBeVisible();
+		await expect(getNavAdminBtn(page).locator('mat-icon')).toBeVisible();
+		await expect(getNavAdminBtn(page)).toContainText('Admin');
+	});
+
+	test('should display regular nav buttons alongside admin button', async ({ page }) => {
+		await expect(getNavDashboardBtn(page)).toBeVisible();
+		await expect(getNavTransactionsBtn(page)).toBeVisible();
+		await expect(getNavStatisticsBtn(page)).toBeVisible();
+		await expect(getNavGoalsBtn(page)).toBeVisible();
+		await expect(getNavDebtsBtn(page)).toBeVisible();
+	});
+
+	test('should admin nav button navigate to admin page and have active class', async ({ page }) => {
+		await getNavAdminBtn(page).click();
+		await page.waitForURL('/admin');
+		await expect(getNavAdminBtn(page)).toHaveClass(/active/);
+		await expect(getNavDashboardBtn(page)).not.toHaveClass(/active/);
+	});
+});
+
+test.describe('Sidebar — admin, md (768–1279px)', () => {
+	test.use({ viewport: { width: 900, height: 700 } });
+
+	test.beforeEach(async ({ page, context }) => {
+		await context.clearCookies({ domain: 'localhost' });
+		await page.addInitScript(() => {
+			localStorage.setItem('language', 'en');
+			localStorage.removeItem('themePreference');
+		});
+		await attemptLogin(page, 'admin');
+		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.waitForURL('/dashboard');
+	});
+
+	test('should display admin nav button without text', async ({ page }) => {
+		await expect(getNavAdminBtn(page)).toBeVisible();
+		await expect(getNavAdminBtn(page).locator('mat-icon')).toBeVisible();
+		await expect(getNavAdminBtn(page)).toContainText('');
+	});
+
+	test('should display regular nav buttons alongside admin button', async ({ page }) => {
+		await expect(getNavDashboardBtn(page)).toBeVisible();
+		await expect(getNavTransactionsBtn(page)).toBeVisible();
+		await expect(getNavStatisticsBtn(page)).toBeVisible();
+		await expect(getNavGoalsBtn(page)).toBeVisible();
+		await expect(getNavDebtsBtn(page)).toBeVisible();
+	});
+
+	test('should admin nav button navigate to admin page and have active class', async ({ page }) => {
+		await getNavAdminBtn(page).click();
+		await page.waitForURL('/admin');
+		await expect(getNavAdminBtn(page)).toHaveClass(/active/);
+		await expect(getNavDashboardBtn(page)).not.toHaveClass(/active/);
+	});
+});
+
+test.describe('Sidebar — admin, mobile (<768px)', () => {
+	test.use({ viewport: { width: 500, height: 700 } });
+
+	test.beforeEach(async ({ page, context }) => {
+		await context.clearCookies({ domain: 'localhost' });
+		await page.addInitScript(() => {
+			localStorage.setItem('language', 'en');
+			localStorage.removeItem('themePreference');
+		});
+		await attemptLogin(page, 'admin');
+		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.waitForURL('/dashboard');
+	});
+
+	test('should display admin nav button in mobile bar', async ({ page }) => {
+		await expect(getMobileNavAdminBtn(page)).toBeVisible();
+		await expect(getMobileNavAdminBtn(page).locator('mat-icon')).toBeVisible();
+	});
+
+	test('should display regular nav buttons alongside admin button', async ({ page }) => {
+		await expect(getMobileNavDashboardBtn(page)).toBeVisible();
+		await expect(getMobileNavTransactionsBtn(page)).toBeVisible();
+		await expect(getMobileNavStatisticsBtn(page)).toBeVisible();
+		await expect(getMobileNavGoalsBtn(page)).toBeVisible();
+		await expect(getMobileNavDebtsBtn(page)).toBeVisible();
+	});
+
+	test('should admin nav button navigate to admin page and have active class', async ({ page }) => {
+		await getMobileNavAdminBtn(page).click();
+		await page.waitForURL('/admin');
+		await expect(getMobileNavAdminBtn(page)).toHaveClass(/active/);
+		await expect(getMobileNavDashboardBtn(page)).not.toHaveClass(/active/);
 	});
 });
