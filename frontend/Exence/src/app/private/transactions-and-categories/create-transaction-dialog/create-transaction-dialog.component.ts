@@ -110,13 +110,13 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 	form = this.fb.group({
 		title: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
 		note: this.fb.control<string | undefined>(undefined, [Validators.maxLength(500)]),
-		date: this.fb.control<Date>(new Date(), [Validators.required]), // disable when recurring.isRecurring true
+		date: this.fb.control<Date>(new Date(), [Validators.required]),
 		amount: this.fb.control<number | null>(null, [Validators.required, Validators.min(1)]),
 		type: this.fb.control<TransactionType | null>(this.data?.type ?? TransactionType.EXPENSE, [
 			Validators.required,
 		]),
 		currency: this.fb.control<SupportedCurrency>(this.currencyService.baseCurrency(), [Validators.required]),
-		exchangeRate: this.fb.control<number | null>(null, [Validators.required, Validators.min(0.01)]), // disable when recurring.isRecurring true
+		exchangeRate: this.fb.control<number | null>(null, [Validators.required, Validators.min(0.0000000001)]),
 		category: this.fb.group({
 			category: this.fb.control<CategoryGet | null>(null, [Validators.required]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
@@ -294,7 +294,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 			request = {
 				title: formValue.title,
 				note: formValue.note ?? '',
-				date: formValue.date.toISOString(),
+				date: format(formValue.date, 'yyyy-MM-dd'),
 				amount: formValue.amount!,
 				type: formValue.type!,
 				categoryId: formValue.category.category!.id!,

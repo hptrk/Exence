@@ -5,15 +5,16 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
 import { CategorySummaryResponse } from '../../../data-model/modules/category/CategorySummaryResponse';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
+import { TransactionCreate } from '../../../data-model/modules/transaction/TransactionCreate';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../../../shared/base-component/base.component';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../../shared/display-size.service';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
-import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { CategoryStore } from '../../transactions-and-categories/category.store';
 import { CreateCategoryDialogComponent } from '../../transactions-and-categories/create-category-dialog/create-category-dialog.component';
@@ -22,8 +23,6 @@ import {
 	CreateTransactionDialogData,
 } from '../../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { TransactionStore } from '../../transactions-and-categories/transaction.store';
-import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
-import { TransactionCreate } from '../../../data-model/modules/transaction/TransactionCreate';
 
 @Component({
 	selector: 'ex-categories',
@@ -36,7 +35,6 @@ import { TransactionCreate } from '../../../data-model/modules/transaction/Trans
 		MatButtonToggleModule,
 		ReactiveFormsModule,
 		ButtonComponent,
-		EnumValuePipe,
 		TranslatePipe,
 		UpperCasePipe,
 		AnimatedSkeletonLoaderComponent,
@@ -60,6 +58,7 @@ export class CategoriesComponent extends BaseComponent {
 	hasTransactions = computed(() => !!this.topCategories().length);
 
 	categoryTypes = CategoryType;
+	listTypes = Object.values(CategoryType).filter(t => t !== CategoryType.MIXED);
 
 	async openCreateCategoryDialog(): Promise<void> {
 		const result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
@@ -83,7 +82,7 @@ export class CategoriesComponent extends BaseComponent {
 		return Math.floor((amount / this.totalExpense()) * 100);
 	}
 
-	onTypeChanged(type: CategoryType): void {
+	onTypeChanged(type: Exclude<CategoryType, CategoryType.MIXED>): void {
 		this.categoryType.set(type);
 		this.categoryStore.toggleTopCategoriesType(type);
 	}
