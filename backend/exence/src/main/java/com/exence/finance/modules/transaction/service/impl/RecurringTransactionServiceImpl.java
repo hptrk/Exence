@@ -6,10 +6,10 @@ import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.repository.UserSettingsRepository;
 import com.exence.finance.modules.auth.service.UserService;
+import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.category.entity.Category;
-import com.exence.finance.modules.category.repository.CategoryRepository;
+import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.transaction.dto.EndCondition;
 import com.exence.finance.modules.transaction.dto.RecurrenceFrequency;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionCreateDTO;
@@ -32,9 +32,9 @@ import org.springframework.stereotype.Service;
 public class RecurringTransactionServiceImpl implements RecurringTransactionService {
 
     private final RecurringTransactionRepository recurringTransactionRepository;
-    private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
     private final UserService userService;
-    private final UserSettingsRepository userSettingsRepository;
+    private final UserSettingsService userSettingsService;
     private final RecurringTransactionMapper mapper;
 
     @ReadTransactional
@@ -58,11 +58,9 @@ public class RecurringTransactionServiceImpl implements RecurringTransactionServ
     @WriteTransactional
     public RecurringTransactionGetDTO create(RecurringTransactionCreateDTO dto) {
         User user = userService.getCurrentUser();
-        Category category = categoryRepository
-                .find(dto.categoryId())
-                .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
+        Category category = categoryService.getCategory(dto.categoryId());
 
-        SupportedCurrency currency = resolveCurrency(dto.currency(), user);
+        SupportedCurrency currency = resolveCurrency(dto.currency());
 
         RecurringTransaction entity = mapper.mapToEntity(dto);
         entity.setUser(user);
@@ -84,10 +82,7 @@ public class RecurringTransactionServiceImpl implements RecurringTransactionServ
 
         if (dto.categoryId() != null
                 && !dto.categoryId().equals(entity.getCategory().getId())) {
-            Category category = categoryRepository
-                    .find(dto.categoryId())
-                    .orElseThrow(() -> new ExenceException(ErrorCode.CATEGORY_NOT_FOUND));
-            entity.setCategory(category);
+            entity.setCategory(categoryService.getCategory(dto.categoryId()));
         }
 
         if (dto.currency() != null) {
@@ -121,13 +116,8 @@ public class RecurringTransactionServiceImpl implements RecurringTransactionServ
         };
     }
 
-    private SupportedCurrency resolveCurrency(SupportedCurrency currencyFromDTO, User user) {
-        if (currencyFromDTO != null) {
-            return currencyFromDTO;
-        }
-        return userSettingsRepository
-                .findBaseCurrencyByUserId(user.getId())
-                .orElseThrow(() -> new IllegalStateException("Settings not found for user " + user.getId()));
+    private SupportedCurrency resolveCurrency(SupportedCurrency currencyFromDTO) {
+        return currencyFromDTO != null ? currencyFromDTO : userSettingsService.getUserBaseCurrency();
     }
 
     private void validatePatchedEntity(RecurringTransaction entity) {
