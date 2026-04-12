@@ -14,5 +14,9 @@
 	"invalid": {
 		"email": "captainwinnie@exence.com",
 		"password": "Test1234!"
+	},
+	"unverified": {
+		"email": "unverified@exence.com",
+		"password": "Test123!"
 	}
 }

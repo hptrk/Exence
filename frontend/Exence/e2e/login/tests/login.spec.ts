@@ -99,6 +99,23 @@ test.describe('Login', () => {
 		await expect(getErrorSnackbar(page)).toBeVisible();
 	});
 
+	test('should show error snackbar and stay on login when user is not verified', async ({ page }) => {
+		await fillAndBlur(getLoginEmailField(page), data['unverified'].email);
+		await fillAndBlur(getLoginPasswordField(page), data['unverified'].password);
+		await getLoginBtn(page).click();
+		await expect(getErrorSnackbar(page)).toBeVisible();
+		await expect(page).toHaveURL('/public/login');
+	});
+
+	test('should stay on login page after refresh when user is not verified', async ({ page }) => {
+		await fillAndBlur(getLoginEmailField(page), data['unverified'].email);
+		await fillAndBlur(getLoginPasswordField(page), data['unverified'].password);
+		await getLoginBtn(page).click();
+		await expect(getErrorSnackbar(page)).toBeVisible();
+		await page.reload({ waitUntil: 'domcontentloaded' });
+		await expect(page).toHaveURL('/public/login');
+	});
+
 	test('should successfully log in', async ({ page }) => {
 		await fillAndBlur(getLoginEmailField(page), data['valid'].email);
 		await fillAndBlur(getLoginPasswordField(page), data['valid'].password);
