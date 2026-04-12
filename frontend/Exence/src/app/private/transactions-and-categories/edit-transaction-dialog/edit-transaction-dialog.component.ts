@@ -171,7 +171,6 @@ export class EditTransactionDialogComponent extends DialogComponent<
 			date: format(formValue.date, 'yyyy-MM-dd'),
 			amount: formValue.amount!,
 			type: formValue.type,
-			// recurring: formValue.recurring,
 			categoryId: formValue.category.category!.id,
 			currency: formValue.currency,
 			exchangeRate: formValue.exchangeRate!,

@@ -9,7 +9,7 @@ import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate
 import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
 
 interface CategoryStoreData {
-	selectedTopCategoriesType: CategoryType;
+	selectedTopCategoriesType: Exclude<CategoryType, CategoryType.MIXED>;
 }
 
 const initialState: CategoryStoreData = {
@@ -24,7 +24,10 @@ export const CategoryStore = signalStore(
 			categoryResource: resource<CategoryGet[], undefined>({
 				loader: async () => await categoryService.list(),
 			}),
-			topCategoriesAllResource: resource<Record<CategoryType, CategorySummaryResponse[]>, undefined>({
+			topCategoriesAllResource: resource<
+				Record<Exclude<CategoryType, CategoryType.MIXED>, CategorySummaryResponse[]>,
+				undefined
+			>({
 				loader: async () => await categoryService.listTopAll(),
 			}),
 		};
@@ -62,7 +65,7 @@ export const CategoryStore = signalStore(
 					triggerReload();
 				},
 
-				toggleTopCategoriesType(type?: CategoryType): void {
+				toggleTopCategoriesType(type?: Exclude<CategoryType, CategoryType.MIXED>): void {
 					patchState(store, {
 						selectedTopCategoriesType: type ?? CategoryType.EXPENSE,
 					});

@@ -31,16 +31,14 @@ export class CategoryService {
 		);
 	}
 
-	public async listTopAll(): Promise<Record<CategoryType, CategorySummaryResponse[]>> {
-		const [expense, income, mixed] = await Promise.all([
+	public async listTopAll(): Promise<Record<Exclude<CategoryType, CategoryType.MIXED>, CategorySummaryResponse[]>> {
+		const [expense, income] = await Promise.all([
 			this.listTop({ type: CategoryType.EXPENSE }),
 			this.listTop({ type: CategoryType.INCOME }),
-			this.listTop({ type: CategoryType.MIXED }),
 		]);
 		return {
 			[CategoryType.EXPENSE]: expense,
 			[CategoryType.INCOME]: income,
-			[CategoryType.MIXED]: mixed,
 		};
 	}
 
