@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-workspace-role-enum
+      author: hptrk
+      comment: Create workspace_role PostgreSQL ENUM type
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: CREATE TYPE workspace_role AS ENUM ('OWNER', 'MEMBER')
+      rollback:
+        - sql:
+            sql: DROP TYPE IF EXISTS workspace_role

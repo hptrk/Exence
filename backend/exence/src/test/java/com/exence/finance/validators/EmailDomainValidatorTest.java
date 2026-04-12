@@ -6,7 +6,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.lenient;
 
 import com.exence.finance.common.validators.EmailDomainValidator;
-import com.exence.finance.config.properties.EmailBusinessProperties;
+import com.exence.finance.modules.systemsettings.entity.SystemSettings;
+import com.exence.finance.modules.systemsettings.service.SystemSettingsService;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,14 +26,16 @@ public class EmailDomainValidatorTest {
     private ConstraintValidatorContext.ConstraintViolationBuilder builder;
 
     @Mock
-    private EmailBusinessProperties emailBusinessProperties;
+    private SystemSettingsService systemSettingsService;
 
     @InjectMocks
     private EmailDomainValidator validator;
 
     @BeforeEach
     void setUp() {
-        lenient().when(emailBusinessProperties.domainWhitelistOnly()).thenReturn(false);
+        SystemSettings settings =
+                SystemSettings.builder().domainWhitelistOnly(false).build();
+        lenient().when(systemSettingsService.getSettings()).thenReturn(settings);
 
         lenient()
                 .when(context.buildConstraintViolationWithTemplate(anyString()))

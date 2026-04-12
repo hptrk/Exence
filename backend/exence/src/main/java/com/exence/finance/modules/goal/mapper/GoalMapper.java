@@ -24,7 +24,7 @@ public interface GoalMapper {
     GoalGetDTO mapToGetDTO(Goal goal);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "currentAmount", ignore = true)
@@ -37,7 +37,7 @@ public interface GoalMapper {
     Goal mapFromCreateDTO(GoalCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "currentAmount", ignore = true)

@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-workspace-settings-table
+      author: hptrk
+      comment: Create workspace_settings table for workspace-level preferences
+      dbms: postgresql
+      changes:
+        - createTable:
+            tableName: workspace_settings
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_workspace_settings
+                    nullable: false
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: base_currency
+                  type: supported_currency
+                  constraints:
+                    nullable: false
+              - column:
+                  name: show_base_currency
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: workspace_settings
+            baseColumnNames: workspace_id
+            constraintName: fk_workspace_settings_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: workspace_settings
+            columnNames: workspace_id
+            constraintName: uq_workspace_settings_workspace
+
+      rollback:
+        - dropTable:
+            tableName: workspace_settings

@@ -18,8 +18,8 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 public class DailyCategoryStatId implements Serializable {
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "workspace_id", nullable = false)
+    private Long workspaceId;
 
     @Column(name = "stat_date", nullable = false)
     private LocalDate statDate;

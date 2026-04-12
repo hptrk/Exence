@@ -4,6 +4,7 @@ import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.modules.achievement.checker.AchievementChecker;
 import com.exence.finance.modules.achievement.enums.AchievementType;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,11 @@ public class AppStreakChecker implements AchievementChecker {
 
     @Override
     @ReadTransactional
-    public long computeCurrentValue(Long userId) {
+    public long computeCurrentValue(Long workspaceId) {
         // TODO: make it weekly streak
-        List<LocalDate> dates = transactionRepository.findDistinctCreatedAtByUserId(userId);
+        List<LocalDate> dates = transactionRepository.findDistinctCreatedAtByWorkspaceId(workspaceId).stream()
+                .map(Date::toLocalDate)
+                .toList();
         if (dates.isEmpty()) {
             return 0;
         }

@@ -4,7 +4,6 @@ import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.investment.dto.InvestmentCreateDTO;
 import com.exence.finance.modules.investment.dto.InvestmentGetDTO;
@@ -14,6 +13,7 @@ import com.exence.finance.modules.investment.entity.Investment;
 import com.exence.finance.modules.investment.mapper.InvestmentMapper;
 import com.exence.finance.modules.investment.repository.InvestmentRepository;
 import com.exence.finance.modules.investment.service.InvestmentService;
+import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -29,14 +29,14 @@ import org.springframework.stereotype.Service;
 public class InvestmentServiceImpl implements InvestmentService {
 
     private final InvestmentRepository investmentRepository;
-    private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final InvestmentMapper investmentMapper;
+    private final WorkspaceMembershipService workspaceMembershipService;
 
     @Override
     @ReadTransactional
     public List<InvestmentGetDTO> getInvestments() {
-        return investmentRepository.findAllUserFiltered().stream()
+        return investmentRepository.findAllWorkspaceFiltered().stream()
                 .map(investmentMapper::mapToGetDTO)
                 .toList();
     }
@@ -44,7 +44,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     @Override
     @ReadTransactional
     public List<InvestmentGroupDTO> getGroupedInvestments() {
-        List<Investment> investments = investmentRepository.findAllUserFiltered();
+        List<Investment> investments = investmentRepository.findAllWorkspaceFiltered();
 
         Map<String, List<Investment>> grouped =
                 investments.stream().collect(Collectors.groupingBy(Investment::getAsset));
@@ -80,7 +80,7 @@ public class InvestmentServiceImpl implements InvestmentService {
     @WriteTransactional
     public InvestmentGetDTO createInvestment(InvestmentCreateDTO dto) {
         Investment investment = investmentMapper.mapFromCreateDTO(dto);
-        investment.setUser(userService.getCurrentUser());
+        investment.setWorkspace(workspaceMembershipService.getWorkspaceReference());
 
         investment.setBaseCurrencyAmount(
                 exchangeRateService.calculateBaseCurrencyAmount(dto.amount(), dto.currency(), dto.purchaseDate()));

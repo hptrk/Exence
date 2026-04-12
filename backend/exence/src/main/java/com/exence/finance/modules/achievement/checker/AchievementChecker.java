@@ -6,5 +6,5 @@ public interface AchievementChecker {
 
     AchievementType getSupportedType();
 
-    long computeCurrentValue(Long userId);
+    long computeCurrentValue(Long workspaceId);
 }

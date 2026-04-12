@@ -2,7 +2,6 @@ package com.exence.finance.modules.transaction.scheduler;
 
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
-import com.exence.finance.modules.auth.repository.UserSettingsRepository;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
 import com.exence.finance.modules.transaction.dto.EndCondition;
@@ -11,6 +10,7 @@ import com.exence.finance.modules.transaction.entity.Transaction;
 import com.exence.finance.modules.transaction.repository.RecurringTransactionRepository;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.transaction.service.impl.RecurringTransactionServiceImpl;
+import com.exence.finance.modules.workspace.repository.WorkspaceSettingsRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +27,7 @@ public class RecurringTransactionScheduler {
 
     private final RecurringTransactionRepository recurringTransactionRepository;
     private final TransactionRepository transactionRepository;
-    private final UserSettingsRepository userSettingsRepository;
+    private final WorkspaceSettingsRepository workspaceSettingsRepository;
     private final ExchangeRateService exchangeRateService;
     private final ApplicationEventPublisher eventPublisher;
 
@@ -78,10 +78,10 @@ public class RecurringTransactionScheduler {
     }
 
     private Transaction buildTransaction(RecurringTransaction rt, LocalDate executionDate) {
-        SupportedCurrency baseCurrency = userSettingsRepository
-                .findBaseCurrencyByUserId(rt.getUser().getId())
+        SupportedCurrency baseCurrency = workspaceSettingsRepository
+                .findBaseCurrencyByWorkspaceId(rt.getWorkspace().getId())
                 .orElseThrow(() -> new IllegalStateException(
-                        "Settings not found for user " + rt.getUser().getId()));
+                        "Settings not found for workspace " + rt.getWorkspace().getId()));
 
         SupportedCurrency currency = rt.getCurrency();
 
@@ -109,7 +109,7 @@ public class RecurringTransactionScheduler {
                 .createdByRecurringJob(true)
                 .recurringTransaction(rt)
                 .category(rt.getCategory())
-                .user(rt.getUser())
+                .workspace(rt.getWorkspace())
                 .build();
     }
 

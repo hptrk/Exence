@@ -5,7 +5,6 @@ import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
 import com.exence.finance.modules.goal.dto.GoalCreateDTO;
@@ -20,6 +19,8 @@ import com.exence.finance.modules.goal.mapper.GoalMapper;
 import com.exence.finance.modules.goal.repository.GoalProgressRepository;
 import com.exence.finance.modules.goal.repository.GoalRepository;
 import com.exence.finance.modules.goal.service.GoalService;
+import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
+import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -34,10 +35,10 @@ public class GoalServiceImpl implements GoalService {
     private final GoalRepository goalRepository;
     private final GoalProgressRepository goalProgressRepository;
     private final CategoryService categoryService;
-    private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final GoalMapper goalMapper;
     private final ApplicationEventPublisher eventPublisher;
+    private final WorkspaceMembershipService workspaceMembershipService;
 
     @ReadTransactional
     public Goal getGoal(Long id) {
@@ -47,7 +48,7 @@ public class GoalServiceImpl implements GoalService {
     @ReadTransactional
     public List<GoalGetDTO> getGoalsByStatuses(List<GoalStatus> statuses) {
         List<Goal> goals = statuses == null || statuses.isEmpty()
-                ? goalRepository.findAllUserFiltered()
+                ? goalRepository.findAllWorkspaceFiltered()
                 : goalRepository.findByStatusIn(statuses);
         return goals.stream().map(goalMapper::mapToGetDTO).toList();
     }
@@ -60,7 +61,7 @@ public class GoalServiceImpl implements GoalService {
     @WriteTransactional
     public GoalGetDTO createGoal(GoalCreateDTO dto) {
         Goal goal = goalMapper.mapFromCreateDTO(dto);
-        goal.setUser(userService.getCurrentUser());
+        goal.setWorkspace(workspaceMembershipService.getWorkspaceReference());
         goal.setCategory(categoryService.getCategory(dto.categoryId()));
 
         BigDecimal initialAmount = dto.initialAmount() != null ? dto.initialAmount() : BigDecimal.ZERO;
@@ -79,10 +80,10 @@ public class GoalServiceImpl implements GoalService {
         Goal savedGoal = goalRepository.save(goal);
         recordProgress(savedGoal, initialAmount);
 
-        eventPublisher.publishEvent(new GoalCreatedEvent(savedGoal.getUser().getId()));
+        Long workspaceId = WorkspaceContextHolder.getWorkspaceId();
+        eventPublisher.publishEvent(new GoalCreatedEvent(workspaceId));
         if (status == GoalStatus.COMPLETED) {
-            eventPublisher.publishEvent(
-                    new GoalCompletedEvent(savedGoal.getUser().getId()));
+            eventPublisher.publishEvent(new GoalCompletedEvent(workspaceId));
         }
 
         return goalMapper.mapToGetDTO(savedGoal);
@@ -124,8 +125,7 @@ public class GoalServiceImpl implements GoalService {
         Goal savedGoal = goalRepository.save(goal);
 
         if (savedGoal.getStatus() == GoalStatus.COMPLETED && previousStatus != GoalStatus.COMPLETED) {
-            eventPublisher.publishEvent(
-                    new GoalCompletedEvent(savedGoal.getUser().getId()));
+            eventPublisher.publishEvent(new GoalCompletedEvent(WorkspaceContextHolder.getWorkspaceId()));
         }
 
         return goalMapper.mapToGetDTO(savedGoal);

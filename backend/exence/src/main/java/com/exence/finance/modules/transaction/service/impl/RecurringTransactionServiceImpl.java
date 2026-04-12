@@ -5,8 +5,6 @@ import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.service.CategoryService;
@@ -20,6 +18,7 @@ import com.exence.finance.modules.transaction.entity.RecurringTransaction;
 import com.exence.finance.modules.transaction.mapper.RecurringTransactionMapper;
 import com.exence.finance.modules.transaction.repository.RecurringTransactionRepository;
 import com.exence.finance.modules.transaction.service.RecurringTransactionService;
+import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import lombok.RequiredArgsConstructor;
@@ -33,9 +32,9 @@ public class RecurringTransactionServiceImpl implements RecurringTransactionServ
 
     private final RecurringTransactionRepository recurringTransactionRepository;
     private final CategoryService categoryService;
-    private final UserService userService;
     private final UserSettingsService userSettingsService;
     private final RecurringTransactionMapper mapper;
+    private final WorkspaceMembershipService workspaceMembershipService;
 
     @ReadTransactional
     public RecurringTransactionGetDTO getById(Long id) {
@@ -49,21 +48,20 @@ public class RecurringTransactionServiceImpl implements RecurringTransactionServ
     public Page<RecurringTransactionGetDTO> getAll(Pageable pageable, TransactionType type) {
         if (type != null) {
             return recurringTransactionRepository
-                    .findAllUserFilteredByType(type, pageable)
+                    .findAllWorkspaceFilteredByType(type, pageable)
                     .map(mapper::mapToGetDTO);
         }
-        return recurringTransactionRepository.findAllUserFiltered(pageable).map(mapper::mapToGetDTO);
+        return recurringTransactionRepository.findAllWorkspaceFiltered(pageable).map(mapper::mapToGetDTO);
     }
 
     @WriteTransactional
     public RecurringTransactionGetDTO create(RecurringTransactionCreateDTO dto) {
-        User user = userService.getCurrentUser();
         Category category = categoryService.getCategory(dto.categoryId());
 
         SupportedCurrency currency = resolveCurrency(dto.currency());
 
         RecurringTransaction entity = mapper.mapToEntity(dto);
-        entity.setUser(user);
+        entity.setWorkspace(workspaceMembershipService.getWorkspaceReference());
         entity.setCategory(category);
         entity.setCurrency(currency);
         entity.setCurrentOccurrences(0);

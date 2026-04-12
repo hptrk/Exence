@@ -5,8 +5,6 @@ import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.auth.service.UserSettingsService;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.category.service.CategoryService;
@@ -25,6 +23,8 @@ import com.exence.finance.modules.transaction.mapper.TransactionMapper;
 import com.exence.finance.modules.transaction.repository.TransactionPredicateBuilder;
 import com.exence.finance.modules.transaction.repository.TransactionRepository;
 import com.exence.finance.modules.transaction.service.TransactionService;
+import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
+import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import com.querydsl.core.types.Predicate;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -46,11 +46,11 @@ import org.springframework.stereotype.Service;
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final CategoryService categoryService;
-    private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final TransactionMapper transactionMapper;
     private final ApplicationEventPublisher eventPublisher;
     private final UserSettingsService userSettingsService;
+    private final WorkspaceMembershipService workspaceMembershipService;
 
     @ReadTransactional
     public TransactionGetDTO getTransactionById(Long id) {
@@ -76,20 +76,19 @@ public class TransactionServiceImpl implements TransactionService {
 
     @WriteTransactional
     public TransactionGetDTO createTransaction(TransactionCreateDTO transactionCreateDTO) {
-        User user = userService.getCurrentUser();
         Transaction transaction = transactionMapper.mapToTransaction(transactionCreateDTO);
 
         Category category = categoryService.getCategory(transactionCreateDTO.categoryId());
 
         transaction.setCategory(category);
-        transaction.setUser(user);
+        transaction.setWorkspace(workspaceMembershipService.getWorkspaceReference());
         transaction.setCreatedByRecurringJob(false);
 
         applyCurrencyFields(transaction, transactionCreateDTO.currency(), transactionCreateDTO.exchangeRate());
 
         Transaction savedTransaction = transactionRepository.save(transaction);
         eventPublisher.publishEvent(new MaterializedViewRefreshEvent());
-        eventPublisher.publishEvent(new TransactionCreatedEvent(user.getId()));
+        eventPublisher.publishEvent(new TransactionCreatedEvent(WorkspaceContextHolder.getWorkspaceId()));
         return transactionMapper.mapToTransactionGetDTO(savedTransaction);
     }
 
@@ -138,7 +137,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private void recalculateBaseCurrencyAmounts(SupportedCurrency newBaseCurrency) {
-        List<Transaction> transactions = transactionRepository.findAllUserFiltered();
+        List<Transaction> transactions = transactionRepository.findAllWorkspaceFiltered();
 
         LocalDate startDate = transactions.stream()
                 .map(Transaction::getDate)
@@ -166,8 +165,8 @@ public class TransactionServiceImpl implements TransactionService {
 
             BigDecimal exchangeRate = exchangeRateService.getRate(txCurrency, newBaseCurrency, txDate, rates);
 
-            BigDecimal baseAmount =
-                    exchangeRateService.calculateBaseCurrencyAmount(transaction.getAmount(), txCurrency, txDate, rates);
+            BigDecimal baseAmount = exchangeRateService.calculateBaseCurrencyAmount(
+                    transaction.getAmount(), txCurrency, txDate, exchangeRate);
 
             transaction.setExchangeRate(exchangeRate);
             transaction.setBaseCurrencyAmount(baseAmount);

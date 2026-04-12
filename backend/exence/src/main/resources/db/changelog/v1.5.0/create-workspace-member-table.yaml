@@ -1,0 +1,62 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-workspace-member-table
+      author: hptrk
+      comment: Create workspace_member junction table with role and joined_at
+      dbms: postgresql
+      changes:
+        - createTable:
+            tableName: workspace_member
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_workspace_member
+                    nullable: false
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role
+                  type: workspace_role
+                  constraints:
+                    nullable: false
+              - column:
+                  name: joined_at
+                  type: TIMESTAMP WITH TIME ZONE
+                  constraints:
+                    nullable: false
+
+        - addForeignKeyConstraint:
+            baseTableName: workspace_member
+            baseColumnNames: workspace_id
+            constraintName: fk_workspace_member_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: workspace_member
+            baseColumnNames: user_id
+            constraintName: fk_workspace_member_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: workspace_member
+            columnNames: workspace_id, user_id
+            constraintName: uq_workspace_member
+
+      rollback:
+        - dropTable:
+            tableName: workspace_member

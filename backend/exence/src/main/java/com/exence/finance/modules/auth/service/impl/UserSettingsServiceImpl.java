@@ -3,6 +3,8 @@ package com.exence.finance.modules.auth.service.impl;
 import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
+import com.exence.finance.common.exception.ErrorCode;
+import com.exence.finance.common.exception.ExenceException;
 import com.exence.finance.modules.auth.dto.request.UpdateUserSettingsRequest;
 import com.exence.finance.modules.auth.dto.response.UserSettingsResponse;
 import com.exence.finance.modules.auth.entity.UserSettings;
@@ -10,10 +12,10 @@ import com.exence.finance.modules.auth.mapper.UserSettingsMapper;
 import com.exence.finance.modules.auth.repository.UserSettingsRepository;
 import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.auth.service.UserSettingsService;
-import com.exence.finance.modules.transaction.event.BaseCurrencyChangedEvent;
+import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
+import com.exence.finance.modules.workspace.repository.WorkspaceSettingsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +25,7 @@ public class UserSettingsServiceImpl implements UserSettingsService {
     private final UserSettingsRepository userSettingsRepository;
     private final UserSettingsMapper userSettingsMapper;
     private final UserService userService;
-    private final ApplicationEventPublisher eventPublisher;
+    private final WorkspaceSettingsRepository workspaceSettingsRepository;
 
     @Override
     @ReadTransactional
@@ -35,36 +37,26 @@ public class UserSettingsServiceImpl implements UserSettingsService {
     @WriteTransactional
     public UserSettingsResponse updateCurrentUserSettings(UpdateUserSettingsRequest request) {
         UserSettings settings = getCurrentSettings();
-        SupportedCurrency oldBaseCurrency = settings.getBaseCurrency();
-        SupportedCurrency newBaseCurrency = request.baseCurrency();
-
         userSettingsMapper.updateFromRequest(request, settings);
         settings = userSettingsRepository.save(settings);
-
-        if (newBaseCurrency != null && newBaseCurrency != oldBaseCurrency) {
-            log.info(
-                    "Base currency changed from {} to {} for user {}",
-                    oldBaseCurrency,
-                    newBaseCurrency,
-                    settings.getUser().getId());
-            // publish event instead of circular transactionService dependency
-            eventPublisher.publishEvent(new BaseCurrencyChangedEvent(newBaseCurrency));
-        }
-
         return userSettingsMapper.toResponse(settings);
+    }
+
+    @Override
+    public SupportedCurrency getUserBaseCurrency() {
+        Long workspaceId = WorkspaceContextHolder.getWorkspaceId();
+        if (workspaceId == null) {
+            throw new ExenceException(ErrorCode.WORKSPACE_HEADER_MISSING);
+        }
+        return workspaceSettingsRepository
+                .findBaseCurrencyByWorkspaceId(workspaceId)
+                .orElseThrow(() -> new IllegalStateException("Settings not found for workspace " + workspaceId));
     }
 
     private UserSettings getCurrentSettings() {
         Long userId = userService.getCurrentUserId();
         return userSettingsRepository
                 .findByUserId(userId)
-                .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
-    }
-
-    public SupportedCurrency getUserBaseCurrency() {
-        Long userId = userService.getCurrentUserId();
-        return userSettingsRepository
-                .findBaseCurrencyByUserId(userId)
                 .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
     }
 }

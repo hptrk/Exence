@@ -3,7 +3,7 @@ package com.exence.finance.modules.achievement.entity;
 import static com.exence.finance.common.util.ValidationConstants.ACHIEVEMENT_TYPE_MAX_LENGTH;
 
 import com.exence.finance.modules.achievement.enums.AchievementType;
-import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.workspace.entity.Workspace;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,8 +28,8 @@ import lombok.Setter;
         name = "achievement_progress",
         uniqueConstraints =
                 @UniqueConstraint(
-                        columnNames = {"user_id", "achievement_type"},
-                        name = "uq_achievement_progress_user_type"))
+                        columnNames = {"workspace_id", "achievement_type"},
+                        name = "uq_achievement_progress_workspace_type"))
 @Getter
 @Setter
 @Builder
@@ -47,8 +47,8 @@ public class AchievementProgress {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "workspace_id", nullable = false)
+    private Workspace workspace;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "achievement_type", nullable = false, length = ACHIEVEMENT_TYPE_MAX_LENGTH)

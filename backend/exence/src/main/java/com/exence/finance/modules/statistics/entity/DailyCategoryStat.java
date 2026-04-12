@@ -14,7 +14,7 @@ import org.hibernate.annotations.Immutable;
 @Entity
 @Immutable
 @Table(name = "mv_daily_category_stat")
-@Filter(name = "userFilter", condition = "user_id = :userId")
+@Filter(name = "workspaceFilter", condition = "workspace_id = :workspaceId")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

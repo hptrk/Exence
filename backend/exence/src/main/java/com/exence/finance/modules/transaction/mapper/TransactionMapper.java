@@ -18,7 +18,7 @@ public interface TransactionMapper {
     TransactionGetDTO mapToTransactionGetDTO(Transaction transaction);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "currency", ignore = true)
     @Mapping(target = "exchangeRate", ignore = true)
@@ -32,7 +32,7 @@ public interface TransactionMapper {
     Transaction mapToTransaction(TransactionCreateDTO transactionCreateDTO);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "currency", ignore = true)
     @Mapping(target = "exchangeRate", ignore = true)

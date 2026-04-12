@@ -17,7 +17,7 @@ public interface RecurringTransactionMapper {
     RecurringTransactionGetDTO mapToGetDTO(RecurringTransaction recurringTransaction);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "currency", ignore = true)
     @Mapping(target = "currentOccurrences", ignore = true)
@@ -30,7 +30,7 @@ public interface RecurringTransactionMapper {
     RecurringTransaction mapToEntity(RecurringTransactionCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "currency", ignore = true)
     @Mapping(target = "currentOccurrences", ignore = true)

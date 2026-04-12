@@ -32,8 +32,6 @@ public abstract class UserMapper {
     @Mapping(target = "createdAt", ignore = true) // AfterMapping
     @Mapping(target = "role", ignore = true) // AfterMapping
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "transactions", ignore = true)
-    @Mapping(target = "categories", ignore = true)
     @Mapping(target = "tokens", ignore = true)
     @Mapping(target = "emailLogs", ignore = true)
     @Mapping(target = "passwordHistories", ignore = true)
@@ -54,8 +52,6 @@ public abstract class UserMapper {
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "emailVerified", ignore = true)
     @Mapping(target = "lastLoginAt", ignore = true)
-    @Mapping(target = "transactions", ignore = true)
-    @Mapping(target = "categories", ignore = true)
     @Mapping(target = "tokens", ignore = true)
     @Mapping(target = "emailLogs", ignore = true)
     @Mapping(target = "passwordHistories", ignore = true)

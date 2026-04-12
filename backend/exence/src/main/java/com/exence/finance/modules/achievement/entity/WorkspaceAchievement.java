@@ -1,6 +1,6 @@
 package com.exence.finance.modules.achievement.entity;
 
-import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.modules.workspace.entity.Workspace;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,27 +22,30 @@ import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(
-        name = "user_achievement",
+        name = "workspace_achievement",
         uniqueConstraints =
                 @UniqueConstraint(
-                        columnNames = {"user_id", "achievement_id"},
-                        name = "uq_user_achievement"))
+                        columnNames = {"workspace_id", "achievement_id"},
+                        name = "uq_workspace_achievement"))
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserAchievement {
+public class WorkspaceAchievement {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_achievement_id_seq")
-    @SequenceGenerator(name = "user_achievement_id_seq", sequenceName = "user_achievement_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workspace_achievement_id_seq")
+    @SequenceGenerator(
+            name = "workspace_achievement_id_seq",
+            sequenceName = "workspace_achievement_id_seq",
+            allocationSize = 1)
     @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "workspace_id", nullable = false)
+    private Workspace workspace;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "achievement_id", nullable = false)

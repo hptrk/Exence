@@ -18,6 +18,11 @@ public enum ErrorCode {
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "access-denied"),
     INVALID_TOKEN(HttpStatus.FORBIDDEN, "invalid-token"),
     EMAIL_VERIFICATION_REQUIRED(HttpStatus.FORBIDDEN, "email-verification-required"),
+    WORKSPACE_NOT_FOUND(HttpStatus.FORBIDDEN, "workspace-not-found"),
+    WORKSPACE_CANNOT_DELETE_LAST(HttpStatus.FORBIDDEN, "workspace-cannot-delete-last"),
+    WORKSPACE_OWNER_CANNOT_LEAVE(HttpStatus.FORBIDDEN, "workspace-owner-cannot-leave"),
+    WORKSPACE_OWNER_CANNOT_BE_REMOVED(HttpStatus.FORBIDDEN, "workspace-owner-cannot-be-removed"),
+    WORKSPACE_OWNER_REQUIRED(HttpStatus.FORBIDDEN, "workspace-owner-required"),
 
     // 404 - Not Found
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "user-not-found"),
@@ -32,11 +37,13 @@ public enum ErrorCode {
 
     // 409 - Conflict
     EMAIL_ALREADY_IN_USE(HttpStatus.CONFLICT, "email-already-in-use"),
+    WORKSPACE_MEMBER_ALREADY_EXISTS(HttpStatus.CONFLICT, "workspace-member-already-exists"),
     CATEGORY_ALREADY_EXISTS(HttpStatus.CONFLICT, "category-already-exists"),
     CATEGORY_IN_USE(HttpStatus.CONFLICT, "category-in-use"),
     DATA_INTEGRITY_VIOLATION(HttpStatus.CONFLICT, "data-integrity-violation"),
 
     // 400 - Bad Request
+    WORKSPACE_HEADER_MISSING(HttpStatus.BAD_REQUEST, "workspace-header-missing"),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "invalid-password"),
     WIDGET_TYPE_MISMATCH(HttpStatus.BAD_REQUEST, "widget-type-mismatch"),
     INVALID_WIDGET_SETTING(HttpStatus.BAD_REQUEST, "invalid-widget-setting"),

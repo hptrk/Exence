@@ -21,7 +21,7 @@ public class DebtSettledChecker implements AchievementChecker {
 
     @Override
     @ReadTransactional
-    public long computeCurrentValue(Long userId) {
-        return debtRepository.countByUserIdAndStatus(userId, DebtStatus.SETTLED);
+    public long computeCurrentValue(Long workspaceId) {
+        return debtRepository.countByWorkspaceIdAndStatus(workspaceId, DebtStatus.SETTLED);
     }
 }
