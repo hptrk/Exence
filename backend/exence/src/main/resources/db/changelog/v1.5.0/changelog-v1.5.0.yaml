@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - include:
+      file: create-workspace-sequences.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-workspace-role-enum.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-workspace-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-workspace-member-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: create-workspace-settings-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrate-business-tables-to-workspace.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: recreate-mv-daily-category-stat-workspace.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: migrate-achievements-to-workspace.yaml
+      relativeToChangelogFile: true
+

@@ -4,7 +4,6 @@ import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
 import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
@@ -20,6 +19,8 @@ import com.exence.finance.modules.statistics.repository.WidgetRepository;
 import com.exence.finance.modules.statistics.service.WidgetService;
 import com.exence.finance.modules.statistics.service.WidgetSettingsValidator;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
+import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
+import com.exence.finance.modules.workspace.service.WorkspaceService;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class WidgetServiceImpl implements WidgetService {
     private final WidgetMapper widgetMapper;
     private final WidgetRepository widgetRepository;
     private final StatisticsQueryService statisticsQueryService;
-    private final UserService userService;
+    private final WorkspaceService workspaceService;
     private final WidgetSettingsValidator widgetSettingsValidator;
     private final List<WidgetDataProvider> providers;
 
@@ -80,7 +81,7 @@ public class WidgetServiceImpl implements WidgetService {
     public WidgetLayoutResponse createWidget(WidgetCreateDTO widgetCreateDTO) {
         widgetSettingsValidator.validate(widgetCreateDTO.settings());
         Widget widget = widgetMapper.mapToWidget(widgetCreateDTO);
-        widget.setUser(userService.getCurrentUser());
+        widget.setWorkspace(workspaceService.getWorkspace(WorkspaceContextHolder.getWorkspaceId()));
 
         widgetRepository.save(widget);
 

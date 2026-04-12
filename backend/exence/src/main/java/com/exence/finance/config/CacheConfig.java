@@ -20,7 +20,7 @@ public class CacheConfig {
     public CacheManager cacheManager() {
         ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager();
 
-        cacheManager.setCacheNames(List.of("currentUser", "currentUserId", "systemSettings"));
+        cacheManager.setCacheNames(List.of("currentUser", "currentUserId", "systemSettings", "workspaceMembership"));
 
         return cacheManager;
     }

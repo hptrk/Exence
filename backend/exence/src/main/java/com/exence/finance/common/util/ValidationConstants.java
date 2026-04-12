@@ -34,7 +34,9 @@ public final class ValidationConstants {
 
     // User settings validations
     public static final int LANGUAGE_CODE_LENGTH = 2;
-    public static final int CURRENCY_CODE_LENGTH = 3;
+
+    // Workspace validations
+    public static final int WORKSPACE_NAME_MAX_LENGTH = 100;
 
     // Category validations
     public static final int CATEGORY_NAME_MIN_LENGTH = 1;

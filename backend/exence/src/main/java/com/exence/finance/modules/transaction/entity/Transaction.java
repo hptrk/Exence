@@ -10,8 +10,7 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMO
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_NOTE_MAX_LENGTH;
 
 import com.exence.finance.common.dto.SupportedCurrency;
-import com.exence.finance.common.entity.BaseAuditableEntity;
-import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.common.entity.BaseWorkspaceEntity;
 import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import jakarta.persistence.Column;
@@ -48,13 +47,13 @@ import org.hibernate.type.SqlTypes;
 @FieldNameConstants
 @EqualsAndHashCode(
         callSuper = false,
-        exclude = {"user", "category", "recurringTransaction"})
+        exclude = {"category", "recurringTransaction"})
 @ToString(
         callSuper = true,
-        exclude = {"user", "category", "recurringTransaction"})
+        exclude = {"category", "recurringTransaction"})
 @Table(name = "transaction")
-@Filter(name = "userFilter", condition = "user_id = :userId")
-public class Transaction extends BaseAuditableEntity {
+@Filter(name = "workspaceFilter", condition = "workspace_id = :workspaceId")
+public class Transaction extends BaseWorkspaceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transaction_id_seq")
@@ -123,8 +122,4 @@ public class Transaction extends BaseAuditableEntity {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 }

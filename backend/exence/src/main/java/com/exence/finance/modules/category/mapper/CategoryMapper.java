@@ -22,7 +22,7 @@ public interface CategoryMapper {
     CategoryGetDTO mapToCategoryGetDTO(Category category, BigDecimal balance);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -31,7 +31,7 @@ public interface CategoryMapper {
     Category mapToCategory(CategoryCreateDTO categoryCreateDTO);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "transactions", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)

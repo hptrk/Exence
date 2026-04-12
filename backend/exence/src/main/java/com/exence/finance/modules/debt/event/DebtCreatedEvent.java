@@ -1,3 +1,3 @@
 package com.exence.finance.modules.debt.event;
 
-public record DebtCreatedEvent(Long userId) {}
+public record DebtCreatedEvent(Long workspaceId) {}

@@ -86,6 +86,11 @@ public class UserServiceImpl implements UserService {
         return getCurrentUser().getId();
     }
 
+    @ReadTransactional
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new ExenceException(ErrorCode.USER_NOT_FOUND));
+    }
+
     @WriteTransactional
     @CacheEvict(
             value = {"currentUser", "currentUserId"},

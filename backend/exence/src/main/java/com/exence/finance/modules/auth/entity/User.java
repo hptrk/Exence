@@ -4,9 +4,7 @@ import static com.exence.finance.common.util.ValidationConstants.EMAIL_MAX_LENGT
 import static com.exence.finance.common.util.ValidationConstants.ROLE_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.USERNAME_MAX_LENGTH;
 
-import com.exence.finance.modules.category.entity.Category;
 import com.exence.finance.modules.email.entity.EmailLog;
-import com.exence.finance.modules.transaction.entity.Transaction;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,10 +41,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 @AllArgsConstructor
 @EqualsAndHashCode(
         callSuper = false,
-        exclude = {"transactions", "categories", "tokens", "emailLogs", "passwordHistories", "settings"})
+        exclude = {"tokens", "emailLogs", "passwordHistories", "settings"})
 @ToString(
         callSuper = true,
-        exclude = {"transactions", "categories", "tokens", "password", "emailLogs", "passwordHistories", "settings"})
+        exclude = {"tokens", "password", "emailLogs", "passwordHistories", "settings"})
 @Table(name = "_user")
 public class User implements UserDetails {
 
@@ -83,12 +81,6 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false, length = ROLE_MAX_LENGTH)
     @Builder.Default
     private Role role = Role.USER;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Transaction> transactions;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Category> categories;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<Token> tokens;

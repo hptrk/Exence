@@ -20,7 +20,7 @@ public class DebtCountChecker implements AchievementChecker {
 
     @Override
     @ReadTransactional
-    public long computeCurrentValue(Long userId) {
-        return debtRepository.countAllByUserId(userId);
+    public long computeCurrentValue(Long workspaceId) {
+        return debtRepository.countAllByWorkspaceId(workspaceId);
     }
 }

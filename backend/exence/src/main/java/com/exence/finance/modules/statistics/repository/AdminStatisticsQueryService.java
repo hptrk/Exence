@@ -40,7 +40,7 @@ public class AdminStatisticsQueryService {
 
         return queryFactory
                 .select(Projections.constructor(
-                        DailyCountResult.class, activityDate, transaction.user.id.countDistinct()))
+                        DailyCountResult.class, activityDate, transaction.createdBy.countDistinct()))
                 .from(transaction)
                 .where(transaction
                         .createdAt
@@ -62,7 +62,7 @@ public class AdminStatisticsQueryService {
                         MonthlyCountResult.class,
                         transaction.createdAt.year(),
                         transaction.createdAt.month(),
-                        transaction.user.id.countDistinct()))
+                        transaction.createdBy.countDistinct()))
                 .from(transaction)
                 .where(transaction
                         .createdAt
@@ -169,11 +169,10 @@ public class AdminStatisticsQueryService {
 
     public List<TopUserResult> findTopActiveUsers(LocalDate start, LocalDate end, int limit) {
         return queryFactory
-                .select(Projections.constructor(TopUserResult.class, user.username, transaction.count()))
+                .select(Projections.constructor(TopUserResult.class, transaction.createdBy, transaction.count()))
                 .from(transaction)
-                .join(transaction.user, user)
                 .where(transaction.date.goe(start).and(transaction.date.loe(end)))
-                .groupBy(user.id, user.username)
+                .groupBy(transaction.createdBy)
                 .orderBy(transaction.count().desc())
                 .limit(limit)
                 .fetch();

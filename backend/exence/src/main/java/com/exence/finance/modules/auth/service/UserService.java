@@ -23,4 +23,6 @@ public interface UserService {
     void requestVerifyEmail();
 
     void deleteUser();
+
+    User getUserByEmail(String email);
 }

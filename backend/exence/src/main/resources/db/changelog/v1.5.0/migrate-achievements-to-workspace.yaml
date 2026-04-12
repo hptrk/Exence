@@ -1,0 +1,149 @@
+databaseChangeLog:
+  # Step 1: Migrate user_achievement → workspace_achievement
+  - changeSet:
+      id: migrate-user-achievement-to-workspace
+      author: hptrk
+      comment: Replace user_id with workspace_id on user_achievement and rename table to workspace_achievement
+      dbms: postgresql
+      changes:
+        - dropUniqueConstraint:
+            tableName: user_achievement
+            constraintName: uq_user_achievement
+        - dropForeignKeyConstraint:
+            baseTableName: user_achievement
+            constraintName: fk_user_achievement_user
+        - dropColumn:
+            tableName: user_achievement
+            columnName: user_id
+        - addColumn:
+            tableName: user_achievement
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: user_achievement
+            baseColumnNames: workspace_id
+            constraintName: fk_workspace_achievement_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            tableName: user_achievement
+            columnNames: workspace_id, achievement_id
+            constraintName: uq_workspace_achievement
+        - renameTable:
+            oldTableName: user_achievement
+            newTableName: workspace_achievement
+      rollback:
+        - renameTable:
+            oldTableName: workspace_achievement
+            newTableName: user_achievement
+        - dropUniqueConstraint:
+            tableName: user_achievement
+            constraintName: uq_workspace_achievement
+        - dropForeignKeyConstraint:
+            baseTableName: user_achievement
+            constraintName: fk_workspace_achievement_workspace
+        - dropColumn:
+            tableName: user_achievement
+            columnName: workspace_id
+        - addColumn:
+            tableName: user_achievement
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: user_achievement
+            baseColumnNames: user_id
+            constraintName: fk_user_achievement_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            tableName: user_achievement
+            columnNames: user_id, achievement_id
+            constraintName: uq_user_achievement
+
+  # Step 2: Rename sequence for workspace_achievement
+  - changeSet:
+      id: rename-user-achievement-sequence
+      author: hptrk
+      comment: Rename user_achievement_id_seq to workspace_achievement_id_seq
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: ALTER SEQUENCE user_achievement_id_seq RENAME TO workspace_achievement_id_seq
+      rollback:
+        - sql:
+            sql: ALTER SEQUENCE workspace_achievement_id_seq RENAME TO user_achievement_id_seq
+
+  # Step 3: Migrate achievement_progress user_id → workspace_id
+  - changeSet:
+      id: migrate-achievement-progress-to-workspace
+      author: hptrk
+      comment: Replace user_id with workspace_id on achievement_progress
+      dbms: postgresql
+      changes:
+        - dropUniqueConstraint:
+            tableName: achievement_progress
+            constraintName: uq_achievement_progress_user_type
+        - dropForeignKeyConstraint:
+            baseTableName: achievement_progress
+            constraintName: fk_achievement_progress_user
+        - dropColumn:
+            tableName: achievement_progress
+            columnName: user_id
+        - addColumn:
+            tableName: achievement_progress
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: achievement_progress
+            baseColumnNames: workspace_id
+            constraintName: fk_achievement_progress_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            tableName: achievement_progress
+            columnNames: workspace_id, achievement_type
+            constraintName: uq_achievement_progress_workspace_type
+      rollback:
+        - dropUniqueConstraint:
+            tableName: achievement_progress
+            constraintName: uq_achievement_progress_workspace_type
+        - dropForeignKeyConstraint:
+            baseTableName: achievement_progress
+            constraintName: fk_achievement_progress_workspace
+        - dropColumn:
+            tableName: achievement_progress
+            columnName: workspace_id
+        - addColumn:
+            tableName: achievement_progress
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: achievement_progress
+            baseColumnNames: user_id
+            constraintName: fk_achievement_progress_user
+            referencedTableName: _user
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addUniqueConstraint:
+            tableName: achievement_progress
+            columnNames: user_id, achievement_type
+            constraintName: uq_achievement_progress_user_type

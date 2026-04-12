@@ -5,7 +5,6 @@ import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.debt.dto.DebtCreateDTO;
 import com.exence.finance.modules.debt.dto.DebtGetDTO;
@@ -14,11 +13,14 @@ import com.exence.finance.modules.debt.dto.DebtPaymentDTO;
 import com.exence.finance.modules.debt.entity.Debt;
 import com.exence.finance.modules.debt.enums.DebtStatus;
 import com.exence.finance.modules.debt.enums.DebtType;
+import com.exence.finance.modules.debt.event.DebtCreatedEvent;
 import com.exence.finance.modules.debt.event.DebtSettledEvent;
 import com.exence.finance.modules.debt.mapper.DebtMapper;
 import com.exence.finance.modules.debt.repository.DebtRepository;
 import com.exence.finance.modules.debt.service.DebtService;
 import com.exence.finance.modules.exchangerate.service.ExchangeRateService;
+import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
+import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -32,10 +34,10 @@ public class DebtServiceImpl implements DebtService {
 
     private final DebtRepository debtRepository;
     private final CategoryService categoryService;
-    private final UserService userService;
     private final ExchangeRateService exchangeRateService;
     private final DebtMapper debtMapper;
     private final ApplicationEventPublisher eventPublisher;
+    private final WorkspaceMembershipService workspaceMembershipService;
 
     @ReadTransactional
     public List<DebtGetDTO> getDebts(List<DebtStatus> statuses, DebtType type) {
@@ -51,7 +53,7 @@ public class DebtServiceImpl implements DebtService {
         } else if (hasType) {
             debts = debtRepository.findByType(type);
         } else {
-            debts = debtRepository.findAllUserFiltered();
+            debts = debtRepository.findAllWorkspaceFiltered();
         }
         return debts.stream().map(debtMapper::mapToGetDTO).toList();
     }
@@ -64,7 +66,7 @@ public class DebtServiceImpl implements DebtService {
     @WriteTransactional
     public DebtGetDTO createDebt(DebtCreateDTO dto) {
         Debt debt = debtMapper.mapFromCreateDTO(dto);
-        debt.setUser(userService.getCurrentUser());
+        debt.setWorkspace(workspaceMembershipService.getWorkspaceReference());
         debt.setCategory(categoryService.getCategory(dto.categoryId()));
         debt.setRemainingAmount(dto.originalAmount());
         debt.setStatus(DebtStatus.ACTIVE);
@@ -75,7 +77,7 @@ public class DebtServiceImpl implements DebtService {
         debt.setRemainingBaseCurrencyAmount(originalBaseCurrencyAmount);
 
         Debt savedDebt = debtRepository.save(debt);
-        eventPublisher.publishEvent(savedDebt.getUser().getId());
+        eventPublisher.publishEvent(new DebtCreatedEvent(WorkspaceContextHolder.getWorkspaceId()));
         return debtMapper.mapToGetDTO(savedDebt);
     }
 
@@ -93,7 +95,7 @@ public class DebtServiceImpl implements DebtService {
         Debt savedDebt = debtRepository.save(debt);
 
         if (savedDebt.getStatus() == DebtStatus.SETTLED && previousStatus != DebtStatus.SETTLED) {
-            eventPublisher.publishEvent(new DebtSettledEvent(savedDebt.getUser().getId()));
+            eventPublisher.publishEvent(new DebtSettledEvent(WorkspaceContextHolder.getWorkspaceId()));
         }
 
         return debtMapper.mapToGetDTO(savedDebt);
@@ -125,7 +127,7 @@ public class DebtServiceImpl implements DebtService {
 
         Debt savedDebt = debtRepository.save(debt);
         if (nowSettled) {
-            eventPublisher.publishEvent(new DebtSettledEvent(savedDebt.getUser().getId()));
+            eventPublisher.publishEvent(new DebtSettledEvent(WorkspaceContextHolder.getWorkspaceId()));
         }
         return debtMapper.mapToGetDTO(savedDebt);
     }

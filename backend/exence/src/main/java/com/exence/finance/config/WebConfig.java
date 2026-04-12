@@ -4,6 +4,7 @@ import com.exence.finance.common.converter.StringToCategoryTypeConverter;
 import com.exence.finance.common.converter.StringToTimeframeConverter;
 import com.exence.finance.common.converter.StringToTransactionTypeConverter;
 import com.exence.finance.security.EmailVerificationInterceptor;
+import com.exence.finance.security.WorkspaceInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -17,6 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final StringToCategoryTypeConverter stringToCategoryTypeConverter;
     private final StringToTimeframeConverter stringToTimeframeConverter;
     private final EmailVerificationInterceptor emailVerificationInterceptor;
+    private final WorkspaceInterceptor workspaceInterceptor;
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
@@ -30,5 +32,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(emailVerificationInterceptor)
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/api/auth/**");
+
+        registry.addInterceptor(workspaceInterceptor)
+                .addPathPatterns("/api/**")
+                .excludePathPatterns("/api/auth/**", "/api/admin/**", "/api/exchange-rates/**");
     }
 }

@@ -16,7 +16,7 @@ public interface InvestmentMapper {
     InvestmentGetDTO mapToGetDTO(Investment investment);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "baseCurrencyAmount", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -25,7 +25,7 @@ public interface InvestmentMapper {
     Investment mapFromCreateDTO(InvestmentCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "currency", ignore = true)
     @Mapping(target = "baseCurrencyAmount", ignore = true)
     @Mapping(target = "createdAt", ignore = true)

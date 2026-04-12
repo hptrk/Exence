@@ -3,6 +3,7 @@ package com.exence.finance.modules.transaction.repository;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.Transaction;
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -23,15 +24,16 @@ public interface TransactionRepository
     BigDecimal sumByType(@Param("type") TransactionType type);
 
     @Query("SELECT t FROM Transaction t")
-    List<Transaction> findAllUserFiltered();
+    List<Transaction> findAllWorkspaceFiltered();
 
     @Query("SELECT COUNT(t) > 0 FROM Transaction t WHERE t.recurringTransaction.id = :rid AND t.date = :d")
     boolean existsByRecurringTransactionAndDate(@Param("rid") Long recurringTransactionId, @Param("d") LocalDate date);
 
-    // event listeners needs userId, hibernate filter does not apply
-    @Query("SELECT COUNT(t) FROM Transaction t WHERE t.user.id = :userId")
-    long countByUserId(@Param("userId") Long userId);
+    // achievement listeners need workspaceId, hibernate filter does not apply there
+    @Query("SELECT COUNT(t) FROM Transaction t WHERE t.workspace.id = :workspaceId")
+    long countByWorkspaceId(@Param("workspaceId") Long workspaceId);
 
-    @Query("SELECT DISTINCT t.createdAt FROM Transaction t WHERE t.user.id = :userId ORDER BY t.createdAt ASC")
-    List<LocalDate> findDistinctCreatedAtByUserId(@Param("userId") Long userId);
+    @Query("SELECT DISTINCT CAST(t.createdAt AS date) FROM Transaction t"
+            + " WHERE t.workspace.id = :workspaceId ORDER BY CAST(t.createdAt AS date) ASC")
+    List<Date> findDistinctCreatedAtByWorkspaceId(@Param("workspaceId") Long workspaceId);
 }

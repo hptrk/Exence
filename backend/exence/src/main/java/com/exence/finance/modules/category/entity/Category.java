@@ -4,8 +4,7 @@ import static com.exence.finance.common.util.ValidationConstants.CATEGORY_COLOR_
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NAME_MAX_LENGTH;
 import static com.exence.finance.common.util.ValidationConstants.CATEGORY_NOTE_MAX_LENGTH;
 
-import com.exence.finance.common.entity.BaseAuditableEntity;
-import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.common.entity.BaseWorkspaceEntity;
 import com.exence.finance.modules.category.dto.CategoryType;
 import com.exence.finance.modules.category.dto.MaterialIcon;
 import com.exence.finance.modules.transaction.entity.Transaction;
@@ -15,8 +14,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -39,13 +36,13 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 @EqualsAndHashCode(
         callSuper = false,
-        exclude = {"user", "transactions"})
+        exclude = {"transactions"})
 @ToString(
         callSuper = true,
-        exclude = {"user", "transactions"})
+        exclude = {"transactions"})
 @Table(name = "category")
-@Filter(name = "userFilter", condition = "user_id = :userId")
-public class Category extends BaseAuditableEntity {
+@Filter(name = "workspaceFilter", condition = "workspace_id = :workspaceId")
+public class Category extends BaseWorkspaceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_seq")
@@ -73,10 +70,6 @@ public class Category extends BaseAuditableEntity {
 
     @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
     private String note;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Transaction> transactions;

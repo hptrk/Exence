@@ -19,10 +19,10 @@ public interface RecurringTransactionRepository extends JpaRepository<RecurringT
     Optional<RecurringTransaction> find(@Param("id") Long id);
 
     @Query("SELECT rt FROM RecurringTransaction rt")
-    Page<RecurringTransaction> findAllUserFiltered(Pageable pageable);
+    Page<RecurringTransaction> findAllWorkspaceFiltered(Pageable pageable);
 
     @Query("SELECT rt FROM RecurringTransaction rt WHERE rt.type = :type")
-    Page<RecurringTransaction> findAllUserFilteredByType(@Param("type") TransactionType type, Pageable pageable);
+    Page<RecurringTransaction> findAllWorkspaceFilteredByType(@Param("type") TransactionType type, Pageable pageable);
 
     @Query("SELECT rt FROM RecurringTransaction rt WHERE rt.active = true AND rt.nextExecutionDate <= :date")
     List<RecurringTransaction> findAllDue(@Param("date") LocalDate date);

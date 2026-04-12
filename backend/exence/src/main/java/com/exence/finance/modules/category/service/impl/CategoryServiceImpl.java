@@ -4,8 +4,6 @@ import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.entity.User;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.category.dto.CategoryCreateDTO;
 import com.exence.finance.modules.category.dto.CategoryFilter;
 import com.exence.finance.modules.category.dto.CategoryGetDTO;
@@ -17,6 +15,7 @@ import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
+import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -30,8 +29,8 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
+    private final WorkspaceMembershipService workspaceMembershipService;
 
     @ReadTransactional
     public Category getCategory(Long id) {
@@ -73,14 +72,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @WriteTransactional
     public CategoryGetDTO createCategory(CategoryCreateDTO categoryCreateDTO) {
-        User user = userService.getCurrentUser();
-
         if (categoryRepository.existsByName(categoryCreateDTO.name())) {
             throw new ExenceException(ErrorCode.CATEGORY_ALREADY_EXISTS);
         }
 
         Category category = categoryMapper.mapToCategory(categoryCreateDTO);
-        category.setUser(user);
+        category.setWorkspace(workspaceMembershipService.getWorkspaceReference());
         Category savedCategory = categoryRepository.save(category);
 
         return categoryMapper.mapToCategoryGetDTO(savedCategory);
