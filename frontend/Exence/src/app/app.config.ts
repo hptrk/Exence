@@ -1,5 +1,6 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection, isDevMode } from '@angular/core';
+import { provideServiceWorker } from '@angular/service-worker';
 import { provideRouter } from '@angular/router';
 
 import { LayoutModule } from '@angular/cdk/layout';
@@ -42,6 +43,10 @@ export const appConfig: ApplicationConfig = {
 		provideDateFnsAdapter(),
 		CookieService,
 		provideHttpClient(),
+		provideServiceWorker('ngsw-worker.js', {
+			enabled: !isDevMode(),
+			registrationStrategy: 'registerWhenStable:30000',
+		}),
 		provideTransloco({
 			config: {
 				availableLangs: ['hu', 'en', 'de', 'es', 'fr', 'it', 'pl', 'sk'],

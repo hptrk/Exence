@@ -50,6 +50,19 @@ body {
 	margin: 0;
 	text-align: left;
 	height: 100%;
+	overscroll-behavior: none;
+}
+
+@media (pointer: coarse) {
+	* {
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	button,
+	a,
+	[role='button'] {
+		user-select: none;
+	}
 }
 
 a {
