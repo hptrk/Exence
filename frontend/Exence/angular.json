@@ -22,7 +22,7 @@
 						"browser": "src/main.ts",
 						"tsConfig": "tsconfig.app.json",
 						"inlineStyleLanguage": "scss",
-						"assets": ["src/assets"],
+						"assets": ["src/assets", { "glob": "manifest.webmanifest", "input": "src", "output": "/" }],
 						"styles": ["src/styles/styles.scss"],
 						"scripts": ["node_modules/apexcharts/dist/apexcharts.min.js"],
 						"stylePreprocessorOptions": {
@@ -33,6 +33,7 @@
 					},
 					"configurations": {
 						"production": {
+							"serviceWorker": "ngsw-config.json",
 							"budgets": [
 								{
 									"type": "initial",
