@@ -8,4 +8,5 @@ export interface CategoryGet {
 	color: string;
 	type: CategoryType;
 	note?: string;
+	balance: number;
 }

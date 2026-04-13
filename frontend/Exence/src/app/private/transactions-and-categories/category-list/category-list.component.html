@@ -1,5 +1,5 @@
 <ex-data-table
-	[columns]="columns"
+	[columns]="columns()"
 	[actions]="actions"
 	[data]="data()"
 	[isLoading]="isLoading()"
@@ -9,7 +9,7 @@
 	inlineActions
 	(addClicked)="openCreate()"
 >
-	<ng-template exCell="name" let-row>
+	<ng-template exCell="title" let-row>
 		<div class="text-truncate ps-3 w-100 text-start">{{ row.name }}</div>
 	</ng-template>
 
@@ -21,5 +21,15 @@
 
 	<ng-template exCell="type" let-row>
 		{{ codeForCategoryType(row.type) | translate }}
+	</ng-template>
+
+	<ng-template exCell="amount" let-row>
+		<span
+			class="fw-semibold"
+			[class.income]="amountClass(row) === 'income'"
+			[class.expense]="amountClass(row) === 'expense'"
+		>
+			{{ row.balance | currency }}
+		</span>
 	</ng-template>
 </ex-data-table>

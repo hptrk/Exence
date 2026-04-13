@@ -1,6 +1,7 @@
 import { ChartWidget } from '../../../app/data-model/modules/statistics/ChartWidget';
 import { Timeframe } from '../../../app/data-model/modules/statistics/Timeframe';
 import { WidgetType } from '../../../app/data-model/modules/statistics/widget-config.model';
+import { SeriesPayload } from '../../../app/data-model/modules/statistics/WidgetDataPayload';
 
 export const MOCK_BAR_WIDGET: ChartWidget = {
 	id: 1,
@@ -46,4 +47,4 @@ export const MOCK_HEATMAP_WIDGET: ChartWidget = {
 	rows: 2,
 };
 
-export const MOCK_PAYLOAD = { series: [] } as unknown;
+export const MOCK_PAYLOAD: SeriesPayload = { series: [] };
