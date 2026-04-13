@@ -26,7 +26,8 @@
 		"to": "A",
 		"yes": "Sí",
 		"no": "No",
-		"duplicate": "Duplicate"
+		"duplicate": "Duplicate",
+		"add": "Aggiungi"
 	},
 	"dashboard": {
 		"title": "Bentornato/a, <span class='username'>{{username}}</span>!",
@@ -895,6 +896,24 @@
 				"confirmMessage": "Sei sicuro di voler inviare questa e-mail a tutti gli utenti?",
 				"success": "E-mail inviata a tutti gli utenti!",
 				"sendDisabled": "Non è possibile inviare l'e-mail senza aver prima impostato l'oggetto e il contenuto."
+			},
+			"systemSettings": {
+				"title": "Impostazioni di sistema",
+				"domainWhitelistOnly": "Solo domini nella whitelist",
+				"domainWhitelistOnlyDescription": "Limita le registrazioni ai domini email nella whitelist",
+				"domainWhitelistOnlyTooltip": "Se abilitato, solo gli utenti con indirizzi email dai domini nella whitelist possono registrarsi. Tutti gli altri tentativi di registrazione verranno rifiutati.",
+				"rateLimitingEnabled": "Limitazione della velocità abilitata",
+				"rateLimitingEnabledDescription": "Limita le richieste ripetute per prevenire attacchi brute-force",
+				"rateLimitingEnabledTooltip": "Se abilitato, gli utenti che superano il limite di richieste verranno temporaneamente bloccati per il periodo di raffreddamento configurato.",
+				"logoutFromAllDevices": "Disconnessione al cambio password",
+				"logoutFromAllDevicesDescription": "Disconnetti tutte le sessioni al cambio della password",
+				"logoutFromAllDevicesTooltip": "Se abilitato, la modifica della password invaliderà automaticamente tutte le sessioni attive su tutti i dispositivi, richiedendo un nuovo accesso.",
+				"rateLimitingCooldownMinutes": "Tempo di attesa della limitazione (minuti)",
+				"rateLimitingCooldownDisabled": "Abilita la limitazione della velocità per configurare il tempo di attesa",
+				"passwordHistoryCount": "Numero di password nella cronologia",
+				"verificationRequiredPaths": "Percorsi che richiedono verifica",
+				"addPath": "Aggiungi percorso (es. /api/goals)",
+				"success": "Impostazioni di sistema aggiornate con successo!"
 			}
 		}
 	},

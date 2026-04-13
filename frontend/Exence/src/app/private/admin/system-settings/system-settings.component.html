@@ -1,0 +1,122 @@
+<h2 class="mb-4 fs-4">{{ 'admin.configurations.systemSettings.title' | translate }}</h2>
+
+@if (settingsResource.isLoading()) {
+	<div class="d-flex flex-column gap-4 w-100">
+		<div class="d-flex flex-column flex-md-row gap-4 flex-wrap">
+			@for (_ of [1, 2, 3]; track $index) {
+				<div class="skeleton-toggle-card flex-grow-1 d-flex flex-column gap-3 p-3">
+					<div class="d-flex align-items-center gap-2">
+						<ex-animated-skeleton-loader width="24px" height="24px" shape="circle" />
+						<ex-animated-skeleton-loader width="130px" height="20px" />
+						<ex-animated-skeleton-loader class="ms-auto" width="38px" height="22px" />
+					</div>
+					<div class="d-flex align-items-center justify-content-between gap-1">
+						<ex-animated-skeleton-loader width="85%" height="16px" />
+						<ex-animated-skeleton-loader width="22px" height="22px" shape="circle" />
+					</div>
+				</div>
+			}
+		</div>
+
+		<div class="d-flex flex-column flex-md-row gap-4">
+			@for (_ of [1, 2]; track $index) {
+				<ex-animated-skeleton-loader width="220px" height="56px" />
+			}
+		</div>
+
+		<div class="d-flex flex-column gap-2">
+			<ex-animated-skeleton-loader width="200px" height="14px" />
+			<div class="d-flex gap-2">
+				@for (_ of [1, 2, 3]; track $index) {
+					<ex-animated-skeleton-loader width="90px" height="32px" />
+				}
+			</div>
+		</div>
+
+		<div class="d-flex justify-content-end">
+			<ex-animated-skeleton-loader width="110px" height="36px" />
+		</div>
+	</div>
+} @else {
+	<form [formGroup]="form" (submit)="save()" class="d-flex flex-column gap-4 w-100">
+		<div class="d-flex flex-column flex-md-row flex-wrap flex-xl-nowrap gap-4">
+			<ex-toggle-card
+				class="flex-grow-1"
+				matIcon="shield"
+				label="admin.configurations.systemSettings.domainWhitelistOnly"
+				description="admin.configurations.systemSettings.domainWhitelistOnlyDescription"
+				tooltip="admin.configurations.systemSettings.domainWhitelistOnlyTooltip"
+				[value]="formValue().domainWhitelistOnly"
+				(valueChange)="form.controls.domainWhitelistOnly.setValue($event)"
+			/>
+
+			<ex-toggle-card
+				class="flex-grow-1"
+				matIcon="speed"
+				label="admin.configurations.systemSettings.rateLimitingEnabled"
+				description="admin.configurations.systemSettings.rateLimitingEnabledDescription"
+				tooltip="admin.configurations.systemSettings.rateLimitingEnabledTooltip"
+				[value]="formValue().rateLimitingEnabled"
+				(valueChange)="form.controls.rateLimitingEnabled.setValue($event)"
+			/>
+
+			<ex-toggle-card
+				class="flex-grow-1"
+				matIcon="devices"
+				label="admin.configurations.systemSettings.logoutFromAllDevices"
+				description="admin.configurations.systemSettings.logoutFromAllDevicesDescription"
+				tooltip="admin.configurations.systemSettings.logoutFromAllDevicesTooltip"
+				[value]="formValue().logoutFromAllDevices"
+				(valueChange)="form.controls.logoutFromAllDevices.setValue($event)"
+			/>
+		</div>
+
+		<div class="d-flex flex-column flex-md-row gap-4">
+			<ex-amount-stepper
+				[control]="form.controls.rateLimitingCooldownMinutes"
+				label="admin.configurations.systemSettings.rateLimitingCooldownMinutes"
+				[min]="1"
+				[step]="1"
+				[disabled]="!formValue().rateLimitingEnabled"
+				[matTooltip]="'admin.configurations.systemSettings.rateLimitingCooldownDisabled' | translate"
+				[matTooltipDisabled]="formValue().rateLimitingEnabled"
+			/>
+
+			<ex-amount-stepper
+				[control]="form.controls.passwordHistoryCount"
+				label="admin.configurations.systemSettings.passwordHistoryCount"
+				[min]="0"
+				[step]="1"
+			/>
+		</div>
+
+		<div class="d-flex flex-column gap-2">
+			<span class="text-muted small">{{
+				'admin.configurations.systemSettings.verificationRequiredPaths' | translate
+			}}</span>
+			<mat-chip-set>
+				<mat-chip (click)="openAddPathDialog()">
+					<mat-icon matChipAvatar>add</mat-icon>
+					{{ 'literals.add' | translate }}
+				</mat-chip>
+				@for (path of verificationPaths(); track path) {
+					<mat-chip (removed)="removePath(path)">
+						{{ path }}
+						<button matChipRemove>
+							<mat-icon>cancel</mat-icon>
+						</button>
+					</mat-chip>
+				}
+			</mat-chip-set>
+		</div>
+
+		<div class="d-flex justify-content-end gap-2">
+			<ex-button matIcon="cancel" outlined [disabled]="saving()" (click)="cancel()">
+				{{ 'literals.cancel' | translate }}
+			</ex-button>
+			<ex-button matIcon="save" iconPositionEnd filled type="submit" [disabled]="form.invalid || saving()">
+				{{ 'literals.save' | translate }}
+			</ex-button>
+		</div>
+	</form>
+}
