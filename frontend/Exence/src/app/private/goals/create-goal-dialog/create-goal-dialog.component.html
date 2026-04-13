@@ -18,12 +18,14 @@
 				[control]="form.controls.targetAmount"
 				[label]="'goals.create.targetAmount'"
 				[min]="1"
+				[step]="amountStep()"
 			/>
 			<ex-amount-stepper
 				class="mb-3"
 				[control]="form.controls.initialAmount"
 				[label]="'goals.create.initialAmount'"
 				[min]="0"
+				[step]="amountStep()"
 			/>
 		</div>
 		@if (form.hasError('initialAmountMax')) {

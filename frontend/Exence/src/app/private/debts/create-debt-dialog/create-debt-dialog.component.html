@@ -28,6 +28,7 @@
 				[control]="form.controls.originalAmount"
 				[label]="'debts.create.originalAmount'"
 				[min]="1"
+				[step]="amountStep()"
 			/>
 
 			@let currencyControl = form.controls.currency;

@@ -24,7 +24,7 @@ import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
-import { localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
+import { getAmountStep, localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { DebtModel } from '../debt-list/debt-list.component';
@@ -64,6 +64,7 @@ export class EditDebtDialogComponent extends DialogComponent<EditDebtDialogData,
 	private readonly translocoService = inject(TranslocoService);
 
 	data = this.dialogRef.value;
+	amountStep = computed(() => getAmountStep(1, this.data.debt.currency));
 
 	debtTypes = DebtType;
 	debtStatuses = DebtStatus;

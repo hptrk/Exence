@@ -22,7 +22,12 @@
 
 		<div class="d-flex flex-column flex-sm-row align-items-sm-start gap-3">
 			@let amountControl = form.controls.amount;
-			<ex-amount-stepper [control]="amountControl" label="transaction.create.amount" [min]="1" />
+			<ex-amount-stepper
+				[control]="amountControl"
+				label="transaction.create.amount"
+				[min]="1"
+				[step]="amountStep()"
+			/>
 			@let dateControl = form.controls.date;
 			<mat-form-field
 				[matTooltip]="'recurring.featureDisabledByRecurring' | translate"

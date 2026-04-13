@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -21,6 +21,7 @@ import { InputClearButtonComponent } from '../../../shared/input-clear-button/in
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
+import { getAmountStep } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 
 export interface EditInvestmentDialogData {
@@ -55,6 +56,7 @@ export class EditInvestmentDialogComponent extends DialogComponent<EditInvestmen
 
 	investmentTypes = InvestmentType;
 	data = this.dialogRef.value;
+	amountStep = computed(() => getAmountStep(1, this.data.investment.currency));
 
 	form = this.fb.group({
 		asset: this.fb.control<string>(this.data.investment.asset, [Validators.required, Validators.maxLength(100)]),
