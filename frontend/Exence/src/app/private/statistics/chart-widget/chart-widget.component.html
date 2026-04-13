@@ -4,9 +4,9 @@
 	</div>
 
 	<mat-divider class="m-0" />
-	<mat-card-content class="h-100" [style.pointer-events]="editing() ? 'none' : 'auto'">
+	<mat-card-content data-testid="card-content" class="h-100" [style.pointer-events]="editing() ? 'none' : 'auto'">
 		@if (isLoading() && !data()) {
-			<div class="h-100 w-100 d-flex justify-content-center align-items-center">
+			<div data-testid="skeleton-loader" class="h-100 w-100 d-flex justify-content-center align-items-center">
 				<div class="d-flex flex-row flex-nowrap gap-2 align-items-end justify-content-center">
 					<ex-animated-skeleton-loader shape="rect" width="50px" height="155px" />
 					<ex-animated-skeleton-loader shape="rect" width="50px" height="195px" />
@@ -36,7 +36,7 @@
 					[responsive]="data()?.responsive ?? []"
 				/>
 			} @else {
-				<ex-sankey-chart [widget]="this.widget()" [timeframe]="timeframe()" />
+				<ex-sankey-chart data-testid="sankey-chart" [widget]="this.widget()" [timeframe]="timeframe()" />
 			}
 		}
 	</mat-card-content>
@@ -45,7 +45,11 @@
 		<mat-divider class="m-0" />
 
 		<div class="my-2 pe-2 d-flex flex-row justify-content-start">
-			<ex-timeframe [(selectedTimeframe)]="timeframe" [style.pointer-events]="editing() ? 'none' : 'auto'" />
+			<ex-timeframe
+				data-testid="timeframe"
+				[(selectedTimeframe)]="timeframe"
+				[style.pointer-events]="editing() ? 'none' : 'auto'"
+			/>
 		</div>
 	}
 </mat-card>

@@ -1,16 +1,16 @@
 <div class="table-container grid-mode">
 	<div class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2">
-		<h3 class="d-flex align-items-center gap-2">
+		<h3 class="d-flex align-items-center gap-2" data-testid="table-title">
 			<span class="highlighted-icon">
 				@if (svgIcon()) {
 					<mat-icon [svgIcon]="svgIcon()!" />
 				} @else {
-					<mat-icon>{{ matIcon() }}</mat-icon>
+					<mat-icon data-testid="table-header-icon">{{ matIcon() }}</mat-icon>
 				}
 			</span>
 			{{ title() }}
 		</h3>
-		<ex-button iconButton matIcon="add" color="accent" (click)="addClicked.emit()" />
+		<ex-button data-testid="add-btn" iconButton matIcon="add" color="accent" (click)="addClicked.emit()" />
 	</div>
 	@if (!isEmpty()) {
 		<div
@@ -41,6 +41,7 @@
 											@if (inlineActions()) {
 												@for (action of actions(); track action.label) {
 													<ex-button
+														data-testid="inline-action-btn"
 														iconButton
 														stopPropagation
 														[matIcon]="action.icon"
@@ -58,6 +59,7 @@
 													class="d-flex align-items-center justify-content-center"
 												>
 													<ex-button
+														data-testid="menu-trigger-btn"
 														iconButton
 														stopPropagation
 														[matMenuTriggerFor]="actionsMenu"
@@ -140,6 +142,7 @@
 					<tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
 					<tr
 						mat-row
+						data-testid="data-row"
 						*matRowDef="let row; columns: displayedColumns()"
 						class="table-row"
 						[class.non-expandable]="nonExpandable() || !expandTemplate()"
@@ -152,7 +155,13 @@
 						class="expanded-detail-row"
 						style="height: 0"
 					></tr>
-					<tr mat-footer-row *matFooterRowDef="['loader']" [hidden]="!isLoading()" class="table-row"></tr>
+					<tr
+						mat-footer-row
+						*matFooterRowDef="['loader']"
+						data-testid="footer-row"
+						[hidden]="!isLoading()"
+						class="table-row"
+					></tr>
 				</table>
 			</div>
 		</div>
@@ -164,7 +173,7 @@
 <ng-template #emptyTable>
 	<div class="overflow-y-auto h-100">
 		<div class="d-flex flex-column align-items-center justify-content-center gap-4">
-			<img src="assets/empty-table.svg" />
+			<img data-testid="empty-state" src="assets/empty-table.svg" />
 			<div class="d-flex flex-column gap-2 justify-content-center align-items-center">
 				<h3 class="fs-2 fw-bold">{{ 'dataTable.empty' | translate }}</h3>
 				<p class="m-0 fs-5">{{ 'dataTable.adjustFilters' | translate }}</p>
@@ -174,6 +183,11 @@
 </ng-template>
 
 <ng-template #loader>
-	<ex-animated-skeleton-loader width="100%" height="50px" [style.margin-bottom]="'10px'" />
+	<ex-animated-skeleton-loader
+		data-testid="skeleton-loader"
+		width="100%"
+		height="50px"
+		[style.margin-bottom]="'10px'"
+	/>
 	<ex-animated-skeleton-loader width="100%" height="50px" />
 </ng-template>

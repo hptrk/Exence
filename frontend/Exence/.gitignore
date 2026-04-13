@@ -42,7 +42,7 @@ testem.log
 Thumbs.db
 
 # Playwright
-# /test-results/ TODO remove comment
-# /playwright-report/ TODO remove comment
+/test-results/
+/playwright-report/
 /blob-report/
 /playwright/.cache/

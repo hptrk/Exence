@@ -2,9 +2,7 @@ import en from '../../../assets/i18n/en.json';
 
 type En = typeof en;
 
-// ---------------------------------------------------------------------------
 // Core types
-// ---------------------------------------------------------------------------
 
 type Category = { [key: string]: string | Category };
 
@@ -26,9 +24,7 @@ export type PropertyStringPath<T extends Category, Prefix extends string = ''> =
  */
 export type TranslationCode = PropertyStringPath<En> | '';
 
-// ---------------------------------------------------------------------------
 // Recursive prefix -> suffix mapping for codeFor()
-// ---------------------------------------------------------------------------
 
 /**
  * Extracts all branch node paths (non-leaf paths) from a nested object,

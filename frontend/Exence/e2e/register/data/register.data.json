@@ -1,0 +1,16 @@
+{
+	"valid": {
+		"username": "Test User",
+		"password": "Test123!",
+		"confirmPassword": "Test123!"
+	},
+	"incorrect": {
+		"email": "not-an-email",
+		"password": "weak",
+		"passwordMismatch": "Different123!",
+		"usernameMaxLengthCharacter": "a"
+	},
+	"blacklisted": {
+		"email": "test@maildrop.cc"
+	}
+}

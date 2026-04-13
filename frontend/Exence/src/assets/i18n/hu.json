@@ -36,7 +36,7 @@
 		"recurring": {
 			"expenses": "Ismétlődő kiadások",
 			"incomes": "Ismétlődő jövedelmek",
-			"transactions": "Recurrings"
+			"transactions": "Ismétlődők"
 		},
 		"noCategories": "Először hozzon létre egy kategóriát!",
 		"addTransaction": "Tranzakció hozzáadása",
@@ -326,7 +326,7 @@
 				"info": "A tranzakciós volumen vonalként jelenik meg a kiadási sávok tetején, hogy láthatóvá váljon a kiadások intenzitása."
 			},
 			"WEALTH_GROWTH_COMBO": {
-				"title": "Wealth Growth Combo",
+				"title": "Vagyonnövekedés kombináció",
 				"info": "Kombinálja a bevételi és kiadási sávokat egy kumulatív vagyonvonallal a nettó növekedés nyomon követése érdekében."
 			},
 			"EXPENSE_PIE": {
@@ -516,7 +516,7 @@
 		"icon": "Ikon",
 		"type": "Típus",
 		"empty": "Nem találtunk tárgyakat",
-		"adjustFilters": "TRy az aktuális szűrők beállítása vagy törlése.",
+		"adjustFilters": "Próbálja meg az aktuális szűrők beállítását vagy törlését.",
 		"actions": "Műveletek",
 		"details": {
 			"show": "Részletek megjelenítése",
@@ -536,7 +536,7 @@
 	"filterMenu": {
 		"title": "Szűrők",
 		"addButton": "Szűrő hozzáadása",
-		"show": "Show ({{filterCount}})",
+		"show": "Megjelenítés ({{filterCount}})",
 		"clearAll": "Mindent törölni"
 	},
 	"formattedDate": {

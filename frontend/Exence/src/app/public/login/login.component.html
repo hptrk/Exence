@@ -4,9 +4,12 @@
 		<h2 class="fs-1">{{ 'login.title' | translate }}</h2>
 		<p class="m-0 fs-5 fw-light">
 			{{ 'login.noAccount' | translate }}
-			<a class="fw-semibold" [routerLink]="navigationService.account().register()">{{
-				'login.createButton' | translate
-			}}</a>
+			<a
+				class="fw-semibold"
+				[routerLink]="navigationService.account().register()"
+				data-testid="toRegisterButton"
+				>{{ 'login.createButton' | translate }}</a
+			>
 		</p>
 	</mat-card-header>
 
@@ -15,33 +18,49 @@
 			@let emailControl = loginForm.controls.email;
 			<mat-form-field>
 				<mat-label>{{ 'login.email' | translate }}</mat-label>
-				<input matInput autoTrim [formControl]="emailControl" type="email" />
-				<ex-input-clear matSuffix [control]="emailControl" />
-				<mat-error>
+				<input matInput autoTrim [formControl]="emailControl" type="email" data-testid="emailField" />
+				<ex-input-clear matSuffix [control]="emailControl" data-testid="emailClearBtn" />
+				<mat-error data-testid="emailError">
 					<ex-validator [control]="emailControl" />
 				</mat-error>
 			</mat-form-field>
 			@let pwdControl = loginForm.controls.password;
 			<mat-form-field>
 				<mat-label>{{ 'login.password' | translate }}</mat-label>
-				<input matInput [formControl]="pwdControl" [type]="showPassword() ? 'text' : 'password'" />
+				<input
+					matInput
+					[formControl]="pwdControl"
+					[type]="showPassword() ? 'text' : 'password'"
+					data-testid="passwordField"
+				/>
 				<ex-show-password
 					matSuffix
 					[showPassword]="showPassword()"
 					[control]="pwdControl"
 					(toggled)="togglePassword()"
+					data-testid="showPwdBtn"
 				/>
-				<ex-input-clear matSuffix [control]="pwdControl" />
-				<mat-error>
+				<ex-input-clear matSuffix [control]="pwdControl" data-testid="pwdClearBtn" />
+				<mat-error data-testid="pwdError">
 					<ex-validator [control]="pwdControl" />
 				</mat-error>
 			</mat-form-field>
 		</mat-card-content>
 		<mat-card-actions class="justify-content-between align-items-center gap-2 w-100 px-4 pt-0">
-			<a class="forgot-password" [routerLink]="navigationService.account().forgotPassword()">{{
-				'login.forgotPassword' | translate
-			}}</a>
-			<ex-button filled type="submit" matIcon="arrow_right_alt" iconPositionEnd [disabled]="loginForm.invalid">
+			<a
+				class="forgot-password"
+				[routerLink]="navigationService.account().forgotPassword()"
+				data-testid="forgotPwdBtn"
+				>{{ 'login.forgotPassword' | translate }}</a
+			>
+			<ex-button
+				filled
+				type="submit"
+				matIcon="arrow_right_alt"
+				iconPositionEnd
+				[disabled]="loginForm.invalid"
+				data-testid="loginBtn"
+			>
 				{{ 'login.button' | translate }}
 			</ex-button>
 		</mat-card-actions>

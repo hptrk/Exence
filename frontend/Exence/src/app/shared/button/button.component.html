@@ -1,5 +1,6 @@
 @if (iconButton()) {
 	<button
+		data-testid="icon-btn"
 		class="d-flex justify-content-center align-items-center"
 		mat-icon-button
 		[disabled]="disabled()"
@@ -10,6 +11,7 @@
 	</button>
 } @else {
 	<button
+		data-testid="btn"
 		[matButton]="appearance"
 		[disabled]="disabled()"
 		[type]="type()"

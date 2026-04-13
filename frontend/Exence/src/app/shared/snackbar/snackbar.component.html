@@ -1,4 +1,4 @@
-<section [class]="'py-2 position-relative ' + getCssClass()" [class.fade-out]="fadeOutStarted()">
+<section [class]="'py-2 position-relative ' + getCssClass()" [class.fade-out]="fadeOutStarted()" data-testid="snackbar">
 	<div class="d-flex justify-content-between align-items-center w-100 p-3">
 		<div class="d-flex justify-content-between align-items-center">
 			@switch (data.type) {
@@ -32,7 +32,7 @@
 			</button>
 		}
 
-		<button mat-icon-button matSnackBarAction (click)="onClose()" class="close-button">
+		<button mat-icon-button matSnackBarAction (click)="onClose()" class="close-button" data-testid="closeBtn">
 			<mat-icon>close</mat-icon>
 		</button>
 	</div>

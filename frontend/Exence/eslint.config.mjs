@@ -117,6 +117,14 @@ export default defineConfig([
 	},
 
 	{
+		files: ['**/*.spec.ts'],
+		rules: {
+			'@angular-eslint/use-component-selector': 'off',
+			'@angular-eslint/component-class-suffix': 'off',
+		},
+	},
+
+	{
 		files: ['**/*.html'],
 		extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
 		languageOptions: {
