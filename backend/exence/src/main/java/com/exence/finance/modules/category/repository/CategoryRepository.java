@@ -4,6 +4,7 @@ import com.exence.finance.modules.category.dto.CategorySummaryResponse;
 import com.exence.finance.modules.category.dto.CategoryType;
 import com.exence.finance.modules.category.dto.projection.CategoryBalanceSums;
 import com.exence.finance.modules.category.entity.Category;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -44,15 +45,13 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
                     c.id, c.name, CAST(c.icon AS string), c.color, COALESCE(SUM(t.baseCurrencyAmount), 0)
                 )
                 FROM Category c
-                left JOIN c.transactions t
-                WHERE c.type = :type
-                    AND (
-                    (:type = 'INCOME' AND t.type = 'INCOME') OR
-                    (:type IN ('EXPENSE', 'MIXED') AND t.type = 'EXPENSE')
-                )
+                JOIN c.transactions t
+                WHERE (c.type = :type OR CAST(c.type AS string) = 'MIXED')
+                    AND t.type = :transactionType
                 GROUP BY c.id, c.name, c.icon, c.color
                 ORDER BY COALESCE(SUM(t.baseCurrencyAmount), 0) DESC
                 LIMIT 4
             """)
-    List<CategorySummaryResponse> findTopCategoriesByTotalAmount(@Param("type") CategoryType type);
+    List<CategorySummaryResponse> findTopCategoriesByTotalAmount(
+            @Param("type") CategoryType type, @Param("transactionType") TransactionType transactionType);
 }

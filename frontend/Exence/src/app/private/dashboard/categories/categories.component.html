@@ -95,7 +95,7 @@
 			[hideSingleSelectionIndicator]="true"
 			(change)="onTypeChanged($event.value)"
 		>
-			@for (type of categoryTypes | enumValue; track type) {
+			@for (type of listTypes; track type) {
 				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">
 					{{ codeForCategoryType(type) | translate | uppercase }}
 				</mat-button-toggle>

@@ -17,6 +17,7 @@ import com.exence.finance.modules.category.mapper.CategoryMapper;
 import com.exence.finance.modules.category.repository.CategoryRepository;
 import com.exence.finance.modules.category.service.CategoryService;
 import com.exence.finance.modules.statistics.event.MaterializedViewRefreshEvent;
+import com.exence.finance.modules.transaction.dto.TransactionType;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -68,7 +69,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @ReadTransactional
     public List<CategorySummaryResponse> getTopCategoriesByTotalAmount(CategoryFilter filter) {
-        return categoryRepository.findTopCategoriesByTotalAmount(filter.type());
+        TransactionType transactionType =
+                switch (filter.type()) {
+                    case INCOME -> TransactionType.INCOME;
+                    case EXPENSE -> TransactionType.EXPENSE;
+                    case MIXED -> throw new ExenceException(ErrorCode.ILLEGAL_ARGUMENT);
+                };
+        return categoryRepository.findTopCategoriesByTotalAmount(filter.type(), transactionType);
     }
 
     @WriteTransactional
