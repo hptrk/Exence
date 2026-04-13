@@ -471,8 +471,8 @@
 		"login": "Iniciar sesión",
 		"resetSuccess": "¡Contraseña actualizada con éxito!",
 		"emailSent": {
-			"title": "Correo electrónico enviado",
-			"subtitle": "Le hemos enviado un correo electrónico a <strong>{{email}}</strong>. Revise su bandeja de entrada y siga las instrucciones para restablecer la contraseña de su cuenta.",
+			"title": "Compruebe su correo electrónico",
+			"subtitle": "Si su dirección de correo electrónico está registrada en nuestro sistema, le hemos enviado un enlace para restablecer la contraseña. Compruebe también su carpeta de spam.",
 			"notRecieved": "¿No ha recibido el correo electrónico?",
 			"retry": "Reenviar correo electrónico",
 			"badEmail": "¿Dirección de correo electrónico incorrecta?",

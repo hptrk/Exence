@@ -471,8 +471,8 @@
 		"login": "Login",
 		"resetSuccess": "Password successfully updated!",
 		"emailSent": {
-			"title": "Email sent",
-			"subtitle": "We have sent you an email at <strong>{{email}}</strong>. Check your inbox and follow the instructions to reset your account password.",
+			"title": "Check your email",
+			"subtitle": "If your email address is registered in our system, we have sent you a password reset link. Please also check your spam folder.",
 			"notRecieved": "Did not recieve the email?",
 			"retry": "Resend email",
 			"badEmail": "Wrong email address?",
