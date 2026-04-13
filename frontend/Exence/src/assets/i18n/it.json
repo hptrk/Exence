@@ -494,7 +494,8 @@
 		"email": "E-mail",
 		"password": "Password",
 		"forgotPassword": "Password dimenticata?",
-		"button": "Accedi"
+		"button": "Accedi",
+		"invalidCredentials": "Combinazione di nome utente e password errata! Si prega di riprovare."
 	},
 	"registration": {
 		"title": "Crea un account",

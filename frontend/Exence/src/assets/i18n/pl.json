@@ -494,7 +494,8 @@
 		"email": "E-mail",
 		"password": "Hasło",
 		"forgotPassword": "Nie pamiętają Państwo hasła?",
-		"button": "Zaloguj się"
+		"button": "Zaloguj się",
+		"invalidCredentials": "Nieprawidłowa kombinacja nazwy użytkownika i hasła! Proszę spróbować ponownie."
 	},
 	"registration": {
 		"title": "Utwórz konto",

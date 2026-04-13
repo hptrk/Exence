@@ -494,7 +494,8 @@
 		"email": "E-mail",
 		"password": "Jelszó",
 		"forgotPassword": "Elfelejtette jelszavát?",
-		"button": "Bejelentkezés"
+		"button": "Bejelentkezés",
+		"invalidCredentials": "Helytelen felhasználónév és jelszó kombináció! Kérjük, próbálja újra."
 	},
 	"registration": {
 		"title": "Létrehozás és fiók létrehozása",

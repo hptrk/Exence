@@ -494,7 +494,8 @@
 		"email": "Correo electrónico",
 		"password": "Contraseña",
 		"forgotPassword": "¿Olvidó su contraseña?",
-		"button": "Iniciar sesión"
+		"button": "Iniciar sesión",
+		"invalidCredentials": "¡Combinación incorrecta de nombre de usuario y contraseña! Por favor, inténtelo de nuevo."
 	},
 	"registration": {
 		"title": "Crear una cuenta",
