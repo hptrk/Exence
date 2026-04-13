@@ -376,7 +376,9 @@ describe('CreateTransactionDialogComponent', () => {
 			fillRequiredFields();
 			component.form.controls.recurring.controls.isRecurring.setValue(false);
 			component.create();
-			expect(dialogSubmitSpy).toHaveBeenCalledWith(
+			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
+			expect(submitted.isRecurring).toBe(false);
+			expect(submitted.result).toEqual(
 				jasmine.objectContaining({
 					title: 'Test Transaction',
 					amount: 100,
@@ -385,9 +387,8 @@ describe('CreateTransactionDialogComponent', () => {
 					date: jasmine.any(String),
 				}),
 			);
-			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
-			expect(submitted.frequency).toBeUndefined();
-			expect(submitted.startDate).toBeUndefined();
+			expect(submitted.result.frequency).toBeUndefined();
+			expect(submitted.result.startDate).toBeUndefined();
 		});
 
 		it('should call dialogRef.submit with RecurringTransactionCreate when recurring', () => {
@@ -396,7 +397,9 @@ describe('CreateTransactionDialogComponent', () => {
 			component.form.controls.recurring.controls.configs.controls.frequency.setValue(RecurrenceFrequency.WEEKLY);
 			component.form.controls.recurring.controls.configs.controls.endCondition.setValue(EndCondition.NEVER);
 			component.create();
-			expect(dialogSubmitSpy).toHaveBeenCalledWith(
+			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
+			expect(submitted.isRecurring).toBe(true);
+			expect(submitted.result).toEqual(
 				jasmine.objectContaining({
 					frequency: RecurrenceFrequency.WEEKLY,
 					interval: jasmine.any(Number),
@@ -404,9 +407,8 @@ describe('CreateTransactionDialogComponent', () => {
 					endCondition: EndCondition.NEVER,
 				}),
 			);
-			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
-			expect(submitted.date).toBeUndefined();
-			expect(submitted.exchangeRate).toBeUndefined();
+			expect(submitted.result.date).toBeUndefined();
+			expect(submitted.result.exchangeRate).toBeUndefined();
 		});
 
 		it('should include dayOfWeek when frequency is WEEKLY', () => {
@@ -415,7 +417,7 @@ describe('CreateTransactionDialogComponent', () => {
 			component.form.controls.recurring.controls.configs.controls.frequency.setValue(RecurrenceFrequency.WEEKLY);
 			component.create();
 			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
-			expect(submitted.dayOfWeek).toBeDefined();
+			expect(submitted.result.dayOfWeek).toBeDefined();
 		});
 
 		it('should NOT include dayOfWeek when frequency is MONTHLY', () => {
@@ -424,7 +426,7 @@ describe('CreateTransactionDialogComponent', () => {
 			component.form.controls.recurring.controls.configs.controls.frequency.setValue(RecurrenceFrequency.MONTHLY);
 			component.create();
 			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
-			expect(submitted.dayOfWeek).toBeUndefined();
+			expect(submitted.result.dayOfWeek).toBeUndefined();
 		});
 
 		it('should include dayOfMonth when frequency is MONTHLY', () => {
@@ -433,7 +435,7 @@ describe('CreateTransactionDialogComponent', () => {
 			component.form.controls.recurring.controls.configs.controls.frequency.setValue(RecurrenceFrequency.MONTHLY);
 			component.create();
 			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
-			expect(submitted.dayOfMonth).toBeDefined();
+			expect(submitted.result.dayOfMonth).toBeDefined();
 		});
 
 		it('should include endDate when endCondition is UNTIL_DATE', () => {
@@ -445,7 +447,7 @@ describe('CreateTransactionDialogComponent', () => {
 			component.form.controls.recurring.controls.configs.controls.endDate.setValue(futureDate);
 			component.create();
 			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
-			expect(submitted.endDate).toEqual(jasmine.any(String));
+			expect(submitted.result.endDate).toEqual(jasmine.any(String));
 		});
 
 		it('should include maxOccurrences when endCondition is AFTER_OCCURRENCES', () => {
@@ -457,7 +459,7 @@ describe('CreateTransactionDialogComponent', () => {
 			component.form.controls.recurring.controls.configs.controls.maxOccurrences.setValue(5);
 			component.create();
 			const submitted = dialogSubmitSpy.calls.mostRecent().args[0];
-			expect(submitted.maxOccurrences).toBe(5);
+			expect(submitted.result.maxOccurrences).toBe(5);
 		});
 	});
 

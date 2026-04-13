@@ -56,6 +56,11 @@ export interface CreateTransactionDialogData {
 	isRecurring?: boolean;
 }
 
+export interface CreateTransactionDialogResult {
+	result: TransactionCreate | RecurringTransactionCreate;
+	isRecurring: boolean;
+}
+
 @Component({
 	selector: 'ex-create-transaction-dialog',
 	templateUrl: './create-transaction-dialog.component.html',
@@ -87,7 +92,7 @@ export interface CreateTransactionDialogData {
 })
 export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 	CreateTransactionDialogData | undefined,
-	TransactionCreate | RecurringTransactionCreate | null
+	CreateTransactionDialogResult | null
 > {
 	private readonly fb = inject(NonNullableFormBuilder);
 	private readonly categoryService = inject(CategoryService);
@@ -304,7 +309,7 @@ export class CreateTransactionDialogComponent extends DialogWithBaseComponent<
 				exchangeRate: formValue.exchangeRate!,
 			} satisfies TransactionCreate;
 		}
-		this.dialogRef.submit(request);
+		this.dialogRef.submit({ result: request, isRecurring: this.isRecurring() });
 	}
 
 	localizeCurrency(currency: SupportedCurrency): string {

@@ -22,6 +22,7 @@ import { CategoryStore } from '../transactions-and-categories/category.store';
 import {
 	CreateTransactionDialogComponent,
 	CreateTransactionDialogData,
+	CreateTransactionDialogResult,
 } from '../transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { RecurringStore } from '../transactions-and-categories/recurring.store';
 import { TransactionListComponent } from '../transactions-and-categories/transaction-list/transaction-list.component';
@@ -87,10 +88,13 @@ export class DashboardComponent extends BaseComponent {
 	async openCreateTransactionDialog(transactionType: TransactionType): Promise<void> {
 		const result = await this.dialog.openNonModal<
 			CreateTransactionDialogData | undefined,
-			TransactionCreate | RecurringTransactionCreate | null
+			CreateTransactionDialogResult | null
 		>(CreateTransactionDialogComponent, { type: transactionType });
 		if (!result) return;
-		if ('date' in result) this.transactionStore.createTransaction(result as TransactionCreate);
-		else this.recurringStore.createRecurringTransaction(result as RecurringTransactionCreate);
+		if (result.isRecurring) {
+			this.recurringStore.createRecurringTransaction(result.result as RecurringTransactionCreate);
+		} else {
+			this.transactionStore.createTransaction(result.result as TransactionCreate);
+		}
 	}
 }
