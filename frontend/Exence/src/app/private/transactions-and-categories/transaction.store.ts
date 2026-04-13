@@ -110,6 +110,7 @@ export const TransactionStore = signalStore(
 				store.transactionResource.reload();
 
 				store.totalResource.reload();
+				categoryStore.categoryResource.reload();
 				categoryStore.topCategoriesAllResource.reload();
 				patchState(store, state => ({
 					...state,
@@ -127,6 +128,7 @@ export const TransactionStore = signalStore(
 				store.incomeResource.reload();
 				store.expenseResource.reload();
 				store.totalResource.reload();
+				categoryStore.categoryResource.reload();
 				categoryStore.topCategoriesAllResource.reload();
 				patchState(store, newState);
 			}
