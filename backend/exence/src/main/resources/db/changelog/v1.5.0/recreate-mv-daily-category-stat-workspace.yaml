@@ -1,0 +1,60 @@
+databaseChangeLog:
+  - changeSet:
+      id: recreate-mv-daily-category-stat-workspace
+      author: hptrk
+      comment: >
+        Drop and recreate mv_daily_category_stat with workspace_id replacing user_id.
+        All statistics queries now isolate data by workspace instead of by user.
+      dbms: postgresql
+      changes:
+        - sqlFile:
+            splitStatements: false
+            path: sql/recreate-mv-daily-category-stat-workspace.sql
+            relativeToChangelogFile: true
+      rollback:
+        - sql:
+            sql: DROP MATERIALIZED VIEW IF EXISTS mv_daily_category_stat
+
+  - changeSet:
+      id: create-mv-daily-category-stat-workspace-unique-index
+      author: hptrk
+      comment: Unique index required for REFRESH MATERIALIZED VIEW CONCURRENTLY
+      dbms: postgresql
+      changes:
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_unique
+            tableName: mv_daily_category_stat
+            unique: true
+            columns:
+              - column:
+                  name: workspace_id
+              - column:
+                  name: stat_date
+              - column:
+                  name: category_id
+              - column:
+                  name: type
+      rollback:
+        - dropIndex:
+            indexName: idx_mv_daily_cat_stat_unique
+            tableName: mv_daily_category_stat
+
+  - changeSet:
+      id: create-mv-daily-category-stat-workspace-lookup-index
+      author: hptrk
+      comment: Composite index for fast workspace + date range lookups on the materialized view
+      dbms: postgresql
+      changes:
+        - createIndex:
+            indexName: idx_mv_daily_cat_stat_workspace_date
+            tableName: mv_daily_category_stat
+            columns:
+              - column:
+                  name: workspace_id
+              - column:
+                  name: stat_date
+      rollback:
+        - dropIndex:
+            indexName: idx_mv_daily_cat_stat_workspace_date
+            tableName: mv_daily_category_stat
+

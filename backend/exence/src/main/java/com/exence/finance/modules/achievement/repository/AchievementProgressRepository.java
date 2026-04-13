@@ -12,12 +12,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AchievementProgressRepository extends JpaRepository<AchievementProgress, Long> {
 
-    @Query("SELECT ap FROM AchievementProgress ap WHERE ap.user.id = :userId AND ap.achievementType = :type")
-    Optional<AchievementProgress> findByUserIdAndType(Long userId, AchievementType type);
+    @Query("SELECT ap FROM AchievementProgress ap WHERE ap.workspace.id = :workspaceId AND ap.achievementType = :type")
+    Optional<AchievementProgress> findByWorkspaceIdAndType(Long workspaceId, AchievementType type);
 
     @Query("SELECT " + "new com.exence.finance.modules.achievement.dto.projection.ProgressProjection("
             + "ap.achievementType, ap.currentValue"
             + ") "
-            + "FROM AchievementProgress ap WHERE ap.user.id = :userId")
-    List<ProgressProjection> findAllByUserId(Long userId);
+            + "FROM AchievementProgress ap WHERE ap.workspace.id = :workspaceId")
+    List<ProgressProjection> findAllByWorkspaceId(Long workspaceId);
 }

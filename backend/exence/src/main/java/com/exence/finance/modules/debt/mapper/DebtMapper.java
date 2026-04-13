@@ -24,7 +24,7 @@ public interface DebtMapper {
     DebtGetDTO mapToGetDTO(Debt debt);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "status", ignore = true)
     @Mapping(target = "remainingAmount", ignore = true)
@@ -37,7 +37,7 @@ public interface DebtMapper {
     Debt mapFromCreateDTO(DebtCreateDTO dto);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     @Mapping(target = "category", ignore = true)
     @Mapping(target = "currency", ignore = true)
     @Mapping(target = "originalAmount", ignore = true)

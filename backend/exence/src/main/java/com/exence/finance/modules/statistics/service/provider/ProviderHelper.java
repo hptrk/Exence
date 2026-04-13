@@ -3,8 +3,6 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
-import com.exence.finance.modules.auth.repository.UserSettingsRepository;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
@@ -20,6 +18,8 @@ import com.exence.finance.modules.statistics.dto.result.MonthlyCategoryResult;
 import com.exence.finance.modules.statistics.dto.result.MonthlyResult;
 import com.exence.finance.modules.statistics.dto.result.TypeAmountResult;
 import com.exence.finance.modules.transaction.dto.TransactionType;
+import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
+import com.exence.finance.modules.workspace.repository.WorkspaceSettingsRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -41,8 +41,7 @@ import org.springframework.stereotype.Component;
 public class ProviderHelper {
 
     private final I18nService i18n;
-    private final UserSettingsRepository userSettingsRepository;
-    private final UserService userService;
+    private final WorkspaceSettingsRepository workspaceSettingsRepository;
 
     private static final int DIVISION_SCALE = 4;
     private static final int PERCENTAGE_MULTIPLIER = 100;
@@ -219,10 +218,10 @@ public class ProviderHelper {
     }
 
     public String getUserCurrencySymbol() {
-        Long userId = userService.getCurrentUserId();
-        SupportedCurrency currency = userSettingsRepository
-                .findBaseCurrencyByUserId(userId)
-                .orElseThrow(() -> new IllegalStateException("Settings not found for user " + userId));
+        Long workspaceId = WorkspaceContextHolder.getWorkspaceId();
+        SupportedCurrency currency = workspaceSettingsRepository
+                .findBaseCurrencyByWorkspaceId(workspaceId)
+                .orElseThrow(() -> new IllegalStateException("Settings not found for workspace " + workspaceId));
         return i18n.getCurrencySymbol(currency);
     }
 

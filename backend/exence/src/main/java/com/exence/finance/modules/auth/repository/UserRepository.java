@@ -15,8 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(
             """
             SELECT u FROM User u WHERE u.emailVerified = true AND (
-                NOT EXISTS (SELECT t FROM Transaction t WHERE t.user = u)
-                OR (SELECT MAX(t.createdAt) FROM Transaction t WHERE t.user = u) < :threshold
+                NOT EXISTS (SELECT t FROM Transaction t WHERE t.createdBy = u.email)
+                OR (SELECT MAX(t.createdAt) FROM Transaction t WHERE t.createdBy = u.email) < :threshold
             )
             """)
     List<User> findInactiveUsers(Instant threshold);

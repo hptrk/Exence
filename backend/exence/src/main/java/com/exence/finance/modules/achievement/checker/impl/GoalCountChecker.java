@@ -20,7 +20,7 @@ public class GoalCountChecker implements AchievementChecker {
 
     @Override
     @ReadTransactional
-    public long computeCurrentValue(Long userId) {
-        return goalRepository.countAllByUserId(userId);
+    public long computeCurrentValue(Long workspaceId) {
+        return goalRepository.countAllByWorkspaceId(workspaceId);
     }
 }

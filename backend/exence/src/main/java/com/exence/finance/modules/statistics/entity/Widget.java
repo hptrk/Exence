@@ -1,9 +1,9 @@
 package com.exence.finance.modules.statistics.entity;
 
-import com.exence.finance.modules.auth.entity.User;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetSetting;
 import com.exence.finance.modules.statistics.dto.WidgetType;
+import com.exence.finance.modules.workspace.entity.Workspace;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,7 +31,7 @@ import org.hibernate.type.SqlTypes;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Filter(name = "userFilter", condition = "user_id = :userId")
+@Filter(name = "workspaceFilter", condition = "workspace_id = :workspaceId")
 public class Widget {
 
     @Id
@@ -71,6 +71,6 @@ public class Widget {
     private Map<WidgetSetting, Object> settings;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "workspace_id", nullable = false)
+    private Workspace workspace;
 }

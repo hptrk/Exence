@@ -15,11 +15,11 @@ public interface InvestmentRepository extends JpaRepository<Investment, Long> {
     Optional<Investment> find(Long id);
 
     @Query("SELECT i FROM Investment i")
-    List<Investment> findAllUserFiltered();
+    List<Investment> findAllWorkspaceFiltered();
 
-    @Query("SELECT COALESCE(SUM(i.baseCurrencyAmount), 0) FROM Investment i WHERE i.user.id = :userId")
-    BigDecimal sumBaseCurrencyAmountByUserId(Long userId);
+    @Query("SELECT COALESCE(SUM(i.baseCurrencyAmount), 0) FROM Investment i WHERE i.workspace.id = :workspaceId")
+    BigDecimal sumBaseCurrencyAmountByWorkspaceId(Long workspaceId);
 
-    @Query("SELECT COUNT(DISTINCT i.asset) FROM Investment i WHERE i.user.id = :userId")
-    long countDistinctAssetsByUserId(Long userId);
+    @Query("SELECT COUNT(DISTINCT i.asset) FROM Investment i WHERE i.workspace.id = :workspaceId")
+    long countDistinctAssetsByWorkspaceId(Long workspaceId);
 }

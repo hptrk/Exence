@@ -8,17 +8,13 @@ import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMO
 import static com.exence.finance.common.util.ValidationConstants.TRANSACTION_AMOUNT_PRECISION;
 
 import com.exence.finance.common.dto.SupportedCurrency;
-import com.exence.finance.common.entity.BaseAuditableEntity;
-import com.exence.finance.modules.auth.entity.User;
+import com.exence.finance.common.entity.BaseWorkspaceEntity;
 import com.exence.finance.modules.investment.enums.InvestmentType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
@@ -45,14 +41,12 @@ import org.hibernate.type.SqlTypes;
 @AllArgsConstructor
 @FieldNameConstants
 @EqualsAndHashCode(
-        callSuper = false,
-        exclude = {"user"})
+        callSuper = false)
 @ToString(
-        callSuper = true,
-        exclude = {"user"})
+        callSuper = true)
 @Table(name = "investment")
-@Filter(name = "userFilter", condition = "user_id = :userId")
-public class Investment extends BaseAuditableEntity {
+@Filter(name = "workspaceFilter", condition = "workspace_id = :workspaceId")
+public class Investment extends BaseWorkspaceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "investment_id_seq")
@@ -101,8 +95,4 @@ public class Investment extends BaseAuditableEntity {
     @Size(max = INVESTMENT_NOTE_MAX_LENGTH)
     @Column(name = "note", length = INVESTMENT_NOTE_MAX_LENGTH)
     private String note;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 }

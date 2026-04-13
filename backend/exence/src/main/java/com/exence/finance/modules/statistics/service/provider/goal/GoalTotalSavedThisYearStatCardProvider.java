@@ -52,7 +52,7 @@ public final class GoalTotalSavedThisYearStatCardProvider implements GoalWidgetD
     }
 
     private BigDecimal calculateTotalSaved(LocalDate startDate, LocalDate endDate) {
-        List<Goal> allGoals = goalRepository.findAllUserFiltered();
+        List<Goal> allGoals = goalRepository.findAllWorkspaceFiltered();
 
         if (allGoals.isEmpty()) {
             return BigDecimal.ZERO;

@@ -21,7 +21,7 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findByStatusIn(List<GoalStatus> statuses);
 
     @Query("SELECT g FROM Goal g")
-    List<Goal> findAllUserFiltered();
+    List<Goal> findAllWorkspaceFiltered();
 
     @Query("SELECT COUNT(g) FROM Goal g WHERE g.status = :status")
     long countByStatus(GoalStatus status);
@@ -41,9 +41,9 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
             + "AND g.status IN :activeStatuses")
     int expireOverdueGoals(GoalStatus newStatus, LocalDate today, List<GoalStatus> activeStatuses);
 
-    @Query("SELECT COUNT(g) FROM Goal g WHERE g.user.id = :userId")
-    long countAllByUserId(Long userId);
+    @Query("SELECT COUNT(g) FROM Goal g WHERE g.workspace.id = :workspaceId")
+    long countAllByWorkspaceId(Long workspaceId);
 
-    @Query("SELECT COUNT(g) FROM Goal g WHERE g.user.id = :userId AND g.status = :status")
-    long countByUserIdAndStatus(Long userId, GoalStatus status);
+    @Query("SELECT COUNT(g) FROM Goal g WHERE g.workspace.id = :workspaceId AND g.status = :status")
+    long countByWorkspaceIdAndStatus(Long workspaceId, GoalStatus status);
 }

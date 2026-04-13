@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-workspace-sequences
+      author: hptrk
+      comment: Create sequences for workspace, workspace_member, and workspace_settings tables
+      changes:
+        - createSequence:
+            sequenceName: workspace_id_seq
+            startValue: 1
+            incrementBy: 1
+        - createSequence:
+            sequenceName: workspace_member_id_seq
+            startValue: 1
+            incrementBy: 1
+        - createSequence:
+            sequenceName: workspace_settings_id_seq
+            startValue: 1
+            incrementBy: 1
+      rollback:
+        - dropSequence:
+            sequenceName: workspace_id_seq
+        - dropSequence:
+            sequenceName: workspace_member_id_seq
+        - dropSequence:
+            sequenceName: workspace_settings_id_seq

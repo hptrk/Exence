@@ -30,36 +30,36 @@ public class AchievementListener {
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onTransactionCreated(TransactionCreatedEvent event) {
-        log.debug("Processing achievements for TRANSACTION_COUNT and APP_STREAK, userId={}", event.userId());
-        achievementService.processAchievement(event.userId(), TRANSACTION_COUNT);
-        achievementService.processAchievement(event.userId(), APP_STREAK);
+        log.debug("Processing achievements for TRANSACTION_COUNT and APP_STREAK, workspaceId={}", event.workspaceId());
+        achievementService.processAchievement(event.workspaceId(), TRANSACTION_COUNT);
+        achievementService.processAchievement(event.workspaceId(), APP_STREAK);
     }
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onGoalCreated(GoalCreatedEvent event) {
-        log.debug("Processing achievements for GOAL_COUNT, userId={}", event.userId());
-        achievementService.processAchievement(event.userId(), GOAL_COUNT);
+        log.debug("Processing achievements for GOAL_COUNT, workspaceId={}", event.workspaceId());
+        achievementService.processAchievement(event.workspaceId(), GOAL_COUNT);
     }
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onGoalCompleted(GoalCompletedEvent event) {
-        log.debug("Processing achievements for GOAL_COMPLETED, userId={}", event.userId());
-        achievementService.processAchievement(event.userId(), GOAL_COMPLETED);
+        log.debug("Processing achievements for GOAL_COMPLETED, workspaceId={}", event.workspaceId());
+        achievementService.processAchievement(event.workspaceId(), GOAL_COMPLETED);
     }
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onDebtCreated(DebtCreatedEvent event) {
-        log.debug("Processing achievements for DEBT_COUNT, userId={}", event.userId());
-        achievementService.processAchievement(event.userId(), DEBT_COUNT);
+        log.debug("Processing achievements for DEBT_COUNT, workspaceId={}", event.workspaceId());
+        achievementService.processAchievement(event.workspaceId(), DEBT_COUNT);
     }
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onDebtSettled(DebtSettledEvent event) {
-        log.debug("Processing achievements for DEBT_SETTLED, userId={}", event.userId());
-        achievementService.processAchievement(event.userId(), DEBT_SETTLED);
+        log.debug("Processing achievements for DEBT_SETTLED, workspaceId={}", event.workspaceId());
+        achievementService.processAchievement(event.workspaceId(), DEBT_SETTLED);
     }
 }

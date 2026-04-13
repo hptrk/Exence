@@ -1,0 +1,259 @@
+databaseChangeLog:
+  # Step 1: Drop base_currency + show_base_currency from user_settings (moved to workspace_settings)
+  - changeSet:
+      id: migrate-drop-currency-from-user-settings
+      author: hptrk
+      comment: Remove base_currency and show_base_currency from user_settings (moved to workspace_settings)
+      changes:
+        - dropColumn:
+            tableName: user_settings
+            columnName: base_currency
+        - dropColumn:
+            tableName: user_settings
+            columnName: show_base_currency
+      rollback:
+        - addColumn:
+            tableName: user_settings
+            columns:
+              - column:
+                  name: base_currency
+                  type: supported_currency
+              - column:
+                  name: show_base_currency
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+
+  # Step 2: Drop old materialized view (references transaction.user_id; must go before dropColumn)
+  - changeSet:
+      id: migrate-drop-old-mv-daily-category-stat
+      author: hptrk
+      comment: >
+        Drop the old mv_daily_category_stat (built with user_id) before removing user_id
+        from the transaction table. The view will be recreated with workspace_id afterwards.
+      dbms: postgresql
+      changes:
+        - sql:
+            sql: DROP MATERIALIZED VIEW IF EXISTS mv_daily_category_stat
+
+  # Step 3a: Migrate transaction table
+  - changeSet:
+      id: migrate-transaction-add-workspace-id
+      author: hptrk
+      comment: Replace user_id with workspace_id on the transaction table
+      dbms: postgresql
+      changes:
+        - dropIndex:
+            tableName: transaction
+            indexName: idx_transaction_user_id_date
+        - dropForeignKeyConstraint:
+            baseTableName: transaction
+            constraintName: fk_transaction_user
+        - dropColumn:
+            tableName: transaction
+            columnName: user_id
+        - addColumn:
+            tableName: transaction
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: transaction
+            baseColumnNames: workspace_id
+            constraintName: fk_transaction_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - createIndex:
+            tableName: transaction
+            indexName: idx_transaction_workspace_id_date
+            columns:
+              - column:
+                  name: workspace_id
+              - column:
+                  name: date
+
+  # Step 3b: Migrate recurring_transaction table
+  - changeSet:
+      id: migrate-recurring-transaction-add-workspace-id
+      author: hptrk
+      comment: Replace user_id with workspace_id on the recurring_transaction table
+      dbms: postgresql
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: recurring_transaction
+            constraintName: fk_recurring_transaction_user
+        - dropColumn:
+            tableName: recurring_transaction
+            columnName: user_id
+        - addColumn:
+            tableName: recurring_transaction
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: recurring_transaction
+            baseColumnNames: workspace_id
+            constraintName: fk_recurring_transaction_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+  # Step 3c: Migrate category table
+  - changeSet:
+      id: migrate-category-add-workspace-id
+      author: hptrk
+      comment: Replace user_id with workspace_id on the category table
+      dbms: postgresql
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: category
+            constraintName: fk_category_user
+        - dropColumn:
+            tableName: category
+            columnName: user_id
+        - addColumn:
+            tableName: category
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: category
+            baseColumnNames: workspace_id
+            constraintName: fk_category_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+  # Step 3d: Migrate goal table
+  - changeSet:
+      id: migrate-goal-add-workspace-id
+      author: hptrk
+      comment: Replace user_id with workspace_id on the goal table
+      dbms: postgresql
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: goal
+            constraintName: fk_goal_user
+        - dropColumn:
+            tableName: goal
+            columnName: user_id
+        - addColumn:
+            tableName: goal
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: goal
+            baseColumnNames: workspace_id
+            constraintName: fk_goal_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+  # Step 3e: Migrate debt table
+  - changeSet:
+      id: migrate-debt-add-workspace-id
+      author: hptrk
+      comment: Replace user_id with workspace_id on the debt table
+      dbms: postgresql
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: debt
+            constraintName: fk_debt_user
+        - dropColumn:
+            tableName: debt
+            columnName: user_id
+        - addColumn:
+            tableName: debt
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: debt
+            baseColumnNames: workspace_id
+            constraintName: fk_debt_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+  # Step 3f: Migrate widget table
+  - changeSet:
+      id: migrate-widget-add-workspace-id
+      author: hptrk
+      comment: Replace user_id with workspace_id on the widget table
+      dbms: postgresql
+      changes:
+        - dropIndex:
+            tableName: widget
+            indexName: idx_widget_user_id
+        - dropForeignKeyConstraint:
+            baseTableName: widget
+            constraintName: fk_widget_user
+        - dropColumn:
+            tableName: widget
+            columnName: user_id
+        - addColumn:
+            tableName: widget
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: widget
+            baseColumnNames: workspace_id
+            constraintName: fk_widget_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - createIndex:
+            tableName: widget
+            indexName: idx_widget_workspace_id
+            columns:
+              - column:
+                  name: workspace_id
+
+  # Step 3g: Migrate investment table
+  - changeSet:
+      id: migrate-invest-add-workspace-id
+      author: hptrk
+      comment: Replace user_id with workspace_id on the investment table
+      dbms: postgresql
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: investment
+            constraintName: fk_investment_user
+        - dropColumn:
+            tableName: investment
+            columnName: user_id
+        - addColumn:
+            tableName: investment
+            columns:
+              - column:
+                  name: workspace_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: investment
+            baseColumnNames: workspace_id
+            constraintName: fk_investment_workspace
+            referencedTableName: workspace
+            referencedColumnNames: id
+            onDelete: CASCADE

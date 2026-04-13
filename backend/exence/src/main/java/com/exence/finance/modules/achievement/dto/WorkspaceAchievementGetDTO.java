@@ -4,7 +4,7 @@ import com.exence.finance.modules.achievement.enums.AchievementTier;
 import com.exence.finance.modules.achievement.enums.AchievementType;
 import java.time.Instant;
 
-public record UserAchievementGetDTO(
+public record WorkspaceAchievementGetDTO(
         Long id,
         Long achievementId,
         String name,

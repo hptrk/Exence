@@ -19,7 +19,7 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
     Optional<Debt> find(Long id);
 
     @Query("SELECT d FROM Debt d")
-    List<Debt> findAllUserFiltered();
+    List<Debt> findAllWorkspaceFiltered();
 
     @Query("SELECT d FROM Debt d WHERE d.status IN :statuses")
     List<Debt> findByStatusIn(List<DebtStatus> statuses);
@@ -41,9 +41,9 @@ public interface DebtRepository extends JpaRepository<Debt, Long> {
             + "AND d.status = :activeStatus")
     int expireOverdueDebts(DebtStatus newStatus, LocalDate today, DebtStatus activeStatus);
 
-    @Query("SELECT COUNT(d) FROM Debt d WHERE d.user.id = :userId")
-    long countAllByUserId(Long userId);
+    @Query("SELECT COUNT(d) FROM Debt d WHERE d.workspace.id = :workspaceId")
+    long countAllByWorkspaceId(Long workspaceId);
 
-    @Query("SELECT COUNT(d) FROM Debt d WHERE d.user.id = :userId AND d.status = :status")
-    long countByUserIdAndStatus(Long userId, DebtStatus status);
+    @Query("SELECT COUNT(d) FROM Debt d WHERE d.workspace.id = :workspaceId AND d.status = :status")
+    long countByWorkspaceIdAndStatus(Long workspaceId, DebtStatus status);
 }

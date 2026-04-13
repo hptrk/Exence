@@ -3,7 +3,7 @@ package com.exence.finance.modules.achievement.controller.impl;
 import com.exence.finance.common.util.ResponseFactory;
 import com.exence.finance.modules.achievement.controller.AchievementController;
 import com.exence.finance.modules.achievement.dto.AchievementGetDTO;
-import com.exence.finance.modules.achievement.dto.UserAchievementGetDTO;
+import com.exence.finance.modules.achievement.dto.WorkspaceAchievementGetDTO;
 import com.exence.finance.modules.achievement.service.AchievementService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class AchievementControllerImpl implements AchievementController {
     }
 
     @GetMapping("/unlocked")
-    public ResponseEntity<List<UserAchievementGetDTO>> getUnlockedAchievements() {
+    public ResponseEntity<List<WorkspaceAchievementGetDTO>> getUnlockedAchievements() {
         return ResponseFactory.ok(achievementService.getUnlockedAchievements());
     }
 }

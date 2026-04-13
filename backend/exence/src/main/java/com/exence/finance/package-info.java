@@ -1,4 +1,4 @@
-@FilterDef(name = "userFilter", parameters = @ParamDef(name = "userId", type = Long.class))
+@FilterDef(name = "workspaceFilter", parameters = @ParamDef(name = "workspaceId", type = Long.class))
 package com.exence.finance;
 
 import org.hibernate.annotations.FilterDef;

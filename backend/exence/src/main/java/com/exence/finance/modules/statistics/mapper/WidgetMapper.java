@@ -20,6 +20,6 @@ public interface WidgetMapper {
     List<ChartWidgetDTO> mapToChartDTOList(List<Widget> widgets);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
+    @Mapping(target = "workspace", ignore = true)
     Widget mapToWidget(WidgetCreateDTO dto);
 }

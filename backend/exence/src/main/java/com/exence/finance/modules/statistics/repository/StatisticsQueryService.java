@@ -1,6 +1,5 @@
 package com.exence.finance.modules.statistics.repository;
 
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
 import com.exence.finance.modules.statistics.dto.result.CategoryAmountResult;
 import com.exence.finance.modules.statistics.dto.result.CategoryAverageResult;
@@ -20,6 +19,7 @@ import com.exence.finance.modules.statistics.dto.result.YearlyCategoryResult;
 import com.exence.finance.modules.statistics.entity.QDailyCategoryStat;
 import com.exence.finance.modules.transaction.dto.TransactionType;
 import com.exence.finance.modules.transaction.entity.QTransaction;
+import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.CaseBuilder;
@@ -45,7 +45,6 @@ public class StatisticsQueryService {
 
     private final JPAQueryFactory queryFactory;
     private final JdbcClient jdbcClient;
-    private final UserService userService;
 
     // --- General ---
 
@@ -94,12 +93,13 @@ public class StatisticsQueryService {
                         + " SUM(CASE WHEN CAST(type AS TEXT) = 'INCOME'"
                         + " THEN total_amount ELSE -total_amount END) AS daily_balance"
                         + " FROM mv_daily_category_stat"
-                        + " WHERE user_id = :userId");
+                        + " WHERE workspace_id = :workspaceId");
         appendDateFilter(sql, filter, "stat_date");
         appendCategoryFilter(sql, filter, "category_id");
         sql.append(" GROUP BY stat_date) daily ORDER BY daily.stat_date");
 
-        JdbcClient.StatementSpec spec = jdbcClient.sql(sql.toString()).param("userId", userService.getCurrentUserId());
+        JdbcClient.StatementSpec spec =
+                jdbcClient.sql(sql.toString()).param("workspaceId", WorkspaceContextHolder.getWorkspaceId());
         spec = applyDateParams(spec, filter);
         spec = applyCategoryParams(spec, filter);
 
@@ -374,14 +374,14 @@ public class StatisticsQueryService {
                 + " FROM generate_series(CAST(:startDate AS date), " + endBound + ","
                 + " '1 day'::interval) d(day)"
                 + " LEFT JOIN mv_daily_category_stat s ON CAST(s.stat_date AS date) = d.day"
-                + " AND s.user_id = :userId"
+                + " AND s.workspace_id = :workspaceId"
                 + " AND CAST(s.type AS TEXT) = 'EXPENSE'");
         appendCategoryFilter(sql, filter, "s.category_id");
         sql.append(" WHERE s.stat_date IS NULL");
 
         JdbcClient.StatementSpec spec = jdbcClient
                 .sql(sql.toString())
-                .param("userId", userService.getCurrentUserId())
+                .param("workspaceId", WorkspaceContextHolder.getWorkspaceId())
                 .param("startDate", toSqlDate(filter.startDate()));
         if (filter.endDate() != null) {
             spec = spec.param("endDate", toSqlDate(filter.endDate()));
@@ -398,14 +398,15 @@ public class StatisticsQueryService {
                 + " EXTRACT(WEEK FROM stat_date)::int,"
                 + " COALESCE(SUM(total_amount), 0)"
                 + " FROM mv_daily_category_stat"
-                + " WHERE user_id = :userId"
+                + " WHERE workspace_id = :workspaceId"
                 + " AND CAST(type AS TEXT) = 'EXPENSE'");
         appendDateFilter(sql, filter, "stat_date");
         appendCategoryFilter(sql, filter, "category_id");
         sql.append(" GROUP BY EXTRACT(ISODOW FROM stat_date), EXTRACT(WEEK FROM stat_date)");
         sql.append(" ORDER BY 2, 1");
 
-        JdbcClient.StatementSpec spec = jdbcClient.sql(sql.toString()).param("userId", userService.getCurrentUserId());
+        JdbcClient.StatementSpec spec =
+                jdbcClient.sql(sql.toString()).param("workspaceId", WorkspaceContextHolder.getWorkspaceId());
         spec = applyDateParams(spec, filter);
         spec = applyCategoryParams(spec, filter);
 
@@ -426,7 +427,7 @@ public class StatisticsQueryService {
                 + " stat_date,"
                 + " SUM(total_amount) AS daily_total"
                 + " FROM mv_daily_category_stat"
-                + " WHERE user_id = :userId"
+                + " WHERE workspace_id = :workspaceId"
                 + " AND CAST(type AS TEXT) = 'EXPENSE'");
         appendDateFilter(sql, filter, "stat_date");
         appendCategoryFilter(sql, filter, "category_id");
@@ -434,7 +435,8 @@ public class StatisticsQueryService {
         sql.append(" GROUP BY sub.yr, sub.mn");
         sql.append(" ORDER BY sub.yr, sub.mn");
 
-        JdbcClient.StatementSpec spec = jdbcClient.sql(sql.toString()).param("userId", userService.getCurrentUserId());
+        JdbcClient.StatementSpec spec =
+                jdbcClient.sql(sql.toString()).param("workspaceId", WorkspaceContextHolder.getWorkspaceId());
         spec = applyDateParams(spec, filter);
         spec = applyCategoryParams(spec, filter);
 
@@ -476,14 +478,15 @@ public class StatisticsQueryService {
                 + " MAX(t.base_currency_amount)"
                 + " FROM \"transaction\" t"
                 + " JOIN category c ON t.category_id = c.id"
-                + " WHERE t.user_id = :userId"
+                + " WHERE t.workspace_id = :workspaceId"
                 + " AND CAST(t.type AS TEXT) = 'EXPENSE'");
         appendDateFilter(sql, filter, "t.date");
         appendCategoryFilter(sql, filter, "t.category_id");
         sql.append(" GROUP BY c.name, c.color");
         sql.append(" ORDER BY c.name");
 
-        JdbcClient.StatementSpec spec = jdbcClient.sql(sql.toString()).param("userId", userService.getCurrentUserId());
+        JdbcClient.StatementSpec spec =
+                jdbcClient.sql(sql.toString()).param("workspaceId", WorkspaceContextHolder.getWorkspaceId());
         spec = applyDateParams(spec, filter);
         spec = applyCategoryParams(spec, filter);
 
