@@ -66,6 +66,9 @@ jwt:
   password-reset-token-expiration: 15m
   cleanup-interval: 3600000 # 1 hour in milliseconds
 
+javers:
+  algorithm: AS_SET
+
 # logging configuration
 logging:
   level:

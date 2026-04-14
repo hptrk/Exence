@@ -5,6 +5,7 @@ import com.exence.finance.modules.transaction.entity.RecurringTransaction;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@JaversSpringDataAuditable
 public interface RecurringTransactionRepository extends JpaRepository<RecurringTransaction, Long> {
 
     @Query("SELECT rt FROM RecurringTransaction rt WHERE rt.id = :id")

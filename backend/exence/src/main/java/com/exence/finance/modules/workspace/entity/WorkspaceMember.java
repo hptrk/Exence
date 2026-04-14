@@ -25,6 +25,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 @Entity
 @Table(
@@ -47,10 +48,12 @@ public class WorkspaceMember {
     @Column(name = "id")
     private Long id;
 
+    @DiffIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workspace_id", nullable = false)
     private Workspace workspace;
 
+    @DiffIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -59,6 +62,7 @@ public class WorkspaceMember {
     @Column(name = "role", nullable = false, length = ROLE_MAX_LENGTH)
     private WorkspaceRole role;
 
+    @DiffIgnore
     @CreationTimestamp
     @Column(name = "joined_at", nullable = false, updatable = false)
     private Instant joinedAt;

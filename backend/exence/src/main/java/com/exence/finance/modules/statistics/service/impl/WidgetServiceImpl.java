@@ -20,9 +20,11 @@ import com.exence.finance.modules.statistics.service.WidgetService;
 import com.exence.finance.modules.statistics.service.WidgetSettingsValidator;
 import com.exence.finance.modules.statistics.service.provider.WidgetDataProvider;
 import com.exence.finance.modules.workspace.context.WorkspaceContextHolder;
-import com.exence.finance.modules.workspace.service.WorkspaceService;
+import com.exence.finance.modules.workspace.entity.Workspace;
+import com.exence.finance.modules.workspace.repository.WorkspaceRepository;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +44,7 @@ public class WidgetServiceImpl implements WidgetService {
     private final WidgetMapper widgetMapper;
     private final WidgetRepository widgetRepository;
     private final StatisticsQueryService statisticsQueryService;
-    private final WorkspaceService workspaceService;
+    private final WorkspaceRepository workspaceRepository;
     private final WidgetSettingsValidator widgetSettingsValidator;
     private final List<WidgetDataProvider> providers;
 
@@ -81,7 +83,9 @@ public class WidgetServiceImpl implements WidgetService {
     public WidgetLayoutResponse createWidget(WidgetCreateDTO widgetCreateDTO) {
         widgetSettingsValidator.validate(widgetCreateDTO.settings());
         Widget widget = widgetMapper.mapToWidget(widgetCreateDTO);
-        widget.setWorkspace(workspaceService.getWorkspace(WorkspaceContextHolder.getWorkspaceId()));
+        widget.setWorkspace(workspaceRepository
+                .findById(WorkspaceContextHolder.getWorkspaceId())
+                .orElseThrow(() -> new ExenceException(ErrorCode.WORKSPACE_NOT_FOUND)));
 
         widgetRepository.save(widget);
 
@@ -179,6 +183,24 @@ public class WidgetServiceImpl implements WidgetService {
                 .orElseThrow(() -> new ExenceException(ErrorCode.WIDGET_NOT_FOUND));
 
         return getWidgetData(widget.getId(), timeframe);
+    }
+
+    @Override
+    @WriteTransactional
+    public void createDefaultDashboardWidget(Workspace workspace) {
+        Widget widget = Widget.builder()
+                .workspace(workspace)
+                .type(WidgetType.DASHBOARD_BALANCE_TREND)
+                .title("Balance Trend")
+                .timeframe(Timeframe.YTD)
+                .displayOrder(0)
+                .x(0)
+                .y(0)
+                .cols(0)
+                .rows(0)
+                .settings(Collections.emptyMap())
+                .build();
+        widgetRepository.save(widget);
     }
 
     private Timeframe resolveTimeframe(Timeframe queryParamTimeframe, Widget widget) {
