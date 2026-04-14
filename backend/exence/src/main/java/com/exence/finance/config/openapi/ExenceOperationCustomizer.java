@@ -60,9 +60,14 @@ public class ExenceOperationCustomizer implements OperationCustomizer {
 
         String instancePath = resolveInstancePath(handlerMethod);
 
-        ApiResponses responses = new ApiResponses();
-        responses.addApiResponse(
-                String.valueOf(annotation.successStatus()), buildSuccessResponse(annotation, handlerMethod));
+        ApiResponses responses;
+        if (!isListResponse(handlerMethod)) {
+            responses = new ApiResponses();
+            responses.addApiResponse(
+                    String.valueOf(annotation.successStatus()), buildSuccessResponse(annotation, handlerMethod));
+        } else {
+            responses = operation.getResponses();
+        }
         buildErrorResponses(annotation.errors(), instancePath).forEach(responses::addApiResponse);
         operation.setResponses(responses);
 
@@ -182,5 +187,18 @@ public class ExenceOperationCustomizer implements OperationCustomizer {
         } catch (NoSuchMessageException | NoSuchElementException e) {
             return key;
         }
+    }
+
+    private boolean isListResponse(HandlerMethod handlerMethod) {
+        Type returnType = handlerMethod.getMethod().getGenericReturnType();
+
+        // ResponseEntity<List<T>>
+        if (returnType instanceof ParameterizedType pt && pt.getRawType().equals(ResponseEntity.class)) {
+            Type[] typeArgs = pt.getActualTypeArguments();
+            if (typeArgs.length > 0 && typeArgs[0] instanceof ParameterizedType innerPt) {
+                return innerPt.getRawType() == List.class;
+            }
+        }
+        return false;
     }
 }
