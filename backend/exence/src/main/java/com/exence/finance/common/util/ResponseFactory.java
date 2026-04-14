@@ -1,9 +1,11 @@
 package com.exence.finance.common.util;
 
 import com.exence.finance.common.dto.PageResponse;
+import com.exence.finance.common.dto.SliceResponse;
 import java.net.URI;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,10 @@ public final class ResponseFactory {
 
     public static <T> ResponseEntity<PageResponse<T>> page(Page<T> page) {
         return ResponseEntity.ok(PageResponse.from(page));
+    }
+
+    public static <T> ResponseEntity<SliceResponse<T>> slice(Slice<T> slice) {
+        return ResponseEntity.ok(SliceResponse.from(slice));
     }
 
     public static <T> ResponseEntity<T> okWithCookies(T body, ResponseCookie... cookies) {

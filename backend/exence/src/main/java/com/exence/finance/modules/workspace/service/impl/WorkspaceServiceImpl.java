@@ -15,6 +15,7 @@ import com.exence.finance.modules.workspace.entity.Workspace;
 import com.exence.finance.modules.workspace.entity.WorkspaceMember;
 import com.exence.finance.modules.workspace.enums.WorkspaceRole;
 import com.exence.finance.modules.workspace.mapper.WorkspaceMapper;
+import com.exence.finance.modules.statistics.service.WidgetService;
 import com.exence.finance.modules.workspace.repository.WorkspaceRepository;
 import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import com.exence.finance.modules.workspace.service.WorkspaceService;
@@ -31,6 +32,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
     private final WorkspaceMembershipService workspaceMembershipService;
     private final WorkspaceMapper workspaceMapper;
     private final UserService userService;
+    private final WidgetService widgetService;
 
     @Override
     @ReadTransactional
@@ -46,6 +48,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         User currentUser = userService.getCurrentUser();
         Workspace workspace =
                 workspaceMembershipService.createDefaultWorkspace(currentUser, request.name(), request.baseCurrency());
+        widgetService.createDefaultDashboardWidget(workspace);
         return workspaceMapper.mapToGetDTO(workspace, currentUser.getId());
     }
 

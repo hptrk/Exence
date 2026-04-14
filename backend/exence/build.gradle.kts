@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.mail)
     implementation(libs.spring.boot.starter.validation)
+    // Audit logging
+    implementation(libs.javers.spring.boot.starter.sql)
 
     // JWT
     implementation(libs.jjwt.api)

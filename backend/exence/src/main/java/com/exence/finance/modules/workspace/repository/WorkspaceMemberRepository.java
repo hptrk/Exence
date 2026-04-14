@@ -3,12 +3,14 @@ package com.exence.finance.modules.workspace.repository;
 import com.exence.finance.modules.workspace.entity.WorkspaceMember;
 import java.util.List;
 import java.util.Optional;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@JaversSpringDataAuditable
 public interface WorkspaceMemberRepository extends JpaRepository<WorkspaceMember, Long> {
 
     Optional<WorkspaceMember> findByWorkspaceIdAndUserId(Long workspaceId, Long userId);

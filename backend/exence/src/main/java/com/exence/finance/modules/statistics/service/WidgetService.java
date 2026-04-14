@@ -5,10 +5,13 @@ import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
 import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import com.exence.finance.modules.statistics.dto.response.WidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.response.WidgetLayoutResponse;
+import com.exence.finance.modules.workspace.entity.Workspace;
 
 public interface WidgetService {
 
     WidgetLayoutResponse getLayout();
+
+    void createDefaultDashboardWidget(Workspace workspace);
 
     WidgetDataResponse getWidgetData(Long widgetId, Timeframe timeframe);
 

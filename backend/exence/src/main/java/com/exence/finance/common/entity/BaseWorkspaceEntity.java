@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 @Getter
 @Setter
@@ -19,6 +20,7 @@ import lombok.experimental.SuperBuilder;
 @MappedSuperclass
 public abstract class BaseWorkspaceEntity extends BaseAuditableEntity {
 
+    @DiffIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workspace_id", nullable = false)
     private Workspace workspace;

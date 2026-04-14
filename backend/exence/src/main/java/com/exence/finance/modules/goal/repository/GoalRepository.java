@@ -6,12 +6,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@JaversSpringDataAuditable
 public interface GoalRepository extends JpaRepository<Goal, Long> {
 
     @Query("SELECT g FROM Goal g WHERE g.id = :id")

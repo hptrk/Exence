@@ -40,10 +40,8 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldNameConstants
-@EqualsAndHashCode(
-        callSuper = false)
-@ToString(
-        callSuper = true)
+@EqualsAndHashCode(callSuper = false)
+@ToString(callSuper = true)
 @Table(name = "investment")
 @Filter(name = "workspaceFilter", condition = "workspace_id = :workspaceId")
 public class Investment extends BaseWorkspaceEntity {

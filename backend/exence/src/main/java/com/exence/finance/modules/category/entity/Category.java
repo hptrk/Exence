@@ -28,6 +28,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 @SuperBuilder
 @Entity
@@ -71,6 +72,7 @@ public class Category extends BaseWorkspaceEntity {
     @Column(name = "note", length = CATEGORY_NOTE_MAX_LENGTH)
     private String note;
 
+    @DiffIgnore
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 }
