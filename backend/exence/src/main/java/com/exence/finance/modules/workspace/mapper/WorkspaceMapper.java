@@ -17,7 +17,7 @@ public interface WorkspaceMapper {
     WorkspaceGetDTO mapToGetDTO(Workspace workspace, @Context Long currentUserId);
 
     @Mapping(target = "userId", source = "member.user.id")
-    @Mapping(target = "username", source = "member.user.username")
+    @Mapping(target = "username", source = "member.user.displayUsername")
     @Mapping(target = "email", source = "member.user.email")
     WorkspaceMemberGetDTO mapMemberToGetDTO(WorkspaceMember member);
 

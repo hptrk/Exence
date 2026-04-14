@@ -95,37 +95,28 @@ export class TransactionListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({
-			key: 'title',
-			header: this.translocoService.translate('transactionsAndCategories.title'),
-			width: '35%',
-		});
-		if (this.display.isMd())
-			columns.push({
-				key: 'date',
-				header: this.translocoService.translate('transactionsAndCategories.date'),
-				width: '70px',
-			});
-		columns.push({ key: 'amount', header: this.translocoService.translate('literals.amount'), width: '120px' });
-		columns.push({ key: 'category', header: this.translocoService.translate('literals.category'), width: '50px' });
+		columns.push({ key: 'title', header: 'transactionsAndCategories.title', width: '35%' });
+		if (this.display.isMd()) columns.push({ key: 'date', header: 'transactionsAndCategories.date', width: '70px' });
+		columns.push({ key: 'amount', header: 'literals.amount', width: '120px' });
+		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
 		if (!this.nonExpandable()) columns.push({ key: 'actions', header: '', width: '60px' });
 		return columns;
 	});
 
 	actions: TableAction<TransactionModel>[] = [
 		{
-			label: this.translocoService.translate('transactionsAndCategories.duplicate'),
+			label: 'transactionsAndCategories.duplicate',
 			icon: 'add_box',
 			handler: row => this.dupliateTransaction(row),
 			disabled: row => row.createdByRecurringJob,
 		},
 		{
-			label: this.translocoService.translate('literals.edit'),
+			label: 'literals.edit',
 			icon: 'edit',
 			handler: row => this.editTransaction(row),
 		},
 		{
-			label: this.translocoService.translate('literals.delete'),
+			label: 'literals.delete',
 			icon: 'delete',
 			color: 'var(--error-color)',
 			handler: row => this.transactionStore.deleteTransaction(row),

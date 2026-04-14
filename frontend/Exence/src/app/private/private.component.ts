@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject, untracked } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { CurrencyService } from '../shared/currency.service';
 import { DisplayThemeService } from '../shared/display-theme.service';
 import { LanguageService } from './profile-dialog/user-settings/language-select/language.service';
 import { UserSettingsService } from './profile-dialog/user-settings/user-settinngs.service';
+import { WorkspaceService } from '../shared/workspace.service';
 import { CategoryStore } from './transactions-and-categories/category.store';
 import { RecurringService } from './transactions-and-categories/recurring.service';
 import { RecurringStore } from './transactions-and-categories/recurring.store';
@@ -44,6 +45,8 @@ export class PrivateComponent {
 	private readonly currencyService = inject(CurrencyService);
 	private readonly translocoService = inject(TranslocoService);
 
+	private readonly workspaceService = inject(WorkspaceService);
+
 	constructor() {
 		this.userSettingsService.list().then(settings => {
 			if (settings.language && settings.language !== this.translocoService.getActiveLang()) {
@@ -51,8 +54,16 @@ export class PrivateComponent {
 			}
 
 			this.themeService.setPreferredThemes(settings.primaryTheme, settings.secondaryTheme);
-			this.currencyService.setBaseCurrency(settings.baseCurrency);
-			this.currencyService.useBaseCurrency(settings.showBaseCurrency);
+		});
+
+		effect(() => {
+			this.workspaceService.currentWorkspace(); // tracked — runs on every workspace switch
+			untracked(() => {
+				this.workspaceService.getSettings().then(settings => {
+					this.currencyService.setBaseCurrency(settings.baseCurrency);
+					this.currencyService.useBaseCurrency(settings.showBaseCurrency);
+				});
+			});
 		});
 	}
 }

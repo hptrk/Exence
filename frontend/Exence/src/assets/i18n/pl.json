@@ -13,6 +13,7 @@
 		"delete": "Usuń",
 		"edit": "Edytuj",
 		"cancel": "Anuluj",
+		"leave": "Opuść",
 		"next": "Dalej",
 		"back": "Wstecz",
 		"continue": "Kontynuuj",
@@ -173,6 +174,56 @@
 				}
 			},
 			"success": "Ustawienia użytkownika zostały pomyślnie zaktualizowane!"
+		},
+		"switchWorkspace": "Switch workspace",
+		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"currentWorkspace": "Bieżący",
+		"workspaces": {
+			"yourWorkspaces": "Twoje obszary robocze",
+			"new": "Nowy",
+			"create": {
+				"title": "Utwórz obszar roboczy",
+				"nameLabel": "Nazwa",
+				"currencyLabel": "Waluta bazowa",
+				"success": "Workspace '{{workspaceName}}' created successfully!"
+			},
+			"edit": {
+				"title": "Edytuj obszar roboczy",
+				"nameLabel": "Nazwa",
+				"success": "Successfully updated workspace!"
+			},
+			"members": "Członkowie",
+			"noMembers": "Brak członków",
+			"roleOwner": "Właściciel",
+			"roleMember": "Członek",
+			"joinedAt": "Dołączył",
+			"deleteWorkspace": {
+				"title": "Usuń obszar roboczy",
+				"message": "Czy na pewno chcesz usunąć ten obszar roboczy? Tej operacji nie można cofnąć.",
+				"disabledOtherMembers": "Nie możesz usunąć obszaru roboczego, dopóki są w nim inni członkowie.",
+				"disabledActive": "Nie możesz wyłączyć obszaru roboczego, gdy aktualnie z niego korzystasz.",
+				"success": "Obszar roboczy '{{workspaceName}}' usunięty!"
+			},
+			"kickMember": {
+				"title": "Wyrzuć członka",
+				"message": "Czy na pewno chcesz wyrzucić {{name}} z tego obszaru roboczego?",
+				"success": "'{{memberEmail}}' kicked!"
+			},
+			"leaveWorkspace": {
+				"title": "Opuść obszar roboczy",
+				"message": "Czy na pewno chcesz opuścić ten obszar roboczy?",
+				"success": "Successfully left '{{workspaceName}}' workspace!"
+			},
+			"addMember": {
+				"title": "Dodaj członka",
+				"emailLabel": "Adres e-mail",
+				"button": "Nowy członek",
+				"success": "New member successfully added to '{{workspaceName}}'!"
+			}
+		},
+		"workspaceSettings": {
+			"label": "Ustawienia obszaru roboczego",
+			"success": "Ustawienia obszaru roboczego zostały pomyślnie zaktualizowane!"
 		},
 		"sessions": {
 			"label": "Sesje"
@@ -507,6 +558,7 @@
 		"passwordInfo": "Hasło musi zawierać co najmniej 1 małą literę, 1 wielką literę, 1 cyfrę i 1 znak specjalny (!@#$%^&*()_+-=[]{};'|,.<>/?)",
 		"confirmPassword": "Potwierdź hasło",
 		"createButton": "Utwórz konto",
+		"workspaceName": "Nazwa obszaru roboczego",
 		"success": "Rejestracja zakończona pomyślnie"
 	},
 	"dataTable": {

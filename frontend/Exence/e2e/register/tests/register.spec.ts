@@ -1,9 +1,12 @@
 import { expect, test } from '@playwright/test';
+import { fillAndBlur, getCurrentDate } from '../../form/utils/form-utils';
+import { getErrorSnackbar, getSnackbarCloseBtn, getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
 import data from '../data/register.data.json';
 import {
 	getConfirmPasswordField,
 	getConfirmPwdClearBtn,
 	getConfirmPwdError,
+	getCurrencySelect,
 	getEmailClearBtn,
 	getEmailError,
 	getEmailField,
@@ -17,9 +20,10 @@ import {
 	getUsernameClearBtn,
 	getUsernameError,
 	getUsernameField,
+	getWorkspaceNameClearBtn,
+	getWorkspaceNameError,
+	getWorkspaceNameField,
 } from '../locators/register-locators';
-import { fillAndBlur, getCurrentDate } from '../../form/utils/form-utils';
-import { getErrorSnackbar, getSnackbarCloseBtn, getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
 
 test.describe('Register', () => {
 	test.beforeEach(async ({ page, context }) => {
@@ -43,9 +47,28 @@ test.describe('Register', () => {
 		await fillAndBlur(getUsernameField(page), data['incorrect'].usernameMaxLengthCharacter.repeat(256));
 		await expect(getUsernameError(page)).toHaveText('Max length is 255!');
 
+		// Username no errors
 		await getUsernameField(page).clear();
 		await fillAndBlur(getUsernameField(page), data['valid'].username);
 		await expect(getUsernameError(page)).not.toBeVisible();
+
+		// Currency
+		await expect(getCurrencySelect(page)).toBeVisible();
+
+		// Workspace name required
+		await getWorkspaceNameField(page).click();
+		await getWorkspaceNameField(page).blur();
+		await expect(getWorkspaceNameError(page)).toHaveText('Field required');
+
+		// Workspace name maxlength
+		await getWorkspaceNameField(page).clear();
+		await fillAndBlur(getWorkspaceNameField(page), data['incorrect'].workspaceNameMaxLengthCharacter.repeat(101));
+		await expect(getWorkspaceNameError(page)).toHaveText('Max length is 100!');
+
+		// Workspace name no errors
+		await getWorkspaceNameField(page).clear();
+		await fillAndBlur(getWorkspaceNameField(page), data['valid'].workspaceName);
+		await expect(getWorkspaceNameError(page)).not.toBeVisible();
 
 		// Email required
 		await getEmailField(page).click();
@@ -57,6 +80,7 @@ test.describe('Register', () => {
 		await fillAndBlur(getEmailField(page), data['incorrect'].email);
 		await expect(getEmailError(page)).toHaveText('Invalid email format!');
 
+		// Email valid format
 		await getEmailField(page).clear();
 		await fillAndBlur(getEmailField(page), `test_${getCurrentDate()}@gmail.com`);
 		await expect(getEmailError(page)).not.toBeVisible();
@@ -71,6 +95,7 @@ test.describe('Register', () => {
 		await fillAndBlur(getPasswordField(page), data['incorrect'].password);
 		await expect(getPwdError(page)).toHaveText('Invalid password format!');
 
+		// Password valid format
 		await getPasswordField(page).clear();
 		await fillAndBlur(getPasswordField(page), data['valid'].password);
 		await expect(getPwdError(page)).not.toBeVisible();
@@ -80,6 +105,12 @@ test.describe('Register', () => {
 		await getConfirmPasswordField(page).blur();
 		await expect(getConfirmPwdError(page)).toHaveText('Field required');
 
+		// Password invalid
+		await getConfirmPasswordField(page).clear();
+		await fillAndBlur(getConfirmPasswordField(page), data['incorrect'].password);
+		await expect(getConfirmPwdError(page)).toHaveText('Invalid password format!');
+
+		// Confirm password valid
 		await getConfirmPasswordField(page).clear();
 		await fillAndBlur(getConfirmPasswordField(page), data['valid'].password);
 		await expect(getConfirmPwdError(page)).not.toBeVisible();
@@ -100,6 +131,14 @@ test.describe('Register', () => {
 		await expect(getUsernameClearBtn(page)).toBeVisible();
 		await getUsernameClearBtn(page).click();
 		await expect(getUsernameField(page)).toHaveValue('');
+	});
+
+	test('should clear workspacename', async ({ page }) => {
+		await expect(getWorkspaceNameClearBtn(page)).not.toBeVisible();
+		await fillAndBlur(getWorkspaceNameField(page), data['valid'].workspaceName);
+		await expect(getWorkspaceNameClearBtn(page)).toBeVisible();
+		await getWorkspaceNameClearBtn(page).click();
+		await expect(getWorkspaceNameField(page)).toHaveValue('');
 	});
 
 	test('should clear email', async ({ page }) => {

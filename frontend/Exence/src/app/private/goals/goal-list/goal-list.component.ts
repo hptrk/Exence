@@ -74,19 +74,10 @@ export class GoalListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({
-			key: 'title',
-			header: this.translocoService.translate('goals.titleLabel'),
-			width: '35%',
-		});
-		if (this.display.isMd())
-			columns.push({
-				key: 'deadline',
-				header: this.translocoService.translate('goals.date'),
-				width: '70px',
-			});
-		columns.push({ key: 'amount', header: this.translocoService.translate('literals.amount'), width: '120px' });
-		columns.push({ key: 'category', header: this.translocoService.translate('literals.category'), width: '50px' });
+		columns.push({ key: 'title', header: 'goals.titleLabel', width: '35%' });
+		if (this.display.isMd()) columns.push({ key: 'deadline', header: 'goals.date', width: '70px' });
+		columns.push({ key: 'amount', header: 'literals.amount', width: '120px' });
+		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
 		columns.push({ key: 'actions', header: '', width: '60px' });
 		return columns;
 	});
@@ -97,12 +88,12 @@ export class GoalListComponent {
 
 	actions: TableAction<GoalModel>[] = [
 		{
-			label: this.translocoService.translate('literals.edit'),
+			label: 'literals.edit',
 			icon: 'edit',
 			handler: row => this.edit(row),
 		},
 		{
-			label: this.translocoService.translate('literals.delete'),
+			label: 'literals.delete',
 			icon: 'delete',
 			color: 'var(--error-color)',
 			handler: row => this.store.deleteGoal(row.id),

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../shared/auth/auth.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
+import { WorkspaceService } from '../../shared/workspace.service';
 
 @Component({
 	selector: 'ex-logout',
@@ -22,11 +23,13 @@ export class LogoutComponent implements OnInit {
 	private readonly currentUserService = inject(CurrentUserService);
 	private readonly navigationService = inject(NavigationService);
 	private readonly authService = inject(AuthService);
+	private readonly workspaceService = inject(WorkspaceService);
 	private readonly router = inject(Router);
 
 	ngOnInit(): void {
 		this.authService.logout();
 		this.currentUserService.clearUser();
+		this.workspaceService.reset();
 		this.router.navigateByUrl(this.navigationService.account().login());
 	}
 }

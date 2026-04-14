@@ -7,6 +7,8 @@ import { GoalPatch } from '../../data-model/modules/goal/GoalPatch';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { GoalService } from './goal.service';
 import { CurrencyService } from '../../shared/currency.service';
+import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
+import { WorkspaceService } from '../../shared/workspace.service';
 
 interface GoalStoreData {
 	goals: GoalGet[];
@@ -19,9 +21,10 @@ const initialState: GoalStoreData = {
 export const GoalStore = signalStore(
 	withState(initialState),
 
-	withProps((_, goalService = inject(GoalService)) => {
+	withProps((_, goalService = inject(GoalService), workspaceService = inject(WorkspaceService)) => {
 		return {
-			goalResource: resource<GoalGet[], undefined>({
+			goalResource: resource<GoalGet[], WorkspaceGet | null>({
+				params: () => workspaceService.currentWorkspace(),
 				loader: async () => await goalService.list(),
 			}),
 		};

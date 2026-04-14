@@ -8,6 +8,8 @@ import { DebtPayment } from '../../data-model/modules/debt/DebtPayment';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CurrencyService } from '../../shared/currency.service';
 import { DebtService } from './debt.service';
+import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
+import { WorkspaceService } from '../../shared/workspace.service';
 
 interface DebtStoreData {
 	debts: DebtGet[];
@@ -20,9 +22,10 @@ const initialState: DebtStoreData = {
 export const DebtStore = signalStore(
 	withState(initialState),
 
-	withProps((_, debtService = inject(DebtService)) => {
+	withProps((_, debtService = inject(DebtService), workspaceService = inject(WorkspaceService)) => {
 		return {
-			debtResource: resource<DebtGet[], undefined>({
+			debtResource: resource<DebtGet[], WorkspaceGet | null>({
+				params: () => workspaceService.currentWorkspace(),
 				loader: async () => await debtService.list(),
 			}),
 		};

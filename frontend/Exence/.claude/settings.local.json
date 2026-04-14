@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(grep -E \"\\\\.\\(ts|html|scss\\)$\")",
-      "Bash(npx ng:*)"
+      "Bash(npx ng:*)",
+      "Bash(xargs grep *)",
+      "Bash(grep -E \"\\\\.\\(ts|html\\)$\")"
     ]
   },
   "enabledPlugins": {

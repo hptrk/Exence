@@ -1,0 +1,11 @@
+mat-expansion-panel.mat-expansion-panel {
+	--mat-expansion-container-elevation-shadow: var(--shadow-color);
+	--mat-expansion-container-background-color: var(--app-card-color);
+	--mat-expansion-container-text-color: var(--default-text-color);
+
+	mat-expansion-panel-header.mat-expansion-panel-header.mat-expanded {
+		border-radius: 0;
+		margin-bottom: 0.5rem;
+		border-bottom: 1px solid var(--border-color);
+	}
+}

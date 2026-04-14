@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+	<h3 class="m-0 text-start fs-2">{{ 'profile.workspaces.yourWorkspaces' | translate }}</h3>
+	<ex-button filled color="primary" matIcon="add" collapseUnder="lg" (click)="openCreate()">
+		{{ 'profile.workspaces.new' | translate }}
+	</ex-button>
+</div>
+
+@if (loading()) {
+	<div class="d-flex justify-content-center py-3">
+		<mat-spinner diameter="32" />
+	</div>
+} @else {
+	<div class="d-flex flex-column gap-2 overflow-y-auto">
+		@for (workspace of workspaces(); track workspace.id) {
+			<ex-workspace-item [workspace]="workspace" [isActive]="workspace.id === currentWorkspaceId()" />
+		}
+	</div>
+}

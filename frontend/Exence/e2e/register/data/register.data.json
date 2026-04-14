@@ -1,6 +1,7 @@
 {
 	"valid": {
 		"username": "Test User",
+		"workspaceName": "Test User's Workspace",
 		"password": "Test123!",
 		"confirmPassword": "Test123!"
 	},
@@ -8,7 +9,8 @@
 		"email": "not-an-email",
 		"password": "weak",
 		"passwordMismatch": "Different123!",
-		"usernameMaxLengthCharacter": "a"
+		"usernameMaxLengthCharacter": "a",
+		"workspaceNameMaxLengthCharacter": "a"
 	},
 	"blacklisted": {
 		"email": "test@maildrop.cc"

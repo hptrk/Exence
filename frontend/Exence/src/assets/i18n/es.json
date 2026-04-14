@@ -13,6 +13,7 @@
 		"delete": "Eliminar",
 		"edit": "Editar",
 		"cancel": "Cancelar",
+		"leave": "Abandonar",
 		"next": "Siguiente",
 		"back": "Atrás",
 		"continue": "Continuar",
@@ -173,6 +174,56 @@
 				}
 			},
 			"success": "¡Configuración de usuario actualizada con éxito!"
+		},
+		"switchWorkspace": "Switch workspace",
+		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"currentWorkspace": "Actual",
+		"workspaces": {
+			"yourWorkspaces": "Tus espacios de trabajo",
+			"new": "Nuevo",
+			"create": {
+				"title": "Crear espacio de trabajo",
+				"nameLabel": "Nombre",
+				"currencyLabel": "Moneda base",
+				"success": "Workspace '{{workspaceName}}' created successfully!"
+			},
+			"edit": {
+				"title": "Editar espacio de trabajo",
+				"nameLabel": "Nombre",
+				"success": "Successfully updated workspace!"
+			},
+			"members": "Miembros",
+			"noMembers": "Sin miembros",
+			"roleOwner": "Propietario",
+			"roleMember": "Miembro",
+			"joinedAt": "Se unió",
+			"deleteWorkspace": {
+				"title": "Eliminar espacio de trabajo",
+				"message": "¿Está seguro de que desea eliminar este espacio de trabajo? Esta acción no se puede deshacer.",
+				"disabledOtherMembers": "No puede eliminar un espacio de trabajo mientras tenga otros miembros dentro.",
+				"disabledActive": "No puede desactivar el espacio de trabajo mientras lo esté utilizando actualmente.",
+				"success": "¡Espacio de trabajo '{{workspaceName}}' eliminado!"
+			},
+			"kickMember": {
+				"title": "Expulsar miembro",
+				"message": "¿Está seguro de que desea expulsar a {{name}} de este espacio de trabajo?",
+				"success": "'{{memberEmail}}' kicked!"
+			},
+			"leaveWorkspace": {
+				"title": "Abandonar espacio de trabajo",
+				"message": "¿Está seguro de que desea abandonar este espacio de trabajo?",
+				"success": "Successfully left '{{workspaceName}}' workspace!"
+			},
+			"addMember": {
+				"title": "Añadir miembro",
+				"emailLabel": "Dirección de correo electrónico",
+				"button": "Nuevo miembro",
+				"success": "New member successfully added to '{{workspaceName}}'!"
+			}
+		},
+		"workspaceSettings": {
+			"label": "Configuración del espacio de trabajo",
+			"success": "¡Configuración del espacio de trabajo actualizada con éxito!"
 		},
 		"sessions": {
 			"label": "Sesiones"
@@ -507,6 +558,7 @@
 		"passwordInfo": "La contraseña debe contener al menos 1 letra minúscula, 1 letra mayúscula, 1 número y 1 carácter especial (!@#$%^&*()_+-=[]{};'|,.<>/?)",
 		"confirmPassword": "Confirmar contraseña",
 		"createButton": "Crear cuenta",
+		"workspaceName": "Nombre del espacio de trabajo",
 		"success": "Registro exitoso"
 	},
 	"dataTable": {

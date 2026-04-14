@@ -1,5 +1,4 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { TranslocoService } from '@jsverse/transloco';
 import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
 import { CategoryCreate } from '../../../data-model/modules/category/CategoryCreate';
 import { CategoryType } from '../../../data-model/modules/category/CategoryType';
@@ -23,22 +22,21 @@ import { PagedResponse } from '../../../data-model/modules/common/PagedResponse'
 export class CategoryListComponent {
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly dialog = inject(DialogService);
-	private readonly translocoService = inject(TranslocoService);
 
 	title = input<string>('');
 	matIcon = input<string>();
 
-	columns = computed<ColumnDef[]>(() => [
-		{ key: 'title', header: this.translocoService.translate('dataTable.title'), width: '40%' },
-		{ key: 'icon', header: this.translocoService.translate('dataTable.icon'), width: '60px' },
-		{ key: 'type', header: this.translocoService.translate('dataTable.type'), width: '100px' },
-		{ key: 'amount', header: this.translocoService.translate('literals.balance'), width: '120px' },
+	columns: ColumnDef[] = [
+		{ key: 'title', header: 'dataTable.title', width: '40%' },
+		{ key: 'icon', header: 'dataTable.icon', width: '60px' },
+		{ key: 'type', header: 'dataTable.type', width: '100px' },
+		{ key: 'amount', header: 'literals.balance', width: '120px' },
 		{ key: 'actions', header: '', width: '48px' },
-	]);
+	];
 
 	actions: TableAction<CategoryGet>[] = [
 		{
-			label: 'Delete',
+			label: 'literals.delete',
 			icon: 'delete',
 			color: 'warn',
 			handler: row => this.categoryStore.deleteCategory(row.id),

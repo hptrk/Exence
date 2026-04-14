@@ -7,6 +7,8 @@ import { CategoryType } from '../../data-model/modules/category/CategoryType';
 import { TranslocoService } from '@jsverse/transloco';
 import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate';
 import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
+import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
+import { WorkspaceService } from '../../shared/workspace.service';
 
 interface CategoryStoreData {
 	selectedTopCategoriesType: Exclude<CategoryType, CategoryType.MIXED>;
@@ -19,15 +21,17 @@ const initialState: CategoryStoreData = {
 export const CategoryStore = signalStore(
 	withState(initialState),
 
-	withProps((_, categoryService = inject(CategoryService)) => {
+	withProps((_, categoryService = inject(CategoryService), workspaceService = inject(WorkspaceService)) => {
 		return {
-			categoryResource: resource<CategoryGet[], undefined>({
+			categoryResource: resource<CategoryGet[], WorkspaceGet | null>({
+				params: () => workspaceService.currentWorkspace(),
 				loader: async () => await categoryService.list(),
 			}),
 			topCategoriesAllResource: resource<
 				Record<Exclude<CategoryType, CategoryType.MIXED>, CategorySummaryResponse[]>,
-				undefined
+				WorkspaceGet | null
 			>({
+				params: () => workspaceService.currentWorkspace(),
 				loader: async () => await categoryService.listTopAll(),
 			}),
 		};

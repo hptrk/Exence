@@ -13,6 +13,7 @@
 		"delete": "Löschen",
 		"edit": "Bearbeiten",
 		"cancel": "Abbrechen",
+		"leave": "Verlassen",
 		"next": "Weiter",
 		"back": "Zurück",
 		"continue": "Weiter",
@@ -173,6 +174,56 @@
 				}
 			},
 			"success": "Benutzereinstellungen erfolgreich aktualisiert!"
+		},
+		"switchWorkspace": "Switch workspace",
+		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"currentWorkspace": "Aktuell",
+		"workspaces": {
+			"yourWorkspaces": "Deine Arbeitsbereiche",
+			"new": "Neu",
+			"create": {
+				"title": "Arbeitsbereich erstellen",
+				"nameLabel": "Name",
+				"currencyLabel": "Basiswährung",
+				"success": "Workspace '{{workspaceName}}' created successfully!"
+			},
+			"edit": {
+				"title": "Arbeitsbereich bearbeiten",
+				"nameLabel": "Name",
+				"success": "Successfully updated workspace!"
+			},
+			"members": "Mitglieder",
+			"noMembers": "Keine Mitglieder",
+			"roleOwner": "Eigentümer",
+			"roleMember": "Mitglied",
+			"joinedAt": "Beigetreten",
+			"deleteWorkspace": {
+				"title": "Arbeitsbereich löschen",
+				"message": "Möchten Sie diesen Arbeitsbereich wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+				"disabledOtherMembers": "Sie können einen Arbeitsbereich nicht löschen, solange sich noch andere Mitglieder darin befinden.",
+				"disabledActive": "Sie können den Arbeitsbereich nicht deaktivieren, während Sie ihn derzeit verwenden.",
+				"success": "Arbeitsbereich '{{workspaceName}}' gelöscht!"
+			},
+			"kickMember": {
+				"title": "Mitglied rauswerfen",
+				"message": "Möchten Sie {{name}} wirklich aus diesem Arbeitsbereich rauswerfen?",
+				"success": "'{{memberEmail}}' kicked!"
+			},
+			"leaveWorkspace": {
+				"title": "Arbeitsbereich verlassen",
+				"message": "Möchten Sie diesen Arbeitsbereich wirklich verlassen?",
+				"success": "Successfully left '{{workspaceName}}' workspace!"
+			},
+			"addMember": {
+				"title": "Mitglied hinzufügen",
+				"emailLabel": "E-Mail-Adresse",
+				"button": "Neues Mitglied",
+				"success": "New member successfully added to '{{workspaceName}}'!"
+			}
+		},
+		"workspaceSettings": {
+			"label": "Arbeitsbereich-Einstellungen",
+			"success": "Arbeitsbereich-Einstellungen erfolgreich aktualisiert!"
 		},
 		"sessions": {
 			"label": "Sitzungen"
@@ -507,6 +558,7 @@
 		"passwordInfo": "Das Passwort muss mindestens 1 Kleinbuchstaben, 1 Großbuchstaben, 1 Zahl und 1 Sonderzeichen enthalten (!@#$%^&*()_+-=[]{};'|,.<>/?)",
 		"confirmPassword": "Bestätigen Sie Ihr Passwort",
 		"createButton": "Konto erstellen",
+		"workspaceName": "Name des Arbeitsbereichs",
 		"success": "Erfolgreiche Registrierung"
 	},
 	"dataTable": {
