@@ -50,6 +50,7 @@ public class WidgetControllerImpl implements WidgetController {
     }
 
     @Override
+
     @PostMapping
     public ResponseEntity<WidgetLayoutResponse> createWidget(@Valid @RequestBody WidgetCreateDTO widgetCreateDTO) {
         return ResponseFactory.ok(widgetService.createWidget(widgetCreateDTO));
