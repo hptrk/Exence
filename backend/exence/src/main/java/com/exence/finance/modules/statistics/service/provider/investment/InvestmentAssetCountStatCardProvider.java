@@ -25,6 +25,13 @@ public final class InvestmentAssetCountStatCardProvider implements InvestmentWid
     public StatCardPayload getData() {
         long count = investmentRepository.countDistinctAssetsByWorkspaceId(WorkspaceContextHolder.getWorkspaceId());
         return new StatCardPayload(
-                BigDecimal.valueOf(count), i18n.get("label.investment.assets"), null, null, null, null, null);
+                getSupportedType(),
+                BigDecimal.valueOf(count),
+                i18n.get("label.investment.assets"),
+                null,
+                null,
+                null,
+                null,
+                null);
     }
 }

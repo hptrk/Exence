@@ -15,5 +15,7 @@ public record WorkspaceAchievementGetDTO(
         @Schema(description = "Tier of the achievement", example = "BRONZE") AchievementTier tier,
         @Schema(description = "Type of the achievement", example = "INVESTMENT") AchievementType type,
         @Schema(description = "Value required to unlock the achievement", example = "1000") Long requirementValue,
-        @Schema(description = "The time when the achievement was unlocked in the workspace", example = "2025-06-01T12:00:00Z")
+        @Schema(
+                        description = "The time when the achievement was unlocked in the workspace",
+                        example = "2025-06-01T12:00:00Z")
                 Instant unlockedAt) {}

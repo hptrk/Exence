@@ -53,7 +53,16 @@ public record RegisterRequest(
                 example = "HUF")
         @NotNull
         SupportedCurrency baseCurrency,
-        @NotBlank @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH) String workspaceName) {
+
+        @Schema(
+                description =
+                        "The name of the user's default workspace. This is a required field and must not be blank. The"
+                                + " workspace can be used to organize financial data and settings within the"
+                                + " application.",
+                example = "Winston's Workspace")
+        @NotBlank
+        @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH)
+        String workspaceName) {
 
     @Override
     public String toString() {

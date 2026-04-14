@@ -35,9 +35,9 @@ public interface TransactionController {
     @ExenceOpenApi(
             summary = "Create a new transaction",
             description = "Creates a financial transaction (income or expense) for the authenticated user. The"
-                + " category for which the transaction is created, must already exist. If a non-base currency is"
-                + " specified, the exchange rate for the transaction date is fetched automatically (or can be provided"
-                + " explicitly) and the base-currency amount is calculated and stored.",
+                    + " category for which the transaction is created, must already exist. If a non-base currency is"
+                    + " specified, the exchange rate for the transaction date is fetched automatically (or can be provided"
+                    + " explicitly) and the base-currency amount is calculated and stored.",
             successStatus = 201,
             successDescription = "Transaction created; Location header points to the new resource.",
             errors = {

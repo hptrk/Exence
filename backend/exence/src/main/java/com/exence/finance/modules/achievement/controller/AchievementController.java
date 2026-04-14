@@ -21,8 +21,9 @@ public interface AchievementController {
 
     @ExenceOpenApi(
             summary = "List unlocked achievements",
-            description = "Returns all achievements which were unlocked in the current workspace, along with the timestamp"
-                    + " at which each achievement was earned.",
+            description =
+                    "Returns all achievements which were unlocked in the current workspace, along with the timestamp"
+                            + " at which each achievement was earned.",
             successStatus = 200,
             successDescription = "List of unlocked achievements for the current workspace returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED})

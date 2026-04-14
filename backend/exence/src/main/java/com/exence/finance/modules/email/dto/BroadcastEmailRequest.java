@@ -1,7 +1,8 @@
 package com.exence.finance.modules.email.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import static com.exence.finance.common.util.ValidationConstants.EMAIL_SUBJECT_MAX_LENGTH;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

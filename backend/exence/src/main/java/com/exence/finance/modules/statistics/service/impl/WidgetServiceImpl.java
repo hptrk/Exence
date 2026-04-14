@@ -4,7 +4,6 @@ import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;

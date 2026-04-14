@@ -25,6 +25,7 @@ public final class InvestmentTotalValueStatCardProvider implements InvestmentWid
     public StatCardPayload getData() {
         BigDecimal total =
                 investmentRepository.sumBaseCurrencyAmountByWorkspaceId(WorkspaceContextHolder.getWorkspaceId());
-        return new StatCardPayload(total, providerHelper.getUserCurrencySymbol(), null, null, null, null, null);
+        return new StatCardPayload(
+                getSupportedType(), total, providerHelper.getUserCurrencySymbol(), null, null, null, null, null);
     }
 }

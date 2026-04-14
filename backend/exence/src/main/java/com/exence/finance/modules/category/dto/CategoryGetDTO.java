@@ -11,4 +11,5 @@ public record CategoryGetDTO(
         @Schema(description = "Color of the category in hex format", example = "#4DB6AC") String color,
         @Schema(description = "Type of the category", example = "EXPENSE") CategoryType type,
         @Schema(description = "Additional notes about the category", example = "Used for all grocery shopping")
-                String note, BigDecimal balance) {}
+                String note,
+        @Schema(description = "Current balance of the category", example = "29410.00") BigDecimal balance) {}

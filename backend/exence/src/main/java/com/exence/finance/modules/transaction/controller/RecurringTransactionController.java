@@ -23,9 +23,10 @@ public interface RecurringTransactionController {
 
     @ExenceOpenApi(
             summary = "List recurring transactions (paginated)",
-            description = "Returns a paginated list of all recurring transaction rules with their transaction types for the authenticated user."
-                    + " Sorted by next execution date ascending by default so the nearest upcoming"
-                    + " transactions appear first.",
+            description =
+                    "Returns a paginated list of all recurring transaction rules with their transaction types for the authenticated user."
+                            + " Sorted by next execution date ascending by default so the nearest upcoming"
+                            + " transactions appear first.",
             successStatus = 200,
             successDescription = "Paginated list of recurring transactions returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED})
@@ -35,9 +36,9 @@ public interface RecurringTransactionController {
             summary = "Create a recurring transaction",
             description =
                     "Creates a new recurring transaction rule for the authenticated user. The category for which the"
-                        + " recurring transactions are created, must already exist. The rule defines the amount,"
-                        + " category, frequency, interval, and end condition. The first execution is scheduled for the"
-                        + " provided start date.",
+                            + " recurring transactions are created, must already exist. The rule defines the amount,"
+                            + " category, frequency, interval, and end condition. The first execution is scheduled for the"
+                            + " provided start date.",
             successStatus = 201,
             successDescription = "Recurring transaction created; Location header points to the new resource.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.CATEGORY_NOT_FOUND, ErrorCode.VALIDATION_ERROR})

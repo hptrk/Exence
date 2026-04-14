@@ -18,8 +18,8 @@ public interface DebtController {
     @ExenceOpenApi(
             summary = "List debts",
             description = "Returns debts for the authenticated user. The optional `statuses` query parameter filters"
-                + " by one or more debt statuses. The optional `type` parameter filters by debt direction. Parameters"
-                + " can be combined. If both are omitted, all debts are returned.",
+                    + " by one or more debt statuses. The optional `type` parameter filters by debt direction. Parameters"
+                    + " can be combined. If both are omitted, all debts are returned.",
             successStatus = 200,
             successDescription = "List of debts returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED})

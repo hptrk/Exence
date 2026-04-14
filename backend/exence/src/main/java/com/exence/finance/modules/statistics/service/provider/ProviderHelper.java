@@ -3,8 +3,6 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
-import com.exence.finance.modules.auth.repository.UserSettingsRepository;
-import com.exence.finance.modules.auth.service.UserService;
 import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;

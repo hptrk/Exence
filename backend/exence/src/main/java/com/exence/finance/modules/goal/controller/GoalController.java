@@ -18,8 +18,8 @@ public interface GoalController {
             summary = "List goals",
             description =
                     "Returns all savings goals for the authenticated user. The optional `statuses` query parameter"
-                        + " accepts one or more values to filter results. If omitted, all goals regardless of status"
-                        + " are returned.",
+                            + " accepts one or more values to filter results. If omitted, all goals regardless of status"
+                            + " are returned.",
             successStatus = 200,
             successDescription = "List of goals returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED})
@@ -55,9 +55,9 @@ public interface GoalController {
             summary = "Update a goal",
             description =
                     "Partially updates a savings goal identified by its ID. The request body can include any subset of"
-                        + " updatable fields. Only the provided fields will be updated. If the updated current amount"
-                        + " reaches or exceeds the target, the status is automatically set to COMPLETED and a"
-                        + " goal-completed event is fired.",
+                            + " updatable fields. Only the provided fields will be updated. If the updated current amount"
+                            + " reaches or exceeds the target, the status is automatically set to COMPLETED and a"
+                            + " goal-completed event is fired.",
             successStatus = 200,
             successDescription = "Updated goal returned.",
             errors = {
