@@ -7,6 +7,7 @@ import com.exence.finance.modules.category.dto.CategoryFilter;
 import com.exence.finance.modules.category.dto.CategoryGetDTO;
 import com.exence.finance.modules.category.dto.CategoryPatchDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,8 @@ public interface CategoryController {
             successStatus = 200,
             successDescription = "Category returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.CATEGORY_NOT_FOUND})
-    ResponseEntity<CategoryGetDTO> getCategoryById(@PathVariable Long id);
+    ResponseEntity<CategoryGetDTO> getCategoryById(
+            @Parameter(description = "ID of the category to retrieve", required = true) @PathVariable Long id);
 
     @ExenceOpenApi(
             summary = "List all categories",
@@ -63,7 +65,9 @@ public interface CategoryController {
                 ErrorCode.CATEGORY_ALREADY_EXISTS,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<CategoryGetDTO> updateCategory(Long id, CategoryPatchDTO categoryPatchDTO);
+    ResponseEntity<CategoryGetDTO> updateCategory(
+            @Parameter(description = "ID of the category to update", required = true) Long id,
+            CategoryPatchDTO categoryPatchDTO);
 
     @ExenceOpenApi(
             summary = "Delete a category",
@@ -72,5 +76,6 @@ public interface CategoryController {
             successStatus = 204,
             successDescription = "Category deleted successfully.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.CATEGORY_NOT_FOUND, ErrorCode.CATEGORY_IN_USE})
-    ResponseEntity<Void> deleteCategory(Long id);
+    ResponseEntity<Void> deleteCategory(
+            @Parameter(description = "ID of the category to delete", required = true) Long id);
 }

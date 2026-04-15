@@ -8,6 +8,7 @@ import com.exence.finance.modules.transaction.dto.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
 import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
 import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -21,14 +22,14 @@ public interface TransactionController {
             successStatus = 200,
             successDescription = "Transaction returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.TRANSACTION_NOT_FOUND})
-    ResponseEntity<TransactionGetDTO> getTransactionById(Long id);
+    ResponseEntity<TransactionGetDTO> getTransactionById(
+            @Parameter(description = "ID of the transaction to retrieve", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "List transactions (paginated)",
-            description =
-                    "Returns a paginated list of financial transactions for the active workspace. Results can be"
-                            + " filtered by category, type, date range, and amount range using"
-                            + " query parameters. Sorted by date descending by default.",
+            description = "Returns a paginated list of financial transactions for the active workspace. Results can be"
+                    + " filtered by category, type, date range, and amount range using"
+                    + " query parameters. Sorted by date descending by default.",
             successStatus = 200,
             successDescription = "Paginated list of transactions returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED})
@@ -37,9 +38,9 @@ public interface TransactionController {
     @ExenceOpenApi(
             summary = "Create a new transaction",
             description = "Creates a financial transaction (income or expense) for the active workspace. The"
-                + " category for which the transaction is created, must already exist. If a non-base currency is"
-                + " specified, the exchange rate for the transaction date is fetched automatically (or can be provided"
-                + " explicitly) and the base-currency amount is calculated and stored.",
+                    + " category for which the transaction is created, must already exist. If a non-base currency is"
+                    + " specified, the exchange rate for the transaction date is fetched automatically (or can be provided"
+                    + " explicitly) and the base-currency amount is calculated and stored.",
             successStatus = 201,
             successDescription = "Transaction created; Location header points to the new resource.",
             errors = {
@@ -66,7 +67,9 @@ public interface TransactionController {
                 ErrorCode.EXCHANGE_RATE_FETCH_FAILED,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<TransactionGetDTO> updateTransaction(Long id, TransactionPatchDTO transactionPatchDTO);
+    ResponseEntity<TransactionGetDTO> updateTransaction(
+            @Parameter(description = "ID of the transaction to update", required = true) Long id,
+            TransactionPatchDTO transactionPatchDTO);
 
     @ExenceOpenApi(
             summary = "Delete a transaction",
@@ -74,7 +77,8 @@ public interface TransactionController {
             successStatus = 204,
             successDescription = "Transaction deleted successfully.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.TRANSACTION_NOT_FOUND})
-    ResponseEntity<Void> deleteTransaction(Long id);
+    ResponseEntity<Void> deleteTransaction(
+            @Parameter(description = "ID of the transaction to delete", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "Get transaction totals",

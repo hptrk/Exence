@@ -7,6 +7,7 @@ import com.exence.finance.modules.transaction.dto.RecurringTransactionCreateDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionGetDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionPatchDTO;
 import com.exence.finance.modules.transaction.dto.TransactionType;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,8 @@ public interface RecurringTransactionController {
             successStatus = 200,
             successDescription = "Recurring transaction returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.RECURRING_TRANSACTION_NOT_FOUND})
-    ResponseEntity<RecurringTransactionGetDTO> getById(Long id);
+    ResponseEntity<RecurringTransactionGetDTO> getById(
+            @Parameter(description = "ID of the recurring transaction to retrieve", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "List recurring transactions (paginated)",
@@ -60,7 +62,9 @@ public interface RecurringTransactionController {
                 ErrorCode.CATEGORY_NOT_FOUND,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<RecurringTransactionGetDTO> update(Long id, RecurringTransactionPatchDTO dto);
+    ResponseEntity<RecurringTransactionGetDTO> update(
+            @Parameter(description = "ID of the recurring transaction to update", required = true) Long id,
+            RecurringTransactionPatchDTO dto);
 
     @ExenceOpenApi(
             summary = "Delete a recurring transaction",
@@ -69,5 +73,6 @@ public interface RecurringTransactionController {
             successStatus = 204,
             successDescription = "Recurring transaction deleted successfully.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.RECURRING_TRANSACTION_NOT_FOUND})
-    ResponseEntity<Void> delete(Long id);
+    ResponseEntity<Void> delete(
+            @Parameter(description = "ID of the recurring transaction to delete", required = true) Long id);
 }

@@ -9,6 +9,7 @@ import com.exence.finance.modules.goal.enums.GoalStatus;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.goal.GoalWidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.goal.GoalWidgetType;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,9 @@ public interface GoalController {
 
     @ExenceOpenApi(
             summary = "List goals",
-            description =
-                    "Returns all savings goals for the active workspace. The optional `statuses` query parameter"
-                            + " accepts one or more values to filter results. If omitted, all goals regardless of status"
-                            + " are returned.",
+            description = "Returns all savings goals for the active workspace. The optional `statuses` query parameter"
+                    + " accepts one or more values to filter results. If omitted, all goals regardless of status"
+                    + " are returned.",
             successStatus = 200,
             successDescription = "List of goals returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED})
@@ -33,7 +33,8 @@ public interface GoalController {
             successStatus = 200,
             successDescription = "Goal returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED, ErrorCode.GOAL_NOT_FOUND})
-    ResponseEntity<GoalGetDTO> getGoalById(Long id);
+    ResponseEntity<GoalGetDTO> getGoalById(
+            @Parameter(description = "ID of the goal to retrieve", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "Create a new goal",
@@ -71,7 +72,8 @@ public interface GoalController {
                 ErrorCode.EXCHANGE_RATE_FETCH_FAILED,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<GoalGetDTO> patchGoal(Long id, GoalPatchDTO dto);
+    ResponseEntity<GoalGetDTO> patchGoal(
+            @Parameter(description = "ID of the goal to update", required = true) Long id, GoalPatchDTO dto);
 
     @ExenceOpenApi(
             summary = "Delete a goal",
@@ -79,7 +81,7 @@ public interface GoalController {
             successStatus = 204,
             successDescription = "Goal deleted successfully.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED, ErrorCode.GOAL_NOT_FOUND})
-    ResponseEntity<Void> deleteGoal(Long id);
+    ResponseEntity<Void> deleteGoal(@Parameter(description = "ID of the goal to delete", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "Get goal statistics widget data",
@@ -95,5 +97,8 @@ public interface GoalController {
                 ErrorCode.GOAL_WIDGET_TYPE_NOT_SUPPORTED,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<GoalWidgetDataResponse> getWidgetData(GoalWidgetType type, Timeframe timeframe, Long goalId);
+    ResponseEntity<GoalWidgetDataResponse> getWidgetData(
+            @Parameter(description = "Type of goal statistics widget", required = true) GoalWidgetType type,
+            Timeframe timeframe,
+            Long goalId);
 }

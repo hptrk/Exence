@@ -3,6 +3,7 @@ package com.exence.finance.modules.auth.controller;
 import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.auth.dto.DeviceSessionDTO;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,8 @@ public interface SessionController {
             successStatus = 204,
             successDescription = "Session revoked successfully.",
             errors = {ErrorCode.AUTHENTICATION_FAILED})
-    ResponseEntity<Void> revokeSession(String sessionId);
+    ResponseEntity<Void> revokeSession(
+            @Parameter(description = "ID of the session to revoke", required = true) String sessionId);
 
     @ExenceOpenApi(
             summary = "Revoke all other sessions",

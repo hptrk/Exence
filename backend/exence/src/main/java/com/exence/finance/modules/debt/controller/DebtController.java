@@ -10,6 +10,7 @@ import com.exence.finance.modules.debt.enums.DebtStatus;
 import com.exence.finance.modules.debt.enums.DebtType;
 import com.exence.finance.modules.statistics.dto.debt.DebtWidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.debt.DebtWidgetType;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,8 @@ public interface DebtController {
             successStatus = 200,
             successDescription = "Debt returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED, ErrorCode.DEBT_NOT_FOUND})
-    ResponseEntity<DebtGetDTO> getDebtById(Long id);
+    ResponseEntity<DebtGetDTO> getDebtById(
+            @Parameter(description = "ID of the debt to retrieve", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "Create a new debt",
@@ -66,7 +68,8 @@ public interface DebtController {
                 ErrorCode.CATEGORY_NOT_FOUND,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<DebtGetDTO> patchDebt(Long id, DebtPatchDTO dto);
+    ResponseEntity<DebtGetDTO> patchDebt(
+            @Parameter(description = "ID of the debt to update", required = true) Long id, DebtPatchDTO dto);
 
     @ExenceOpenApi(
             summary = "Record a debt payment",
@@ -84,7 +87,9 @@ public interface DebtController {
                 ErrorCode.DEBT_PAYMENT_EXCEEDS_REMAINING,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<DebtGetDTO> makePayment(Long id, DebtPaymentDTO dto);
+    ResponseEntity<DebtGetDTO> makePayment(
+            @Parameter(description = "ID of the debt to apply payment to", required = true) Long id,
+            DebtPaymentDTO dto);
 
     @ExenceOpenApi(
             summary = "Delete a debt",
@@ -92,7 +97,7 @@ public interface DebtController {
             successStatus = 204,
             successDescription = "Debt deleted successfully.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED, ErrorCode.DEBT_NOT_FOUND})
-    ResponseEntity<Void> deleteDebt(Long id);
+    ResponseEntity<Void> deleteDebt(@Parameter(description = "ID of the debt to delete", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "Get debt statistics widget data",
@@ -106,5 +111,6 @@ public interface DebtController {
                 ErrorCode.DEBT_WIDGET_TYPE_NOT_SUPPORTED,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<DebtWidgetDataResponse> getWidgetData(DebtWidgetType type);
+    ResponseEntity<DebtWidgetDataResponse> getWidgetData(
+            @Parameter(description = "Type of debt statistics widget", required = true) DebtWidgetType type);
 }

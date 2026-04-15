@@ -8,6 +8,7 @@ import com.exence.finance.modules.investment.dto.InvestmentGroupDTO;
 import com.exence.finance.modules.investment.dto.InvestmentPatchDTO;
 import com.exence.finance.modules.statistics.dto.investment.InvestmentWidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.investment.InvestmentWidgetType;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +35,9 @@ public interface InvestmentController {
 
     @ExenceOpenApi(
             summary = "Create an investment",
-            description =
-                    "Records a new investment purchase for the active workspace. The currency"
-                            + " field is required; if it differs from the base currency, the corresponding exchange"
-                            + " rate is fetched automatically for the purchase date.",
+            description = "Records a new investment purchase for the active workspace. The currency"
+                    + " field is required; if it differs from the base currency, the corresponding exchange"
+                    + " rate is fetched automatically for the purchase date.",
             successStatus = 201,
             successDescription = "Investment created; Location header points to the new resource.",
             errors = {
@@ -55,7 +55,9 @@ public interface InvestmentController {
             successStatus = 200,
             successDescription = "Updated investment returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.INVESTMENT_NOT_FOUND, ErrorCode.VALIDATION_ERROR})
-    ResponseEntity<InvestmentGetDTO> patchInvestment(Long id, InvestmentPatchDTO dto);
+    ResponseEntity<InvestmentGetDTO> patchInvestment(
+            @Parameter(description = "ID of the investment to update", required = true) Long id,
+            InvestmentPatchDTO dto);
 
     @ExenceOpenApi(
             summary = "Delete an investment",
@@ -63,7 +65,8 @@ public interface InvestmentController {
             successStatus = 204,
             successDescription = "Investment deleted successfully.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.INVESTMENT_NOT_FOUND})
-    ResponseEntity<Void> deleteInvestment(Long id);
+    ResponseEntity<Void> deleteInvestment(
+            @Parameter(description = "ID of the investment to delete", required = true) Long id);
 
     @ExenceOpenApi(
             summary = "Get investment widget data",
@@ -77,5 +80,7 @@ public interface InvestmentController {
                 ErrorCode.INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<InvestmentWidgetDataResponse> getWidgetData(InvestmentWidgetType type);
+    ResponseEntity<InvestmentWidgetDataResponse> getWidgetData(
+            @Parameter(description = "Type of investment statistics widget", required = true)
+                    InvestmentWidgetType type);
 }

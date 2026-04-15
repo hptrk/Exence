@@ -7,7 +7,20 @@ import io.swagger.v3.oas.annotations.media.Schema;
         description =
                 "Sealed interface representing widget data payloads. Each implementation corresponds to a specific"
                         + " visualization type and contains the necessary data for rendering that widget. The 'type' field"
-                        + " indicates which widget type this payload represents.")
+                        + " indicates which widget type this payload represents.",
+        oneOf = {
+            SeriesPayload.class,
+            BoxplotPayload.class,
+            BubblePayload.class,
+            DistributionPayload.class,
+            GaugePayload.class,
+            SankeyPayload.class,
+            SlopePayload.class,
+            StatCardPayload.class,
+            LeaderboardPayload.class,
+            SummaryPayload.class
+        },
+        discriminatorProperty = "type")
 public sealed interface WidgetDataPayload
         permits BoxplotPayload,
                 BubblePayload,

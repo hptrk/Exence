@@ -55,6 +55,6 @@ public class AdminWidgetServiceImpl implements AdminWidgetService {
         }
 
         WidgetDataPayload payload = provider.getData(request);
-        return new AdminWidgetDataResponse(type, payload);
+        return new AdminWidgetDataResponse(payload);
     }
 }

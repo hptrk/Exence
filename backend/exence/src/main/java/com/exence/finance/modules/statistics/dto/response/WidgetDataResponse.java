@@ -1,6 +1,5 @@
 package com.exence.finance.modules.statistics.dto.response;
 
-import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetSetting;
 import com.exence.finance.modules.statistics.dto.payload.WidgetDataPayload;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,7 +12,6 @@ public record WidgetDataResponse(
                                 "The unique identifier of the widget. It is used for referencing the widget in API calls",
                         example = "1")
                 Long widgetId,
-        StatisticsWidgetType type,
         @Schema(
                         description =
                                 "Data payload specific to the widget type. The structure of this payload varies based on the"

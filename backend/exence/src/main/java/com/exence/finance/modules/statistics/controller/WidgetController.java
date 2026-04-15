@@ -7,6 +7,7 @@ import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
 import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import com.exence.finance.modules.statistics.dto.response.WidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.response.WidgetLayoutResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
@@ -35,7 +36,9 @@ public interface WidgetController {
                 ErrorCode.EMAIL_VERIFICATION_REQUIRED,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<WidgetDataResponse> getWidgetData(Long widgetId, Timeframe timeframe);
+    ResponseEntity<WidgetDataResponse> getWidgetData(
+            @Parameter(description = "ID of the widget to retrieve data for", required = true) Long widgetId,
+            Timeframe timeframe);
 
     @ExenceOpenApi(
             summary = "Get dashboard balance trend data",
@@ -49,10 +52,9 @@ public interface WidgetController {
 
     @ExenceOpenApi(
             summary = "Create a new widget",
-            description =
-                    "Adds a new statistics widget to the active workspace's dashboard. The widget type determines"
-                            + " which data provider is used. Widget-specific settings are validated before"
-                            + " persistence. Returns the updated full layout after creation.",
+            description = "Adds a new statistics widget to the active workspace's dashboard. The widget type determines"
+                    + " which data provider is used. Widget-specific settings are validated before"
+                    + " persistence. Returns the updated full layout after creation.",
             successStatus = 200,
             successDescription = "Updated widget layout returned after creation.",
             errors = {
@@ -65,11 +67,10 @@ public interface WidgetController {
 
     @ExenceOpenApi(
             summary = "Update the dashboard widget layout",
-            description =
-                    "Replaces the entire widget layout for the active workspace. Stat-card widgets in the request"
-                            + " are updated with new display order and optional settings/title. Chart widgets are"
-                            + " updated with position (x, y), size (cols, rows), and optional settings/title."
-                            + " Widgets present in the stored layout but absent from the request are deleted.",
+            description = "Replaces the entire widget layout for the active workspace. Stat-card widgets in the request"
+                    + " are updated with new display order and optional settings/title. Chart widgets are"
+                    + " updated with position (x, y), size (cols, rows), and optional settings/title."
+                    + " Widgets present in the stored layout but absent from the request are deleted.",
             successStatus = 200,
             successDescription = "Updated widget layout returned.",
             errors = {

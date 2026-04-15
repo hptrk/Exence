@@ -21,6 +21,7 @@ public abstract class UserMapper {
     @Autowired
     protected PasswordEncoder passwordEncoder;
 
+    @Mapping(target = "isVerified", source = "emailVerified")
     @Mapping(target = "username", source = "displayUsername")
     @Mapping(target = "role", source = "role")
     public abstract UserGetDTO mapToUserGetDto(User user);

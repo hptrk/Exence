@@ -18,7 +18,8 @@ public record GoalGetDTO(
         @Schema(description = "Target amount converted to the workspace's base currency.", example = "1200000.00")
                 BigDecimal targetBaseCurrencyAmount,
         @Schema(
-                        description = "Current amount saved towards the goal, converted to the workspace's base currency.",
+                        description =
+                                "Current amount saved towards the goal, converted to the workspace's base currency.",
                         example = "400000.00")
                 BigDecimal currentBaseCurrencyAmount,
         @Schema(description = "Currency of the goal.", example = "USD") SupportedCurrency currency,

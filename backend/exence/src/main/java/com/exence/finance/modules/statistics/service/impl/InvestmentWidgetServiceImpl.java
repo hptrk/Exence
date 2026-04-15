@@ -41,6 +41,6 @@ public class InvestmentWidgetServiceImpl implements InvestmentWidgetService {
             throw new ExenceException(ErrorCode.INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED);
         }
         WidgetDataPayload payload = provider.getData();
-        return new InvestmentWidgetDataResponse(type, payload);
+        return new InvestmentWidgetDataResponse(payload);
     }
 }

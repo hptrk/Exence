@@ -7,6 +7,7 @@ import com.exence.finance.modules.workspace.dto.WorkspaceGetDTO;
 import com.exence.finance.modules.workspace.dto.WorkspaceMemberEmailRequest;
 import com.exence.finance.modules.workspace.dto.WorkspaceMemberGetDTO;
 import com.exence.finance.modules.workspace.dto.WorkspaceRenameRequest;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,9 @@ public interface WorkspaceController {
                 ErrorCode.WORKSPACE_OWNER_REQUIRED,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<WorkspaceGetDTO> renameWorkspace(Long workspaceId, WorkspaceRenameRequest request);
+    ResponseEntity<WorkspaceGetDTO> renameWorkspace(
+            @Parameter(description = "ID of the workspace to rename", required = true) Long workspaceId,
+            WorkspaceRenameRequest request);
 
     @ExenceOpenApi(
             summary = "Delete a workspace",
@@ -58,7 +61,8 @@ public interface WorkspaceController {
                 ErrorCode.WORKSPACE_OWNER_REQUIRED,
                 ErrorCode.WORKSPACE_CANNOT_DELETE_LAST
             })
-    ResponseEntity<Void> deleteWorkspace(Long workspaceId);
+    ResponseEntity<Void> deleteWorkspace(
+            @Parameter(description = "ID of the workspace to delete", required = true) Long workspaceId);
 
     @ExenceOpenApi(
             summary = "Add a member to a workspace",
@@ -75,7 +79,9 @@ public interface WorkspaceController {
                 ErrorCode.USER_NOT_FOUND,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<WorkspaceMemberGetDTO> addMember(Long workspaceId, WorkspaceMemberEmailRequest request);
+    ResponseEntity<WorkspaceMemberGetDTO> addMember(
+            @Parameter(description = "ID of the workspace to add a member to", required = true) Long workspaceId,
+            WorkspaceMemberEmailRequest request);
 
     @ExenceOpenApi(
             summary = "List workspace members",
@@ -83,7 +89,8 @@ public interface WorkspaceController {
             successStatus = 200,
             successDescription = "List of workspace members returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.WORKSPACE_NOT_FOUND})
-    ResponseEntity<List<WorkspaceMemberGetDTO>> getMembers(Long workspaceId);
+    ResponseEntity<List<WorkspaceMemberGetDTO>> getMembers(
+            @Parameter(description = "ID of the workspace to list members of", required = true) Long workspaceId);
 
     @ExenceOpenApi(
             summary = "Leave a workspace",
@@ -96,7 +103,8 @@ public interface WorkspaceController {
                 ErrorCode.WORKSPACE_NOT_FOUND,
                 ErrorCode.WORKSPACE_OWNER_CANNOT_LEAVE
             })
-    ResponseEntity<Void> removeSelf(Long workspaceId);
+    ResponseEntity<Void> removeSelf(
+            @Parameter(description = "ID of the workspace to leave", required = true) Long workspaceId);
 
     @ExenceOpenApi(
             summary = "Remove a member from a workspace",
@@ -112,5 +120,7 @@ public interface WorkspaceController {
                 ErrorCode.USER_NOT_FOUND,
                 ErrorCode.VALIDATION_ERROR
             })
-    ResponseEntity<Void> removeMemberByEmail(Long workspaceId, WorkspaceMemberEmailRequest request);
+    ResponseEntity<Void> removeMemberByEmail(
+            @Parameter(description = "ID of the workspace to remove a member from", required = true) Long workspaceId,
+            WorkspaceMemberEmailRequest request);
 }

@@ -41,6 +41,6 @@ public class DebtWidgetServiceImpl implements DebtWidgetService {
             throw new ExenceException(ErrorCode.DEBT_WIDGET_TYPE_NOT_SUPPORTED);
         }
         WidgetDataPayload payload = provider.getData();
-        return new DebtWidgetDataResponse(type, payload);
+        return new DebtWidgetDataResponse(payload);
     }
 }

@@ -7,7 +7,7 @@ import com.exence.finance.modules.systemsettings.dto.SystemSettingsResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Admin System Settings", description = "Admin-only global system settings management")
+@Tag(name = "System Settings (Admin)", description = "Admin-only global system settings management")
 public interface AdminSystemSettingsController {
 
     @ExenceOpenApi(

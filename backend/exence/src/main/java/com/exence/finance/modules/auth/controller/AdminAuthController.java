@@ -7,7 +7,7 @@ import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Admin Authentication", description = "Admin-only user registration endpoint")
+@Tag(name = "Authentication (Admin)", description = "Admin-only user registration endpoint")
 public interface AdminAuthController {
 
     @ExenceOpenApi(
