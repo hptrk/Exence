@@ -24,6 +24,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
+import org.javers.core.metamodel.annotation.DiffIgnore;
 
 @SuperBuilder
 @Entity
@@ -49,10 +50,12 @@ public class Workspace extends BaseAuditableEntity {
     @Column(name = "name", nullable = false, length = WORKSPACE_NAME_MAX_LENGTH)
     private String name;
 
+    @DiffIgnore
     @OneToMany(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<WorkspaceMember> members = new ArrayList<>();
 
+    @DiffIgnore
     @OneToOne(mappedBy = "workspace", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private WorkspaceSettings settings;
 }

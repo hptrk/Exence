@@ -29,16 +29,12 @@ import com.exence.finance.modules.auth.service.TokenManagementService;
 import com.exence.finance.modules.auth.service.TokenValidationService;
 import com.exence.finance.modules.email.service.EmailLogService;
 import com.exence.finance.modules.email.service.EmailService;
-import com.exence.finance.modules.statistics.dto.Timeframe;
-import com.exence.finance.modules.statistics.dto.WidgetType;
-import com.exence.finance.modules.statistics.entity.Widget;
-import com.exence.finance.modules.statistics.repository.WidgetRepository;
+import com.exence.finance.modules.statistics.service.WidgetService;
 import com.exence.finance.modules.systemsettings.service.SystemSettingsService;
 import com.exence.finance.modules.workspace.entity.Workspace;
 import com.exence.finance.modules.workspace.service.WorkspaceMembershipService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,7 +52,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
-    private final WidgetRepository widgetRepository;
+    private final WidgetService widgetService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
@@ -92,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
         createUserSettings(user);
         Workspace workspace = workspaceMembershipService.createDefaultWorkspace(
                 user, request.workspaceName(), request.baseCurrency());
-        createDefaultDashboardWidget(workspace);
+        widgetService.createDefaultDashboardWidget(workspace);
         sendEmailVerification(user);
 
         return createAuthenticationResponse(user, workspace.getId());
@@ -226,22 +222,6 @@ public class AuthServiceImpl implements AuthService {
         } catch (BadCredentialsException e) {
             throw new ExenceException(ErrorCode.AUTHENTICATION_FAILED);
         }
-    }
-
-    private void createDefaultDashboardWidget(Workspace workspace) {
-        Widget widget = Widget.builder()
-                .workspace(workspace)
-                .type(WidgetType.DASHBOARD_BALANCE_TREND)
-                .title("Balance Trend")
-                .timeframe(Timeframe.YTD)
-                .displayOrder(0)
-                .x(0)
-                .y(0)
-                .cols(0)
-                .rows(0)
-                .settings(Collections.emptyMap())
-                .build();
-        widgetRepository.save(widget);
     }
 
     private void createUserSettings(User user) {
