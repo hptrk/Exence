@@ -65,7 +65,7 @@ databaseChangeLog:
                   valueBoolean: false
               - column:
                   name: verification_required_paths
-                  value: /api/statistics,/api/goals,/api/debts
+                  value: /api/goals,/api/debts
               - column:
                   name: rate_limiting_enabled
                   valueBoolean: true
