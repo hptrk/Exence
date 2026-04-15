@@ -545,8 +545,7 @@
 		"email": "E-mail",
 		"password": "Jelszó",
 		"forgotPassword": "Elfelejtette jelszavát?",
-		"button": "Bejelentkezés",
-		"invalidCredentials": "Helytelen felhasználónév és jelszó kombináció! Kérjük, próbálja újra."
+		"button": "Bejelentkezés"
 	},
 	"registration": {
 		"title": "Létrehozás és fiók létrehozása",

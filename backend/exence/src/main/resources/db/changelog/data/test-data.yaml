@@ -59,32 +59,6 @@ databaseChangeLog:
                   valueComputed: "${now}"
               - column:
                   name: role
-                  value: USER
-
-        - insert:
-            tableName: _user
-            columns:
-              - column:
-                  name: id
-                  valueNumeric: 3
-              - column:
-                  name: username
-                  value: unverified
-              - column:
-                  name: email
-                  value: unverified@exence.com
-              - column:
-                  name: password
-                  # Password: Test123!
-                  value: $argon2id$v=19$m=16384,t=2,p=1$5AxT9E1LV/etFs6qRdEf5Q$CV/y22dJjwGGEUPveLvIHEQHHVHcXpjHpiyU1YhZjU8
-              - column:
-                  name: email_verified
-                  valueBoolean: false
-              - column:
-                  name: last_login_at
-                  valueComputed: "${now}"
-              - column:
-                  name: role
                   value: ADMIN
 
         # Workspace
