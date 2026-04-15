@@ -35,7 +35,7 @@ public interface InvestmentController {
     @ExenceOpenApi(
             summary = "Create an investment",
             description =
-                    "Records a new investment purchase for the authenticated user's active workspace. The currency"
+                    "Records a new investment purchase for the active workspace. The currency"
                             + " field is required; if it differs from the base currency, the corresponding exchange"
                             + " rate is fetched automatically for the purchase date.",
             successStatus = 201,

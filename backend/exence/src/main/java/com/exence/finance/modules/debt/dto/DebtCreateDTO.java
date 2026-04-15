@@ -51,8 +51,8 @@ public record DebtCreateDTO(
                 LocalDate deadline,
         @Schema(
                         description =
-                                "Type of the debt. Must be either 'LENT' or 'BORROWED'. 'LENT' indicates that the user has"
-                                        + " lent money to someone else, while 'BORROWED' indicates that the user has borrowed"
+                                "Type of the debt. Must be either 'LENT' or 'BORROWED'. 'LENT' indicates that the workspace has"
+                                        + " lent money to someone else, while 'BORROWED' indicates that the workspace has borrowed"
                                         + " money from someone else.",
                         example = "LENT")
                 @NotNull(message = "{validation.debt.type.not-null}")

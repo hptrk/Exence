@@ -15,7 +15,7 @@ public interface AchievementController {
             summary = "List all achievements",
             description = "Returns the full catalogue of all achievements defined in the system, including their name,"
                     + " description, and unlock criteria. This list does not indicate which achievements"
-                    + " the current user has unlocked.",
+                    + " the current workspace has unlocked.",
             successStatus = 200,
             successDescription = "List of all achievements returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED})

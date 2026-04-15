@@ -15,7 +15,7 @@ public interface WidgetController {
 
     @ExenceOpenApi(
             summary = "Get the dashboard widget layout",
-            description = "Returns the full widget layout for the authenticated user's Statistics dashboard, split into"
+            description = "Returns the full widget layout for the active workspace's Statistics dashboard, split into"
                     + " stat-card widgets and chart widgets.",
             successStatus = 200,
             successDescription = "Widget layout returned.",
@@ -50,7 +50,7 @@ public interface WidgetController {
     @ExenceOpenApi(
             summary = "Create a new widget",
             description =
-                    "Adds a new statistics widget to the authenticated user's dashboard. The widget type determines"
+                    "Adds a new statistics widget to the active workspace's dashboard. The widget type determines"
                             + " which data provider is used. Widget-specific settings are validated before"
                             + " persistence. Returns the updated full layout after creation.",
             successStatus = 200,
@@ -66,7 +66,7 @@ public interface WidgetController {
     @ExenceOpenApi(
             summary = "Update the dashboard widget layout",
             description =
-                    "Replaces the entire widget layout for the authenticated user. Stat-card widgets in the request"
+                    "Replaces the entire widget layout for the active workspace. Stat-card widgets in the request"
                             + " are updated with new display order and optional settings/title. Chart widgets are"
                             + " updated with position (x, y), size (cols, rows), and optional settings/title."
                             + " Widgets present in the stored layout but absent from the request are deleted.",

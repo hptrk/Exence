@@ -17,7 +17,7 @@ public interface TransactionController {
     @ExenceOpenApi(
             summary = "Get a transaction by ID",
             description =
-                    "Returns a single financial transaction belonging to the authenticated user, identified by its ID.",
+                    "Returns a single financial transaction belonging to the active workspace, identified by its ID.",
             successStatus = 200,
             successDescription = "Transaction returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.TRANSACTION_NOT_FOUND})
@@ -26,7 +26,7 @@ public interface TransactionController {
     @ExenceOpenApi(
             summary = "List transactions (paginated)",
             description =
-                    "Returns a paginated list of financial transactions for the authenticated user. Results can be"
+                    "Returns a paginated list of financial transactions for the active workspace. Results can be"
                             + " filtered by category, type, date range, and amount range using"
                             + " query parameters. Sorted by date descending by default.",
             successStatus = 200,
@@ -36,7 +36,7 @@ public interface TransactionController {
 
     @ExenceOpenApi(
             summary = "Create a new transaction",
-            description = "Creates a financial transaction (income or expense) for the authenticated user. The"
+            description = "Creates a financial transaction (income or expense) for the active workspace. The"
                 + " category for which the transaction is created, must already exist. If a non-base currency is"
                 + " specified, the exchange rate for the transaction date is fetched automatically (or can be provided"
                 + " explicitly) and the base-currency amount is calculated and stored.",
@@ -80,7 +80,7 @@ public interface TransactionController {
             summary = "Get transaction totals",
             description =
                     "Returns the total sum of all income transactions and the total sum of all expense transactions"
-                            + " for the authenticated user (in the user's base currency).",
+                            + " for the active workspace (in the workspace's base currency).",
             successStatus = 200,
             successDescription = "Transaction totals returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED})

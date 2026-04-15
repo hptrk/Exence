@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface CategoryController {
     @ExenceOpenApi(
             summary = "Get a category by ID",
-            description = "Returns a single transaction category belonging to the authenticated user, identified by its"
+            description = "Returns a single transaction category belonging to the active workspace, identified by its"
                     + " ID.",
             successStatus = 200,
             successDescription = "Category returned.",
@@ -25,7 +25,7 @@ public interface CategoryController {
 
     @ExenceOpenApi(
             summary = "List all categories",
-            description = "Returns all transaction categories belonging to the authenticated user, ordered by name.",
+            description = "Returns all transaction categories belonging to the active workspace, ordered by name.",
             successStatus = 200,
             successDescription = "List of categories returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED})
@@ -33,8 +33,8 @@ public interface CategoryController {
 
     @ExenceOpenApi(
             summary = "Get top categories by total amount",
-            description = "Returns the categories with the highest cumulative transaction amounts for the authenticated"
-                    + " user. The result can be filtered by category type using the query parameter. Used for"
+            description = "Returns the categories with the highest cumulative transaction amounts for the active"
+                    + " workspace. The result can be filtered by category type using the query parameter. Used for"
                     + " summary cards.",
             successStatus = 200,
             successDescription = "List of top categories with their total amounts returned.",
@@ -43,8 +43,8 @@ public interface CategoryController {
 
     @ExenceOpenApi(
             summary = "Create a new category",
-            description = "Creates a new transaction category for the authenticated user with the given name, type,"
-                    + " icon, and color. Category names must be unique per user.",
+            description = "Creates a new transaction category for the active workspace with the given name, type,"
+                    + " icon, and color. Category names must be unique per workspace.",
             successStatus = 201,
             successDescription = "Category created; Location header points to the new resource.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.CATEGORY_ALREADY_EXISTS, ErrorCode.VALIDATION_ERROR})
@@ -53,7 +53,7 @@ public interface CategoryController {
     @ExenceOpenApi(
             summary = "Update a category",
             description = "Partially updates a transaction category identified by its ID. Only the fields provided in"
-                    + " the request body are changed. The name must remain unique across the user's"
+                    + " the request body are changed. The name must remain unique across the workspace's"
                     + " categories.",
             successStatus = 200,
             successDescription = "Updated category returned.",

@@ -16,7 +16,7 @@ public interface RecurringTransactionController {
 
     @ExenceOpenApi(
             summary = "Get a recurring transaction by ID",
-            description = "Returns a single recurring transaction rule belonging to the authenticated user, identified"
+            description = "Returns a single recurring transaction rule belonging to the active workspace, identified"
                     + " by its ID.",
             successStatus = 200,
             successDescription = "Recurring transaction returned.",
@@ -26,7 +26,7 @@ public interface RecurringTransactionController {
     @ExenceOpenApi(
             summary = "List recurring transactions (paginated)",
             description =
-                    "Returns a paginated list of all recurring transaction rules with their transaction types for the authenticated user."
+                    "Returns a paginated list of all recurring transaction rules with their transaction types for the active workspace."
                             + " Sorted by next execution date ascending by default so the nearest upcoming"
                             + " transactions appear first.",
             successStatus = 200,
@@ -37,7 +37,7 @@ public interface RecurringTransactionController {
     @ExenceOpenApi(
             summary = "Create a recurring transaction",
             description =
-                    "Creates a new recurring transaction rule for the authenticated user. The category for which the"
+                    "Creates a new recurring transaction rule for the active workspace. The category for which the"
                             + " recurring transactions are created, must already exist. The rule defines the amount,"
                             + " category, frequency, interval, and end condition. The first execution is scheduled for the"
                             + " provided start date.",

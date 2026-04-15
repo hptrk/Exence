@@ -19,7 +19,7 @@ public interface GoalController {
     @ExenceOpenApi(
             summary = "List goals",
             description =
-                    "Returns all savings goals for the authenticated user. The optional `statuses` query parameter"
+                    "Returns all savings goals for the active workspace. The optional `statuses` query parameter"
                             + " accepts one or more values to filter results. If omitted, all goals regardless of status"
                             + " are returned.",
             successStatus = 200,
@@ -29,7 +29,7 @@ public interface GoalController {
 
     @ExenceOpenApi(
             summary = "Get a goal by ID",
-            description = "Returns a single savings goal belonging to the authenticated user, identified by its ID.",
+            description = "Returns a single savings goal belonging to the active workspace, identified by its ID.",
             successStatus = 200,
             successDescription = "Goal returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED, ErrorCode.GOAL_NOT_FOUND})
@@ -37,10 +37,10 @@ public interface GoalController {
 
     @ExenceOpenApi(
             summary = "Create a new goal",
-            description = "Creates a new savings goal for the authenticated user. An optional initial amount can be"
+            description = "Creates a new savings goal for the active workspace. An optional initial amount can be"
                     + " provided; if the initial amount already meets or exceeds the target, the goal is"
                     + " immediately set to COMPLETED status. Target and current amounts are also stored in"
-                    + " the user's base currency using the current exchange rate.",
+                    + " the workspace's base currency using the current exchange rate.",
             successStatus = 201,
             successDescription = "Goal created; Location header points to the new resource.",
             errors = {

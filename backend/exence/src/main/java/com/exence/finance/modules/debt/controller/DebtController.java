@@ -19,7 +19,7 @@ public interface DebtController {
 
     @ExenceOpenApi(
             summary = "List debts",
-            description = "Returns debts for the authenticated user. The optional `statuses` query parameter filters"
+            description = "Returns debts for the active workspace. The optional `statuses` query parameter filters"
                     + " by one or more debt statuses. The optional `type` parameter filters by debt direction. Parameters"
                     + " can be combined. If both are omitted, all debts are returned.",
             successStatus = 200,
@@ -29,7 +29,7 @@ public interface DebtController {
 
     @ExenceOpenApi(
             summary = "Get a debt by ID",
-            description = "Returns a single debt record belonging to the authenticated user, identified by its ID.",
+            description = "Returns a single debt record belonging to the active workspace, identified by its ID.",
             successStatus = 200,
             successDescription = "Debt returned.",
             errors = {ErrorCode.AUTHENTICATION_FAILED, ErrorCode.EMAIL_VERIFICATION_REQUIRED, ErrorCode.DEBT_NOT_FOUND})
@@ -37,8 +37,8 @@ public interface DebtController {
 
     @ExenceOpenApi(
             summary = "Create a new debt",
-            description = "Creates a new debt record for the authenticated user. The original amount is also converted"
-                    + " and stored in the user's base currency using the current exchange rate. The debt is"
+            description = "Creates a new debt record for the active workspace. The original amount is also converted"
+                    + " and stored in the workspace's base currency using the current exchange rate. The debt is"
                     + " initialised with ACTIVE status and the remaining amount equal to the original amount.",
             successStatus = 201,
             successDescription = "Debt created; Location header points to the new resource.",

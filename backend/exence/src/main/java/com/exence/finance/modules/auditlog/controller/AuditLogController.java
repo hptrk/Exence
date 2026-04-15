@@ -14,9 +14,9 @@ public interface AuditLogController {
 
     @ExenceOpenApi(
             summary = "List audit logs for the current workspace",
-            description = "Returns a paginated slice of audit log entries scoped to the authenticated user's active"
-                    + " workspace. This endpoint can only be accessed by the workspace owner. Results can be filtered by"
-                    + " entity type, change type, date range, and the user's email who made the change. Sorted by change"
+            description = "Returns a paginated slice of audit log entries scoped to the active workspace. This"
+                    + " endpoint can only be accessed by the workspace owner. Results can be filtered by entity type,"
+                    + " change type, date range, and the email of the member who made the change. Sorted by change"
                     + " timestamp descending by default.",
             successStatus = 200,
             successDescription = "Paginated slice of audit log entries returned.",
