@@ -10,9 +10,11 @@ import com.exence.finance.modules.debt.enums.DebtStatus;
 import com.exence.finance.modules.debt.enums.DebtType;
 import com.exence.finance.modules.statistics.dto.debt.DebtWidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.debt.DebtWidgetType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Debts", description = "Debt tracking and payment management")
 public interface DebtController {
 
     @ExenceOpenApi(

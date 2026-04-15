@@ -5,8 +5,10 @@ import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.auth.dto.UserGetDTO;
 import com.exence.finance.modules.auth.dto.UserPatchDTO;
 import com.exence.finance.modules.auth.dto.request.ChangePasswordRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "User", description = "User profile management and account operations")
 public interface UserController {
     @ExenceOpenApi(
             summary = "Get current user profile",

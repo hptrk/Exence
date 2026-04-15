@@ -8,9 +8,11 @@ import com.exence.finance.modules.auth.dto.request.LoginRequest;
 import com.exence.finance.modules.auth.dto.request.PasswordResetRequest;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Authentication", description = "Authentication management with HttpOnly cookies and JWT tokens")
 public interface AuthController {
 
     @ExenceOpenApi(

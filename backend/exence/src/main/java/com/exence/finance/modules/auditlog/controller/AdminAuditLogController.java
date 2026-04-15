@@ -5,9 +5,11 @@ import com.exence.finance.common.dto.SliceResponse;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.auditlog.dto.AuditLogDTO;
 import com.exence.finance.modules.auditlog.dto.AuditLogFilter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Admin Audit Logs", description = "Admin-only access to all platform audit logs")
 public interface AdminAuditLogController {
 
     @ExenceOpenApi(

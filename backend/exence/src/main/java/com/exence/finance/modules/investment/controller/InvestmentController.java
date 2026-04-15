@@ -8,9 +8,11 @@ import com.exence.finance.modules.investment.dto.InvestmentGroupDTO;
 import com.exence.finance.modules.investment.dto.InvestmentPatchDTO;
 import com.exence.finance.modules.statistics.dto.investment.InvestmentWidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.investment.InvestmentWidgetType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Investments", description = "Investment portfolio management and statistics")
 public interface InvestmentController {
 
     @ExenceOpenApi(

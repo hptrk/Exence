@@ -7,8 +7,10 @@ import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
 import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import com.exence.finance.modules.statistics.dto.response.WidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.response.WidgetLayoutResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Widgets", description = "Dashboard widget layout and data retrieval")
 public interface WidgetController {
 
     @ExenceOpenApi(

@@ -5,8 +5,10 @@ import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.admin.AdminWidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.admin.AdminWidgetType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Admin Widgets", description = "Admin-only platform-wide statistics widgets")
 public interface AdminWidgetController {
     @ExenceOpenApi(
             summary = "Get admin statistics widget data",

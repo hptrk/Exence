@@ -7,9 +7,11 @@ import com.exence.finance.modules.workspace.dto.WorkspaceGetDTO;
 import com.exence.finance.modules.workspace.dto.WorkspaceMemberEmailRequest;
 import com.exence.finance.modules.workspace.dto.WorkspaceMemberGetDTO;
 import com.exence.finance.modules.workspace.dto.WorkspaceRenameRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Workspaces", description = "Workspace management and member administration")
 public interface WorkspaceController {
 
     @ExenceOpenApi(

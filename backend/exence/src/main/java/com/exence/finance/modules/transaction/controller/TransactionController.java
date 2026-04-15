@@ -8,9 +8,11 @@ import com.exence.finance.modules.transaction.dto.TransactionFilter;
 import com.exence.finance.modules.transaction.dto.TransactionGetDTO;
 import com.exence.finance.modules.transaction.dto.TransactionPatchDTO;
 import com.exence.finance.modules.transaction.dto.TransactionTotalsResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Transactions", description = "Financial transaction management")
 public interface TransactionController {
     @ExenceOpenApi(
             summary = "Get a transaction by ID",
@@ -35,9 +37,9 @@ public interface TransactionController {
     @ExenceOpenApi(
             summary = "Create a new transaction",
             description = "Creates a financial transaction (income or expense) for the authenticated user. The"
-                    + " category for which the transaction is created, must already exist. If a non-base currency is"
-                    + " specified, the exchange rate for the transaction date is fetched automatically (or can be provided"
-                    + " explicitly) and the base-currency amount is calculated and stored.",
+                + " category for which the transaction is created, must already exist. If a non-base currency is"
+                + " specified, the exchange rate for the transaction date is fetched automatically (or can be provided"
+                + " explicitly) and the base-currency amount is calculated and stored.",
             successStatus = 201,
             successDescription = "Transaction created; Location header points to the new resource.",
             errors = {

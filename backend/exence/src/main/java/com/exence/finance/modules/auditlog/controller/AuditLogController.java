@@ -5,9 +5,11 @@ import com.exence.finance.common.dto.SliceResponse;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.auditlog.dto.AuditLogDTO;
 import com.exence.finance.modules.auditlog.dto.AuditLogFilter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Audit Logs", description = "Workspace audit log access for owners")
 public interface AuditLogController {
 
     @ExenceOpenApi(

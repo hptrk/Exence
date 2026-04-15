@@ -4,8 +4,10 @@ import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.workspace.dto.WorkspaceSettingsGetDTO;
 import com.exence.finance.modules.workspace.dto.WorkspaceSettingsPatchRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Workspace Settings", description = "Workspace-level settings and preferences")
 public interface WorkspaceSettingsController {
 
     @ExenceOpenApi(

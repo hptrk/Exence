@@ -4,9 +4,11 @@ import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.achievement.dto.AchievementGetDTO;
 import com.exence.finance.modules.achievement.dto.WorkspaceAchievementGetDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Achievements", description = "Achievement catalogue and unlocked achievement tracking")
 public interface AchievementController {
 
     @ExenceOpenApi(

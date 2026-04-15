@@ -7,10 +7,12 @@ import com.exence.finance.modules.category.dto.CategoryFilter;
 import com.exence.finance.modules.category.dto.CategoryGetDTO;
 import com.exence.finance.modules.category.dto.CategoryPatchDTO;
 import com.exence.finance.modules.category.dto.CategorySummaryResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
+@Tag(name = "Categories", description = "Transaction category management")
 public interface CategoryController {
     @ExenceOpenApi(
             summary = "Get a category by ID",

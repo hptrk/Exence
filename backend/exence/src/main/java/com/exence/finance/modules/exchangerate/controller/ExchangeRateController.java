@@ -3,10 +3,12 @@ package com.exence.finance.modules.exchangerate.controller;
 import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.exception.ErrorCode;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Exchange Rates", description = "Currency exchange rate lookups")
 public interface ExchangeRateController {
 
     @ExenceOpenApi(

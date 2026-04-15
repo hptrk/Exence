@@ -9,9 +9,11 @@ import com.exence.finance.modules.goal.enums.GoalStatus;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.goal.GoalWidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.goal.GoalWidgetType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Goals", description = "Savings goal management and statistics")
 public interface GoalController {
 
     @ExenceOpenApi(

@@ -4,8 +4,10 @@ import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.auth.dto.request.UpdateUserSettingsRequest;
 import com.exence.finance.modules.auth.dto.response.UserSettingsResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "User Settings", description = "User-specific application settings and preferences")
 public interface UserSettingsController {
     @ExenceOpenApi(
             summary = "Get user settings",

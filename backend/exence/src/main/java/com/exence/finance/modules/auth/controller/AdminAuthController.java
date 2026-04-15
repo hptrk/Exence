@@ -4,8 +4,10 @@ import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.auth.dto.request.RegisterRequest;
 import com.exence.finance.modules.auth.dto.response.AuthenticationResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Admin Authentication", description = "Admin-only user registration endpoint")
 public interface AdminAuthController {
 
     @ExenceOpenApi(

@@ -3,9 +3,11 @@ package com.exence.finance.modules.auth.controller;
 import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.auth.dto.DeviceSessionDTO;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Sessions", description = "Manage active user sessions across devices")
 public interface SessionController {
 
     @ExenceOpenApi(

@@ -3,8 +3,10 @@ package com.exence.finance.modules.email.controller;
 import com.exence.finance.common.annotations.ExenceOpenApi;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.modules.email.dto.BroadcastEmailRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Admin Email", description = "Admin-only email broadcast operations")
 public interface AdminEmailController {
 
     @ExenceOpenApi(

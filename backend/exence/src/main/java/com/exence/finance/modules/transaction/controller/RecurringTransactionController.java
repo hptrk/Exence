@@ -7,9 +7,11 @@ import com.exence.finance.modules.transaction.dto.RecurringTransactionCreateDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionGetDTO;
 import com.exence.finance.modules.transaction.dto.RecurringTransactionPatchDTO;
 import com.exence.finance.modules.transaction.dto.TransactionType;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+@Tag(name = "Recurring Transactions", description = "Recurring transaction rule management")
 public interface RecurringTransactionController {
 
     @ExenceOpenApi(
