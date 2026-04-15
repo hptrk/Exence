@@ -545,8 +545,7 @@
 		"email": "Email",
 		"password": "Password",
 		"forgotPassword": "Forgot password?",
-		"button": "Log in",
-		"invalidCredentials": "Incorrect username and password combination! Please try again."
+		"button": "Log in"
 	},
 	"registration": {
 		"title": "Create an Account",
