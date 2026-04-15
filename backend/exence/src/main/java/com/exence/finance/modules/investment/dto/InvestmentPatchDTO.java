@@ -19,23 +19,18 @@ import java.time.LocalDate;
         description = "For updating an existing investment entry. All fields are optional.")
 public record InvestmentPatchDTO(
         @Schema(description = "Updated name of the asset.", example = "Ethereum")
-        @Size(max = INVESTMENT_ASSET_MAX_LENGTH, message = "{validation.investment.asset.size}")
-        String asset,
-
+                @Size(max = INVESTMENT_ASSET_MAX_LENGTH, message = "{validation.investment.asset.size}")
+                String asset,
         @Schema(description = "Updated purchase date of the investment.", example = "2026-04-01")
-        LocalDate purchaseDate,
-
-        @Schema(description = "Updated type of the investment asset.", example = "CRYPTO")
-        InvestmentType type,
-
+                LocalDate purchaseDate,
+        @Schema(description = "Updated type of the investment asset.", example = "CRYPTO") InvestmentType type,
         @Schema(description = "Updated invested amount.", example = "750000.00")
-        @DecimalMin(value = INVESTMENT_AMOUNT_MIN, message = "{validation.investment.amount.min}")
-        @Digits(
-                integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
-                fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
-                message = "{validation.investment.amount.digits}")
-        BigDecimal amount,
-
+                @DecimalMin(value = INVESTMENT_AMOUNT_MIN, message = "{validation.investment.amount.min}")
+                @Digits(
+                        integer = TRANSACTION_AMOUNT_INTEGER_DIGITS,
+                        fraction = TRANSACTION_AMOUNT_FRACTION_DIGITS,
+                        message = "{validation.investment.amount.digits}")
+                BigDecimal amount,
         @Schema(description = "Updated notes about the investment.", example = "Switched to medium-term hold")
-        @Size(max = INVESTMENT_NOTE_MAX_LENGTH, message = "{validation.investment.note.size}")
-        String note) {}
+                @Size(max = INVESTMENT_NOTE_MAX_LENGTH, message = "{validation.investment.note.size}")
+                String note) {}

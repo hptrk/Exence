@@ -8,6 +8,6 @@ import jakarta.validation.constraints.Size;
 @Schema(title = "Workspace Rename Request DTO", description = "Data required to rename a workspace.")
 public record WorkspaceRenameRequest(
         @Schema(description = "New name for the workspace.", example = "Family Workspace")
-        @NotBlank
-        @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH)
-        String name) {}
+                @NotBlank
+                @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH)
+                String name) {}

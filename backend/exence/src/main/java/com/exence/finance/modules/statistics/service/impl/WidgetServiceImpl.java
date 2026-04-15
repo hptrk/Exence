@@ -190,7 +190,7 @@ public class WidgetServiceImpl implements WidgetService {
     public void createDefaultDashboardWidget(Workspace workspace) {
         Widget widget = Widget.builder()
                 .workspace(workspace)
-                .type(WidgetType.DASHBOARD_BALANCE_TREND)
+                .type(StatisticsWidgetType.DASHBOARD_BALANCE_TREND)
                 .title("Balance Trend")
                 .timeframe(Timeframe.YTD)
                 .displayOrder(0)

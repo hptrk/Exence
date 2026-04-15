@@ -16,8 +16,7 @@ public class OpenApiConfig {
     @Bean
     public OpenApiCustomizer problemDetailSchemaCustomizer() {
         return (OpenAPI openApi) -> {
-            ResolvedSchema resolved =
-                    ModelConverters.getInstance().readAllAsResolvedSchema(ProblemDetail.class);
+            ResolvedSchema resolved = ModelConverters.getInstance().readAllAsResolvedSchema(ProblemDetail.class);
             if (resolved == null) {
                 return;
             }
@@ -25,8 +24,8 @@ public class OpenApiConfig {
                 openApi.setComponents(new io.swagger.v3.oas.models.Components());
             }
             if (resolved.referencedSchemas != null) {
-                resolved.referencedSchemas.forEach((name, schema) ->
-                        openApi.getComponents().addSchemas(name, schema));
+                resolved.referencedSchemas.forEach(
+                        (name, schema) -> openApi.getComponents().addSchemas(name, schema));
             }
             Schema<?> rootSchema = resolved.schema;
             if (rootSchema != null) {
