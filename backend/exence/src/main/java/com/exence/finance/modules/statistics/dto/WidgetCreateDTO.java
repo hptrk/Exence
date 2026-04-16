@@ -14,7 +14,7 @@ public record WidgetCreateDTO(
                         description =
                                 "Type of the widget. It can be chosen from a wide variety of graphs and statistics cards.",
                         example = "BAR_CHART")
-                @NotNull
+                @NotNull(message = "{validation.widget.type.not-null}")
                 StatisticsWidgetType type,
         String title,
         Timeframe timeframe,

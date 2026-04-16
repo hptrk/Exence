@@ -16,8 +16,8 @@ public record WorkspaceCreateRequest(
                                 "The name of the workspace. This is a required field and must not be blank. The name should be"
                                         + " concise and descriptive, as it will be used to identify the workspace.",
                         example = "Winston's Workspace")
-                @NotBlank
-                @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH)
+                @NotBlank(message = "{validation.workspace.name.not-blank}")
+                @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH, message = "{validation.workspace.name.size}")
                 String name,
         @Schema(
                         description =
@@ -25,5 +25,5 @@ public record WorkspaceCreateRequest(
                                         + " currency code (e.g., 'USD', 'EUR'). The base currency will be used for displaying"
                                         + " financial information and performing currency conversions within the workspace.",
                         example = "HUF")
-                @NotNull
+                @NotNull(message = "{validation.workspace.base-currency.not-null}")
                 SupportedCurrency baseCurrency) {}

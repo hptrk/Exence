@@ -48,5 +48,5 @@ public record TransactionCreateDTO(
                 Long categoryId,
         @Schema(description = "Currency of the transaction.", example = "HUF") SupportedCurrency currency,
         @Schema(description = "Exchange rate to the base currency", example = "0.0027")
-                @DecimalMin(value = "0.0000000001")
+                @DecimalMin(value = "0.0000000001", message = "{validation.transaction.exchange-rate.min}")
                 BigDecimal exchangeRate) {}

@@ -11,13 +11,13 @@ public record BroadcastEmailRequest(
         @Schema(
                         description = "The subject of the email. Must be a max of 255 characters.",
                         example = "Exciting News from Exence!")
-                @NotBlank
-                @Size(max = EMAIL_SUBJECT_MAX_LENGTH)
+                @NotBlank(message = "{validation.broadcast.subject.not-blank}")
+                @Size(max = EMAIL_SUBJECT_MAX_LENGTH, message = "{validation.broadcast.subject.size}")
                 String subject,
         @Schema(
                         description =
                                 "The HTML content of the email. This should be a well-formed HTML string. For example, you can"
                                         + " include headings, paragraphs, and links.",
                         example = "<h1>Welcome to Exence!</h1><p>We have some exciting updates to share...</p>")
-                @NotBlank
+                @NotBlank(message = "{validation.broadcast.content.not-blank}")
                 String htmlContent) {}

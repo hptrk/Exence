@@ -50,7 +50,7 @@ public record RegisterRequest(
                                 "The user's preferred base currency for financial data display. Supported values include"
                                         + " standard ISO 4217 currency codes (e.g., USD, EUR, GBP).",
                         example = "HUF")
-                @NotNull
+                @NotNull(message = "{validation.workspace.base-currency.not-null}")
                 SupportedCurrency baseCurrency,
         @Schema(
                         description =
@@ -58,8 +58,8 @@ public record RegisterRequest(
                                         + " workspace can be used to organize financial data and settings within the"
                                         + " application.",
                         example = "Winston's Workspace")
-                @NotBlank
-                @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH)
+                @NotBlank(message = "{validation.workspace.name.not-blank}")
+                @Size(max = ValidationConstants.WORKSPACE_NAME_MAX_LENGTH, message = "{validation.workspace.name.size}")
                 String workspaceName) {
 
     @Override
