@@ -19,6 +19,7 @@ import { SessionsListComponent } from '../session/sessions-list/sessions-list.co
 import { UserAuditLogComponent } from '../audit-log/user-audit-log/user-audit-log.component';
 import { ProfileInformationComponent } from './profile-information/profile-information.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { AchievementsComponent } from './achievements/achievements.component';
 import { WorkspaceSettingsComponent } from './workspace-settings/workspace-settings.component';
 import { WorkspaceSettingsStore } from './workspace-settings/workspace.store';
 
@@ -39,6 +40,7 @@ import { WorkspaceSettingsStore } from './workspace-settings/workspace.store';
 		WorkspaceSettingsComponent,
 		SessionsListComponent,
 		UserAuditLogComponent,
+		AchievementsComponent,
 		ButtonComponent,
 		TranslatePipe,
 	],
@@ -55,9 +57,9 @@ export class ProfileDialogComponent extends DialogComponent<void, void> {
 	private readonly translocoService = inject(TranslocoService);
 	readonly display = inject(DisplaySizeService);
 
-	selectedPage = signal<'workspace-settings' | 'profile-information' | 'user-settings' | 'sessions' | 'audit-log'>(
-		'workspace-settings',
-	);
+	selectedPage = signal<
+		'workspace-settings' | 'profile-information' | 'user-settings' | 'sessions' | 'audit-log' | 'achievements'
+	>('workspace-settings');
 
 	username = computed<string>(() => this.currentUserService.user().username);
 	usernameLetter = computed<string>(() => this.username().slice(0, 1).toUpperCase());

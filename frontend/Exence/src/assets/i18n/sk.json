@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Aktivita pracovného priestoru"
+		},
+		"achievements": {
+			"label": "Úspechy",
+			"tab": {
+				"all": "Všetko",
+				"unlocked": "Odomknuté"
+			},
+			"empty": {
+				"all": "Žiadne úspechy nie sú k dispozícii.",
+				"unlocked": "Zatiaľ nie sú odomknuté žiadne úspechy."
+			}
 		}
 	},
 	"sessionList": {

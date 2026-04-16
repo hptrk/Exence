@@ -80,6 +80,16 @@
 						{{ 'profile.auditLog.label' | translate }}
 					}
 				</button>
+				<button
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[class.selected]="selectedPage() === 'achievements'"
+					(click)="this.selectedPage.set('achievements')"
+				>
+					<mat-icon>award_star</mat-icon>
+					@if (display.isLg()) {
+						{{ 'profile.achievements.label' | translate }}
+					}
+				</button>
 			</div>
 		</div>
 	</mat-drawer>
@@ -101,6 +111,9 @@
 				}
 				@case ('audit-log') {
 					<ex-user-audit-log />
+				}
+				@case ('achievements') {
+					<ex-achievements />
 				}
 			}
 		</section>

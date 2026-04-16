@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Workspace activity"
+		},
+		"achievements": {
+			"label": "Achievements",
+			"tab": {
+				"all": "All",
+				"unlocked": "Unlocked"
+			},
+			"empty": {
+				"all": "No achievements available.",
+				"unlocked": "No unlocked achievements yet."
+			}
 		}
 	},
 	"sessionList": {

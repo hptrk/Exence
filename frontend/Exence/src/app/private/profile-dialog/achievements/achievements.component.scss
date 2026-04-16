@@ -1,0 +1,30 @@
+:host {
+	display: flex;
+	flex-direction: column;
+	margin-top: 1rem;
+	height: 100%;
+	overflow: hidden;
+}
+
+mat-tab-group {
+	align-self: flex-end;
+}
+
+.achievement-card {
+	background-color: color-mix(in srgb, var(--tier-color), transparent 60%);
+	border: 1px solid var(--tier-color);
+	border-radius: 8px;
+	padding: 1rem;
+}
+
+.unlocked {
+	opacity: 0.4;
+}
+
+.tier-badge {
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: var(--tier-color);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}

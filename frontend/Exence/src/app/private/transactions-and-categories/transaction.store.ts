@@ -9,6 +9,7 @@ import { TransactionPatch } from '../../data-model/modules/transaction/Transacti
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
+import { AchievementStore } from '../profile-dialog/achievements/achievement.store';
 import { CurrencyService } from '../../shared/currency.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { WorkspaceService } from '../../shared/workspace.service';
@@ -83,6 +84,7 @@ export const TransactionStore = signalStore(
 			categoryStore = inject(CategoryStore),
 			translocoService = inject(TranslocoService),
 			auditLogStore = inject(AuditLogStore),
+			achievementStore = inject(AchievementStore),
 		) => {
 			function reload(transaction: TransactionGet | TransactionCreate): void {
 				const newPages = {
@@ -152,6 +154,7 @@ export const TransactionStore = signalStore(
 					reload(request);
 					auditLogStore.resetUser();
 					auditLogStore.resetAdmin();
+					achievementStore.reload();
 				},
 				async updateTransaction(transactionId: number, request: TransactionPatch): Promise<void> {
 					const updatedTransaction = await transactionService.update(transactionId, request);

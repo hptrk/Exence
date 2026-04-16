@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Attività dell'area di lavoro"
+		},
+		"achievements": {
+			"label": "Obiettivi",
+			"tab": {
+				"all": "Tutti",
+				"unlocked": "Sbloccati"
+			},
+			"empty": {
+				"all": "Nessun obiettivo disponibile.",
+				"unlocked": "Nessun obiettivo sbloccato ancora."
+			}
 		}
 	},
 	"sessionList": {

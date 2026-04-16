@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Activité de l'espace de travail"
+		},
+		"achievements": {
+			"label": "Succès",
+			"tab": {
+				"all": "Tous",
+				"unlocked": "Débloqués"
+			},
+			"empty": {
+				"all": "Aucun succès disponible.",
+				"unlocked": "Aucun succès débloqué pour l'instant."
+			}
 		}
 	},
 	"sessionList": {

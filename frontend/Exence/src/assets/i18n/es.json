@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Actividad del espacio de trabajo"
+		},
+		"achievements": {
+			"label": "Logros",
+			"tab": {
+				"all": "Todos",
+				"unlocked": "Desbloqueados"
+			},
+			"empty": {
+				"all": "No hay logros disponibles.",
+				"unlocked": "Aún no hay logros desbloqueados."
+			}
 		}
 	},
 	"sessionList": {
