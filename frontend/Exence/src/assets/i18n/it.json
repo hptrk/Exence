@@ -227,6 +227,9 @@
 		},
 		"sessions": {
 			"label": "Sessioni"
+		},
+		"auditLog": {
+			"label": "Attività dell'area di lavoro"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "Investimento aggiornato con successo!",
 		"deleteInfo": "Investimento eliminato con successo!"
+	},
+	"auditLog": {
+		"title": "Registri di audit",
+		"userTitle": "Attività dell'area di lavoro",
+		"action": "Azione",
+		"entityType": "Tipo",
+		"changedBy": "Modificato da",
+		"changedAt": "Data",
+		"changes": "Modifiche",
+		"from": "Da",
+		"to": "A",
+		"noChanges": "Nessuna modifica al campo",
+		"filter": {
+			"entityType": "Tipo di entità",
+			"changeType": "Tipo di modifica",
+			"changedBy": "Modificato da",
+			"dateFrom": "Data iniziale",
+			"dateTo": "Data finale"
+		},
+		"changeType": {
+			"CREATED": "Creato",
+			"UPDATED": "Aggiornato",
+			"DELETED": "Eliminato"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Transazione",
+			"Category": "Categoria",
+			"Goal": "Obiettivo",
+			"Debt": "Debito",
+			"Investment": "Investimento",
+			"RecurringTransaction": "Transazione ricorrente",
+			"Workspace": "Area di lavoro",
+			"WorkspaceMember": "Membro dell'area di lavoro"
+		},
+		"field": {
+			"title": "Titolo",
+			"note": "Nota",
+			"date": "Data",
+			"amount": "Importo",
+			"type": "Tipo",
+			"createdByRecurringJob": "Creato da transazione ricorrente",
+			"recurringTransactionId": "Transazione ricorrente",
+			"categoryId": "Categoria",
+			"currency": "Valuta",
+			"exchangeRate": "Tasso di cambio",
+			"baseCurrencyAmount": "Importo in valuta base",
+			"name": "Nome",
+			"icon": "Icona",
+			"color": "Colore",
+			"balance": "Saldo",
+			"description": "Descrizione",
+			"targetAmount": "Importo obiettivo",
+			"currentAmount": "Importo attuale",
+			"targetBaseCurrencyAmount": "Importo obiettivo in valuta base",
+			"currentBaseCurrencyAmount": "Importo attuale in valuta base",
+			"deadline": "Scadenza",
+			"status": "Stato",
+			"progressPercentage": "Progresso",
+			"counterpartyName": "Controparte",
+			"originalAmount": "Importo originale",
+			"remainingAmount": "Importo rimanente",
+			"originalBaseCurrencyAmount": "Importo originale in valuta base",
+			"remainingBaseCurrencyAmount": "Importo rimanente in valuta base",
+			"paidPercentage": "Pagato",
+			"asset": "Attività",
+			"purchaseDate": "Data di acquisto",
+			"frequency": "Frequenza",
+			"interval": "Intervallo",
+			"dayOfWeek": "Giorno della settimana",
+			"dayOfMonth": "Giorno del mese",
+			"endCondition": "Condizione di fine",
+			"endDate": "Data di fine",
+			"maxOccurrences": "Max. occorrenze",
+			"currentOccurrences": "Occorrenze attuali",
+			"nextExecutionDate": "Prossima esecuzione",
+			"active": "Attivo",
+			"role": "Ruolo",
+			"userId": "ID utente",
+			"username": "Nome utente",
+			"email": "E-mail",
+			"joinedAt": "Iscritto il"
+		}
 	}
 }

@@ -227,6 +227,9 @@
 		},
 		"sessions": {
 			"label": "Sesje"
+		},
+		"auditLog": {
+			"label": "Aktywność przestrzeni roboczej"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "Inwestycja zaktualizowana pomyślnie!",
 		"deleteInfo": "Inwestycja usunięta pomyślnie!"
+	},
+	"auditLog": {
+		"title": "Dzienniki audytu",
+		"userTitle": "Aktywność przestrzeni roboczej",
+		"action": "Akcja",
+		"entityType": "Typ",
+		"changedBy": "Zmienione przez",
+		"changedAt": "Data",
+		"changes": "Zmiany",
+		"from": "Przed",
+		"to": "Po",
+		"noChanges": "Brak zmian pól",
+		"filter": {
+			"entityType": "Typ encji",
+			"changeType": "Typ zmiany",
+			"changedBy": "Zmienione przez",
+			"dateFrom": "Data od",
+			"dateTo": "Data do"
+		},
+		"changeType": {
+			"CREATED": "Utworzono",
+			"UPDATED": "Zaktualizowano",
+			"DELETED": "Usunięto"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Transakcja",
+			"Category": "Kategoria",
+			"Goal": "Cel",
+			"Debt": "Dług",
+			"Investment": "Inwestycja",
+			"RecurringTransaction": "Transakcja cykliczna",
+			"Workspace": "Przestrzeń robocza",
+			"WorkspaceMember": "Członek przestrzeni roboczej"
+		},
+		"field": {
+			"title": "Tytuł",
+			"note": "Notatka",
+			"date": "Data",
+			"amount": "Kwota",
+			"type": "Typ",
+			"createdByRecurringJob": "Utworzone przez zadanie cykliczne",
+			"recurringTransactionId": "Transakcja cykliczna",
+			"categoryId": "Kategoria",
+			"currency": "Waluta",
+			"exchangeRate": "Kurs wymiany",
+			"baseCurrencyAmount": "Kwota w walucie bazowej",
+			"name": "Nazwa",
+			"icon": "Ikona",
+			"color": "Kolor",
+			"balance": "Saldo",
+			"description": "Opis",
+			"targetAmount": "Kwota docelowa",
+			"currentAmount": "Bieżąca kwota",
+			"targetBaseCurrencyAmount": "Docelowa kwota w walucie bazowej",
+			"currentBaseCurrencyAmount": "Bieżąca kwota w walucie bazowej",
+			"deadline": "Termin",
+			"status": "Status",
+			"progressPercentage": "Postęp",
+			"counterpartyName": "Kontrahent",
+			"originalAmount": "Pierwotna kwota",
+			"remainingAmount": "Pozostała kwota",
+			"originalBaseCurrencyAmount": "Pierwotna kwota w walucie bazowej",
+			"remainingBaseCurrencyAmount": "Pozostała kwota w walucie bazowej",
+			"paidPercentage": "Zapłacono",
+			"asset": "Aktywo",
+			"purchaseDate": "Data zakupu",
+			"frequency": "Częstotliwość",
+			"interval": "Interwał",
+			"dayOfWeek": "Dzień tygodnia",
+			"dayOfMonth": "Dzień miesiąca",
+			"endCondition": "Warunek zakończenia",
+			"endDate": "Data zakończenia",
+			"maxOccurrences": "Maks. powtórzeń",
+			"currentOccurrences": "Aktualne powtórzenia",
+			"nextExecutionDate": "Następna realizacja",
+			"active": "Aktywny",
+			"role": "Rola",
+			"userId": "ID użytkownika",
+			"username": "Nazwa użytkownika",
+			"email": "E-mail",
+			"joinedAt": "Dołączono"
+		}
 	}
 }

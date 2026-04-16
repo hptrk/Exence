@@ -227,6 +227,9 @@
 		},
 		"sessions": {
 			"label": "Sesiones"
+		},
+		"auditLog": {
+			"label": "Actividad del espacio de trabajo"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "¡Inversión actualizada con éxito!",
 		"deleteInfo": "¡Inversión eliminada con éxito!"
+	},
+	"auditLog": {
+		"title": "Registros de auditoría",
+		"userTitle": "Actividad del espacio de trabajo",
+		"action": "Acción",
+		"entityType": "Tipo",
+		"changedBy": "Modificado por",
+		"changedAt": "Fecha",
+		"changes": "Cambios",
+		"from": "Desde",
+		"to": "Hasta",
+		"noChanges": "Sin cambios de campo",
+		"filter": {
+			"entityType": "Tipo de entidad",
+			"changeType": "Tipo de cambio",
+			"changedBy": "Modificado por",
+			"dateFrom": "Desde fecha",
+			"dateTo": "Hasta fecha"
+		},
+		"changeType": {
+			"CREATED": "Creado",
+			"UPDATED": "Actualizado",
+			"DELETED": "Eliminado"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Transacción",
+			"Category": "Categoría",
+			"Goal": "Meta",
+			"Debt": "Deuda",
+			"Investment": "Inversión",
+			"RecurringTransaction": "Transacción recurrente",
+			"Workspace": "Espacio de trabajo",
+			"WorkspaceMember": "Miembro del espacio de trabajo"
+		},
+		"field": {
+			"title": "Título",
+			"note": "Nota",
+			"date": "Fecha",
+			"amount": "Monto",
+			"type": "Tipo",
+			"createdByRecurringJob": "Creado por tarea recurrente",
+			"recurringTransactionId": "Transacción recurrente",
+			"categoryId": "Categoría",
+			"currency": "Moneda",
+			"exchangeRate": "Tipo de cambio",
+			"baseCurrencyAmount": "Monto en moneda base",
+			"name": "Nombre",
+			"icon": "Icono",
+			"color": "Color",
+			"balance": "Saldo",
+			"description": "Descripción",
+			"targetAmount": "Monto objetivo",
+			"currentAmount": "Monto actual",
+			"targetBaseCurrencyAmount": "Monto objetivo en moneda base",
+			"currentBaseCurrencyAmount": "Monto actual en moneda base",
+			"deadline": "Fecha límite",
+			"status": "Estado",
+			"progressPercentage": "Progreso",
+			"counterpartyName": "Contraparte",
+			"originalAmount": "Monto original",
+			"remainingAmount": "Monto restante",
+			"originalBaseCurrencyAmount": "Monto original en moneda base",
+			"remainingBaseCurrencyAmount": "Monto restante en moneda base",
+			"paidPercentage": "Pagado",
+			"asset": "Activo",
+			"purchaseDate": "Fecha de compra",
+			"frequency": "Frecuencia",
+			"interval": "Intervalo",
+			"dayOfWeek": "Día de la semana",
+			"dayOfMonth": "Día del mes",
+			"endCondition": "Condición de fin",
+			"endDate": "Fecha de fin",
+			"maxOccurrences": "Máx. ocurrencias",
+			"currentOccurrences": "Ocurrencias actuales",
+			"nextExecutionDate": "Próxima ejecución",
+			"active": "Activo",
+			"role": "Rol",
+			"userId": "ID de usuario",
+			"username": "Nombre de usuario",
+			"email": "Correo electrónico",
+			"joinedAt": "Se unió el"
+		}
 	}
 }

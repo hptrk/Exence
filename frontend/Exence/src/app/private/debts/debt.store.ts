@@ -10,6 +10,7 @@ import { CurrencyService } from '../../shared/currency.service';
 import { DebtService } from './debt.service';
 import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
 import { WorkspaceService } from '../../shared/workspace.service';
+import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
 
 interface DebtStoreData {
 	debts: DebtGet[];
@@ -37,6 +38,7 @@ export const DebtStore = signalStore(
 			debtService = inject(DebtService),
 			snackbarService = inject(SnackbarService),
 			translocoService = inject(TranslocoService),
+			auditLogStore = inject(AuditLogStore),
 		) => {
 			function reload(): void {
 				store.debtResource.reload();
@@ -49,21 +51,29 @@ export const DebtStore = signalStore(
 						translocoService.translate('debts.create.successInfo', { title: result.title }),
 					);
 					reload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async updateDebt(id: number, request: DebtPatch): Promise<void> {
 					await debtService.update(id, request);
 					snackbarService.showSuccess(translocoService.translate('debts.updateInfo'));
 					reload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async makePayment(id: number, request: DebtPayment): Promise<void> {
 					await debtService.makePayment(id, request);
 					snackbarService.showSuccess(translocoService.translate('debts.paymentInfo'));
 					reload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async deleteDebt(id: number): Promise<void> {
 					await debtService.delete(id);
 					snackbarService.showSuccess(translocoService.translate('debts.deleteInfo'));
 					reload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				resetState(): void {
 					reload();

@@ -8,6 +8,7 @@ import { TransactionGet } from '../../data-model/modules/transaction/Transaction
 import { TransactionPatch } from '../../data-model/modules/transaction/TransactionPatch';
 import { TransactionTotalsResponse } from '../../data-model/modules/transaction/TransactionTotalsResponse';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
+import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
 import { CurrencyService } from '../../shared/currency.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { WorkspaceService } from '../../shared/workspace.service';
@@ -81,6 +82,7 @@ export const TransactionStore = signalStore(
 			snackbarService = inject(SnackbarService),
 			categoryStore = inject(CategoryStore),
 			translocoService = inject(TranslocoService),
+			auditLogStore = inject(AuditLogStore),
 		) => {
 			function reload(transaction: TransactionGet | TransactionCreate): void {
 				const newPages = {
@@ -148,6 +150,8 @@ export const TransactionStore = signalStore(
 						}),
 					);
 					reload(request);
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async updateTransaction(transactionId: number, request: TransactionPatch): Promise<void> {
 					const updatedTransaction = await transactionService.update(transactionId, request);
@@ -157,11 +161,15 @@ export const TransactionStore = signalStore(
 						}),
 					);
 					fullReload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async deleteTransaction(request: TransactionGet): Promise<void> {
 					await transactionService.delete(request.id);
 					snackbarService.showSuccess(translocoService.translate('transaction.deleteInfo'));
 					reload(request);
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				loadNextPage(type?: TransactionType): void {
 					const resourceMap = {

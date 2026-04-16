@@ -12,6 +12,7 @@ import { TransactionType } from '../../data-model/modules/transaction/Transactio
 import { RecurringTransactionPatch } from '../../data-model/modules/transaction/RecurringTransactionPatch';
 import { CurrencyService } from '../../shared/currency.service';
 import { WorkspaceService } from '../../shared/workspace.service';
+import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
 
 export interface RecurringTransactionStoreDate {
 	// Page
@@ -66,6 +67,7 @@ export const RecurringStore = signalStore(
 			snackbarService = inject(SnackbarService),
 			categoryStore = inject(CategoryStore),
 			translocoService = inject(TranslocoService),
+			auditLogStore = inject(AuditLogStore),
 		) => {
 			function reload(transaction: RecurringTransactionGet | RecurringTransactionCreate): void {
 				const newPages = {
@@ -127,6 +129,8 @@ export const RecurringStore = signalStore(
 						}),
 					);
 					reload(request);
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async updateRecurringTransaction(id: number, request: RecurringTransactionPatch): Promise<void> {
 					const updatedTransaction = await recurringService.update(id, request);
@@ -136,11 +140,15 @@ export const RecurringStore = signalStore(
 						}),
 					);
 					fullReload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async deleteRecurringTransaction(request: RecurringTransactionGet): Promise<void> {
 					await recurringService.delete(request.id);
 					snackbarService.showSuccess(translocoService.translate('transaction.deleteInfo'));
 					reload(request);
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				loadNextPage(type?: TransactionType): void {
 					const resourceMap = {

@@ -10,7 +10,9 @@
 			</span>
 			{{ title() }}
 		</h3>
-		<ex-button data-testid="add-btn" iconButton matIcon="add" color="accent" (click)="addClicked.emit()" />
+		@if (!hideAddButton()) {
+			<ex-button data-testid="add-btn" iconButton matIcon="add" color="accent" (click)="addClicked.emit()" />
+		}
 	</div>
 	@if (!isEmpty()) {
 		<div

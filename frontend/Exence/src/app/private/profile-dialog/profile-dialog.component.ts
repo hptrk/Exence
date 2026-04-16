@@ -16,6 +16,7 @@ import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { WorkspaceService } from '../../shared/workspace.service';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
+import { UserAuditLogComponent } from '../audit-log/user-audit-log/user-audit-log.component';
 import { ProfileInformationComponent } from './profile-information/profile-information.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { WorkspaceSettingsComponent } from './workspace-settings/workspace-settings.component';
@@ -37,6 +38,7 @@ import { WorkspaceSettingsStore } from './workspace-settings/workspace.store';
 		UserSettingsComponent,
 		WorkspaceSettingsComponent,
 		SessionsListComponent,
+		UserAuditLogComponent,
 		ButtonComponent,
 		TranslatePipe,
 	],
@@ -53,7 +55,7 @@ export class ProfileDialogComponent extends DialogComponent<void, void> {
 	private readonly translocoService = inject(TranslocoService);
 	readonly display = inject(DisplaySizeService);
 
-	selectedPage = signal<'workspace-settings' | 'profile-information' | 'user-settings' | 'sessions'>(
+	selectedPage = signal<'workspace-settings' | 'profile-information' | 'user-settings' | 'sessions' | 'audit-log'>(
 		'workspace-settings',
 	);
 

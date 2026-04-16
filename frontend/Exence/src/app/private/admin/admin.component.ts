@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { DisplaySizeService } from '../../shared/display-size.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
+import { AdminAuditLogComponent } from './admin-audit-log/admin-audit-log.component';
 import { AdminRegistrationComponent } from './admin-registration/admin-registration.component';
 import { AdminStatisticsListComponent } from './admin-statistics-list/admin-statistics-list.component';
 import { EmailBroadcastComponent } from './email-broadcast/email-broadcast.component';
@@ -19,6 +20,7 @@ import { SystemSettingsComponent } from './system-settings/system-settings.compo
 		MatTabsModule,
 		MatIconModule,
 		MatDividerModule,
+		AdminAuditLogComponent,
 		AdminStatisticsListComponent,
 		AdminRegistrationComponent,
 		EmailBroadcastComponent,

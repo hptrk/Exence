@@ -1,0 +1,37 @@
+@import '../../../../styles/imports.scss';
+
+.action-CREATED {
+	color: var(--tertiary-color);
+}
+.action-UPDATED {
+	color: var(--primary-color);
+}
+.action-DELETED {
+	color: var(--error-color);
+}
+
+.audit-details {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 1.5rem;
+	padding: 2rem;
+	width: 100%;
+
+	@include displayLg {
+		grid-template-columns: 1fr 1fr;
+		row-gap: 1rem;
+	}
+}
+
+.detail {
+	width: 100%;
+	text-align: start;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+mat-label {
+	font-size: 18px;
+	font-weight: semibold;
+}

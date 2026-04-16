@@ -227,6 +227,9 @@
 		},
 		"sessions": {
 			"label": "Relácie"
+		},
+		"auditLog": {
+			"label": "Aktivita pracovného priestoru"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "Investícia bola úspešne aktualizovaná!",
 		"deleteInfo": "Investícia bola úspešne vymazaná!"
+	},
+	"auditLog": {
+		"title": "Audit záznamy",
+		"userTitle": "Aktivita pracovného priestoru",
+		"action": "Akcia",
+		"entityType": "Typ",
+		"changedBy": "Zmenil",
+		"changedAt": "Dátum",
+		"changes": "Zmeny",
+		"from": "Pred",
+		"to": "Po",
+		"noChanges": "Žiadne zmeny polí",
+		"filter": {
+			"entityType": "Typ entity",
+			"changeType": "Typ zmeny",
+			"changedBy": "Zmenil",
+			"dateFrom": "Dátum od",
+			"dateTo": "Dátum do"
+		},
+		"changeType": {
+			"CREATED": "Vytvorené",
+			"UPDATED": "Aktualizované",
+			"DELETED": "Vymazané"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Transakcia",
+			"Category": "Kategória",
+			"Goal": "Cieľ",
+			"Debt": "Dlh",
+			"Investment": "Investícia",
+			"RecurringTransaction": "Opakovaná transakcia",
+			"Workspace": "Pracovný priestor",
+			"WorkspaceMember": "Člen pracovného priestoru"
+		},
+		"field": {
+			"title": "Názov",
+			"note": "Poznámka",
+			"date": "Dátum",
+			"amount": "Suma",
+			"type": "Typ",
+			"createdByRecurringJob": "Vytvorené opakujúcou úlohou",
+			"recurringTransactionId": "Opakujúca sa transakcia",
+			"categoryId": "Kategória",
+			"currency": "Mena",
+			"exchangeRate": "Výmenný kurz",
+			"baseCurrencyAmount": "Suma v základnej mene",
+			"name": "Meno",
+			"icon": "Ikona",
+			"color": "Farba",
+			"balance": "Zostatok",
+			"description": "Popis",
+			"targetAmount": "Cieľová suma",
+			"currentAmount": "Aktuálna suma",
+			"targetBaseCurrencyAmount": "Cieľová suma v základnej mene",
+			"currentBaseCurrencyAmount": "Aktuálna suma v základnej mene",
+			"deadline": "Termín",
+			"status": "Stav",
+			"progressPercentage": "Pokrok",
+			"counterpartyName": "Protistrana",
+			"originalAmount": "Pôvodná suma",
+			"remainingAmount": "Zostatok sumy",
+			"originalBaseCurrencyAmount": "Pôvodná suma v základnej mene",
+			"remainingBaseCurrencyAmount": "Zostatok sumy v základnej mene",
+			"paidPercentage": "Zaplatené",
+			"asset": "Aktívum",
+			"purchaseDate": "Dátum nákupu",
+			"frequency": "Frekvencia",
+			"interval": "Interval",
+			"dayOfWeek": "Deň v týždni",
+			"dayOfMonth": "Deň v mesiaci",
+			"endCondition": "Podmienka ukončenia",
+			"endDate": "Dátum ukončenia",
+			"maxOccurrences": "Max. opakovaní",
+			"currentOccurrences": "Aktuálne opakovania",
+			"nextExecutionDate": "Ďalšie vykonanie",
+			"active": "Aktívny",
+			"role": "Rola",
+			"userId": "ID používateľa",
+			"username": "Používateľské meno",
+			"email": "E-mail",
+			"joinedAt": "Dátum pripojenia"
+		}
 	}
 }

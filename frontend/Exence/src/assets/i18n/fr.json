@@ -227,6 +227,9 @@
 		},
 		"sessions": {
 			"label": "Sessions"
+		},
+		"auditLog": {
+			"label": "Activité de l'espace de travail"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "Investissement mis à jour avec succès !",
 		"deleteInfo": "Investissement supprimé avec succès !"
+	},
+	"auditLog": {
+		"title": "Journaux d'audit",
+		"userTitle": "Activité de l'espace de travail",
+		"action": "Action",
+		"entityType": "Type",
+		"changedBy": "Modifié par",
+		"changedAt": "Date",
+		"changes": "Modifications",
+		"from": "De",
+		"to": "À",
+		"noChanges": "Aucune modification de champ",
+		"filter": {
+			"entityType": "Type d'entité",
+			"changeType": "Type de modification",
+			"changedBy": "Modifié par",
+			"dateFrom": "Date de début",
+			"dateTo": "Date de fin"
+		},
+		"changeType": {
+			"CREATED": "Créé",
+			"UPDATED": "Mis à jour",
+			"DELETED": "Supprimé"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Transaction",
+			"Category": "Catégorie",
+			"Goal": "Objectif",
+			"Debt": "Dette",
+			"Investment": "Investissement",
+			"RecurringTransaction": "Transaction récurrente",
+			"Workspace": "Espace de travail",
+			"WorkspaceMember": "Membre de l'espace de travail"
+		},
+		"field": {
+			"title": "Titre",
+			"note": "Note",
+			"date": "Date",
+			"amount": "Montant",
+			"type": "Type",
+			"createdByRecurringJob": "Créé par tâche récurrente",
+			"recurringTransactionId": "Transaction récurrente",
+			"categoryId": "Catégorie",
+			"currency": "Devise",
+			"exchangeRate": "Taux de change",
+			"baseCurrencyAmount": "Montant en devise de base",
+			"name": "Nom",
+			"icon": "Icône",
+			"color": "Couleur",
+			"balance": "Solde",
+			"description": "Description",
+			"targetAmount": "Montant cible",
+			"currentAmount": "Montant actuel",
+			"targetBaseCurrencyAmount": "Montant cible en devise de base",
+			"currentBaseCurrencyAmount": "Montant actuel en devise de base",
+			"deadline": "Échéance",
+			"status": "Statut",
+			"progressPercentage": "Progression",
+			"counterpartyName": "Contrepartie",
+			"originalAmount": "Montant original",
+			"remainingAmount": "Montant restant",
+			"originalBaseCurrencyAmount": "Montant original en devise de base",
+			"remainingBaseCurrencyAmount": "Montant restant en devise de base",
+			"paidPercentage": "Payé",
+			"asset": "Actif",
+			"purchaseDate": "Date d'achat",
+			"frequency": "Fréquence",
+			"interval": "Intervalle",
+			"dayOfWeek": "Jour de la semaine",
+			"dayOfMonth": "Jour du mois",
+			"endCondition": "Condition de fin",
+			"endDate": "Date de fin",
+			"maxOccurrences": "Occurrences max.",
+			"currentOccurrences": "Occurrences actuelles",
+			"nextExecutionDate": "Prochaine exécution",
+			"active": "Actif",
+			"role": "Rôle",
+			"userId": "ID utilisateur",
+			"username": "Nom d'utilisateur",
+			"email": "E-mail",
+			"joinedAt": "Rejoint le"
+		}
 	}
 }
