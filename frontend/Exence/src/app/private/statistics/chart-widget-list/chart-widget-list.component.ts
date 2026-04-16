@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal, viewChild } from '@angular/core';
+﻿import { Component, effect, inject, input, signal, viewChild } from '@angular/core';
 import {
 	CompactType,
 	DisplayGrid,
@@ -18,7 +18,7 @@ import {
 } from '../edit-chart-dialog/edit-chart-dialog.component';
 import { WidgetStore } from '../widget.store';
 import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
-import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
+import { StatisticsWidgetType } from '../../../data-model/modules/statistics/widget-config.model';
 
 @Component({
 	selector: 'ex-chart-widget-list',
@@ -87,7 +87,7 @@ export class ChartWidgetListComponent {
 			EditChartDialogComponent,
 			{
 				title: widget.title,
-				type: widget.type as WidgetType,
+				type: widget.type as StatisticsWidgetType,
 				settings: { ...widget.settings },
 			},
 			{

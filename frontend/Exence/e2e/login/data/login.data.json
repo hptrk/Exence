@@ -1,18 +1,18 @@
 {
 	"correct": {
-		"email": "captainwinnie@exence.com",
-		"password": "Test123!"
+		"email": "winston@exence.com",
+		"password": "Password123!"
 	},
 	"incorrect": {
-		"email": "captainwinnievexence.com",
+		"email": "winstonvexence.com",
 		"password": "Test123"
 	},
 	"valid": {
-		"email": "captainwinnie@exence.com",
-		"password": "Test123!"
+		"email": "winston@exence.com",
+		"password": "Password123!"
 	},
 	"invalid": {
-		"email": "captainwinnie@exence.com",
+		"email": "winston@exence.com",
 		"password": "Test1234!"
 	}
 }

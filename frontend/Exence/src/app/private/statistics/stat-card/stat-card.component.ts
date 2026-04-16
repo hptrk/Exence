@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+﻿import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { StatCardWidget } from '../../../data-model/modules/statistics/StatCardWidget';
@@ -7,7 +7,7 @@ import {
 	DebtWidgetType,
 	GoalWidgetType,
 	InvestmentWidgetType,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
@@ -70,9 +70,9 @@ export class StatCardComponent {
 		return !!currency && Object.values(SupportedCurrency).includes(currency);
 	});
 
-	readonly predefinedStatCardIcons: Partial<Record<WidgetType, string>> = {
-		[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
-		[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
+	readonly predefinedStatCardIcons: Partial<Record<StatisticsWidgetType, string>> = {
+		[StatisticsWidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
+		[StatisticsWidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
 	};
 
 	constructor() {

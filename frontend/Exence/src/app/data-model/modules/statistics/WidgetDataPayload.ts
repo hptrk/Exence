@@ -1,4 +1,5 @@
-import { MaterialIcon } from '../category/MaterialIcon';
+﻿import { MaterialIcon } from '../category/MaterialIcon';
+import { WidgetType } from './WidgetType';
 
 export type WidgetDataPayload =
 	| SeriesPayload
@@ -13,6 +14,7 @@ export type WidgetDataPayload =
 	| SummaryPayload;
 
 export interface SeriesPayload {
+	type: WidgetType;
 	series: SeriesItem[];
 }
 
@@ -30,6 +32,7 @@ export interface DataPoint {
 }
 
 export interface DistributionPayload {
+	type: WidgetType;
 	data: DistributionItem[];
 }
 
@@ -40,6 +43,7 @@ export interface DistributionItem {
 }
 
 export interface BoxplotPayload {
+	type: WidgetType;
 	data: BoxplotPoint[];
 }
 
@@ -50,6 +54,7 @@ export interface BoxplotPoint {
 }
 
 export interface BubblePayload {
+	type: WidgetType;
 	series: BubbleSeries[];
 }
 
@@ -66,6 +71,7 @@ export interface BubblePoint {
 }
 
 export interface SankeyPayload {
+	type: WidgetType;
 	data: SankeyLink[];
 }
 
@@ -77,6 +83,7 @@ export interface SankeyLink {
 }
 
 export interface SlopePayload {
+	type: WidgetType;
 	data: SlopeItem[];
 }
 
@@ -87,10 +94,12 @@ export interface SlopeItem {
 }
 
 export interface GaugePayload {
+	type: WidgetType;
 	data: number;
 }
 
 export interface StatCardPayload {
+	type: WidgetType;
 	value: number;
 	changePercentage?: number;
 	trend?: 'UP' | 'DOWN' | 'NEUTRAL';
@@ -101,6 +110,7 @@ export interface StatCardPayload {
 }
 
 export interface LeaderboardPayload {
+	type: WidgetType;
 	entries: LeaderboardEntry[];
 }
 
@@ -111,6 +121,7 @@ export interface LeaderboardEntry {
 }
 
 export interface SummaryPayload {
+	type: WidgetType;
 	items: SummaryItem[];
 }
 

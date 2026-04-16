@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+﻿import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { TranslocoService } from '@jsverse/transloco';
 import { signal } from '@angular/core';
@@ -7,7 +7,7 @@ import { ChartWidgetComponent } from '../../../app/private/statistics/chart-widg
 import { StatisticService } from '../../../app/private/statistics/statistic.service';
 import { DisplayThemeService } from '../../../app/shared/display-theme.service';
 import { Timeframe } from '../../../app/data-model/modules/statistics/Timeframe';
-import { WidgetType } from '../../../app/data-model/modules/statistics/widget-config.model';
+import { StatisticsWidgetType } from '../../../app/data-model/modules/statistics/widget-config.model';
 import {
 	MOCK_BAR_WIDGET,
 	MOCK_HEATMAP_WIDGET,
@@ -38,7 +38,7 @@ describe('ChartWidgetComponent', () => {
 	beforeEach(async () => {
 		statisticServiceSpy = jasmine.createSpyObj('StatisticService', ['getWidgetData']);
 		statisticServiceSpy.getWidgetData.and.returnValue(
-			Promise.resolve({ widgetId: 1, type: WidgetType.INCOME_EXPENSE_COLUMN, payload: MOCK_PAYLOAD }),
+			Promise.resolve({ widgetId: 1, type: StatisticsWidgetType.INCOME_EXPENSE_COLUMN, payload: MOCK_PAYLOAD }),
 		);
 
 		displayThemeSignal = signal('light');

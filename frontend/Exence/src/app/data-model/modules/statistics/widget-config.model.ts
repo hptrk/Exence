@@ -1,9 +1,9 @@
-import { TranslationCode } from '../../../shared/i18n/translation-types';
+﻿import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { CategoryType } from '../category/CategoryType';
 import { ExChartType } from './ChartType';
 
 // name of each individual chart (can be multiple of a chart type - 3 bar charts with different data)
-export enum WidgetType {
+export enum StatisticsWidgetType {
 	// Stat Cards
 	EXPENSE_FREQUENCY_STATCARD = 'EXPENSE_FREQUENCY_STATCARD',
 	INCOME_FREQUENCY_STATCARD = 'INCOME_FREQUENCY_STATCARD',
@@ -109,74 +109,74 @@ export enum InvestmentWidgetType {
 
 /* eslint-disable-next-line complexity */
 export function mapToExChartType(
-	widgetType: WidgetType | AdminWidgetType | GoalWidgetType | DebtWidgetType | InvestmentWidgetType,
+	widgetType: StatisticsWidgetType | AdminWidgetType | GoalWidgetType | DebtWidgetType | InvestmentWidgetType,
 ): ExChartType {
 	switch (widgetType) {
-		case WidgetType.EXPENSE_FREQUENCY_STATCARD:
-		case WidgetType.INCOME_FREQUENCY_STATCARD:
-		case WidgetType.NO_SPEND_DAYS_STATCARD:
-		case WidgetType.TOP_EXPENSE_CATEGORY_STATCARD:
-		case WidgetType.TOP_INCOME_CATEGORY_STATCARD:
-		case WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD:
-		case WidgetType.TOP_INCOME_TRANSACTION_STATCARD:
-		case WidgetType.BURN_RATE_STATCARD:
-		case WidgetType.SAVINGS_RATE_STATCARD:
+		case StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD:
+		case StatisticsWidgetType.INCOME_FREQUENCY_STATCARD:
+		case StatisticsWidgetType.NO_SPEND_DAYS_STATCARD:
+		case StatisticsWidgetType.TOP_EXPENSE_CATEGORY_STATCARD:
+		case StatisticsWidgetType.TOP_INCOME_CATEGORY_STATCARD:
+		case StatisticsWidgetType.TOP_EXPENSE_TRANSACTION_STATCARD:
+		case StatisticsWidgetType.TOP_INCOME_TRANSACTION_STATCARD:
+		case StatisticsWidgetType.BURN_RATE_STATCARD:
+		case StatisticsWidgetType.SAVINGS_RATE_STATCARD:
 			return 'statCard';
-		case WidgetType.INCOME_TREND:
+		case StatisticsWidgetType.INCOME_TREND:
 			return 'area';
-		case WidgetType.EXPENSE_TREND:
+		case StatisticsWidgetType.EXPENSE_TREND:
 			return 'area';
-		case WidgetType.BALANCE_TREND:
+		case StatisticsWidgetType.BALANCE_TREND:
 			return 'area';
-		case WidgetType.INCOME_CATEGORY_TREND:
+		case StatisticsWidgetType.INCOME_CATEGORY_TREND:
 			return 'area';
-		case WidgetType.EXPENSE_CATEGORY_TREND:
+		case StatisticsWidgetType.EXPENSE_CATEGORY_TREND:
 			return 'area';
-		case WidgetType.BALANCE_YEAR_COMPARISON:
+		case StatisticsWidgetType.BALANCE_YEAR_COMPARISON:
 			return 'line';
-		case WidgetType.INCOME_EXPENSE_COLUMN:
+		case StatisticsWidgetType.INCOME_EXPENSE_COLUMN:
 			return 'bar';
-		case WidgetType.EXPENSE_CATEGORY_COLUMN:
+		case StatisticsWidgetType.EXPENSE_CATEGORY_COLUMN:
 			return 'bar';
-		case WidgetType.MONTHLY_BALANCE_COLUMN:
+		case StatisticsWidgetType.MONTHLY_BALANCE_COLUMN:
 			return 'bar';
-		case WidgetType.EXPENSE_SAVINGS_COMBO:
+		case StatisticsWidgetType.EXPENSE_SAVINGS_COMBO:
 			return 'line';
-		case WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO:
+		case StatisticsWidgetType.TRANSACTION_COUNT_EXPENSE_COMBO:
 			return 'line';
-		case WidgetType.WEALTH_GROWTH_COMBO:
+		case StatisticsWidgetType.WEALTH_GROWTH_COMBO:
 			return 'line';
-		case WidgetType.EXPENSE_PIE:
+		case StatisticsWidgetType.EXPENSE_PIE:
 			return 'donut';
-		case WidgetType.INCOME_PIE:
+		case StatisticsWidgetType.INCOME_PIE:
 			return 'pie';
-		case WidgetType.SPENDING_RADAR:
+		case StatisticsWidgetType.SPENDING_RADAR:
 			return 'radar';
-		case WidgetType.MONTHLY_CATEGORY_RADAR:
+		case StatisticsWidgetType.MONTHLY_CATEGORY_RADAR:
 			return 'radar';
-		case WidgetType.CATEGORY_AVG_POLAR:
+		case StatisticsWidgetType.CATEGORY_AVG_POLAR:
 			return 'polarArea';
-		case WidgetType.MONTHLY_PEAK_POLAR:
+		case StatisticsWidgetType.MONTHLY_PEAK_POLAR:
 			return 'polarArea';
-		case WidgetType.CATEGORY_BUBBLE:
+		case StatisticsWidgetType.CATEGORY_BUBBLE:
 			return 'bubble';
-		case WidgetType.TRANSACTION_SCATTER:
+		case StatisticsWidgetType.TRANSACTION_SCATTER:
 			return 'scatter';
-		case WidgetType.SPENDING_HEATMAP:
+		case StatisticsWidgetType.SPENDING_HEATMAP:
 			return 'heatmap';
-		case WidgetType.CATEGORY_TREEMAP:
+		case StatisticsWidgetType.CATEGORY_TREEMAP:
 			return 'treemap';
-		case WidgetType.CATEGORY_BOXPLOT:
+		case StatisticsWidgetType.CATEGORY_BOXPLOT:
 			return 'boxPlot';
-		case WidgetType.MONTHLY_BOXPLOT:
+		case StatisticsWidgetType.MONTHLY_BOXPLOT:
 			return 'boxPlot';
-		case WidgetType.SAVINGS_RATE_GAUGE:
+		case StatisticsWidgetType.SAVINGS_RATE_GAUGE:
 			return 'radialBar';
-		case WidgetType.YEARLY_SLOPE:
+		case StatisticsWidgetType.YEARLY_SLOPE:
 			return 'line';
-		case WidgetType.CATEGORY_SANKEY:
+		case StatisticsWidgetType.CATEGORY_SANKEY:
 			return 'sankey';
-		case WidgetType.DASHBOARD_BALANCE_TREND:
+		case StatisticsWidgetType.DASHBOARD_BALANCE_TREND:
 			return 'area';
 		case AdminWidgetType.AVG_TRANSACTIONS_PER_USER:
 			return 'line';
@@ -218,7 +218,7 @@ export function mapToExChartType(
 
 // Widget catalog data structures
 export interface WidgetCatalogItem {
-	type: WidgetType;
+	type: StatisticsWidgetType;
 	info: TranslationCode;
 	title: TranslationCode;
 	imgUrl: string;
@@ -244,297 +244,305 @@ const GROUP_LABELS: Record<WidgetCatalogGroup, TranslationCode> = {
 };
 const GROUP_ORDER: WidgetCatalogGroup[] = ['all', 'line_area', 'bar', 'mixed', 'circular', 'point', 'card', 'other'];
 
-const WIDGET_METADATA: Partial<Record<WidgetType, WidgetCatalogItem>> = {
+const WIDGET_METADATA: Partial<Record<StatisticsWidgetType, WidgetCatalogItem>> = {
 	// Stat Cards
-	[WidgetType.EXPENSE_FREQUENCY_STATCARD]: {
-		type: WidgetType.EXPENSE_FREQUENCY_STATCARD,
+	[StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD]: {
+		type: StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD,
 		title: 'statistics.widget.EXPENSE_FREQUENCY_STATCARD.title',
 		info: 'statistics.widget.EXPENSE_FREQUENCY_STATCARD.info',
 		imgUrl: 'EXPENSE_FREQUENCY_STATCARD',
 	},
-	[WidgetType.INCOME_FREQUENCY_STATCARD]: {
-		type: WidgetType.INCOME_FREQUENCY_STATCARD,
+	[StatisticsWidgetType.INCOME_FREQUENCY_STATCARD]: {
+		type: StatisticsWidgetType.INCOME_FREQUENCY_STATCARD,
 		title: 'statistics.widget.INCOME_FREQUENCY_STATCARD.title',
 		info: 'statistics.widget.INCOME_FREQUENCY_STATCARD.info',
 		imgUrl: 'INCOME_FREQUENCY_STATCARD',
 	},
-	[WidgetType.NO_SPEND_DAYS_STATCARD]: {
-		type: WidgetType.NO_SPEND_DAYS_STATCARD,
+	[StatisticsWidgetType.NO_SPEND_DAYS_STATCARD]: {
+		type: StatisticsWidgetType.NO_SPEND_DAYS_STATCARD,
 		title: 'statistics.widget.NO_SPEND_DAYS_STATCARD.title',
 		info: 'statistics.widget.NO_SPEND_DAYS_STATCARD.info',
 		imgUrl: 'NO_SPEND_DAYS_STATCARD',
 	},
-	[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: {
-		type: WidgetType.TOP_EXPENSE_CATEGORY_STATCARD,
+	[StatisticsWidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: {
+		type: StatisticsWidgetType.TOP_EXPENSE_CATEGORY_STATCARD,
 		title: 'statistics.widget.TOP_EXPENSE_CATEGORY_STATCARD.title',
 		info: 'statistics.widget.TOP_EXPENSE_CATEGORY_STATCARD.info',
 		imgUrl: 'TOP_EXPENSE_CATEGORY_STATCARD',
 	},
-	[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: {
-		type: WidgetType.TOP_INCOME_CATEGORY_STATCARD,
+	[StatisticsWidgetType.TOP_INCOME_CATEGORY_STATCARD]: {
+		type: StatisticsWidgetType.TOP_INCOME_CATEGORY_STATCARD,
 		title: 'statistics.widget.TOP_INCOME_CATEGORY_STATCARD.title',
 		info: 'statistics.widget.TOP_INCOME_CATEGORY_STATCARD.info',
 		imgUrl: 'TOP_INCOME_CATEGORY_STATCARD',
 	},
-	[WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD]: {
-		type: WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD,
+	[StatisticsWidgetType.TOP_EXPENSE_TRANSACTION_STATCARD]: {
+		type: StatisticsWidgetType.TOP_EXPENSE_TRANSACTION_STATCARD,
 		title: 'statistics.widget.TOP_EXPENSE_TRANSACTION_STATCARD.title',
 		info: 'statistics.widget.TOP_EXPENSE_TRANSACTION_STATCARD.info',
 		imgUrl: 'TOP_EXPENSE_TRANSACTION_STATCARD',
 	},
-	[WidgetType.TOP_INCOME_TRANSACTION_STATCARD]: {
-		type: WidgetType.TOP_INCOME_TRANSACTION_STATCARD,
+	[StatisticsWidgetType.TOP_INCOME_TRANSACTION_STATCARD]: {
+		type: StatisticsWidgetType.TOP_INCOME_TRANSACTION_STATCARD,
 		title: 'statistics.widget.TOP_INCOME_TRANSACTION_STATCARD.title',
 		info: 'statistics.widget.TOP_INCOME_TRANSACTION_STATCARD.info',
 		imgUrl: 'TOP_INCOME_TRANSACTION_STATCARD',
 	},
-	[WidgetType.BURN_RATE_STATCARD]: {
-		type: WidgetType.BURN_RATE_STATCARD,
+	[StatisticsWidgetType.BURN_RATE_STATCARD]: {
+		type: StatisticsWidgetType.BURN_RATE_STATCARD,
 		title: 'statistics.widget.BURN_RATE_STATCARD.title',
 		info: 'statistics.widget.BURN_RATE_STATCARD.info',
 		imgUrl: 'BURN_RATE_STATCARD',
 	},
-	[WidgetType.SAVINGS_RATE_STATCARD]: {
-		type: WidgetType.SAVINGS_RATE_STATCARD,
+	[StatisticsWidgetType.SAVINGS_RATE_STATCARD]: {
+		type: StatisticsWidgetType.SAVINGS_RATE_STATCARD,
 		title: 'statistics.widget.SAVINGS_RATE_STATCARD.title',
 		info: 'statistics.widget.SAVINGS_RATE_STATCARD.info',
 		imgUrl: 'SAVINGS_RATE_STATCARD',
 	},
 
 	// Area/Line trends
-	[WidgetType.INCOME_TREND]: {
-		type: WidgetType.INCOME_TREND,
+	[StatisticsWidgetType.INCOME_TREND]: {
+		type: StatisticsWidgetType.INCOME_TREND,
 		title: 'statistics.widget.INCOME_TREND.title',
 		info: 'statistics.widget.INCOME_TREND.info',
 		imgUrl: 'INCOME_TREND',
 	},
-	[WidgetType.EXPENSE_TREND]: {
-		type: WidgetType.EXPENSE_TREND,
+	[StatisticsWidgetType.EXPENSE_TREND]: {
+		type: StatisticsWidgetType.EXPENSE_TREND,
 		title: 'statistics.widget.EXPENSE_TREND.title',
 		info: 'statistics.widget.EXPENSE_TREND.info',
 		imgUrl: 'EXPENSE_TREND',
 	},
-	[WidgetType.BALANCE_TREND]: {
-		type: WidgetType.BALANCE_TREND,
+	[StatisticsWidgetType.BALANCE_TREND]: {
+		type: StatisticsWidgetType.BALANCE_TREND,
 		title: 'statistics.widget.BALANCE_TREND.title',
 		info: 'statistics.widget.BALANCE_TREND.info',
 		imgUrl: 'BALANCE_TREND',
 	},
-	[WidgetType.INCOME_CATEGORY_TREND]: {
-		type: WidgetType.INCOME_CATEGORY_TREND,
+	[StatisticsWidgetType.INCOME_CATEGORY_TREND]: {
+		type: StatisticsWidgetType.INCOME_CATEGORY_TREND,
 		title: 'statistics.widget.INCOME_CATEGORY_TREND.title',
 		info: 'statistics.widget.INCOME_CATEGORY_TREND.info',
 		imgUrl: 'INCOME_CATEGORY_TREND',
 	},
-	[WidgetType.EXPENSE_CATEGORY_TREND]: {
-		type: WidgetType.EXPENSE_CATEGORY_TREND,
+	[StatisticsWidgetType.EXPENSE_CATEGORY_TREND]: {
+		type: StatisticsWidgetType.EXPENSE_CATEGORY_TREND,
 		title: 'statistics.widget.EXPENSE_CATEGORY_TREND.title',
 		info: 'statistics.widget.EXPENSE_CATEGORY_TREND.info',
 		imgUrl: 'EXPENSE_CATEGORY_TREND',
 	},
-	[WidgetType.BALANCE_YEAR_COMPARISON]: {
-		type: WidgetType.BALANCE_YEAR_COMPARISON,
+	[StatisticsWidgetType.BALANCE_YEAR_COMPARISON]: {
+		type: StatisticsWidgetType.BALANCE_YEAR_COMPARISON,
 		title: 'statistics.widget.BALANCE_YEAR_COMPARISON.title',
 		info: 'statistics.widget.BALANCE_YEAR_COMPARISON.info',
 		imgUrl: 'BALANCE_YEAR_COMPARISON',
 	},
 
 	// Column/Bar
-	[WidgetType.INCOME_EXPENSE_COLUMN]: {
-		type: WidgetType.INCOME_EXPENSE_COLUMN,
+	[StatisticsWidgetType.INCOME_EXPENSE_COLUMN]: {
+		type: StatisticsWidgetType.INCOME_EXPENSE_COLUMN,
 		title: 'statistics.widget.INCOME_EXPENSE_COLUMN.title',
 		info: 'statistics.widget.INCOME_EXPENSE_COLUMN.info',
 		imgUrl: 'INCOME_EXPENSE_COLUMN',
 	},
-	[WidgetType.EXPENSE_CATEGORY_COLUMN]: {
-		type: WidgetType.EXPENSE_CATEGORY_COLUMN,
+	[StatisticsWidgetType.EXPENSE_CATEGORY_COLUMN]: {
+		type: StatisticsWidgetType.EXPENSE_CATEGORY_COLUMN,
 		title: 'statistics.widget.EXPENSE_CATEGORY_COLUMN.title',
 		info: 'statistics.widget.EXPENSE_CATEGORY_COLUMN.info',
 		imgUrl: 'EXPENSE_CATEGORY_COLUMN',
 	},
-	[WidgetType.MONTHLY_BALANCE_COLUMN]: {
-		type: WidgetType.MONTHLY_BALANCE_COLUMN,
+	[StatisticsWidgetType.MONTHLY_BALANCE_COLUMN]: {
+		type: StatisticsWidgetType.MONTHLY_BALANCE_COLUMN,
 		title: 'statistics.widget.MONTHLY_BALANCE_COLUMN.title',
 		info: 'statistics.widget.MONTHLY_BALANCE_COLUMN.info',
 		imgUrl: 'MONTHLY_BALANCE_COLUMN',
 	},
 
 	// Mixed
-	[WidgetType.EXPENSE_SAVINGS_COMBO]: {
-		type: WidgetType.EXPENSE_SAVINGS_COMBO,
+	[StatisticsWidgetType.EXPENSE_SAVINGS_COMBO]: {
+		type: StatisticsWidgetType.EXPENSE_SAVINGS_COMBO,
 		title: 'statistics.widget.EXPENSE_SAVINGS_COMBO.title',
 		info: 'statistics.widget.EXPENSE_SAVINGS_COMBO.info',
 		imgUrl: 'EXPENSE_SAVINGS_COMBO',
 	},
-	[WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO]: {
-		type: WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO,
+	[StatisticsWidgetType.TRANSACTION_COUNT_EXPENSE_COMBO]: {
+		type: StatisticsWidgetType.TRANSACTION_COUNT_EXPENSE_COMBO,
 		title: 'statistics.widget.TRANSACTION_COUNT_EXPENSE_COMBO.title',
 		info: 'statistics.widget.TRANSACTION_COUNT_EXPENSE_COMBO.info',
 		imgUrl: 'TRANSACTION_COUNT_EXPENSE_COMBO',
 	},
-	[WidgetType.WEALTH_GROWTH_COMBO]: {
-		type: WidgetType.WEALTH_GROWTH_COMBO,
+	[StatisticsWidgetType.WEALTH_GROWTH_COMBO]: {
+		type: StatisticsWidgetType.WEALTH_GROWTH_COMBO,
 		title: 'statistics.widget.WEALTH_GROWTH_COMBO.title',
 		info: 'statistics.widget.WEALTH_GROWTH_COMBO.info',
 		imgUrl: 'WEALTH_GROWTH_COMBO',
 	},
 
 	// Pie/Donut
-	[WidgetType.EXPENSE_PIE]: {
-		type: WidgetType.EXPENSE_PIE,
+	[StatisticsWidgetType.EXPENSE_PIE]: {
+		type: StatisticsWidgetType.EXPENSE_PIE,
 		title: 'statistics.widget.EXPENSE_PIE.title',
 		info: 'statistics.widget.EXPENSE_PIE.info',
 		imgUrl: 'EXPENSE_PIE',
 	},
-	[WidgetType.INCOME_PIE]: {
-		type: WidgetType.INCOME_PIE,
+	[StatisticsWidgetType.INCOME_PIE]: {
+		type: StatisticsWidgetType.INCOME_PIE,
 		title: 'statistics.widget.INCOME_PIE.title',
 		info: 'statistics.widget.INCOME_PIE.info',
 		imgUrl: 'INCOME_PIE',
 	},
 
 	// Radar
-	[WidgetType.SPENDING_RADAR]: {
-		type: WidgetType.SPENDING_RADAR,
+	[StatisticsWidgetType.SPENDING_RADAR]: {
+		type: StatisticsWidgetType.SPENDING_RADAR,
 		title: 'statistics.widget.SPENDING_RADAR.title',
 		info: 'statistics.widget.SPENDING_RADAR.info',
 		imgUrl: 'SPENDING_RADAR',
 	},
-	[WidgetType.MONTHLY_CATEGORY_RADAR]: {
-		type: WidgetType.MONTHLY_CATEGORY_RADAR,
+	[StatisticsWidgetType.MONTHLY_CATEGORY_RADAR]: {
+		type: StatisticsWidgetType.MONTHLY_CATEGORY_RADAR,
 		title: 'statistics.widget.MONTHLY_CATEGORY_RADAR.title',
 		info: 'statistics.widget.MONTHLY_CATEGORY_RADAR.info',
 		imgUrl: 'MONTHLY_CATEGORY_RADAR',
 	},
 
 	// Polar Area
-	[WidgetType.CATEGORY_AVG_POLAR]: {
-		type: WidgetType.CATEGORY_AVG_POLAR,
+	[StatisticsWidgetType.CATEGORY_AVG_POLAR]: {
+		type: StatisticsWidgetType.CATEGORY_AVG_POLAR,
 		title: 'statistics.widget.CATEGORY_AVG_POLAR.title',
 		info: 'statistics.widget.CATEGORY_AVG_POLAR.info',
 		imgUrl: 'CATEGORY_AVG_POLAR',
 	},
-	[WidgetType.MONTHLY_PEAK_POLAR]: {
-		type: WidgetType.MONTHLY_PEAK_POLAR,
+	[StatisticsWidgetType.MONTHLY_PEAK_POLAR]: {
+		type: StatisticsWidgetType.MONTHLY_PEAK_POLAR,
 		title: 'statistics.widget.MONTHLY_PEAK_POLAR.title',
 		info: 'statistics.widget.MONTHLY_PEAK_POLAR.info',
 		imgUrl: 'MONTHLY_PEAK_POLAR',
 	},
 
 	// Bubble
-	[WidgetType.CATEGORY_BUBBLE]: {
-		type: WidgetType.CATEGORY_BUBBLE,
+	[StatisticsWidgetType.CATEGORY_BUBBLE]: {
+		type: StatisticsWidgetType.CATEGORY_BUBBLE,
 		title: 'statistics.widget.CATEGORY_BUBBLE.title',
 		info: 'statistics.widget.CATEGORY_BUBBLE.info',
 		imgUrl: 'CATEGORY_BUBBLE',
 	},
 
 	// Scatter
-	[WidgetType.TRANSACTION_SCATTER]: {
-		type: WidgetType.TRANSACTION_SCATTER,
+	[StatisticsWidgetType.TRANSACTION_SCATTER]: {
+		type: StatisticsWidgetType.TRANSACTION_SCATTER,
 		title: 'statistics.widget.TRANSACTION_SCATTER.title',
 		info: 'statistics.widget.TRANSACTION_SCATTER.info',
 		imgUrl: 'TRANSACTION_SCATTER',
 	},
 
 	// Heatmap
-	[WidgetType.SPENDING_HEATMAP]: {
-		type: WidgetType.SPENDING_HEATMAP,
+	[StatisticsWidgetType.SPENDING_HEATMAP]: {
+		type: StatisticsWidgetType.SPENDING_HEATMAP,
 		title: 'statistics.widget.SPENDING_HEATMAP.title',
 		info: 'statistics.widget.SPENDING_HEATMAP.info',
 		imgUrl: 'SPENDING_HEATMAP',
 	},
 
 	// Treemap
-	[WidgetType.CATEGORY_TREEMAP]: {
-		type: WidgetType.CATEGORY_TREEMAP,
+	[StatisticsWidgetType.CATEGORY_TREEMAP]: {
+		type: StatisticsWidgetType.CATEGORY_TREEMAP,
 		title: 'statistics.widget.CATEGORY_TREEMAP.title',
 		info: 'statistics.widget.CATEGORY_TREEMAP.info',
 		imgUrl: 'CATEGORY_TREEMAP',
 	},
 
 	// Boxplot
-	[WidgetType.CATEGORY_BOXPLOT]: {
-		type: WidgetType.CATEGORY_BOXPLOT,
+	[StatisticsWidgetType.CATEGORY_BOXPLOT]: {
+		type: StatisticsWidgetType.CATEGORY_BOXPLOT,
 		title: 'statistics.widget.CATEGORY_BOXPLOT.title',
 		info: 'statistics.widget.CATEGORY_BOXPLOT.info',
 		imgUrl: 'CATEGORY_BOXPLOT',
 	},
-	[WidgetType.MONTHLY_BOXPLOT]: {
-		type: WidgetType.MONTHLY_BOXPLOT,
+	[StatisticsWidgetType.MONTHLY_BOXPLOT]: {
+		type: StatisticsWidgetType.MONTHLY_BOXPLOT,
 		title: 'statistics.widget.MONTHLY_BOXPLOT.title',
 		info: 'statistics.widget.MONTHLY_BOXPLOT.info',
 		imgUrl: 'MONTHLY_BOXPLOT',
 	},
 
 	// Gauge
-	[WidgetType.SAVINGS_RATE_GAUGE]: {
-		type: WidgetType.SAVINGS_RATE_GAUGE,
+	[StatisticsWidgetType.SAVINGS_RATE_GAUGE]: {
+		type: StatisticsWidgetType.SAVINGS_RATE_GAUGE,
 		title: 'statistics.widget.SAVINGS_RATE_GAUGE.title',
 		info: 'statistics.widget.SAVINGS_RATE_GAUGE.info',
 		imgUrl: 'SAVINGS_RATE_GAUGE',
 	},
 
 	// Slope
-	[WidgetType.YEARLY_SLOPE]: {
-		type: WidgetType.YEARLY_SLOPE,
+	[StatisticsWidgetType.YEARLY_SLOPE]: {
+		type: StatisticsWidgetType.YEARLY_SLOPE,
 		title: 'statistics.widget.YEARLY_SLOPE.title',
 		info: 'statistics.widget.YEARLY_SLOPE.info',
 		imgUrl: 'YEARLY_SLOPE',
 	},
 
 	// Sankey
-	[WidgetType.CATEGORY_SANKEY]: {
-		type: WidgetType.CATEGORY_SANKEY,
+	[StatisticsWidgetType.CATEGORY_SANKEY]: {
+		type: StatisticsWidgetType.CATEGORY_SANKEY,
 		title: 'statistics.widget.CATEGORY_SANKEY.title',
 		info: 'statistics.widget.CATEGORY_SANKEY.info',
 		imgUrl: 'CATEGORY_SANKEY',
 	},
 };
 
-export const GROUP_WIDGET_TYPES: Record<WidgetCatalogGroup, WidgetType[]> = {
-	all: Object.values(WidgetType).filter(type => type in WIDGET_METADATA),
+export const GROUP_WIDGET_TYPES: Record<WidgetCatalogGroup, StatisticsWidgetType[]> = {
+	all: Object.values(StatisticsWidgetType).filter(type => type in WIDGET_METADATA),
 	card: [
-		WidgetType.EXPENSE_FREQUENCY_STATCARD,
-		WidgetType.INCOME_FREQUENCY_STATCARD,
-		WidgetType.NO_SPEND_DAYS_STATCARD,
-		WidgetType.TOP_EXPENSE_CATEGORY_STATCARD,
-		WidgetType.TOP_INCOME_CATEGORY_STATCARD,
-		WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD,
-		WidgetType.TOP_INCOME_TRANSACTION_STATCARD,
-		WidgetType.BURN_RATE_STATCARD,
-		WidgetType.SAVINGS_RATE_STATCARD,
+		StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD,
+		StatisticsWidgetType.INCOME_FREQUENCY_STATCARD,
+		StatisticsWidgetType.NO_SPEND_DAYS_STATCARD,
+		StatisticsWidgetType.TOP_EXPENSE_CATEGORY_STATCARD,
+		StatisticsWidgetType.TOP_INCOME_CATEGORY_STATCARD,
+		StatisticsWidgetType.TOP_EXPENSE_TRANSACTION_STATCARD,
+		StatisticsWidgetType.TOP_INCOME_TRANSACTION_STATCARD,
+		StatisticsWidgetType.BURN_RATE_STATCARD,
+		StatisticsWidgetType.SAVINGS_RATE_STATCARD,
 	],
 	line_area: [
-		WidgetType.INCOME_TREND,
-		WidgetType.EXPENSE_TREND,
-		WidgetType.BALANCE_TREND,
-		WidgetType.INCOME_CATEGORY_TREND,
-		WidgetType.EXPENSE_CATEGORY_TREND,
-		WidgetType.BALANCE_YEAR_COMPARISON,
+		StatisticsWidgetType.INCOME_TREND,
+		StatisticsWidgetType.EXPENSE_TREND,
+		StatisticsWidgetType.BALANCE_TREND,
+		StatisticsWidgetType.INCOME_CATEGORY_TREND,
+		StatisticsWidgetType.EXPENSE_CATEGORY_TREND,
+		StatisticsWidgetType.BALANCE_YEAR_COMPARISON,
 	],
-	bar: [WidgetType.INCOME_EXPENSE_COLUMN, WidgetType.EXPENSE_CATEGORY_COLUMN, WidgetType.MONTHLY_BALANCE_COLUMN],
+	bar: [
+		StatisticsWidgetType.INCOME_EXPENSE_COLUMN,
+		StatisticsWidgetType.EXPENSE_CATEGORY_COLUMN,
+		StatisticsWidgetType.MONTHLY_BALANCE_COLUMN,
+	],
 	mixed: [
-		WidgetType.EXPENSE_SAVINGS_COMBO,
-		WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO,
-		WidgetType.WEALTH_GROWTH_COMBO,
+		StatisticsWidgetType.EXPENSE_SAVINGS_COMBO,
+		StatisticsWidgetType.TRANSACTION_COUNT_EXPENSE_COMBO,
+		StatisticsWidgetType.WEALTH_GROWTH_COMBO,
 	],
 	circular: [
-		WidgetType.EXPENSE_PIE,
-		WidgetType.INCOME_PIE,
-		WidgetType.SPENDING_RADAR,
-		WidgetType.MONTHLY_CATEGORY_RADAR,
-		WidgetType.CATEGORY_AVG_POLAR,
-		WidgetType.MONTHLY_PEAK_POLAR,
+		StatisticsWidgetType.EXPENSE_PIE,
+		StatisticsWidgetType.INCOME_PIE,
+		StatisticsWidgetType.SPENDING_RADAR,
+		StatisticsWidgetType.MONTHLY_CATEGORY_RADAR,
+		StatisticsWidgetType.CATEGORY_AVG_POLAR,
+		StatisticsWidgetType.MONTHLY_PEAK_POLAR,
 	],
-	point: [WidgetType.CATEGORY_BUBBLE, WidgetType.TRANSACTION_SCATTER, WidgetType.YEARLY_SLOPE],
+	point: [
+		StatisticsWidgetType.CATEGORY_BUBBLE,
+		StatisticsWidgetType.TRANSACTION_SCATTER,
+		StatisticsWidgetType.YEARLY_SLOPE,
+	],
 	other: [
-		WidgetType.SPENDING_HEATMAP,
-		WidgetType.CATEGORY_TREEMAP,
-		WidgetType.CATEGORY_BOXPLOT,
-		WidgetType.MONTHLY_BOXPLOT,
-		WidgetType.SAVINGS_RATE_GAUGE,
-		WidgetType.CATEGORY_SANKEY,
+		StatisticsWidgetType.SPENDING_HEATMAP,
+		StatisticsWidgetType.CATEGORY_TREEMAP,
+		StatisticsWidgetType.CATEGORY_BOXPLOT,
+		StatisticsWidgetType.MONTHLY_BOXPLOT,
+		StatisticsWidgetType.SAVINGS_RATE_GAUGE,
+		StatisticsWidgetType.CATEGORY_SANKEY,
 	],
 };
 
@@ -544,47 +552,49 @@ export const WIDGET_CATALOG: WidgetCatalogData[] = GROUP_ORDER.map(group => ({
 	widgets: GROUP_WIDGET_TYPES[group].filter(type => type in WIDGET_METADATA).map(type => WIDGET_METADATA[type]!),
 }));
 
-export const WIDGET_CATEGORY_TYPES: Partial<Record<WidgetType, CategoryType[]>> = {
-	[WidgetType.INCOME_TREND]: [CategoryType.INCOME],
-	[WidgetType.EXPENSE_TREND]: [CategoryType.EXPENSE],
-	[WidgetType.BALANCE_TREND]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.INCOME_CATEGORY_TREND]: [CategoryType.INCOME],
-	[WidgetType.EXPENSE_CATEGORY_TREND]: [CategoryType.EXPENSE],
-	[WidgetType.BALANCE_YEAR_COMPARISON]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.INCOME_EXPENSE_COLUMN]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.EXPENSE_CATEGORY_COLUMN]: [CategoryType.EXPENSE],
-	[WidgetType.MONTHLY_BALANCE_COLUMN]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.EXPENSE_SAVINGS_COMBO]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.WEALTH_GROWTH_COMBO]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.EXPENSE_PIE]: [CategoryType.EXPENSE],
-	[WidgetType.INCOME_PIE]: [CategoryType.INCOME],
-	[WidgetType.SPENDING_RADAR]: [CategoryType.EXPENSE],
-	[WidgetType.MONTHLY_CATEGORY_RADAR]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.CATEGORY_AVG_POLAR]: [CategoryType.EXPENSE],
-	[WidgetType.MONTHLY_PEAK_POLAR]: [CategoryType.EXPENSE],
-	[WidgetType.CATEGORY_BUBBLE]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.TRANSACTION_SCATTER]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.SPENDING_HEATMAP]: [CategoryType.EXPENSE],
-	[WidgetType.CATEGORY_TREEMAP]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.CATEGORY_BOXPLOT]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.MONTHLY_BOXPLOT]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.YEARLY_SLOPE]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.CATEGORY_SANKEY]: [CategoryType.INCOME, CategoryType.EXPENSE],
-	[WidgetType.EXPENSE_FREQUENCY_STATCARD]: [CategoryType.EXPENSE],
-	[WidgetType.INCOME_FREQUENCY_STATCARD]: [CategoryType.INCOME],
-	[WidgetType.NO_SPEND_DAYS_STATCARD]: [CategoryType.EXPENSE],
-	[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: [CategoryType.EXPENSE],
-	[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: [CategoryType.INCOME],
-	[WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD]: [CategoryType.EXPENSE],
-	[WidgetType.TOP_INCOME_TRANSACTION_STATCARD]: [CategoryType.INCOME],
-	[WidgetType.BURN_RATE_STATCARD]: [CategoryType.EXPENSE],
-	[WidgetType.SAVINGS_RATE_STATCARD]: [CategoryType.INCOME],
+export const WIDGET_CATEGORY_TYPES: Partial<Record<StatisticsWidgetType, CategoryType[]>> = {
+	[StatisticsWidgetType.INCOME_TREND]: [CategoryType.INCOME],
+	[StatisticsWidgetType.EXPENSE_TREND]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.BALANCE_TREND]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.INCOME_CATEGORY_TREND]: [CategoryType.INCOME],
+	[StatisticsWidgetType.EXPENSE_CATEGORY_TREND]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.BALANCE_YEAR_COMPARISON]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.INCOME_EXPENSE_COLUMN]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.EXPENSE_CATEGORY_COLUMN]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.MONTHLY_BALANCE_COLUMN]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.EXPENSE_SAVINGS_COMBO]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.TRANSACTION_COUNT_EXPENSE_COMBO]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.WEALTH_GROWTH_COMBO]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.EXPENSE_PIE]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.INCOME_PIE]: [CategoryType.INCOME],
+	[StatisticsWidgetType.SPENDING_RADAR]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.MONTHLY_CATEGORY_RADAR]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.CATEGORY_AVG_POLAR]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.MONTHLY_PEAK_POLAR]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.CATEGORY_BUBBLE]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.TRANSACTION_SCATTER]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.SPENDING_HEATMAP]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.CATEGORY_TREEMAP]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.CATEGORY_BOXPLOT]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.MONTHLY_BOXPLOT]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.YEARLY_SLOPE]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.CATEGORY_SANKEY]: [CategoryType.INCOME, CategoryType.EXPENSE],
+	[StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.INCOME_FREQUENCY_STATCARD]: [CategoryType.INCOME],
+	[StatisticsWidgetType.NO_SPEND_DAYS_STATCARD]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.TOP_INCOME_CATEGORY_STATCARD]: [CategoryType.INCOME],
+	[StatisticsWidgetType.TOP_EXPENSE_TRANSACTION_STATCARD]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.TOP_INCOME_TRANSACTION_STATCARD]: [CategoryType.INCOME],
+	[StatisticsWidgetType.BURN_RATE_STATCARD]: [CategoryType.EXPENSE],
+	[StatisticsWidgetType.SAVINGS_RATE_STATCARD]: [CategoryType.INCOME],
 };
 
-export const CATEGORY_FILTERABLE_WIDGET_TYPES: WidgetType[] = Object.keys(WIDGET_CATEGORY_TYPES) as WidgetType[];
+export const CATEGORY_FILTERABLE_WIDGET_TYPES: StatisticsWidgetType[] = Object.keys(
+	WIDGET_CATEGORY_TYPES,
+) as StatisticsWidgetType[];
 
-export const TIMEFRAME_HIDDEN_WIDGET_TYPES: WidgetType[] = [WidgetType.SPENDING_HEATMAP];
+export const TIMEFRAME_HIDDEN_WIDGET_TYPES: StatisticsWidgetType[] = [StatisticsWidgetType.SPENDING_HEATMAP];
 
 // ADMIN
 export const ADMIN_LEADERBOARD_CARDS: AdminWidgetType[] = [
