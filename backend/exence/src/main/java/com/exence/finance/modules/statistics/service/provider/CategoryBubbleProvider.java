@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.BubblePayload;
 import com.exence.finance.modules.statistics.dto.payload.BubblePoint;
 import com.exence.finance.modules.statistics.dto.payload.BubbleSeries;
@@ -21,8 +21,8 @@ public final class CategoryBubbleProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.CATEGORY_BUBBLE;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.CATEGORY_BUBBLE;
     }
 
     @Override
@@ -37,6 +37,6 @@ public final class CategoryBubbleProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new BubblePayload(allSeries);
+        return new BubblePayload(getSupportedType(), allSeries);
     }
 }

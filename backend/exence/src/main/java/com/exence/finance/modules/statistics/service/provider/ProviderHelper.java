@@ -3,6 +3,7 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
@@ -50,7 +51,11 @@ public class ProviderHelper {
     // --- BUILDERS ---
 
     public SeriesPayload buildMonthlyCategorySeriesPayload(
-            List<MonthlyCategoryResult> results, List<YearMonth> months, String seriesType, String totalColor) {
+            List<MonthlyCategoryResult> results,
+            List<YearMonth> months,
+            String seriesType,
+            String totalColor,
+            StatisticsWidgetType type) {
         Map<String, String> colors = getCategoryColorMap(results);
 
         // main series for each category
@@ -78,14 +83,15 @@ public class ProviderHelper {
             series.addFirst(new SeriesItem(i18n.get("label.total"), "line", totalColor, totalPoints));
         }
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(type, series);
     }
 
-    public DistributionPayload buildCategoryAmountDistributionPayload(List<CategoryAmountResult> results) {
+    public DistributionPayload buildCategoryAmountDistributionPayload(
+            List<CategoryAmountResult> results, StatisticsWidgetType type) {
         List<DistributionItem> items = results.stream()
                 .map(r -> new DistributionItem(r.categoryName(), r.totalAmount(), r.categoryColor()))
                 .toList();
-        return new DistributionPayload(items);
+        return new DistributionPayload(type, items);
     }
 
     // --- UTILITIES ---
@@ -175,7 +181,10 @@ public class ProviderHelper {
     }
 
     public StatCardPayload buildFrequencyStatCard(
-            WidgetRequest request, long currentCount, BiFunction<LocalDate, LocalDate, Long> countCalculator) {
+            WidgetRequest request,
+            long currentCount,
+            BiFunction<LocalDate, LocalDate, Long> countCalculator,
+            StatisticsWidgetType type) {
         long currentMonths = DateUtils.countMonths(request.startDate(), request.endDate());
         BigDecimal currentAvg = divideAsAvg(currentCount, currentMonths);
         String unitLabel = i18n.getUnitLabel(currentAvg, "unit.transaction", "unit.transactions");
@@ -187,6 +196,7 @@ public class ProviderHelper {
         });
 
         return new StatCardPayload(
+                type,
                 currentAvg,
                 unitLabel,
                 i18n.get("context.per-month"),

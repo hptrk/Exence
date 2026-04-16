@@ -58,6 +58,6 @@ public class GoalWidgetServiceImpl implements GoalWidgetService {
         }
 
         WidgetDataPayload payload = provider.getData(request);
-        return new GoalWidgetDataResponse(type, payload);
+        return new GoalWidgetDataResponse(payload);
     }
 }

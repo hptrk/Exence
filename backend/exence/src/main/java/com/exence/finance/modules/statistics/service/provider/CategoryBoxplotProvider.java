@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.BoxplotPayload;
 import com.exence.finance.modules.statistics.dto.payload.BoxplotPoint;
 import com.exence.finance.modules.statistics.dto.result.CategoryBoxplotResult;
@@ -20,8 +20,8 @@ public final class CategoryBoxplotProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.CATEGORY_BOXPLOT;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.CATEGORY_BOXPLOT;
     }
 
     @Override
@@ -34,6 +34,6 @@ public final class CategoryBoxplotProvider implements WidgetDataProvider {
                         row.name(), List.of(row.min(), row.q1(), row.median(), row.q3(), row.max()), row.color()))
                 .toList();
 
-        return new BoxplotPayload(points);
+        return new BoxplotPayload(getSupportedType(), points);
     }
 }

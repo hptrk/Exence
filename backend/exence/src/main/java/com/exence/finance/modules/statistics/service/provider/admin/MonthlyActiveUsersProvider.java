@@ -34,6 +34,7 @@ public final class MonthlyActiveUsersProvider implements AdminWidgetDataProvider
                         .toList();
 
         return new SeriesPayload(
+                getSupportedType(),
                 List.of(new SeriesItem(i18n.get("label.admin.monthly-active-users"), "column", null, dataPoints)));
     }
 }

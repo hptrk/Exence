@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.i18n.I18nService;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
 import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
@@ -23,8 +23,8 @@ public final class SavingsRateStatCardProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.SAVINGS_RATE_STATCARD;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.SAVINGS_RATE_STATCARD;
     }
 
     @Override
@@ -32,7 +32,14 @@ public final class SavingsRateStatCardProvider implements WidgetDataProvider {
         BigDecimal savingsRate = calculateSavingsRate(request.startDate(), request.endDate());
         TrendResult trend = providerHelper.computeTrendByDifference(request, savingsRate, this::calculateSavingsRate);
         return new StatCardPayload(
-                savingsRate, i18n.get("unit.percent"), null, trend.changePercentage(), trend.trend(), null, null);
+                getSupportedType(),
+                savingsRate,
+                i18n.get("unit.percent"),
+                null,
+                trend.changePercentage(),
+                trend.trend(),
+                null,
+                null);
     }
 
     private BigDecimal calculateSavingsRate(LocalDate start, LocalDate end) {

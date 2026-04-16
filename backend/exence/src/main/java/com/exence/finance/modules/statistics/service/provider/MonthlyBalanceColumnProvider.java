@@ -3,8 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -26,8 +26,8 @@ public final class MonthlyBalanceColumnProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.MONTHLY_BALANCE_COLUMN;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.MONTHLY_BALANCE_COLUMN;
     }
 
     @Override
@@ -44,6 +44,7 @@ public final class MonthlyBalanceColumnProvider implements WidgetDataProvider {
                         null))
                 .toList();
 
-        return new SeriesPayload(List.of(new SeriesItem(i18n.get("label.balance"), "column", null, points)));
+        return new SeriesPayload(
+                getSupportedType(), List.of(new SeriesItem(i18n.get("label.balance"), "column", null, points)));
     }
 }

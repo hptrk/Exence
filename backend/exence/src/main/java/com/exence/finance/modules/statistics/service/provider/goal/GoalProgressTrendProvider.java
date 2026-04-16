@@ -74,7 +74,7 @@ public final class GoalProgressTrendProvider implements GoalWidgetDataProvider {
 
         String categoryColor = goal.getCategory().getColor();
         SeriesItem series = new SeriesItem(goal.getTitle(), "line", categoryColor, dataPoints);
-        return new SeriesPayload(List.of(series));
+        return new SeriesPayload(getSupportedType(), List.of(series));
     }
 
     private Long extractGoalId(WidgetRequest request) {

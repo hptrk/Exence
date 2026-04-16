@@ -15,6 +15,7 @@ mockito = "5.15.2"
 querydsl = "5.1.0"
 argon2-jvm = "2.11"
 jacoco = "0.8.12"
+springdoc = "2.8.5"
 javers = "7.9.0"
 
 [libraries]
@@ -38,6 +39,7 @@ mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockito" }
 querydsl-jpa = { module = "com.querydsl:querydsl-jpa", version.ref = "querydsl" }
 querydsl-apt = { module = "com.querydsl:querydsl-apt", version.ref = "querydsl" }
 argon2-jvm = { module = "de.mkammerer:argon2-jvm", version.ref = "argon2-jvm" }
+springdoc-openapi-ui = { module = "org.springdoc:springdoc-openapi-starter-webmvc-ui", version.ref = "springdoc" }
 javers-spring-boot-starter-sql = { module = "org.javers:javers-spring-boot-starter-sql", version.ref = "javers" }
 
 [plugins]

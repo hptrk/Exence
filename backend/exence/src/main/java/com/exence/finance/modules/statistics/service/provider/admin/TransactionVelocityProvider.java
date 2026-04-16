@@ -32,6 +32,7 @@ public final class TransactionVelocityProvider implements AdminWidgetDataProvide
                         .toList();
 
         return new SeriesPayload(
+                getSupportedType(),
                 List.of(new SeriesItem(i18n.get("label.admin.transactions"), "bar", null, dataPoints)));
     }
 }

@@ -32,6 +32,6 @@ public final class TopActiveUsersProvider implements AdminWidgetDataProvider {
                         .map(r -> new LeaderboardEntry(rank.getAndIncrement(), r.username(), r.transactionCount()))
                         .toList();
 
-        return new LeaderboardPayload(entries);
+        return new LeaderboardPayload(getSupportedType(), entries);
     }
 }

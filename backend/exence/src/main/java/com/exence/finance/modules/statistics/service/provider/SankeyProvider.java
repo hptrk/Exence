@@ -2,8 +2,8 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.SankeyLink;
 import com.exence.finance.modules.statistics.dto.payload.SankeyPayload;
 import com.exence.finance.modules.statistics.dto.result.CategoryFlowResult;
@@ -23,8 +23,8 @@ public final class SankeyProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.CATEGORY_SANKEY;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.CATEGORY_SANKEY;
     }
 
     @Override
@@ -43,6 +43,6 @@ public final class SankeyProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new SankeyPayload(links);
+        return new SankeyPayload(getSupportedType(), links);
     }
 }

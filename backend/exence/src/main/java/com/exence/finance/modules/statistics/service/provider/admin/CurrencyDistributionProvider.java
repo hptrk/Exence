@@ -28,6 +28,6 @@ public final class CurrencyDistributionProvider implements AdminWidgetDataProvid
                         .map(r -> new DistributionItem(r.currency().name(), BigDecimal.valueOf(r.count()), null))
                         .toList();
 
-        return new DistributionPayload(items);
+        return new DistributionPayload(getSupportedType(), items);
     }
 }

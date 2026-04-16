@@ -3,8 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -29,8 +29,8 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.WEALTH_GROWTH_COMBO;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.WEALTH_GROWTH_COMBO;
     }
 
     @Override
@@ -53,9 +53,14 @@ public final class WealthGrowthComboProvider implements WidgetDataProvider {
             cumulativePoints.add(new DataPoint(month.toString(), cumulative, null));
         }
 
-        return new SeriesPayload(List.of(
-                new SeriesItem(
-                        i18n.get("label.profit"), "column", StatisticsConstants.COLOR_INCOME_GREEN, profitPoints),
-                new SeriesItem(i18n.get("label.cumulative-balance"), "line", null, cumulativePoints)));
+        return new SeriesPayload(
+                getSupportedType(),
+                List.of(
+                        new SeriesItem(
+                                i18n.get("label.profit"),
+                                "column",
+                                StatisticsConstants.COLOR_INCOME_GREEN,
+                                profitPoints),
+                        new SeriesItem(i18n.get("label.cumulative-balance"), "line", null, cumulativePoints)));
     }
 }

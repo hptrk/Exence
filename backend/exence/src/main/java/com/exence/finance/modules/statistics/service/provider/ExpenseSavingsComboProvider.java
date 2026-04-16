@@ -3,8 +3,8 @@ package com.exence.finance.modules.statistics.service.provider;
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -30,8 +30,8 @@ public final class ExpenseSavingsComboProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.EXPENSE_SAVINGS_COMBO;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.EXPENSE_SAVINGS_COMBO;
     }
 
     @Override
@@ -58,9 +58,14 @@ public final class ExpenseSavingsComboProvider implements WidgetDataProvider {
             savingsRatePoints.add(new DataPoint(month.toString(), savingsRate, null));
         });
 
-        return new SeriesPayload(List.of(
-                new SeriesItem(
-                        i18n.get("label.expense"), "column", StatisticsConstants.COLOR_EXPENSE_RED, expensePoints),
-                new SeriesItem(i18n.get("label.savings-rate"), "line", null, savingsRatePoints)));
+        return new SeriesPayload(
+                getSupportedType(),
+                List.of(
+                        new SeriesItem(
+                                i18n.get("label.expense"),
+                                "column",
+                                StatisticsConstants.COLOR_EXPENSE_RED,
+                                expensePoints),
+                        new SeriesItem(i18n.get("label.savings-rate"), "line", null, savingsRatePoints)));
     }
 }

@@ -4,11 +4,11 @@ import com.exence.finance.common.annotations.transaction.ReadTransactional;
 import com.exence.finance.common.annotations.transaction.WriteTransactional;
 import com.exence.finance.common.exception.ErrorCode;
 import com.exence.finance.common.exception.ExenceException;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.Timeframe;
 import com.exence.finance.modules.statistics.dto.UpdateLayoutRequest;
 import com.exence.finance.modules.statistics.dto.WidgetCreateDTO;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.WidgetDataPayload;
 import com.exence.finance.modules.statistics.dto.response.WidgetDataResponse;
 import com.exence.finance.modules.statistics.dto.response.WidgetLayoutResponse;
@@ -48,18 +48,18 @@ public class WidgetServiceImpl implements WidgetService {
     private final WidgetSettingsValidator widgetSettingsValidator;
     private final List<WidgetDataProvider> providers;
 
-    private Map<WidgetType, WidgetDataProvider> providerMap;
+    private Map<StatisticsWidgetType, WidgetDataProvider> providerMap;
 
     @PostConstruct
     private void init() {
-        Map<WidgetType, WidgetDataProvider> map = new HashMap<>(providers.stream()
+        Map<StatisticsWidgetType, WidgetDataProvider> map = new HashMap<>(providers.stream()
                 .collect(Collectors.toMap(WidgetDataProvider::getSupportedType, Function.identity())));
 
         // add balance trend provider under both its own type and the dashboard-specific type
         providers.stream()
-                .filter(p -> p.getSupportedType() == WidgetType.BALANCE_TREND)
+                .filter(p -> p.getSupportedType() == StatisticsWidgetType.BALANCE_TREND)
                 .findFirst()
-                .ifPresent(provider -> map.put(WidgetType.DASHBOARD_BALANCE_TREND, provider));
+                .ifPresent(provider -> map.put(StatisticsWidgetType.DASHBOARD_BALANCE_TREND, provider));
 
         this.providerMap = Map.copyOf(map);
     }
@@ -68,7 +68,7 @@ public class WidgetServiceImpl implements WidgetService {
     @ReadTransactional
     public WidgetLayoutResponse getLayout() {
         List<Widget> widgets = widgetRepository.findAllWidgets().stream()
-                .filter(widget -> !widget.getType().equals(WidgetType.DASHBOARD_BALANCE_TREND))
+                .filter(widget -> !widget.getType().equals(StatisticsWidgetType.DASHBOARD_BALANCE_TREND))
                 .toList();
 
         return new WidgetLayoutResponse(
@@ -141,7 +141,7 @@ public class WidgetServiceImpl implements WidgetService {
 
         List<Long> idsToDelete = existingWidgets.keySet().stream()
                 .filter(id -> !incomingIds.contains(id))
-                .filter(id -> existingWidgets.get(id).getType() != WidgetType.DASHBOARD_BALANCE_TREND)
+                .filter(id -> existingWidgets.get(id).getType() != StatisticsWidgetType.DASHBOARD_BALANCE_TREND)
                 .toList();
 
         if (!idsToDelete.isEmpty()) {
@@ -172,14 +172,14 @@ public class WidgetServiceImpl implements WidgetService {
         }
 
         WidgetDataPayload payload = provider.getData(request);
-        return new WidgetDataResponse(widget.getId(), widget.getType(), payload, widget.getSettings());
+        return new WidgetDataResponse(widget.getId(), payload, widget.getSettings());
     }
 
     @Override
     @ReadTransactional
     public WidgetDataResponse getDashboardBalanceTrend(Timeframe timeframe) {
         Widget widget = widgetRepository
-                .findFirstByType(WidgetType.DASHBOARD_BALANCE_TREND)
+                .findFirstByType(StatisticsWidgetType.DASHBOARD_BALANCE_TREND)
                 .orElseThrow(() -> new ExenceException(ErrorCode.WIDGET_NOT_FOUND));
 
         return getWidgetData(widget.getId(), timeframe);
@@ -190,7 +190,7 @@ public class WidgetServiceImpl implements WidgetService {
     public void createDefaultDashboardWidget(Workspace workspace) {
         Widget widget = Widget.builder()
                 .workspace(workspace)
-                .type(WidgetType.DASHBOARD_BALANCE_TREND)
+                .type(StatisticsWidgetType.DASHBOARD_BALANCE_TREND)
                 .title("Balance Trend")
                 .timeframe(Timeframe.YTD)
                 .displayOrder(0)

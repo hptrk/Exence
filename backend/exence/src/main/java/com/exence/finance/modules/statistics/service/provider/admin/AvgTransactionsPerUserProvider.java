@@ -39,6 +39,7 @@ public final class AvgTransactionsPerUserProvider implements AdminWidgetDataProv
                         .toList();
 
         return new SeriesPayload(
+                getSupportedType(),
                 List.of(new SeriesItem(i18n.get("label.admin.avg-transactions-per-user"), "line", null, dataPoints)));
     }
 }

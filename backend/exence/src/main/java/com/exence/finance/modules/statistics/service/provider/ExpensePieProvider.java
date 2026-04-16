@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DistributionPayload;
 import com.exence.finance.modules.statistics.dto.result.CategoryAmountResult;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
@@ -21,8 +21,8 @@ public final class ExpensePieProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.EXPENSE_PIE;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.EXPENSE_PIE;
     }
 
     @Override
@@ -30,6 +30,6 @@ public final class ExpensePieProvider implements WidgetDataProvider {
         StatisticsFilter filter = filterFactory.fromRequest(request, TransactionType.EXPENSE);
         List<CategoryAmountResult> results = statisticsQueryService.findCategoryStatsAmount(filter);
 
-        return providerHelper.buildCategoryAmountDistributionPayload(results);
+        return providerHelper.buildCategoryAmountDistributionPayload(results, getSupportedType());
     }
 }

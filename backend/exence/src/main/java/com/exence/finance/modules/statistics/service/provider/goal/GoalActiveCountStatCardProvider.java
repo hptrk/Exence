@@ -25,6 +25,7 @@ public final class GoalActiveCountStatCardProvider implements GoalWidgetDataProv
     @Override
     public StatCardPayload getData(WidgetRequest request) {
         long count = goalRepository.countByStatus(GoalStatus.ACTIVE);
-        return new StatCardPayload(BigDecimal.valueOf(count), i18n.get("label.goals"), null, null, null, null, null);
+        return new StatCardPayload(
+                getSupportedType(), BigDecimal.valueOf(count), i18n.get("label.goals"), null, null, null, null, null);
     }
 }

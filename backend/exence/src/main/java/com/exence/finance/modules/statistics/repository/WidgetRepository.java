@@ -1,6 +1,6 @@
 package com.exence.finance.modules.statistics.repository;
 
-import com.exence.finance.modules.statistics.dto.WidgetType;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.entity.Widget;
 import java.util.List;
 import java.util.Optional;
@@ -18,5 +18,5 @@ public interface WidgetRepository extends JpaRepository<Widget, Long> {
     @Query("SELECT w FROM Widget w")
     List<Widget> findAllWidgets();
 
-    Optional<Widget> findFirstByType(WidgetType type);
+    Optional<Widget> findFirstByType(StatisticsWidgetType type);
 }

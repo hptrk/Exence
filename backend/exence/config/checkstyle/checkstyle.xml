@@ -65,6 +65,7 @@
     <module name="MissingOverride"/>
     <module name="MagicNumber">
       <property name="ignoreNumbers" value="-1, 0, 1, 2"/>
+      <property name="ignoreAnnotation" value="true"/>
     </module>
     <module name="RegexpSinglelineJava">
       <property name="format" value="System\.out\.println"/>
@@ -101,6 +102,12 @@
       <property name="files" value=".*[\\/]src[\\/]test[\\/].*"/>
     </module>
 
-
   </module>
+
+  <!-- Allow long lines in DTOs and controllers, for documentation -->
+  <module name="SuppressionSingleFilter">
+    <property name="checks" value="LineLength"/>
+    <property name="files" value="[\\/]dto[\\/]|[\\/]controller[\\/]"/>
+  </module>
+
 </module>

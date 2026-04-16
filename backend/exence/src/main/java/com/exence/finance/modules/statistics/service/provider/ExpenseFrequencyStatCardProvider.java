@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
 import com.exence.finance.modules.statistics.service.StatisticsFilterFactory;
@@ -19,8 +19,8 @@ public final class ExpenseFrequencyStatCardProvider implements WidgetDataProvide
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.EXPENSE_FREQUENCY_STATCARD;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD;
     }
 
     @Override
@@ -32,6 +32,7 @@ public final class ExpenseFrequencyStatCardProvider implements WidgetDataProvide
                 request,
                 currentCount,
                 (s, e) -> statisticsQueryService.countTransactionsByType(
-                        filterFactory.fromRequest(request.withDates(s, e), TransactionType.EXPENSE)));
+                        filterFactory.fromRequest(request.withDates(s, e), TransactionType.EXPENSE)),
+                getSupportedType());
     }
 }

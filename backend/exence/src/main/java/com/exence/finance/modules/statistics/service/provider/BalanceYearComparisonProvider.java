@@ -2,8 +2,8 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -31,8 +31,8 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
     private final I18nService i18n;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.BALANCE_YEAR_COMPARISON;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.BALANCE_YEAR_COMPARISON;
     }
 
     @Override
@@ -59,6 +59,6 @@ public final class BalanceYearComparisonProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(getSupportedType(), series);
     }
 }

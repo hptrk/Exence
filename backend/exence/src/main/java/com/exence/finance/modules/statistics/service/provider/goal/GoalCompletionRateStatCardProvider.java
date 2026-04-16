@@ -36,6 +36,6 @@ public final class GoalCompletionRateStatCardProvider implements GoalWidgetDataP
                         .multiply(BigDecimal.valueOf(PERCENTAGE_MULTIPLIER))
                         .setScale(2, RoundingMode.HALF_UP);
 
-        return new StatCardPayload(rate, "%", null, null, null, null, null);
+        return new StatCardPayload(getSupportedType(), rate, "%", null, null, null, null, null);
     }
 }

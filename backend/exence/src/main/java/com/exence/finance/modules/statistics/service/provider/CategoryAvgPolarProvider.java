@@ -1,8 +1,8 @@
 package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DistributionItem;
 import com.exence.finance.modules.statistics.dto.payload.DistributionPayload;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
@@ -20,8 +20,8 @@ public final class CategoryAvgPolarProvider implements WidgetDataProvider {
     private final StatisticsFilterFactory filterFactory;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.CATEGORY_AVG_POLAR;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.CATEGORY_AVG_POLAR;
     }
 
     @Override
@@ -31,6 +31,6 @@ public final class CategoryAvgPolarProvider implements WidgetDataProvider {
                 .map(r -> new DistributionItem(r.categoryName(), r.avgAmount(), r.categoryColor()))
                 .toList();
 
-        return new DistributionPayload(items);
+        return new DistributionPayload(getSupportedType(), items);
     }
 }

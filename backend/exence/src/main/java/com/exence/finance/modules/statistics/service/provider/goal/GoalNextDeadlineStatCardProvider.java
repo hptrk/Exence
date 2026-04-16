@@ -32,13 +32,21 @@ public final class GoalNextDeadlineStatCardProvider implements GoalWidgetDataPro
 
         if (nextGoal.isEmpty()) {
             return new StatCardPayload(
-                    null, i18n.get("unit.days"), i18n.get("context.no-deadline"), null, null, null, null);
+                    getSupportedType(),
+                    null,
+                    i18n.get("unit.days"),
+                    i18n.get("context.no-deadline"),
+                    null,
+                    null,
+                    null,
+                    null);
         }
 
         Goal goal = nextGoal.get();
         long daysLeft = ChronoUnit.DAYS.between(LocalDate.now(), goal.getDeadline());
         String unitLabel = i18n.getUnitLabel(daysLeft, "unit.day", "unit.days");
 
-        return new StatCardPayload(BigDecimal.valueOf(daysLeft), unitLabel, goal.getTitle(), null, null, null, null);
+        return new StatCardPayload(
+                getSupportedType(), BigDecimal.valueOf(daysLeft), unitLabel, goal.getTitle(), null, null, null, null);
     }
 }

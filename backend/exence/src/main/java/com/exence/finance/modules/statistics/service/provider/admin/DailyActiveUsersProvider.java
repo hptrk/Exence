@@ -32,6 +32,7 @@ public final class DailyActiveUsersProvider implements AdminWidgetDataProvider {
                         .toList();
 
         return new SeriesPayload(
+                getSupportedType(),
                 List.of(new SeriesItem(i18n.get("label.admin.daily-active-users"), "area", null, dataPoints)));
     }
 }

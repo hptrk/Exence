@@ -2,8 +2,8 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.StatCardPayload;
 import com.exence.finance.modules.statistics.dto.result.TopTransactionResult;
 import com.exence.finance.modules.statistics.repository.StatisticsQueryService;
@@ -23,8 +23,8 @@ public final class TopExpenseTransactionStatCardProvider implements WidgetDataPr
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.TOP_EXPENSE_TRANSACTION_STATCARD;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.TOP_EXPENSE_TRANSACTION_STATCARD;
     }
 
     @Override
@@ -34,7 +34,14 @@ public final class TopExpenseTransactionStatCardProvider implements WidgetDataPr
 
         if (current == null) {
             return new StatCardPayload(
-                    BigDecimal.ZERO, null, i18n.get("label.no-transactions"), null, null, null, null);
+                    getSupportedType(),
+                    BigDecimal.ZERO,
+                    null,
+                    i18n.get("label.no-transactions"),
+                    null,
+                    null,
+                    null,
+                    null);
         }
 
         TrendResult trend = providerHelper.computeTrend(request, current.amount(), (s, e) -> {
@@ -44,6 +51,7 @@ public final class TopExpenseTransactionStatCardProvider implements WidgetDataPr
         });
 
         return new StatCardPayload(
+                getSupportedType(),
                 current.amount(),
                 null,
                 current.title(),

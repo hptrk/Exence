@@ -2,8 +2,8 @@ package com.exence.finance.modules.statistics.service.provider;
 
 import com.exence.finance.common.util.DateUtils;
 import com.exence.finance.modules.statistics.dto.StatisticsFilter;
+import com.exence.finance.modules.statistics.dto.StatisticsWidgetType;
 import com.exence.finance.modules.statistics.dto.WidgetRequest;
-import com.exence.finance.modules.statistics.dto.WidgetType;
 import com.exence.finance.modules.statistics.dto.payload.DataPoint;
 import com.exence.finance.modules.statistics.dto.payload.SeriesItem;
 import com.exence.finance.modules.statistics.dto.payload.SeriesPayload;
@@ -26,8 +26,8 @@ public final class MonthlyCategoryRadarProvider implements WidgetDataProvider {
     private final ProviderHelper providerHelper;
 
     @Override
-    public WidgetType getSupportedType() {
-        return WidgetType.MONTHLY_CATEGORY_RADAR;
+    public StatisticsWidgetType getSupportedType() {
+        return StatisticsWidgetType.MONTHLY_CATEGORY_RADAR;
     }
 
     @Override
@@ -48,6 +48,6 @@ public final class MonthlyCategoryRadarProvider implements WidgetDataProvider {
                 })
                 .toList();
 
-        return new SeriesPayload(series);
+        return new SeriesPayload(getSupportedType(), series);
     }
 }

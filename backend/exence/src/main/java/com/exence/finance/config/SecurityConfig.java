@@ -32,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**")
+                .authorizeHttpRequests(req -> req.requestMatchers("/api/auth/**", "/docs.html", "/v3/api-docs/**")
                         .permitAll()
                         .requestMatchers("/api/admin/**")
                         .hasRole("ADMIN")
