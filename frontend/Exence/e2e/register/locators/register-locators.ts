@@ -10,6 +10,14 @@ export const getUsernameClearBtn = (page: Page): Locator => page.getByTestId('us
 
 export const getCurrencySelect = (page: Page): Locator => page.getByTestId('currencySelect');
 
+export const getCurrencyOption = (page: Page): Locator => page.getByTestId('currencyOption');
+
+export const getWorkspaceNameField = (page: Page): Locator => page.getByTestId('workspaceNameField');
+
+export const getWorkspaceNameError = (page: Page): Locator => page.getByTestId('workspaceNameError');
+
+export const getWorkspaceNameClearBtn = (page: Page): Locator => page.getByTestId('workspaceNameClearBtn');
+
 export const getEmailField = (page: Page): Locator => page.getByTestId('emailField');
 
 export const getEmailError = (page: Page): Locator => page.getByTestId('emailError');

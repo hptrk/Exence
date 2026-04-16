@@ -15,6 +15,7 @@ import { InputClearButtonComponent } from '../../shared/input-clear-button/input
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
+import { WorkspaceService } from '../../shared/workspace.service';
 import { ValidatorComponent } from '../../shared/validator/validator.component';
 import { ExtraValidators } from '../../shared/validators';
 import { AutoTrimDirective } from '../../shared/auto-trim.directive';
@@ -48,6 +49,7 @@ export class LoginComponent extends BaseComponent {
 	private readonly authService = inject(AuthService);
 	private readonly router = inject(Router);
 	private readonly currentUserService = inject(CurrentUserService);
+	private readonly workspaceService = inject(WorkspaceService);
 	private readonly snackbarService = inject(SnackbarService);
 	private readonly translocoService = inject(TranslocoService);
 	readonly navigationService = inject(NavigationService);
@@ -76,6 +78,7 @@ export class LoginComponent extends BaseComponent {
 			return;
 		}
 		this.currentUserService.user = resp.user;
+		await this.workspaceService.init(resp.workspaceId);
 		this.router.navigateByUrl(this.navigationService.private().dashboard());
 	}
 }

@@ -91,23 +91,25 @@ export class ChartWidgetComponent extends BaseComponent {
 				return;
 			}
 
-			if (this.noRequest() && this.payload()) {
-				const payload = this.payload()!;
-				const providerFn = mapToProvider<typeof payload>(this.type());
-				const currencyFormatter = this.disableCurrencyFormat()
-					? undefined
-					: (v: number) => this.currencyPipe.transform(v, currency);
-				this.data.set(
-					providerFn(
-						payload,
-						this.widget().title,
-						this.translocoService.getActiveLang(),
-						undefined,
-						currencyFormatter,
-						this.widget().type as WidgetType,
-					) as Partial<ApexOptions>,
-				);
-				this.isLoading.set(false);
+			if (this.noRequest()) {
+				if (this.payload()) {
+					const payload = this.payload()!;
+					const providerFn = mapToProvider<typeof payload>(this.type());
+					const currencyFormatter = this.disableCurrencyFormat()
+						? undefined
+						: (v: number) => this.currencyPipe.transform(v, currency);
+					this.data.set(
+						providerFn(
+							payload,
+							this.widget().title,
+							this.translocoService.getActiveLang(),
+							undefined,
+							currencyFormatter,
+							this.widget().type as WidgetType,
+						) as Partial<ApexOptions>,
+					);
+					this.isLoading.set(false);
+				}
 				return;
 			}
 

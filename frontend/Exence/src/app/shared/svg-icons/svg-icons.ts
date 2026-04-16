@@ -9,4 +9,6 @@ export enum SvgIcons {
 	firstPlace = 'first-place',
 	secondPlace = 'second-place',
 	thridPlace = 'third-place',
+	workspaceRoleOwner = 'workspace-role-owner',
+	workspaceRoleMember = 'workspace-role-member',
 }

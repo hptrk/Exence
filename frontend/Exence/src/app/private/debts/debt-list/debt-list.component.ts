@@ -82,19 +82,10 @@ export class DebtListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({
-			key: 'title',
-			header: this.translocoService.translate('debts.titleLabel'),
-			width: '35%',
-		});
-		columns.push({ key: 'remaining', header: this.translocoService.translate('literals.amount'), width: '120px' });
-		if (this.display.isMd())
-			columns.push({
-				key: 'days',
-				header: this.translocoService.translate('debts.days'),
-				width: '70px',
-			});
-		columns.push({ key: 'category', header: this.translocoService.translate('literals.category'), width: '50px' });
+		columns.push({ key: 'title', header: 'debts.titleLabel', width: '35%' });
+		columns.push({ key: 'remaining', header: 'literals.amount', width: '120px' });
+		if (this.display.isMd()) columns.push({ key: 'days', header: 'debts.days', width: '70px' });
+		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
 		columns.push({ key: 'actions', header: '', width: '60px' });
 		return columns;
 	});
@@ -104,12 +95,12 @@ export class DebtListComponent {
 
 	actions: TableAction<DebtModel>[] = [
 		{
-			label: this.translocoService.translate('literals.edit'),
+			label: 'literals.edit',
 			icon: 'edit',
 			handler: row => this.edit(row),
 		},
 		{
-			label: this.translocoService.translate('literals.delete'),
+			label: 'literals.delete',
 			icon: 'delete',
 			color: 'var(--error-color)',
 			handler: row => this.store.deleteDebt(row.id),

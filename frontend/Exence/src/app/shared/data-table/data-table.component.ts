@@ -30,15 +30,16 @@ import { TranslatePipe } from '../pipes/translate.pipe';
 import { StopPropagationDirective } from '../stop-propagation.directive';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { ExCellDirective } from './ex-cell.directive';
+import { TranslationCode } from '../i18n/translation-types';
 
 export interface ColumnDef {
 	key: string;
-	header: string;
+	header: TranslationCode;
 	width?: string;
 }
 
 export interface TableAction<T = unknown> {
-	label: string;
+	label: TranslationCode;
 	icon: string;
 	color?: string;
 	handler: (row: T) => void;

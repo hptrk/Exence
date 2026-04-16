@@ -49,38 +49,18 @@ export class InvestmentListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const cols: ColumnDef[] = [];
-		cols.push({
-			key: 'title',
-			header: this.translocoService.translate('investments.name'),
-			width: '35%',
-		});
-		if (this.display.isMd()) {
-			cols.push({
-				key: 'lastAction',
-				header: this.translocoService.translate('investments.lastAction'),
-				width: '110px',
-			});
-		}
-		cols.push({
-			key: 'totalInvested',
-			header: this.translocoService.translate('investments.totalInvested'),
-			width: '130px',
-		});
-		if (this.display.isMd()) {
-			cols.push({ key: 'type', header: this.translocoService.translate('investments.type'), width: '80px' });
-		}
-		cols.push({
-			key: 'purchases',
-			header: this.translocoService.translate('investments.transactions'),
-			width: '100px',
-		});
+		cols.push({ key: 'title', header: 'investments.name', width: '35%' });
+		if (this.display.isMd()) cols.push({ key: 'lastAction', header: 'investments.lastAction', width: '110px' });
+		cols.push({ key: 'totalInvested', header: 'investments.totalInvested', width: '130px' });
+		if (this.display.isMd()) cols.push({ key: 'type', header: 'investments.type', width: '80px' });
+		cols.push({ key: 'purchases', header: 'investments.transactions', width: '100px' });
 		cols.push({ key: 'actions', header: '', width: '60px' });
 		return cols;
 	});
 
 	actions: TableAction<InvestmentGroupRow>[] = [
 		{
-			label: this.translocoService.translate('investments.addPurchase'),
+			label: 'investments.addPurchase',
 			icon: 'add',
 			handler: row => this.openAddPurchase(row),
 		},

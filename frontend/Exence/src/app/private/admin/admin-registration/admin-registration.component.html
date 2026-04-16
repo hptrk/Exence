@@ -25,6 +25,15 @@
 				</mat-error>
 			</mat-form-field>
 		</div>
+		@let workspaceNameControl = form.controls.workspaceName;
+		<mat-form-field>
+			<mat-label>{{ 'registration.workspaceName' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="workspaceNameControl" />
+			<ex-input-clear matSuffix [control]="workspaceNameControl" />
+			<mat-error>
+				<ex-validator [control]="workspaceNameControl" />
+			</mat-error>
+		</mat-form-field>
 		@let emailControl = form.controls.email;
 		<mat-form-field>
 			<mat-label>{{ 'registration.email' | translate }}</mat-label>

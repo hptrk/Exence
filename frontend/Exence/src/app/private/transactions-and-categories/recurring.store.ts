@@ -11,6 +11,7 @@ import { RecurringTransactionCreate } from '../../data-model/modules/transaction
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { RecurringTransactionPatch } from '../../data-model/modules/transaction/RecurringTransactionPatch';
 import { CurrencyService } from '../../shared/currency.service';
+import { WorkspaceService } from '../../shared/workspace.service';
 
 export interface RecurringTransactionStoreDate {
 	// Page
@@ -205,6 +206,17 @@ export const RecurringStore = signalStore(
 				const current = baseCurrency();
 				if (current !== previousCurrency) {
 					previousCurrency = current;
+					untracked(() => store.resetState());
+				}
+			});
+
+			const workspaceService = inject(WorkspaceService);
+			let previousWorkspace = untracked(() => workspaceService.currentWorkspace());
+
+			effect(() => {
+				const current = workspaceService.currentWorkspace();
+				if (current !== previousWorkspace) {
+					previousWorkspace = current;
 					untracked(() => store.resetState());
 				}
 			});

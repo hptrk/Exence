@@ -19,6 +19,7 @@
 					class="flex-grow-1"
 					[widget]="dashboardWidget()!"
 					noRequest
+					[payload]="dashboardPayload()"
 					[editing]="false"
 					(timeframeChanged)="chartTimeframe.set($event)"
 				/>

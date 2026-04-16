@@ -64,6 +64,7 @@ export class RegistrationComponent extends BaseComponent {
 
 	form = this.fb.group({
 		username: this.fb.control<string>('', [Validators.required, Validators.maxLength(255)]),
+		workspaceName: this.fb.control<string>('', [Validators.required, Validators.maxLength(100)]),
 		email: this.fb.control<string>('', [Validators.required, Validators.email]),
 		password: this.fb.control<string>('', [Validators.required, ExtraValidators.password]),
 		confirmPassword: this.fb.control<string>('', [
@@ -86,6 +87,7 @@ export class RegistrationComponent extends BaseComponent {
 			password: formValue.password,
 			confirmPassword: formValue.confirmPassword,
 			baseCurrency: formValue.currency,
+			workspaceName: formValue.workspaceName,
 		};
 		await this.authService.register(request);
 		this.snackbarService.showSuccess(this.translocoService.translate('registration.success'));

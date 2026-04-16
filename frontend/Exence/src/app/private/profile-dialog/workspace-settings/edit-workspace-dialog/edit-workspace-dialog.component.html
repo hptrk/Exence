@@ -1,0 +1,29 @@
+<ex-dialog-card [formGroup]="form" (submit)="submit()" [confirmExitDialog]="dialogRef">
+	<div ex-dialog-card-title>{{ 'profile.workspaces.edit.title' | translate }}</div>
+
+	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
+		@let nameControl = form.controls.name;
+		<mat-form-field>
+			<mat-label>{{ 'profile.workspaces.edit.nameLabel' | translate }}</mat-label>
+			<input matInput autoTrim [formControl]="nameControl" />
+			<ex-input-clear matSuffix [control]="nameControl" />
+			<mat-error>
+				<ex-validator [control]="nameControl" />
+			</mat-error>
+		</mat-form-field>
+
+		<ex-button class="d-none" type="submit" />
+	</form>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
+		<ex-button filled color="primary" matIcon="save" [disabled]="form.invalid" (click)="submit()">
+			{{ 'literals.save' | translate }}
+		</ex-button>
+	</div>
+</ex-dialog-card>

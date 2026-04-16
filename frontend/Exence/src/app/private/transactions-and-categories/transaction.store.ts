@@ -10,6 +10,7 @@ import { TransactionTotalsResponse } from '../../data-model/modules/transaction/
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { CurrencyService } from '../../shared/currency.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
+import { WorkspaceService } from '../../shared/workspace.service';
 import { CategoryStore } from './category.store';
 import { TransactionService } from './transaction.service';
 
@@ -240,6 +241,17 @@ export const TransactionStore = signalStore(
 				const current = baseCurrency();
 				if (current !== previousCurrency) {
 					previousCurrency = current;
+					untracked(() => store.resetState());
+				}
+			});
+
+			const workspaceService = inject(WorkspaceService);
+			let previousWorkspace = untracked(() => workspaceService.currentWorkspace());
+
+			effect(() => {
+				const current = workspaceService.currentWorkspace();
+				if (current !== previousWorkspace) {
+					previousWorkspace = current;
 					untracked(() => store.resetState());
 				}
 			});

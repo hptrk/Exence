@@ -13,6 +13,7 @@
 		"delete": "Elimina",
 		"edit": "Modifica",
 		"cancel": "Annulla",
+		"leave": "Abbandona",
 		"next": "Avanti",
 		"back": "Indietro",
 		"continue": "Continua",
@@ -173,6 +174,56 @@
 				}
 			},
 			"success": "Impostazioni utente aggiornate con successo!"
+		},
+		"switchWorkspace": "Switch workspace",
+		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"currentWorkspace": "Attuale",
+		"workspaces": {
+			"yourWorkspaces": "I tuoi spazi di lavoro",
+			"new": "Nuovo",
+			"create": {
+				"title": "Crea spazio di lavoro",
+				"nameLabel": "Nome",
+				"currencyLabel": "Valuta base",
+				"success": "Workspace '{{workspaceName}}' created successfully!"
+			},
+			"edit": {
+				"title": "Modifica area di lavoro",
+				"nameLabel": "Nome",
+				"success": "Successfully updated workspace!"
+			},
+			"members": "Membri",
+			"noMembers": "Nessun membro",
+			"roleOwner": "Proprietario",
+			"roleMember": "Membro",
+			"joinedAt": "Iscritto il",
+			"deleteWorkspace": {
+				"title": "Elimina area di lavoro",
+				"message": "Sei sicuro di voler eliminare questa area di lavoro? Questa azione non può essere annullata.",
+				"disabledOtherMembers": "Non puoi eliminare un'area di lavoro finché ci sono altri membri al suo interno.",
+				"disabledActive": "Non puoi disabilitare l'area di lavoro mentre la stai attualmente utilizzando.",
+				"success": "Area di lavoro '{{workspaceName}}' eliminata!"
+			},
+			"kickMember": {
+				"title": "Espelli membro",
+				"message": "Sei sicuro di voler espellere {{name}} da questa area di lavoro?",
+				"success": "'{{memberEmail}}' kicked!"
+			},
+			"leaveWorkspace": {
+				"title": "Abbandona area di lavoro",
+				"message": "Sei sicuro di voler abbandonare questa area di lavoro?",
+				"success": "Successfully left '{{workspaceName}}' workspace!"
+			},
+			"addMember": {
+				"title": "Aggiungi membro",
+				"emailLabel": "Indirizzo e-mail",
+				"button": "Nuovo membro",
+				"success": "New member successfully added to '{{workspaceName}}'!"
+			}
+		},
+		"workspaceSettings": {
+			"label": "Impostazioni dell'area di lavoro",
+			"success": "Impostazioni dell'area di lavoro aggiornate con successo!"
 		},
 		"sessions": {
 			"label": "Sessioni"
@@ -507,6 +558,7 @@
 		"passwordInfo": "La password deve contenere almeno 1 lettera minuscola, 1 lettera maiuscola, 1 numero e 1 carattere speciale (!@#$%^&*()_+-=[]{};'|,.<>/?)",
 		"confirmPassword": "Conferma password",
 		"createButton": "Crea account",
+		"workspaceName": "Nome area di lavoro",
 		"success": "Registrazione riuscita"
 	},
 	"dataTable": {

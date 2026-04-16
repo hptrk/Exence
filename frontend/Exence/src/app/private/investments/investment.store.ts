@@ -7,6 +7,8 @@ import { InvestmentPatch } from '../../data-model/modules/investment/InvestmentP
 import { CurrencyService } from '../../shared/currency.service';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { InvestmentService } from './investment.service';
+import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
+import { WorkspaceService } from '../../shared/workspace.service';
 
 interface InvestmentStoreData {
 	investments: InvestmentGroup[];
@@ -19,9 +21,10 @@ const initialState: InvestmentStoreData = {
 export const InvestmentStore = signalStore(
 	withState(initialState),
 
-	withProps((_, investmentService = inject(InvestmentService)) => {
+	withProps((_, investmentService = inject(InvestmentService), workspaceService = inject(WorkspaceService)) => {
 		return {
-			investmentResource: resource<InvestmentGroup[], undefined>({
+			investmentResource: resource<InvestmentGroup[], WorkspaceGet | null>({
+				params: () => workspaceService.currentWorkspace(),
 				loader: async () => await investmentService.getGroupedInvestments(),
 			}),
 		};

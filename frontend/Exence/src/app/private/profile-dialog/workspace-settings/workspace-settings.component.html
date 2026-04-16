@@ -1,0 +1,28 @@
+<div class="flex-grow-1 overflow-x-hidden overflow-y-auto d-flex flex-column gap-4 mt-3">
+	<ex-workspace-list />
+
+	<ex-currency-select [currencyInfo]="initialCurrencyInfo()" (changed)="currencyInfo.set($event)" />
+</div>
+
+<div class="d-flex flex-column">
+	<mat-divider />
+
+	<div class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100">
+		@if (saving()) {
+			<mat-spinner diameter="24" />
+		}
+		<ex-button outlined color="accent" matIcon="close" [disabled]="saving()" (click)="cancel()">
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
+		<ex-button
+			filled
+			color="primary"
+			matIcon="check"
+			iconPositionEnd
+			[disabled]="!hasChanges() || saving()"
+			(click)="save()"
+		>
+			{{ 'literals.save' | translate }}
+		</ex-button>
+	</div>
+</div>

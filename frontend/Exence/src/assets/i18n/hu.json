@@ -13,6 +13,7 @@
 		"delete": "Törölés",
 		"edit": "Szerkesztés",
 		"cancel": "Mégse",
+		"leave": "Kilépés",
 		"next": "Következő",
 		"back": "Vissza",
 		"continue": "Folytatás",
@@ -173,6 +174,56 @@
 				}
 			},
 			"success": "A felhasználói beállítások sikeresen frissültek!"
+		},
+		"switchWorkspace": "Switch workspace",
+		"switchWorkspaceSuccess": "Sikeresen váltottál a(z) '{{workspaceName}}' munkaterületre!",
+		"currentWorkspace": "Jelenlegi",
+		"workspaces": {
+			"yourWorkspaces": "Munkaterületeid",
+			"new": "Új",
+			"create": {
+				"title": "Munkaterület létrehozása",
+				"nameLabel": "Név",
+				"currencyLabel": "Alapdeviza",
+				"success": "A(z) '{{workspaceName}}' munkaterület sikeresen létrehozva!"
+			},
+			"edit": {
+				"title": "Munkaterület szerkesztése",
+				"nameLabel": "Név",
+				"success": "A munkaterület sikeresen frissítve!"
+			},
+			"members": "Tagok",
+			"noMembers": "Nincsenek tagok",
+			"roleOwner": "Tulajdonos",
+			"roleMember": "Tag",
+			"joinedAt": "Csatlakozott",
+			"deleteWorkspace": {
+				"title": "Munkaterület törlése",
+				"message": "Biztosan törölni szeretné ezt a munkaterületet? Ez a művelet nem vonható vissza.",
+				"disabledOtherMembers": "Nem törölhetsz munkaterületet, amíg más tagok is vannak benne.",
+				"disabledActive": "Nem lehet letiltani a munkaterületet, amíg jelenleg használod.",
+				"success": "A(z) '{{workspaceName}}' munkaterület törölve!"
+			},
+			"kickMember": {
+				"title": "Tag kirúgása",
+				"message": "Biztosan ki szeretné rúgni {{name}} felhasználót erről a munkaterületről?",
+				"success": "'{{memberEmail}}' kirúgva!"
+			},
+			"leaveWorkspace": {
+				"title": "Kilépés a munkaterületről",
+				"message": "Biztosan ki szeretne lépni erről a munkaterületről?",
+				"success": "Sikeresen kilépett a(z) '{{workspaceName}}' munkaterületről!"
+			},
+			"addMember": {
+				"title": "Tag hozzáadása",
+				"emailLabel": "E-mail cím",
+				"button": "Új tag",
+				"success": "Az új tag sikeresen hozzáadva a(z) '{{workspaceName}}' munkaterülethez!"
+			}
+		},
+		"workspaceSettings": {
+			"label": "Munkaterület beállításai",
+			"success": "A munkaterület beállításai sikeresen frissültek!"
 		},
 		"sessions": {
 			"label": "Munkamenetek"
@@ -507,6 +558,7 @@
 		"passwordInfo": "A jelszónak legalább 1 kisbetűt, 1 nagybetűt, 1 számot és 1 speciális karaktert (!@#$%^&*()_+-=[]{};'|,.<>/?) kell tartalmaznia.",
 		"confirmPassword": "Jelszó megerősítése",
 		"createButton": "Fiók létrehozása",
+		"workspaceName": "Munkaterület neve",
 		"success": "Sikeres regisztráció"
 	},
 	"dataTable": {

@@ -1,23 +1,34 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { ApplicationConfig, importProvidersFrom, provideZonelessChangeDetection, isDevMode } from '@angular/core';
-import { provideServiceWorker } from '@angular/service-worker';
+import {
+	ApplicationConfig,
+	importProvidersFrom,
+	isDevMode,
+	provideAppInitializer,
+	provideZonelessChangeDetection,
+	inject,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideServiceWorker } from '@angular/service-worker';
 
 import { LayoutModule } from '@angular/cdk/layout';
+import { AbstractControl } from '@angular/forms';
 import { provideDateFnsAdapter } from '@angular/material-date-fns-adapter';
 import { ErrorStateMatcher, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideTransloco } from '@jsverse/transloco';
 import { enUS } from 'date-fns/locale';
 import { CookieService } from 'ngx-cookie-service';
 import { routes } from './app.routes';
 import { authInterceptor } from './shared/auth/interceptors/auth.interceptor';
-import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-token.interceptor';
-import { TranslocoHttpLoader } from './transloco-loader';
-import { provideTransloco } from '@jsverse/transloco';
-import './shared/i18n/locale-parity-check';
 import { languageInterceptor } from './shared/auth/interceptors/language.interceptor';
-import { AbstractControl } from '@angular/forms';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { refreshTokenInterceptor } from './shared/auth/interceptors/refresh-token.interceptor';
+import { workspaceInterceptor } from './shared/auth/interceptors/workspace.interceptor';
+import './shared/i18n/locale-parity-check';
+import { CurrentUserService } from './shared/user/current-user.service';
+import { UserService } from './shared/user/user.service';
+import { WorkspaceService } from './shared/workspace.service';
+import { TranslocoHttpLoader } from './transloco-loader';
 
 class TouchedErrorStateMatcher implements ErrorStateMatcher {
 	isErrorState(control: AbstractControl | null): boolean {
@@ -32,7 +43,9 @@ export const appConfig: ApplicationConfig = {
 		// TODO remove depracated angular animations
 		// eslint-disable-next-line
 		provideAnimations(),
-		provideHttpClient(withInterceptors([languageInterceptor, authInterceptor, refreshTokenInterceptor])),
+		provideHttpClient(
+			withInterceptors([languageInterceptor, authInterceptor, refreshTokenInterceptor, workspaceInterceptor]),
+		),
 		importProvidersFrom(LayoutModule),
 		{
 			provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -42,7 +55,18 @@ export const appConfig: ApplicationConfig = {
 		{ provide: MAT_DATE_LOCALE, useValue: enUS },
 		provideDateFnsAdapter(),
 		CookieService,
-		provideHttpClient(),
+		provideAppInitializer(() => {
+			const userService = inject(UserService);
+			const currentUserService = inject(CurrentUserService);
+			const workspaceService = inject(WorkspaceService);
+			return userService
+				.getUser()
+				.then(user => {
+					currentUserService.user = user;
+					return workspaceService.init();
+				})
+				.catch(() => currentUserService.clearUser());
+		}),
 		provideServiceWorker('ngsw-worker.js', {
 			enabled: !isDevMode(),
 			registrationStrategy: 'registerWhenStable:30000',

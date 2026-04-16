@@ -15,7 +15,7 @@ import { ValidatorComponent } from '../../../../shared/validator/validator.compo
 
 export interface CurrencyInfo {
 	baseCurrency: SupportedCurrency;
-	showBaseCurrency?: boolean;
+	showBaseCurrency: boolean;
 }
 
 @Component({

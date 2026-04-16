@@ -60,9 +60,12 @@ export class HttpService {
 		);
 	}
 
-	delete(url: string, settings?: HttpSettings): Observable<void> {
-		return this.call<void>(
-			this.httpClient.delete<HttpResponse<string>>(url, this.createDefaultRequestOptions()),
+	delete<T = void>(url: string, data?: unknown, settings?: HttpSettings): Observable<T> {
+		return this.call<T>(
+			this.httpClient.request<HttpResponse<string>>('DELETE', url, {
+				...this.createDefaultRequestOptions(),
+				body: data,
+			}),
 			settings ?? {},
 		);
 	}

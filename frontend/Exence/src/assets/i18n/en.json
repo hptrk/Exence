@@ -13,6 +13,7 @@
 		"delete": "Delete",
 		"edit": "Edit",
 		"cancel": "Cancel",
+		"leave": "Leave",
 		"next": "Next",
 		"back": "Back",
 		"continue": "Continue",
@@ -174,6 +175,56 @@
 			},
 			"success": "User settings updated successfully!"
 		},
+		"workspaces": {
+			"yourWorkspaces": "Your workspaces",
+			"new": "New",
+			"create": {
+				"title": "Create workspace",
+				"nameLabel": "Name",
+				"currencyLabel": "Base currency",
+				"success": "Workspace '{{workspaceName}}' created successfully!"
+			},
+			"edit": {
+				"title": "Edit workspace",
+				"nameLabel": "Name",
+				"success": "Successfully updated workspace!"
+			},
+			"members": "Members",
+			"noMembers": "No members",
+			"roleOwner": "Owner",
+			"roleMember": "Member",
+			"joinedAt": "Joined",
+			"deleteWorkspace": {
+				"title": "Delete workspace",
+				"message": "Are you sure you want to delete this workspace? This action cannot be undone.",
+				"disabledOtherMembers": "You cannot delete a workspace until you have other members inside.",
+				"disabledActive": "You cannot disable workspace while you are currently using it.",
+				"success": "Workspace '{{workspaceName}}' deleted!"
+			},
+			"kickMember": {
+				"title": "Kick member",
+				"message": "Are you sure you want to kick {{name}} from this workspace?",
+				"success": "'{{memberEmail}}' kicked!"
+			},
+			"leaveWorkspace": {
+				"title": "Leave workspace",
+				"message": "Are you sure you want to leave this workspace?",
+				"success": "Successfully left '{{workspaceName}}' workspace!"
+			},
+			"addMember": {
+				"title": "Add member",
+				"emailLabel": "Email address",
+				"button": "New member",
+				"success": "New member successfully added to '{{workspaceName}}'!"
+			}
+		},
+		"workspaceSettings": {
+			"label": "Workspace settings",
+			"success": "Workspace settings updated successfully!"
+		},
+		"switchWorkspace": "Switch workspace",
+		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"currentWorkspace": "Current",
 		"sessions": {
 			"label": "Sessions"
 		}
@@ -507,6 +558,7 @@
 		"passwordInfo": "Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character (!@#$%^&*()_+-=[]{};'|,.<>/?)",
 		"confirmPassword": "Confirm password",
 		"createButton": "Create Account",
+		"workspaceName": "Workspace name",
 		"success": "Successfull registration"
 	},
 	"dataTable": {

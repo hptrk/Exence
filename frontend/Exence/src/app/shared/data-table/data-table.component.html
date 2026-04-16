@@ -29,7 +29,7 @@
 						<ng-container [matColumnDef]="col.key">
 							<th mat-header-cell *matHeaderCellDef [style.width]="col.width">
 								@if (display.isSm()) {
-									{{ col.header }}
+									{{ col.header | translate }}
 								}
 							</th>
 							<td mat-cell *matCellDef="let row">
@@ -46,7 +46,7 @@
 														stopPropagation
 														[matIcon]="action.icon"
 														[customColor]="action.color"
-														[matTooltip]="action.label"
+														[matTooltip]="action.label | translate"
 														(click)="action.handler(row)"
 														[disabled]="action.disabled ? action.disabled(row) : false"
 														[color]="action.icon === 'delete' ? 'error' : 'primary'"
@@ -79,7 +79,7 @@
 																	action.icon
 																}}</mat-icon>
 																<span [style.color]="action.color ?? ''">{{
-																	action.label
+																	action.label | translate
 																}}</span>
 															</button>
 														}

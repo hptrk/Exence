@@ -98,6 +98,26 @@ databaseChangeLog:
               - column: { name: created_by, value: 'captainwinnie@exence.com' }
               - column: { name: updated_by, value: 'captainwinnie@exence.com' }
 
+        - insert:
+            tableName: workspace
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: name, value: "Winston2's Workspace" }
+              - column: { name: created_at, valueComputed: "${now}" }
+              - column: { name: updated_at, valueComputed: "${now}" }
+              - column: { name: created_by, value: 'captainwinnie2@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie2@exence.com' }
+
+        - insert:
+            tableName: workspace
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: name, value: "unverified's Workspace" }
+              - column: { name: created_at, valueComputed: "${now}" }
+              - column: { name: updated_at, valueComputed: "${now}" }
+              - column: { name: created_by, value: 'unverified@exence.com' }
+              - column: { name: updated_by, value: 'unverified@exence.com' }
+
         # Workspace Member
         - insert:
             tableName: workspace_member
@@ -108,12 +128,46 @@ databaseChangeLog:
               - column: { name: role, value: 'OWNER' }
               - column: { name: joined_at, valueComputed: "${now}" }
 
+        - insert:
+            tableName: workspace_member
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: workspace_id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: role, value: 'OWNER' }
+              - column: { name: joined_at, valueComputed: "${now}" }
+
+        - insert:
+            tableName: workspace_member
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: workspace_id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 3 }
+              - column: { name: role, value: 'OWNER' }
+              - column: { name: joined_at, valueComputed: "${now}" }
+
         # Workspace Settings
         - insert:
             tableName: workspace_settings
             columns:
               - column: { name: id, valueNumeric: 1 }
               - column: { name: workspace_id, valueNumeric: 1 }
+              - column: { name: base_currency, value: 'HUF' }
+              - column: { name: show_base_currency, valueBoolean: false }
+
+        - insert:
+            tableName: workspace_settings
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: workspace_id, valueNumeric: 2 }
+              - column: { name: base_currency, value: 'HUF' }
+              - column: { name: show_base_currency, valueBoolean: false }
+
+        - insert:
+            tableName: workspace_settings
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: workspace_id, valueNumeric: 3 }
               - column: { name: base_currency, value: 'HUF' }
               - column: { name: show_base_currency, valueBoolean: false }
 

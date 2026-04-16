@@ -1,19 +1,45 @@
 <mat-drawer-container class="h-100" data-testid="profileDialog">
-	<mat-drawer mode="side" opened disableClose class="profile-dialog">
+	<mat-drawer mode="side" opened disableClose class="profile-dialog h-100">
 		<div class="d-flex flex-column align-items-center py-3 py-lg-4 h-100">
-			<h3
-				ex-nav-button
-				class="d-flex align-items-center justify-content-center justify-content-lg-start gap-lg-3 p-0 px-lg-3 py-2 m-0 fw-bold w-100 text-truncate text-nowrap"
+			<div
+				class="d-flex flex-column flex-lg-row align-items-center justify-content-lg-between gap-2 gap-lg-3 p-0 px-2 px-lg-3 py-2 w-100"
 			>
-				<div class="profile-pic fs-6 fs-lg-4">{{ usernameLetter() }}</div>
+				<div class="profile-pic fw-bold flex-shrink-0 {{ display.isLg() ? 'fs-4' : 'fs-6' }}">
+					{{ usernameLetter() }}
+				</div>
 				@if (display.isLg()) {
-					{{ username() }}
+					<div class="d-flex flex-column overflow-hidden flex-grow-1">
+						<h3 class="fw-bold text-truncate m-0 fs-5">{{ username() }}</h3>
+						@if (workspaceName()) {
+							<span class="text-truncate opacity-75" style="font-size: 0.75rem">{{
+								workspaceName()
+							}}</span>
+						}
+					</div>
 				}
-			</h3>
+				<ex-button
+					iconButton
+					matIcon="sync_alt"
+					color="accent"
+					class="flex-shrink-0"
+					[matMenuTriggerFor]="workspaceMenu"
+					[matTooltip]="'profile.switchWorkspace' | translate"
+				/>
+			</div>
 
 			<mat-divider class="w-100 my-2 my-lg-3" />
 
-			<div class="d-flex flex-column w-100 h-100 fs-4 gap-3 gap-xl-2 glex-grow-1 fw-medium px-2">
+			<div class="d-flex flex-column w-100 flex-grow-1 fs-4 gap-3 gap-xl-2 fw-medium px-2">
+				<button
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[class.selected]="selectedPage() === 'workspace-settings'"
+					(click)="this.selectedPage.set('workspace-settings')"
+				>
+					<mat-icon>workspaces</mat-icon>
+					@if (display.isLg()) {
+						{{ 'profile.workspaceSettings.label' | translate }}
+					}
+				</button>
 				<button
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[class.selected]="selectedPage() === 'profile-information'"
@@ -51,6 +77,9 @@
 		<ex-button iconButton matIcon="close" mat-dialog-close color="accent" class="close-button" />
 		<section class="h-100 p-4 p-lg-5 d-flex flex-column gap-4">
 			@switch (selectedPage()) {
+				@case ('workspace-settings') {
+					<ex-workspace-settings />
+				}
 				@case ('profile-information') {
 					<ex-profile-information [dialogRef]="dialogRef" />
 				}
@@ -64,3 +93,13 @@
 		</section>
 	</mat-drawer-content>
 </mat-drawer-container>
+
+<mat-menu #workspaceMenu class="switch-workspace">
+	<h4 class="p-2 pb-3 fs-6 text-center border-bottom">{{ 'profile.switchWorkspace' | translate }}</h4>
+
+	@for (ws of workspaces(); track ws.id) {
+		<button mat-menu-item class="fs-6" (click)="switchWorkspace(ws.id)">
+			<span [class.fw-bold]="selectedWorkspaceId() === ws.id">{{ ws.name }}</span>
+		</button>
+	}
+</mat-menu>

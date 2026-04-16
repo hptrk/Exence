@@ -14,8 +14,6 @@ import { UserSettingsService } from './user-settinngs.service';
 import { ConfirmExitService } from '../../../shared/confirm-exit.service';
 import { DialogRef } from '../../../shared/dialog/dialog.service';
 import { LanguageSelectComponent } from './language-select/language-select.component';
-import { CurrencyService } from '../../../shared/currency.service';
-import { CurrencyInfo, CurrencySelectComponent } from './currency-select/currency-select.component';
 
 @Component({
 	selector: 'ex-user-settings',
@@ -26,7 +24,6 @@ import { CurrencyInfo, CurrencySelectComponent } from './currency-select/currenc
 		MatProgressSpinnerModule,
 		ThemeSelectComponent,
 		LanguageSelectComponent,
-		CurrencySelectComponent,
 		ButtonComponent,
 		TranslatePipe,
 	],
@@ -36,7 +33,6 @@ export class UserSettingsComponent implements OnInit {
 	private readonly themeService = inject(DisplayThemeService);
 	private readonly languageService = inject(LanguageService);
 	private readonly snackbarService = inject(SnackbarService);
-	private readonly currencyService = inject(CurrencyService);
 	private readonly translocoService = inject(TranslocoService);
 	private readonly confirmExitService = inject(ConfirmExitService);
 
@@ -47,12 +43,6 @@ export class UserSettingsComponent implements OnInit {
 	userSettings = signal<UserSettingsResponse | null>(null);
 	themes = signal<ThemeData | null>(null);
 	language = signal<string | null>(null);
-	currencyInfo = signal<CurrencyInfo | null>(null);
-
-	initialCurrencyInfo = computed<CurrencyInfo | null>(() => {
-		const s = this.userSettings();
-		return s ? { baseCurrency: s.baseCurrency, showBaseCurrency: s.showBaseCurrency } : null;
-	});
 
 	initialThemes = computed<ThemeData | null>(() => {
 		const s = this.userSettings();
@@ -67,7 +57,7 @@ export class UserSettingsComponent implements OnInit {
 		() => this.themes() !== null && this.themes()!.primaryTheme !== this.themes()!.secondaryTheme,
 	);
 
-	hasChanges = computed<boolean>(() => this.themesValid() || !!this.language() || !!this.currencyInfo());
+	hasChanges = computed<boolean>(() => this.themesValid() || !!this.language());
 
 	constructor() {
 		this.userSettingService.list().then(response => {
@@ -93,9 +83,6 @@ export class UserSettingsComponent implements OnInit {
 		if (this.themes()?.primaryTheme) request.primaryTheme = this.themes()!.primaryTheme;
 		if (this.themes()?.secondaryTheme) request.secondaryTheme = this.themes()!.secondaryTheme;
 		if (this.language()) request.language = this.language()!;
-		if (this.currencyInfo()?.baseCurrency) request.baseCurrency = this.currencyInfo()!.baseCurrency;
-		if (this.currencyInfo()?.showBaseCurrency !== undefined)
-			request.showBaseCurrency = this.currencyInfo()!.showBaseCurrency!;
 
 		this.saving.set(true);
 		let response;
@@ -114,8 +101,6 @@ export class UserSettingsComponent implements OnInit {
 
 		this.themeService.setPreferredThemes(response.primaryTheme, response.secondaryTheme);
 		this.languageService.setLanguage(response.language);
-		this.currencyService.setBaseCurrency(response.baseCurrency);
-		this.currencyService.useBaseCurrency(response.showBaseCurrency);
 		this.resetCaches();
 	}
 
@@ -127,6 +112,5 @@ export class UserSettingsComponent implements OnInit {
 	private resetCaches(): void {
 		this.themes.set(null);
 		this.language.set(null);
-		this.currencyInfo.set(null);
 	}
 }

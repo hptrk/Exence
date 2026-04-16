@@ -76,7 +76,10 @@ describe('TransactionStore', () => {
 	let mockTransactionService: jasmine.SpyObj<TransactionService>;
 	let mockSnackbarService: jasmine.SpyObj<SnackbarService>;
 	let mockTranslocoService: jasmine.SpyObj<TranslocoService>;
-	let mockCategoryStore: { topCategoriesAllResource: { reload: jasmine.Spy } };
+	let mockCategoryStore: {
+		categoryResource: { reload: jasmine.Spy };
+		topCategoriesAllResource: { reload: jasmine.Spy };
+	};
 
 	beforeEach(() => {
 		mockTransactionService = jasmine.createSpyObj('TransactionService', [
@@ -101,6 +104,7 @@ describe('TransactionStore', () => {
 		mockTranslocoService.translate.and.returnValue('translated message');
 
 		mockCategoryStore = {
+			categoryResource: { reload: jasmine.createSpy('reload') },
 			topCategoriesAllResource: { reload: jasmine.createSpy('reload') },
 		};
 

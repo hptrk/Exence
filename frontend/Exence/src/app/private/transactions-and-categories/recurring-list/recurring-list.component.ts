@@ -86,22 +86,18 @@ export class RecurringListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({ key: 'title', header: 'Title', width: '35%' });
+		columns.push({ key: 'title', header: 'transactionsAndCategories.title', width: '35%' });
 		if (this.display.isMd())
-			columns.push({
-				key: 'nextDate',
-				header: this.translocoService.translate('recurring.nextExecutionLabel'),
-				width: '70px',
-			});
-		columns.push({ key: 'amount', header: this.translocoService.translate('literals.amount'), width: '120px' });
-		columns.push({ key: 'category', header: this.translocoService.translate('literals.category'), width: '50px' });
+			columns.push({ key: 'nextDate', header: 'recurring.nextExecutionLabel', width: '70px' });
+		columns.push({ key: 'amount', header: 'literals.amount', width: '120px' });
+		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
 		columns.push({ key: 'actions', header: '', width: '60px' });
 		return columns;
 	});
 
 	actions: TableAction<RecurringTransactionGet>[] = [
 		{
-			label: 'Delete',
+			label: 'literals.delete',
 			icon: 'delete',
 			color: 'var(--error-color)',
 			handler: row => this.recurringStore.deleteRecurringTransaction(row),

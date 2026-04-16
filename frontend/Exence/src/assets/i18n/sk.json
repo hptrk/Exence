@@ -13,6 +13,7 @@
 		"delete": "Odstrániť",
 		"edit": "Upraviť",
 		"cancel": "Zrušiť",
+		"leave": "Opustiť",
 		"next": "Ďalej",
 		"back": "Späť",
 		"continue": "Pokračovať",
@@ -173,6 +174,56 @@
 				}
 			},
 			"success": "Nastavenia používateľa boli úspešne aktualizované!"
+		},
+		"switchWorkspace": "Switch workspace",
+		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"currentWorkspace": "Aktuálny",
+		"workspaces": {
+			"yourWorkspaces": "Vaše pracovné priestory",
+			"new": "Nový",
+			"create": {
+				"title": "Vytvoriť pracovný priestor",
+				"nameLabel": "Názov",
+				"currencyLabel": "Základná mena",
+				"success": "Workspace '{{workspaceName}}' created successfully!"
+			},
+			"edit": {
+				"title": "Upraviť pracovný priestor",
+				"nameLabel": "Názov",
+				"success": "Successfully updated workspace!"
+			},
+			"members": "Členovia",
+			"noMembers": "Žiadni členovia",
+			"roleOwner": "Vlastník",
+			"roleMember": "Člen",
+			"joinedAt": "Pripojil sa",
+			"deleteWorkspace": {
+				"title": "Odstrániť pracovný priestor",
+				"message": "Naozaj chcete odstrániť tento pracovný priestor? Túto akciu nie je možné vrátiť späť.",
+				"disabledOtherMembers": "Pracovný priestor nemôžete odstrániť, kým sú v ňom ďalší členovia.",
+				"disabledActive": "Pracovný priestor nemôžete deaktivovať, kým ho momentálne používate.",
+				"success": "Pracovný priestor '{{workspaceName}}' bol odstránený!"
+			},
+			"kickMember": {
+				"title": "Vyhodiť člena",
+				"message": "Naozaj chcete vyhodiť {{name}} z tohto pracovného priestoru?",
+				"success": "'{{memberEmail}}' kicked!"
+			},
+			"leaveWorkspace": {
+				"title": "Opustiť pracovný priestor",
+				"message": "Naozaj chcete opustiť tento pracovný priestor?",
+				"success": "Successfully left '{{workspaceName}}' workspace!"
+			},
+			"addMember": {
+				"title": "Pridať člena",
+				"emailLabel": "E-mailová adresa",
+				"button": "Nový člen",
+				"success": "New member successfully added to '{{workspaceName}}'!"
+			}
+		},
+		"workspaceSettings": {
+			"label": "Nastavenia pracovného priestoru",
+			"success": "Nastavenia pracovného priestoru boli úspešne aktualizované!"
 		},
 		"sessions": {
 			"label": "Relácie"
@@ -507,6 +558,7 @@
 		"passwordInfo": "Heslo musí obsahovať aspoň 1 malé písmeno, 1 veľké písmeno, 1 číslo a 1 špeciálny znak (!@#$%^&*()_+-=[]{};'|,.<>/?)",
 		"confirmPassword": "Potvrdiť heslo",
 		"createButton": "Vytvoriť účet",
+		"workspaceName": "Názov pracovného priestoru",
 		"success": "Úspešná registrácia"
 	},
 	"dataTable": {
