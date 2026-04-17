@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "Befektetés sikeresen frissítve!",
-		"deleteInfo": "Befektetés sikeresen törölve!"
+		"deleteInfo": "Befektetés sikeresen törölve!",
+		"empty": {
+			"title": "Még nincsenek befektetések",
+			"subtitle": "Kezdje el portfóliójának nyomon követését az első eszköz hozzáadásával."
+		}
 	},
 	"auditLog": {
 		"title": "Audit naplók",

@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "Investícia bola úspešne aktualizovaná!",
-		"deleteInfo": "Investícia bola úspešne vymazaná!"
+		"deleteInfo": "Investícia bola úspešne vymazaná!",
+		"empty": {
+			"title": "Zatiaľ žiadne investície",
+			"subtitle": "Začnite sledovať svoje portfólio pridaním prvého aktíva."
+		}
 	},
 	"auditLog": {
 		"title": "Audit záznamy",

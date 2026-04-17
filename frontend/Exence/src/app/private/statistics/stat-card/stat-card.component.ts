@@ -18,6 +18,7 @@ import { GoalService } from '../../goals/goal.service';
 import { DebtService } from '../../debts/debt.service';
 import { DebtStore } from '../../debts/debt.store';
 import { InvestmentService } from '../../investments/investment.service';
+import { InvestmentStore } from '../../investments/investment.store';
 import { StatisticService } from '../statistic.service';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 
@@ -39,6 +40,7 @@ export class StatCardComponent {
 	private readonly debtService = inject(DebtService);
 	private readonly debtStore = inject(DebtStore);
 	private readonly investmentService = inject(InvestmentService);
+	private readonly investmentStore = inject(InvestmentStore);
 	readonly currencyService = inject(CurrencyService);
 
 	widget = input<StatCardWidget>();
@@ -122,6 +124,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.investmentStore.investments();
 			if (!this.investmentCardType()) return;
 			this.isLoading.set(true);
 			this.investmentService

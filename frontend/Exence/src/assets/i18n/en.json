@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "Investment updated successfully!",
-		"deleteInfo": "Investment deleted successfully!"
+		"deleteInfo": "Investment deleted successfully!",
+		"empty": {
+			"title": "No investments yet",
+			"subtitle": "Start tracking your portfolio by adding your first asset."
+		}
 	},
 	"auditLog": {
 		"title": "Audit Logs",

@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "Investition erfolgreich aktualisiert!",
-		"deleteInfo": "Investition erfolgreich gelöscht!"
+		"deleteInfo": "Investition erfolgreich gelöscht!",
+		"empty": {
+			"title": "Noch keine Investitionen",
+			"subtitle": "Beginnen Sie Ihr Portfolio zu verfolgen, indem Sie Ihr erstes Asset hinzufügen."
+		}
 	},
 	"auditLog": {
 		"title": "Audit-Protokolle",

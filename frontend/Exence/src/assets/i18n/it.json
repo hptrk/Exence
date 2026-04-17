@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "Investimento aggiornato con successo!",
-		"deleteInfo": "Investimento eliminato con successo!"
+		"deleteInfo": "Investimento eliminato con successo!",
+		"empty": {
+			"title": "Nessun investimento ancora",
+			"subtitle": "Inizia a monitorare il tuo portafoglio aggiungendo il tuo primo asset."
+		}
 	},
 	"auditLog": {
 		"title": "Registri di audit",

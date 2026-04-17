@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "Investissement mis à jour avec succès !",
-		"deleteInfo": "Investissement supprimé avec succès !"
+		"deleteInfo": "Investissement supprimé avec succès !",
+		"empty": {
+			"title": "Aucun investissement pour l'instant",
+			"subtitle": "Commencez à suivre votre portefeuille en ajoutant votre premier actif."
+		}
 	},
 	"auditLog": {
 		"title": "Journaux d'audit",

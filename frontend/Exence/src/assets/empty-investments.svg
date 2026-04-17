@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="240" height="200" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- ── Stat cards row ── -->
+  <!-- Card 1: Total Invested Value -->
+  <rect x="10" y="8" width="104" height="38" rx="7" stroke="rgb(180,180,220)" stroke-width="1.5" fill="rgb(200,200,242)" opacity="0.15"/>
+  <rect x="10" y="8" width="104" height="38" rx="7" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
+  <rect x="18" y="15" width="52" height="6" rx="2" fill="rgb(200,200,242)" opacity="0.55"/>
+  <rect x="18" y="28" width="36" height="10" rx="3" fill="rgb(200,200,242)" opacity="0.7"/>
+  <!-- up arrow indicator -->
+  <polyline points="96,16 100,12 104,16" stroke="rgb(160,160,210)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(-10,6)"/>
+
+  <!-- Card 2: Asset Count -->
+  <rect x="126" y="8" width="104" height="38" rx="7" stroke="rgb(180,180,220)" stroke-width="1.5" fill="rgb(200,200,242)" opacity="0.15"/>
+  <rect x="126" y="8" width="104" height="38" rx="7" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
+  <rect x="134" y="15" width="44" height="6" rx="2" fill="rgb(200,200,242)" opacity="0.5"/>
+  <rect x="134" y="28" width="22" height="10" rx="3" fill="rgb(200,200,242)" opacity="0.65"/>
+
+  <!-- ── Purchase log table ── -->
+  <rect x="10" y="56" width="220" height="138" rx="8" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
+
+  <!-- Table header bar -->
+  <rect x="10" y="56" width="220" height="26" rx="8" fill="rgb(200,200,242)" opacity="0.3"/>
+  <!-- "trending_up" icon placeholder -->
+  <polyline points="20,72 26,66 32,70 38,62" stroke="rgb(160,160,210)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Table title -->
+  <rect x="44" y="65" width="52" height="8" rx="2" fill="rgb(180,180,220)" opacity="0.55"/>
+  <!-- Add button (top right) -->
+  <rect x="196" y="62" width="26" height="16" rx="4" fill="rgb(200,200,242)" opacity="0.5" stroke="rgb(180,180,220)" stroke-width="1"/>
+  <line x1="209" y1="67" x2="209" y2="73" stroke="rgb(140,140,200)" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="206" y1="70" x2="212" y2="70" stroke="rgb(140,140,200)" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Column header row -->
+  <line x1="10" y1="82" x2="230" y2="82" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.6"/>
+  <rect x="18" y="86" width="40" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.55"/>
+  <rect x="86" y="86" width="30" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="136" y="86" width="36" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="192" y="86" width="22" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.4"/>
+
+  <!-- Row dividers -->
+  <line x1="10" y1="96"  x2="230" y2="96"  stroke="rgb(200,200,242)" stroke-width="1" opacity="0.4"/>
+  <line x1="10" y1="118" x2="230" y2="118" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.4"/>
+  <line x1="10" y1="140" x2="230" y2="140" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.4"/>
+  <line x1="10" y1="162" x2="230" y2="162" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.4"/>
+
+  <!-- Row 1 — Name | days ago | amount (largest) | type badge | purchases -->
+  <rect x="18" y="103" width="44" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.55"/>
+  <rect x="86" y="103" width="22" height="7" rx="3" fill="rgb(200,200,242)" opacity="0.4"/>
+  <rect x="136" y="103" width="42" height="7" rx="3" fill="rgb(200,200,242)" opacity="0.65"/>
+  <rect x="192" y="101" width="28" height="11" rx="4" fill="rgb(200,200,242)" opacity="0.35" stroke="rgb(180,180,220)" stroke-width="1"/>
+
+  <!-- Row 2 -->
+  <rect x="18" y="125" width="34" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="86" y="125" width="22" height="7" rx="3" fill="rgb(200,200,242)" opacity="0.35"/>
+  <rect x="136" y="125" width="34" height="7" rx="3" fill="rgb(200,200,242)" opacity="0.55"/>
+  <rect x="192" y="123" width="28" height="11" rx="4" fill="rgb(200,200,242)" opacity="0.3" stroke="rgb(180,180,220)" stroke-width="1"/>
+
+  <!-- Row 3 -->
+  <rect x="18" y="147" width="50" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.4"/>
+  <rect x="86" y="147" width="22" height="7" rx="3" fill="rgb(200,200,242)" opacity="0.3"/>
+  <rect x="136" y="147" width="50" height="7" rx="3" fill="rgb(200,200,242)" opacity="0.5"/>
+  <rect x="192" y="145" width="28" height="11" rx="4" fill="rgb(200,200,242)" opacity="0.25" stroke="rgb(180,180,220)" stroke-width="1"/>
+
+  <!-- Row 4 (fading) -->
+  <rect x="18" y="169" width="38" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.25"/>
+  <rect x="136" y="169" width="28" height="7" rx="3" fill="rgb(200,200,242)" opacity="0.3"/>
+
+</svg>

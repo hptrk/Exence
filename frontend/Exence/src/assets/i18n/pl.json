@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "Inwestycja zaktualizowana pomyślnie!",
-		"deleteInfo": "Inwestycja usunięta pomyślnie!"
+		"deleteInfo": "Inwestycja usunięta pomyślnie!",
+		"empty": {
+			"title": "Brak inwestycji",
+			"subtitle": "Zacznij śledzić swój portfel, dodając pierwszą pozycję."
+		}
 	},
 	"auditLog": {
 		"title": "Dzienniki audytu",

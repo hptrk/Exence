@@ -1165,7 +1165,11 @@
 			}
 		},
 		"updateInfo": "¡Inversión actualizada con éxito!",
-		"deleteInfo": "¡Inversión eliminada con éxito!"
+		"deleteInfo": "¡Inversión eliminada con éxito!",
+		"empty": {
+			"title": "Sin inversiones aún",
+			"subtitle": "Empiece a rastrear su cartera añadiendo su primer activo."
+		}
 	},
 	"auditLog": {
 		"title": "Registros de auditoría",
