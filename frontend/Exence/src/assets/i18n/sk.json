@@ -1046,69 +1046,73 @@
 		"deleteInfo": "Cieľ bol úspešne odstránený!"
 	},
 	"debts": {
-		"title": "Debts",
-		"myDebts": "My Debts",
-		"owedToMe": "Owed to Me",
-		"titleLabel": "Title",
-		"counterparty": "Counterparty",
-		"originalAmount": "Original Amount",
-		"deadline": "Deadline",
-		"days": "Days",
-		"daysUnit": "days",
-		"progress": "Paid progress",
-		"makePayment": "Make a Payment",
-		"paymentAmount": "Payment amount",
-		"pay": "Pay",
+		"title": "Dlhy",
+		"myDebts": "Moje dlhy",
+		"owedToMe": "Dlhujú mi",
+		"titleLabel": "Názov",
+		"counterparty": "Protistrana",
+		"originalAmount": "Pôvodná suma",
+		"deadline": "Termín",
+		"days": "Dni",
+		"daysUnit": "dní",
+		"progress": "Priebeh splácania",
+		"makePayment": "Zaznamenať platbu",
+		"paymentAmount": "Suma platby",
+		"pay": "Zaplatiť",
 		"status": {
-			"label": "Status",
-			"ACTIVE": "Active",
-			"SETTLED": "Settled",
-			"EXPIRED": "Expired",
-			"FORGIVEN": "Forgiven"
+			"label": "Stav",
+			"ACTIVE": "Aktívny",
+			"SETTLED": "Splatený",
+			"EXPIRED": "Vypršaný",
+			"FORGIVEN": "Odpustený"
 		},
 		"type": {
-			"BORROWED": "I borrowed",
-			"LENT": "I lent"
+			"BORROWED": "Požičal som si",
+			"LENT": "Požičal som"
 		},
 		"currency": {
-			"logged": "Logged currency",
-			"base": "Base currency"
+			"logged": "Evidovaná mena",
+			"base": "Základná mena"
 		},
 		"amount": {
-			"logged": "Amount in logged currency",
-			"base": "Amount in base currency"
+			"logged": "Suma v evidovanej mene",
+			"base": "Suma v základnej mene"
 		},
 		"create": {
-			"title": "New Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"originalAmount": "Amount",
-			"currency": "Currency",
-			"deadline": "Deadline",
-			"type": "Type",
-			"category": "Category",
-			"search": "Search",
-			"successInfo": "Debt '{{title}}' created successfully!"
+			"title": "Nový dlh",
+			"titleLabel": "Názov",
+			"counterpartyName": "Meno protistrany",
+			"originalAmount": "Suma",
+			"currency": "Mena",
+			"deadline": "Termín",
+			"type": "Typ",
+			"category": "Kategória",
+			"search": "Hľadať",
+			"successInfo": "Dlh '{{title}}' bol úspešne vytvorený!"
 		},
 		"edit": {
-			"title": "Edit Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"deadline": "Deadline",
-			"type": "Type",
-			"status": "Status",
-			"category": "Category",
-			"search": "Search"
+			"title": "Upraviť dlh",
+			"titleLabel": "Názov",
+			"counterpartyName": "Meno protistrany",
+			"deadline": "Termín",
+			"type": "Typ",
+			"status": "Stav",
+			"category": "Kategória",
+			"search": "Hľadať"
 		},
 		"statistics": {
 			"card": {
-				"DEBT_TOTAL_I_OWE_STATCARD": "Total I Owe",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total Owed to Me"
+				"DEBT_TOTAL_I_OWE_STATCARD": "Celkovo dlhujem",
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Celkovo mi dlhujú"
 			}
 		},
-		"updateInfo": "Debt updated successfully!",
-		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"updateInfo": "Dlh bol úspešne aktualizovaný!",
+		"deleteInfo": "Dlh bol úspešne odstránený!",
+		"paymentInfo": "Platba bola úspešne zaznamenaná!",
+		"empty": {
+			"title": "Zatiaľ žiadne dlhy",
+			"subtitle": "Sledujte peniaze, ktoré dlhujete alebo ktoré vám dlhujú."
+		}
 	},
 	"investments": {
 		"title": "Investície",

@@ -16,6 +16,7 @@ import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { AdminStatisticsService } from '../../admin/admin-statistic.service';
 import { GoalService } from '../../goals/goal.service';
 import { DebtService } from '../../debts/debt.service';
+import { DebtStore } from '../../debts/debt.store';
 import { InvestmentService } from '../../investments/investment.service';
 import { StatisticService } from '../statistic.service';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
@@ -36,6 +37,7 @@ export class StatCardComponent {
 	private readonly adminStatisticService = inject(AdminStatisticsService);
 	private readonly goalService = inject(GoalService);
 	private readonly debtService = inject(DebtService);
+	private readonly debtStore = inject(DebtStore);
 	private readonly investmentService = inject(InvestmentService);
 	readonly currencyService = inject(CurrencyService);
 
@@ -108,6 +110,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.debtStore.debts();
 			if (!this.debtCardType()) return;
 			this.isLoading.set(true);
 			this.debtService

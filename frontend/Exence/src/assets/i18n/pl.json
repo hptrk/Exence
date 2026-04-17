@@ -1046,69 +1046,73 @@
 		"deleteInfo": "Cel został pomyślnie usunięty!"
 	},
 	"debts": {
-		"title": "Debts",
-		"myDebts": "My Debts",
-		"owedToMe": "Owed to Me",
-		"titleLabel": "Title",
-		"counterparty": "Counterparty",
-		"originalAmount": "Original Amount",
-		"deadline": "Deadline",
-		"days": "Days",
-		"daysUnit": "days",
-		"progress": "Paid progress",
-		"makePayment": "Make a Payment",
-		"paymentAmount": "Payment amount",
-		"pay": "Pay",
+		"title": "Długi",
+		"myDebts": "Moje długi",
+		"owedToMe": "Moje należności",
+		"titleLabel": "Tytuł",
+		"counterparty": "Kontrahent",
+		"originalAmount": "Pierwotna kwota",
+		"deadline": "Termin",
+		"days": "Dni",
+		"daysUnit": "dni",
+		"progress": "Postęp spłaty",
+		"makePayment": "Dokonaj płatności",
+		"paymentAmount": "Kwota płatności",
+		"pay": "Zapłać",
 		"status": {
 			"label": "Status",
-			"ACTIVE": "Active",
-			"SETTLED": "Settled",
-			"EXPIRED": "Expired",
-			"FORGIVEN": "Forgiven"
+			"ACTIVE": "Aktywny",
+			"SETTLED": "Rozliczony",
+			"EXPIRED": "Wygasły",
+			"FORGIVEN": "Umorzony"
 		},
 		"type": {
-			"BORROWED": "I borrowed",
-			"LENT": "I lent"
+			"BORROWED": "Pożyczyłem",
+			"LENT": "Pożyczyłem komuś"
 		},
 		"currency": {
-			"logged": "Logged currency",
-			"base": "Base currency"
+			"logged": "Waluta zarejestrowana",
+			"base": "Waluta bazowa"
 		},
 		"amount": {
-			"logged": "Amount in logged currency",
-			"base": "Amount in base currency"
+			"logged": "Kwota w walucie zarejestrowanej",
+			"base": "Kwota w walucie bazowej"
 		},
 		"create": {
-			"title": "New Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"originalAmount": "Amount",
-			"currency": "Currency",
-			"deadline": "Deadline",
-			"type": "Type",
-			"category": "Category",
-			"search": "Search",
-			"successInfo": "Debt '{{title}}' created successfully!"
+			"title": "Nowy dług",
+			"titleLabel": "Tytuł",
+			"counterpartyName": "Nazwa kontrahenta",
+			"originalAmount": "Kwota",
+			"currency": "Waluta",
+			"deadline": "Termin",
+			"type": "Typ",
+			"category": "Kategoria",
+			"search": "Szukaj",
+			"successInfo": "Dług '{{title}}' został pomyślnie utworzony!"
 		},
 		"edit": {
-			"title": "Edit Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"deadline": "Deadline",
-			"type": "Type",
+			"title": "Edytuj dług",
+			"titleLabel": "Tytuł",
+			"counterpartyName": "Nazwa kontrahenta",
+			"deadline": "Termin",
+			"type": "Typ",
 			"status": "Status",
-			"category": "Category",
-			"search": "Search"
+			"category": "Kategoria",
+			"search": "Szukaj"
 		},
 		"statistics": {
 			"card": {
-				"DEBT_TOTAL_I_OWE_STATCARD": "Total I Owe",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total Owed to Me"
+				"DEBT_TOTAL_I_OWE_STATCARD": "Łącznie jestem winien",
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Łącznie mi należne"
 			}
 		},
-		"updateInfo": "Debt updated successfully!",
-		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"updateInfo": "Dług zaktualizowany pomyślnie!",
+		"deleteInfo": "Dług usunięty pomyślnie!",
+		"paymentInfo": "Płatność zarejestrowana pomyślnie!",
+		"empty": {
+			"title": "Brak długów",
+			"subtitle": "Śledź pieniądze, które jesteś winien lub które są Ci winne."
+		}
 	},
 	"investments": {
 		"title": "Inwestycje",

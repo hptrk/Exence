@@ -1108,7 +1108,11 @@
 		},
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"paymentInfo": "Payment recorded successfully!",
+		"empty": {
+			"title": "No debts yet",
+			"subtitle": "Track money you owe or are owed by others."
+		}
 	},
 	"investments": {
 		"title": "Investments",
