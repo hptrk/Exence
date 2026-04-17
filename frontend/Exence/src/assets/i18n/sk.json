@@ -1043,7 +1043,11 @@
 			"status": "Stav"
 		},
 		"updateInfo": "Cieľ bol úspešne aktualizovaný!",
-		"deleteInfo": "Cieľ bol úspešne odstránený!"
+		"deleteInfo": "Cieľ bol úspešne odstránený!",
+		"empty": {
+			"title": "Zatiaľ žiadne ciele",
+			"subtitle": "Začnite šetriť na dosiahnutie svojich cieľov vytvorením prvého."
+		}
 	},
 	"debts": {
 		"title": "Dlhy",

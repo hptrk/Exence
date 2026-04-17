@@ -1043,7 +1043,11 @@
 			"status": "Stato"
 		},
 		"updateInfo": "Obiettivo aggiornato con successo!",
-		"deleteInfo": "Obiettivo eliminato con successo!"
+		"deleteInfo": "Obiettivo eliminato con successo!",
+		"empty": {
+			"title": "Nessun obiettivo ancora",
+			"subtitle": "Inizia a risparmiare verso i tuoi obiettivi creando il primo."
+		}
 	},
 	"debts": {
 		"title": "Debiti",

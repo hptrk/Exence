@@ -5,8 +5,8 @@
 		}
 	</article>
 
-	<article class="chart-grid">
-		@for (chart of charts; track chart) {
+	<article class="chart-grid" [class.single-chart]="!hasCategories()">
+		@for (chart of visibleCharts(); track chart) {
 			@if (store.goalResource.isLoading()) {
 				<ex-animated-skeleton-loader height="600px" width="100%" />
 			} @else {

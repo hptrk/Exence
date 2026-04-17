@@ -1043,7 +1043,11 @@
 			"status": "Status"
 		},
 		"updateInfo": "Goal updated successfully!",
-		"deleteInfo": "Goal deleted successfully!"
+		"deleteInfo": "Goal deleted successfully!",
+		"empty": {
+			"title": "No goals yet",
+			"subtitle": "Start saving towards your goals by creating your first one."
+		}
 	},
 	"debts": {
 		"title": "Debts",
