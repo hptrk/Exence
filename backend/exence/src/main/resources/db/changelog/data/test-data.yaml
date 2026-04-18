@@ -43,14 +43,14 @@ databaseChangeLog:
                   valueNumeric: 2
               - column:
                   name: username
-                  value: Winston
+                  value: Winston2
               - column:
                   name: email
                   value: captainwinnie2@exence.com
               - column:
                   name: password
-                  # Password: Test123!
-                  value: $argon2id$v=19$m=16384,t=2,p=1$5AxT9E1LV/etFs6qRdEf5Q$CV/y22dJjwGGEUPveLvIHEQHHVHcXpjHpiyU1YhZjU8
+                  # Password: Password123!
+                  value: $argon2id$v=19$m=16384,t=2,p=1$COLftIY2kQ+6XZ7jujaUfQ$LYsU3d0BlTYeIq2S3XxlH8DftB1r5fGyr5j2XhFzbmM
               - column:
                   name: email_verified
                   valueBoolean: true
@@ -59,7 +59,7 @@ databaseChangeLog:
                   valueComputed: "${now}"
               - column:
                   name: role
-                  value: ADMIN
+                  value: USER
 
         # Workspace
         - insert:

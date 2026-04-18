@@ -1,0 +1,22 @@
+{
+	"category": {
+		"expense": { "name": "E2E Test Expense Category" },
+		"income": { "name": "E2E Test Income Category" }
+	},
+	"transactionTypes": {
+		"income": "INCOME",
+		"expense": "EXPENSE"
+	},
+	"transaction": {
+		"expense": { "title": "E2E Test Expense", "amount": 50 },
+		"income": { "title": "E2E Test Income", "amount": 50 }
+	},
+	"emptyStates": {
+		"noCategories": {
+			"buttonText": "Create category"
+		},
+		"noTransactions": {
+			"buttonText": "Create transaction"
+		}
+	}
+}

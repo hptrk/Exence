@@ -146,7 +146,7 @@
 						@let typeControl = transactionFilterForm.controls.type;
 						<mat-form-field subscriptSizing="dynamic">
 							<mat-label>{{ 'literals.type' | translate }}</mat-label>
-							<mat-select [formControl]="typeControl">
+							<mat-select data-testid="filter-type-select" [formControl]="typeControl">
 								<mat-option [value]="null">
 									{{ 'literals.all' | translate }}
 								</mat-option>

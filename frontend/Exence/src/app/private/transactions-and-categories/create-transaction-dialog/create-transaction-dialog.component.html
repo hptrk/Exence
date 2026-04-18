@@ -1,8 +1,18 @@
-<ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
+<ex-dialog-card
+	data-testid="create-transaction-dialog"
+	[formGroup]="form"
+	(submit)="create()"
+	[confirmExitDialog]="dialogRef"
+>
 	<div ex-dialog-card-title>{{ 'transaction.create.title' | translate }}</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
-		<mat-button-toggle-group [formControl]="form.controls.type" [hideSingleSelectionIndicator]="true" class="mb-3">
+		<mat-button-toggle-group
+			data-testid="transaction-type-toggle"
+			[formControl]="form.controls.type"
+			[hideSingleSelectionIndicator]="true"
+			class="mb-3"
+		>
 			@for (type of transactionTypes | enumValue; track type) {
 				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{
 					codeForTransactionType(type) | translate | uppercase
@@ -13,7 +23,7 @@
 		@let titleControl = form.controls.title;
 		<mat-form-field>
 			<mat-label>{{ 'transaction.create.titleLabel' | translate }}</mat-label>
-			<input matInput autoTrim [formControl]="titleControl" />
+			<input data-testid="transaction-title-input" matInput autoTrim [formControl]="titleControl" />
 			<ex-input-clear matSuffix [control]="titleControl" />
 			<mat-error>
 				<ex-validator [control]="titleControl" />
@@ -23,6 +33,7 @@
 		<div class="d-flex flex-column flex-sm-row align-items-sm-start gap-3">
 			@let amountControl = form.controls.amount;
 			<ex-amount-stepper
+				data-testid="transaction-amount-stepper"
 				[control]="amountControl"
 				label="transaction.create.amount"
 				[min]="1"
@@ -72,6 +83,7 @@
 			<mat-form-field class="flex-grow-1">
 				<mat-label>{{ 'transaction.create.category' | translate }}</mat-label>
 				<mat-select
+					data-testid="transaction-category-select"
 					selectAutoFocus
 					[focusedInput]="searchCategoryInput"
 					[formControl]="categoryControl.category"
@@ -98,7 +110,11 @@
 			</mat-form-field>
 
 			@let recurringControl = form.controls.recurring.controls.isRecurring;
-			<mat-checkbox class="flex-grow-1 flex-shrink-0" [formControl]="recurringControl">
+			<mat-checkbox
+				data-testid="transaction-recurring-checkbox"
+				class="flex-grow-1 flex-shrink-0"
+				[formControl]="recurringControl"
+			>
 				{{ 'transaction.create.recurring' | translate }}
 			</mat-checkbox>
 		</div>
