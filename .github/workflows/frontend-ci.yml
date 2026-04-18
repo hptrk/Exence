@@ -12,7 +12,8 @@ env:
   NODE_OPTIONS: --max_old_space_size=4096
 
 jobs:
-  test-and-build:
+  lint-build-test:
+    name: Lint, Build & Unit/Integration Tests
     runs-on: ubuntu-latest
 
     defaults:
@@ -44,20 +45,6 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps chromium
-
-      - name: Run E2E tests
-        run: npm run test:e2e
-
-      - name: Upload E2E test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report
-          path: frontend/Exence/playwright-report/
-          retention-days: 30
-          
       - name: Run Unit Tests
         run: npm run test:unit
         if: always()
@@ -81,3 +68,102 @@ jobs:
           name: integration-test-results
           path: frontend/Exence/test-results/
           retention-days: 30
+
+  e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    needs: lint-build-test
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: exence_db
+          POSTGRES_USER: exencedev
+          POSTGRES_PASSWORD: exencepwd
+        options: >-
+          --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        ports:
+          - 5432:5432
+
+      maildev:
+        image: maildev/maildev
+        ports:
+          - 6800:1025
+
+    defaults:
+      run:
+        working-directory: frontend/Exence
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/Exence/package-lock.json'
+
+      - name: Set up JDK 23
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '23'
+          cache: gradle
+          cache-dependency-path: 'backend/exence/gradle/wrapper/gradle-wrapper.properties'
+
+      - name: Install frontend dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
+
+      - name: Build backend
+        working-directory: backend/exence
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assemble --no-daemon -x test
+        env:
+          SPRING_PROFILES_ACTIVE: dev
+
+      - name: Start backend
+        working-directory: backend/exence
+        run: nohup java -jar build/libs/exence-1.0.0.jar > /tmp/backend.log 2>&1 &
+        env:
+          SPRING_PROFILES_ACTIVE: dev
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: exence_db
+          DB_USERNAME: exencedev
+          DB_PASSWORD: exencepwd
+          MAIL_HOST: localhost
+          MAIL_PORT: 6800
+
+      - name: Wait for backend to be ready
+        run: |
+          echo "Waiting for backend on port 8080..."
+          timeout 120 bash -c 'until nc -z localhost 8080; do sleep 2; done'
+          echo "Backend is ready"
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Upload E2E test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: frontend/Exence/playwright-report/
+          retention-days: 30
+
+      - name: Upload backend logs on failure
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: backend-logs
+          path: /tmp/backend.log
+          retention-days: 7
