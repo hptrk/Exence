@@ -147,7 +147,7 @@ export class WorkspaceItemComponent {
 			hideCloseIcon: false,
 			buttons: MessageDialogButtonConfig.custom(
 				{
-					text: this.translocoService.translate('literals.leave'),
+					text: 'literals.leave',
 					value: true,
 					matIcon: 'logout',
 					color: 'error',

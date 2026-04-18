@@ -66,13 +66,13 @@ export class EmailBroadcastComponent extends BaseComponent {
 				hideCloseIcon: false,
 				buttons: MessageDialogButtonConfig.custom(
 					{
-						text: this.translocoService.translate('admin.configurations.emailBroadcast.send'),
+						text: 'admin.configurations.emailBroadcast.send',
 						value: true,
 						matIcon: 'mail',
 						color: 'primary',
 					},
 					{
-						text: this.translocoService.translate('literals.cancel'),
+						text: 'literals.cancel',
 						value: false,
 						matIcon: 'close',
 						color: 'accent',

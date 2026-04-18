@@ -28,7 +28,8 @@
 		"yes": "Igen",
 		"no": "Nem",
 		"duplicate": "Duplicate",
-		"add": "Hozzáadás"
+		"add": "Hozzáadás",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Üdvözöllek újra, <span class='username'>{{username}}</span>!",
@@ -951,7 +952,8 @@
 		"configurations": {
 			"label": "Konfigurációk",
 			"registration": {
-				"title": "Új rendszergazda létrehozása"
+				"title": "Új rendszergazda létrehozása",
+				"success": "Rendszergazda sikeresen létrehozva."
 			},
 			"emailBroadcast": {
 				"title": "Tömeges e-mail",
@@ -1191,7 +1193,8 @@
 			"changeType": "Változás típusa",
 			"changedBy": "Módosította",
 			"dateFrom": "Kezdő dátum",
-			"dateTo": "Záró dátum"
+			"dateTo": "Záró dátum",
+			"system": "Rendszer"
 		},
 		"changeType": {
 			"CREATED": "Létrehozva",

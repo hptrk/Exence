@@ -28,7 +28,8 @@
 		"yes": "Áno",
 		"no": "Nie",
 		"duplicate": "Duplicate",
-		"add": "Pridať"
+		"add": "Pridať",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Vitajte späť, <span class='username'>{{username}}</span>!",
@@ -951,7 +952,8 @@
 		"configurations": {
 			"label": "Konfigurácie",
 			"registration": {
-				"title": "Vytvoriť nového správcu"
+				"title": "Vytvoriť nového správcu",
+				"success": "Správca bol úspešne vytvorený."
 			},
 			"emailBroadcast": {
 				"title": "Hromadný e-mail",
@@ -1191,7 +1193,8 @@
 			"changeType": "Typ zmeny",
 			"changedBy": "Zmenil",
 			"dateFrom": "Dátum od",
-			"dateTo": "Dátum do"
+			"dateTo": "Dátum do",
+			"system": "Systém"
 		},
 		"changeType": {
 			"CREATED": "Vytvorené",
