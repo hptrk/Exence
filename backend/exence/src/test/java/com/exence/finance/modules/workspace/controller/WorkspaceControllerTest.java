@@ -57,8 +57,7 @@ class WorkspaceControllerTest extends BaseControllerTest {
     @DisplayName("POST /api/workspaces - 400 when name is blank")
     void createWorkspace_blankName_returns400() throws Exception {
         // given
-        WorkspaceCreateRequest request =
-                new WorkspaceCreateRequest("", SupportedCurrency.HUF);
+        WorkspaceCreateRequest request = new WorkspaceCreateRequest("", SupportedCurrency.HUF);
 
         // when
         ResultActions result = performPost("/api/workspaces", request);
@@ -118,8 +117,7 @@ class WorkspaceControllerTest extends BaseControllerTest {
     void renameWorkspace() throws Exception {
         // given
         WorkspaceRenameRequest request = WorkspaceTestFixtures.renameRequest();
-        WorkspaceGetDTO updated = new WorkspaceGetDTO(
-                1L, "Renamed Workspace", WorkspaceRole.OWNER);
+        WorkspaceGetDTO updated = new WorkspaceGetDTO(1L, "Renamed Workspace", WorkspaceRole.OWNER);
         given(workspaceService.renameWorkspace(1L, request)).willReturn(updated);
 
         // when
@@ -223,7 +221,6 @@ class WorkspaceControllerTest extends BaseControllerTest {
         willDoNothing().given(workspaceService).removeMemberByEmail(1L, request);
 
         // when / then
-        performDeleteWithBody("/api/workspaces/{id}/members", request, 1L)
-                .andExpect(status().isNoContent());
+        performDeleteWithBody("/api/workspaces/{id}/members", request, 1L).andExpect(status().isNoContent());
     }
 }

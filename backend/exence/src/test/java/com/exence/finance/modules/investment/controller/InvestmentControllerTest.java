@@ -131,12 +131,7 @@ class InvestmentControllerTest extends BaseControllerTest {
     void createInvestment_nullPurchaseDate_returns400() throws Exception {
         // given
         InvestmentCreateDTO request = new InvestmentCreateDTO(
-                "Bitcoin",
-                null,
-                InvestmentType.CRYPTO,
-                new BigDecimal("500000.00"),
-                SupportedCurrency.HUF,
-                null);
+                "Bitcoin", null, InvestmentType.CRYPTO, new BigDecimal("500000.00"), SupportedCurrency.HUF, null);
 
         // when
         ResultActions result = performPost("/api/investments", request);

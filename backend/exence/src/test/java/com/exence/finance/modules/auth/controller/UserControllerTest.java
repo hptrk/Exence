@@ -60,8 +60,7 @@ class UserControllerTest extends BaseControllerTest {
     void updateUser() throws Exception {
         // given
         UserPatchDTO request = AuthTestFixtures.patchRequest();
-        UserGetDTO updated = new UserGetDTO(
-                1L, "UpdatedUser", "testuser@example.com", true, Role.USER);
+        UserGetDTO updated = new UserGetDTO(1L, "UpdatedUser", "testuser@example.com", true, Role.USER);
         given(userService.updateUser(request)).willReturn(updated);
 
         // when

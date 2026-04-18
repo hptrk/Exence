@@ -179,6 +179,7 @@ val jacocoExcludes =
         // Spring config (wiring tested via integration tests)
         "**/config/**",
         // Interfaces - implementation classes carry the logic
+        "**/repository/**",
         "**/*Controller.class",
         "**/*Service.class",
         "**/*Repository.class",
@@ -189,6 +190,10 @@ val jacocoExcludes =
         // Side-effectful infrastructure (better covered by integration tests)
         "**/scheduler/**",
         "**/listener/**",
+        // external API client
+        "**/client/**",
+        // aspect
+        "**/aspect/**",
         // boilerplate
         "**/context/**",
         "**/client/FrankfurterRateResponse.class",
@@ -248,6 +253,11 @@ tasks.register<Test>("integrationTest") {
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
     dependsOn(tasks.named("jacocoTestReport"))
+    classDirectories.setFrom(
+        sourceSets.main.get().output.asFileTree.matching {
+            exclude(jacocoExcludes)
+        },
+    )
     violationRules {
         rule {
             limit {

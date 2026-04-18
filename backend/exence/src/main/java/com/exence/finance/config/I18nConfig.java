@@ -1,5 +1,6 @@
-package com.exence.finance.common.i18n;
+package com.exence.finance.config;
 
+import com.exence.finance.common.i18n.UserLocaleResolver;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

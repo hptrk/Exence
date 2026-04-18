@@ -75,10 +75,8 @@ public abstract class BaseControllerTest {
 
     @BeforeEach
     void setUpBase() throws Exception {
-        given(workspaceInterceptor.preHandle(any(), any(), any()))
-                .willReturn(true);
-        given(emailVerificationInterceptor.preHandle(any(), any(), any()))
-                .willReturn(true);
+        given(workspaceInterceptor.preHandle(any(), any(), any())).willReturn(true);
+        given(emailVerificationInterceptor.preHandle(any(), any(), any())).willReturn(true);
         given(systemSettingsService.getSettings()).willReturn(new SystemSettings());
     }
 

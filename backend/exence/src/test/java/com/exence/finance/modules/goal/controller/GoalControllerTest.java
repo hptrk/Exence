@@ -106,14 +106,8 @@ class GoalControllerTest extends BaseControllerTest {
     @DisplayName("POST /api/goals - 400 when title is blank")
     void createGoal_blankTitle_returns400() throws Exception {
         // given
-        GoalCreateDTO request = new GoalCreateDTO(
-                "",
-                null,
-                new BigDecimal("3000.00"),
-                null,
-                SupportedCurrency.USD,
-                null,
-                1L);
+        GoalCreateDTO request =
+                new GoalCreateDTO("", null, new BigDecimal("3000.00"), null, SupportedCurrency.USD, null, 1L);
 
         // when
         ResultActions result = performPost("/api/goals", request);
@@ -129,8 +123,7 @@ class GoalControllerTest extends BaseControllerTest {
     @DisplayName("POST /api/goals - 400 when targetAmount is null")
     void createGoal_nullTargetAmount_returns400() throws Exception {
         // given
-        GoalCreateDTO request = new GoalCreateDTO(
-                "Vacation Fund", null, null, null, SupportedCurrency.USD, null, 1L);
+        GoalCreateDTO request = new GoalCreateDTO("Vacation Fund", null, null, null, SupportedCurrency.USD, null, 1L);
 
         // when
         ResultActions result = performPost("/api/goals", request);

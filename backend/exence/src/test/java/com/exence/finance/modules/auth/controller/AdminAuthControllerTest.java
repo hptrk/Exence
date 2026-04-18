@@ -75,12 +75,7 @@ class AdminAuthControllerTest extends BaseControllerTest {
     void registerAdmin_blankUsername_returns400() throws Exception {
         // given
         RegisterRequest request = new RegisterRequest(
-                "",
-                "admin@example.com",
-                "Password123!",
-                "Password123!",
-                SupportedCurrency.HUF,
-                "Admin Workspace");
+                "", "admin@example.com", "Password123!", "Password123!", SupportedCurrency.HUF, "Admin Workspace");
 
         // when
         ResultActions result = performPostNoWorkspace("/api/admin/auth/register", request);
