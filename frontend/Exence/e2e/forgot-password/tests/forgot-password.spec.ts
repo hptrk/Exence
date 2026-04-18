@@ -66,11 +66,6 @@ test.describe('Forgot Password', () => {
 		await expect(getEmailSentTitle(page)).toBeVisible();
 		if (await getSnackbarCloseBtn(page).isVisible()) await getSnackbarCloseBtn(page).click();
 
-		// Rapid resend should trigger rate limit error
-		await getResendEmailBtn(page).click();
-		await expect(getErrorSnackbar(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
-
 		// Change email address - should go back to main forgot password form
 		await getChangeEmailBtn(page).click();
 

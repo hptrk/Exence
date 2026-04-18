@@ -1,8 +1,14 @@
 {
 	"admin": {
 		"login": {
-			"email": "winston@exence.com",
-			"password": "Password123!"
+			"admin": {
+				"email": "winston@exence.com",
+				"password": "Password123!"
+			},
+			"user": {
+				"email": "captainwinnie2@exence.com",
+				"password": "Test123!"
+			}
 		},
 		"register": {
 			"username": "Test User",
@@ -14,8 +20,14 @@
 	},
 	"user": {
 		"login": {
-			"email": "winston@exence.com",
-			"password": "Password123!"
+			"admin": {
+				"email": "winston@exence.com",
+				"password": "Password123!"
+			},
+			"user": {
+				"email": "captainwinnie2@exence.com",
+				"password": "Test123!"
+			}
 		},
 		"register": {
 			"username": "Test User",

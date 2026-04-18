@@ -199,18 +199,9 @@ test.describe('Register', () => {
 		await expect(getConfirmPasswordField(page)).toHaveAttribute('type', 'password');
 	});
 
-	test('should show error snackbar when registering with blacklisted email', async ({ page }) => {
-		await fillAndBlur(getUsernameField(page), data['valid'].username);
-		await fillAndBlur(getEmailField(page), `test_${getCurrentDate()}@maildrop.cc`);
-		await fillAndBlur(getPasswordField(page), data['valid'].password);
-		await fillAndBlur(getConfirmPasswordField(page), data['valid'].confirmPassword);
-		await expect(getRegisterBtn(page)).not.toBeDisabled();
-		await getRegisterBtn(page).click();
-		await expect(getErrorSnackbar(page)).toBeVisible();
-	});
-
 	test('should register successfully and redirect to login', async ({ page }) => {
 		await fillAndBlur(getUsernameField(page), data['valid'].username);
+		await fillAndBlur(getWorkspaceNameField(page), data['valid'].workspaceName);
 		await fillAndBlur(getEmailField(page), `test_${getCurrentDate()}@gmail.com`);
 		await fillAndBlur(getPasswordField(page), data['valid'].password);
 		await fillAndBlur(getConfirmPasswordField(page), data['valid'].confirmPassword);

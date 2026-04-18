@@ -11,20 +11,24 @@ import {
 	getLogoutMenuItem,
 	getManageAccountsBtn,
 	getMobileMoreActionsBtn,
+	getMobileNavAdminBtn,
 	getMobileNavDashboardBtn,
 	getMobileNavDebtsBtn,
 	getMobileNavGoalsBtn,
 	getMobileNavHomeBtn,
+	getMobileNavInvestmentsBtn,
 	getMobileNavLoginBtn,
 	getMobileNavRegisterBtn,
 	getMobileNavStatisticsBtn,
 	getMobileNavTransactionsBtn,
 	getMobileNavigation,
 	getMoreActionsBtn,
+	getNavAdminBtn,
 	getNavDashboardBtn,
 	getNavDebtsBtn,
 	getNavGoalsBtn,
 	getNavHomeBtn,
+	getNavInvestmentsBtn,
 	getNavLoginBtn,
 	getNavRegisterBtn,
 	getNavStatisticsBtn,
@@ -171,6 +175,10 @@ test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
 		await expect(getNavDebtsBtn(page)).toBeVisible();
 		await expect(getNavDebtsBtn(page).locator('mat-icon')).toBeVisible();
 		await expect(getNavDebtsBtn(page)).toContainText('Debts');
+
+		await expect(getNavInvestmentsBtn(page)).toBeVisible();
+		await expect(getNavInvestmentsBtn(page).locator('mat-icon')).toBeVisible();
+		await expect(getNavInvestmentsBtn(page)).toContainText('Investments');
 	});
 
 	test('should navigation buttons navigate to the correct pages and have active class', async ({ page }) => {
@@ -181,6 +189,7 @@ test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavStatisticsBtn(page).click();
 		await page.waitForURL('/statistics');
@@ -189,6 +198,7 @@ test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
 		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavGoalsBtn(page).click();
 		await page.waitForURL('/goals');
@@ -197,6 +207,7 @@ test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
 		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavDebtsBtn(page).click();
 		await page.waitForURL('/debts');
@@ -205,6 +216,16 @@ test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
 		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
+
+		await getNavInvestmentsBtn(page).click();
+		await page.waitForURL('/investments');
+		await expect(getNavInvestmentsBtn(page)).toHaveClass(/active/);
+		await expect(getNavDashboardBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavDashboardBtn(page).click();
 		await page.waitForURL('/dashboard');
@@ -213,6 +234,7 @@ test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 	});
 
 	test('should display action buttons', async ({ page }) => {
@@ -411,6 +433,10 @@ test.describe('Sidebar — authenticated, md (768–1279px)', () => {
 		await expect(getNavDebtsBtn(page)).toBeVisible();
 		await expect(getNavDebtsBtn(page).locator('mat-icon')).toBeVisible();
 		await expect(getNavDebtsBtn(page)).toContainText('');
+
+		await expect(getNavInvestmentsBtn(page)).toBeVisible();
+		await expect(getNavInvestmentsBtn(page).locator('mat-icon')).toBeVisible();
+		await expect(getNavInvestmentsBtn(page)).toContainText('');
 	});
 
 	test('should navigation buttons navigate to the correct pages and have active class', async ({ page }) => {
@@ -421,6 +447,7 @@ test.describe('Sidebar — authenticated, md (768–1279px)', () => {
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavStatisticsBtn(page).click();
 		await page.waitForURL('/statistics');
@@ -429,6 +456,7 @@ test.describe('Sidebar — authenticated, md (768–1279px)', () => {
 		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavGoalsBtn(page).click();
 		await page.waitForURL('/goals');
@@ -437,6 +465,7 @@ test.describe('Sidebar — authenticated, md (768–1279px)', () => {
 		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavDebtsBtn(page).click();
 		await page.waitForURL('/debts');
@@ -445,6 +474,16 @@ test.describe('Sidebar — authenticated, md (768–1279px)', () => {
 		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
+
+		await getNavInvestmentsBtn(page).click();
+		await page.waitForURL('/investments');
+		await expect(getNavInvestmentsBtn(page)).toHaveClass(/active/);
+		await expect(getNavDashboardBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
 
 		await getNavDashboardBtn(page).click();
 		await page.waitForURL('/dashboard');
@@ -453,6 +492,7 @@ test.describe('Sidebar — authenticated, md (768–1279px)', () => {
 		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 	});
 
 	test('should display more button instead of action buttons', async ({ page }) => {
@@ -654,6 +694,10 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 		await expect(getMobileNavDebtsBtn(page)).toBeVisible();
 		await expect(getMobileNavDebtsBtn(page).locator('mat-icon')).toBeVisible();
 		await expect(getMobileNavDebtsBtn(page)).toContainText('');
+
+		await expect(getMobileNavInvestmentsBtn(page)).toBeVisible();
+		await expect(getMobileNavInvestmentsBtn(page).locator('mat-icon')).toBeVisible();
+		await expect(getMobileNavInvestmentsBtn(page)).toContainText('');
 	});
 
 	test('should not display logo in mobile view', async ({ page }) => {
@@ -689,6 +733,7 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 		await expect(getMobileNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getMobileNavStatisticsBtn(page).click();
 		await page.waitForURL('/statistics');
@@ -697,6 +742,7 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 		await expect(getMobileNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getMobileNavGoalsBtn(page).click();
 		await page.waitForURL('/goals');
@@ -705,6 +751,7 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 		await expect(getMobileNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavDashboardBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 
 		await getMobileNavDebtsBtn(page).click();
 		await page.waitForURL('/debts');
@@ -713,6 +760,16 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 		await expect(getMobileNavTransactionsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavInvestmentsBtn(page)).not.toHaveClass(/active/);
+
+		await getMobileNavInvestmentsBtn(page).click();
+		await page.waitForURL('/investments');
+		await expect(getMobileNavInvestmentsBtn(page)).toHaveClass(/active/);
+		await expect(getMobileNavDashboardBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavTransactionsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavStatisticsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavDebtsBtn(page)).not.toHaveClass(/active/);
 
 		await getMobileNavDashboardBtn(page).click();
 		await page.waitForURL('/dashboard');
@@ -721,6 +778,7 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 		await expect(getMobileNavStatisticsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavGoalsBtn(page)).not.toHaveClass(/active/);
 		await expect(getMobileNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 	});
 
 	test('should open profile dialog via mobile menu', async ({ page }) => {
@@ -748,5 +806,130 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 
 		const after2 = await page.evaluate(() => localStorage.getItem('themePreference'));
 		expect(after2).toBe('primary');
+	});
+});
+
+test.describe('Sidebar — admin, xl (≥1280px)', () => {
+	test.use({ viewport: { width: 1400, height: 900 } });
+
+	test.beforeEach(async ({ page, context }) => {
+		await context.clearCookies({ domain: 'localhost' });
+		await page.addInitScript(() => {
+			localStorage.setItem('language', 'en');
+			localStorage.removeItem('themePreference');
+		});
+		await attemptLogin(page, 'admin');
+		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.waitForURL('/dashboard');
+	});
+
+	test('should display admin nav button with text', async ({ page }) => {
+		await expect(getNavAdminBtn(page)).toBeVisible();
+		await expect(getNavAdminBtn(page).locator('mat-icon')).toBeVisible();
+		await expect(getNavAdminBtn(page)).toContainText('Admin');
+	});
+
+	test('should display regular nav buttons alongside admin button', async ({ page }) => {
+		await expect(getNavDashboardBtn(page)).toBeVisible();
+		await expect(getNavTransactionsBtn(page)).toBeVisible();
+		await expect(getNavStatisticsBtn(page)).toBeVisible();
+		await expect(getNavGoalsBtn(page)).toBeVisible();
+		await expect(getNavDebtsBtn(page)).toBeVisible();
+		await expect(getNavInvestmentsBtn(page)).toBeVisible();
+	});
+
+	test('should admin nav button navigate to admin page and have active class', async ({ page }) => {
+		await getNavAdminBtn(page).click();
+		await page.waitForURL('/admin');
+		await expect(getNavAdminBtn(page)).toHaveClass(/active/);
+		await expect(getNavDashboardBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
+	});
+});
+
+test.describe('Sidebar — admin, md (768–1279px)', () => {
+	test.use({ viewport: { width: 900, height: 700 } });
+
+	test.beforeEach(async ({ page, context }) => {
+		await context.clearCookies({ domain: 'localhost' });
+		await page.addInitScript(() => {
+			localStorage.setItem('language', 'en');
+			localStorage.removeItem('themePreference');
+		});
+		await attemptLogin(page, 'admin');
+		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.waitForURL('/dashboard');
+	});
+
+	test('should display admin nav button without text', async ({ page }) => {
+		await expect(getNavAdminBtn(page)).toBeVisible();
+		await expect(getNavAdminBtn(page).locator('mat-icon')).toBeVisible();
+		await expect(getNavAdminBtn(page)).toContainText('');
+	});
+
+	test('should display regular nav buttons alongside admin button', async ({ page }) => {
+		await expect(getNavDashboardBtn(page)).toBeVisible();
+		await expect(getNavTransactionsBtn(page)).toBeVisible();
+		await expect(getNavStatisticsBtn(page)).toBeVisible();
+		await expect(getNavGoalsBtn(page)).toBeVisible();
+		await expect(getNavDebtsBtn(page)).toBeVisible();
+		await expect(getNavInvestmentsBtn(page)).toBeVisible();
+	});
+
+	test('should admin nav button navigate to admin page and have active class', async ({ page }) => {
+		await getNavAdminBtn(page).click();
+		await page.waitForURL('/admin');
+		await expect(getNavAdminBtn(page)).toHaveClass(/active/);
+		await expect(getNavDashboardBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavTransactionsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavStatisticsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getNavInvestmentsBtn(page)).not.toHaveClass(/active/);
+	});
+});
+
+test.describe('Sidebar — admin, mobile (<768px)', () => {
+	test.use({ viewport: { width: 500, height: 700 } });
+
+	test.beforeEach(async ({ page, context }) => {
+		await context.clearCookies({ domain: 'localhost' });
+		await page.addInitScript(() => {
+			localStorage.setItem('language', 'en');
+			localStorage.removeItem('themePreference');
+		});
+		await attemptLogin(page, 'admin');
+		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.waitForURL('/dashboard');
+	});
+
+	test('should display admin nav button in mobile bar', async ({ page }) => {
+		await expect(getMobileNavAdminBtn(page)).toBeVisible();
+		await expect(getMobileNavAdminBtn(page).locator('mat-icon')).toBeVisible();
+	});
+
+	test('should display regular nav buttons alongside admin button', async ({ page }) => {
+		await expect(getMobileNavDashboardBtn(page)).toBeVisible();
+		await expect(getMobileNavTransactionsBtn(page)).toBeVisible();
+		await expect(getMobileNavStatisticsBtn(page)).toBeVisible();
+		await expect(getMobileNavGoalsBtn(page)).toBeVisible();
+		await expect(getMobileNavDebtsBtn(page)).toBeVisible();
+		await expect(getMobileNavInvestmentsBtn(page)).toBeVisible();
+	});
+
+	test('should admin nav button navigate to admin page and have active class', async ({ page }) => {
+		await getMobileNavAdminBtn(page).click();
+		await page.waitForURL('/admin');
+		await expect(getMobileNavAdminBtn(page)).toHaveClass(/active/);
+		await expect(getMobileNavDashboardBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavTransactionsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavStatisticsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavGoalsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavDebtsBtn(page)).not.toHaveClass(/active/);
+		await expect(getMobileNavInvestmentsBtn(page)).not.toHaveClass(/active/);
 	});
 });
