@@ -28,7 +28,8 @@
 		"yes": "Tak",
 		"no": "Nie",
 		"duplicate": "Duplicate",
-		"add": "Dodaj"
+		"add": "Dodaj",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Witamy ponownie, <span class='username'>{{username}}</span>!",
@@ -951,7 +952,8 @@
 		"configurations": {
 			"label": "Konfiguracje",
 			"registration": {
-				"title": "Utwórz nowego użytkownika administratora"
+				"title": "Utwórz nowego użytkownika administratora",
+				"success": "Użytkownik administratora został pomyślnie utworzony."
 			},
 			"emailBroadcast": {
 				"title": "Masowa wiadomość e-mail",
@@ -1191,7 +1193,8 @@
 			"changeType": "Typ zmiany",
 			"changedBy": "Zmienione przez",
 			"dateFrom": "Data od",
-			"dateTo": "Data do"
+			"dateTo": "Data do",
+			"system": "System"
 		},
 		"changeType": {
 			"CREATED": "Utworzono",

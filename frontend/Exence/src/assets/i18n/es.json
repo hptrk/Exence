@@ -28,7 +28,8 @@
 		"yes": "Sí",
 		"no": "No",
 		"duplicate": "Duplicate",
-		"add": "Agregar"
+		"add": "Agregar",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Bienvenido/a de nuevo, <span class='username'>{{username}}</span>!",
@@ -951,7 +952,8 @@
 		"configurations": {
 			"label": "Configuraciones",
 			"registration": {
-				"title": "Crear un nuevo usuario administrador"
+				"title": "Crear un nuevo usuario administrador",
+				"success": "Usuario administrador creado con éxito."
 			},
 			"emailBroadcast": {
 				"title": "Correo masivo",
@@ -1191,7 +1193,8 @@
 			"changeType": "Tipo de cambio",
 			"changedBy": "Modificado por",
 			"dateFrom": "Desde fecha",
-			"dateTo": "Hasta fecha"
+			"dateTo": "Hasta fecha",
+			"system": "Sistema"
 		},
 		"changeType": {
 			"CREATED": "Creado",

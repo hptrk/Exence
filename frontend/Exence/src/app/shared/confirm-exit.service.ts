@@ -35,7 +35,7 @@ export class ConfirmExitService {
 			hideCloseIcon: true,
 			buttons: MessageDialogButtonConfig.custom(
 				{
-					text: this.translocoService.translate('literals.continue'),
+					text: 'literals.continue',
 					value: true,
 					color: 'primary',
 					iconPositionEnd: true,

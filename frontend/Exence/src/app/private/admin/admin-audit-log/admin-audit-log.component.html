@@ -32,7 +32,7 @@
 				<ex-input-clear matSuffix [control]="changedByControl" />
 				<mat-autocomplete #changedByAuto>
 					@if (showSystemOption()) {
-						<mat-option value="SYSTEM">SYSTEM</mat-option>
+						<mat-option value="SYSTEM">{{ 'auditLog.filter.system' | translate }}</mat-option>
 					}
 					@for (member of filteredMembers(); track member.userId) {
 						<mat-option [value]="member.username"> {{ member.username }} ({{ member.email }}) </mat-option>

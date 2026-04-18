@@ -28,7 +28,8 @@
 		"yes": "Yes",
 		"no": "No",
 		"duplicate": "Duplicate",
-		"add": "Add"
+		"add": "Add",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Welcome back, <span class='username'>{{username}}</span>!",
@@ -951,7 +952,8 @@
 		"configurations": {
 			"label": "Configs",
 			"registration": {
-				"title": "Create new Admin user"
+				"title": "Create new Admin user",
+				"success": "Admin user created successfully."
 			},
 			"emailBroadcast": {
 				"title": "Broadcast Email",
@@ -1191,7 +1193,8 @@
 			"changeType": "Change Type",
 			"changedBy": "Changed By",
 			"dateFrom": "From Date",
-			"dateTo": "To Date"
+			"dateTo": "To Date",
+			"system": "System"
 		},
 		"changeType": {
 			"CREATED": "Created",

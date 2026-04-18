@@ -147,7 +147,7 @@ export class TransactionListComponent {
 			hideCloseIcon: false,
 			buttons: MessageDialogButtonConfig.custom(
 				{
-					text: this.translocoService.translate('transactionsAndCategories.duplicate'),
+					text: 'transactionsAndCategories.duplicate',
 					value: true,
 					color: 'primary',
 					iconPositionEnd: true,

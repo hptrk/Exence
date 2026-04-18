@@ -85,7 +85,7 @@ export class AdminRegistrationComponent extends BaseComponent {
 			workspaceName: formValue.workspaceName,
 		};
 		await this.adminAuthService.register(request);
-		this.snackbarService.showSuccess('Admin user created successfully.');
+		this.snackbarService.showSuccess(this.translocoService.translate('admin.configurations.registration.success'));
 		this.form.reset();
 	}
 
