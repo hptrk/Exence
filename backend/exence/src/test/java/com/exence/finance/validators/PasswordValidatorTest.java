@@ -1,21 +1,22 @@
 package com.exence.finance.validators;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
 
 import com.exence.finance.common.i18n.I18nService;
 import com.exence.finance.common.validators.PasswordValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
 public class PasswordValidatorTest {
 
     @Mock
@@ -31,54 +32,89 @@ public class PasswordValidatorTest {
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
         validator = new PasswordValidator(i18n);
-
-        lenient()
-                .when(context.buildConstraintViolationWithTemplate(anyString()))
-                .thenReturn(builder);
-        lenient().when(builder.addConstraintViolation()).thenReturn(context);
-        lenient().doNothing().when(context).disableDefaultConstraintViolation();
-
-        when(i18n.get(eq("validation.password.lowercase"))).thenReturn("must contain at least one lowercase letter");
-        when(i18n.get(eq("validation.password.uppercase"))).thenReturn("must contain at least one uppercase letter");
-        when(i18n.get(eq("validation.password.digit"))).thenReturn("must contain at least one number");
-        when(i18n.get(eq("validation.password.special-char"), any()))
-                .thenReturn("must contain at least one special character");
-        when(i18n.get(eq("validation.password.violations"), any())).thenReturn("Password validation failed");
     }
 
     @Test
-    void test_validComplexPassword() {
-        assertTrue(validator.isValid("BiztiBoy123!", context));
-        assertTrue(validator.isValid("komplex$naGyon99", context));
-        assertTrue(validator.isValid("EroS&P@ssw0rd", context));
+    @DisplayName("returns true for valid complex passwords")
+    void validate_complexPassword() {
+        // given
+        String first = "SecureBoy123!";
+        String second = "Complex$very99";
+        String third = "Strong&P@ssw0rd";
+
+        // when / then
+        assertThat(validator.isValid(first, context)).isTrue();
+        assertThat(validator.isValid(second, context)).isTrue();
+        assertThat(validator.isValid(third, context)).isTrue();
     }
 
     @Test
-    void test_passwordWithoutLowercase() {
-        assertFalse(validator.isValid("NAGYBETU123!", context));
+    @DisplayName("returns false when password has no lowercase letters")
+    void validate_withoutLowercase() {
+        // given
+        given(i18n.get(eq("validation.password.lowercase"))).willReturn("must have lowercase");
+        given(i18n.get(eq("validation.password.violations"), any())).willReturn("Password validation failed");
+        given(context.buildConstraintViolationWithTemplate(anyString())).willReturn(builder);
+
+        // when
+        boolean result = validator.isValid("UPPERCASE123!", context);
+
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
-    void test_passwordWithoutUppercase() {
-        assertFalse(validator.isValid("kisbetu123!", context));
+    @DisplayName("returns false when password has no uppercase letters")
+    void validate_withoutUppercase() {
+        // given
+        given(i18n.get(eq("validation.password.uppercase"))).willReturn("must have uppercase");
+        given(i18n.get(eq("validation.password.violations"), any())).willReturn("Password validation failed");
+        given(context.buildConstraintViolationWithTemplate(anyString())).willReturn(builder);
+
+        // when
+        boolean result = validator.isValid("lowercase123!", context);
+
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
-    void test_passwordWithoutDigit() {
-        assertFalse(validator.isValid("NincsBenneSzam!", context));
+    @DisplayName("returns false when password has no digits")
+    void validate_withoutDigit() {
+        // given
+        given(i18n.get(eq("validation.password.digit"))).willReturn("must have digit");
+        given(i18n.get(eq("validation.password.violations"), any())).willReturn("Password validation failed");
+        given(context.buildConstraintViolationWithTemplate(anyString())).willReturn(builder);
+
+        // when
+        boolean result = validator.isValid("NoDigitsHere!", context);
+
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
-    void test_passwordWithoutSpecialChar() {
-        assertFalse(validator.isValid("NincsSpecialChar1221", context));
+    @DisplayName("returns false when password has no special character")
+    void validate_withoutSpecialChar() {
+        // given
+        given(i18n.get(eq("validation.password.special-char"), any())).willReturn("must have special char");
+        given(i18n.get(eq("validation.password.violations"), any())).willReturn("Password validation failed");
+        given(context.buildConstraintViolationWithTemplate(anyString())).willReturn(builder);
+
+        // when
+        boolean result = validator.isValid("NoSpecialChar1221", context);
+
+        // then
+        assertThat(result).isFalse();
     }
 
     @Test
-    void test_nullOrEmptyPassword() {
-        assertTrue(validator.isValid(null, context));
-        assertTrue(validator.isValid("", context));
-        assertTrue(validator.isValid("   ", context));
+    @DisplayName("returns true for null or blank passwords")
+    void validate_nullOrBlank() {
+        // when / then
+        assertThat(validator.isValid(null, context)).isTrue();
+        assertThat(validator.isValid("", context)).isTrue();
+        assertThat(validator.isValid("   ", context)).isTrue();
     }
 }
