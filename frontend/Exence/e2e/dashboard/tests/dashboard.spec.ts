@@ -34,7 +34,6 @@ import {
 	getFilterTypeSelect,
 } from '../../transactions/locators/transactions-locators';
 import dashboardData from '../data/dashboard.data.json';
-import authData from '../../auth/data/auth.data.json';
 
 // General
 test.describe('Dashboard - components', () => {

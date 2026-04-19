@@ -6,7 +6,11 @@ import {
 	getTransactionCategorySelect,
 	getTransactionCreateBtn,
 	getTransactionCreateBtnInner,
+	getTransactionCurrencyOption,
+	getTransactionCurrencySelect,
+	getTransactionDateInput,
 	getTransactionRecurringCheckbox,
+	getTransactionRecurringCheckboxInput,
 	getTransactionTitleInput,
 	getTransactionTypeToggle,
 } from '../../transaction/locators/transaction-dialog-locators';
@@ -19,6 +23,10 @@ export interface CreateTransactionData {
 	/** Override the type toggle. Omit when the dialog was already opened with the desired type. */
 	type?: TransactionType;
 	recurring?: boolean;
+	/** Select a non-default currency (e.g. 'EUR'). Omit to keep the workspace base currency. */
+	currency?: string;
+	/** Override the date in MM/dd/yyyy format. Omit to keep today. */
+	date?: string;
 }
 
 export async function createTransaction(page: Page, data: CreateTransactionData): Promise<void> {
@@ -27,7 +35,10 @@ export async function createTransaction(page: Page, data: CreateTransactionData)
 	}
 
 	if (data.recurring) {
-		await getTransactionRecurringCheckbox(page).click();
+		const isChecked = await getTransactionRecurringCheckboxInput(page).isChecked();
+		if (!isChecked) {
+			await getTransactionRecurringCheckbox(page).click();
+		}
 	}
 
 	await fillAndBlur(getTransactionTitleInput(page), data.title);
@@ -35,6 +46,18 @@ export async function createTransaction(page: Page, data: CreateTransactionData)
 	const amountInput = getTransactionAmountInput(page);
 	await amountInput.clear();
 	await fillAndBlur(amountInput, String(data.amount));
+
+	if (data.date) {
+		const dateInput = getTransactionDateInput(page);
+		await dateInput.clear();
+		await fillAndBlur(dateInput, data.date);
+	}
+
+	if (data.currency) {
+		await getTransactionCurrencySelect(page).click();
+		await getTransactionCurrencyOption(page, data.currency).waitFor({ state: 'visible' });
+		await getTransactionCurrencyOption(page, data.currency).click();
+	}
 
 	await getTransactionCategorySelect(page).click();
 	await getFirstMatOption(page).waitFor({ state: 'visible' });

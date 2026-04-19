@@ -655,7 +655,7 @@
 		"message": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie gehen wollen? Ihre Änderungen gehen dann verloren."
 	},
 	"icons": {
-		"localConvenienceStore": "lokaler_Convenience_store",
+		"localConvenienceStore": "lokaler convenience store",
 		"shoppingBasket": "Einkaufskorb",
 		"fridge": "Kühlschrank",
 		"skillet": "Bratpfanne",

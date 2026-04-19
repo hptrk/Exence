@@ -16,6 +16,7 @@
 			@for (color of predefinedColors | enumValue; track color) {
 				<label
 					data-testid="color-option"
+					[attr.data-color]="predefinedIconColorsData[color]"
 					[style.background-color]="predefinedIconColorsData[color]"
 					class="color-square"
 					[class.selected]="form.value.color === color"

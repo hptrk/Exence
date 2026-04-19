@@ -359,6 +359,52 @@ describe('CreateTransactionDialogComponent', () => {
 		});
 	});
 
+	describe('category validator', () => {
+		beforeEach(async () => {
+			await setup();
+			fixture.detectChanges();
+			await fixture.whenStable();
+		});
+
+		it('should be invalid when no category is selected', () => {
+			expect(component.form.controls.category.controls.category.invalid).toBeTrue();
+		});
+
+		it('should be valid when a category is selected', () => {
+			component.form.controls.category.controls.category.setValue(MOCK_CATEGORIES[0]);
+			expect(component.form.controls.category.controls.category.valid).toBeTrue();
+		});
+
+		it('should mark searchText as invalid when it exceeds 25 characters', () => {
+			component.form.controls.category.controls.searchText.setValue('a'.repeat(26));
+			expect(component.form.controls.category.controls.searchText.invalid).toBeTrue();
+			expect(component.form.controls.category.controls.searchText.hasError('maxlength')).toBeTrue();
+		});
+
+		it('should keep searchText valid when it is exactly 25 characters', () => {
+			component.form.controls.category.controls.searchText.setValue('a'.repeat(25));
+			expect(component.form.controls.category.controls.searchText.valid).toBeTrue();
+		});
+
+		it('should filter categories by searchText case-insensitively', () => {
+			component.form.controls.category.controls.searchText.setValue('GRO');
+			const result = component.filteredCategories();
+			expect(result.length).toBe(1);
+			expect(result[0].name).toBe('Groceries');
+		});
+
+		it('should show all type-matching categories when searchText is empty', () => {
+			component.form.controls.category.controls.searchText.setValue('');
+			const result = component.filteredCategories();
+			expect(result.length).toBe(2); // EXPENSE + MIXED for default EXPENSE type
+		});
+
+		it('should return empty array when searchText matches no category', () => {
+			component.form.controls.category.controls.searchText.setValue('zzz');
+			expect(component.filteredCategories()).toEqual([]);
+		});
+	});
+
 	describe('create()', () => {
 		beforeEach(async () => {
 			await setup();

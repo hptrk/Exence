@@ -17,11 +17,12 @@ export interface CreateCategoryData {
 	type?: CategoryType;
 }
 
-async function selectIconAndColor(page: Page): Promise<void> {
+async function selectIconAndColor(page: Page): Promise<string> {
 	await getIconPickerTrigger(page).click();
 
 	const firstColor = getFirstColorOption(page);
 	await firstColor.waitFor({ state: 'visible' });
+	const color = (await firstColor.getAttribute('data-color'))!;
 	await firstColor.click();
 
 	const firstIcon = getFirstIconOption(page);
@@ -30,17 +31,24 @@ async function selectIconAndColor(page: Page): Promise<void> {
 
 	// Menu auto-closes once both icon and color are chosen
 	await firstColor.waitFor({ state: 'hidden' });
+	return color;
 }
 
-export async function createCategory(page: Page, data: CreateCategoryData): Promise<void> {
+export interface CreateCategoryResult {
+	color: string;
+}
+
+export async function createCategory(page: Page, data: CreateCategoryData): Promise<CreateCategoryResult> {
 	if (data.type) {
 		await getCategoryTypeToggle(page).getByText(data.type, { exact: true }).click();
 	}
 
 	await fillAndBlur(getCategoryNameInput(page), data.name);
-	await selectIconAndColor(page);
+	const color = await selectIconAndColor(page);
 
 	const submitBtn = getCategorySubmitBtn(page);
 	await submitBtn.waitFor({ state: 'visible' });
 	await submitBtn.click();
+
+	return { color };
 }

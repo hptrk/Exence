@@ -1,0 +1,87 @@
+{
+	"tabs": {
+		"transactions": "Transactions",
+		"categories": "Categories"
+	},
+	"title": {
+		"transactions": "Transactions",
+		"categories": "Categories"
+	},
+	"filter": {
+		"types": {
+			"expense": "EXPENSE",
+			"income": "INCOME"
+		},
+		"labels": {
+			"expense": "EXPENSE",
+			"income": "INCOME"
+		},
+		"badgeCount": "1",
+		"addButton": "Add filter"
+	},
+	"transaction": {
+		"expense": {
+			"title": "E2E Transactions Expense",
+			"amount": 100
+		},
+		"income": {
+			"title": "E2E Transactions Income",
+			"amount": 200
+		},
+		"expenseUnique": {
+			"title": "E2E Unique Expense Filter",
+			"amount": 9999
+		},
+		"incomeUnique": {
+			"title": "E2E Unique Income Filter",
+			"amount": 8888
+		}
+	},
+	"recurring": {
+		"expense": {
+			"title": "E2E Recurring Expense",
+			"amount": 50
+		},
+		"income": {
+			"title": "E2E Recurring Income",
+			"amount": 75
+		}
+	},
+	"category": {
+		"expense": {
+			"name": "E2E Expense Cat"
+		},
+		"income": {
+			"name": "E2E Income Cat"
+		},
+		"mixed": {
+			"name": "E2E Mixed Cat"
+		}
+	},
+	"expandedDetails": {
+		"noteLabel": "Note",
+		"createdAtLabel": "Created at:",
+		"recurringLabel": "Auto. created?",
+		"recurringNo": "No",
+		"frequencyLabel": "Frequency",
+		"nextExecutionLabel": "Next execution date",
+		"occurrenceLabel": "Occurrence count",
+		"endsLabel": "Ends:",
+		"endsNever": "Never",
+		"loggedCurrencyLabel": "Logged currency",
+		"amountLoggedLabel": "Amount in logged currency",
+		"baseCurrencyLabel": "Base currency",
+		"amountBaseLabel": "Amount in base currency",
+		"exchangeRateLabel": "Exchange rate"
+	},
+	"foreignCurrency": "EUR",
+	"listTitles": {
+		"recurringExpenses": "Recurring Expenses",
+		"recurringIncomes": "Recurring Incomes",
+		"recurringTransactions": "Recurrings"
+	},
+	"snackbar": {
+		"transactionDeleted": "Transaction deleted successfully!",
+		"transactionUpdated": "Transaction"
+	}
+}

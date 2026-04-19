@@ -15,7 +15,7 @@
 			</mat-form-field>
 
 			<div class="d-flex flex-row flex-nowrap gap-2 align-items-center flex-grow-1">
-				<mat-checkbox [formControl]="form.controls.showBaseCurrency">
+				<mat-checkbox data-testid="show-base-currency-checkbox" [formControl]="form.controls.showBaseCurrency">
 					<span [class.text-nowrap]="display.isMd()">{{
 						'profile.userSettings.currency.showBaseCurrency.label' | translate
 					}}</span>

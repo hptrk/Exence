@@ -94,7 +94,14 @@
 		</div>
 	</mat-drawer>
 	<mat-drawer-content class="position-relative">
-		<ex-button iconButton matIcon="close" mat-dialog-close color="accent" class="close-button" />
+		<ex-button
+			data-testid="profile-dialog-close-btn"
+			iconButton
+			matIcon="close"
+			mat-dialog-close
+			color="accent"
+			class="close-button"
+		/>
 		<section class="h-100 p-4 p-lg-5 d-flex flex-column gap-4">
 			@switch (selectedPage()) {
 				@case ('workspace-settings') {

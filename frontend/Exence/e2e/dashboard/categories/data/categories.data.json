@@ -1,8 +1,4 @@
 {
-	"category": {
-		"expense": { "name": "E2E Test Expense Category" },
-		"income": { "name": "E2E Test Income Category" }
-	},
 	"transactionTypes": {
 		"income": "INCOME",
 		"expense": "EXPENSE"

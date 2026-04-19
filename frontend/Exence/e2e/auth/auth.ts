@@ -31,7 +31,7 @@ interface AuthInfo {
 
 export async function attemptLogin(page: Page, type: 'user' | 'admin'): Promise<void> {
 	const data: AuthInfo = JSON.parse(JSON.stringify(dataJson));
-	const credentials = data[type].login[type];
+	const credentials = data[type].login;
 
 	await page.goto('/public/login');
 

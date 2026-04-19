@@ -72,6 +72,10 @@
 														@for (action of actions(); track action.label) {
 															<button
 																mat-menu-item
+																[attr.data-testid]="
+																	'row-action-' +
+																	(action.label | translate | lowercase)
+																"
 																(click)="action.handler(row)"
 																[disabled]="
 																	action.disabled ? action.disabled(row) : false

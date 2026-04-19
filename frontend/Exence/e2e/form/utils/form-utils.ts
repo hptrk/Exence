@@ -1,7 +1,9 @@
+import { format, subDays } from 'date-fns';
 import { Locator } from '@playwright/test';
 
 export async function fillAndBlur(field: Locator, value: string): Promise<void> {
-	await field.click();
+	await field.scrollIntoViewIfNeeded();
+	await field.focus();
 	await field.fill(value);
 	await field.blur();
 }
@@ -18,6 +20,20 @@ export function getCurrentDate(): string {
 			hour12: false,
 		})
 		.replace(/[^\d]/g, '_');
+}
+
+export function getDateDaysAgo(days: number): Date {
+	return subDays(new Date(), days);
+}
+
+/** Format a date as shown in the transaction list date column: yy/MM/dd */
+export function formatDateForList(date: Date): string {
+	return format(date, 'yy/MM/dd');
+}
+
+/** Format a date for the datepicker input field (enUS locale): MM/dd/yyyy */
+export function formatDateForInput(date: Date): string {
+	return format(date, 'MM/dd/yyyy');
 }
 
 export function createUniqueName(): string {

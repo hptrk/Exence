@@ -1,0 +1,33 @@
+{
+	"valid": {
+		"title": "E2E Recurring Transaction",
+		"amount": 100,
+		"interval": 1,
+		"note": "E2E test note for recurring"
+	},
+	"validation": {
+		"titleTooLongChar": "A",
+		"titleMaxLength": 255,
+		"amountZero": 0,
+		"intervalZero": 0,
+		"maxOccurrencesZero": 0
+	},
+	"frequency": {
+		"weekly": "WEEKLY",
+		"monthly": "MONTHLY",
+		"yearly": "YEARLY"
+	},
+	"endCondition": {
+		"never": "Never",
+		"untilDate": "On a date",
+		"afterOccurrences": "Occurrences"
+	},
+	"errors": {
+		"required": "Field required",
+		"min1": "Min value is 1!",
+		"maxLength255": "Max length is 255!",
+		"dayOfWeekRequired": "You must select the day of the week!",
+		"dayOfMonthRequired": "You must select a day of the month!",
+		"endDateRequired": "End date required!"
+	}
+}

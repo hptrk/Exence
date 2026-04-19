@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { NgTemplateOutlet } from '@angular/common';
+import { LowerCasePipe, NgTemplateOutlet } from '@angular/common';
 import {
 	booleanAttribute,
 	Component,
@@ -62,6 +62,7 @@ export interface TableAction<T = unknown> {
 		StopPropagationDirective,
 		InfiniteScrollDirective,
 		TranslatePipe,
+		LowerCasePipe,
 	],
 	// TODO remove deprecated angular animations
 	/* eslint-disable */

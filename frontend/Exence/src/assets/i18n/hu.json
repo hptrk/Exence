@@ -655,7 +655,7 @@
 		"message": "Vannak el nem mentett módosításai. Biztos, hogy el akarsz menni? A módosításai elvesznek."
 	},
 	"icons": {
-		"localConvenienceStore": "local_convenience_store",
+		"localConvenienceStore": "helyi bevásárlóközpont",
 		"shoppingBasket": "Bevásárlókosár",
 		"fridge": "hűtőszekrény",
 		"skillet": "serpenyő",

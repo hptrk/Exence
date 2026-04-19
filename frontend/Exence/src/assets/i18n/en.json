@@ -655,7 +655,7 @@
 		"message": "You have unsaved changes. Are you sure you want to leave? Your changes will be lost."
 	},
 	"icons": {
-		"localConvenienceStore": "local_convenience_store",
+		"localConvenienceStore": "local convenience store",
 		"shoppingBasket": "shopping basket",
 		"fridge": "fridge",
 		"skillet": "skillet",
