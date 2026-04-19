@@ -111,15 +111,6 @@ databaseChangeLog:
               - column: { name: role, value: 'OWNER' }
               - column: { name: joined_at, valueComputed: "${now}" }
 
-        - insert:
-            tableName: workspace_member
-            columns:
-              - column: { name: id, valueNumeric: 3 }
-              - column: { name: workspace_id, valueNumeric: 3 }
-              - column: { name: user_id, valueNumeric: 3 }
-              - column: { name: role, value: 'OWNER' }
-              - column: { name: joined_at, valueComputed: "${now}" }
-
         # Workspace Settings
         - insert:
             tableName: workspace_settings

@@ -1,8 +1,15 @@
-package com.exence.finance;
+package com.exence.finance.integration.setup;
 
 import com.exence.finance.modules.email.service.EmailService;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.config.RestAssuredConfig;
+import org.junit.jupiter.api.BeforeEach;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -12,10 +19,11 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 // Static container is shared across all test classes, starts once per JVM run.
+// Spring context is also shared, actors build per-test RequestSpecifications using
+// the injected port, so no global RestAssured.port is ever set.
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-@AutoConfigureMockMvc
 public abstract class AbstractIT {
 
     @Container
@@ -35,4 +43,30 @@ public abstract class AbstractIT {
     // email sending is a side effect that must not run during tests
     @MockitoBean
     protected EmailService emailService;
+
+    @LocalServerPort
+    protected int port;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
+
+    @Autowired
+    protected JdbcTemplate jdbcTemplate;
+
+    @BeforeEach
+    void baseSetUp() {
+        // don't set RestAssured.port here, because that is global static state which is unsafe for
+        // parallel class execution. Each actor builds its own RequestSpecification with an explicit
+        // base URI that includes the port.
+        //
+        // Setting RestAssured.config is idempotent (same ObjectMapper value for every class)
+        // so it is safe to call from multiple threads simultaneously.
+        RestAssured.config = restAssuredConfig();
+    }
+
+    protected RestAssuredConfig restAssuredConfig() {
+        return RestAssuredConfig.config()
+                .objectMapperConfig(ObjectMapperConfig.objectMapperConfig()
+                        .jackson2ObjectMapperFactory((cls, charset) -> objectMapper));
+    }
 }

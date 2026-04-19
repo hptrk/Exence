@@ -241,6 +241,10 @@ val jacocoIntegrationTestReport =
         }
     }
 
+tasks.named<Copy>("processIntegrationTestResources") {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 tasks.register<Test>("integrationTest") {
     description = "Runs integration tests against a real PostgreSQL container"
     group = "verification"
@@ -249,6 +253,7 @@ tasks.register<Test>("integrationTest") {
     useJUnitPlatform()
     finalizedBy(jacocoIntegrationTestReport)
     shouldRunAfter(tasks.test)
+//    environment("DOCKER_HOST", "npipe:////./pipe/dockerDesktopLinuxEngine")
 }
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
