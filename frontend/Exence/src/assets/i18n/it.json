@@ -1202,14 +1202,14 @@
 			"DELETED": "Eliminato"
 		},
 		"entityTypeLabel": {
-			"Transaction": "Transazione",
-			"Category": "Categoria",
-			"Goal": "Obiettivo",
-			"Debt": "Debito",
-			"Investment": "Investimento",
-			"RecurringTransaction": "Transazione ricorrente",
-			"Workspace": "Area di lavoro",
-			"WorkspaceMember": "Membro dell'area di lavoro"
+			"TRANSACTION": "Transazione",
+			"CATEGORY": "Categoria",
+			"GOAL": "Obiettivo",
+			"DEBT": "Debito",
+			"INVESTMENT": "Investimento",
+			"RECURRING_TRANSACTION": "Transazione ricorrente",
+			"WORKSPACE": "Area di lavoro",
+			"WORKSPACE_MEMBER": "Membro dell'area di lavoro"
 		},
 		"field": {
 			"title": "Titolo",

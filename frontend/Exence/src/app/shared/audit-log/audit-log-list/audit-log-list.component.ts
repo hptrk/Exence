@@ -1,15 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, input, output } from '@angular/core';
 import { MatLabel } from '@angular/material/form-field';
+import { AuditableEntityType } from '../../../data-model/modules/audit-log/AuditableEntityType';
 import { ChangeType } from '../../../data-model/modules/audit-log/ChangeType';
 import { ColumnDef, DataTableComponent } from '../../data-table/data-table.component';
 import { ExCellDirective } from '../../data-table/ex-cell.directive';
+import { DisplaySizeService } from '../../display-size.service';
 import { TranslationCode } from '../../i18n/translation-types';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { SvgIcons } from '../../svg-icons/svg-icons';
 import { AuditLogModel } from '../audit-log.store';
-import { AuditableEntityType } from '../../../data-model/modules/audit-log/AuditableEntityType';
-import { DisplaySizeService } from '../../display-size.service';
 
 export { AuditLogModel };
 
@@ -59,6 +59,6 @@ export class AuditLogListComponent {
 	}
 
 	codeForEntityType(entityType: AuditableEntityType): TranslationCode {
-		return `auditLog.entityTypeLabel.${entityType}`;
+		return `auditLog.entityTypeLabel.${entityType.toUpperCase() as AuditableEntityType}`;
 	}
 }

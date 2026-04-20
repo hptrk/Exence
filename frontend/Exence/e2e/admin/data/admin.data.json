@@ -1,0 +1,69 @@
+{
+	"tabs": {
+		"statistics": "Statistics",
+		"logs": "Logs",
+		"configs": "Configs"
+	},
+	"tabIcons": {
+		"statistics": "leaderboards",
+		"logs": "list",
+		"configs": "settings"
+	},
+	"statCards": {
+		"databaseGrowth": "Database growth",
+		"topUsers": "Top users",
+		"emailVerificationRate": "Email verification rate"
+	},
+	"charts": {
+		"DAILY_ACTIVE_USERS": "Daily Active Users",
+		"MONTHLY_ACTIVE_USERS": "Monthly Active Users",
+		"TRANSACTION_VELOCITY": "Transaction Velocity",
+		"CURRENCY_DISTRIBUTION": "Currency Distribution",
+		"AVG_TRANSACTIONS_PER_USER": "Avg. Transactions per User",
+		"TRANSACTION_TYPE_DISTRIBUTION": "Transaction Type Distribution"
+	},
+	"sections": {
+		"systemSettings": "System Settings",
+		"createAdmin": "Create new Admin user",
+		"broadcastEmail": "Broadcast Email"
+	},
+	"systemSettings": {
+		"success": "System settings updated successfully!",
+		"testPath": "/api/e2e-test-path",
+		"cooldownLabel": "Rate limiting cooldown (minutes)",
+		"historyLabel": "Password history count",
+		"domainWhitelistLabel": "Domain whitelist only"
+	},
+	"registration": {
+		"success": "Admin user created successfully.",
+		"usernameLabel": "Username",
+		"workspaceLabel": "Workspace name",
+		"emailLabel": "Email",
+		"passwordLabel": "Password",
+		"confirmPasswordLabel": "Confirm password",
+		"currencyLabel": "Currency",
+		"validUsername": "E2EAdminTest",
+		"validWorkspace": "E2EWorkspace",
+		"validEmail": "e2eadmin@example.com",
+		"validPassword": "AdminPass1!",
+		"invalidEmail": "notanemail",
+		"weakPassword": "abc",
+		"longWorkspaceNameLength": 103
+	},
+	"emailBroadcast": {
+		"success": "Email sent to every user!",
+		"confirmTitle": "Send broadcast email",
+		"subject": "E2E Test Broadcast Subject",
+		"content": "E2E test broadcast content",
+		"longContentLength": 2899
+	},
+	"auditLog": {
+		"filterBadgeCount": "1",
+		"createdLabel": "Created",
+		"updatedLabel": "Updated",
+		"deletedLabel": "Deleted",
+		"transactionLabel": "Transaction",
+		"datePattern": "\\d{2}\\/\\d{2}\\/\\d{2} \\d{2}:\\d{2}",
+		"changeArrow": "→"
+	}
+}

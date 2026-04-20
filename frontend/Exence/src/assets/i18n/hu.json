@@ -1202,14 +1202,14 @@
 			"DELETED": "Törölve"
 		},
 		"entityTypeLabel": {
-			"Transaction": "Tranzakció",
-			"Category": "Kategória",
-			"Goal": "Cél",
-			"Debt": "Tartozás",
-			"Investment": "Befektetés",
-			"RecurringTransaction": "Ismétlődő tranzakció",
-			"Workspace": "Munkaterület",
-			"WorkspaceMember": "Munkaterület tag"
+			"TRANSACTION": "Tranzakció",
+			"CATEGORY": "Kategória",
+			"GOAL": "Cél",
+			"DEBT": "Tartozás",
+			"INVESTMENT": "Befektetés",
+			"RECURRING_TRANSACTION": "Ismétlődő tranzakció",
+			"WORKSPACE": "Munkaterület",
+			"WORKSPACE_MEMBER": "Munkaterület tag"
 		},
 		"field": {
 			"title": "Cím",

@@ -1,28 +1,24 @@
 <div class="d-flex flex-column flex-grow-1 gap-2 overflow-hidden">
 	<div class="d-flex flex-row flex-nowrap justify-content-end">
 		<ex-filter-menu [form]="filterForm" [appliedFiltersCount]="appliedFiltersCount()">
-			@let entityTypeControl = filterForm.controls.entityType;
 			<mat-form-field subscriptSizing="dynamic">
 				<mat-label>{{ 'auditLog.filter.entityType' | translate }}</mat-label>
-				<input matInput [formControl]="entityTypeControl" [matAutocomplete]="entityTypeAuto" />
-				<ex-input-clear matSuffix [control]="entityTypeControl" />
-				<mat-autocomplete #entityTypeAuto [displayWith]="displayEntityType">
-					@for (type of filteredEntityTypes(); track type) {
+				<mat-select [formControl]="filterForm.controls.entityType">
+					<mat-option value="">—</mat-option>
+					@for (type of entityTypes | enumValue; track type) {
 						<mat-option [value]="type">{{ codeForEntityType(type) | translate }}</mat-option>
 					}
-				</mat-autocomplete>
+				</mat-select>
 			</mat-form-field>
 
-			@let changeTypeControl = filterForm.controls.changeType;
 			<mat-form-field subscriptSizing="dynamic">
 				<mat-label>{{ 'auditLog.filter.changeType' | translate }}</mat-label>
-				<input matInput [formControl]="changeTypeControl" [matAutocomplete]="changeTypeAuto" />
-				<ex-input-clear matSuffix [control]="changeTypeControl" />
-				<mat-autocomplete #changeTypeAuto [displayWith]="displayChangeType">
-					@for (type of filteredChangeTypes(); track type) {
+				<mat-select [formControl]="filterForm.controls.changeType">
+					<mat-option value="">—</mat-option>
+					@for (type of changeTypes | enumValue; track type) {
 						<mat-option [value]="type">{{ codeForChangeType(type) | translate }}</mat-option>
 					}
-				</mat-autocomplete>
+				</mat-select>
 			</mat-form-field>
 
 			@let changedByControl = filterForm.controls.changedBy;

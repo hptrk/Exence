@@ -71,8 +71,10 @@ export class UserAuditLogComponent {
 	readonly filteredEntityTypes = computed<AuditableEntityType[]>(() => {
 		const q = this.filterFormValue().entityType.toLowerCase();
 		return q
-			? Object.values(AuditableEntityType).filter(t => t.toLowerCase().includes(q))
-			: Object.values(AuditableEntityType);
+			? Object.values(AuditableEntityType)
+					.filter(t => t.toLowerCase().includes(q))
+					.map(t => t.toUpperCase() as AuditableEntityType)
+			: Object.values(AuditableEntityType).map(t => t.toUpperCase() as AuditableEntityType);
 	});
 
 	readonly filteredChangeTypes = computed<ChangeType[]>(() => {
@@ -117,12 +119,12 @@ export class UserAuditLogComponent {
 
 	displayEntityType(value: string | null): string {
 		if (!value) return '';
-		return this.translocoService.translate(`auditLog.entityTypeLabel.${value}`);
+		return this.translocoService.translate(`auditLog.entityTypeLabel.${value.toUpperCase()}`);
 	}
 
 	displayChangeType(value: string | null): string {
 		if (!value) return '';
-		return this.translocoService.translate(`auditLog.changeType.${value}`);
+		return this.translocoService.translate(`auditLog.changeType.${value.toUpperCase()}`);
 	}
 
 	onScroll(): void {
