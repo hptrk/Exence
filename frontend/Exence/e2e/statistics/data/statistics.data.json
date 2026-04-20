@@ -1,0 +1,35 @@
+{
+	"api": {
+		"layout": "/api/statistics/widgets/layout",
+		"createWidget": "/api/statistics/widgets",
+		"widgetData": "/api/statistics/widgets/**/data"
+	},
+	"widgets": {
+		"savingsRateGauge": { "type": "SAVINGS_RATE_GAUGE", "title": "Savings Rate Gauge" },
+		"expenseFrequency": { "type": "EXPENSE_FREQUENCY_STATCARD", "title": "Expense Frequency" },
+		"expensePie": { "type": "EXPENSE_PIE", "title": "Expense Distribution" }
+	},
+	"maxStatCards": 4,
+	"catalog": {
+		"disabledTooltip": "Maximum number of stat cards (4) on the layout have been reached.",
+		"nextDisabledTooltip": "Select a widget type before creation!",
+		"tabCards": "Cards",
+		"tabAll": "All"
+	},
+	"menu": {
+		"editLayout": "Edit layout",
+		"addWidget": "Add widget"
+	},
+	"dialog": {
+		"save": "Save",
+		"cancel": "Cancel",
+		"create": "Create",
+		"next": "Next",
+		"back": "Back",
+		"selectAll": "Select all",
+		"deselectAll": "Deselect all"
+	},
+	"validation": {
+		"maxTitleLength": 255
+	}
+}

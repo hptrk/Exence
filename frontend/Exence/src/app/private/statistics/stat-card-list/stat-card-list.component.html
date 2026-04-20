@@ -1,10 +1,15 @@
-<section [style.--stat-col-count]="colCount()">
+<section data-testid="stat-card-list" [style.--stat-col-count]="colCount()">
 	<div class="stat-card-list" (scroll)="onCardsScroll($event)">
 		<gridster [options]="options()" class="custom-grid" [style.min-width.px]="gridMinWidth()">
 			@for (card of data(); track card.id + ':' + card.x) {
-				<gridster-item [item]="card">
+				<gridster-item data-testid="stat-card-item" [item]="card">
 					@if (editing()) {
-						<ex-button matIcon="drag_indicator" iconButton class="dragger" />
+						<ex-button
+							data-testid="stat-card-dragger"
+							matIcon="drag_indicator"
+							iconButton
+							class="dragger"
+						/>
 					}
 					<ex-stat-card class="h-100" [widget]="card" />
 				</gridster-item>
@@ -21,8 +26,19 @@
 			@for (card of data(); track card.id) {
 				<div class="modification-buttons-cell">
 					<div class="d-flex flex-column gap-2 position-absolute chart-modification-buttons">
-						<ex-button matIcon="delete" (click)="deleteCard(card)" primaryIconButton color="error" />
-						<ex-button matIcon="edit" (click)="openEditWidgetDialog(card)" primaryIconButton />
+						<ex-button
+							data-testid="stat-card-delete-btn"
+							matIcon="delete"
+							(click)="deleteCard(card)"
+							primaryIconButton
+							color="error"
+						/>
+						<ex-button
+							data-testid="stat-card-edit-btn"
+							matIcon="edit"
+							(click)="openEditWidgetDialog(card)"
+							primaryIconButton
+						/>
 					</div>
 				</div>
 			}

@@ -478,7 +478,7 @@
 		},
 		"editButton": "Edit layout",
 		"addButton": "Add widget",
-		"editInfo": "Some cchanges might not be visible until you have saved changes."
+		"editInfo": "Some changes might not be visible until you have saved them."
 	},
 	"category": {
 		"create": {

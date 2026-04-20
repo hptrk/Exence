@@ -1,4 +1,4 @@
-<ex-dialog-card class="h-100 gap-0">
+<ex-dialog-card data-testid="edit-chart-dialog" class="h-100 gap-0">
 	<div ex-dialog-card-title>{{ 'statistics.editChart.title' | translate: { title: data.title } }}</div>
 
 	<form
@@ -10,7 +10,7 @@
 	>
 		<mat-form-field>
 			<mat-label>{{ 'statistics.editChart.titleLabel' | translate }}</mat-label>
-			<input matInput autoTrim [formControl]="form.controls.title" />
+			<input data-testid="edit-chart-title-input" matInput autoTrim [formControl]="form.controls.title" />
 			<ex-input-clear matSuffix [control]="form.controls.title" />
 			<mat-error>
 				<ex-validator [control]="form.controls.title" />
@@ -60,10 +60,23 @@
 		}
 
 		<div class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100 mt-4">
-			<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>{{
-				'literals.cancel' | translate
-			}}</ex-button>
-			<ex-button filled color="primary" matIcon="check" [disabled]="form.invalid" type="submit">
+			<ex-button
+				data-testid="edit-chart-cancel-btn"
+				outline
+				color="accent"
+				matIcon="close"
+				type="button"
+				mat-dialog-close
+				>{{ 'literals.cancel' | translate }}</ex-button
+			>
+			<ex-button
+				data-testid="edit-chart-save-btn"
+				filled
+				color="primary"
+				matIcon="check"
+				[disabled]="form.invalid"
+				type="submit"
+			>
 				{{ 'literals.save' | translate }}
 			</ex-button>
 		</div>

@@ -1,12 +1,23 @@
-<section>
+<section data-testid="chart-widget-list">
 	<gridster [options]="options()" class="custom-grid mw-100">
 		@for (widget of data(); track widget.id) {
-			<gridster-item [item]="widget">
+			<gridster-item data-testid="chart-widget-item" [item]="widget">
 				@if (editing()) {
-					<ex-button matIcon="drag_indicator" iconButton class="dragger" />
+					<ex-button data-testid="chart-widget-dragger" matIcon="drag_indicator" iconButton class="dragger" />
 					<div class="d-flex flex-column gap-2 position-absolute chart-modification-buttons">
-						<ex-button matIcon="delete" (click)="deleteWidget(widget)" primaryIconButton color="error" />
-						<ex-button matIcon="edit" (click)="openEditWidgetDialog(widget)" primaryIconButton />
+						<ex-button
+							data-testid="chart-widget-delete-btn"
+							matIcon="delete"
+							(click)="deleteWidget(widget)"
+							primaryIconButton
+							color="error"
+						/>
+						<ex-button
+							data-testid="chart-widget-edit-btn"
+							matIcon="edit"
+							(click)="openEditWidgetDialog(widget)"
+							primaryIconButton
+						/>
 					</div>
 				}
 				<ex-chart-widget [widget]="widget" [editing]="editing()" />
