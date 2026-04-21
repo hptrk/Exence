@@ -1,5 +1,4 @@
 import { ColumnDef, TableAction } from '../../../app/shared/data-table/data-table.component';
-import { TranslationCode } from '../../../app/shared/i18n/translation-types';
 
 export interface TestRow {
 	id: number;
@@ -7,7 +6,7 @@ export interface TestRow {
 }
 
 export const COLUMNS: ColumnDef[] = [
-	{ key: 'name', header: 'literals.name' as TranslationCode },
+	{ key: 'name', header: 'dataTable.name' },
 	{ key: 'actions', header: '' },
 ];
 
@@ -18,13 +17,13 @@ export const ROWS: TestRow[] = [
 ];
 
 export const ACTIONS: TableAction<TestRow>[] = [
-	{ label: 'literals.edit' as TranslationCode, icon: 'edit', handler: () => {} },
-	{ label: 'literals.delete' as TranslationCode, icon: 'delete', handler: () => {} },
+	{ label: 'literals.edit', icon: 'edit', handler: () => {} },
+	{ label: 'literals.delete', icon: 'delete', handler: () => {} },
 ];
 
 export const ACTIONS_WITH_DISABLED: TableAction<TestRow>[] = [
 	{
-		label: 'literals.edit' as TranslationCode,
+		label: 'literals.edit',
 		icon: 'edit',
 		handler: () => {},
 		disabled: (row: TestRow) => row.id === 1,

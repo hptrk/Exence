@@ -89,6 +89,7 @@ export class DataTableComponent<T extends { id: number }> extends BaseComponent 
 	expandTemplate = input<TemplateRef<{ $implicit: T }>>();
 	nonExpandable = input(false, { transform: booleanAttribute });
 	inlineActions = input(false, { transform: booleanAttribute });
+	hideAddButton = input(false, { transform: booleanAttribute });
 
 	addClicked = output<void>();
 	scrolled = output<void>();

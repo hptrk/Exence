@@ -47,13 +47,14 @@ table {
 		border: none;
 	}
 
-	th:not(.mat-column-title),
-	td:not(.mat-column-title) {
+	th:not(:first-child),
+	td:not(:first-child) {
 		text-align: center;
 	}
 
 	th {
 		font-weight: 600;
+		white-space: nowrap;
 	}
 
 	// hide header on small screens
@@ -82,7 +83,7 @@ table {
 		th.mat-mdc-header-cell {
 			padding: 0;
 		}
-		th.mat-column-title {
+		th:first-child {
 			max-width: 35%;
 			padding-left: 1rem;
 		}
@@ -92,7 +93,7 @@ table {
 td[mat-cell].mat-mdc-cell {
 	padding: 0;
 
-	&.mat-column-title {
+	&:first-child {
 		max-width: 10ch;
 	}
 
@@ -104,7 +105,7 @@ td[mat-cell].mat-mdc-cell {
 		}
 	}
 
-	&.mat-column-title .table-row-item {
+	&:first-child .table-row-item {
 		padding-left: 0;
 		padding-right: 1rem;
 		overflow: hidden;
@@ -140,7 +141,7 @@ tr.mat-mdc-row.non-expandable {
 }
 
 td {
-	&:not(.mat-column-title):not(.mat-column-actions) .table-row-item {
+	&:not(:first-child):not(.mat-column-actions) .table-row-item {
 		justify-content: center;
 	}
 	&:first-of-type .table-row-item {

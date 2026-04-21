@@ -9,6 +9,7 @@ import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate
 import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
 import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
 import { WorkspaceService } from '../../shared/workspace.service';
+import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
 
 interface CategoryStoreData {
 	selectedTopCategoriesType: Exclude<CategoryType, CategoryType.MIXED>;
@@ -49,6 +50,7 @@ export const CategoryStore = signalStore(
 			categoryService = inject(CategoryService),
 			snackbarService = inject(SnackbarService),
 			translocoService = inject(TranslocoService),
+			auditLogStore = inject(AuditLogStore),
 		) => {
 			function triggerReload(): void {
 				store.categoryResource.reload();
@@ -62,11 +64,15 @@ export const CategoryStore = signalStore(
 						translocoService.translate('category.create.successInfo', { name: newCategory.name }),
 					);
 					triggerReload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				async deleteCategory(id: number): Promise<void> {
 					await categoryService.delete(id);
 					snackbarService.showSuccess(translocoService.translate('category.deleteInfo'));
 					triggerReload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 
 				toggleTopCategoriesType(type?: Exclude<CategoryType, CategoryType.MIXED>): void {

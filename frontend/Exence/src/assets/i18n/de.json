@@ -227,6 +227,9 @@
 		},
 		"sessions": {
 			"label": "Sitzungen"
+		},
+		"auditLog": {
+			"label": "Arbeitsbereich-Aktivität"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "Investition erfolgreich aktualisiert!",
 		"deleteInfo": "Investition erfolgreich gelöscht!"
+	},
+	"auditLog": {
+		"title": "Audit-Protokolle",
+		"userTitle": "Arbeitsbereich-Aktivität",
+		"action": "Aktion",
+		"entityType": "Typ",
+		"changedBy": "Geändert von",
+		"changedAt": "Datum",
+		"changes": "Änderungen",
+		"from": "Von",
+		"to": "Bis",
+		"noChanges": "Keine Feldänderungen",
+		"filter": {
+			"entityType": "Entitätstyp",
+			"changeType": "Änderungstyp",
+			"changedBy": "Geändert von",
+			"dateFrom": "Von Datum",
+			"dateTo": "Bis Datum"
+		},
+		"changeType": {
+			"CREATED": "Erstellt",
+			"UPDATED": "Aktualisiert",
+			"DELETED": "Gelöscht"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Transaktion",
+			"Category": "Kategorie",
+			"Goal": "Ziel",
+			"Debt": "Schulden",
+			"Investment": "Investition",
+			"RecurringTransaction": "Wiederkehrende Transaktion",
+			"Workspace": "Arbeitsbereich",
+			"WorkspaceMember": "Arbeitsbereich-Mitglied"
+		},
+		"field": {
+			"title": "Titel",
+			"note": "Notiz",
+			"date": "Datum",
+			"amount": "Betrag",
+			"type": "Typ",
+			"createdByRecurringJob": "Durch Dauerauftrag erstellt",
+			"recurringTransactionId": "Dauerauftrag",
+			"categoryId": "Kategorie",
+			"currency": "Währung",
+			"exchangeRate": "Wechselkurs",
+			"baseCurrencyAmount": "Basiswährungsbetrag",
+			"name": "Name",
+			"icon": "Symbol",
+			"color": "Farbe",
+			"balance": "Kontostand",
+			"description": "Beschreibung",
+			"targetAmount": "Zielbetrag",
+			"currentAmount": "Aktueller Betrag",
+			"targetBaseCurrencyAmount": "Ziel-Basiswährungsbetrag",
+			"currentBaseCurrencyAmount": "Aktueller Basiswährungsbetrag",
+			"deadline": "Frist",
+			"status": "Status",
+			"progressPercentage": "Fortschritt",
+			"counterpartyName": "Gegenpartei",
+			"originalAmount": "Ursprünglicher Betrag",
+			"remainingAmount": "Verbleibender Betrag",
+			"originalBaseCurrencyAmount": "Ursprünglicher Basiswährungsbetrag",
+			"remainingBaseCurrencyAmount": "Verbleibender Basiswährungsbetrag",
+			"paidPercentage": "Bezahlt",
+			"asset": "Vermögenswert",
+			"purchaseDate": "Kaufdatum",
+			"frequency": "Häufigkeit",
+			"interval": "Intervall",
+			"dayOfWeek": "Wochentag",
+			"dayOfMonth": "Tag des Monats",
+			"endCondition": "Endbedingung",
+			"endDate": "Enddatum",
+			"maxOccurrences": "Max. Wiederholungen",
+			"currentOccurrences": "Aktuelle Wiederholungen",
+			"nextExecutionDate": "Nächstes Ausführungsdatum",
+			"active": "Aktiv",
+			"role": "Rolle",
+			"userId": "Benutzer-ID",
+			"username": "Benutzername",
+			"email": "E-Mail",
+			"joinedAt": "Beigetreten am"
+		}
 	}
 }

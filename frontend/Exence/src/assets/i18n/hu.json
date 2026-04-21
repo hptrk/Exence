@@ -227,6 +227,9 @@
 		},
 		"sessions": {
 			"label": "Munkamenetek"
+		},
+		"auditLog": {
+			"label": "Munkaterület aktivitás"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "Befektetés sikeresen frissítve!",
 		"deleteInfo": "Befektetés sikeresen törölve!"
+	},
+	"auditLog": {
+		"title": "Audit naplók",
+		"userTitle": "Munkaterület aktivitás",
+		"action": "Művelet",
+		"entityType": "Típus",
+		"changedBy": "Módosította",
+		"changedAt": "Dátum",
+		"changes": "Változások",
+		"from": "Előtte",
+		"to": "Utána",
+		"noChanges": "Nincs mezőváltozás",
+		"filter": {
+			"entityType": "Entitás típusa",
+			"changeType": "Változás típusa",
+			"changedBy": "Módosította",
+			"dateFrom": "Kezdő dátum",
+			"dateTo": "Záró dátum"
+		},
+		"changeType": {
+			"CREATED": "Létrehozva",
+			"UPDATED": "Frissítve",
+			"DELETED": "Törölve"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Tranzakció",
+			"Category": "Kategória",
+			"Goal": "Cél",
+			"Debt": "Tartozás",
+			"Investment": "Befektetés",
+			"RecurringTransaction": "Ismétlődő tranzakció",
+			"Workspace": "Munkaterület",
+			"WorkspaceMember": "Munkaterület tag"
+		},
+		"field": {
+			"title": "Cím",
+			"note": "Megjegyzés",
+			"date": "Dátum",
+			"amount": "Összeg",
+			"type": "Típus",
+			"createdByRecurringJob": "Ismétlődő feladat által létrehozva",
+			"recurringTransactionId": "Ismétlődő tranzakció",
+			"categoryId": "Kategória",
+			"currency": "Pénznem",
+			"exchangeRate": "Árfolyam",
+			"baseCurrencyAmount": "Alappénznem összeg",
+			"name": "Név",
+			"icon": "Ikon",
+			"color": "Szín",
+			"balance": "Egyenleg",
+			"description": "Leírás",
+			"targetAmount": "Célösszeg",
+			"currentAmount": "Jelenlegi összeg",
+			"targetBaseCurrencyAmount": "Cél alappénznem összeg",
+			"currentBaseCurrencyAmount": "Jelenlegi alappénznem összeg",
+			"deadline": "Határidő",
+			"status": "Állapot",
+			"progressPercentage": "Haladás",
+			"counterpartyName": "Partner",
+			"originalAmount": "Eredeti összeg",
+			"remainingAmount": "Fennmaradó összeg",
+			"originalBaseCurrencyAmount": "Eredeti alappénznem összeg",
+			"remainingBaseCurrencyAmount": "Fennmaradó alappénznem összeg",
+			"paidPercentage": "Teljesítve",
+			"asset": "Eszköz",
+			"purchaseDate": "Vásárlás dátuma",
+			"frequency": "Gyakoriság",
+			"interval": "Intervallum",
+			"dayOfWeek": "A hét napja",
+			"dayOfMonth": "A hónap napja",
+			"endCondition": "Befejezési feltétel",
+			"endDate": "Befejezési dátum",
+			"maxOccurrences": "Max. ismétlések",
+			"currentOccurrences": "Jelenlegi ismétlések",
+			"nextExecutionDate": "Következő végrehajtás",
+			"active": "Aktív",
+			"role": "Szerepkör",
+			"userId": "Felhasználói azonosító",
+			"username": "Felhasználónév",
+			"email": "E-mail",
+			"joinedAt": "Csatlakozás dátuma"
+		}
 	}
 }

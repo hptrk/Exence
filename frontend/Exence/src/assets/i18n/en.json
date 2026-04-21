@@ -227,6 +227,9 @@
 		"currentWorkspace": "Current",
 		"sessions": {
 			"label": "Sessions"
+		},
+		"auditLog": {
+			"label": "Workspace activity"
 		}
 	},
 	"sessionList": {
@@ -1148,5 +1151,87 @@
 		},
 		"updateInfo": "Investment updated successfully!",
 		"deleteInfo": "Investment deleted successfully!"
+	},
+	"auditLog": {
+		"title": "Audit Logs",
+		"userTitle": "Workspace activity",
+		"action": "Action",
+		"entityType": "Type",
+		"changedBy": "Changed By",
+		"changedAt": "Date",
+		"changes": "Changes",
+		"from": "From",
+		"to": "To",
+		"noChanges": "No field changes",
+		"filter": {
+			"entityType": "Entity Type",
+			"changeType": "Change Type",
+			"changedBy": "Changed By",
+			"dateFrom": "From Date",
+			"dateTo": "To Date"
+		},
+		"changeType": {
+			"CREATED": "Created",
+			"UPDATED": "Updated",
+			"DELETED": "Deleted"
+		},
+		"entityTypeLabel": {
+			"Transaction": "Transaction",
+			"Category": "Category",
+			"Goal": "Goal",
+			"Debt": "Debt",
+			"Investment": "Investment",
+			"RecurringTransaction": "Recurring Transaction",
+			"Workspace": "Workspace",
+			"WorkspaceMember": "Workspace Member"
+		},
+		"field": {
+			"title": "Title",
+			"note": "Note",
+			"date": "Date",
+			"amount": "Amount",
+			"type": "Type",
+			"createdByRecurringJob": "Created by recurring job",
+			"recurringTransactionId": "Recurring transaction",
+			"categoryId": "Category",
+			"currency": "Currency",
+			"exchangeRate": "Exchange rate",
+			"baseCurrencyAmount": "Base currency amount",
+			"name": "Name",
+			"icon": "Icon",
+			"color": "Color",
+			"balance": "Balance",
+			"description": "Description",
+			"targetAmount": "Target amount",
+			"currentAmount": "Current amount",
+			"targetBaseCurrencyAmount": "Target base currency amount",
+			"currentBaseCurrencyAmount": "Current base currency amount",
+			"deadline": "Deadline",
+			"status": "Status",
+			"progressPercentage": "Progress",
+			"counterpartyName": "Counterparty",
+			"originalAmount": "Original amount",
+			"remainingAmount": "Remaining amount",
+			"originalBaseCurrencyAmount": "Original base currency amount",
+			"remainingBaseCurrencyAmount": "Remaining base currency amount",
+			"paidPercentage": "Paid",
+			"asset": "Asset",
+			"purchaseDate": "Purchase date",
+			"frequency": "Frequency",
+			"interval": "Interval",
+			"dayOfWeek": "Day of week",
+			"dayOfMonth": "Day of month",
+			"endCondition": "End condition",
+			"endDate": "End date",
+			"maxOccurrences": "Max occurrences",
+			"currentOccurrences": "Current occurrences",
+			"nextExecutionDate": "Next execution date",
+			"active": "Active",
+			"role": "Role",
+			"userId": "User ID",
+			"username": "Username",
+			"email": "Email",
+			"joinedAt": "Joined at"
+		}
 	}
 }

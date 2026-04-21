@@ -70,6 +70,16 @@
 						{{ 'profile.sessions.label' | translate }}
 					}
 				</button>
+				<button
+					class="ex-nav-button d-flex align-items-center gap-2"
+					[class.selected]="selectedPage() === 'audit-log'"
+					(click)="this.selectedPage.set('audit-log')"
+				>
+					<mat-icon>history</mat-icon>
+					@if (display.isLg()) {
+						{{ 'profile.auditLog.label' | translate }}
+					}
+				</button>
 			</div>
 		</div>
 	</mat-drawer>
@@ -88,6 +98,9 @@
 				}
 				@case ('sessions') {
 					<ex-sessions-list />
+				}
+				@case ('audit-log') {
+					<ex-user-audit-log />
 				}
 			}
 		</section>
