@@ -27,6 +27,7 @@ import { ExtraValidators } from '../../../shared/validators';
 import { CategoryService } from '../../transactions-and-categories/category.service';
 import { GoalModel } from '../goal-list/goal-list.component';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
+import { MatDialogClose } from '@angular/material/dialog';
 
 export interface EditGoalDialogData {
 	goal: GoalModel;
@@ -42,6 +43,7 @@ export interface EditGoalDialogData {
 		MatSelectModule,
 		MatDatepickerModule,
 		MatIconModule,
+		MatDialogClose,
 		AmountStepperComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
@@ -99,6 +101,10 @@ export class EditGoalDialogComponent extends DialogComponent<EditGoalDialogData,
 		super(inject(DialogRef));
 		this.categoryService.list().then(cats => this.categoriesSignal.set(cats));
 		this.form.markAsPristine();
+	}
+
+	compareCategories(a: CategoryGet, b: CategoryGet): boolean {
+		return a.id === b.id;
 	}
 
 	localizeCurrency(currency: SupportedCurrency): string {

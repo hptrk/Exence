@@ -1,14 +1,43 @@
 import { expect, test } from '@playwright/test';
+import { getCreateCategoryDialog } from '../../category/locators/category-dialog-locators';
+import { getOverlayBackdrop } from '../../common/locators/overlay.locators';
+import { createCategory } from '../../common/utils/create-category.utils';
+import { createExpense, createIncome, createTransaction } from '../../common/utils/create-transaction.utils';
 import {
-	setupTransactions,
-	createDefaultCategoryOnTransactionsPage as createDefaultCategory,
-} from '../utils/setup-transactions.utils';
+	createUniqueName,
+	formatDateForInput,
+	formatDateForList,
+	getCurrentDate,
+	getDateDaysAgo,
+} from '../../form/utils/form-utils';
+import {
+	getEditTitleInput,
+	getEditTransactionDialog,
+} from '../../transaction/edit-transaction-dialog/locators/edit-transaction-dialog-locators';
+import {
+	getCreateTransactionDialog,
+	getRecurringConfig,
+	getTransactionCategoryOption,
+	getTransactionCategorySelect,
+	getTransactionTypeToggle,
+	getTransactionTypeToggleChecked,
+} from '../../transaction/locators/transaction-dialog-locators';
+import {
+	getListAddBtn,
+	getListDataRow,
+	getListDataRowMenuTriggerBtn,
+	getListEmptyState,
+	getRowActionDelete,
+	getRowActionDuplicate,
+	getRowActionEdit,
+} from '../../transaction/locators/transaction-list-locators';
+import { setShowBaseCurrency } from '../../workspace-settings/utils/workspace-settings.utils';
+import transactionsData from '../data/transactions.data.json';
 import {
 	getActiveTab,
 	getCategoriesTabIcon,
 	getCategoriesTabLabel,
 	getCategoriesTabText,
-	getCategoryList,
 	getCategoryListAddBtn,
 	getCategoryListAmountSpan,
 	getCategoryListEmptyState,
@@ -39,39 +68,9 @@ import {
 	getTransactionsTabText,
 } from '../locators/transactions-locators';
 import {
-	getCreateTransactionDialog,
-	getRecurringConfig,
-	getTransactionCategoryOption,
-	getTransactionCategorySelect,
-	getTransactionTypeToggle,
-	getTransactionTypeToggleChecked,
-} from '../../transaction/locators/transaction-dialog-locators';
-import {
-	getEditTransactionDialog,
-	getEditTitleInput,
-} from '../../transaction/edit-transaction-dialog/locators/edit-transaction-dialog-locators';
-import {
-	getListAddBtn,
-	getListDataRow,
-	getListDataRowMenuTriggerBtn,
-	getListEmptyState,
-	getRowActionDelete,
-	getRowActionDuplicate,
-	getRowActionEdit,
-} from '../../transaction/locators/transaction-list-locators';
-import { createExpense, createIncome, createTransaction } from '../../common/utils/create-transaction.utils';
-import { createCategory } from '../../common/utils/create-category.utils';
-import { getCreateCategoryDialog } from '../../category/locators/category-dialog-locators';
-import {
-	createUniqueName,
-	formatDateForInput,
-	formatDateForList,
-	getDateDaysAgo,
-	getCurrentDate,
-} from '../../form/utils/form-utils';
-import { getOverlayBackdrop } from '../../common/locators/overlay.locators';
-import { setShowBaseCurrency } from '../../workspace-settings/utils/workspace-settings.utils';
-import transactionsData from '../data/transactions.data.json';
+	createDefaultCategoryOnTransactionsPage as createDefaultCategory,
+	setupTransactions,
+} from '../utils/setup-transactions.utils';
 
 // Layout
 test.describe('Transactions page — layout', () => {

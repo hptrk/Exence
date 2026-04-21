@@ -7295,6 +7295,14 @@ databaseChangeLog:
               - column: { name: language, value: 'en' }
               - column: { name: primary_theme, value: 'DARK' }
               - column: { name: secondary_theme, value: 'BLUE_DOLPHIN' }
+        - insert:
+            tableName: user_settings
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: language, value: 'en' }
+              - column: { name: primary_theme, value: 'DARK' }
+              - column: { name: secondary_theme, value: 'BLUE_DOLPHIN' }
 
         # Widgets
         - insert:
@@ -7333,12 +7341,48 @@ databaseChangeLog:
               - column:
                   name: workspace_id
                   valueNumeric: 1
+        - insert:
+            tableName: widget
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: type
+                  value: DASHBOARD_BALANCE_TREND
+              - column:
+                  name: title
+                  value: Balance Trend
+              - column:
+                  name: timeframe
+                  value: YTD
+              - column:
+                  name: display_order
+                  valueNumeric: 0
+              - column:
+                  name: x
+                  valueNumeric: 0
+              - column:
+                  name: y
+                  valueNumeric: 0
+              - column:
+                  name: cols
+                  valueNumeric: 0
+              - column:
+                  name: rows
+                  valueNumeric: 0
+              - column:
+                  name: settings
+                  value: '{}'
+              - column:
+                  name: workspace_id
+                  valueNumeric: 2
 
         # Stat cards
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 2 }
+              - column: { name: id, valueNumeric: 3 }
               - column: { name: type, value: 'EXPENSE_FREQUENCY_STATCARD' }
               - column: { name: title, value: 'Expense frequency' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7348,7 +7392,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 3 }
+              - column: { name: id, valueNumeric: 4 }
               - column: { name: type, value: 'NO_SPEND_DAYS_STATCARD' }
               - column: { name: title, value: 'Number of days without spending' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7358,7 +7402,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 4 }
+              - column: { name: id, valueNumeric: 5 }
               - column: { name: type, value: 'SAVINGS_RATE_STATCARD' }
               - column: { name: title, value: 'Savings rate' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7368,7 +7412,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 5 }
+              - column: { name: id, valueNumeric: 6 }
               - column: { name: type, value: 'TOP_INCOME_TRANSACTION_STATCARD' }
               - column: { name: title, value: 'Top income' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7379,7 +7423,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 6 }
+              - column: { name: id, valueNumeric: 7 }
               - column: { name: type, value: 'SPENDING_HEATMAP' }
               - column: { name: title, value: 'Your spendings' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7392,7 +7436,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 7 }
+              - column: { name: id, valueNumeric: 8 }
               - column: { name: type, value: 'SAVINGS_RATE_GAUGE' }
               - column: { name: title, value: 'Savings rate' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7405,7 +7449,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 8 }
+              - column: { name: id, valueNumeric: 9 }
               - column: { name: type, value: 'CATEGORY_SANKEY' }
               - column: { name: title, value: 'Money flow by categories' }
               - column: { name: timeframe, value: 'YTD' }

@@ -1,0 +1,43 @@
+{
+	"api": {
+		"goals": "/api/goals",
+		"goalProgressTrend": "/api/goals/statistics/GOAL_PROGRESS_TREND"
+	},
+	"createGoal": {
+		"title": "Test Goal",
+		"targetAmount": 100000,
+		"initialAmount": 10000,
+		"currency": "USD",
+		"description": "A test goal description"
+	},
+	"editGoal": {
+		"newTitle": "Updated Goal Title",
+		"newDescription": "Updated description"
+	},
+	"validation": {
+		"maxTitleLength": 255,
+		"maxDescriptionLength": 500,
+		"maxSearchLength": 25
+	},
+	"errors": {
+		"required": "Field required",
+		"maxLength": "Max length is",
+		"minValue": "Min value is",
+		"initialAmountMax": "Initial amount must not exceed the target amount!",
+		"fieldNotLessThan": "Target amount cannot be less than the current amount!"
+	},
+	"statuses": {
+		"active": "ACTIVE",
+		"paused": "PAUSED",
+		"completed": "COMPLETED",
+		"expired": "EXPIRED"
+	},
+	"labels": {
+		"emptyTitle": "No goals yet",
+		"baseCurrency": "Base currency",
+		"loggedCurrency": "Logged currency",
+		"progress": "Current progress",
+		"note": "Note",
+		"status": "Status"
+	}
+}
