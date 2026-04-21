@@ -89,6 +89,7 @@ export class GoalChartComponent {
 		});
 
 		effect(() => {
+			this.goals();
 			const type = this.type();
 			const goalId = this.selectedGoal()?.id;
 			if (type === GoalWidgetType.GOAL_PROGRESS_TREND && !goalId) return;

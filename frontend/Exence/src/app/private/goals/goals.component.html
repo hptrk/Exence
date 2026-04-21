@@ -1,9 +1,26 @@
-<main
-	class="d-flex flex-column-reverse flex-lg-column p-2 pb-0 p-sm-3 p-md-4 gap-4"
-	[class.overflow-hidden]="display.isMd()"
-	[class.h-100]="display.isMd()"
->
-	<ex-goal-statistics />
+@if (isEmpty()) {
+	<section class="d-flex flex-column align-items-center justify-content-center gap-4 h-100">
+		<img src="assets/empty-goals.svg" />
+		<div class="d-flex flex-column gap-2 align-items-center text-center">
+			<h3 class="fs-2 fw-bold m-0">
+				{{ 'goals.empty.title' | translate }}
+			</h3>
+			<p class="m-0 fs-5">
+				{{ 'goals.empty.subtitle' | translate }}
+			</p>
+		</div>
+		<ex-button (click)="openCreate()" color="primary" matIcon="add" size="lg">
+			{{ 'goals.create.title' | translate }}
+		</ex-button>
+	</section>
+} @else {
+	<main
+		class="d-flex flex-column-reverse flex-lg-column p-2 pb-0 p-sm-3 p-md-4 gap-4"
+		[class.overflow-hidden]="display.isMd()"
+		[class.h-100]="display.isMd()"
+	>
+		<ex-goal-statistics />
 
-	<ex-goal-list class="flex-grow-1" matIcon="sports_score" [title]="'goals.title' | translate" />
-</main>
+		<ex-goal-list class="flex-grow-1" matIcon="sports_score" [title]="'goals.title' | translate" />
+	</main>
+}

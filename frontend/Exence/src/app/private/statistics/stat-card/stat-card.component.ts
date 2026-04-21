@@ -16,7 +16,10 @@ import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { AdminStatisticsService } from '../../admin/admin-statistic.service';
 import { GoalService } from '../../goals/goal.service';
 import { DebtService } from '../../debts/debt.service';
+import { DebtStore } from '../../debts/debt.store';
+import { GoalStore } from '../../goals/goal.store';
 import { InvestmentService } from '../../investments/investment.service';
+import { InvestmentStore } from '../../investments/investment.store';
 import { StatisticService } from '../statistic.service';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 
@@ -36,7 +39,10 @@ export class StatCardComponent {
 	private readonly adminStatisticService = inject(AdminStatisticsService);
 	private readonly goalService = inject(GoalService);
 	private readonly debtService = inject(DebtService);
+	private readonly debtStore = inject(DebtStore);
+	private readonly goalStore = inject(GoalStore);
 	private readonly investmentService = inject(InvestmentService);
+	private readonly investmentStore = inject(InvestmentStore);
 	readonly currencyService = inject(CurrencyService);
 
 	widget = input<StatCardWidget>();
@@ -97,6 +103,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.goalStore.goals();
 			if (!this.goalCardType()) return;
 			this.isLoading.set(true);
 			this.goalService
@@ -108,6 +115,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.debtStore.debts();
 			if (!this.debtCardType()) return;
 			this.isLoading.set(true);
 			this.debtService
@@ -119,6 +127,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.investmentStore.investments();
 			if (!this.investmentCardType()) return;
 			this.isLoading.set(true);
 			this.investmentService

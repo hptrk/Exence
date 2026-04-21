@@ -1043,7 +1043,11 @@
 			"status": "Status"
 		},
 		"updateInfo": "Goal updated successfully!",
-		"deleteInfo": "Goal deleted successfully!"
+		"deleteInfo": "Goal deleted successfully!",
+		"empty": {
+			"title": "No goals yet",
+			"subtitle": "Start saving towards your goals by creating your first one."
+		}
 	},
 	"debts": {
 		"title": "Debts",
@@ -1108,7 +1112,11 @@
 		},
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"paymentInfo": "Payment recorded successfully!",
+		"empty": {
+			"title": "No debts yet",
+			"subtitle": "Track money you owe or are owed by others."
+		}
 	},
 	"investments": {
 		"title": "Investments",
@@ -1161,7 +1169,11 @@
 			}
 		},
 		"updateInfo": "Investment updated successfully!",
-		"deleteInfo": "Investment deleted successfully!"
+		"deleteInfo": "Investment deleted successfully!",
+		"empty": {
+			"title": "No investments yet",
+			"subtitle": "Start tracking your portfolio by adding your first asset."
+		}
 	},
 	"auditLog": {
 		"title": "Audit Logs",

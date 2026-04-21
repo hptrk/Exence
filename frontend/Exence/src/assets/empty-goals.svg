@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="240" height="200" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- ── Stat cards row ── -->
+  <!-- Card 1 -->
+  <rect x="8" y="8" width="68" height="38" rx="6" fill="rgb(200,200,242)" opacity="0.15"/>
+  <rect x="8" y="8" width="68" height="38" rx="6" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
+  <rect x="15" y="15" width="38" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.50"/>
+  <rect x="15" y="26" width="26" height="9" rx="3" fill="rgb(200,200,242)" opacity="0.65"/>
+
+  <!-- Card 2 -->
+  <rect x="84" y="8" width="68" height="38" rx="6" fill="rgb(200,200,242)" opacity="0.15"/>
+  <rect x="84" y="8" width="68" height="38" rx="6" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
+  <rect x="91" y="15" width="34" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="91" y="26" width="30" height="9" rx="3" fill="rgb(200,200,242)" opacity="0.60"/>
+
+  <!-- Card 3 -->
+  <rect x="160" y="8" width="72" height="38" rx="6" fill="rgb(200,200,242)" opacity="0.15"/>
+  <rect x="160" y="8" width="72" height="38" rx="6" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
+  <rect x="167" y="15" width="42" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="167" y="26" width="22" height="9" rx="3" fill="rgb(200,200,242)" opacity="0.55"/>
+
+  <!-- ── Goals table ── -->
+  <rect x="8" y="54" width="224" height="140" rx="8" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
+
+  <!-- Table header bar -->
+  <rect x="8" y="54" width="224" height="26" rx="8" fill="rgb(200,200,242)" opacity="0.30"/>
+  <!-- sports_score icon (flag pole + pennant) -->
+  <line x1="18" y1="73" x2="18" y2="63" stroke="rgb(160,160,210)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M 18,63 L 27,66 L 18,69 Z" fill="rgb(160,160,210)" opacity="0.70"/>
+  <!-- Title text ghost -->
+  <rect x="33" y="63" width="48" height="8" rx="2" fill="rgb(180,180,220)" opacity="0.55"/>
+  <!-- Add button -->
+  <rect x="198" y="60" width="26" height="16" rx="4" fill="rgb(200,200,242)" opacity="0.50" stroke="rgb(180,180,220)" stroke-width="1"/>
+  <line x1="211" y1="65" x2="211" y2="71" stroke="rgb(140,140,200)" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="208" y1="68" x2="214" y2="68" stroke="rgb(140,140,200)" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- Column headers -->
+  <line x1="8" y1="80" x2="232" y2="80" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.60"/>
+  <rect x="22" y="84" width="40" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.55"/>
+  <rect x="104" y="84" width="28" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="150" y="84" width="32" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="202" y="84" width="20" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.40"/>
+
+  <!-- Row dividers -->
+  <line x1="8"  y1="93"  x2="232" y2="93"  stroke="rgb(200,200,242)" stroke-width="1" opacity="0.40"/>
+  <line x1="8"  y1="116" x2="232" y2="116" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.40"/>
+  <line x1="8"  y1="139" x2="232" y2="139" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.40"/>
+  <line x1="8"  y1="162" x2="232" y2="162" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.40"/>
+
+  <!-- Row 1 — status strip (green=in-progress), title, deadline, amount, category icon -->
+  <rect x="14" y="99"  width="3" height="9" rx="1.5" fill="rgb(130,200,140)" opacity="0.70"/>
+  <rect x="22" y="100" width="48" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.55"/>
+  <rect x="104" y="100" width="24" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="150" y="100" width="38" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.60"/>
+  <circle cx="211" cy="103" r="6" fill="rgb(200,200,242)" opacity="0.35" stroke="rgb(180,180,220)" stroke-width="1"/>
+
+  <!-- Row 2 — status strip (amber=pending) -->
+  <rect x="14" y="122" width="3" height="9" rx="1.5" fill="rgb(210,175,100)" opacity="0.70"/>
+  <rect x="22" y="123" width="36" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <rect x="104" y="123" width="22" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.38"/>
+  <rect x="150" y="123" width="30" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.50"/>
+  <circle cx="211" cy="126" r="6" fill="rgb(200,200,242)" opacity="0.28" stroke="rgb(180,180,220)" stroke-width="1"/>
+
+  <!-- Row 3 — status strip (blue=new) -->
+  <rect x="14" y="145" width="3" height="9" rx="1.5" fill="rgb(140,160,220)" opacity="0.65"/>
+  <rect x="22" y="146" width="52" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.40"/>
+  <rect x="104" y="146" width="26" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.32"/>
+  <rect x="150" y="146" width="44" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
+  <circle cx="211" cy="149" r="6" fill="rgb(200,200,242)" opacity="0.24" stroke="rgb(180,180,220)" stroke-width="1"/>
+
+  <!-- Row 4 (fading out) -->
+  <rect x="22" y="169" width="40" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.25"/>
+  <rect x="150" y="169" width="28" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.28"/>
+
+</svg>

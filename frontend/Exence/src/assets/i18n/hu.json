@@ -1043,72 +1043,80 @@
 			"status": "Státusz"
 		},
 		"updateInfo": "Cél sikeresen frissítve!",
-		"deleteInfo": "Cél sikeresen törölve!"
+		"deleteInfo": "Cél sikeresen törölve!",
+		"empty": {
+			"title": "Még nincsenek célok",
+			"subtitle": "Kezdjen el megtakarítást az első cél létrehozásával."
+		}
 	},
 	"debts": {
-		"title": "Debts",
-		"myDebts": "My Debts",
-		"owedToMe": "Owed to Me",
-		"titleLabel": "Title",
-		"counterparty": "Counterparty",
-		"originalAmount": "Original Amount",
-		"deadline": "Deadline",
-		"days": "Days",
-		"daysUnit": "days",
-		"progress": "Paid progress",
-		"makePayment": "Make a Payment",
-		"paymentAmount": "Payment amount",
-		"pay": "Pay",
+		"title": "Tartozások",
+		"myDebts": "Saját tartozásaim",
+		"owedToMe": "Nekem tartoznak",
+		"titleLabel": "Cím",
+		"counterparty": "Partner",
+		"originalAmount": "Eredeti összeg",
+		"deadline": "Határidő",
+		"days": "Napok",
+		"daysUnit": "nap",
+		"progress": "Fizetési haladás",
+		"makePayment": "Fizetés rögzítése",
+		"paymentAmount": "Fizetési összeg",
+		"pay": "Fizetés",
 		"status": {
-			"label": "Status",
-			"ACTIVE": "Active",
-			"SETTLED": "Settled",
-			"EXPIRED": "Expired",
-			"FORGIVEN": "Forgiven"
+			"label": "Állapot",
+			"ACTIVE": "Aktív",
+			"SETTLED": "Rendezve",
+			"EXPIRED": "Lejárt",
+			"FORGIVEN": "Elengedve"
 		},
 		"type": {
-			"BORROWED": "I borrowed",
-			"LENT": "I lent"
+			"BORROWED": "Kölcsön vettem",
+			"LENT": "Kölcsön adtam"
 		},
 		"currency": {
-			"logged": "Logged currency",
-			"base": "Base currency"
+			"logged": "Naplózott pénznem",
+			"base": "Alap pénznem"
 		},
 		"amount": {
-			"logged": "Amount in logged currency",
-			"base": "Amount in base currency"
+			"logged": "Összeg naplózott pénznemben",
+			"base": "Összeg alap pénznemben"
 		},
 		"create": {
-			"title": "New Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"originalAmount": "Amount",
-			"currency": "Currency",
-			"deadline": "Deadline",
-			"type": "Type",
-			"category": "Category",
-			"search": "Search",
-			"successInfo": "Debt '{{title}}' created successfully!"
+			"title": "Új tartozás",
+			"titleLabel": "Cím",
+			"counterpartyName": "Partner neve",
+			"originalAmount": "Összeg",
+			"currency": "Pénznem",
+			"deadline": "Határidő",
+			"type": "Típus",
+			"category": "Kategória",
+			"search": "Keresés",
+			"successInfo": "A(z) '{{title}}' tartozás sikeresen létrehozva!"
 		},
 		"edit": {
-			"title": "Edit Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"deadline": "Deadline",
-			"type": "Type",
-			"status": "Status",
-			"category": "Category",
-			"search": "Search"
+			"title": "Tartozás szerkesztése",
+			"titleLabel": "Cím",
+			"counterpartyName": "Partner neve",
+			"deadline": "Határidő",
+			"type": "Típus",
+			"status": "Állapot",
+			"category": "Kategória",
+			"search": "Keresés"
 		},
 		"statistics": {
 			"card": {
-				"DEBT_TOTAL_I_OWE_STATCARD": "Total I Owe",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total Owed to Me"
+				"DEBT_TOTAL_I_OWE_STATCARD": "Összes tartozásom",
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Összes kintlévőségem"
 			}
 		},
-		"updateInfo": "Debt updated successfully!",
-		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"updateInfo": "Tartozás sikeresen frissítve!",
+		"deleteInfo": "Tartozás sikeresen törölve!",
+		"paymentInfo": "Fizetés sikeresen rögzítve!",
+		"empty": {
+			"title": "Még nincsenek adósságok",
+			"subtitle": "Kövesse nyomon a tartozásait és a kintlévőségeit."
+		}
 	},
 	"investments": {
 		"title": "Befektetések",
@@ -1161,7 +1169,11 @@
 			}
 		},
 		"updateInfo": "Befektetés sikeresen frissítve!",
-		"deleteInfo": "Befektetés sikeresen törölve!"
+		"deleteInfo": "Befektetés sikeresen törölve!",
+		"empty": {
+			"title": "Még nincsenek befektetések",
+			"subtitle": "Kezdje el portfóliójának nyomon követését az első eszköz hozzáadásával."
+		}
 	},
 	"auditLog": {
 		"title": "Audit naplók",

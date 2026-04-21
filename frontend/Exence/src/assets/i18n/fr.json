@@ -1043,72 +1043,80 @@
 			"status": "Statut"
 		},
 		"updateInfo": "Objectif mis à jour avec succès !",
-		"deleteInfo": "Objectif supprimé avec succès !"
+		"deleteInfo": "Objectif supprimé avec succès !",
+		"empty": {
+			"title": "Aucun objectif pour l'instant",
+			"subtitle": "Commencez à épargner vers vos objectifs en en créant un premier."
+		}
 	},
 	"debts": {
-		"title": "Debts",
-		"myDebts": "My Debts",
-		"owedToMe": "Owed to Me",
-		"titleLabel": "Title",
-		"counterparty": "Counterparty",
-		"originalAmount": "Original Amount",
-		"deadline": "Deadline",
-		"days": "Days",
-		"daysUnit": "days",
-		"progress": "Paid progress",
-		"makePayment": "Make a Payment",
-		"paymentAmount": "Payment amount",
-		"pay": "Pay",
+		"title": "Dettes",
+		"myDebts": "Mes dettes",
+		"owedToMe": "On me doit",
+		"titleLabel": "Titre",
+		"counterparty": "Contrepartie",
+		"originalAmount": "Montant initial",
+		"deadline": "Échéance",
+		"days": "Jours",
+		"daysUnit": "jours",
+		"progress": "Progression du paiement",
+		"makePayment": "Effectuer un paiement",
+		"paymentAmount": "Montant du paiement",
+		"pay": "Payer",
 		"status": {
-			"label": "Status",
-			"ACTIVE": "Active",
-			"SETTLED": "Settled",
-			"EXPIRED": "Expired",
-			"FORGIVEN": "Forgiven"
+			"label": "Statut",
+			"ACTIVE": "Actif",
+			"SETTLED": "Réglé",
+			"EXPIRED": "Expiré",
+			"FORGIVEN": "Pardonné"
 		},
 		"type": {
-			"BORROWED": "I borrowed",
-			"LENT": "I lent"
+			"BORROWED": "J'ai emprunté",
+			"LENT": "J'ai prêté"
 		},
 		"currency": {
-			"logged": "Logged currency",
-			"base": "Base currency"
+			"logged": "Devise enregistrée",
+			"base": "Devise de base"
 		},
 		"amount": {
-			"logged": "Amount in logged currency",
-			"base": "Amount in base currency"
+			"logged": "Montant en devise enregistrée",
+			"base": "Montant en devise de base"
 		},
 		"create": {
-			"title": "New Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"originalAmount": "Amount",
-			"currency": "Currency",
-			"deadline": "Deadline",
+			"title": "Nouvelle dette",
+			"titleLabel": "Titre",
+			"counterpartyName": "Nom de la contrepartie",
+			"originalAmount": "Montant",
+			"currency": "Devise",
+			"deadline": "Échéance",
 			"type": "Type",
-			"category": "Category",
-			"search": "Search",
-			"successInfo": "Debt '{{title}}' created successfully!"
+			"category": "Catégorie",
+			"search": "Rechercher",
+			"successInfo": "Dette '{{title}}' créée avec succès !"
 		},
 		"edit": {
-			"title": "Edit Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"deadline": "Deadline",
+			"title": "Modifier la dette",
+			"titleLabel": "Titre",
+			"counterpartyName": "Nom de la contrepartie",
+			"deadline": "Échéance",
 			"type": "Type",
-			"status": "Status",
-			"category": "Category",
-			"search": "Search"
+			"status": "Statut",
+			"category": "Catégorie",
+			"search": "Rechercher"
 		},
 		"statistics": {
 			"card": {
-				"DEBT_TOTAL_I_OWE_STATCARD": "Total I Owe",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total Owed to Me"
+				"DEBT_TOTAL_I_OWE_STATCARD": "Total que je dois",
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total qui m'est dû"
 			}
 		},
-		"updateInfo": "Debt updated successfully!",
-		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"updateInfo": "Dette mise à jour avec succès !",
+		"deleteInfo": "Dette supprimée avec succès !",
+		"paymentInfo": "Paiement enregistré avec succès !",
+		"empty": {
+			"title": "Aucune dette pour l'instant",
+			"subtitle": "Suivez l'argent que vous devez ou qui vous est dû."
+		}
 	},
 	"investments": {
 		"title": "Investissements",
@@ -1161,7 +1169,11 @@
 			}
 		},
 		"updateInfo": "Investissement mis à jour avec succès !",
-		"deleteInfo": "Investissement supprimé avec succès !"
+		"deleteInfo": "Investissement supprimé avec succès !",
+		"empty": {
+			"title": "Aucun investissement pour l'instant",
+			"subtitle": "Commencez à suivre votre portefeuille en ajoutant votre premier actif."
+		}
 	},
 	"auditLog": {
 		"title": "Journaux d'audit",
