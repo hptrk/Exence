@@ -57,7 +57,7 @@ export class PrivateComponent {
 		});
 
 		effect(() => {
-			this.workspaceService.currentWorkspace(); // tracked — runs on every workspace switch
+			this.workspaceService.currentWorkspace(); // tracked - runs on every workspace switch
 			untracked(() => {
 				this.workspaceService.getSettings().then(settings => {
 					this.currencyService.setBaseCurrency(settings.baseCurrency);

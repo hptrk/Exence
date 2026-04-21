@@ -79,7 +79,7 @@ import {
 import adminData from '../data/admin.data.json';
 
 // Tab layout
-test.describe('Admin — tab layout on large screens', () => {
+test.describe('Admin - tab layout on large screens', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -109,7 +109,7 @@ test.describe('Admin — tab layout on large screens', () => {
 	});
 });
 
-test.describe('Admin — tab layout on small screens', () => {
+test.describe('Admin - tab layout on small screens', () => {
 	test.use({ viewport: { width: 500, height: 700 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -136,7 +136,7 @@ test.describe('Admin — tab layout on small screens', () => {
 });
 
 // Statistics tab
-test.describe('Admin — Statistics tab', () => {
+test.describe('Admin - Statistics tab', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -167,7 +167,7 @@ test.describe('Admin — Statistics tab', () => {
 	});
 });
 
-test.describe('Admin — Statistics tab — card grid on mobile', () => {
+test.describe('Admin - Statistics tab - card grid on mobile', () => {
 	test.use({ viewport: { width: 400, height: 800 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -185,7 +185,7 @@ test.describe('Admin — Statistics tab — card grid on mobile', () => {
 	});
 });
 
-test.describe('Admin — Statistics tab — chart grid single column', () => {
+test.describe('Admin - Statistics tab - chart grid single column', () => {
 	test.use({ viewport: { width: 600, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -200,7 +200,7 @@ test.describe('Admin — Statistics tab — chart grid single column', () => {
 	});
 });
 
-test.describe('Admin — Statistics tab — chart grid two columns', () => {
+test.describe('Admin - Statistics tab - chart grid two columns', () => {
 	test.use({ viewport: { width: 900, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -216,7 +216,7 @@ test.describe('Admin — Statistics tab — chart grid two columns', () => {
 });
 
 // Logs tab
-test.describe('Admin — Logs tab', () => {
+test.describe('Admin - Logs tab', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -290,7 +290,7 @@ test.describe('Admin — Logs tab', () => {
 	});
 });
 
-test.describe('Admin — Logs tab — date column visibility', () => {
+test.describe('Admin - Logs tab - date column visibility', () => {
 	test.beforeEach(async ({ page, context }) => {
 		await setupAdmin(page, context);
 		await getAdminTabByIndex(page, 1).click();
@@ -307,7 +307,7 @@ test.describe('Admin — Logs tab — date column visibility', () => {
 	});
 });
 
-test.describe('Admin — Logs tab — audit log for modified transaction', () => {
+test.describe('Admin - Logs tab - audit log for modified transaction', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test('should show updated transaction fields in audit log after editing', async ({ page, context }) => {
@@ -354,8 +354,8 @@ test.describe('Admin — Logs tab — audit log for modified transaction', () =>
 	});
 });
 
-// Configs tab — System Settings
-test.describe('Admin — Configs tab — sections', () => {
+// Configs tab - System Settings
+test.describe('Admin - Configs tab - sections', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -376,7 +376,7 @@ test.describe('Admin — Configs tab — sections', () => {
 	});
 });
 
-test.describe('Admin — Configs tab — System Settings toggle cards', () => {
+test.describe('Admin - Configs tab - System Settings toggle cards', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -407,7 +407,7 @@ test.describe('Admin — Configs tab — System Settings toggle cards', () => {
 	});
 });
 
-test.describe('Admin — Configs tab — System Settings amount steppers', () => {
+test.describe('Admin - Configs tab - System Settings amount steppers', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -450,7 +450,7 @@ test.describe('Admin — Configs tab — System Settings amount steppers', () =>
 	});
 });
 
-test.describe('Admin — Configs tab — System Settings verification paths', () => {
+test.describe('Admin - Configs tab - System Settings verification paths', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -530,8 +530,8 @@ test.describe('Admin — Configs tab — System Settings verification paths', ()
 	});
 });
 
-// Configs tab — Create Admin User
-test.describe('Admin — Configs tab — Create Admin User validators', () => {
+// Configs tab - Create Admin User
+test.describe('Admin - Configs tab - Create Admin User validators', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -590,7 +590,7 @@ test.describe('Admin — Configs tab — Create Admin User validators', () => {
 	});
 });
 
-test.describe('Admin — Configs tab — Create Admin User clear buttons', () => {
+test.describe('Admin - Configs tab - Create Admin User clear buttons', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -632,7 +632,7 @@ test.describe('Admin — Configs tab — Create Admin User clear buttons', () =>
 	});
 });
 
-test.describe('Admin — Configs tab — Create Admin User password toggle and submit', () => {
+test.describe('Admin - Configs tab - Create Admin User password toggle and submit', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -664,8 +664,8 @@ test.describe('Admin — Configs tab — Create Admin User password toggle and s
 	});
 });
 
-// Configs tab — Broadcast Email
-test.describe('Admin — Configs tab — Broadcast Email validators', () => {
+// Configs tab - Broadcast Email
+test.describe('Admin - Configs tab - Broadcast Email validators', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -687,7 +687,7 @@ test.describe('Admin — Configs tab — Broadcast Email validators', () => {
 	});
 });
 
-test.describe('Admin — Configs tab — Broadcast Email clear buttons', () => {
+test.describe('Admin - Configs tab - Broadcast Email clear buttons', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -712,7 +712,7 @@ test.describe('Admin — Configs tab — Broadcast Email clear buttons', () => {
 	});
 });
 
-test.describe('Admin — Configs tab — Broadcast Email send', () => {
+test.describe('Admin - Configs tab - Broadcast Email send', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

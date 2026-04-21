@@ -73,7 +73,7 @@ import {
 } from '../utils/setup-transactions.utils';
 
 // Layout
-test.describe('Transactions page — layout', () => {
+test.describe('Transactions page - layout', () => {
 	test.describe('on large screens', () => {
 		test.use({ viewport: { width: 1400, height: 900 } });
 
@@ -143,7 +143,7 @@ test.describe('Transactions page — layout', () => {
 });
 
 // Tabs
-test.describe('Transactions page — tabs', () => {
+test.describe('Transactions page - tabs', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -174,7 +174,7 @@ test.describe('Transactions page — tabs', () => {
 });
 
 // Filter
-test.describe('Transactions page — filter', () => {
+test.describe('Transactions page - filter', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -256,7 +256,7 @@ test.describe('Transactions page — filter', () => {
 });
 
 // Recurring list - dialog type and recurring checkbox prefill
-test.describe('Transactions page — recurring list dialog prefill', () => {
+test.describe('Transactions page - recurring list dialog prefill', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -291,8 +291,8 @@ test.describe('Transactions page — recurring list dialog prefill', () => {
 	});
 });
 
-// Recurring list — create and display with expanded details
-test.describe('Transactions page — recurring list create', () => {
+// Recurring list - create and display with expanded details
+test.describe('Transactions page - recurring list create', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -425,8 +425,8 @@ test.describe('Transactions page — recurring list create', () => {
 	});
 });
 
-// Transaction list — rows and expand
-test.describe('Transactions page — transaction list rows', () => {
+// Transaction list - rows and expand
+test.describe('Transactions page - transaction list rows', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -583,8 +583,8 @@ test.describe('Transactions page — transaction list rows', () => {
 	});
 });
 
-// Transaction actions — delete
-test.describe('Transactions page — delete transaction', () => {
+// Transaction actions - delete
+test.describe('Transactions page - delete transaction', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -613,8 +613,8 @@ test.describe('Transactions page — delete transaction', () => {
 	});
 });
 
-// Transaction actions — duplicate
-test.describe('Transactions page — duplicate transaction', () => {
+// Transaction actions - duplicate
+test.describe('Transactions page - duplicate transaction', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -702,8 +702,8 @@ test.describe('Transactions page — duplicate transaction', () => {
 	});
 });
 
-// Transaction actions — edit
-test.describe('Transactions page — edit transaction', () => {
+// Transaction actions - edit
+test.describe('Transactions page - edit transaction', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -730,8 +730,8 @@ test.describe('Transactions page — edit transaction', () => {
 	});
 });
 
-// Categories tab — empty state
-test.describe('Transactions page — categories tab empty state', () => {
+// Categories tab - empty state
+test.describe('Transactions page - categories tab empty state', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -749,8 +749,8 @@ test.describe('Transactions page — categories tab empty state', () => {
 	});
 });
 
-// Categories tab — create and delete
-test.describe('Transactions page — categories tab create and delete', () => {
+// Categories tab - create and delete
+test.describe('Transactions page - categories tab create and delete', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -793,8 +793,8 @@ test.describe('Transactions page — categories tab create and delete', () => {
 	});
 });
 
-// Categories tab — balance and color classes
-test.describe('Transactions page — categories tab balance and color', () => {
+// Categories tab - balance and color classes
+test.describe('Transactions page - categories tab balance and color', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -895,8 +895,8 @@ test.describe('Transactions page — categories tab balance and color', () => {
 	});
 });
 
-// Categories tab — category type filtering in transaction dialog
-test.describe('Transactions page — category type filtering in transaction dialog', () => {
+// Categories tab - category type filtering in transaction dialog
+test.describe('Transactions page - category type filtering in transaction dialog', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -919,7 +919,7 @@ test.describe('Transactions page — category type filtering in transaction dial
 		await getTransactionCategorySelect(page).click();
 		await expect(getTransactionCategoryOption(page, name)).not.toBeVisible();
 
-		// clicking the type toggle is outside the overlay panel — closes the dropdown and switches type
+		// clicking the type toggle is outside the overlay panel - closes the dropdown and switches type
 		await getTransactionTypeToggle(page).getByText('INCOME', { exact: true }).click();
 		await getTransactionCategorySelect(page).click();
 		await expect(getTransactionCategoryOption(page, name)).toBeVisible();

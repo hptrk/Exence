@@ -68,7 +68,7 @@ test.describe('Dashboard - components', () => {
 });
 
 // Layout
-test.describe('Dashboard — layout', () => {
+test.describe('Dashboard - layout', () => {
 	test.beforeEach(async ({ page, context }) => {
 		await setupDashboard(page, context);
 	});
@@ -105,7 +105,7 @@ test.describe('Dashboard — layout', () => {
 });
 
 // Summary container navigation
-test.describe('Dashboard — summary container navigation', () => {
+test.describe('Dashboard - summary container navigation', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -147,7 +147,7 @@ test.describe('Dashboard — summary container navigation', () => {
 });
 
 // Create transaction
-test.describe('Dashboard — create transaction', () => {
+test.describe('Dashboard - create transaction', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -209,7 +209,7 @@ test.describe('Dashboard — create transaction', () => {
 });
 
 // Chart timeframe
-test.describe('Dashboard — chart timeframe', () => {
+test.describe('Dashboard - chart timeframe', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

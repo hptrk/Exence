@@ -20,7 +20,7 @@
 			{{ codeForType(purchase.type) | translate }}
 		</div>
 		<div class="purchase-data-cell fs-6" [matTooltip]="purchase.note ?? ''" [matTooltipDisabled]="!purchase.note">
-			{{ purchase.note || '—' }}
+			{{ purchase.note || '-' }}
 		</div>
 		<div class="purchase-data-cell d-flex flex-row gap-1 justify-content-end">
 			<ex-button

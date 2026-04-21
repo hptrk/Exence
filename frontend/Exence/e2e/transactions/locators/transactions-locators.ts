@@ -14,10 +14,10 @@ export const getCategoriesTabLabel = (page: Page): Locator => page.getByTestId('
 export const getCategoriesTabIcon = (page: Page): Locator => getCategoriesTabLabel(page).locator('mat-icon');
 export const getCategoriesTabText = (page: Page): Locator => getCategoriesTabLabel(page).getByText('Categories');
 
-// Recurring lists (large screen — two separate)
+// Recurring lists (large screen - two separate)
 export const getRecurringExpensesList = (page: Page): Locator => page.getByTestId('recurring-expenses-list');
 export const getRecurringIncomesList = (page: Page): Locator => page.getByTestId('recurring-incomes-list');
-// Recurring list (mobile — combined)
+// Recurring list (mobile - combined)
 export const getRecurringTransactionsList = (page: Page): Locator => page.getByTestId('recurring-transactions-list');
 
 // Transaction list

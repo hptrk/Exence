@@ -214,7 +214,7 @@ describe('ChartWidgetComponent', () => {
 		it('should show skeleton loaders when isLoading is true and data is undefined', () => {
 			fixture.componentRef.setInput('widget', MOCK_BAR_WIDGET);
 			fixture.componentRef.setInput('editing', false);
-			// Keep isLoading true — before async completes
+			// Keep isLoading true - before async completes
 			statisticServiceSpy.getWidgetData.and.returnValue(new Promise(() => {}));
 			fixture.detectChanges();
 			expect(getSkeletonLoader(fixture.nativeElement)).toBeTruthy();

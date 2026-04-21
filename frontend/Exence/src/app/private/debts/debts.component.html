@@ -1,5 +1,8 @@
 @if (isEmpty()) {
-	<section class="d-flex flex-column align-items-center justify-content-center gap-4 h-100">
+	<section
+		data-testid="debts-empty-state"
+		class="d-flex flex-column align-items-center justify-content-center gap-4 h-100"
+	>
 		<img src="assets/empty-debts.svg" />
 		<div class="d-flex flex-column gap-2 align-items-center text-center">
 			<h3 class="fs-2 fw-bold m-0">
@@ -9,7 +12,7 @@
 				{{ 'debts.empty.subtitle' | translate }}
 			</p>
 		</div>
-		<ex-button (click)="openCreate()" color="primary" matIcon="add" size="lg">
+		<ex-button data-testid="debts-empty-create-btn" (click)="openCreate()" color="primary" matIcon="add" size="lg">
 			{{ 'debts.create.title' | translate }}
 		</ex-button>
 	</section>
@@ -22,17 +25,20 @@
 		<ex-debt-statistics />
 
 		<div
+			data-testid="debt-lists-container"
 			class="d-flex flex-column flex-lg-row flex-nowrap gap-4"
 			[class.h-100]="display.isLg()"
 			[class.overflow-hidden]="display.isLg()"
 		>
 			<ex-debt-list
+				data-testid="debt-list-borrowed"
 				class="flex-grow-1"
 				matIcon="arrow_circle_up"
 				[title]="'debts.myDebts' | translate"
 				[type]="debtTypes.BORROWED"
 			/>
 			<ex-debt-list
+				data-testid="debt-list-lent"
 				class="flex-grow-1"
 				matIcon="arrow_circle_down"
 				[title]="'debts.owedToMe' | translate"

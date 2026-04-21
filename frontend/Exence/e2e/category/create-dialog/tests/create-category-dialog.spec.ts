@@ -27,7 +27,7 @@ async function openCreateCategoryDialog(page: Parameters<typeof getCategoryListA
 	await expect(getCreateCategoryDialog(page)).toBeVisible();
 }
 
-test.describe('Create category dialog — structure', () => {
+test.describe('Create category dialog - structure', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -64,7 +64,7 @@ test.describe('Create category dialog — structure', () => {
 	});
 });
 
-test.describe('Create category dialog — validators', () => {
+test.describe('Create category dialog - validators', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -72,26 +72,26 @@ test.describe('Create category dialog — validators', () => {
 		await openCreateCategoryDialog(page);
 	});
 
-	test('name is required — shows error when touched and left empty', async ({ page }) => {
+	test('name is required - shows error when touched and left empty', async ({ page }) => {
 		await getCategoryNameInput(page).click();
 		await getCategoryNameInput(page).blur();
 		await expect(page.getByText(dialogData.errors.required)).toBeVisible();
 	});
 
-	test('name max length is 25 — shows error when 26 chars entered', async ({ page }) => {
+	test('name max length is 25 - shows error when 26 chars entered', async ({ page }) => {
 		const longName = dialogData.validation.tooLongChar.repeat(dialogData.validation.nameMaxLength + 1);
 		await fillAndBlur(getCategoryNameInput(page), longName);
 		await expect(page.getByText(dialogData.errors.maxLength25)).toBeVisible();
 	});
 
-	test('note max length is 500 — shows error when exceeded', async ({ page }) => {
+	test('note max length is 500 - shows error when exceeded', async ({ page }) => {
 		const longNote = dialogData.validation.tooLongChar.repeat(dialogData.validation.noteMaxLength + 1);
 		const noteInput = getCreateCategoryDialog(page).locator('textarea');
 		await fillAndBlur(noteInput, longNote);
 		await expect(page.getByText(dialogData.errors.maxLength500)).toBeVisible();
 	});
 
-	test('icon is required — submit button disabled without icon selection', async ({ page }) => {
+	test('icon is required - submit button disabled without icon selection', async ({ page }) => {
 		await fillAndBlur(getCategoryNameInput(page), createUniqueName());
 		await expect(getCreateCategoryDialog(page).getByTestId('btn').last()).toBeDisabled();
 	});
@@ -108,7 +108,7 @@ test.describe('Create category dialog — validators', () => {
 	});
 });
 
-test.describe('Create category dialog — type selection', () => {
+test.describe('Create category dialog - type selection', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -129,7 +129,7 @@ test.describe('Create category dialog — type selection', () => {
 	});
 });
 
-test.describe('Create category dialog — create and cancel', () => {
+test.describe('Create category dialog - create and cancel', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

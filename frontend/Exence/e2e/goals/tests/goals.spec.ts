@@ -58,7 +58,7 @@ import {
 import { setupGoals, setupGoalsEmpty } from '../utils/setup-goals.utils';
 
 // Empty state
-test.describe('Goals — empty state', () => {
+test.describe('Goals - empty state', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -80,7 +80,7 @@ test.describe('Goals — empty state', () => {
 });
 
 // Create via empty state button
-test.describe('Goals — create goal via empty state button', () => {
+test.describe('Goals - create goal via empty state button', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -95,7 +95,7 @@ test.describe('Goals — create goal via empty state button', () => {
 });
 
 // Overview with data
-test.describe('Goals — overview with data', () => {
+test.describe('Goals - overview with data', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -125,7 +125,7 @@ test.describe('Goals — overview with data', () => {
 });
 
 // Progress trend chart
-test.describe('Goals — progress trend chart goal selector', () => {
+test.describe('Goals - progress trend chart goal selector', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -149,8 +149,8 @@ test.describe('Goals — progress trend chart goal selector', () => {
 	});
 });
 
-// List — status indicator
-test.describe('Goals list — status indicator', () => {
+// List - status indicator
+test.describe('Goals list - status indicator', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -258,8 +258,8 @@ test.describe('Goals list — status indicator', () => {
 	});
 });
 
-// List — responsive columns
-test.describe('Goals list — responsive columns', () => {
+// List - responsive columns
+test.describe('Goals list - responsive columns', () => {
 	test.beforeEach(async ({ page, context }) => {
 		await setupGoals(page, context);
 	});
@@ -283,8 +283,8 @@ test.describe('Goals list — responsive columns', () => {
 	});
 });
 
-// List — expand rows
-test.describe('Goals list — expand rows', () => {
+// List - expand rows
+test.describe('Goals list - expand rows', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -361,8 +361,8 @@ test.describe('Goals list — expand rows', () => {
 	});
 });
 
-// List — add button
-test.describe('Goals list — add button', () => {
+// List - add button
+test.describe('Goals list - add button', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -377,8 +377,8 @@ test.describe('Goals list — add button', () => {
 	});
 });
 
-// List — row actions
-test.describe('Goals list — row actions', () => {
+// List - row actions
+test.describe('Goals list - row actions', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -406,8 +406,8 @@ test.describe('Goals list — row actions', () => {
 	});
 });
 
-// Create dialog — structure
-test.describe('Create goal dialog — structure', () => {
+// Create dialog - structure
+test.describe('Create goal dialog - structure', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -434,8 +434,8 @@ test.describe('Create goal dialog — structure', () => {
 	});
 });
 
-// Create dialog — validators
-test.describe('Create goal dialog — validators', () => {
+// Create dialog - validators
+test.describe('Create goal dialog - validators', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -516,8 +516,8 @@ test.describe('Create goal dialog — validators', () => {
 	});
 });
 
-// Create dialog — clear buttons
-test.describe('Create goal dialog — clear buttons', () => {
+// Create dialog - clear buttons
+test.describe('Create goal dialog - clear buttons', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -545,8 +545,8 @@ test.describe('Create goal dialog — clear buttons', () => {
 	});
 });
 
-// Create dialog — unsaved changes guard
-test.describe('Create goal dialog — unsaved changes guard', () => {
+// Create dialog - unsaved changes guard
+test.describe('Create goal dialog - unsaved changes guard', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -615,8 +615,8 @@ test.describe('Create goal dialog — unsaved changes guard', () => {
 	});
 });
 
-// Create dialog — submit and cancel
-test.describe('Create goal dialog — submit and cancel', () => {
+// Create dialog - submit and cancel
+test.describe('Create goal dialog - submit and cancel', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -648,8 +648,8 @@ test.describe('Create goal dialog — submit and cancel', () => {
 	});
 });
 
-// Edit dialog — prefill
-test.describe('Edit goal dialog — prefill', () => {
+// Edit dialog - prefill
+test.describe('Edit goal dialog - prefill', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	const goalTitle = 'Prefill Test Goal';
@@ -710,8 +710,8 @@ test.describe('Edit goal dialog — prefill', () => {
 	});
 });
 
-// Edit dialog — validators
-test.describe('Edit goal dialog — validators', () => {
+// Edit dialog - validators
+test.describe('Edit goal dialog - validators', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -779,8 +779,8 @@ test.describe('Edit goal dialog — validators', () => {
 	});
 });
 
-// Edit dialog — unsaved changes guard
-test.describe('Edit goal dialog — unsaved changes guard', () => {
+// Edit dialog - unsaved changes guard
+test.describe('Edit goal dialog - unsaved changes guard', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -844,8 +844,8 @@ test.describe('Edit goal dialog — unsaved changes guard', () => {
 	});
 });
 
-// Edit dialog — submit
-test.describe('Edit goal dialog — submit', () => {
+// Edit dialog - submit
+test.describe('Edit goal dialog - submit', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -881,8 +881,8 @@ test.describe('Edit goal dialog — submit', () => {
 	});
 });
 
-// Edit dialog — status changes via currentAmount
-test.describe('Edit goal dialog — status changes via currentAmount', () => {
+// Edit dialog - status changes via currentAmount
+test.describe('Edit goal dialog - status changes via currentAmount', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test('should set status to COMPLETED when currentAmount equals targetAmount', async ({ page, context }) => {

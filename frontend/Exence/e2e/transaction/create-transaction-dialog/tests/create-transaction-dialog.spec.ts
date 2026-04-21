@@ -52,7 +52,7 @@ async function openDialog(page: Parameters<typeof getCreateTransactionDialog>[0]
 }
 
 // Structure
-test.describe('Create transaction dialog — structure', () => {
+test.describe('Create transaction dialog - structure', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -84,7 +84,7 @@ test.describe('Create transaction dialog — structure', () => {
 });
 
 // Validators
-test.describe('Create transaction dialog — validators', () => {
+test.describe('Create transaction dialog - validators', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -122,7 +122,7 @@ test.describe('Create transaction dialog — validators', () => {
 	});
 
 	// Note
-	test('should note max 500 — shows error when exceeded', async ({ page }) => {
+	test('should note max 500 - shows error when exceeded', async ({ page }) => {
 		const noteInput = getCreateTransactionDialog(page).locator('textarea');
 		await fillAndBlur(noteInput, data.validation.tooLongChar.repeat(data.validation.noteMaxLength + 1));
 		await expect(page.getByText(data.errors.maxLength500)).toBeVisible();
@@ -130,7 +130,7 @@ test.describe('Create transaction dialog — validators', () => {
 });
 
 // Confirm exit dialog
-test.describe('Create transaction dialog — confirm exit', () => {
+test.describe('Create transaction dialog - confirm exit', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -169,7 +169,7 @@ test.describe('Create transaction dialog — confirm exit', () => {
 });
 
 // Recurring - disabled fields
-test.describe('Create transaction dialog — recurring: disabled fields', () => {
+test.describe('Create transaction dialog - recurring: disabled fields', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -221,7 +221,7 @@ test.describe('Create transaction dialog — recurring: disabled fields', () => 
 });
 
 // Recurring: frequency selectors
-test.describe('Create transaction dialog — recurring: frequency selectors', () => {
+test.describe('Create transaction dialog - recurring: frequency selectors', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -266,7 +266,7 @@ test.describe('Create transaction dialog — recurring: frequency selectors', ()
 });
 
 // Recurring: WEEKLY date filter
-test.describe('Create transaction dialog — recurring: weekly date filter', () => {
+test.describe('Create transaction dialog - recurring: weekly date filter', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -302,7 +302,7 @@ test.describe('Create transaction dialog — recurring: weekly date filter', () 
 });
 
 // Recurring: MONTHLY date filter
-test.describe('Create transaction dialog — recurring: monthly date filter', () => {
+test.describe('Create transaction dialog - recurring: monthly date filter', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -342,7 +342,7 @@ test.describe('Create transaction dialog — recurring: monthly date filter', ()
 });
 
 // Exchange rate API call
-test.describe('Create transaction dialog — exchange rate API', () => {
+test.describe('Create transaction dialog - exchange rate API', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -368,7 +368,7 @@ test.describe('Create transaction dialog — exchange rate API', () => {
 });
 
 // Submission
-test.describe('Create transaction dialog — submission', () => {
+test.describe('Create transaction dialog - submission', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

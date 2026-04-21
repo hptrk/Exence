@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg width="240" height="200" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- ── Stat cards row ── -->
+  <!--  Stat cards row  -->
   <!-- Card 1 -->
   <rect x="8" y="8" width="68" height="38" rx="6" fill="rgb(200,200,242)" opacity="0.15"/>
   <rect x="8" y="8" width="68" height="38" rx="6" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
@@ -20,7 +20,7 @@
   <rect x="167" y="15" width="42" height="5" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
   <rect x="167" y="26" width="22" height="9" rx="3" fill="rgb(200,200,242)" opacity="0.55"/>
 
-  <!-- ── Goals table ── -->
+  <!--  Goals table  -->
   <rect x="8" y="54" width="224" height="140" rx="8" stroke="rgb(180,180,220)" stroke-width="1.5" fill="none"/>
 
   <!-- Table header bar -->
@@ -48,21 +48,21 @@
   <line x1="8"  y1="139" x2="232" y2="139" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.40"/>
   <line x1="8"  y1="162" x2="232" y2="162" stroke="rgb(200,200,242)" stroke-width="1" opacity="0.40"/>
 
-  <!-- Row 1 — status strip (green=in-progress), title, deadline, amount, category icon -->
+  <!-- Row 1 - status strip (green=in-progress), title, deadline, amount, category icon -->
   <rect x="14" y="99"  width="3" height="9" rx="1.5" fill="rgb(130,200,140)" opacity="0.70"/>
   <rect x="22" y="100" width="48" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.55"/>
   <rect x="104" y="100" width="24" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
   <rect x="150" y="100" width="38" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.60"/>
   <circle cx="211" cy="103" r="6" fill="rgb(200,200,242)" opacity="0.35" stroke="rgb(180,180,220)" stroke-width="1"/>
 
-  <!-- Row 2 — status strip (amber=pending) -->
+  <!-- Row 2 - status strip (amber=pending) -->
   <rect x="14" y="122" width="3" height="9" rx="1.5" fill="rgb(210,175,100)" opacity="0.70"/>
   <rect x="22" y="123" width="36" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.45"/>
   <rect x="104" y="123" width="22" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.38"/>
   <rect x="150" y="123" width="30" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.50"/>
   <circle cx="211" cy="126" r="6" fill="rgb(200,200,242)" opacity="0.28" stroke="rgb(180,180,220)" stroke-width="1"/>
 
-  <!-- Row 3 — status strip (blue=new) -->
+  <!-- Row 3 - status strip (blue=new) -->
   <rect x="14" y="145" width="3" height="9" rx="1.5" fill="rgb(140,160,220)" opacity="0.65"/>
   <rect x="22" y="146" width="52" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.40"/>
   <rect x="104" y="146" width="26" height="7" rx="2" fill="rgb(200,200,242)" opacity="0.32"/>

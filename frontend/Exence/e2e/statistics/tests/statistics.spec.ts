@@ -56,7 +56,7 @@ import {
 	waitForWidgetCreate,
 } from '../utils/widget-request.utils';
 
-test.describe('Statistics — init', () => {
+test.describe('Statistics - init', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -83,7 +83,7 @@ test.describe('Statistics — init', () => {
 });
 
 // Menu (with widgets)
-test.describe('Statistics — menu', () => {
+test.describe('Statistics - menu', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -104,7 +104,7 @@ test.describe('Statistics — menu', () => {
 });
 
 // Catalog
-test.describe('Statistics — catalog', () => {
+test.describe('Statistics - catalog', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -282,7 +282,7 @@ test.describe('Statistics — catalog', () => {
 });
 
 // Stat card layout
-test.describe('Statistics — stat card layout', () => {
+test.describe('Statistics - stat card layout', () => {
 	test.beforeEach(async ({ page, context }) => {
 		await setupStatisticsWithCategory(page, context);
 		await addStatCard(page, 'Card 1');
@@ -319,8 +319,8 @@ test.describe('Statistics — stat card layout', () => {
 	});
 });
 
-// Edit mode — chart widgets
-test.describe('Statistics — edit mode (chart widgets)', () => {
+// Edit mode - chart widgets
+test.describe('Statistics - edit mode (chart widgets)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -416,8 +416,8 @@ test.describe('Statistics — edit mode (chart widgets)', () => {
 	});
 });
 
-// Edit mode — stat cards
-test.describe('Statistics — edit mode (stat cards)', () => {
+// Edit mode - stat cards
+test.describe('Statistics - edit mode (stat cards)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -476,7 +476,7 @@ test.describe('Statistics — edit mode (stat cards)', () => {
 });
 
 // Drag and drop
-test.describe('Statistics — drag and drop (chart widgets)', () => {
+test.describe('Statistics - drag and drop (chart widgets)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -530,7 +530,7 @@ test.describe('Statistics — drag and drop (chart widgets)', () => {
 	});
 });
 
-test.describe('Statistics — drag and drop (stat cards)', () => {
+test.describe('Statistics - drag and drop (stat cards)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -586,7 +586,7 @@ test.describe('Statistics — drag and drop (stat cards)', () => {
 
 // Chart resize
 
-test.describe('Statistics — chart resize', () => {
+test.describe('Statistics - chart resize', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -644,8 +644,8 @@ test.describe('Statistics — chart resize', () => {
 	});
 });
 
-// Edit mode exit — cancel
-test.describe('Statistics — edit mode exit (cancel)', () => {
+// Edit mode exit - cancel
+test.describe('Statistics - edit mode exit (cancel)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -754,8 +754,8 @@ test.describe('Statistics — edit mode exit (cancel)', () => {
 	});
 });
 
-// Edit mode exit — save
-test.describe('Statistics — edit mode exit (save)', () => {
+// Edit mode exit - save
+test.describe('Statistics - edit mode exit (save)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

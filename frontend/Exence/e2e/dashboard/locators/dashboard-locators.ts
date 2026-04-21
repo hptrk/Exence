@@ -8,10 +8,10 @@ export const getSummaryIncome = (page: Page): Locator => page.getByTestId('summa
 export const getSummaryExpense = (page: Page): Locator => page.getByTestId('summary-expense');
 export const getSummaryBalance = (page: Page): Locator => page.getByTestId('summary-balance');
 
-// Transaction lists (lg layout — side by side)
+// Transaction lists (lg layout - side by side)
 export const getExpensesList = (page: Page): Locator => page.getByTestId('expenses-list');
 export const getIncomeList = (page: Page): Locator => page.getByTestId('income-list');
-// Transaction list (below-lg layout — single list)
+// Transaction list (below-lg layout - single list)
 export const getTransactionsList = (page: Page): Locator => page.getByTestId('transactions-list');
 
 // Mobile create buttons (<lg)

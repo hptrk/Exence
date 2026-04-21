@@ -62,7 +62,7 @@ mat-label {
 		background-color: var(--tertiary-color);
 	}
 	&[status='FORGIVEN'] {
-		background-color: var(--secondary-color);
+		background-color: var(--warn-color);
 	}
 	&[status='EXPIRED'] {
 		background-color: var(--error-color);

@@ -21,7 +21,7 @@ import { createUniqueName, getCurrentDate } from '../../../form/utils/form-utils
 
 // Create category
 
-test.describe('Dashboard — categories — create', () => {
+test.describe('Dashboard - categories - create', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -49,7 +49,7 @@ test.describe('Dashboard — categories — create', () => {
 });
 
 // Type filter
-test.describe('Dashboard — categories — type filter', () => {
+test.describe('Dashboard - categories - type filter', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -104,7 +104,7 @@ test.describe('Dashboard — categories — type filter', () => {
 
 // Content states
 
-test.describe('Dashboard — categories — content states', () => {
+test.describe('Dashboard - categories - content states', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

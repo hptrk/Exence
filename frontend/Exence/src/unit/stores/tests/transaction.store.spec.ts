@@ -154,7 +154,7 @@ describe('TransactionStore', () => {
 		});
 	});
 
-	// createTransaction — INCOME type
+	// createTransaction - INCOME type
 	describe('createTransaction (INCOME)', () => {
 		it('calls transactionService.create with the request', async () => {
 			await store.createTransaction(createIncomeRequest);
@@ -193,7 +193,7 @@ describe('TransactionStore', () => {
 		});
 	});
 
-	// createTransaction — EXPENSE type
+	// createTransaction - EXPENSE type
 	describe('createTransaction (EXPENSE)', () => {
 		it('reloads expenseResource for EXPENSE type', async () => {
 			spyOn(store.expenseResource, 'reload');

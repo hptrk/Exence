@@ -24,7 +24,7 @@ import {
 } from '../locators/edit-transaction-dialog-locators';
 import { createTransactionAndOpenEdit } from '../utils/edit-transaction-dialog.utils';
 
-test.describe('Edit transaction dialog — prefill', () => {
+test.describe('Edit transaction dialog - prefill', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -68,7 +68,7 @@ test.describe('Edit transaction dialog — prefill', () => {
 	});
 });
 
-test.describe('Edit transaction dialog — validators', () => {
+test.describe('Edit transaction dialog - validators', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -77,14 +77,14 @@ test.describe('Edit transaction dialog — validators', () => {
 		await createTransactionAndOpenEdit(page);
 	});
 
-	test('title required — save button disabled when title is cleared', async ({ page }) => {
+	test('title required - save button disabled when title is cleared', async ({ page }) => {
 		await getEditTitleInput(page).clear();
 		await getEditTitleInput(page).blur();
 		await expect(page.getByText(editData.errors.required)).toBeVisible();
 		await expect(getEditSaveBtnInner(page)).toBeDisabled();
 	});
 
-	test('title max length 255 — error when exceeding limit', async ({ page }) => {
+	test('title max length 255 - error when exceeding limit', async ({ page }) => {
 		const longTitle = editData.validation.tooLongChar.repeat(editData.validation.titleMaxLength + 1);
 		await getEditTitleInput(page).clear();
 		await fillAndBlur(getEditTitleInput(page), longTitle);
@@ -92,7 +92,7 @@ test.describe('Edit transaction dialog — validators', () => {
 		await expect(getEditSaveBtnInner(page)).toBeDisabled();
 	});
 
-	test('amount min value 1 — error when set to 0', async ({ page }) => {
+	test('amount min value 1 - error when set to 0', async ({ page }) => {
 		const amountInput = getEditTransactionDialog(page).locator('input[type="number"]').first();
 		await amountInput.clear();
 		await fillAndBlur(amountInput, String(editData.validation.amountZero));
@@ -100,28 +100,28 @@ test.describe('Edit transaction dialog — validators', () => {
 		await expect(getEditSaveBtnInner(page)).toBeDisabled();
 	});
 
-	test('note max length 500 — error when exceeding limit', async ({ page }) => {
+	test('note max length 500 - error when exceeding limit', async ({ page }) => {
 		const noteInput = getEditTransactionDialog(page).locator('textarea');
 		await noteInput.clear();
 		await fillAndBlur(noteInput, editData.validation.tooLongChar.repeat(editData.validation.noteMaxLength + 1));
 		await expect(page.getByText(editData.errors.maxLength500)).toBeVisible();
 	});
 
-	test('date required — save button disabled when date is cleared', async ({ page }) => {
+	test('date required - save button disabled when date is cleared', async ({ page }) => {
 		await getEditDateInput(page).clear();
 		await getEditDateInput(page).blur();
 		await expect(page.getByText(editData.errors.required)).toBeVisible();
 		await expect(getEditSaveBtnInner(page)).toBeDisabled();
 	});
 
-	test('amount required — save button disabled when amount is cleared', async ({ page }) => {
+	test('amount required - save button disabled when amount is cleared', async ({ page }) => {
 		await getEditAmountInput(page).clear();
 		await getEditAmountInput(page).blur();
 		await expect(page.getByText(editData.errors.required)).toBeVisible();
 		await expect(getEditSaveBtnInner(page)).toBeDisabled();
 	});
 
-	test('exchange rate min — error when set to 0', async ({ page }) => {
+	test('exchange rate min - error when set to 0', async ({ page }) => {
 		await getEditExchangeRateInput(page).clear();
 		await fillAndBlur(getEditExchangeRateInput(page), String(editData.validation.exchangeRateZero));
 		await expect(page.getByText(editData.errors.minExchangeRate)).toBeVisible();
@@ -129,7 +129,7 @@ test.describe('Edit transaction dialog — validators', () => {
 	});
 });
 
-test.describe('Edit transaction dialog — confirm exit', () => {
+test.describe('Edit transaction dialog - confirm exit', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -168,7 +168,7 @@ test.describe('Edit transaction dialog — confirm exit', () => {
 	});
 });
 
-test.describe('Edit transaction dialog — actions', () => {
+test.describe('Edit transaction dialog - actions', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

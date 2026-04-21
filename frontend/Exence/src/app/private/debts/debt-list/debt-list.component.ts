@@ -32,7 +32,7 @@ import {
 } from '../edit-debt-dialog/edit-debt-dialog.component';
 
 export interface DebtModel extends DebtGet {
-	category?: CategoryGet | undefined;
+	category: CategoryGet;
 }
 
 @Component({
@@ -64,8 +64,9 @@ export class DebtListComponent {
 	svgIcon = input<SvgIcons>();
 	type = input<DebtType>();
 
-	data = computed<DebtModel[]>(() => {
+	data = computed<DebtModel[] | undefined>(() => {
 		const categories = this.categoryStore.categoryResource.value();
+		if (!categories) return;
 		const type = this.type();
 		const raw = this.store.debts();
 		if (!raw.length) return [];
@@ -74,7 +75,7 @@ export class DebtListComponent {
 
 		return filtered.map(d => ({
 			...d,
-			category: categories?.find(c => c.id === d.categoryId),
+			category: categories.find(c => c.id === d.categoryId)!,
 		}));
 	});
 

@@ -8,20 +8,18 @@
 		<mat-label>{{ label()! | translate }}</mat-label>
 	}
 	<ex-button
-		[disabled]="disabled() || control().disabled"
 		matPrefix
 		iconButton
 		matIcon="remove"
-		[disabled]="isAtMin()"
+		[disabled]="isAtMin() || disabled() || control().disabled"
 		(click)="decrement()"
 	/>
 	<input matInput type="number" [formControl]="control()" [step]="step()" />
 	<ex-button
-		[disabled]="disabled() || control().disabled"
 		matSuffix
 		iconButton
 		matIcon="add"
-		[disabled]="isAtMax()"
+		[disabled]="isAtMax() || disabled() || control().disabled"
 		(click)="increment()"
 	/>
 	@if (hasValidators()) {

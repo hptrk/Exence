@@ -72,7 +72,7 @@ export class TransactionListComponent {
 
 	data = computed<PagedResponse<TransactionModel> | undefined>(() => {
 		const categories = this.categoryStore.categoryResource.value();
-		if (!categories) return undefined;
+		if (!categories) return;
 
 		const raw = this.getRawData();
 		if (!raw?.content) return raw as PagedResponse<TransactionModel> | undefined;

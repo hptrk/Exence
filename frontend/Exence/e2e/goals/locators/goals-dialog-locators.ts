@@ -1,6 +1,6 @@
 import { Locator, Page } from '@playwright/test';
 
-// ── Create dialog ────────────────────────────────────────────────────────────
+//  Create dialog
 
 export const getCreateGoalDialog = (page: Page): Locator => page.getByTestId('create-goal-dialog');
 export const getGoalTitleInput = (page: Page): Locator => page.getByTestId('goal-title-input');
@@ -18,7 +18,7 @@ export const getGoalCancelBtn = (page: Page): Locator => page.getByTestId('goal-
 export const getGoalDialogCloseBtn = (page: Page): Locator =>
 	page.getByTestId('create-goal-dialog').getByTestId('close-btn');
 
-// ── Edit dialog ───────────────────────────────────────────────────────────────
+//  Edit dialog
 
 export const getEditGoalDialog = (page: Page): Locator => page.getByTestId('edit-goal-dialog');
 export const getGoalCurrentAmountInput = (page: Page): Locator =>
@@ -31,7 +31,7 @@ export const getEditGoalDialogCloseBtn = (page: Page): Locator =>
 export const getEditGoalCancelBtn = (page: Page): Locator =>
 	page.getByTestId('edit-goal-dialog').getByTestId('goal-cancel-btn');
 
-// ── Confirm exit dialog ───────────────────────────────────────────────────────
+//  Confirm exit dialog
 
 const confirmExitContainer = (page: Page): Locator =>
 	page.locator('mat-dialog-container').filter({ hasText: 'Unsaved changes' });
@@ -42,7 +42,7 @@ export const getGoalConfirmExitContinueBtn = (page: Page): Locator =>
 export const getGoalConfirmExitCancelBtn = (page: Page): Locator =>
 	confirmExitContainer(page).getByTestId('action-btn').filter({ hasText: 'Cancel' });
 
-// ── Misc dialog helpers ───────────────────────────────────────────────────────
+//  Misc dialog helpers
 
 export const getFirstCategoryOption = (page: Page): Locator => page.locator('mat-option').first();
 export const getStatusOption = (page: Page, status: string): Locator =>

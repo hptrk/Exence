@@ -39,7 +39,7 @@ import {
 	getThemeMenuItem,
 } from '../locators/sidebar-locators';
 
-test.describe('Sidebar — unauthenticated, xl (≥1280px)', () => {
+test.describe('Sidebar - unauthenticated, xl (≥1280px)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -131,7 +131,7 @@ test.describe('Sidebar — unauthenticated, xl (≥1280px)', () => {
 	});
 });
 
-test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
+test.describe('Sidebar - authenticated, xl (≥1280px)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -271,7 +271,7 @@ test.describe('Sidebar — authenticated, xl (≥1280px)', () => {
 	});
 });
 
-test.describe('Sidebar — unauthenticated, md (768–1279px)', () => {
+test.describe('Sidebar - unauthenticated, md (768–1279px)', () => {
 	test.use({ viewport: { width: 900, height: 700 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -389,7 +389,7 @@ test.describe('Sidebar — unauthenticated, md (768–1279px)', () => {
 	});
 });
 
-test.describe('Sidebar — authenticated, md (768–1279px)', () => {
+test.describe('Sidebar - authenticated, md (768–1279px)', () => {
 	test.use({ viewport: { width: 900, height: 700 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -544,7 +544,7 @@ test.describe('Sidebar — authenticated, md (768–1279px)', () => {
 	});
 });
 
-test.describe('Sidebar — unauthenticated, mobile (<768px)', () => {
+test.describe('Sidebar - unauthenticated, mobile (<768px)', () => {
 	test.use({ viewport: { width: 500, height: 700 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -655,7 +655,7 @@ test.describe('Sidebar — unauthenticated, mobile (<768px)', () => {
 	});
 });
 
-test.describe('Sidebar — authenticated, mobile (<768px)', () => {
+test.describe('Sidebar - authenticated, mobile (<768px)', () => {
 	test.use({ viewport: { width: 500, height: 700 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -809,7 +809,7 @@ test.describe('Sidebar — authenticated, mobile (<768px)', () => {
 	});
 });
 
-test.describe('Sidebar — admin, xl (≥1280px)', () => {
+test.describe('Sidebar - admin, xl (≥1280px)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -851,7 +851,7 @@ test.describe('Sidebar — admin, xl (≥1280px)', () => {
 	});
 });
 
-test.describe('Sidebar — admin, md (768–1279px)', () => {
+test.describe('Sidebar - admin, md (768–1279px)', () => {
 	test.use({ viewport: { width: 900, height: 700 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -893,7 +893,7 @@ test.describe('Sidebar — admin, md (768–1279px)', () => {
 	});
 });
 
-test.describe('Sidebar — admin, mobile (<768px)', () => {
+test.describe('Sidebar - admin, mobile (<768px)', () => {
 	test.use({ viewport: { width: 500, height: 700 } });
 
 	test.beforeEach(async ({ page, context }) => {
