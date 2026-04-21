@@ -1,12 +1,14 @@
 <div class="purchase-grid">
-	<span class="purchase-header-cell">{{ 'investments.amount' | translate }}</span>
-	<span class="purchase-header-cell">{{ 'investments.date' | translate }}</span>
-	<span class="purchase-header-cell">{{ 'investments.type' | translate }}</span>
-	<span class="purchase-header-cell">{{ 'investments.note' | translate }}</span>
+	<span class="purchase-header-cell" data-testid="investment-detail-amount">{{
+		'investments.amount' | translate
+	}}</span>
+	<span class="purchase-header-cell" data-testid="investment-detail-date">{{ 'investments.date' | translate }}</span>
+	<span class="purchase-header-cell" data-testid="investment-detail-type">{{ 'investments.type' | translate }}</span>
+	<span class="purchase-header-cell" data-testid="investment-detail-note">{{ 'investments.note' | translate }}</span>
 	<span class="purchase-header-cell"></span>
 
 	@for (purchase of purchases(); track purchase.id) {
-		<div class="purchase-data-cell fs-6 fw-semibold">
+		<div data-testid="investment-purchase-amount" class="purchase-data-cell fs-6 fw-semibold">
 			@if (showBaseCurrency()) {
 				{{ purchase.baseCurrencyAmount | currency }}
 			} @else {
@@ -19,11 +21,12 @@
 		<div class="purchase-data-cell fs-6">
 			{{ codeForType(purchase.type) | translate }}
 		</div>
-		<div class="purchase-data-cell fs-6" [matTooltip]="purchase.note ?? ''" [matTooltipDisabled]="!purchase.note">
+		<div class="purchase-data-cell fs-6" [matTooltip]="purchase.note" [matTooltipDisabled]="!purchase.note">
 			{{ purchase.note || '-' }}
 		</div>
-		<div class="purchase-data-cell d-flex flex-row gap-1 justify-content-end">
+		<div class="purchase-data-cell d-flex flex-row gap-1 justify-content-end border-none">
 			<ex-button
+				data-testid="investment-purchase-edit-btn"
 				iconButton
 				matIcon="edit"
 				color="accent"
@@ -31,6 +34,7 @@
 				(click)="editPurchase(purchase)"
 			/>
 			<ex-button
+				data-testid="investment-purchase-delete-btn"
 				iconButton
 				matIcon="delete"
 				color="error"

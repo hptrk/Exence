@@ -63,7 +63,12 @@
 			@let deadlineControl = form.controls.deadline;
 			<mat-form-field>
 				<mat-label>{{ 'debts.create.deadline' | translate }}</mat-label>
-				<input data-testid="debt-deadline-input" matInput [matDatepicker]="deadlinePicker" [formControl]="deadlineControl" />
+				<input
+					data-testid="debt-deadline-input"
+					matInput
+					[matDatepicker]="deadlinePicker"
+					[formControl]="deadlineControl"
+				/>
 				<mat-datepicker-toggle matIconSuffix [for]="deadlinePicker" />
 				<mat-datepicker #deadlinePicker />
 				<mat-error>
@@ -112,7 +117,14 @@
 		<ex-button data-testid="debt-cancel-btn" outline color="accent" matIcon="close" type="button" mat-dialog-close>
 			{{ 'literals.cancel' | translate }}
 		</ex-button>
-		<ex-button data-testid="debt-create-btn" filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="create()">
+		<ex-button
+			data-testid="debt-create-btn"
+			filled
+			color="primary"
+			matIcon="add"
+			[disabled]="form.invalid"
+			(click)="create()"
+		>
 			{{ 'literals.create' | translate }}
 		</ex-button>
 	</div>
