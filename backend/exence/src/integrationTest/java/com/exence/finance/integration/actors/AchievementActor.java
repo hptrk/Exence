@@ -14,8 +14,8 @@ import java.util.List;
  */
 public class AchievementActor extends BaseActor {
 
-    public AchievementActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public AchievementActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Returns all defined achievements (regardless of unlock status). */

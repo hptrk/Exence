@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class CategoryActor extends BaseActor {
 
-    public CategoryActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public CategoryActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Creates a default expense category using ITFixtures defaults. */
@@ -70,7 +70,11 @@ public class CategoryActor extends BaseActor {
 
     /** Returns the top categories by total amount for the given type. */
     public ValidatableResponse listTopByAmountRaw(AuthContext ctx, CategoryType type) {
-        return inWorkspace(ctx).queryParam("type", type.name()).when().get("/categories/top").then();
+        return inWorkspace(ctx)
+                .queryParam("type", type.name())
+                .when()
+                .get("/categories/top")
+                .then();
     }
 
     /** Updates a category with the given patch DTO. */
@@ -100,7 +104,12 @@ public class CategoryActor extends BaseActor {
 
     /** Creates category without the X-Workspace-ID header (tests missing-header validation). */
     public ValidatableResponse createCategoryWithoutWorkspaceHeaderRaw(AuthContext ctx, CategoryCreateDTO dto) {
-        return given(spec).cookies(ctx.cookies()).body(dto).when().post("/categories").then();
+        return given(spec)
+                .cookies(ctx.cookies())
+                .body(dto)
+                .when()
+                .post("/categories")
+                .then();
     }
 
     public ValidatableResponse listCategoriesRaw(AuthContext ctx) {

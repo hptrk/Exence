@@ -20,8 +20,8 @@ import io.restassured.specification.RequestSpecification;
  */
 public class WidgetActor extends BaseActor {
 
-    public WidgetActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public WidgetActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Returns the full widget layout for the current workspace. */
@@ -100,7 +100,10 @@ public class WidgetActor extends BaseActor {
     }
 
     public ValidatableResponse getWidgetDataRaw(AuthContext ctx, long widgetId) {
-        return inWorkspace(ctx).when().get("/statistics/widgets/{id}/data", widgetId).then();
+        return inWorkspace(ctx)
+                .when()
+                .get("/statistics/widgets/{id}/data", widgetId)
+                .then();
     }
 
     /** Calls layout endpoint without any auth cookies (for 401/403 testing). */

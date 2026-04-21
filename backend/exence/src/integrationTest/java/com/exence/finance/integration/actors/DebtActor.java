@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class DebtActor extends BaseActor {
 
-    public DebtActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public DebtActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Creates a debt and returns the created resource. */
@@ -79,7 +79,8 @@ public class DebtActor extends BaseActor {
         for (DebtStatus s : statuses) {
             req = req.queryParam("statuses", s.name());
         }
-        DebtGetDTO[] result = req.when().get("/debts").then().statusCode(200).extract().as(DebtGetDTO[].class);
+        DebtGetDTO[] result =
+                req.when().get("/debts").then().statusCode(200).extract().as(DebtGetDTO[].class);
         return Arrays.asList(result);
     }
 
@@ -117,7 +118,11 @@ public class DebtActor extends BaseActor {
     // -------------------------------------------------------------------------
 
     public ValidatableResponse payDebtRaw(AuthContext ctx, long id, DebtPaymentDTO dto) {
-        return inWorkspace(ctx).body(dto).when().patch("/debts/{id}/payment", id).then();
+        return inWorkspace(ctx)
+                .body(dto)
+                .when()
+                .patch("/debts/{id}/payment", id)
+                .then();
     }
 
     public ValidatableResponse listDebtsRaw(AuthContext ctx) {
@@ -125,6 +130,6 @@ public class DebtActor extends BaseActor {
     }
 
     public ValidatableResponse getWidgetDataRaw(AuthContext ctx, String type) {
-        return inWorkspace(ctx).queryParam("type", type).when().get("/debts/widget-data").then();
+        return inWorkspace(ctx).when().get("/debts/statistics/{type}", type).then();
     }
 }

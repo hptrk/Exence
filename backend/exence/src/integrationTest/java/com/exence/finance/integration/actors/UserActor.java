@@ -20,18 +20,31 @@ import io.restassured.specification.RequestSpecification;
  */
 public class UserActor extends BaseActor {
 
-    public UserActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public UserActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Returns the currently authenticated user's profile. */
     public UserGetDTO getUser(AuthContext ctx) {
-        return asUser(ctx).when().get("/user").then().statusCode(200).extract().as(UserGetDTO.class);
+        return asUser(ctx)
+                .when()
+                .get("/user/me")
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(UserGetDTO.class);
     }
 
     /** Updates the current user's profile (e.g. username) and returns the updated resource. */
     public UserGetDTO patchUser(AuthContext ctx, UserPatchDTO dto) {
-        return asUser(ctx).body(dto).when().patch("/user").then().statusCode(200).extract().as(UserGetDTO.class);
+        return asUser(ctx)
+                .body(dto)
+                .when()
+                .patch("/user")
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(UserGetDTO.class);
     }
 
     /** Deletes the current user's account. */
@@ -41,7 +54,7 @@ public class UserActor extends BaseActor {
 
     /** Changes the current user's password. */
     public void changePassword(AuthContext ctx, ChangePasswordRequest req) {
-        asUser(ctx).body(req).when().post("/user/change-password").then().statusCode(204);
+        asUser(ctx).body(req).when().put("/user/password").then().statusCode(204);
     }
 
     /** Requests a new email-verification email for the current user. */
@@ -54,11 +67,11 @@ public class UserActor extends BaseActor {
     // -------------------------------------------------------------------------
 
     public ValidatableResponse getUserRaw(Cookies cookies) {
-        return given(spec).cookies(cookies).when().get("/user").then();
+        return given(spec).cookies(cookies).when().get("/user/me").then();
     }
 
     public ValidatableResponse changePasswordRaw(AuthContext ctx, ChangePasswordRequest req) {
-        return asUser(ctx).body(req).when().post("/user/change-password").then();
+        return asUser(ctx).body(req).when().put("/user/password").then();
     }
 
     public ValidatableResponse requestVerifyEmailRaw(AuthContext ctx) {

@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class InvestmentActor extends BaseActor {
 
-    public InvestmentActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public InvestmentActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Creates an investment and returns the created resource. */
@@ -81,7 +81,9 @@ public class InvestmentActor extends BaseActor {
 
     /** Calls the investment widget endpoint with an arbitrary type string for error testing. */
     public ValidatableResponse getWidgetDataRaw(AuthContext ctx, String type) {
-        return inWorkspace(ctx).queryParam("type", type)
-                .when().get("/investments/widget-data").then();
+        return inWorkspace(ctx)
+                .when()
+                .get("/investments/statistics/{type}", type)
+                .then();
     }
 }

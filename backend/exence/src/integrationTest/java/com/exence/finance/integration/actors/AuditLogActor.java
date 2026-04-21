@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class AuditLogActor extends BaseActor {
 
-    public AuditLogActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public AuditLogActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Returns all audit log entries for the current workspace. */

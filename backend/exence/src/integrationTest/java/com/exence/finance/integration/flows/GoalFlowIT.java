@@ -26,12 +26,14 @@ class GoalFlowIT extends BaseFlowIT {
         var cat = categoryActor().createExpenseCategory(user);
 
         // 3. Create goal targetAmount=1000, initialAmount=0 → ACTIVE
-        var goal = goalActor().createGoal(user,
-                ITFixtures.goal(cat.id())
-                        .targetAmount(new BigDecimal("1000"))
-                        .currentAmount(BigDecimal.ZERO)
-                        .deadline(LocalDate.now().plusYears(1))
-                        .build());
+        var goal = goalActor()
+                .createGoal(
+                        user,
+                        ITFixtures.goal(cat.id())
+                                .targetAmount(new BigDecimal("1000"))
+                                .currentAmount(BigDecimal.ZERO)
+                                .deadline(LocalDate.now().plusYears(1))
+                                .build());
         assertThat(goal.status()).isEqualTo(GoalStatus.ACTIVE);
 
         // 4. List goals → 1 goal, ACTIVE
@@ -41,13 +43,23 @@ class GoalFlowIT extends BaseFlowIT {
         assertThat(goalActor().listGoals(user, GoalStatus.COMPLETED)).isEmpty();
 
         // 6. PATCH currentAmount=400 → ACTIVE (target not reached)
-        var partial = goalActor().patchGoal(user, goal.id(),
-                ITFixtures.goalPatch().currentAmount(new BigDecimal("400")).build());
+        var partial = goalActor()
+                .patchGoal(
+                        user,
+                        goal.id(),
+                        ITFixtures.goalPatch()
+                                .currentAmount(new BigDecimal("400"))
+                                .build());
         assertThat(partial.status()).isEqualTo(GoalStatus.ACTIVE);
 
         // 7. PATCH currentAmount=1000 → COMPLETED (target reached)
-        var completed = goalActor().patchGoal(user, goal.id(),
-                ITFixtures.goalPatch().currentAmount(new BigDecimal("1000")).build());
+        var completed = goalActor()
+                .patchGoal(
+                        user,
+                        goal.id(),
+                        ITFixtures.goalPatch()
+                                .currentAmount(new BigDecimal("1000"))
+                                .build());
         assertThat(completed.status()).isEqualTo(GoalStatus.COMPLETED);
 
         // 8. Filter by ACTIVE → empty
@@ -57,17 +69,18 @@ class GoalFlowIT extends BaseFlowIT {
         assertThat(goalActor().listGoals(user, GoalStatus.COMPLETED)).hasSize(1);
 
         // 10. Revert to ACTIVE
-        var reverted = goalActor().patchGoal(user, goal.id(),
-                ITFixtures.goalPatch().status(GoalStatus.ACTIVE).build());
+        var reverted = goalActor()
+                .patchGoal(
+                        user,
+                        goal.id(),
+                        ITFixtures.goalPatch().status(GoalStatus.ACTIVE).build());
         assertThat(reverted.status()).isEqualTo(GoalStatus.ACTIVE);
 
         // 11. DELETE goal → 204
         goalActor().deleteGoal(user, goal.id());
 
         // 12. GET deleted goal → 404
-        goalActor().getGoalRaw(user, goal.id())
-                .statusCode(404)
-                .body("code", equalTo("goal-not-found"));
+        goalActor().getGoalRaw(user, goal.id()).statusCode(404).body("code", equalTo("goal-not-found"));
     }
 
     @Test
@@ -76,44 +89,53 @@ class GoalFlowIT extends BaseFlowIT {
         var cat = categoryActor().createExpenseCategory(user);
 
         // 3. targetAmount=500, initialAmount=500 → COMPLETED immediately
-        var g1 = goalActor().createGoal(user,
-                ITFixtures.goal(cat.id())
-                        .targetAmount(new BigDecimal("500"))
-                        .currentAmount(new BigDecimal("500"))
-                        .build());
+        var g1 = goalActor()
+                .createGoal(
+                        user,
+                        ITFixtures.goal(cat.id())
+                                .targetAmount(new BigDecimal("500"))
+                                .currentAmount(new BigDecimal("500"))
+                                .build());
         assertThat(g1.status()).isEqualTo(GoalStatus.COMPLETED);
 
         // 4. targetAmount=500, initialAmount=600 → COMPLETED (overshoot)
-        var g2 = goalActor().createGoal(user,
-                ITFixtures.goal(cat.id())
-                        .title("Overshoot Goal")
-                        .targetAmount(new BigDecimal("500"))
-                        .currentAmount(new BigDecimal("600"))
-                        .build());
+        var g2 = goalActor()
+                .createGoal(
+                        user,
+                        ITFixtures.goal(cat.id())
+                                .title("Overshoot Goal")
+                                .targetAmount(new BigDecimal("500"))
+                                .currentAmount(new BigDecimal("600"))
+                                .build());
         assertThat(g2.status()).isEqualTo(GoalStatus.COMPLETED);
 
         // 5. Active goal with deadline
-        var g3 = goalActor().createGoal(user,
-                ITFixtures.goal(cat.id())
-                        .title("Active Goal")
-                        .targetAmount(new BigDecimal("1000"))
-                        .currentAmount(new BigDecimal("200"))
-                        .deadline(LocalDate.now().plusMonths(6))
-                        .build());
+        var g3 = goalActor()
+                .createGoal(
+                        user,
+                        ITFixtures.goal(cat.id())
+                                .title("Active Goal")
+                                .targetAmount(new BigDecimal("1000"))
+                                .currentAmount(new BigDecimal("200"))
+                                .deadline(LocalDate.now().plusMonths(6))
+                                .build());
         assertThat(g3.status()).isEqualTo(GoalStatus.ACTIVE);
 
         // 6. List → 3 goals
         assertThat(goalActor().listGoals(user)).hasSize(3);
 
         // 7. Widget summary data
-        goalActor().getWidgetDataRaw(user, "GOAL_SUMMARY").statusCode(200);
+        goalActor().getWidgetDataRaw(user, "GOAL_ACTIVE_COUNT_STATCARD").statusCode(200);
 
         // 8. Widget progress data for active goal
-        goalActor().getWidgetDataRaw(user, "GOAL_PROGRESS", g3.id()).statusCode(200);
+        goalActor().getWidgetDataRaw(user, "GOAL_PROGRESS_TREND", g3.id()).statusCode(200);
 
         // 9. Pause active goal → PAUSED
-        var paused = goalActor().patchGoal(user, g3.id(),
-                ITFixtures.goalPatch().status(GoalStatus.PAUSED).build());
+        var paused = goalActor()
+                .patchGoal(
+                        user,
+                        g3.id(),
+                        ITFixtures.goalPatch().status(GoalStatus.PAUSED).build());
         assertThat(paused.status()).isEqualTo(GoalStatus.PAUSED);
 
         // 10. Filter by PAUSED → 1 goal
@@ -127,14 +149,13 @@ class GoalFlowIT extends BaseFlowIT {
         var cat = categoryActor().createExpenseCategory(unverified);
 
         // 2. POST /goals → 403 EMAIL_VERIFICATION_REQUIRED
-        goalActor().createGoalRaw(unverified, ITFixtures.goal(cat.id()).build())
+        goalActor()
+                .createGoalRaw(unverified, ITFixtures.goal(cat.id()).build())
                 .statusCode(403)
                 .body("code", equalTo("email-verification-required"));
 
         // 3. GET /goals → 403
-        goalActor().listGoalsRaw(unverified)
-                .statusCode(403)
-                .body("code", equalTo("email-verification-required"));
+        goalActor().listGoalsRaw(unverified).statusCode(403).body("code", equalTo("email-verification-required"));
 
         // 4. Verify email
         String token = authActor().extractVerifyToken(unverified.user().email());

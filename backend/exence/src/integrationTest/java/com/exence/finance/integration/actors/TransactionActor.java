@@ -24,8 +24,8 @@ import java.util.List;
  */
 public class TransactionActor extends BaseActor {
 
-    public TransactionActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public TransactionActor(RestAssuredConfig config) {
+        super(config);
     }
 
     // -------------------------------------------------------------------------

@@ -17,8 +17,8 @@ import java.util.List;
  */
 public class SessionActor extends BaseActor {
 
-    public SessionActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public SessionActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Returns all active sessions for the current user. */

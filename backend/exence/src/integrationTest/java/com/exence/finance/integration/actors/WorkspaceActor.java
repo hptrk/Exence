@@ -22,8 +22,8 @@ import java.util.List;
  */
 public class WorkspaceActor extends BaseActor {
 
-    public WorkspaceActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public WorkspaceActor(RestAssuredConfig config) {
+        super(config);
     }
 
     // -------------------------------------------------------------------------
@@ -156,22 +156,41 @@ public class WorkspaceActor extends BaseActor {
     }
 
     public ValidatableResponse addMemberRaw(AuthContext ctx, long workspaceId, WorkspaceMemberEmailRequest request) {
-        return inWorkspace(ctx).body(request).when().post("/workspaces/{id}/members", workspaceId).then();
+        return inWorkspace(ctx)
+                .body(request)
+                .when()
+                .post("/workspaces/{id}/members", workspaceId)
+                .then();
     }
 
     public ValidatableResponse removeMemberRaw(AuthContext ctx, long workspaceId, WorkspaceMemberEmailRequest request) {
-        return inWorkspace(ctx).body(request).when().delete("/workspaces/{id}/members", workspaceId).then();
+        return inWorkspace(ctx)
+                .body(request)
+                .when()
+                .delete("/workspaces/{id}/members", workspaceId)
+                .then();
     }
 
     public ValidatableResponse leaveWorkspaceRaw(AuthContext ctx, long workspaceId) {
-        return inWorkspace(ctx).when().delete("/workspaces/{id}/members/me", workspaceId).then();
+        return inWorkspace(ctx)
+                .when()
+                .delete("/workspaces/{id}/members/me", workspaceId)
+                .then();
     }
 
     public ValidatableResponse renameWorkspaceRaw(AuthContext ctx, long workspaceId, WorkspaceRenameRequest request) {
-        return inWorkspace(ctx).body(request).when().patch("/workspaces/{id}", workspaceId).then();
+        return inWorkspace(ctx)
+                .body(request)
+                .when()
+                .patch("/workspaces/{id}", workspaceId)
+                .then();
     }
 
     public ValidatableResponse patchSettingsRaw(AuthContext ctx, WorkspaceSettingsPatchRequest request) {
-        return inWorkspace(ctx).body(request).when().patch("/workspaces/settings").then();
+        return inWorkspace(ctx)
+                .body(request)
+                .when()
+                .patch("/workspaces/settings")
+                .then();
     }
 }

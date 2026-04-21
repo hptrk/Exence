@@ -24,29 +24,49 @@ class InvestmentFlowIT extends BaseFlowIT {
         AuthContext user = authActor().registerVerifiedUser();
 
         // 2-5. Create 4 investments (2 Bitcoin, 1 Apple, 1 Gold)
-        var btc1 = investmentActor().createInvestment(user,
-                ITFixtures.investment()
-                        .asset("Bitcoin").type(InvestmentType.CRYPTO)
-                        .amount(new BigDecimal("0.5")).currency(SupportedCurrency.USD)
-                        .purchaseDate(LocalDate.now()).build());
+        var btc1 = investmentActor()
+                .createInvestment(
+                        user,
+                        ITFixtures.investment()
+                                .asset("Bitcoin")
+                                .type(InvestmentType.CRYPTO)
+                                .amount(new BigDecimal("0.5"))
+                                .currency(SupportedCurrency.USD)
+                                .purchaseDate(LocalDate.now())
+                                .build());
 
-        var btc2 = investmentActor().createInvestment(user,
-                ITFixtures.investment()
-                        .asset("Bitcoin").type(InvestmentType.CRYPTO)
-                        .amount(new BigDecimal("0.3")).currency(SupportedCurrency.USD)
-                        .purchaseDate(LocalDate.now()).build());
+        var btc2 = investmentActor()
+                .createInvestment(
+                        user,
+                        ITFixtures.investment()
+                                .asset("Bitcoin")
+                                .type(InvestmentType.CRYPTO)
+                                .amount(new BigDecimal("0.3"))
+                                .currency(SupportedCurrency.USD)
+                                .purchaseDate(LocalDate.now())
+                                .build());
 
-        var apple = investmentActor().createInvestment(user,
-                ITFixtures.investment()
-                        .asset("Apple Inc.").type(InvestmentType.STOCK)
-                        .amount(new BigDecimal("10")).currency(SupportedCurrency.USD)
-                        .purchaseDate(LocalDate.now()).build());
+        var apple = investmentActor()
+                .createInvestment(
+                        user,
+                        ITFixtures.investment()
+                                .asset("Apple Inc.")
+                                .type(InvestmentType.STOCK)
+                                .amount(new BigDecimal("10"))
+                                .currency(SupportedCurrency.USD)
+                                .purchaseDate(LocalDate.now())
+                                .build());
 
-        investmentActor().createInvestment(user,
-                ITFixtures.investment()
-                        .asset("Gold").type(InvestmentType.METAL)
-                        .amount(new BigDecimal("50")).currency(SupportedCurrency.EUR)
-                        .purchaseDate(LocalDate.now()).build());
+        investmentActor()
+                .createInvestment(
+                        user,
+                        ITFixtures.investment()
+                                .asset("Gold")
+                                .type(InvestmentType.METAL)
+                                .amount(new BigDecimal("50"))
+                                .currency(SupportedCurrency.EUR)
+                                .purchaseDate(LocalDate.now())
+                                .build());
 
         // 6. List all → 4 investments
         assertThat(investmentActor().listInvestments(user)).hasSize(4);
@@ -61,8 +81,14 @@ class InvestmentFlowIT extends BaseFlowIT {
         assertThat(bitcoinGroup.purchasesCount()).isEqualTo(2);
 
         // 8. PATCH btc1 note → 200
-        var patched = investmentActor().patchInvestment(user, btc1.id(),
-                ITFixtures.investmentPatch().asset("Bitcoin").note("Long-term hold strategy").build());
+        var patched = investmentActor()
+                .patchInvestment(
+                        user,
+                        btc1.id(),
+                        ITFixtures.investmentPatch()
+                                .asset("Bitcoin")
+                                .note("Long-term hold strategy")
+                                .build());
         assertThat(patched.note()).isEqualTo("Long-term hold strategy");
 
         // 9. DELETE Apple investment → 204
@@ -72,10 +98,13 @@ class InvestmentFlowIT extends BaseFlowIT {
         assertThat(investmentActor().listGrouped(user)).hasSize(2);
 
         // 11. Widget INVESTMENT_SUMMARY → 200
-        investmentActor().getWidgetDataRaw(user, "INVESTMENT_SUMMARY").statusCode(200);
+        investmentActor()
+                .getWidgetDataRaw(user, "INVESTMENT_TOTAL_VALUE_STATCARD")
+                .statusCode(200);
 
         // 12. Invalid widget type → 400 INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED
-        investmentActor().getWidgetDataRaw(user, "INVALID_TYPE")
+        investmentActor()
+                .getWidgetDataRaw(user, "INVALID_TYPE")
                 .statusCode(400)
                 .body("code", equalTo("investment-widget-type-not-supported"));
     }

@@ -21,6 +21,7 @@ class SessionFlowIT extends BaseFlowIT {
         // 1. Register and verify
         AuthContext user = authActor().registerVerifiedUser();
         String email = user.user().email();
+        authActor().logout(user);
 
         // 2-4. Login from three devices
         AuthContext deviceA = authActor().loginWithUserAgent(email, "Password123!", "TestDeviceA/1.0");
@@ -30,7 +31,8 @@ class SessionFlowIT extends BaseFlowIT {
         // 5. From Device-A: list sessions → 3 sessions, A is current
         List<DeviceSessionDTO> sessions = sessionActor().listSessions(deviceA);
         assertThat(sessions).hasSize(3);
-        assertThat(sessions.stream().anyMatch(DeviceSessionDTO::isCurrentSession)).isTrue();
+        assertThat(sessions.stream().anyMatch(DeviceSessionDTO::isCurrentSession))
+                .isTrue();
 
         // Identify Device-B's session ID from Device-B's own perspective (its own session is "current" there)
         String sessionBId = sessionActor().listSessions(deviceB).stream()

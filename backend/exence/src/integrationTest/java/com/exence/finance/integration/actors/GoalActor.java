@@ -18,8 +18,8 @@ import java.util.List;
  */
 public class GoalActor extends BaseActor {
 
-    public GoalActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public GoalActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Creates a goal and returns the created resource. */
@@ -63,7 +63,8 @@ public class GoalActor extends BaseActor {
         for (GoalStatus s : statuses) {
             req = req.queryParam("statuses", s.name());
         }
-        GoalGetDTO[] result = req.when().get("/goals").then().statusCode(200).extract().as(GoalGetDTO[].class);
+        GoalGetDTO[] result =
+                req.when().get("/goals").then().statusCode(200).extract().as(GoalGetDTO[].class);
         return Arrays.asList(result);
     }
 
@@ -101,14 +102,14 @@ public class GoalActor extends BaseActor {
     }
 
     public ValidatableResponse getWidgetDataRaw(AuthContext ctx, String type) {
-        return inWorkspace(ctx).queryParam("type", type).when().get("/goals/widget-data").then();
+        return inWorkspace(ctx).when().get("/goals/statistics/{type}", type).then();
     }
 
     public ValidatableResponse getWidgetDataRaw(AuthContext ctx, String type, Long goalId) {
-        io.restassured.specification.RequestSpecification req = inWorkspace(ctx).queryParam("type", type);
+        io.restassured.specification.RequestSpecification req = inWorkspace(ctx);
         if (goalId != null) {
             req = req.queryParam("goalId", goalId);
         }
-        return req.when().get("/goals/widget-data").then();
+        return req.when().get("/goals/statistics/{type}", type).then();
     }
 }

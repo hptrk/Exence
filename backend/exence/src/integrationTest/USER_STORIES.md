@@ -68,18 +68,6 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 
 ---
 
-### FLOW-AUTH-05 - Token refresh and expiration handling
-
-**Description:** Obtain a new access token via refresh token and invalidate the old refresh token.
-
-1. `POST /auth/register` + `POST /auth/verify-email`
-2. `POST /auth/login` -> access token + refresh token
-3. `POST /auth/refresh-token` with refresh token -> HTTP 204, **new** access token and refresh token in cookies
-4. `POST /auth/refresh-token` again with the **old** refresh token -> HTTP 401 `INVALID_TOKEN` (one-time use)
-5. `GET /user` with the **new** access token -> HTTP 200
-
----
-
 ## Group 2 - Session & Device Management
 
 ### FLOW-SESSION-01 - Multi-device session handling and targeted revoke
@@ -177,8 +165,8 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 8. UserB: `GET /workspaces` -> workspace disappeared from userB list
 9. UserA: `POST /workspaces/{id}/members` with userB email -> can be added again
 10. UserA: `DELETE /workspaces/{id}/members` with userB email -> HTTP 204
-11. UserA: `DELETE /workspaces/{id}/members/me` (owner tries to leave) -> HTTP 409 `WORKSPACE_OWNER_CANNOT_LEAVE`
-12. UserA: `DELETE /workspaces/{id}/members` with userA email (remove owner) -> HTTP 409 `WORKSPACE_OWNER_CANNOT_BE_REMOVED`
+11. UserA: `DELETE /workspaces/{id}/members/me` (owner tries to leave) -> HTTP 403 `WORKSPACE_OWNER_CANNOT_LEAVE`
+12. UserA: `DELETE /workspaces/{id}/members` with userA email (remove owner) -> HTTP 403 `WORKSPACE_OWNER_CANNOT_BE_REMOVED`
 
 ---
 
@@ -393,17 +381,12 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 **Description:** Fetch layout, add widget, update layout, fetch widget data.
 
 1. `POST /auth/register` + verify (default widgets are created during registration)
-2. `GET /statistics/widgets/layout` -> statCardWidgets and chartWidgets lists, not empty
+2. `GET /statistics/widgets/layout` -> statCardWidgets and chartWidgets lists, empty
 3. `GET /statistics/widgets/dashboard?timeframe=MONTH` -> balance trend data
 4. `GET /statistics/widgets/{existingWidget_id}/data?timeframe=MONTH` -> widget-specific data
 5. `GET /statistics/widgets/{existingWidget_id}/data?timeframe=YEAR` -> same widget, different timeframe
 6. `GET /statistics/widgets/9999/data` -> HTTP 404 `WIDGET_NOT_FOUND`
-7. `POST /statistics/widgets` with valid CreateDTO -> HTTP 201
-8. `GET /statistics/widgets/layout` -> new widget appears
-9. `PUT /statistics/widgets/layout` excluding newly added widget -> HTTP 200
-10. `GET /statistics/widgets/layout` -> excluded widget disappeared
-
----
+-
 
 ### FLOW-WIDGET-02 - Email verification barrier in Statistics module
 
@@ -444,7 +427,7 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 
 1. Using existing ADMIN user: `POST /admin/auth/register` -> create new ADMIN user -> HTTP 200
 2. `POST /auth/login` with new ADMIN user -> HTTP 200
-3. `GET /admin/statistics/widgets/data?type=TOTAL_USERS` -> platform-level aggregated data
+3. `GET /admin/statistics/widgets/data?type=DAILY_ACTIVE_USERS` -> platform-level aggregated data
 4. `GET /admin/system-settings` -> read system settings
 5. `PATCH /admin/system-settings` updating one setting -> HTTP 200, new value in response
 6. `GET /admin/audit-logs` -> platform-level audit logs

@@ -26,37 +26,44 @@ class RecurringTransactionFlowIT extends BaseFlowIT {
         AuthContext user = authActor().registerVerifiedUser();
         var cat = categoryActor().createExpenseCategory(user);
 
-        // 3. Create DAILY recurring with UNTIL_DATE
-        var rec1 = transactionActor().createRecurring(user,
-                ITFixtures.recurringTransaction(cat.id())
-                        .frequency(RecurrenceFrequency.WEEKLY)
-                        .interval(1)
-                        .dayOfMonth(null)
-                        .dayOfWeek(null)
-                        .endCondition(EndCondition.UNTIL_DATE)
-                        .endDate(LocalDate.now().plusMonths(3))
-                        .maxOccurrences(null)
-                        .startDate(LocalDate.now())
-                        .build());
+        // 3. Create WEEKLY recurring with UNTIL_DATE
+        var rec1 = transactionActor()
+                .createRecurring(
+                        user,
+                        ITFixtures.recurringTransaction(cat.id())
+                                .frequency(RecurrenceFrequency.WEEKLY)
+                                .interval(1)
+                                .dayOfMonth(null)
+                                .dayOfWeek(LocalDate.now().getDayOfWeek())
+                                .endCondition(EndCondition.UNTIL_DATE)
+                                .endDate(LocalDate.now().plusMonths(3))
+                                .maxOccurrences(null)
+                                .startDate(LocalDate.now())
+                                .build());
         assertThat(rec1.id()).isPositive();
         assertThat(rec1.nextExecutionDate()).isNotNull();
 
         // 4. Create WEEKLY with AFTER_OCCURRENCES
-        var rec2 = transactionActor().createRecurring(user,
-                ITFixtures.recurringTransaction(cat.id())
-                        .title("Weekly subscription")
-                        .frequency(RecurrenceFrequency.WEEKLY)
-                        .interval(1)
-                        .dayOfMonth(null)
-                        .endCondition(EndCondition.AFTER_OCCURRENCES)
-                        .endDate(null)
-                        .maxOccurrences(12)
-                        .startDate(LocalDate.now())
-                        .build());
+        var rec2 = transactionActor()
+                .createRecurring(
+                        user,
+                        ITFixtures.recurringTransaction(cat.id())
+                                .title("Weekly subscription")
+                                .frequency(RecurrenceFrequency.WEEKLY)
+                                .interval(1)
+                                .dayOfMonth(null)
+                                .dayOfWeek(LocalDate.now().getDayOfWeek())
+                                .endCondition(EndCondition.AFTER_OCCURRENCES)
+                                .endDate(null)
+                                .maxOccurrences(12)
+                                .startDate(LocalDate.now())
+                                .build());
         assertThat(rec2.id()).isPositive();
 
         // 5. MONTHLY without endDate but UNTIL_DATE → 400 VALIDATION_ERROR
-        transactionActor().createRecurringRaw(user,
+        transactionActor()
+                .createRecurringRaw(
+                        user,
                         ITFixtures.recurringTransaction(cat.id())
                                 .frequency(RecurrenceFrequency.MONTHLY)
                                 .endCondition(EndCondition.UNTIL_DATE)
@@ -70,16 +77,33 @@ class RecurringTransactionFlowIT extends BaseFlowIT {
         assertThat(transactionActor().listRecurring(user)).hasSize(2);
 
         // 7. Filter by type=EXPENSE → both are expense
-        assertThat(transactionActor().listRecurringByType(user, TransactionType.EXPENSE)).hasSize(2);
+        assertThat(transactionActor().listRecurringByType(user, TransactionType.EXPENSE))
+                .hasSize(2);
 
         // 8. GET single recurring → all fields present
         var loaded = transactionActor().getRecurring(user, rec1.id());
         assertThat(loaded.frequency()).isEqualTo(RecurrenceFrequency.WEEKLY);
 
         // 9. PATCH title + amount → 200, new values
-        var patched = transactionActor().patchRecurring(user, rec1.id(),
-                new RecurringTransactionPatchDTO(
-                        "Updated Daily", null, new BigDecimal("3000"), null, null, null, null, null, null, null, null, null, null, null));
+        var patched = transactionActor()
+                .patchRecurring(
+                        user,
+                        rec1.id(),
+                        new RecurringTransactionPatchDTO(
+                                "Updated Daily",
+                                null,
+                                new BigDecimal("3000"),
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,
+                                null));
         assertThat(patched.title()).isEqualTo("Updated Daily");
         assertThat(patched.amount()).isEqualByComparingTo(new BigDecimal("3000"));
 
@@ -90,7 +114,8 @@ class RecurringTransactionFlowIT extends BaseFlowIT {
         assertThat(transactionActor().listRecurring(user)).hasSize(1);
 
         // 12. GET deleted recurring → 404
-        transactionActor().getRecurringRaw(user, rec1.id())
+        transactionActor()
+                .getRecurringRaw(user, rec1.id())
                 .statusCode(404)
                 .body("code", equalTo("recurring-transaction-not-found"));
     }

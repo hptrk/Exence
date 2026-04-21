@@ -1,6 +1,6 @@
 package com.exence.finance.integration.setup;
 
-import com.exence.finance.modules.email.service.EmailService;
+import com.exence.finance.modules.exchangerate.client.FrankfurterClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.config.ObjectMapperConfig;
@@ -10,27 +10,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-// Static container is shared across all test classes, starts once per JVM run.
-// Spring context is also shared, actors build per-test RequestSpecifications using
-// the injected port, so no global RestAssured.port is ever set.
-@Testcontainers
+// Singleton container: started once via static initializer, lives for the entire JVM run.
+// This prevents stop/restart between test classes, which would change the port and break
+// the cached Spring context's datasource URL.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 public abstract class AbstractIT {
 
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine")
+    static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine")
             .withDatabaseName("exence_test")
             .withUsername("exencedev")
-            .withPassword("exencepwd");
+            .withPassword("exencepwd")
+            .withCommand("postgres", "-c", "max_connections=150");
+
+    static {
+        postgres.start();
+    }
 
     @DynamicPropertySource
     static void datasourceProperties(DynamicPropertyRegistry registry) {
@@ -39,10 +41,12 @@ public abstract class AbstractIT {
         registry.add("spring.datasource.password", postgres::getPassword);
     }
 
-    // mocked globally so the Spring context is shared between all IT subclasses
     // email sending is a side effect that must not run during tests
     @MockitoBean
-    protected EmailService emailService;
+    protected JavaMailSender mailSender;
+
+    @MockitoBean
+    private FrankfurterClient frankfurterClient;
 
     @LocalServerPort
     protected int port;
@@ -55,13 +59,17 @@ public abstract class AbstractIT {
 
     @BeforeEach
     void baseSetUp() {
-        // don't set RestAssured.port here, because that is global static state which is unsafe for
-        // parallel class execution. Each actor builds its own RequestSpecification with an explicit
-        // base URI that includes the port.
-        //
-        // Setting RestAssured.config is idempotent (same ObjectMapper value for every class)
-        // so it is safe to call from multiple threads simultaneously.
+        RestAssured.port = port;
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.basePath = "/api";
         RestAssured.config = restAssuredConfig();
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+        setupMocks();
+    }
+
+    private void setupMocks() {
+        MockUtils.setupJavaMailSenderMocks(mailSender);
+        MockUtils.setupFrankfurterMock(frankfurterClient);
     }
 
     protected RestAssuredConfig restAssuredConfig() {

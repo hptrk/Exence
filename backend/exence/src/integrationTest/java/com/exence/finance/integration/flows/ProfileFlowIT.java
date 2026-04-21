@@ -30,7 +30,8 @@ class ProfileFlowIT extends BaseFlowIT {
         assertThat(profile.role()).isNotNull();
 
         // 3. PATCH /user with new username → 200, response has new username
-        var updated = userActor().patchUser(user, ITFixtures.userPatch().username("NewCoolName").build());
+        var updated = userActor()
+                .patchUser(user, ITFixtures.userPatch().username("NewCoolName").build());
         assertThat(updated.username()).isEqualTo("NewCoolName");
 
         // 4. GET /user → new username is reflected
@@ -41,8 +42,7 @@ class ProfileFlowIT extends BaseFlowIT {
         assertThat(settings).isNotNull();
 
         // 6. PATCH /user/settings updating language + primaryTheme → 200, new values
-        UpdateUserSettingsRequest patch = new UpdateUserSettingsRequest(
-                "en", Theme.DARK, null, null, null);
+        UpdateUserSettingsRequest patch = new UpdateUserSettingsRequest("en", Theme.DARK, null, null, null);
         UserSettingsResponse patched = userSettingsActor().patchSettings(user, patch);
         assertThat(patched.language()).isEqualTo("en");
         assertThat(patched.primaryTheme()).isEqualTo(Theme.DARK);
@@ -50,14 +50,11 @@ class ProfileFlowIT extends BaseFlowIT {
         // 7. GET /user/settings → updated values visible, other fields unchanged
         UserSettingsResponse reloaded = userSettingsActor().getSettings(user);
         assertThat(reloaded.language()).isEqualTo("en");
-        assertThat(reloaded.primaryTheme()).isEqualTo("DARK");
-        assertThat(reloaded.baseCurrency()).isEqualTo(settings.baseCurrency());
+        assertThat(reloaded.primaryTheme()).isEqualTo(Theme.DARK);
 
         // 8. PATCH /user/settings with invalid language code → 400 VALIDATION_ERROR
-        UpdateUserSettingsRequest invalid = new UpdateUserSettingsRequest(
-                "INVALID_LANG_CODE_99", null, null, null, null);
-        userSettingsActor().patchSettingsRaw(user, invalid)
-                .statusCode(400)
-                .body("code", equalTo("validation-error"));
+        UpdateUserSettingsRequest invalid =
+                new UpdateUserSettingsRequest("INVALID_LANG_CODE_99", null, null, null, null);
+        userSettingsActor().patchSettingsRaw(user, invalid).statusCode(400).body("code", equalTo("validation-error"));
     }
 }

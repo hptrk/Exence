@@ -13,8 +13,8 @@ import io.restassured.response.ValidatableResponse;
  */
 public class UserSettingsActor extends BaseActor {
 
-    public UserSettingsActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public UserSettingsActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Returns the current user's settings. */

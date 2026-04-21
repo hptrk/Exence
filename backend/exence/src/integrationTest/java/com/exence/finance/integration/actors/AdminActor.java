@@ -23,17 +23,14 @@ import java.util.List;
  */
 public class AdminActor extends BaseActor {
 
-    public AdminActor(int port, RestAssuredConfig config) {
-        super(port, config);
+    public AdminActor(RestAssuredConfig config) {
+        super(config);
     }
 
     /** Registers a new ADMIN user using existing admin credentials. */
     public AuthContext registerAdmin(AuthContext adminCtx, RegisterRequest request) {
-        Response response = given(spec)
-                .cookies(adminCtx.cookies())
-                .body(request)
-                .when()
-                .post("/admin/auth/register");
+        Response response =
+                given(spec).cookies(adminCtx.cookies()).body(request).when().post("/admin/auth/register");
         response.then().statusCode(200);
         Cookies cookies = response.getDetailedCookies();
         AuthenticationResponse body = response.as(AuthenticationResponse.class);
@@ -45,7 +42,7 @@ public class AdminActor extends BaseActor {
         return given(spec)
                 .cookies(ctx.cookies())
                 .when()
-                .get("/admin/system-settings")
+                .get("/admin/settings")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -58,7 +55,7 @@ public class AdminActor extends BaseActor {
                 .cookies(ctx.cookies())
                 .body(request)
                 .when()
-                .patch("/admin/system-settings")
+                .patch("/admin/settings")
                 .then()
                 .statusCode(200)
                 .extract()
@@ -93,9 +90,8 @@ public class AdminActor extends BaseActor {
     public ValidatableResponse getWidgetDataRaw(AuthContext ctx, String type) {
         return given(spec)
                 .cookies(ctx.cookies())
-                .queryParam("type", type)
                 .when()
-                .get("/admin/statistics/widgets/data")
+                .get("/admin/statistics/" + type)
                 .then();
     }
 
@@ -104,15 +100,27 @@ public class AdminActor extends BaseActor {
     // -------------------------------------------------------------------------
 
     public ValidatableResponse getSystemSettingsRaw(AuthContext ctx) {
-        return given(spec).cookies(ctx.cookies()).when().get("/admin/system-settings").then();
+        return given(spec)
+                .cookies(ctx.cookies())
+                .when()
+                .get("/admin/system-settings")
+                .then();
     }
 
     public ValidatableResponse getAdminAuditLogsRaw(AuthContext ctx) {
-        return given(spec).cookies(ctx.cookies()).when().get("/admin/audit-logs").then();
+        return given(spec)
+                .cookies(ctx.cookies())
+                .when()
+                .get("/admin/audit-logs")
+                .then();
     }
 
     public ValidatableResponse getAdminWidgetDataRaw(AuthContext ctx, String type) {
-        return given(spec).cookies(ctx.cookies()).queryParam("type", type)
-                .when().get("/admin/statistics/widgets/data").then();
+        return given(spec)
+                .cookies(ctx.cookies())
+                .queryParam("type", type)
+                .when()
+                .get("/admin/statistics/widgets/data")
+                .then();
     }
 }

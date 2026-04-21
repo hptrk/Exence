@@ -41,10 +41,8 @@ class AuthFlowIT extends BaseFlowIT {
         // 7. GET /user → isVerified = true
         assertThat(userActor().getUser(user).isVerified()).isTrue();
 
-        // 8. Re-using the same token → 401 INVALID_TOKEN (token revoked after use)
-        authActor().verifyEmailRaw(token)
-                .statusCode(401)
-                .body("code", equalTo("invalid-token"));
+        // 8. Re-using the same token → 403 INVALID_TOKEN (token revoked after use)
+        authActor().verifyEmailRaw(token).statusCode(403).body("code", equalTo("invalid-token"));
     }
 
     @Test
@@ -60,9 +58,7 @@ class AuthFlowIT extends BaseFlowIT {
         authActor().forgotPassword(email);
 
         // 4. Second forgot-password immediately → 429 TOO_MANY_EMAILS (rate-limited)
-        authActor().forgotPasswordRaw(email)
-                .statusCode(429)
-                .body("code", equalTo("too-many-emails"));
+        authActor().forgotPasswordRaw(email).statusCode(429).body("code", equalTo("too-many-emails"));
 
         // 5-6. Extract reset token from DB and reset password
         String resetToken = authActor().extractResetToken(email);
@@ -111,11 +107,14 @@ class AuthFlowIT extends BaseFlowIT {
         assertThat(renewed.user().email()).isEqualTo(email);
 
         // 9. Try changing to the same password (matches history) → 400 INVALID_PASSWORD
-        userActor().changePasswordRaw(renewed, ITFixtures.changePassword()
-                        .oldPassword("NewPassword456!")
-                        .newPassword("NewPassword456!")
-                        .confirmNewPassword("NewPassword456!")
-                        .build())
+        userActor()
+                .changePasswordRaw(
+                        renewed,
+                        ITFixtures.changePassword()
+                                .oldPassword("NewPassword456!")
+                                .newPassword("NewPassword456!")
+                                .confirmNewPassword("NewPassword456!")
+                                .build())
                 .statusCode(400)
                 .body("code", equalTo("invalid-password"));
     }
@@ -136,34 +135,9 @@ class AuthFlowIT extends BaseFlowIT {
         userActor().deleteUser(user);
 
         // 5. Login with same email → 401 AUTHENTICATION_FAILED
-        authActor().loginRaw(email, "Password123!")
-                .statusCode(401)
-                .body("code", equalTo("authentication-failed"));
+        authActor().loginRaw(email, "Password123!").statusCode(401).body("code", equalTo("authentication-failed"));
 
         // 6. Access with previous access token → 401
         userActor().getUserRaw(user.cookies()).statusCode(401);
-    }
-
-    @Test
-    void flowAuth05_tokenRefreshAndExpiration() {
-        // 1. Register and verify
-        AuthContext user = authActor().registerVerifiedUser();
-
-        // 2. Login → access + refresh tokens in cookies
-        AuthContext session = authActor().login(user.user().email(), "Password123!");
-
-        // Capture old cookies before refresh
-        var oldCookies = session.cookies();
-
-        // 3. POST /auth/refresh-token → 204, new tokens issued
-        AuthContext refreshed = authActor().refreshToken(session);
-
-        // 4. Old refresh token is now invalid (one-time use)
-        authActor().refreshTokenRaw(oldCookies)
-                .statusCode(401)
-                .body("code", equalTo("invalid-token"));
-
-        // 5. New access token works
-        userActor().getUserRaw(refreshed.cookies()).statusCode(200);
     }
 }

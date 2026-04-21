@@ -34,58 +34,58 @@ import com.exence.finance.integration.actors.WorkspaceActor;
 public abstract class BaseFlowIT extends AbstractIT {
 
     protected AuthActor authActor() {
-        return new AuthActor(port, restAssuredConfig(), jdbcTemplate);
+        return new AuthActor(restAssuredConfig(), jdbcTemplate);
     }
 
     protected UserActor userActor() {
-        return new UserActor(port, restAssuredConfig());
+        return new UserActor(restAssuredConfig());
     }
 
     protected CategoryActor categoryActor() {
-        return new CategoryActor(port, restAssuredConfig());
+        return new CategoryActor(restAssuredConfig());
     }
 
     protected TransactionActor transactionActor() {
-        return new TransactionActor(port, restAssuredConfig());
+        return new TransactionActor(restAssuredConfig());
     }
 
     protected DebtActor debtActor() {
-        return new DebtActor(port, restAssuredConfig());
+        return new DebtActor(restAssuredConfig());
     }
 
     protected GoalActor goalActor() {
-        return new GoalActor(port, restAssuredConfig());
+        return new GoalActor(restAssuredConfig());
     }
 
     protected WorkspaceActor workspaceActor() {
-        return new WorkspaceActor(port, restAssuredConfig());
+        return new WorkspaceActor(restAssuredConfig());
     }
 
     protected InvestmentActor investmentActor() {
-        return new InvestmentActor(port, restAssuredConfig());
+        return new InvestmentActor(restAssuredConfig());
     }
 
     protected WidgetActor widgetActor() {
-        return new WidgetActor(port, restAssuredConfig());
+        return new WidgetActor(restAssuredConfig());
     }
 
     protected AchievementActor achievementActor() {
-        return new AchievementActor(port, restAssuredConfig());
+        return new AchievementActor(restAssuredConfig());
     }
 
     protected SessionActor sessionActor() {
-        return new SessionActor(port, restAssuredConfig());
+        return new SessionActor(restAssuredConfig());
     }
 
     protected UserSettingsActor userSettingsActor() {
-        return new UserSettingsActor(port, restAssuredConfig());
+        return new UserSettingsActor(restAssuredConfig());
     }
 
     protected AuditLogActor auditLogActor() {
-        return new AuditLogActor(port, restAssuredConfig());
+        return new AuditLogActor(restAssuredConfig());
     }
 
     protected AdminActor adminActor() {
-        return new AdminActor(port, restAssuredConfig());
+        return new AdminActor(restAssuredConfig());
     }
 }

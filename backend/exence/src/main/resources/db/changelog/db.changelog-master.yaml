@@ -27,4 +27,4 @@ databaseChangeLog:
   - include:
       file: data/test-data.yaml
       relativeToChangelogFile: true
-      context: dev
+      context: dev, test

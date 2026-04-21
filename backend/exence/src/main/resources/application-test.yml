@@ -6,6 +6,10 @@ spring:
     url: jdbc:postgresql://${exence.database.host}:${exence.database.port}/${exence.database.name}_test
     username: ${DB_USERNAME:exencedev}
     password: ${DB_PASSWORD:exencepwd}
+    hikari:
+      maximum-pool-size: 40
+      minimum-idle: 10
+      connection-timeout: 60000
   liquibase:
     contexts: test
 

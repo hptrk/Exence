@@ -27,8 +27,8 @@ public class AuthActor extends BaseActor {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public AuthActor(int port, RestAssuredConfig config, JdbcTemplate jdbcTemplate) {
-        super(port, config);
+    public AuthActor(RestAssuredConfig config, JdbcTemplate jdbcTemplate) {
+        super(config);
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -84,23 +84,32 @@ public class AuthActor extends BaseActor {
 
     /** Verifies the user's email using the given token. */
     public void verifyEmail(String token) {
-        given(spec).body(new EmailVerificationRequest(token))
-                .when().post("/auth/verify-email")
-                .then().statusCode(204);
+        given(spec)
+                .body(new EmailVerificationRequest(token))
+                .when()
+                .post("/auth/verify-email")
+                .then()
+                .statusCode(204);
     }
 
     /** Sends a password reset request for the given email. */
     public void forgotPassword(String email) {
-        given(spec).body(new ForgotPasswordRequest(email))
-                .when().post("/auth/forgot-password")
-                .then().statusCode(204);
+        given(spec)
+                .body(new ForgotPasswordRequest(email))
+                .when()
+                .post("/auth/forgot-password")
+                .then()
+                .statusCode(204);
     }
 
     /** Resets the user's password using the given reset token. */
     public void resetPassword(String token, String newPassword) {
-        given(spec).body(new PasswordResetRequest(token, newPassword, newPassword))
-                .when().post("/auth/reset-password")
-                .then().statusCode(204);
+        given(spec)
+                .body(new PasswordResetRequest(token, newPassword, newPassword))
+                .when()
+                .post("/auth/reset-password")
+                .then()
+                .statusCode(204);
     }
 
     /**
@@ -116,7 +125,7 @@ public class AuthActor extends BaseActor {
     /** Extracts the latest unused email-verification token for the given email from the DB. */
     public String extractVerifyToken(String email) {
         return jdbcTemplate.queryForObject(
-                "SELECT t.token FROM token t "
+                "SELECT t.token_value FROM token t "
                         + "JOIN _user u ON t.user_id = u.id "
                         + "WHERE u.email = ? AND t.token_type = 'EMAIL_VERIFICATION' AND t.revoked = false "
                         + "ORDER BY t.created_at DESC LIMIT 1",
@@ -127,7 +136,7 @@ public class AuthActor extends BaseActor {
     /** Extracts the latest unused password-reset token for the given email from the DB. */
     public String extractResetToken(String email) {
         return jdbcTemplate.queryForObject(
-                "SELECT t.token FROM token t "
+                "SELECT t.token_value FROM token t "
                         + "JOIN _user u ON t.user_id = u.id "
                         + "WHERE u.email = ? AND t.token_type = 'PASSWORD_RESET' AND t.revoked = false "
                         + "ORDER BY t.created_at DESC LIMIT 1",
@@ -140,8 +149,11 @@ public class AuthActor extends BaseActor {
     // -------------------------------------------------------------------------
 
     public ValidatableResponse verifyEmailRaw(String token) {
-        return given(spec).body(new EmailVerificationRequest(token))
-                .when().post("/auth/verify-email").then();
+        return given(spec)
+                .body(new EmailVerificationRequest(token))
+                .when()
+                .post("/auth/verify-email")
+                .then();
     }
 
     public ValidatableResponse refreshTokenRaw(Cookies cookies) {
@@ -149,12 +161,19 @@ public class AuthActor extends BaseActor {
     }
 
     public ValidatableResponse loginRaw(String email, String password) {
-        return given(spec).body(new LoginRequest(email, password)).when().post("/auth/login").then();
+        return given(spec)
+                .body(new LoginRequest(email, password))
+                .when()
+                .post("/auth/login")
+                .then();
     }
 
     public ValidatableResponse forgotPasswordRaw(String email) {
-        return given(spec).body(new ForgotPasswordRequest(email))
-                .when().post("/auth/forgot-password").then();
+        return given(spec)
+                .body(new ForgotPasswordRequest(email))
+                .when()
+                .post("/auth/forgot-password")
+                .then();
     }
 
     // -------------------------------------------------------------------------

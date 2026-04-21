@@ -11,20 +11,15 @@ import io.restassured.specification.RequestSpecification;
 /**
  * Base class for all test actors.
  *
- * <p>Provides common setup for RestAssured RequestSpecification with base URI, base path,
- * content type, and utilities for authenticating requests with workspace context.
+ * <p>Provides common setup for RestAssured RequestSpecification with content type
+ * and utilities for authenticating requests with workspace context.
  */
 public abstract class BaseActor {
 
-    private static final String BASE_URI_TEMPLATE = "http://localhost:%d";
-    private static final String BASE_PATH = "/api";
-
     protected final RequestSpecification spec;
 
-    protected BaseActor(int port, RestAssuredConfig config) {
+    protected BaseActor(RestAssuredConfig config) {
         this.spec = new RequestSpecBuilder()
-                .setBaseUri(String.format(BASE_URI_TEMPLATE, port))
-                .setBasePath(BASE_PATH)
                 .setContentType(ContentType.JSON)
                 .setConfig(config)
                 .build();
