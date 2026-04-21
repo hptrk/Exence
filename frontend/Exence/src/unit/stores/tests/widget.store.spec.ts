@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection, ɵEffectScheduler } from '@angular/core';
+﻿import { provideZonelessChangeDetection, ɵEffectScheduler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 import { NEVER } from 'rxjs';
@@ -8,7 +8,10 @@ import { StatCardWidget } from '../../../app/data-model/modules/statistics/StatC
 import { Timeframe } from '../../../app/data-model/modules/statistics/Timeframe';
 import { WidgetLayoutResponse } from '../../../app/data-model/modules/statistics/WidgetLayoutResponse';
 import { WidgetSetting } from '../../../app/data-model/modules/statistics/WidgetSetting';
-import { WidgetCatalogItem, WidgetType } from '../../../app/data-model/modules/statistics/widget-config.model';
+import {
+	WidgetCatalogItem,
+	StatisticsWidgetType,
+} from '../../../app/data-model/modules/statistics/widget-config.model';
 import { SupportedCurrency } from '../../../app/data-model/modules/user-settings/SupportedCurrency';
 import { StatisticService } from '../../../app/private/statistics/statistic.service';
 import { WidgetCatalogDialogResult } from '../../../app/private/statistics/widget-catalog-dialog/widget-catalog-dialog.component';
@@ -18,7 +21,7 @@ import { CurrencyService } from '../../../app/shared/currency.service';
 // Fixtures
 const mockStatCard: StatCardWidget = {
 	id: 1,
-	type: WidgetType.EXPENSE_FREQUENCY_STATCARD,
+	type: StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD,
 	title: 'Expense Frequency',
 	timeframe: Timeframe.YEAR_TO_DATE,
 	displayOrder: 0,
@@ -26,7 +29,7 @@ const mockStatCard: StatCardWidget = {
 
 const mockStatCard2: StatCardWidget = {
 	id: 2,
-	type: WidgetType.INCOME_FREQUENCY_STATCARD,
+	type: StatisticsWidgetType.INCOME_FREQUENCY_STATCARD,
 	title: 'Income Frequency',
 	timeframe: Timeframe.YEAR_TO_DATE,
 	displayOrder: 1,
@@ -34,7 +37,7 @@ const mockStatCard2: StatCardWidget = {
 
 const mockChart: ChartWidget = {
 	id: 10,
-	type: WidgetType.INCOME_TREND,
+	type: StatisticsWidgetType.INCOME_TREND,
 	title: 'Income Trend',
 	timeframe: Timeframe.YEAR_TO_DATE,
 	x: 0,
@@ -48,7 +51,7 @@ const emptyLayout: WidgetLayoutResponse = { statCards: [], charts: [] };
 function makeStatCardDialogResult(title = 'New Stat Card'): WidgetCatalogDialogResult {
 	return {
 		catalogItem: {
-			type: WidgetType.EXPENSE_FREQUENCY_STATCARD,
+			type: StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD,
 		} as WidgetCatalogItem,
 		title,
 		settings: {} as Record<WidgetSetting, unknown>,
@@ -58,7 +61,7 @@ function makeStatCardDialogResult(title = 'New Stat Card'): WidgetCatalogDialogR
 function makeChartDialogResult(title = 'New Chart'): WidgetCatalogDialogResult {
 	return {
 		catalogItem: {
-			type: WidgetType.INCOME_TREND,
+			type: StatisticsWidgetType.INCOME_TREND,
 		} as WidgetCatalogItem,
 		title,
 		settings: {} as Record<WidgetSetting, unknown>,
@@ -119,7 +122,7 @@ describe('WidgetStore', () => {
 		it('calls createWidget with displayOrder equal to current statCards length', async () => {
 			await store.addWidget(makeStatCardDialogResult(), null);
 			expect(mockStatisticService.createWidget).toHaveBeenCalledOnceWith(
-				jasmine.objectContaining({ displayOrder: 0, type: WidgetType.EXPENSE_FREQUENCY_STATCARD }),
+				jasmine.objectContaining({ displayOrder: 0, type: StatisticsWidgetType.EXPENSE_FREQUENCY_STATCARD }),
 			);
 		});
 

@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+﻿import { Component, computed, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,7 @@ import { CategoryType } from '../../../data-model/modules/category/CategoryType'
 import {
 	CATEGORY_FILTERABLE_WIDGET_TYPES,
 	WIDGET_CATEGORY_TYPES,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { WidgetSetting } from '../../../data-model/modules/statistics/WidgetSetting';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
@@ -27,7 +27,7 @@ import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
 
 export interface EditChartDialogData {
 	title: string;
-	type: WidgetType;
+	type: StatisticsWidgetType;
 	settings?: Record<string, unknown>;
 }
 

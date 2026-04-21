@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
+﻿import { Component, computed, effect, inject, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,7 +16,7 @@ import {
 	WIDGET_CATALOG,
 	WIDGET_CATEGORY_TYPES,
 	WidgetCatalogItem,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { WidgetSetting } from '../../../data-model/modules/statistics/WidgetSetting';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
@@ -143,7 +143,7 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 		});
 	}
 
-	statCardSelectionDisabled(type: WidgetType): boolean {
+	statCardSelectionDisabled(type: StatisticsWidgetType): boolean {
 		return this.cardTypes.includes(type) && this.data.statCards.length === 4;
 	}
 

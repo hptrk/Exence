@@ -1,8 +1,9 @@
-import { CommonModule } from '@angular/common';
+﻿import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { ChartWidget } from '../../data-model/modules/statistics/ChartWidget';
 import { Timeframe } from '../../data-model/modules/statistics/Timeframe';
 import { WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
+import { StatisticsWidgetType } from '../../data-model/modules/statistics/widget-config.model';
 import { RecurringTransactionCreate } from '../../data-model/modules/transaction/RecurringTransactionCreate';
 import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
@@ -72,7 +73,7 @@ export class DashboardComponent extends BaseComponent {
 			this.statisticService.getDashboardChart(timeframe).then(response => {
 				this.dashboardWidget.set({
 					id: response.widgetId,
-					type: response.type,
+					type: response.payload.type as StatisticsWidgetType,
 					title: '',
 					timeframe,
 					x: 0,

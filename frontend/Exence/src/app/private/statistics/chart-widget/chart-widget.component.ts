@@ -1,4 +1,4 @@
-import { booleanAttribute, Component, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
+﻿import { booleanAttribute, Component, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -10,7 +10,7 @@ import { SupportedCurrency } from '../../../data-model/modules/user-settings/Sup
 import {
 	mapToExChartType,
 	TIMEFRAME_HIDDEN_WIDGET_TYPES,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
@@ -64,7 +64,9 @@ export class ChartWidgetComponent extends BaseComponent {
 	type = computed<ExChartType>(() => mapToExChartType(this.widget().type));
 	isApexChart = computed<boolean>(() => !['sankey', 'statCard'].includes(this.type()));
 	showTimeframe = computed<boolean>(
-		() => !TIMEFRAME_HIDDEN_WIDGET_TYPES.includes(this.widget().type as WidgetType) && !this.hideTimeframe(),
+		() =>
+			!TIMEFRAME_HIDDEN_WIDGET_TYPES.includes(this.widget().type as StatisticsWidgetType) &&
+			!this.hideTimeframe(),
 	);
 
 	timeframe = signal<Timeframe>(Timeframe.YEAR_TO_DATE);
@@ -105,7 +107,7 @@ export class ChartWidgetComponent extends BaseComponent {
 							this.translocoService.getActiveLang(),
 							undefined,
 							currencyFormatter,
-							this.widget().type as WidgetType,
+							this.widget().type as StatisticsWidgetType,
 						) as Partial<ApexOptions>,
 					);
 					this.isLoading.set(false);
@@ -138,7 +140,7 @@ export class ChartWidgetComponent extends BaseComponent {
 					this.translocoService.getActiveLang(),
 					(key, params) => this.translocoService.translate(key, params),
 					currencyFormatter,
-					this.widget().type as WidgetType,
+					this.widget().type as StatisticsWidgetType,
 				) as Partial<ApexOptions>,
 			);
 		});
