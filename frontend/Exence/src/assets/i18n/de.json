@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Arbeitsbereich-Aktivität"
+		},
+		"achievements": {
+			"label": "Erfolge",
+			"tab": {
+				"all": "Alle",
+				"unlocked": "Freigeschaltet"
+			},
+			"empty": {
+				"all": "Keine Erfolge verfügbar.",
+				"unlocked": "Noch keine freigeschalteten Erfolge."
+			}
 		}
 	},
 	"sessionList": {

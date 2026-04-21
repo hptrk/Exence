@@ -1,0 +1,107 @@
+<mat-tab-group
+	animationDuration="0ms"
+	mat-stretch-tabs="false"
+	dynamicHeight="false"
+	class="invert-color"
+	[(selectedIndex)]="selectedIndex"
+>
+	<mat-tab>
+		<ng-template mat-tab-label>
+			<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+				<mat-icon size="md">emoji_events</mat-icon>
+				{{ 'profile.achievements.tab.all' | translate }}
+			</div>
+		</ng-template>
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+			<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+				<mat-icon size="md">lock_open</mat-icon>
+				{{ 'profile.achievements.tab.unlocked' | translate }}
+			</div>
+		</ng-template>
+	</mat-tab>
+</mat-tab-group>
+
+@if (selectedIndex === 0) {
+	<ng-container [ngTemplateOutlet]="allTab" />
+} @else if (selectedIndex === 1) {
+	<ng-container [ngTemplateOutlet]="unlockedTab" />
+}
+
+<ng-template #allTab>
+	@if (store.isLoading()) {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+		</div>
+	} @else {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			@for (achievement of store.achievements(); track achievement.id) {
+				<div
+					class="achievement-card"
+					[style.--tier-color]="tierColor(achievement.tier)"
+					[class.unlocked]="achievement.unlocked"
+				>
+					<div class="d-flex justify-content-between align-items-start">
+						<div>
+							<strong>{{ achievement.name }}</strong>
+							<div class="text-muted small">{{ achievement.description }}</div>
+						</div>
+						<span class="tier-badge">{{ achievement.tier }}</span>
+					</div>
+					<mat-progress-bar
+						[value]="(achievement.currentProgress / achievement.requirementValue) * 100"
+						class="mt-2"
+					/>
+					<div class="d-flex justify-content-between mt-1">
+						<small>{{ achievement.currentProgress }} / {{ achievement.requirementValue }}</small>
+						@if (achievement.unlockedAt) {
+							<small class="text-muted">{{ achievement.unlockedAt | date: 'mediumDate' }}</small>
+						}
+					</div>
+				</div>
+			} @empty {
+				<p class="text-muted text-center mt-4">
+					{{ 'profile.achievements.empty.all' | translate }}
+				</p>
+			}
+		</div>
+	}
+</ng-template>
+
+<ng-template #unlockedTab>
+	@if (store.isLoading()) {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+		</div>
+	} @else {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			@for (achievement of store.unlockedAchievements(); track achievement.id) {
+				<div class="achievement-card" [style.--tier-color]="tierColor(achievement.tier)">
+					<div class="d-flex justify-content-between align-items-start">
+						<div>
+							<strong>{{ achievement.name }}</strong>
+							<div class="text-muted small">{{ achievement.description }}</div>
+						</div>
+						<span class="tier-badge">{{ achievement.tier }}</span>
+					</div>
+					<div class="mt-2">
+						<small class="text-muted">{{ achievement.unlockedAt | date: 'mediumDate' }}</small>
+					</div>
+				</div>
+			} @empty {
+				<p class="text-muted text-center mt-4">
+					{{ 'profile.achievements.empty.unlocked' | translate }}
+				</p>
+			}
+		</div>
+	}
+</ng-template>

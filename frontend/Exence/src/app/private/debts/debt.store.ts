@@ -11,6 +11,7 @@ import { DebtService } from './debt.service';
 import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
 import { WorkspaceService } from '../../shared/workspace.service';
 import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
+import { AchievementStore } from '../profile-dialog/achievements/achievement.store';
 
 interface DebtStoreData {
 	debts: DebtGet[];
@@ -39,6 +40,7 @@ export const DebtStore = signalStore(
 			snackbarService = inject(SnackbarService),
 			translocoService = inject(TranslocoService),
 			auditLogStore = inject(AuditLogStore),
+			achievementStore = inject(AchievementStore),
 		) => {
 			function reload(): void {
 				store.debtResource.reload();
@@ -53,6 +55,7 @@ export const DebtStore = signalStore(
 					reload();
 					auditLogStore.resetUser();
 					auditLogStore.resetAdmin();
+					achievementStore.reload();
 				},
 				async updateDebt(id: number, request: DebtPatch): Promise<void> {
 					await debtService.update(id, request);
@@ -67,6 +70,7 @@ export const DebtStore = signalStore(
 					reload();
 					auditLogStore.resetUser();
 					auditLogStore.resetAdmin();
+					achievementStore.reload();
 				},
 				async deleteDebt(id: number): Promise<void> {
 					await debtService.delete(id);

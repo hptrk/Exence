@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Aktywność przestrzeni roboczej"
+		},
+		"achievements": {
+			"label": "Osiągnięcia",
+			"tab": {
+				"all": "Wszystkie",
+				"unlocked": "Odblokowane"
+			},
+			"empty": {
+				"all": "Brak dostępnych osiągnięć.",
+				"unlocked": "Brak odblokowanych osiągnięć."
+			}
 		}
 	},
 	"sessionList": {

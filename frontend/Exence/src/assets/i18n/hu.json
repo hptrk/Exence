@@ -230,6 +230,17 @@
 		},
 		"auditLog": {
 			"label": "Munkaterület aktivitás"
+		},
+		"achievements": {
+			"label": "Eredmények",
+			"tab": {
+				"all": "Összes",
+				"unlocked": "Feloldott"
+			},
+			"empty": {
+				"all": "Nincsenek elérhető eredmények.",
+				"unlocked": "Még nincsenek feloldott eredmények."
+			}
 		}
 	},
 	"sessionList": {

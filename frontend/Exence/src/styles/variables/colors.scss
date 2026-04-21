@@ -32,6 +32,10 @@
 	--apexchart-primary-shade-3: #{$apexchart-primary-shade-3-blue-dolphin};
 	--apexchart-primary-shade-4: #{$apexchart-primary-shade-4-blue-dolphin};
 	--apexchart-primary-shade-5: #{$apexchart-primary-shade-5-blue-dolphin};
+
+	--achievement-bronze-color: #{$achievement-bronze-blue-dolphin-color};
+	--achievement-silver-color: #{$achievement-silver-blue-dolphin-color};
+	--achievement-gold-color: #{$achievement-gold-blue-dolphin-color};
 }
 
 html.theme-light {
@@ -62,6 +66,10 @@ html.theme-light {
 	--apexchart-primary-shade-3: #{$apexchart-primary-shade-3-light};
 	--apexchart-primary-shade-4: #{$apexchart-primary-shade-4-light};
 	--apexchart-primary-shade-5: #{$apexchart-primary-shade-5-light};
+
+	--achievement-bronze-color: #{$achievement-bronze-light-color};
+	--achievement-silver-color: #{$achievement-silver-light-color};
+	--achievement-gold-color: #{$achievement-gold-light-color};
 }
 
 html.theme-dark {
@@ -92,6 +100,10 @@ html.theme-dark {
 	--apexchart-primary-shade-3: #{$apexchart-primary-shade-3-dark};
 	--apexchart-primary-shade-4: #{$apexchart-primary-shade-4-dark};
 	--apexchart-primary-shade-5: #{$apexchart-primary-shade-5-dark};
+
+	--achievement-bronze-color: #{$achievement-bronze-dark-color};
+	--achievement-silver-color: #{$achievement-silver-dark-color};
+	--achievement-gold-color: #{$achievement-gold-dark-color};
 }
 
 html.theme-blue-dolphin {
@@ -122,4 +134,8 @@ html.theme-blue-dolphin {
 	--apexchart-primary-shade-3: #{$apexchart-primary-shade-3-blue-dolphin};
 	--apexchart-primary-shade-4: #{$apexchart-primary-shade-4-blue-dolphin};
 	--apexchart-primary-shade-5: #{$apexchart-primary-shade-5-blue-dolphin};
+
+	--achievement-bronze-color: #{$achievement-bronze-blue-dolphin-color};
+	--achievement-silver-color: #{$achievement-silver-blue-dolphin-color};
+	--achievement-gold-color: #{$achievement-gold-blue-dolphin-color};
 }

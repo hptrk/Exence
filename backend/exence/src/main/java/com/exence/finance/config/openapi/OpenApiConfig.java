@@ -43,7 +43,7 @@ public class OpenApiConfig {
                 if (!path.startsWith("/api/auth")
                         && !path.startsWith("/api/admin")
                         && !path.startsWith("/api/exchange-rates")
-                        && !path.startsWith("/api/users")
+                        && !path.startsWith("/api/user")
                         && !path.startsWith("/api/sessions")) {
 
                     pathItem.readOperations().forEach(operation -> {
