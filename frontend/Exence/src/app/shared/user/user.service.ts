@@ -14,7 +14,7 @@ export class UserService {
 	private baseUrl = '/api/user';
 
 	public getUser(): Promise<UserGet> {
-		return lastValueFrom(this.http.get<UserGet>(`${this.baseUrl}/me`));
+		return lastValueFrom(this.http.get<UserGet>(`${this.baseUrl}/me`, undefined, { suppressErrorMessage: true }));
 	}
 
 	public updateUser(request: UserPatch): Promise<UserGet> {
