@@ -5,7 +5,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { TranslocoService } from '@jsverse/transloco';
+import { MatSelectModule } from '@angular/material/select';
 import { AuditLogFilter } from '../../../data-model/modules/audit-log/AuditLogFilter';
 import { AuditableEntityType } from '../../../data-model/modules/audit-log/AuditableEntityType';
 import { ChangeType } from '../../../data-model/modules/audit-log/ChangeType';
@@ -15,6 +15,7 @@ import { AuditLogStore } from '../../../shared/audit-log/audit-log.store';
 import { FilterMenuComponent } from '../../../shared/filter-menu/filter-menu.component';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
+import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { toRawValueSignal } from '../../../shared/util/utils';
 import { WorkspaceService } from '../../../shared/workspace.service';
@@ -29,17 +30,18 @@ import { WorkspaceService } from '../../../shared/workspace.service';
 		MatFormFieldModule,
 		MatInputModule,
 		MatDatepickerModule,
+		MatSelectModule,
 		MatAutocompleteModule,
 		AuditLogListComponent,
 		FilterMenuComponent,
 		InputClearButtonComponent,
 		TranslatePipe,
+		EnumValuePipe,
 	],
 })
 export class UserAuditLogComponent {
 	private readonly store = inject(AuditLogStore);
 	private readonly workspaceService = inject(WorkspaceService);
-	private readonly translocoService = inject(TranslocoService);
 	private readonly fb = inject(NonNullableFormBuilder);
 
 	readonly data = this.store.userLogs;
@@ -57,6 +59,9 @@ export class UserAuditLogComponent {
 
 	private readonly filterFormValue = toRawValueSignal(this.filterForm);
 
+	readonly entityTypes = AuditableEntityType;
+	readonly changeTypes = ChangeType;
+
 	readonly filteredMembers = computed<WorkspaceMemberGet[]>(() => {
 		const q = this.filterFormValue().changedBy.toLowerCase();
 		const all = this.allMembers();
@@ -66,20 +71,6 @@ export class UserAuditLogComponent {
 	readonly showSystemOption = computed(() => {
 		const q = this.filterFormValue().changedBy.toLowerCase();
 		return !q || 'system'.includes(q);
-	});
-
-	readonly filteredEntityTypes = computed<AuditableEntityType[]>(() => {
-		const q = this.filterFormValue().entityType.toLowerCase();
-		return q
-			? Object.values(AuditableEntityType)
-					.filter(t => t.toLowerCase().includes(q))
-					.map(t => t.toUpperCase() as AuditableEntityType)
-			: Object.values(AuditableEntityType).map(t => t.toUpperCase() as AuditableEntityType);
-	});
-
-	readonly filteredChangeTypes = computed<ChangeType[]>(() => {
-		const q = this.filterFormValue().changeType.toLowerCase();
-		return q ? Object.values(ChangeType).filter(t => t.toLowerCase().includes(q)) : Object.values(ChangeType);
 	});
 
 	readonly appliedFiltersCount = computed(() => {
@@ -115,16 +106,6 @@ export class UserAuditLogComponent {
 
 	codeForChangeType(type: ChangeType): TranslationCode {
 		return `auditLog.changeType.${type}`;
-	}
-
-	displayEntityType(value: string | null): string {
-		if (!value) return '';
-		return this.translocoService.translate(`auditLog.entityTypeLabel.${value.toUpperCase()}`);
-	}
-
-	displayChangeType(value: string | null): string {
-		if (!value) return '';
-		return this.translocoService.translate(`auditLog.changeType.${value.toUpperCase()}`);
 	}
 
 	onScroll(): void {

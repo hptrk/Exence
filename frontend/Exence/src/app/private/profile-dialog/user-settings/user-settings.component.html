@@ -12,12 +12,20 @@
 
 	<div class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100">
 		@if (saving()) {
-			<mat-spinner diameter="24" />
+			<mat-spinner data-testid="user-settings-spinner" diameter="24" />
 		}
-		<ex-button outlined color="accent" matIcon="close" [disabled]="saving()" (click)="cancel()">
+		<ex-button
+			data-testid="user-settings-cancel-btn"
+			outlined
+			color="accent"
+			matIcon="close"
+			[disabled]="saving()"
+			(click)="cancel()"
+		>
 			{{ 'literals.cancel' | translate }}
 		</ex-button>
 		<ex-button
+			data-testid="user-settings-save-btn"
 			filled
 			color="primary"
 			matIcon="check"

@@ -2,10 +2,13 @@
 	<!-- Profile data -->
 	<form class="d-flex flex-column gap-4" [formGroup]="userDataForm" (submit)="saveUserData()" stopPropagation>
 		<div class="d-flex flex-row flex-wrap align-items-center justify-content-start gap-2 w-75">
-			<h3 class="m-0 text-start fs-2">{{ 'profile.title' | translate }}</h3>
+			<h3 data-testid="profile-information-profile-data-title" class="m-0 text-start fs-2">
+				{{ 'profile.title' | translate }}
+			</h3>
 			<div class="d-flex flex-row flex-nowwrap align-items-center justify-content-center gap-2">
 				@if (isUserDataFormEditing()) {
 					<ex-button
+						data-testid="profile-data-edit-cancel-btn"
 						outlined
 						color="accent"
 						matIcon="close"
@@ -17,6 +20,7 @@
 						{{ 'literals.cancel' | translate }}
 					</ex-button>
 					<ex-button
+						data-testid="profile-data-edit-save-btn"
 						filled
 						color="primary"
 						matIcon="check"
@@ -29,6 +33,7 @@
 					</ex-button>
 				} @else {
 					<ex-button
+						data-testid="profile-data-edit-btn"
 						iconButton
 						matIcon="edit"
 						color="primary"
@@ -39,12 +44,21 @@
 			</div>
 		</div>
 
-		<div class="d-flex flex-column flex-md-row gap-3 w-100 mb-2">
+		<div class="d-flex flex-column align-items-md-start flex-md-row gap-3 w-100 mb-2">
 			@let nameControl = userDataForm.controls.username;
 			<mat-form-field subscriptSizing="dynamic">
 				<mat-label>{{ 'profile.username' | translate }}</mat-label>
-				<input matInput autoTrim [formControl]="nameControl" />
-				<ex-input-clear matSuffix [control]="nameControl" />
+				<input
+					data-testid="profile-information-profile-data-username-input"
+					matInput
+					autoTrim
+					[formControl]="nameControl"
+				/>
+				<ex-input-clear
+					data-testid="profile-information-profile-data-username-input-clear"
+					matSuffix
+					[control]="nameControl"
+				/>
 				<mat-error>
 					<ex-validator [control]="nameControl" />
 				</mat-error>
@@ -53,8 +67,13 @@
 			@let emailControl = userDataForm.controls.email;
 			<mat-form-field subscriptSizing="dynamic">
 				<mat-label>{{ 'profile.email' | translate }}</mat-label>
-				<input matInput autoTrim type="email" [formControl]="emailControl" />
-				<ex-input-clear matSuffix [control]="emailControl" />
+				<input
+					data-testid="profile-data-email-input"
+					matInput
+					autoTrim
+					type="email"
+					[formControl]="emailControl"
+				/>
 				<mat-error>
 					<ex-validator [control]="emailControl" />
 				</mat-error>
@@ -67,10 +86,13 @@
 	<!-- Password -->
 	<form form [formGroup]="passwordForm" (submit)="savePassword()" stopPropagation class="d-flex flex-column gap-4">
 		<div class="d-flex flex-row flex-wrap align-items-center justify-content-start gap-2 w-75">
-			<h3 class="m-0 text-start fs-2">{{ 'profile.changePassword' | translate }}</h3>
+			<h3 data-testid="profile-information-change-password-title" class="m-0 text-start fs-2">
+				{{ 'profile.changePassword' | translate }}
+			</h3>
 			<div class="d-flex flex-row flex-nowrap align-items-center justify-content-center gap-2">
 				@if (isPasswordFormEditing()) {
 					<ex-button
+						data-testid="profile-information-edit-cancel-btn"
 						outlined
 						color="accent"
 						matIcon="close"
@@ -82,6 +104,7 @@
 						{{ 'literals.cancel' | translate }}
 					</ex-button>
 					<ex-button
+						data-testid="profile-information-edit-save-btn"
 						filled
 						color="primary"
 						matIcon="check"
@@ -94,6 +117,7 @@
 					</ex-button>
 				} @else {
 					<ex-button
+						data-testid="profile-information-edit-btn"
 						iconButton
 						matIcon="edit"
 						color="primary"
@@ -108,14 +132,24 @@
 			@let pwdControl = passwordForm.controls.password;
 			<mat-form-field>
 				<mat-label>{{ 'profile.oldPassword' | translate }}</mat-label>
-				<input matInput [type]="showPassword() ? 'text' : 'password'" [formControl]="pwdControl" />
+				<input
+					data-testid="profile-information-old-pwd-input"
+					matInput
+					[type]="showPassword() ? 'text' : 'password'"
+					[formControl]="pwdControl"
+				/>
 				<ex-show-password
+					data-testid="profile-information-old-pwd-show"
 					matSuffix
 					[showPassword]="showPassword()"
 					[control]="pwdControl"
 					(toggled)="togglePassword()"
 				/>
-				<ex-input-clear matSuffix [control]="pwdControl" />
+				<ex-input-clear
+					data-testid="profile-information-old-pwd-input-clear"
+					matSuffix
+					[control]="pwdControl"
+				/>
 				<mat-error>
 					<ex-validator [control]="pwdControl" />
 				</mat-error>
@@ -125,14 +159,24 @@
 				@let newPwdControl = passwordForm.controls.newPassword;
 				<mat-form-field>
 					<mat-label>{{ 'profile.newPassword' | translate }}</mat-label>
-					<input matInput [type]="showPassword() ? 'text' : 'password'" [formControl]="newPwdControl" />
+					<input
+						data-testid="profile-information-new-pwd-input"
+						matInput
+						[type]="showPassword() ? 'text' : 'password'"
+						[formControl]="newPwdControl"
+					/>
 					<ex-show-password
+						data-testid="profile-information-new-pwd-show"
 						matSuffix
 						[showPassword]="showPassword()"
 						[control]="newPwdControl"
 						(toggled)="togglePassword()"
 					/>
-					<ex-input-clear matSuffix [control]="newPwdControl" />
+					<ex-input-clear
+						data-testid="profile-information-new-pwd-input-clear"
+						matSuffix
+						[control]="newPwdControl"
+					/>
 					<mat-error>
 						<ex-validator [control]="newPwdControl" />
 					</mat-error>
@@ -140,15 +184,25 @@
 
 				@let confirmPwdControl = passwordForm.controls.confirmPassword;
 				<mat-form-field>
-					<mat-label>{{ 'profile.newPassword' | translate }}</mat-label>
-					<input matInput [type]="showPassword() ? 'text' : 'password'" [formControl]="confirmPwdControl" />
+					<mat-label>{{ 'profile.confirmPassword' | translate }}</mat-label>
+					<input
+						data-testid="profile-information-confirm-pwd-input"
+						matInput
+						[type]="showPassword() ? 'text' : 'password'"
+						[formControl]="confirmPwdControl"
+					/>
 					<ex-show-password
+						data-testid="profile-information-confirm-pwd-show"
 						matSuffix
 						[showPassword]="showPassword()"
 						[control]="confirmPwdControl"
 						(toggled)="togglePassword()"
 					/>
-					<ex-input-clear matSuffix [control]="confirmPwdControl" />
+					<ex-input-clear
+						data-testid="profile-information-confirm-pwd-input-clear"
+						matSuffix
+						[control]="confirmPwdControl"
+					/>
 					<mat-error>
 						<ex-validator [control]="confirmPwdControl" />
 					</mat-error>

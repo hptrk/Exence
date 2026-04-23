@@ -208,7 +208,8 @@
 			"kickMember": {
 				"title": "Tag kirúgása",
 				"message": "Biztosan ki szeretné rúgni {{name}} felhasználót erről a munkaterületről?",
-				"success": "'{{memberEmail}}' kirúgva!"
+				"success": "'{{memberEmail}}' kirúgva!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Kilépés a munkaterületről",

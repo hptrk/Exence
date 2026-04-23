@@ -11,6 +11,7 @@ import { InputClearButtonComponent } from '../../../../shared/input-clear-button
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { ValidatorComponent } from '../../../../shared/validator/validator.component';
 import { WorkspaceMemberEmailRequest } from '../../../../data-model/modules/workspaces/WorkspaceMemberEmailRequest';
+import { MatDialogClose } from '@angular/material/dialog';
 
 @Component({
 	selector: 'ex-add-member-dialog',
@@ -19,6 +20,7 @@ import { WorkspaceMemberEmailRequest } from '../../../../data-model/modules/work
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatDialogClose,
 		AutoTrimDirective,
 		ButtonComponent,
 		ConfirmExitDialogDirective,

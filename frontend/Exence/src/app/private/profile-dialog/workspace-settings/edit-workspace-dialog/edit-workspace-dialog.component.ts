@@ -12,6 +12,7 @@ import { DialogComponent, DialogRef } from '../../../../shared/dialog/dialog.ser
 import { InputClearButtonComponent } from '../../../../shared/input-clear-button/input-clear-button.component';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { ValidatorComponent } from '../../../../shared/validator/validator.component';
+import { MatDialogClose } from '@angular/material/dialog';
 
 export interface EditWorkspaceDialogData {
 	workspace: WorkspaceGet;
@@ -24,6 +25,7 @@ export interface EditWorkspaceDialogData {
 		ReactiveFormsModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatDialogClose,
 		AutoTrimDirective,
 		ButtonComponent,
 		ConfirmExitDialogDirective,

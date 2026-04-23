@@ -39,7 +39,7 @@ import {
 	getThemeMenuItem,
 } from '../locators/sidebar-locators';
 
-test.describe('Sidebar - unauthenticated, xl (≥1280px)', () => {
+test.describe('Sidebar - unauthenticated, xl (>=1280px)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -131,7 +131,7 @@ test.describe('Sidebar - unauthenticated, xl (≥1280px)', () => {
 	});
 });
 
-test.describe('Sidebar - authenticated, xl (≥1280px)', () => {
+test.describe('Sidebar - authenticated, xl (>=1280px)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
@@ -809,7 +809,7 @@ test.describe('Sidebar - authenticated, mobile (<768px)', () => {
 	});
 });
 
-test.describe('Sidebar - admin, xl (≥1280px)', () => {
+test.describe('Sidebar - admin, xl (>=1280px)', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {

@@ -208,7 +208,8 @@
 			"kickMember": {
 				"title": "Vyhodiť člena",
 				"message": "Naozaj chcete vyhodiť {{name}} z tohto pracovného priestoru?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Opustiť pracovný priestor",

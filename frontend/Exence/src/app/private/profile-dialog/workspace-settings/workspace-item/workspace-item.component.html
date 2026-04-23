@@ -1,9 +1,13 @@
-<mat-expansion-panel (opened)="onOpened()">
+<mat-expansion-panel (opened)="onOpened()" data-testid="workspace-list-row">
 	<mat-expansion-panel-header>
 		<mat-panel-title class="d-flex align-items-center gap-2">
-			<span class="fw-semibold text-truncate flex-grow-1">{{ workspace().name }}</span>
+			<span data-testid="workspace-name" class="fw-semibold text-truncate flex-grow-1">{{
+				workspace().name
+			}}</span>
 			@if (isActive()) {
-				<span class="badge bg-primary flex-shrink-0">{{ 'profile.currentWorkspace' | translate }}</span>
+				<span data-testid="workspace-current-tag" class="badge bg-primary flex-shrink-0">{{
+					'profile.currentWorkspace' | translate
+				}}</span>
 			}
 		</mat-panel-title>
 
@@ -13,16 +17,18 @@
 				[matTooltipDisabled]="!isActive() && (!members() || (members() && members()!.length <= 1))"
 			>
 				<ex-button
+					data-testid="workspace-delete-btn"
 					iconButton
 					color="error"
 					matIcon="delete"
 					[matTooltip]="'profile.workspaces.deleteWorkspace.title' | translate"
 					(click)="onDeleteWorkspace($event)"
-					[disabled]="(!!members() && members()!.length > 1) || isActive()"
+					[disabled]="members() === null || (!!members() && members()!.length > 1) || isActive()"
 				/>
 			</div>
 		} @else {
 			<ex-button
+				data-testid="workspace-leave-btn"
 				iconButton
 				color="error"
 				matIcon="logout"
@@ -32,63 +38,68 @@
 		}
 	</mat-expansion-panel-header>
 
-	@if (isOwner()) {
-		<div class="d-flex align-items-center gap-2 mb-2">
-			<ex-button
-				filled
-				color="primary"
-				matIcon="add"
-				(click)="onAddMember()"
-				collapsedStyle="filled"
-				collapseUnder="lg"
-			>
-				{{ 'profile.workspaces.addMember.button' | translate }}
-			</ex-button>
-			<ex-button
-				filled
-				color="primary"
-				matIcon="edit"
-				(click)="onEditWorkspace()"
-				collapsedStyle="filled"
-				collapseUnder="lg"
-			>
-				{{ 'literals.edit' | translate }}
-			</ex-button>
-		</div>
-	}
+	<div data-testid="workspace-detail">
+		@if (isOwner()) {
+			<div class="d-flex align-items-center gap-2 mb-2">
+				<ex-button
+					data-testid="workspace-add-member-btn"
+					filled
+					color="primary"
+					matIcon="add"
+					(click)="onAddMember()"
+					collapsedStyle="filled"
+					collapseUnder="lg"
+				>
+					{{ 'profile.workspaces.addMember.button' | translate }}
+				</ex-button>
+				<ex-button
+					data-testid="workspace-edit-btn"
+					filled
+					color="primary"
+					matIcon="edit"
+					(click)="onEditWorkspace()"
+					collapsedStyle="filled"
+					collapseUnder="lg"
+				>
+					{{ 'literals.edit' | translate }}
+				</ex-button>
+			</div>
+		}
 
-	@if (loadingMembers()) {
-		<div class="d-flex justify-content-center py-2">
-			<mat-spinner diameter="24" />
-		</div>
-	} @else if (members()?.length === 0) {
-		<p class="text-muted m-0">{{ 'profile.workspaces.noMembers' | translate }}</p>
-	} @else if (members()) {
-		<div class="d-flex flex-column gap-1">
-			@for (member of members()!; track member.userId) {
-				<div class="d-flex align-items-center gap-3 py-1">
-					<span class="fw-medium text-truncate">{{ member.username }}</span>
-					<span class="text-muted text-truncate">{{ member.email }}</span>
-					<mat-icon
-						class="flex-shrink-0"
-						size="md"
-						[svgIcon]="getRoleIcon(member.role)"
-						[matTooltip]="getRoleTooltipKey(member.role) | translate"
-					/>
-					@if (display.isMd()) {
-						<span class="ms-auto text-muted">{{ member.joinedAt | date: 'yy/MM/dd' }}</span>
-					}
-					@if (isOwner() && member.role !== WorkspaceRole.OWNER) {
-						<ex-button
-							iconButton
-							color="error"
-							matIcon="delete"
-							[matTooltip]="'profile.workspaces.kickMember.title' | translate"
-							(click)="onKickMember(member)"
+		@if (loadingMembers()) {
+			<div class="d-flex justify-content-center py-2">
+				<mat-spinner diameter="24" />
+			</div>
+		} @else if (members()?.length === 0) {
+			<p class="text-muted m-0">{{ 'profile.workspaces.noMembers' | translate }}</p>
+		} @else if (members()) {
+			<div class="d-flex flex-column gap-1">
+				@for (member of members()!; track member.userId) {
+					<div data-testid="workspace-member" class="d-flex align-items-center gap-3 py-1">
+						<span class="fw-medium text-truncate">{{ member.username }}</span>
+						<span class="text-muted text-truncate">{{ member.email }}</span>
+						<mat-icon
+							class="flex-shrink-0"
+							size="md"
+							[svgIcon]="getRoleIcon(member.role)"
+							[matTooltip]="getRoleTooltipKey(member.role) | translate"
 						/>
-					}
-				</div>
-			}
-		</div>
-	}
+						@if (display.isMd()) {
+							<span class="ms-auto text-muted">{{ member.joinedAt | date: 'yy/MM/dd' }}</span>
+						}
+						@if (isOwner() && member.role !== WorkspaceRole.OWNER) {
+							<ex-button
+								data-testid="workspace-kick-btn"
+								iconButton
+								color="error"
+								matIcon="delete"
+								[matTooltip]="'profile.workspaces.kickMember.title' | translate"
+								(click)="onKickMember(member)"
+							/>
+						}
+					</div>
+				}
+			</div>
+		}
+	</div>
 </mat-expansion-panel>

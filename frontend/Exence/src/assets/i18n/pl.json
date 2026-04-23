@@ -208,7 +208,8 @@
 			"kickMember": {
 				"title": "Wyrzuć członka",
 				"message": "Czy na pewno chcesz wyrzucić {{name}} z tego obszaru roboczego?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Opuść obszar roboczy",

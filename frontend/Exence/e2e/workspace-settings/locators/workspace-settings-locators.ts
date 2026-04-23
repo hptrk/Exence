@@ -7,3 +7,5 @@ export const getWorkspaceSettingsSaveBtn = (page: Page): Locator => page.getByTe
 export const getWorkspaceSettingsSaveBtnInner = (page: Page): Locator =>
 	getWorkspaceSettingsSaveBtn(page).getByTestId('btn');
 export const getProfileDialogCloseBtn = (page: Page): Locator => page.getByTestId('profile-dialog-close-btn');
+export const getWorkspaceSettingsSavingSpinner = (page: Page): Locator =>
+	page.getByTestId('workspace-settings-saving-spinner');

@@ -1,0 +1,15 @@
+{
+	"filter": {
+		"createdLabel": "Created",
+		"filterBadgeCount": "1"
+	},
+	"changeArrow": "→",
+	"transaction": {
+		"title": "E2E Activity",
+		"amount": 100,
+		"updatedTitle": "e2e_activity_updated"
+	},
+	"auditLog": {
+		"updatedLabel": "Updated"
+	}
+}

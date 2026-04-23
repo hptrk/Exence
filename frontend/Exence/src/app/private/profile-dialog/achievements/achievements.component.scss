@@ -1,13 +1,27 @@
+@import '../../../../styles/imports.scss';
+
 :host {
 	display: flex;
 	flex-direction: column;
-	margin-top: 1rem;
+	margin-top: 3rem;
 	height: 100%;
 	overflow: hidden;
+
+	@include displayLg {
+		margin-top: 1rem;
+	}
 }
 
 mat-tab-group {
 	align-self: flex-end;
+}
+
+.tab-label-text {
+	display: none;
+
+	@include displayLg {
+		display: inline;
+	}
 }
 
 .achievement-card {
@@ -17,7 +31,7 @@ mat-tab-group {
 	padding: 1rem;
 }
 
-.unlocked {
+[achievement-disabled] {
 	opacity: 0.4;
 }
 

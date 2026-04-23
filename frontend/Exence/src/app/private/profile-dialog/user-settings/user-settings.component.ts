@@ -105,6 +105,7 @@ export class UserSettingsComponent implements OnInit {
 	}
 
 	async cancel(): Promise<void> {
+		this.userSettings.set(null);
 		this.userSettings.set(await this.userSettingService.list());
 		this.resetCaches();
 	}

@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { HttpContextToken, HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { catchError, from, Observable, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../auth.service';
@@ -41,6 +42,7 @@ export function refreshTokenInterceptor(
 	const authService = inject(AuthService);
 	const currentUserService = inject(CurrentUserService);
 	const location = inject(Location);
+	const matDialog = inject(MatDialog);
 
 	if (req.url.includes('/api/auth') || location.path().includes('/public/')) {
 		return next(req);
@@ -54,6 +56,7 @@ export function refreshTokenInterceptor(
 
 			if (error.status === 403 && req.url.includes('/api/auth/refresh-token')) {
 				currentUserService.clearUser();
+				matDialog.closeAll();
 				router.navigateByUrl(navigationService.account().login());
 
 				const errorWithContext = { ...error };
@@ -71,6 +74,7 @@ export function refreshTokenInterceptor(
 				}),
 				catchError((refreshError: HttpErrorResponse) => {
 					currentUserService.clearUser();
+					matDialog.closeAll();
 					router.navigateByUrl(navigationService.index());
 
 					const errorWithContext = { ...refreshError };

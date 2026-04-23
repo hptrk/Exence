@@ -175,7 +175,15 @@ export class WorkspaceItemComponent {
 				name: member.username,
 			}),
 			hideCloseIcon: false,
-			buttons: MessageDialogButtonConfig.deleteCancel,
+			buttons: MessageDialogButtonConfig.custom(
+				{
+					text: 'profile.workspaces.kickMember.btn',
+					value: true,
+					matIcon: 'logout',
+					color: 'error',
+				},
+				PredefiedButtons.CANCEL,
+			),
 		});
 		if (confirmed) {
 			await this.workspaceService.removeMember(this.workspace().id, { email: member.email });

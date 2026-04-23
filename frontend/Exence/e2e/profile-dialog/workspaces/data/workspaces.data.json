@@ -1,0 +1,21 @@
+{
+	"validators": {
+		"nameMaxLength": "255",
+		"invalidEmailFormat": "notanemail"
+	},
+	"errors": {
+		"required": "Field required",
+		"maxLength": "Max length is",
+		"email": "Invalid email format!"
+	},
+	"addMember": {
+		"success": {
+			"email": "winston@exence.com",
+			"name": "Winston"
+		},
+		"nonExisting": "non-exisitng-user@exence.com"
+	},
+	"editWorkspace": {
+		"newName": "edited_workspace_name"
+	}
+}

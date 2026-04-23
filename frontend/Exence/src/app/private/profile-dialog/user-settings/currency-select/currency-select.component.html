@@ -1,12 +1,19 @@
 @if (currency() && showBaseCurrency() !== undefined) {
 	<article class="d-flex flex-column gap-3">
-		<h3 class="m-0 text-start fs-2 w-75 mb-2">{{ 'profile.userSettings.currency.title' | translate }}</h3>
+		<h3 data-testid="currency-settings-title" class="m-0 text-start fs-2 w-75 mb-2">
+			{{ 'profile.userSettings.currency.title' | translate }}
+		</h3>
 		<div class="d-flex flex-column flex-md-row flex-nowrap gap-4">
 			<mat-form-field subscriptSizing="dynamic" class="flex-grow-1">
 				<mat-label>{{ 'profile.userSettings.currency.baseCurrency.label' | translate }}</mat-label>
-				<mat-select [formControl]="form.controls.baseCurrency">
+				<mat-select
+					data-testid="currency-settings-base-currency-input"
+					[formControl]="form.controls.baseCurrency"
+				>
 					@for (currency of currencies | enumValue; track currency) {
-						<mat-option [value]="currency"> {{ currency }} - {{ localizeCurrency(currency) }} </mat-option>
+						<mat-option data-testid="currency-settings-base-currency-option" [value]="currency">
+							{{ currency }} - {{ localizeCurrency(currency) }}
+						</mat-option>
 					}
 				</mat-select>
 				<mat-error>

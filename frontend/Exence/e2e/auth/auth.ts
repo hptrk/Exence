@@ -14,6 +14,12 @@ import { getErrorSnackbar, getSnackbarCloseBtn } from '../snackbar/locators/snac
 import dataJson from './data/auth.data.json';
 import { fillAndBlur, getCurrentDate } from '../form/utils/form-utils';
 
+interface Credentials {
+	username: string;
+	workspaceName: string;
+	email: string;
+}
+
 interface LoginCredentials {
 	admin: LoginRequest;
 	user: LoginRequest;
@@ -55,7 +61,7 @@ export async function attemptLoginWithEmail(page: Page, email: string): Promise<
 	await page.waitForURL('/dashboard');
 }
 
-export async function registerAndLogin(page: Page): Promise<void> {
+export async function registerAndLogin(page: Page, credentials?: Credentials): Promise<void> {
 	const data: AuthInfo = JSON.parse(JSON.stringify(dataJson));
 	const timestamp = getCurrentDate();
 	const email = `e2e_${timestamp}@test.com`;
@@ -68,13 +74,13 @@ export async function registerAndLogin(page: Page): Promise<void> {
 		await getSnackbarCloseBtn(page).click();
 	}
 
-	await fillAndBlur(getUsernameField(page), 'E2E Test User');
-	await fillAndBlur(getWorkspaceNameField(page), 'E2E Workspace');
-	await fillAndBlur(getEmailField(page), email);
+	await fillAndBlur(getUsernameField(page), credentials?.username ?? 'E2E Test User');
+	await fillAndBlur(getWorkspaceNameField(page), credentials?.workspaceName ?? 'E2E Workspace');
+	await fillAndBlur(getEmailField(page), credentials?.email ?? email);
 	await fillAndBlur(getPasswordField(page), password);
 	await fillAndBlur(getConfirmPasswordField(page), password);
 	await getRegisterBtn(page).click();
 	await page.waitForURL('/public/login');
 
-	await attemptLoginWithEmail(page, email);
+	await attemptLoginWithEmail(page, credentials?.email ?? email);
 }
