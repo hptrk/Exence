@@ -27,7 +27,11 @@
 								</p>
 								<div class="d-flex flex-row gap-3 align-items-center">
 									@for (color of themeColors[theme]; track $index) {
-										<div data-testid="theme-color-square" [style.background-color]="color" class="color-square"></div>
+										<div
+											data-testid="theme-color-square"
+											[style.background-color]="color"
+											class="color-square"
+										></div>
 									}
 								</div>
 							</div>
@@ -61,7 +65,11 @@
 								}
 								<div class="d-flex flex-row gap-3 align-items-center">
 									@for (color of themeColors[theme]; track $index) {
-										<div data-testid="theme-color-square" [style.background-color]="color" class="color-square"></div>
+										<div
+											data-testid="theme-color-square"
+											[style.background-color]="color"
+											class="color-square"
+										></div>
 									}
 								</div>
 							</div>

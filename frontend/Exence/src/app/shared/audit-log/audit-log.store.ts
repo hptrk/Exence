@@ -2,6 +2,7 @@ import { effect, inject, resource, untracked } from '@angular/core';
 import { patchState, signalStore, withHooks, withMethods, withProps, withState } from '@ngrx/signals';
 import { AuditLog } from '../../data-model/modules/audit-log/AuditLog';
 import { AuditLogFilter } from '../../data-model/modules/audit-log/AuditLogFilter';
+import { SliceResponse } from '../../data-model/modules/common/SliceResponse';
 import { AdminAuditLogService } from '../../private/admin/admin-audit-log.service';
 import { WorkspaceService } from '../workspace.service';
 import { AuditLogService } from './audit-log.service';
@@ -9,26 +10,22 @@ import { AuditLogService } from './audit-log.service';
 export type AuditLogModel = AuditLog & { id: number };
 
 interface AuditLogStoreState {
-	adminLogs: AuditLogModel[];
+	adminLogs: SliceResponse<AuditLogModel>;
 	adminPage: number;
-	adminHasNext: boolean;
 	adminFilters: Partial<AuditLogFilter> | null;
 
-	userLogs: AuditLogModel[];
+	userLogs: SliceResponse<AuditLogModel>;
 	userPage: number;
-	userHasNext: boolean;
 	userFilters: Partial<AuditLogFilter> | null;
 }
 
 const initialState: AuditLogStoreState = {
-	adminLogs: [],
+	adminLogs: {} as SliceResponse<AuditLogModel>,
 	adminPage: 0,
-	adminHasNext: false,
 	adminFilters: null,
 
-	userLogs: [],
+	userLogs: {} as SliceResponse<AuditLogModel>,
 	userPage: 0,
-	userHasNext: false,
 	userFilters: null,
 };
 
@@ -66,21 +63,21 @@ export const AuditLogStore = signalStore(
 			patchState(store, { userFilters: { ...filters }, userPage: 0 });
 		},
 		loadAdminNextPage(): void {
-			if (!store.adminResource.isLoading() && store.adminHasNext()) {
+			if (!store.adminResource.isLoading() && store.adminLogs().hasNext) {
 				patchState(store, state => ({ adminPage: state.adminPage + 1 }));
 			}
 		},
 		loadUserNextPage(): void {
-			if (!store.userResource.isLoading() && store.userHasNext()) {
+			if (!store.userResource.isLoading() && store.userLogs().hasNext) {
 				patchState(store, state => ({ userPage: state.userPage + 1 }));
 			}
 		},
 		resetAdmin(): void {
-			patchState(store, { adminLogs: [], adminPage: 0, adminHasNext: false });
+			patchState(store, { adminLogs: {} as SliceResponse<AuditLogModel>, adminPage: 0 });
 			store.adminResource.reload();
 		},
 		resetUser(): void {
-			patchState(store, { userLogs: [], userPage: 0, userHasNext: false });
+			patchState(store, { userLogs: {} as SliceResponse<AuditLogModel>, userPage: 0 });
 			store.userResource.reload();
 		},
 	})),
@@ -91,15 +88,17 @@ export const AuditLogStore = signalStore(
 				const val = store.adminResource.value();
 				if (val && !store.adminResource.isLoading()) {
 					patchState(store, state => {
-						const isReset = state.adminPage === 0;
-						const startId = isReset ? 0 : state.adminLogs.length;
+						const isReset = val.page === 0;
+						const startId = isReset ? 0 : (state.adminLogs.content?.length ?? 0);
 						const mapped: AuditLogModel[] = (val.content ?? []).map((log, i) => ({
 							...log,
 							id: startId + i,
 						}));
 						return {
-							adminLogs: isReset ? mapped : [...state.adminLogs, ...mapped],
-							adminHasNext: val.hasNext,
+							adminLogs: {
+								...val,
+								content: isReset ? mapped : [...(state.adminLogs.content ?? []), ...mapped],
+							},
 						};
 					});
 				}
@@ -109,15 +108,17 @@ export const AuditLogStore = signalStore(
 				const val = store.userResource.value();
 				if (val && !store.userResource.isLoading()) {
 					patchState(store, state => {
-						const isReset = state.userPage === 0;
-						const startId = isReset ? 0 : state.userLogs.length;
+						const isReset = val.page === 0;
+						const startId = isReset ? 0 : (state.userLogs.content?.length ?? 0);
 						const mapped: AuditLogModel[] = (val.content ?? []).map((log, i) => ({
 							...log,
 							id: startId + i,
 						}));
 						return {
-							userLogs: isReset ? mapped : [...state.userLogs, ...mapped],
-							userHasNext: val.hasNext,
+							userLogs: {
+								...val,
+								content: isReset ? mapped : [...(state.userLogs.content ?? []), ...mapped],
+							},
 						};
 					});
 				}

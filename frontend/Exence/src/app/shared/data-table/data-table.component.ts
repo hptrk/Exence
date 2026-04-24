@@ -22,6 +22,7 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
+import { SliceResponse } from '../../data-model/modules/common/SliceResponse';
 import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
@@ -82,7 +83,7 @@ export class DataTableComponent<T extends { id: number }> extends BaseComponent 
 
 	columns = input.required<ColumnDef[]>();
 	actions = input<TableAction<T>[]>([]);
-	data = input<PagedResponse<T> | T[]>();
+	data = input<PagedResponse<T> | SliceResponse<T> | T[]>();
 	isLoading = input<boolean>(false);
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();

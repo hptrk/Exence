@@ -3,6 +3,7 @@ import { Component, computed, inject, input, output } from '@angular/core';
 import { MatLabel } from '@angular/material/form-field';
 import { AuditableEntityType } from '../../../data-model/modules/audit-log/AuditableEntityType';
 import { ChangeType } from '../../../data-model/modules/audit-log/ChangeType';
+import { SliceResponse } from '../../../data-model/modules/common/SliceResponse';
 import { ColumnDef, DataTableComponent } from '../../data-table/data-table.component';
 import { ExCellDirective } from '../../data-table/ex-cell.directive';
 import { DisplaySizeService } from '../../display-size.service';
@@ -22,7 +23,7 @@ export { AuditLogModel };
 export class AuditLogListComponent {
 	private readonly display = inject(DisplaySizeService);
 
-	data = input<AuditLogModel[]>([]);
+	data = input<SliceResponse<AuditLogModel>>({} as SliceResponse<AuditLogModel>);
 	isLoading = input<boolean>(false);
 	title = input<string>('');
 	matIcon = input<string>();
