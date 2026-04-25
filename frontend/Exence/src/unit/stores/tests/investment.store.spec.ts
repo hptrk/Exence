@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection, ɵEffectScheduler } from '@angular/core';
+import { provideZonelessChangeDetection, signal, ɵEffectScheduler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -8,10 +8,12 @@ import { InvestmentGroup } from '../../../app/data-model/modules/investment/Inve
 import { InvestmentPatch } from '../../../app/data-model/modules/investment/InvestmentPatch';
 import { InvestmentType } from '../../../app/data-model/modules/investment/InvestmentType';
 import { SupportedCurrency } from '../../../app/data-model/modules/user-settings/SupportedCurrency';
-import { InvestmentStore } from '../../../app/private/investments/investment.store';
 import { InvestmentService } from '../../../app/private/investments/investment.service';
+import { InvestmentStore } from '../../../app/private/investments/investment.store';
+import { AuditLogStore } from '../../../app/shared/audit-log/audit-log.store';
 import { CurrencyService } from '../../../app/shared/currency.service';
 import { SnackbarService } from '../../../app/shared/snackbar/snackbar.service';
+import { WorkspaceService } from '../../../app/shared/workspace.service';
 
 // Fixtures
 const mockInvestmentGroup: InvestmentGroup = {
@@ -74,6 +76,14 @@ describe('InvestmentStore', () => {
 				{ provide: InvestmentService, useValue: mockInvestmentService },
 				{ provide: SnackbarService, useValue: mockSnackbarService },
 				{ provide: TranslocoService, useValue: mockTranslocoService },
+				{
+					provide: AuditLogStore,
+					useValue: {
+						resetUser: jasmine.createSpy('resetUser'),
+						resetAdmin: jasmine.createSpy('resetAdmin'),
+					},
+				},
+				{ provide: WorkspaceService, useValue: { currentWorkspace: signal(null).asReadonly() } },
 				CurrencyService,
 			],
 		});

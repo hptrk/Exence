@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection, ɵEffectScheduler } from '@angular/core';
+import { provideZonelessChangeDetection, signal, ɵEffectScheduler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -12,8 +12,11 @@ import { SupportedCurrency } from '../../../app/data-model/modules/user-settings
 import { TransactionStore } from '../../../app/private/transactions-and-categories/transaction.store';
 import { CategoryStore } from '../../../app/private/transactions-and-categories/category.store';
 import { TransactionService } from '../../../app/private/transactions-and-categories/transaction.service';
+import { AchievementStore } from '../../../app/private/profile-dialog/achievements/achievement.store';
+import { AuditLogStore } from '../../../app/shared/audit-log/audit-log.store';
 import { CurrencyService } from '../../../app/shared/currency.service';
 import { SnackbarService } from '../../../app/shared/snackbar/snackbar.service';
+import { WorkspaceService } from '../../../app/shared/workspace.service';
 
 // Fixtures
 const emptyPage: PagedResponse<TransactionGet> = {
@@ -116,6 +119,15 @@ describe('TransactionStore', () => {
 				{ provide: SnackbarService, useValue: mockSnackbarService },
 				{ provide: TranslocoService, useValue: mockTranslocoService },
 				{ provide: CategoryStore, useValue: mockCategoryStore },
+				{
+					provide: AuditLogStore,
+					useValue: {
+						resetUser: jasmine.createSpy('resetUser'),
+						resetAdmin: jasmine.createSpy('resetAdmin'),
+					},
+				},
+				{ provide: AchievementStore, useValue: { reload: jasmine.createSpy('reload') } },
+				{ provide: WorkspaceService, useValue: { currentWorkspace: signal(null).asReadonly() } },
 				CurrencyService,
 			],
 		});
@@ -319,6 +331,60 @@ describe('TransactionStore', () => {
 			await waitForResources();
 			store.loadNextPage();
 			expect(store.transactionPage()).toBe(0);
+		});
+
+		it('appends page 1 content after page 0 content in transactions state', async () => {
+			const page0Items: TransactionGet[] = [{ ...mockTransaction, id: 101 }];
+			const page1Items: TransactionGet[] = [{ ...mockTransaction, id: 201 }];
+			const page0: PagedResponse<TransactionGet> = { ...emptyPage, content: page0Items, last: false, page: 0 };
+			const page1: PagedResponse<TransactionGet> = { ...emptyPage, content: page1Items, last: true, page: 1 };
+
+			mockTransactionService.list.and.resolveTo(page0);
+			store.transactionResource.reload();
+			await waitForResources();
+			expect(store.transactions().content).toEqual(page0Items);
+
+			mockTransactionService.list.and.resolveTo(page1);
+			store.loadNextPage();
+			await waitForResources();
+
+			expect(store.transactions().content).toEqual([...page0Items, ...page1Items]);
+		});
+
+		it('appends page 1 content after page 0 content in income state', async () => {
+			const page0Items: TransactionGet[] = [{ ...mockTransaction, id: 301 }];
+			const page1Items: TransactionGet[] = [{ ...mockTransaction, id: 401 }];
+			const page0: PagedResponse<TransactionGet> = { ...emptyPage, content: page0Items, last: false, page: 0 };
+			const page1: PagedResponse<TransactionGet> = { ...emptyPage, content: page1Items, last: true, page: 1 };
+
+			mockTransactionService.listIncomes.and.resolveTo(page0);
+			store.incomeResource.reload();
+			await waitForResources();
+			expect(store.incomes().content).toEqual(page0Items);
+
+			mockTransactionService.listIncomes.and.resolveTo(page1);
+			store.loadNextPage(TransactionType.INCOME);
+			await waitForResources();
+
+			expect(store.incomes().content).toEqual([...page0Items, ...page1Items]);
+		});
+
+		it('appends page 1 content after page 0 content in expense state', async () => {
+			const page0Items: TransactionGet[] = [{ ...expenseTransaction, id: 501 }];
+			const page1Items: TransactionGet[] = [{ ...expenseTransaction, id: 601 }];
+			const page0: PagedResponse<TransactionGet> = { ...emptyPage, content: page0Items, last: false, page: 0 };
+			const page1: PagedResponse<TransactionGet> = { ...emptyPage, content: page1Items, last: true, page: 1 };
+
+			mockTransactionService.listExpenses.and.resolveTo(page0);
+			store.expenseResource.reload();
+			await waitForResources();
+			expect(store.expenses().content).toEqual(page0Items);
+
+			mockTransactionService.listExpenses.and.resolveTo(page1);
+			store.loadNextPage(TransactionType.EXPENSE);
+			await waitForResources();
+
+			expect(store.expenses().content).toEqual([...page0Items, ...page1Items]);
 		});
 	});
 

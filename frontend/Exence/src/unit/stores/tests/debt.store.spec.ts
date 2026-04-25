@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection, ɵEffectScheduler } from '@angular/core';
+import { provideZonelessChangeDetection, signal, ɵEffectScheduler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -11,8 +11,11 @@ import { DebtType } from '../../../app/data-model/modules/debt/DebtType';
 import { SupportedCurrency } from '../../../app/data-model/modules/user-settings/SupportedCurrency';
 import { DebtStore } from '../../../app/private/debts/debt.store';
 import { DebtService } from '../../../app/private/debts/debt.service';
+import { AchievementStore } from '../../../app/private/profile-dialog/achievements/achievement.store';
+import { AuditLogStore } from '../../../app/shared/audit-log/audit-log.store';
 import { CurrencyService } from '../../../app/shared/currency.service';
 import { SnackbarService } from '../../../app/shared/snackbar/snackbar.service';
+import { WorkspaceService } from '../../../app/shared/workspace.service';
 
 // Fixtures
 const mockDebt: DebtGet = {
@@ -70,6 +73,9 @@ describe('DebtStore', () => {
 				{ provide: DebtService, useValue: mockDebtService },
 				{ provide: SnackbarService, useValue: mockSnackbarService },
 				{ provide: TranslocoService, useValue: mockTranslocoService },
+				{ provide: AuditLogStore, useValue: { resetUser: jasmine.createSpy('resetUser'), resetAdmin: jasmine.createSpy('resetAdmin') } },
+				{ provide: AchievementStore, useValue: { reload: jasmine.createSpy('reload') } },
+				{ provide: WorkspaceService, useValue: { currentWorkspace: signal(null).asReadonly() } },
 				CurrencyService,
 			],
 		});

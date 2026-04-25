@@ -44,7 +44,7 @@ export function refreshTokenInterceptor(
 	const location = inject(Location);
 	const matDialog = inject(MatDialog);
 
-	if (req.url.includes('/api/auth') || location.path().includes('/public/')) {
+	if ((req.url.includes('/api/auth') && !req.url.includes('/api/auth/refresh-token')) || location.path().includes('/public/')) {
 		return next(req);
 	}
 

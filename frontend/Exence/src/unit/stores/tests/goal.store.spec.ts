@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection, ɵEffectScheduler } from '@angular/core';
+import { provideZonelessChangeDetection, signal, ɵEffectScheduler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -9,8 +9,11 @@ import { GoalStatus } from '../../../app/data-model/modules/goal/GoalStatus';
 import { SupportedCurrency } from '../../../app/data-model/modules/user-settings/SupportedCurrency';
 import { GoalStore } from '../../../app/private/goals/goal.store';
 import { GoalService } from '../../../app/private/goals/goal.service';
+import { AchievementStore } from '../../../app/private/profile-dialog/achievements/achievement.store';
+import { AuditLogStore } from '../../../app/shared/audit-log/audit-log.store';
 import { CurrencyService } from '../../../app/shared/currency.service';
 import { SnackbarService } from '../../../app/shared/snackbar/snackbar.service';
+import { WorkspaceService } from '../../../app/shared/workspace.service';
 
 // Fixtures
 const mockGoal: GoalGet = {
@@ -63,6 +66,9 @@ describe('GoalStore', () => {
 				{ provide: GoalService, useValue: mockGoalService },
 				{ provide: SnackbarService, useValue: mockSnackbarService },
 				{ provide: TranslocoService, useValue: mockTranslocoService },
+				{ provide: AuditLogStore, useValue: { resetUser: jasmine.createSpy('resetUser'), resetAdmin: jasmine.createSpy('resetAdmin') } },
+				{ provide: AchievementStore, useValue: { reload: jasmine.createSpy('reload') } },
+				{ provide: WorkspaceService, useValue: { currentWorkspace: signal(null).asReadonly() } },
 				CurrencyService,
 			],
 		});
