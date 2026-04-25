@@ -32,6 +32,7 @@ const mockTransloco = {
 
 const mockDisplay = {
 	isSm: signal(true),
+	isMd: signal(true),
 	getObserverByName: () => signal(true),
 };
 

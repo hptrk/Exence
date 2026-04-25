@@ -8,6 +8,7 @@ import { enUS } from 'date-fns/locale';
 import { EMPTY } from 'rxjs';
 import { CreateTransactionDialogComponent } from '../../../app/private/transactions-and-categories/create-transaction-dialog/create-transaction-dialog.component';
 import { CategoryService } from '../../../app/private/transactions-and-categories/category.service';
+import { ConfirmExitService } from '../../../app/shared/confirm-exit.service';
 import { CurrencyService } from '../../../app/shared/currency.service';
 import { DialogRef } from '../../../app/shared/dialog/dialog.service';
 import { ExchangeRateService } from '../../../app/shared/exchange-rate.service';
@@ -30,6 +31,13 @@ const mockTransloco = {
 	langChanges$: EMPTY,
 	_loadDependencies: () => EMPTY,
 	getActiveLang: () => 'en',
+};
+
+const mockConfirmExitService = {
+	showConfirmDialog: () => Promise.resolve(true),
+	registerForm: () => {},
+	unregisterForm: () => {},
+	hasChanges: () => false,
 };
 
 describe('CreateTransactionDialogComponent', () => {
@@ -65,6 +73,7 @@ describe('CreateTransactionDialogComponent', () => {
 				{ provide: ExchangeRateService, useValue: exchangeRateServiceSpy },
 				{ provide: CurrencyService, useValue: mockCurrencyService },
 				{ provide: DialogRef, useValue: mockDialogRef },
+				{ provide: ConfirmExitService, useValue: mockConfirmExitService },
 				provideDateFnsAdapter(),
 				{ provide: MAT_DATE_LOCALE, useValue: enUS },
 			],
