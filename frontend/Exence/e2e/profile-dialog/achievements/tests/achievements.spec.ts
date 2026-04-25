@@ -49,6 +49,7 @@ test.describe('Achievements - All tab - structure', () => {
 	});
 
 	test('should show all achievements in the all tab', async ({ page }) => {
+		await page.waitForTimeout(150);
 		const count = await getAchievementAllRows(page).count();
 		expect(count).toBeGreaterThan(0);
 	});

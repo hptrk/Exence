@@ -14,7 +14,7 @@ import {
 	getProfileWorkspaceMenuTitle,
 	getProfileWorkspaceName,
 } from '../locators/profile-dialog-locators';
-import { setupProfileDialog } from '../utils/setup-profile-dialog.util';
+import { openProfileDialog, setupProfileDialog } from '../utils/setup-profile-dialog.util';
 import { getAddWorkspaceDialog } from '../workspaces/locators/workspaces-locators';
 import { createWorkspace } from '../workspaces/utils/create-workspace.utils';
 
@@ -166,6 +166,7 @@ test.describe('Profile dialog sidebar - workspace tab changes', () => {
 		await getProfileWorkspaceBtn(page).click();
 		await expect(getProfileWorkspaceMenuTitle(page)).toBeVisible();
 		await getProfileWorkspaceMenuItems(page).filter({ hasNotText: 'new workspace' }).click();
+		await openProfileDialog(page);
 		await expect(getProfileWorkspaceName(page)).not.toHaveText('new workspace');
 	});
 });

@@ -810,7 +810,7 @@ test.describe('Edit goal dialog - unsaved changes guard', () => {
 		await getEditGoalCancelBtn(page).click();
 		await getGoalConfirmExitCancelBtn(page).click();
 		await expect(getEditGoalDialog(page)).toBeVisible();
-		await getGoalConfirmExitCancelBtn(page).click();
+		await getEditGoalCancelBtn(page).click();
 		await getGoalConfirmExitContinueBtn(page).click();
 		await getGoalListRows(page).first().click();
 		await deleteAllGoals(page);

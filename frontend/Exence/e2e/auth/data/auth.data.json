@@ -17,7 +17,9 @@
 		"login": {
 			"email": "captainwinnie2@exence.com",
 			"password": "Password123!",
-			"username": "Winston2"
+			"username": "Winston2",
+			"email2": "captainwinnie@exence.com",
+			"username2": "Winnie"
 		},
 		"register": {
 			"username": "Test User",

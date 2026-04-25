@@ -1,6 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 
-export const getWorkspaceActivityFilterBtn = (page: Page): Locator => page.getByTestId('filter-menu-btn');
+export const getWorkspaceActivityFilterBtn = (page: Page): Locator =>
+	page.getByTestId('profileDialog').getByTestId('filter-menu-btn');
 export const getWorkspaceActivityFilterBtnInner = (page: Page): Locator =>
 	getWorkspaceActivityFilterBtn(page).getByTestId('btn');
 export const getWorkspaceActivityFilterBadge = (page: Page): Locator =>
@@ -13,11 +14,11 @@ export const getAuditLogRowByAction = (page: Page, actionLabel: string): Locator
 export const getAuditLogEmptyState = (page: Page): Locator =>
 	page.locator('ex-audit-log-list').getByTestId('empty-state');
 
-export const getAuditLogExpandedDetails = (page: Page): Locator => page.locator('.audit-details').first();
+export const getAuditLogExpandedDetails = (page: Page): Locator => page.locator('.audit-details');
 
 export const getDateColumnHeader = (page: Page): Locator =>
 	page.locator('ex-audit-log-list th').filter({ hasText: 'Date' });
 
-export const getChangeTypeSelect = (page: Page): Locator => page.getByTestId('audit-log-change-type-select');
-export const getAuditFilterOption = (page: Page, label: string): Locator =>
-	page.getByRole('option', { name: label });
+export const getChangeTypeSelect = (page: Page): Locator =>
+	page.getByTestId('audit-log-change-type-select').locator('.mat-mdc-select-arrow-wrapper');
+export const getAuditFilterOption = (page: Page, label: string): Locator => page.getByRole('option', { name: label });

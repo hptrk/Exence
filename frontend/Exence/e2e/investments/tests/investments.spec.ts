@@ -508,6 +508,7 @@ test.describe('Edit investment dialog - structure', () => {
 		await getEditInvestmentCancelBtn(page).click();
 		await getInvestmentConfirmExitContinueBtn(page).last().click();
 		await getInvestmentListRows(page).first().click();
+		await deleteAllInvestments(page);
 	});
 });
 

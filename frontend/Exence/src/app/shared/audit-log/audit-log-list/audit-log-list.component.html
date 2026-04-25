@@ -30,7 +30,7 @@
 </ex-data-table>
 
 <ng-template #expandTmpl let-row>
-	<div class="audit-details">
+	<div class="audit-details" data-testid="audit-details">
 		<div class="detail">
 			<mat-label class="text-truncate">{{ 'auditLog.changedAt' | translate }}</mat-label>
 			<div class="fs-6 pt-lg-1">{{ row.changedAt | date: 'yy/MM/dd HH:mm' }}</div>

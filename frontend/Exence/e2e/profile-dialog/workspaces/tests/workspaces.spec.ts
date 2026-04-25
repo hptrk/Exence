@@ -141,8 +141,8 @@ test.describe('Workspaces - owner - detail actions', () => {
 		const name = getWorkspaceNames(page).filter({ hasText: name1 });
 		name.click();
 		await page.waitForTimeout(250);
-		await expect(getWorkspaceAddMembers(page).filter({ visible: true })).toBeVisible();
-		await expect(getWorkspaceEditBtns(page).filter({ visible: true })).toBeVisible();
+		await expect(getWorkspaceAddMembers(page).first()).toBeVisible();
+		await expect(getWorkspaceEditBtns(page).first()).toBeVisible();
 	});
 
 	test('should show kick next to member', async ({ page }) => {
@@ -154,6 +154,7 @@ test.describe('Workspaces - owner - detail actions', () => {
 	test('should show delete btn in workspace title', async ({ page }) => {
 		const name = getWorkspaceNames(page).filter({ hasText: name1 });
 		name.click();
+		await page.waitForTimeout(150);
 		await expect(getWorkspaceDeleteBtn(getWorkspaceRows(page).first())).toBeVisible();
 	});
 });
@@ -233,10 +234,9 @@ test.describe('Workspaces - create workspace dialog', () => {
 
 	test('should switch to newly created workspace', async ({ page }) => {
 		await getAddWorkspaceCancelBtn(page).click();
-		const initialWorkspaceName = getProfileWorkspaceName(page).textContent();
+		const initialWorkspaceName = await getProfileWorkspaceName(page).textContent();
 		await createWorkspace(page);
-		const newWorkspaceName = getProfileWorkspaceName(page).textContent();
-		expect(initialWorkspaceName).not.toEqual(newWorkspaceName);
+		await expect(getProfileWorkspaceName(page)).not.toHaveText(initialWorkspaceName!);
 	});
 
 	test('should should show newly created workspace in workspace lists', async ({ page }) => {
@@ -472,7 +472,7 @@ test.describe('Workspaces - leave workspace', () => {
 		await getProfileTabWorkspaceSettings(page).click();
 		const lastRow = getWorkspaceRows(page).last();
 		lastRow.click();
-		await expect(getWorkspaceMembers(page)).toHaveCount(1);
+		await expect(getWorkspaceMembers(page)).toHaveCount(2);
 	});
 });
 

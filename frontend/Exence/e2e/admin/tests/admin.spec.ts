@@ -1,5 +1,15 @@
 import { expect, test } from '@playwright/test';
-import { setupAdmin } from '../utils/setup-admin.utils';
+import { createUniqueName, fillAndBlur } from '../../form/utils/form-utils';
+import { getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
+import {
+	getEditSaveBtn,
+	getEditSaveBtnInner,
+	getEditTitleInput,
+	getEditTransactionDialog,
+} from '../../transaction/edit-transaction-dialog/locators/edit-transaction-dialog-locators';
+import { getRowActionEdit } from '../../transaction/locators/transaction-list-locators';
+import { getFilterBadge, getFilterMenuBtn } from '../../transactions/locators/transactions-locators';
+import adminData from '../data/admin.data.json';
 import {
 	getAddPathChipBtn,
 	getAddPathDialog,
@@ -33,7 +43,6 @@ import {
 	getFirstRemovableChip,
 	getInfoBtnInCard,
 	getLeaderboardByTitle,
-	getPageTransactionList,
 	getPathChipByText,
 	getPathChips,
 	getRegConfirmClearBtn,
@@ -66,17 +75,7 @@ import {
 	getTransactionRowMenuTrigger,
 	getUpdatedTransactionAuditRow,
 } from '../locators/admin-locators';
-import { getFilterBadge, getFilterMenuBtn } from '../../transactions/locators/transactions-locators';
-import { getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
-import { createUniqueName, fillAndBlur } from '../../form/utils/form-utils';
-import { getRowActionEdit } from '../../transaction/locators/transaction-list-locators';
-import {
-	getEditSaveBtn,
-	getEditSaveBtnInner,
-	getEditTitleInput,
-	getEditTransactionDialog,
-} from '../../transaction/edit-transaction-dialog/locators/edit-transaction-dialog-locators';
-import adminData from '../data/admin.data.json';
+import { setupAdmin } from '../utils/setup-admin.utils';
 
 // Tab layout
 test.describe('Admin - tab layout on large screens', () => {
@@ -235,6 +234,7 @@ test.describe('Admin - Logs tab', () => {
 	test('should show mat-badge on filter button when filter is applied', async ({ page }) => {
 		await expect(getFilterBadge(page)).not.toBeVisible();
 		await getFilterMenuBtn(page).click();
+		await page.waitForTimeout(150);
 		await getAuditChangeTypeSelect(page).click();
 		await getAuditFilterOption(page, adminData.auditLog.createdLabel).click();
 		await expect(getFilterBadge(page)).toBeVisible();

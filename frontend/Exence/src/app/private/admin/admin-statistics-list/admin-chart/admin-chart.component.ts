@@ -17,6 +17,7 @@ import { AdminStatisticsService } from '../../admin-statistic.service';
 	template: `
 		@if (syntheticWidget() && payload()) {
 			<ex-chart-widget
+				data-testid="chart-widget"
 				[widget]="syntheticWidget()!"
 				[payload]="payload()"
 				noRequest

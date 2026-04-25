@@ -25,6 +25,8 @@ import {
 	getDebtLentListAddBtn,
 	getDebtLentListRows,
 	getDebtMenuTrigger,
+	getDebtsEmptyState,
+	getDebtStatCards,
 } from '../locators/debts-locators';
 
 export interface CreateDebtData {
@@ -75,6 +77,7 @@ export async function createDebt(page: Page, openBtn: Locator, data: Partial<Cre
 }
 
 export async function deleteDebt(page: Page, list: Locator): Promise<void> {
+	await page.waitForTimeout(150);
 	const firstRow = list.getByTestId('data-row').first();
 	await firstRow.click();
 	await getDebtMenuTrigger(firstRow).click();
@@ -82,6 +85,11 @@ export async function deleteDebt(page: Page, list: Locator): Promise<void> {
 }
 
 export async function deleteAllDebts(page: Page): Promise<void> {
+	await Promise.race([
+		getDebtsEmptyState(page).waitFor({ state: 'visible' }),
+		getDebtStatCards(page).waitFor({ state: 'visible' }),
+	]);
+
 	while (await getDebtLentListRows(page).first().isVisible()) {
 		await deleteDebt(page, getDebtLentList(page));
 		await page.waitForTimeout(100);

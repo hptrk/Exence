@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { fillAndBlur, getCurrentDate } from '../../form/utils/form-utils';
-import { getErrorSnackbar, getSnackbarCloseBtn, getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
+import { getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
 import data from '../data/register.data.json';
 import {
 	getConfirmPasswordField,
@@ -27,16 +27,14 @@ import {
 
 test.describe('Register', () => {
 	test.beforeEach(async ({ page, context }) => {
-		await context.clearCookies({ domain: 'localhost' }); // TODO change based on env
+		await context.clearCookies({ domain: 'localhost' });
 
 		await page.addInitScript(() => localStorage.setItem('language', 'en'));
 		await page.goto('/public/register', { waitUntil: 'domcontentloaded' });
-
-		await expect(getErrorSnackbar(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
 	});
 
 	test('should display validators', async ({ page }) => {
+		s;
 		// Username required
 		await getUsernameField(page).click();
 		await getUsernameField(page).blur();

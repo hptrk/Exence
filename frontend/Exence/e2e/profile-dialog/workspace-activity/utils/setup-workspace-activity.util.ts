@@ -3,11 +3,24 @@ import { registerAndLogin } from '../../../auth/auth';
 import { openProfileDialog } from '../../utils/setup-profile-dialog.util';
 import { getProfileActivity, getProfileDialog } from '../../locators/profile-dialog-locators';
 import { getAuditLogList } from '../locators/workspace-activity-locators';
-import { getTransactionList, getTransactionRow, getTransactionMenuTrigger } from '../../../transactions/locators/transactions-locators';
+import {
+	getTransactionList,
+	getTransactionRow,
+	getTransactionMenuTrigger,
+} from '../../../transactions/locators/transactions-locators';
 import { createDefaultCategoryOnTransactionsPage } from '../../../transactions/utils/setup-transactions.utils';
-import { getListAddBtn, getRowActionDelete, getRowActionEdit } from '../../../transaction/locators/transaction-list-locators';
+import {
+	getListAddBtn,
+	getRowActionDelete,
+	getRowActionEdit,
+} from '../../../transaction/locators/transaction-list-locators';
 import { getCreateTransactionDialog } from '../../../transaction/locators/transaction-dialog-locators';
-import { getEditSaveBtn, getEditSaveBtnInner, getEditTitleInput, getEditTransactionDialog } from '../../../transaction/edit-transaction-dialog/locators/edit-transaction-dialog-locators';
+import {
+	getEditSaveBtn,
+	getEditSaveBtnInner,
+	getEditTitleInput,
+	getEditTransactionDialog,
+} from '../../../transaction/edit-transaction-dialog/locators/edit-transaction-dialog-locators';
 import { createExpense } from '../../../common/utils/create-transaction.utils';
 import { createUniqueName, fillAndBlur } from '../../../form/utils/form-utils';
 import activityData from '../data/workspace-activity.data.json';
@@ -64,7 +77,6 @@ export async function setupWorkspaceActivityWithActions(page: Page, context: Bro
 
 	const updatedRow = getTransactionRow(page, activityData.transaction.updatedTitle);
 	await updatedRow.waitFor({ state: 'visible' });
-	await updatedRow.click();
 	await getTransactionMenuTrigger(page).waitFor({ state: 'visible' });
 	await getTransactionMenuTrigger(page).click();
 	await getRowActionDelete(page).click();

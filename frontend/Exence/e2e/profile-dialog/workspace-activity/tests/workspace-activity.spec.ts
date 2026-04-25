@@ -25,7 +25,7 @@ test.describe('Workspace Activity - Filter button - large screen', () => {
 
 	test('should show filter button with icon and text on large screens', async ({ page }) => {
 		await expect(getWorkspaceActivityFilterBtn(page)).toBeVisible();
-		await expect(getWorkspaceActivityFilterBtnInner(page)).toContainText('Filter');
+		await expect(getWorkspaceActivityFilterBtnInner(page)).toContainText('Add filter');
 	});
 });
 
@@ -83,21 +83,19 @@ test.describe('Workspace Activity - Audit log list - expandable rows', () => {
 
 	test('should expand row to show details when clicked', async ({ page }) => {
 		await getAuditLogRows(page).first().click();
-		await expect(getAuditLogExpandedDetails(page)).toBeVisible();
+		await expect(getAuditLogExpandedDetails(page).first()).toBeVisible();
 	});
 
 	test('should show changed values with arrow in expanded detail for Updated rows', async ({ page }) => {
 		const updatedRow = getAuditLogRowByAction(page, data.auditLog.updatedLabel);
 		await updatedRow.click();
-		await expect(getAuditLogExpandedDetails(page)).toBeVisible();
-		await expect(getAuditLogExpandedDetails(page)).toContainText(data.changeArrow);
+		await expect(getAuditLogExpandedDetails(page).filter({ hasText: data.changeArrow })).toBeVisible();
 	});
 
 	test('should show the actual updated value in expanded detail for Updated rows', async ({ page }) => {
 		const updatedRow = getAuditLogRowByAction(page, data.auditLog.updatedLabel);
 		await updatedRow.click();
-		await expect(getAuditLogExpandedDetails(page)).toBeVisible();
-		await expect(getAuditLogExpandedDetails(page)).toContainText(data.transaction.updatedTitle);
+		await expect(getAuditLogExpandedDetails(page).filter({ hasText: data.transaction.updatedTitle })).toBeVisible();
 	});
 });
 
@@ -110,7 +108,7 @@ test.describe('Workspace Activity - Filter - refetch', () => {
 	});
 
 	test('should refetch audit logs via /api/audit-logs when filter is applied', async ({ page }) => {
-		await getWorkspaceActivityFilterBtn(page).click();
+		await getWorkspaceActivityFilterBtn(page).last().click();
 		const responsePromise = page.waitForResponse(
 			resp => resp.url().includes('/audit-logs') && resp.status() === 200,
 		);

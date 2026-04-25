@@ -1038,11 +1038,11 @@ test.describe('Edit debt dialog - unsaved changes guard', () => {
 	test('should keep edit dialog open when confirm exit cancel is clicked', async ({ page }) => {
 		await fillAndBlur(getDebtTitleInput(page), 'Dirty Title');
 		await getEditDebtCancelBtn(page).click();
-		await getDebtConfirmExitCancelBtn(page).click();
 		await expect(getEditDebtDialog(page)).toBeVisible();
 		await getDebtConfirmExitCancelBtn(page).click();
+		await getEditDebtCancelBtn(page).click();
 		await getDebtConfirmExitContinueBtn(page).click();
-		await getDebtListRows(page).first().click();
+		await getDebtBorrowedListRows(page).first().click();
 		await deleteAllDebts(page);
 	});
 

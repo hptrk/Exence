@@ -25,6 +25,7 @@ import {
 	getGoalListAddBtn,
 	getGoalListRows,
 	getGoalMenuTrigger,
+	getGoalStatCards,
 	getGoalsEmptyState,
 } from '../locators/goals-locators';
 
@@ -97,6 +98,11 @@ export async function deleteGoal(page: Page): Promise<void> {
 }
 
 export async function deleteAllGoals(page: Page): Promise<void> {
+	await Promise.race([
+		getGoalsEmptyState(page).waitFor({ state: 'visible' }),
+		getGoalStatCards(page).waitFor({ state: 'visible' }),
+	]);
+
 	while (!(await getGoalsEmptyState(page).isVisible())) {
 		await deleteGoal(page);
 		await page.waitForTimeout(100);

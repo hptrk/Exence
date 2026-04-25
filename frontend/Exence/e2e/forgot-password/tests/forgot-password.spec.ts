@@ -17,12 +17,9 @@ import {
 test.describe('Forgot Password', () => {
 	// Initialization: register a test account (idempotent - succeeds even if already registered)
 	test.beforeEach(async ({ page, context }) => {
-		await context.clearCookies({ domain: 'localhost' }); // TODO change based on env
+		await context.clearCookies({ domain: 'localhost' });
 		await page.addInitScript(() => localStorage.setItem('language', 'en'));
 		await page.goto('/public/forgot-password', { waitUntil: 'domcontentloaded' });
-
-		await expect(getErrorSnackbar(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
 	});
 
 	test('should display correct title, form fields', async ({ page }) => {

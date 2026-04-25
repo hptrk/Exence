@@ -31,6 +31,7 @@ export async function createWorkspace(page: Page, data?: Partial<CreateWorkspace
 		.filter({ hasText: data?.baseCurrency ?? 'HUF' })
 		.click();
 	await getAddWorkspaceCreateBtn(page).click();
+	await expect(getAddWorkspaceDialog(page)).not.toBeVisible();
 }
 
 export async function inviteUserToWorkspace(page: Page, email: string, workspaceName: string): Promise<void> {
