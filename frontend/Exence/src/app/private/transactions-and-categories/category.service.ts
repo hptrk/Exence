@@ -9,9 +9,7 @@ import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
 import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate';
 import { CategoryPatch } from '../../data-model/modules/category/CategoryPatch';
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class CategoryService {
 	private readonly http = inject(HttpService);
 

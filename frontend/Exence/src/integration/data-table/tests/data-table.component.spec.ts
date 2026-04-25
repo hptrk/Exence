@@ -161,7 +161,7 @@ describe('DataTableComponent', () => {
 			fixture.componentRef.setInput('isLoading', true);
 			fixture.detectChanges();
 			expect(getSkeletonLoader(fixture.nativeElement)).toBeTruthy();
-			expect((getFooterRow(fixture.nativeElement) as HTMLElement)?.hidden).toBeFalse();
+			expect((getFooterRow(fixture.nativeElement) as HTMLElement).hidden).toBeFalse();
 		});
 
 		it('should hide skeleton loader footer row when not loading', () => {
@@ -170,7 +170,7 @@ describe('DataTableComponent', () => {
 			fixture.componentRef.setInput('data', ROWS);
 			fixture.componentRef.setInput('isLoading', false);
 			fixture.detectChanges();
-			expect((getFooterRow(fixture.nativeElement) as HTMLElement)?.hidden).toBeTrue();
+			expect((getFooterRow(fixture.nativeElement) as HTMLElement).hidden).toBeTrue();
 		});
 	});
 

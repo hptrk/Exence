@@ -3,12 +3,16 @@ import { RouterModule } from '@angular/router';
 import { TranslocoService } from '@jsverse/transloco';
 import { CurrencyService } from '../shared/currency.service';
 import { DisplayThemeService } from '../shared/display-theme.service';
+import { DialogService } from '../shared/dialog/dialog.service';
+import { ExchangeRateService } from '../shared/exchange-rate.service';
 import { LanguageService } from './profile-dialog/user-settings/language-select/language.service';
 import { UserSettingsService } from './profile-dialog/user-settings/user-settinngs.service';
 import { WorkspaceService } from '../shared/workspace.service';
+import { CategoryService } from './transactions-and-categories/category.service';
 import { CategoryStore } from './transactions-and-categories/category.store';
 import { RecurringService } from './transactions-and-categories/recurring.service';
 import { RecurringStore } from './transactions-and-categories/recurring.store';
+import { TransactionService } from './transactions-and-categories/transaction.service';
 import { TransactionStore } from './transactions-and-categories/transaction.store';
 import { StatisticService } from './statistics/statistic.service';
 import { AdminStatisticsService } from './admin/admin-statistic.service';
@@ -36,6 +40,10 @@ import { InvestmentStore } from './investments/investment.store';
 		DebtStore,
 		InvestmentService,
 		InvestmentStore,
+		DialogService,
+		CategoryService,
+		TransactionService,
+		ExchangeRateService,
 	],
 })
 export class PrivateComponent {

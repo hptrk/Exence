@@ -9,9 +9,7 @@ import { getFilters } from '../../shared/util/utils';
 import { TransactionGet } from '../../data-model/modules/transaction/TransactionGet';
 import { TransactionCreate } from '../../data-model/modules/transaction/TransactionCreate';
 import { TransactionPatch } from '../../data-model/modules/transaction/TransactionPatch';
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class TransactionService {
 	private readonly http = inject(HttpService);
 
