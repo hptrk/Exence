@@ -73,7 +73,13 @@ describe('DebtStore', () => {
 				{ provide: DebtService, useValue: mockDebtService },
 				{ provide: SnackbarService, useValue: mockSnackbarService },
 				{ provide: TranslocoService, useValue: mockTranslocoService },
-				{ provide: AuditLogStore, useValue: { resetUser: jasmine.createSpy('resetUser'), resetAdmin: jasmine.createSpy('resetAdmin') } },
+				{
+					provide: AuditLogStore,
+					useValue: {
+						resetUser: jasmine.createSpy('resetUser'),
+						resetAdmin: jasmine.createSpy('resetAdmin'),
+					},
+				},
 				{ provide: AchievementStore, useValue: { reload: jasmine.createSpy('reload') } },
 				{ provide: WorkspaceService, useValue: { currentWorkspace: signal(null).asReadonly() } },
 				CurrencyService,

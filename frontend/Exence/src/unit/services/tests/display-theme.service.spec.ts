@@ -1,23 +1,40 @@
-import { provideZonelessChangeDetection } from '@angular/core';
+import { provideZonelessChangeDetection, WritableSignal, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
+import { Role } from '../../../app/data-model/modules/auth/Role';
+import { UserGet } from '../../../app/data-model/modules/auth/UserGet';
 import { DisplayTheme, DisplayThemeService, themes } from '../../../app/shared/display-theme.service';
+import { LocalStorageService } from '../../../app/shared/local-storage.service';
+import { CurrentUserService } from '../../../app/shared/user/current-user.service';
 
-const STORAGE_KEY = 'themePreference';
+const BARE_KEY = 'themePreference';
+const mockUser: UserGet = { id: 42, username: 'test', email: 'test@test.com', isVerified: true, role: Role.USER };
+
+function scopedKey(userId: number): string {
+	return `${userId}:themePreference`;
+}
 
 describe('DisplayThemeService', () => {
 	let service: DisplayThemeService;
+	let userSignal: WritableSignal<UserGet | null | undefined>;
 
 	function create(): void {
+		userSignal = signal<UserGet | null | undefined>(null);
 		TestBed.configureTestingModule({
-			providers: [provideZonelessChangeDetection(), DisplayThemeService],
+			providers: [
+				provideZonelessChangeDetection(),
+				DisplayThemeService,
+				LocalStorageService,
+				{ provide: CurrentUserService, useValue: { user: userSignal.asReadonly() } },
+			],
 		});
 		service = TestBed.inject(DisplayThemeService);
 		TestBed.flushEffects();
 	}
 
 	afterEach(() => {
-		localStorage.removeItem(STORAGE_KEY);
+		localStorage.removeItem(BARE_KEY);
+		localStorage.removeItem(scopedKey(mockUser.id));
 		themes.forEach(t => document.documentElement.classList.remove(t.cssClass));
 	});
 
@@ -27,7 +44,7 @@ describe('DisplayThemeService', () => {
 	});
 
 	it('reads "secondary" preference from localStorage on init', () => {
-		localStorage.setItem(STORAGE_KEY, 'secondary');
+		localStorage.setItem(BARE_KEY, 'secondary');
 		create();
 		expect(service.displayThemeSignal()).toBe(service.preferredThemes().secondary.name);
 	});
@@ -40,17 +57,35 @@ describe('DisplayThemeService', () => {
 	});
 
 	it('toggleTheme switches from secondary back to primary', () => {
-		localStorage.setItem(STORAGE_KEY, 'secondary');
+		localStorage.setItem(BARE_KEY, 'secondary');
 		create();
 		const primary = service.preferredThemes().primary.name;
 		service.toggleTheme();
 		expect(service.displayThemeSignal()).toBe(primary);
 	});
 
-	it('toggleTheme persists the new preference to localStorage', () => {
+	it('toggleTheme persists the new preference to localStorage (bare key when unauthenticated)', () => {
 		create();
 		service.toggleTheme();
-		expect(localStorage.getItem(STORAGE_KEY)).toBe('secondary');
+		expect(localStorage.getItem(BARE_KEY)).toBe('secondary');
+	});
+
+	it('toggleTheme persists to scoped key when user is set', () => {
+		create();
+		userSignal.set(mockUser);
+		service.toggleTheme();
+		expect(localStorage.getItem(scopedKey(mockUser.id))).toBe('secondary');
+		expect(localStorage.getItem(BARE_KEY)).toBeNull();
+	});
+
+	it('re-reads from scoped key when user signal changes to authenticated', () => {
+		localStorage.setItem(scopedKey(mockUser.id), 'secondary');
+		create();
+		expect(service.displayThemeSignal()).toBe(service.preferredThemes().primary.name);
+
+		userSignal.set(mockUser);
+		TestBed.flushEffects();
+		expect(service.displayThemeSignal()).toBe(service.preferredThemes().secondary.name);
 	});
 
 	it('setPreferredThemes updates both primary and secondary theme data', () => {

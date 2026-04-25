@@ -172,10 +172,7 @@ describe('HttpService', () => {
 
 			service.delete('/api/items/1', undefined, settings).subscribe({
 				error: () => {
-					expect(mockErrorService.handleError).toHaveBeenCalledOnceWith(
-						jasmine.any(Object),
-						settings,
-					);
+					expect(mockErrorService.handleError).toHaveBeenCalledOnceWith(jasmine.any(Object), settings);
 					done();
 				},
 			});

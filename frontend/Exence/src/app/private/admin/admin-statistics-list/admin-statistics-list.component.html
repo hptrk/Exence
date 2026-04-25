@@ -9,7 +9,12 @@
 					[customTitle]="'admin.statistics.card.title' | translate"
 				/>
 			} @else {
-				<ex-leaderboard data-testid="leaderboard" class="flex-grow-1" [type]="cardType" [title]="cardData[cardType]! | translate" />
+				<ex-leaderboard
+					data-testid="leaderboard"
+					class="flex-grow-1"
+					[type]="cardType"
+					[title]="cardData[cardType]! | translate"
+				/>
 			}
 		}
 	</article>

@@ -4,7 +4,12 @@
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2" [formGroup]="form" (submit)="add()">
 		<mat-form-field>
 			<mat-label>{{ 'admin.configurations.systemSettings.addPath' | translate }}</mat-label>
-			<input data-testid="add-path-input" matInput [formControl]="form.controls.path" (keydown.enter)="add(); $event.preventDefault()" />
+			<input
+				data-testid="add-path-input"
+				matInput
+				[formControl]="form.controls.path"
+				(keydown.enter)="add(); $event.preventDefault()"
+			/>
 		</mat-form-field>
 	</form>
 

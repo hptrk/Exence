@@ -141,7 +141,11 @@ test.describe('Sidebar - authenticated, xl (>=1280px)', () => {
 			localStorage.removeItem('themePreference');
 		});
 		await attemptLogin(page, 'user');
-		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.evaluate(() => {
+			Object.keys(localStorage)
+				.filter(k => k.endsWith(':themePreference'))
+				.forEach(k => localStorage.removeItem(k));
+		});
 		await page.goto('/dashboard', { waitUntil: 'domcontentloaded' });
 	});
 
@@ -246,15 +250,23 @@ test.describe('Sidebar - authenticated, xl (>=1280px)', () => {
 	});
 
 	test('should theme changer work', async ({ page }) => {
-		const initial = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const initial = await page.evaluate(
+			() => Object.keys(localStorage).find(k => k.endsWith(':themePreference')) ?? null,
+		);
 		expect(initial).toBeNull();
 
 		await getThemeBtn(page).locator('button').click();
-		const after1 = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const after1 = await page.evaluate(() => {
+			const key = Object.keys(localStorage).find(k => k.endsWith(':themePreference'));
+			return key ? localStorage.getItem(key) : null;
+		});
 		expect(after1).toBe('secondary');
 
 		await getThemeBtn(page).locator('button').click();
-		const after2 = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const after2 = await page.evaluate(() => {
+			const key = Object.keys(localStorage).find(k => k.endsWith(':themePreference'));
+			return key ? localStorage.getItem(key) : null;
+		});
 		expect(after2).toBe('primary');
 	});
 
@@ -399,7 +411,11 @@ test.describe('Sidebar - authenticated, md (768–1279px)', () => {
 			localStorage.removeItem('themePreference');
 		});
 		await attemptLogin(page, 'user');
-		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.evaluate(() => {
+			Object.keys(localStorage)
+				.filter(k => k.endsWith(':themePreference'))
+				.forEach(k => localStorage.removeItem(k));
+		});
 		await page.goto('/dashboard', { waitUntil: 'domcontentloaded' });
 	});
 
@@ -523,7 +539,9 @@ test.describe('Sidebar - authenticated, md (768–1279px)', () => {
 	});
 
 	test('should theme changer work', async ({ page }) => {
-		const initial = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const initial = await page.evaluate(
+			() => Object.keys(localStorage).find(k => k.endsWith(':themePreference')) ?? null,
+		);
 		expect(initial).toBeNull();
 
 		await expect(getMoreActionsBtn(page)).toBeVisible();
@@ -531,14 +549,20 @@ test.describe('Sidebar - authenticated, md (768–1279px)', () => {
 		await getMoreActionsBtn(page).click();
 		await expect(getThemeMenuItem(page)).toBeVisible();
 		await getThemeMenuItem(page).click();
-		const after1 = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const after1 = await page.evaluate(() => {
+			const key = Object.keys(localStorage).find(k => k.endsWith(':themePreference'));
+			return key ? localStorage.getItem(key) : null;
+		});
 		expect(after1).toBe('secondary');
 		await expect(getThemeMenuItem(page)).not.toBeVisible();
 
 		await getMoreActionsBtn(page).click();
 		await expect(getThemeMenuItem(page)).toBeVisible();
 		await getThemeMenuItem(page).click();
-		const after2 = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const after2 = await page.evaluate(() => {
+			const key = Object.keys(localStorage).find(k => k.endsWith(':themePreference'));
+			return key ? localStorage.getItem(key) : null;
+		});
 		expect(after2).toBe('primary');
 		await expect(getThemeMenuItem(page)).not.toBeVisible();
 	});
@@ -665,7 +689,11 @@ test.describe('Sidebar - authenticated, mobile (<768px)', () => {
 			localStorage.removeItem('themePreference');
 		});
 		await attemptLogin(page, 'user');
-		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.evaluate(() => {
+			Object.keys(localStorage)
+				.filter(k => k.endsWith(':themePreference'))
+				.forEach(k => localStorage.removeItem(k));
+		});
 		await page.goto('/dashboard', { waitUntil: 'domcontentloaded' });
 	});
 
@@ -796,7 +824,10 @@ test.describe('Sidebar - authenticated, mobile (<768px)', () => {
 		await getThemeMenuItem(page).click();
 		await expect(getThemeMenuItem(page)).not.toBeVisible();
 
-		const after1 = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const after1 = await page.evaluate(() => {
+			const key = Object.keys(localStorage).find(k => k.endsWith(':themePreference'));
+			return key ? localStorage.getItem(key) : null;
+		});
 		expect(after1).toBe('secondary');
 
 		await getMobileMoreActionsBtn(page).click();
@@ -804,7 +835,10 @@ test.describe('Sidebar - authenticated, mobile (<768px)', () => {
 		await getThemeMenuItem(page).click();
 		await expect(getThemeMenuItem(page)).not.toBeVisible();
 
-		const after2 = await page.evaluate(() => localStorage.getItem('themePreference'));
+		const after2 = await page.evaluate(() => {
+			const key = Object.keys(localStorage).find(k => k.endsWith(':themePreference'));
+			return key ? localStorage.getItem(key) : null;
+		});
 		expect(after2).toBe('primary');
 	});
 });
@@ -819,7 +853,11 @@ test.describe('Sidebar - admin, xl (>=1280px)', () => {
 			localStorage.removeItem('themePreference');
 		});
 		await attemptLogin(page, 'admin');
-		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.evaluate(() => {
+			Object.keys(localStorage)
+				.filter(k => k.endsWith(':themePreference'))
+				.forEach(k => localStorage.removeItem(k));
+		});
 		await page.waitForURL('/dashboard');
 	});
 
@@ -861,7 +899,11 @@ test.describe('Sidebar - admin, md (768–1279px)', () => {
 			localStorage.removeItem('themePreference');
 		});
 		await attemptLogin(page, 'admin');
-		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.evaluate(() => {
+			Object.keys(localStorage)
+				.filter(k => k.endsWith(':themePreference'))
+				.forEach(k => localStorage.removeItem(k));
+		});
 		await page.waitForURL('/dashboard');
 	});
 
@@ -903,7 +945,11 @@ test.describe('Sidebar - admin, mobile (<768px)', () => {
 			localStorage.removeItem('themePreference');
 		});
 		await attemptLogin(page, 'admin');
-		await page.evaluate(() => localStorage.setItem('language', 'en'));
+		await page.evaluate(() => {
+			Object.keys(localStorage)
+				.filter(k => k.endsWith(':themePreference'))
+				.forEach(k => localStorage.removeItem(k));
+		});
 		await page.waitForURL('/dashboard');
 	});
 

@@ -115,10 +115,7 @@ describe('DialogService', () => {
 		openSpy = jasmine.createSpy('matDialog.open').and.returnValue(mockMatDialogRef);
 
 		TestBed.configureTestingModule({
-			providers: [
-				DialogService,
-				{ provide: MatDialog, useValue: { open: openSpy } },
-			],
+			providers: [DialogService, { provide: MatDialog, useValue: { open: openSpy } }],
 		});
 
 		service = TestBed.inject(DialogService);

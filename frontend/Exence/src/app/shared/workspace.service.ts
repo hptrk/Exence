@@ -9,14 +9,14 @@ import { WorkspaceRole } from '../data-model/modules/workspaces/WorkspaceRole';
 import { WorkspaceSettingsGet } from '../data-model/modules/workspaces/WorkspaceSettingsGet';
 import { WorkspaceSettingsPatchRequest } from '../data-model/modules/workspaces/WorkspaceSettingsPatchRequest';
 import { HttpService } from './http/http.service';
-
-const STORAGE_KEY = 'workspaceId';
+import { LocalStorageService, StorageKey } from './local-storage.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class WorkspaceService {
 	private readonly http = inject(HttpService);
+	private localStorageService = inject(LocalStorageService);
 
 	private baseUrl = '/api/workspaces';
 
@@ -24,18 +24,18 @@ export class WorkspaceService {
 	currentWorkspace = computed<WorkspaceGet | null>(() => this._workspace());
 
 	setWorkspace(workspace: WorkspaceGet): void {
-		localStorage.setItem(STORAGE_KEY, String(workspace.id));
+		this.localStorageService.setItem(StorageKey.WorkspaceId, String(workspace.id));
 		this._workspace.set(workspace);
 	}
 
 	reset(): void {
-		localStorage.removeItem(STORAGE_KEY);
+		this.localStorageService.removeItem(StorageKey.WorkspaceId);
 		this._workspace.set(null);
 	}
 
 	async init(defaultWorkspaceId?: number): Promise<void> {
 		const workspaces = await this.list();
-		const lastId = Number(localStorage.getItem(STORAGE_KEY));
+		const lastId = Number(this.localStorageService.getItem(StorageKey.WorkspaceId));
 		const last = workspaces.find(w => w.id === lastId);
 		const byDefault = defaultWorkspaceId ? workspaces.find(w => w.id === defaultWorkspaceId) : undefined;
 		const workspace = last ?? byDefault ?? workspaces.find(w => w.role === WorkspaceRole.OWNER)!;

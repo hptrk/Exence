@@ -1,7 +1,10 @@
 import { BrowserContext, expect, Page } from '@playwright/test';
 import { openProfileDialog, setupProfileDialog } from '../../utils/setup-profile-dialog.util';
 import { getProfileAchievements, getProfileDialog } from '../../locators/profile-dialog-locators';
-import { setupTransactions, createDefaultCategoryOnTransactionsPage } from '../../../transactions/utils/setup-transactions.utils';
+import {
+	setupTransactions,
+	createDefaultCategoryOnTransactionsPage,
+} from '../../../transactions/utils/setup-transactions.utils';
 import { getTransactionList } from '../../../transactions/locators/transactions-locators';
 import { getListAddBtn } from '../../../transaction/locators/transaction-list-locators';
 import { getCreateTransactionDialog } from '../../../transaction/locators/transaction-dialog-locators';

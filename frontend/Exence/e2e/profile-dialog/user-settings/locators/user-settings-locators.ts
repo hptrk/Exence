@@ -16,7 +16,8 @@ export const getThemeSelectError = (page: Page): Locator => page.getByTestId('th
 export const getLanguageList = (page: Page): Locator => page.getByTestId('language-list');
 export const getLanguageCards = (page: Page): Locator => page.locator('[data-testid^="language-card-"]');
 export const getLanguageCard = (page: Page, lang: string): Locator => page.getByTestId(`language-card-${lang}`);
-export const getSelectedLanguageCard = (page: Page): Locator => page.locator('[data-testid^="language-card-"].selected');
+export const getSelectedLanguageCard = (page: Page): Locator =>
+	page.locator('[data-testid^="language-card-"].selected');
 
 // Save / Cancel / Spinner
 export const getUserSettingsSaveBtn = (page: Page): Locator => page.getByTestId('user-settings-save-btn');
