@@ -11,7 +11,20 @@
 							class="dragger"
 						/>
 					}
-					<ex-stat-card class="h-100" [widget]="card" />
+					@defer (on viewport) {
+						<ex-stat-card class="h-100" [widget]="card" />
+					} @placeholder {
+						<div
+							class="h-100 w-100 d-flex flex-row flex-nowrap gap-3 align-items-center justify-content-center px-3"
+						>
+							<ex-animated-skeleton-loader shape="circle" height="5rem" width="5rem" />
+							<div class="d-flex flex-column gap-0 justify-content-center align-items-start flex-grow-1">
+								<ex-animated-skeleton-loader shape="rect" height="1rem" width="100%" />
+								<ex-animated-skeleton-loader shape="rect" height="1.75rem" width="100%" />
+								<ex-animated-skeleton-loader shape="rect" height="1rem" width="100%" />
+							</div>
+						</div>
+					}
 				</gridster-item>
 			}
 		</gridster>
