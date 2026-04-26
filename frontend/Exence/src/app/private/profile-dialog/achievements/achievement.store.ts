@@ -9,12 +9,12 @@ export const AchievementStore = signalStore(
 	{ providedIn: 'root' },
 
 	withProps((_, service = inject(AchievementService), workspaceService = inject(WorkspaceService)) => ({
-		allResource: resource<AchievementGet[], WorkspaceGet | null>({
-			params: () => workspaceService.currentWorkspace(),
+		allResource: resource<AchievementGet[], WorkspaceGet | undefined>({
+			params: () => workspaceService.currentWorkspace() ?? undefined,
 			loader: async () => await service.list(),
 		}),
-		unlockedResource: resource<UserAchievementGet[], WorkspaceGet | null>({
-			params: () => workspaceService.currentWorkspace(),
+		unlockedResource: resource<UserAchievementGet[], WorkspaceGet | undefined>({
+			params: () => workspaceService.currentWorkspace() ?? undefined,
 			loader: async () => await service.listUnlocked(),
 		}),
 	})),
