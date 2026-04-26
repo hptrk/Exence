@@ -12,12 +12,13 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 **Description:** A new user registers, verifies their email, then checks their status.
 
 1. `POST /auth/register` with valid data -> HTTP 200, `access_token` + `refresh_token` appear in cookies
-2. `GET /user` -> `isVerified = false`
+2. `GET /user/me` -> `isVerified = false`
 3. `POST /user/request-verify-email` -> HTTP 204 (token sent)
-4. `POST /user/request-verify-email` again (rate-limit test) -> HTTP 409 `EMAIL_ALREADY_VERIFIED` **or** the second attempt succeeds if the previous token was not used yet
+4. `POST /user/request-verify-email` again (rate-limit test) -> HTTP 409 `EMAIL_ALREADY_VERIFIED` **or** the second
+   attempt succeeds if the previous token was not used yet
 5. Extract the verification token (for example from DB or a test-email hook)
 6. `POST /auth/verify-email` with the token -> HTTP 204
-7. `GET /user` -> `isVerified = true`
+7. `GET /user/me` -> `isVerified = true`
 8. `POST /auth/verify-email` again with the same token -> HTTP 401 `INVALID_TOKEN` (token revoked)
 
 ---
@@ -32,8 +33,8 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 4. `POST /auth/forgot-password` with the same email shortly after -> HTTP 429 `TOO_MANY_EMAILS`
 5. Extract the reset token
 6. `POST /auth/reset-password` with the new password -> HTTP 204
-7. `GET /user` with the **original** access token -> HTTP 401 (token revoked)
-8. `GET /user` with the **second session** access token -> HTTP 401 (all sessions revoked)
+7. `GET /user/me` with the **original** access token -> HTTP 401 (token revoked)
+8. `GET /user/me` with the **second session** access token -> HTTP 401 (all sessions revoked)
 9. `POST /auth/login` with the **old** password -> HTTP 401 `AUTHENTICATION_FAILED`
 10. `POST /auth/login` with the **new** password -> HTTP 200, new tokens
 
@@ -48,8 +49,8 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 3. `POST /auth/login` as Device-B (different User-Agent) -> session B
 4. `GET /sessions` from Device-A -> 2 sessions visible, current one `isCurrent = true`
 5. From Device-A: `POST /user/change-password` with valid old + new password -> HTTP 204
-6. From Device-A: `GET /user` -> HTTP 401 (token revoked)
-7. From Device-B: `GET /user` -> HTTP 401 (token revoked)
+6. From Device-A: `GET /user/me` -> HTTP 401 (token revoked)
+7. From Device-B: `GET /user/me` -> HTTP 401 (token revoked)
 8. `POST /auth/login` with the **new** password -> HTTP 200
 9. `POST /user/change-password` with a password matching password history -> HTTP 400 `INVALID_PASSWORD`
 
@@ -64,7 +65,7 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 3. `GET /workspaces` -> 2 workspaces visible
 4. `DELETE /user` -> HTTP 204
 5. `POST /auth/login` with the same email -> HTTP 401 `AUTHENTICATION_FAILED`
-6. `GET /user` with previous access token -> HTTP 401
+6. `GET /user/me` with previous access token -> HTTP 401
 
 ---
 
@@ -80,9 +81,9 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 4. `POST /auth/login` Device-C (User-Agent: `TestDeviceC`) -> session C
 5. From Device-A: `GET /sessions` -> 3 sessions, A has `isCurrent = true`
 6. From Device-A: `DELETE /sessions/{sessionB_id}` -> HTTP 204
-7. From Device-B: `GET /user` -> HTTP 401 (session B revoked)
+7. From Device-B: `GET /user/me` -> HTTP 401 (session B revoked)
 8. From Device-A: `GET /sessions` -> 2 sessions visible (A and C)
-9. From Device-C: `GET /user` -> HTTP 200 (session C still active)
+9. From Device-C: `GET /user/me` -> HTTP 200 (session C still active)
 
 ---
 
@@ -95,9 +96,9 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 3. `POST /auth/login` Device-B -> session B
 4. `POST /auth/login` Device-C -> session C
 5. From Device-A: `DELETE /sessions/others` -> HTTP 204
-6. From Device-B: `GET /user` -> HTTP 401
-7. From Device-C: `GET /user` -> HTTP 401
-8. From Device-A: `GET /user` -> HTTP 200 (own session alive)
+6. From Device-B: `GET /user/me` -> HTTP 401
+7. From Device-C: `GET /user/me` -> HTTP 401
+8. From Device-A: `GET /user/me` -> HTTP 200 (own session alive)
 9. From Device-A: `GET /sessions` -> 1 session, `isCurrent = true`
 
 ---
@@ -109,9 +110,9 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 **Description:** User updates profile and settings, then verifies changes.
 
 1. `POST /auth/register` + `POST /auth/verify-email`
-2. `GET /user` -> verify username, email, role
+2. `GET /user/me` -> verify username, email, role
 3. `PATCH /user` with new username -> HTTP 200, response has new username
-4. `GET /user` -> new username is shown
+4. `GET /user/me` -> new username is shown
 5. `GET /user/settings` -> language, primaryTheme, secondaryTheme, baseCurrency, showBaseCurrency
 6. `PATCH /user/settings` updating language + primaryTheme -> HTTP 200, new values
 7. `GET /user/settings` -> updated values are visible, non-updated fields unchanged
@@ -166,7 +167,8 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 9. UserA: `POST /workspaces/{id}/members` with userB email -> can be added again
 10. UserA: `DELETE /workspaces/{id}/members` with userB email -> HTTP 204
 11. UserA: `DELETE /workspaces/{id}/members/me` (owner tries to leave) -> HTTP 403 `WORKSPACE_OWNER_CANNOT_LEAVE`
-12. UserA: `DELETE /workspaces/{id}/members` with userA email (remove owner) -> HTTP 403 `WORKSPACE_OWNER_CANNOT_BE_REMOVED`
+12. UserA: `DELETE /workspaces/{id}/members` with userA email (remove owner) -> HTTP 403
+    `WORKSPACE_OWNER_CANNOT_BE_REMOVED`
 
 ---
 
@@ -250,7 +252,8 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 
 1. `POST /auth/register` + verify
 2. `POST /categories` EXPENSE -> cat_id
-3. `POST /transactions/recurring` DAILY, UNTIL_DATE endCondition, future endDate -> HTTP 201, nextExecutionDate = startDate
+3. `POST /transactions/recurring` DAILY, UNTIL_DATE endCondition, future endDate -> HTTP 201, nextExecutionDate =
+   startDate
 4. `POST /transactions/recurring` WEEKLY, AFTER_OCCURRENCES, maxOccurrences=12 -> HTTP 201
 5. `POST /transactions/recurring` MONTHLY, dayOfMonth=1, UNTIL_DATE, but without endDate -> HTTP 400 `VALIDATION_ERROR`
 6. `GET /transactions/recurring` -> 2 active recurring items, nextExecutionDate asc order
@@ -294,8 +297,8 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 4. `POST /goals` targetAmount=500, initialAmount=600 -> HTTP 201, status=COMPLETED (also on overshoot)
 5. `POST /goals` targetAmount=1000, initialAmount=200, deadline=future date -> HTTP 201, status=ACTIVE
 6. `GET /goals` -> 3 goals
-7. `GET /goals/widget-data?type=GOAL_SUMMARY` -> response contains aggregated data
-8. `GET /goals/widget-data?type=GOAL_PROGRESS&goalId={activeGoal_id}` -> progress data
+7. `GET /goals/statistics/GOAL_SUMMARY` -> response contains aggregated data
+8. `GET /goals/statistics/GOAL_PROGRESS&goalId={activeGoal_id}` -> progress data
 9. `PATCH /goals/{activeGoal_id}` status=PAUSED -> HTTP 200
 10. `GET /goals?statuses=PAUSED` -> 1 goal
 
@@ -322,12 +325,14 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 
 1. `POST /auth/register` + verify
 2. `POST /categories` -> cat_id
-3. `POST /debts` LENT type, originalAmount=300, counterpartyName="Test Friend" -> HTTP 201, status=ACTIVE, remainingAmount=300
+3. `POST /debts` LENT type, originalAmount=300, counterpartyName="Test Friend" -> HTTP 201, status=ACTIVE,
+   remainingAmount=300
 4. `GET /debts` -> 1 debt
 5. `GET /debts?type=LENT` -> 1 debt
 6. `GET /debts?statuses=SETTLED` -> empty list
 7. `PATCH /debts/{id}/payment` amount=100 -> HTTP 200, remainingAmount=200, status=ACTIVE
-8. `PATCH /debts/{id}/payment` amount=250 -> HTTP 400 `DEBT_PAYMENT_EXCEEDS_REMAINING` (100+250 > 300, but remaining=200)
+8. `PATCH /debts/{id}/payment` amount=250 -> HTTP 400 `DEBT_PAYMENT_EXCEEDS_REMAINING` (100+250 > 300, but
+   remaining=200)
 9. `PATCH /debts/{id}/payment` amount=200 -> HTTP 200, remainingAmount=0, status=SETTLED
 10. `GET /debts?statuses=SETTLED` -> 1 debt
 11. `GET /debts?statuses=ACTIVE` -> empty list
@@ -346,7 +351,7 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 6. `GET /debts?type=BORROWED` -> 1 debt
 7. `PATCH /debts/{debt_lent_id}` updating title + deadline -> HTTP 200
 8. `GET /debts/{debt_lent_id}` -> updated data
-9. `GET /debts/widget-data?type=DEBT_SUMMARY` -> aggregated data (total lent, total borrowed)
+9. `GET /debts/statistics/DEBT_SUMMARY` -> aggregated data (total lent, total borrowed)
 10. `DELETE /debts/{debt_borrowed_id}` -> HTTP 204
 11. `GET /debts` -> 1 debt remains
 12. As unverified user: `GET /debts` -> HTTP 403 `EMAIL_VERIFICATION_REQUIRED`
@@ -369,8 +374,8 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 8. `PATCH /investments/{bitcoin1_id}` updating note -> HTTP 200
 9. `DELETE /investments/{apple_id}` -> HTTP 204
 10. `GET /investments/grouped` -> 2 groups (Bitcoin, Gold)
-11. `GET /investments/widget-data?type=INVESTMENT_SUMMARY` -> aggregated data
-12. `GET /investments/widget-data?type=INVALID_TYPE` -> HTTP 400 `INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED`
+11. `GET /investments/statistics/INVESTMENT_SUMMARY` -> aggregated data
+12. `GET /investments/statistics/widget-data?type=INVALID_TYPE` -> HTTP 400 `INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED`
 
 ---
 
@@ -382,10 +387,11 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 
 1. `POST /auth/register` + verify (default widgets are created during registration)
 2. `GET /statistics/widgets/layout` -> statCardWidgets and chartWidgets lists, empty
-3. `GET /statistics/widgets/dashboard?timeframe=MONTH` -> balance trend data
+3. `GET /statistics/widgets/dashboard?timeframe=1M` -> balance trend data
 4. `GET /statistics/widgets/{existingWidget_id}/data?timeframe=MONTH` -> widget-specific data
 5. `GET /statistics/widgets/{existingWidget_id}/data?timeframe=YEAR` -> same widget, different timeframe
 6. `GET /statistics/widgets/9999/data` -> HTTP 404 `WIDGET_NOT_FOUND`
+
 -
 
 ### FLOW-WIDGET-02 - Email verification barrier in Statistics module
@@ -413,7 +419,7 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 5. UserA: `POST /transactions` -> audit entry is created
 6. UserA: `GET /audit-logs` (X-Workspace-ID=Workspace-A) -> paginated list, at least 2 entries
 7. UserA: `GET /audit-logs?entityType=TRANSACTION` -> only transaction changes
-8. UserA: `GET /audit-logs?changeType=CREATE` -> only creation events
+8. UserA: `GET /audit-logs?changeType=CREATED` -> only creation events
 9. UserB: `GET /audit-logs` (X-Workspace-ID=Workspace-A) -> HTTP 403 (owner-only)
 10. Unauthenticated: `GET /audit-logs` -> HTTP 401
 
@@ -427,13 +433,13 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 
 1. Using existing ADMIN user: `POST /admin/auth/register` -> create new ADMIN user -> HTTP 200
 2. `POST /auth/login` with new ADMIN user -> HTTP 200
-3. `GET /admin/statistics/widgets/data?type=DAILY_ACTIVE_USERS` -> platform-level aggregated data
-4. `GET /admin/system-settings` -> read system settings
+3. `GET admin/statistics/DAILY_ACTIVE_USERS` -> platform-level aggregated data
+4. `GET admin/settings` -> read system settings
 5. `PATCH /admin/system-settings` updating one setting -> HTTP 200, new value in response
 6. `GET /admin/audit-logs` -> platform-level audit logs
 7. `POST /admin/email/broadcast` with subject + body -> HTTP 200 (asynchronous send starts)
-8. As normal USER: `GET /admin/statistics/widgets/data` -> HTTP 403
-9. As normal USER: `GET /admin/system-settings` -> HTTP 403
+8. As normal USER: `GET admin/statistics/DAILY_ACTIVE_USERS` -> HTTP 403
+9. As normal USER: `GET admin/settings` -> HTTP 403
 10. As normal USER: `GET /admin/audit-logs` -> HTTP 403
 
 ---
@@ -446,7 +452,7 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 
 1. `POST /auth/register` (baseCurrency=HUF) -> HTTP 200
 2. `POST /auth/verify-email` -> verify
-3. `GET /user` + `GET /user/settings` -> verify data
+3. `GET /user/me` + `GET /user/settings` -> verify data
 4. `GET /workspaces` -> 1 default workspace
 5. `POST /categories` EXPENSE "Restaurant" -> cat_expense
 6. `POST /categories` INCOME "Salary" -> cat_income
@@ -460,7 +466,7 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 14. `POST /investments` asset="MSFT", STOCK, amount=100, USD -> inv1
 15. `GET /investments/grouped` -> 1 group
 16. `GET /statistics/widgets/layout` -> default widgets
-17. `GET /statistics/widgets/dashboard?timeframe=MONTH` -> balance trend
+17. `GET /statistics/widgets/dashboard?timeframe=1M` -> balance trend
 18. `GET /achievements` -> achievement list (existing achievements listed)
 19. `GET /achievements/unlocked` -> list (there may already be unlocked items)
 
@@ -552,7 +558,7 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 7. `GET /audit-logs` -> latest audit entries (if owner)
 8. `DELETE /user` -> HTTP 204
 9. `POST /auth/login` with same email -> HTTP 401 `AUTHENTICATION_FAILED`
-10. With previous access token: `GET /user` -> HTTP 401
+10. With previous access token: `GET /user/me` -> HTTP 401
 
 ---
 
@@ -565,5 +571,6 @@ Steps run in order, and each step includes the HTTP method + endpoint and expect
 3. `POST /categories` X-Workspace-ID=99999 (non-existent workspace) -> HTTP 404 `WORKSPACE_NOT_FOUND`
 4. UserB: `POST /auth/register` + verify -> own Workspace-B
 5. UserA: `GET /categories` (X-Workspace-ID=Workspace-B) -> HTTP 403/404 (not a member)
-6. UserA: `POST /workspaces/{wsB_id}/members` with UserA email (UserA is not a member, UserB would need to invite) -> this must be done by UserB: UserB invites UserA
+6. UserA: `POST /workspaces/{wsB_id}/members` with UserA email (UserA is not a member, UserB would need to invite) ->
+   this must be done by UserB: UserB invites UserA
 7. UserA: `GET /categories` (X-Workspace-ID=Workspace-B) -> HTTP 200 (now member)
