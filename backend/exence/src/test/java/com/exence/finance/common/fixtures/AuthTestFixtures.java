@@ -51,7 +51,7 @@ public final class AuthTestFixtures {
     }
 
     public static UserSettingsResponse settingsResponse() {
-        return new UserSettingsResponse("en", Theme.DARK, Theme.LIGHT, SupportedCurrency.HUF, false);
+        return new UserSettingsResponse("en", Theme.DARK, Theme.LIGHT);
     }
 
     public static UpdateUserSettingsRequest updateSettingsRequest() {

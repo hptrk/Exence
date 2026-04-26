@@ -39,6 +39,10 @@ public class OpenApiConfig {
             }
 
             openApi.getPaths().forEach((path, pathItem) -> {
+                pathItem.readOperations().forEach(operation -> {
+                    operation.addParametersItem(new Parameter().$ref("#/components/parameters/Accept-Language"));
+                });
+
                 // TODO: get these URLs from config (refactor interceptor too)
                 if (!path.startsWith("/api/auth")
                         && !path.startsWith("/api/admin")
@@ -66,6 +70,16 @@ public class OpenApiConfig {
                                         .description("ID of the workspace to operate in")
                                         .example("1")
                                         .required(true)
+                                        .schema(new StringSchema()))
+                        .addParameters(
+                                "Accept-Language",
+                                new Parameter()
+                                        .in("header")
+                                        .name("Accept-Language")
+                                        .description(
+                                                "Preferred language for responses ('en', 'hu', 'de', 'fr', 'it', 'es', 'pl', 'sk')")
+                                        .example("en")
+                                        .required(false)
                                         .schema(new StringSchema())))
                 .info(new Info().title("Exence API").version("1.0"));
     }
