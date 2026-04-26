@@ -4,20 +4,27 @@
 			<div
 				class="d-flex flex-column flex-lg-row align-items-center justify-content-lg-between gap-2 gap-lg-3 p-0 px-2 px-lg-3 py-2 w-100"
 			>
-				<div class="profile-pic fw-bold flex-shrink-0 {{ display.isLg() ? 'fs-4' : 'fs-6' }}">
+				<div
+					data-testid="profile-user-pic"
+					class="profile-pic fw-bold flex-shrink-0 {{ display.isLg() ? 'fs-4' : 'fs-6' }}"
+				>
 					{{ usernameLetter() }}
 				</div>
 				@if (display.isLg()) {
 					<div class="d-flex flex-column overflow-hidden flex-grow-1">
-						<h3 class="fw-bold text-truncate m-0 fs-5">{{ username() }}</h3>
+						<h3 data-testid="profile-username" class="fw-bold text-truncate m-0 fs-5">{{ username() }}</h3>
 						@if (workspaceName()) {
-							<span class="text-truncate opacity-75" style="font-size: 0.75rem">{{
-								workspaceName()
-							}}</span>
+							<span
+								data-testid="profile-workspaceName"
+								class="text-truncate opacity-75"
+								style="font-size: 0.75rem"
+								>{{ workspaceName() }}</span
+							>
 						}
 					</div>
 				}
 				<ex-button
+					data-testid="profile-workspace-menu-trigger"
 					iconButton
 					matIcon="sync_alt"
 					color="accent"
@@ -34,6 +41,7 @@
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[class.selected]="selectedPage() === 'workspace-settings'"
 					(click)="this.selectedPage.set('workspace-settings')"
+					data-testid="profile-tab-workspace-settings"
 				>
 					<mat-icon>workspaces</mat-icon>
 					@if (display.isLg()) {
@@ -44,6 +52,7 @@
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[class.selected]="selectedPage() === 'profile-information'"
 					(click)="this.selectedPage.set('profile-information')"
+					data-testid="profile-tab-profile-data"
 				>
 					<mat-icon>person</mat-icon>
 					@if (display.isLg()) {
@@ -54,6 +63,7 @@
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[class.selected]="selectedPage() === 'user-settings'"
 					(click)="this.selectedPage.set('user-settings')"
+					data-testid="profile-tab-user-settings"
 				>
 					<mat-icon>settings</mat-icon>
 					@if (display.isLg()) {
@@ -64,6 +74,7 @@
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[class.selected]="selectedPage() === 'sessions'"
 					(click)="this.selectedPage.set('sessions')"
+					data-testid="profile-tab-sessions"
 				>
 					<mat-icon>computer</mat-icon>
 					@if (display.isLg()) {
@@ -74,6 +85,7 @@
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[class.selected]="selectedPage() === 'audit-log'"
 					(click)="this.selectedPage.set('audit-log')"
+					data-testid="profile-tab-activity"
 				>
 					<mat-icon>history</mat-icon>
 					@if (display.isLg()) {
@@ -84,6 +96,7 @@
 					class="ex-nav-button d-flex align-items-center gap-2"
 					[class.selected]="selectedPage() === 'achievements'"
 					(click)="this.selectedPage.set('achievements')"
+					data-testid="profile-tab-achievements"
 				>
 					<mat-icon>award_star</mat-icon>
 					@if (display.isLg()) {
@@ -94,7 +107,14 @@
 		</div>
 	</mat-drawer>
 	<mat-drawer-content class="position-relative">
-		<ex-button iconButton matIcon="close" mat-dialog-close color="accent" class="close-button" />
+		<ex-button
+			data-testid="profile-dialog-close-btn"
+			iconButton
+			matIcon="close"
+			mat-dialog-close
+			color="accent"
+			class="close-button"
+		/>
 		<section class="h-100 p-4 p-lg-5 d-flex flex-column gap-4">
 			@switch (selectedPage()) {
 				@case ('workspace-settings') {
@@ -120,11 +140,13 @@
 	</mat-drawer-content>
 </mat-drawer-container>
 
-<mat-menu #workspaceMenu class="switch-workspace">
-	<h4 class="p-2 pb-3 fs-6 text-center border-bottom">{{ 'profile.switchWorkspace' | translate }}</h4>
+<mat-menu data-testid="profile-workspace-menu" #workspaceMenu class="switch-workspace">
+	<h4 data-testid="profile-workspace-title" class="p-2 pb-3 fs-6 text-center border-bottom">
+		{{ 'profile.switchWorkspace' | translate }}
+	</h4>
 
 	@for (ws of workspaces(); track ws.id) {
-		<button mat-menu-item class="fs-6" (click)="switchWorkspace(ws.id)">
+		<button data-testid="profile-workspace-menu-item" mat-menu-item class="fs-6" (click)="switchWorkspace(ws.id)">
 			<span [class.fw-bold]="selectedWorkspaceId() === ws.id">{{ ws.name }}</span>
 		</button>
 	}

@@ -15,156 +15,122 @@
 		}
 	</div>
 	@if (!isEmpty()) {
-		<div
-			class="overflow-y-auto overflow-x-hidden px-2 pt-2 flex-grow-1 table-container"
-			#scrollContainer
-			infiniteScroll
-			[infiniteScrollDistance]="2"
-			[infiniteScrollThrottle]="50"
-			[infiniteScrollDisabled]="isLoading()"
-			[scrollWindow]="false"
-			(scrolled)="scrolled.emit()"
-		>
-			<div>
-				<table mat-table [dataSource]="dataSource()" multiTemplateDataRows>
+		<div class="overflow-x-hidden px-2 pt-2 flex-grow-1 table-container">
+			@if (display.isMd()) {
+				<div class="table-header-row" [style.grid-template-columns]="gridTemplateColumns()">
 					@for (col of columns(); track col.key) {
-						<ng-container [matColumnDef]="col.key">
-							<th mat-header-cell *matHeaderCellDef [style.width]="col.width">
-								@if (display.isSm()) {
-									{{ col.header | translate }}
-								}
-							</th>
-							<td mat-cell *matCellDef="let row">
-								@if (col.key === 'actions') {
-									<div
-										class="table-row-item d-flex gap-2 align-items-center justify-content-end pe-2"
-									>
-										@if (actions().length) {
-											@if (inlineActions()) {
-												@for (action of actions(); track action.label) {
-													<ex-button
-														data-testid="inline-action-btn"
-														iconButton
-														stopPropagation
-														[matIcon]="action.icon"
-														[customColor]="action.color"
-														[matTooltip]="action.label | translate"
-														(click)="action.handler(row)"
-														[disabled]="action.disabled ? action.disabled(row) : false"
-														[color]="action.icon === 'delete' ? 'error' : 'primary'"
-													/>
-												}
-											} @else {
-												<div
-													[matTooltip]="'dataTable.actions' | translate"
-													[class.hidden]="expandedRowId() !== row.id"
-													class="d-flex align-items-center justify-content-center"
-												>
-													<ex-button
-														data-testid="menu-trigger-btn"
-														iconButton
-														stopPropagation
-														[matMenuTriggerFor]="actionsMenu"
-														matIcon="more_vert"
-														color="secondary"
-													/>
-													<mat-menu #actionsMenu>
-														@for (action of actions(); track action.label) {
-															<button
-																mat-menu-item
-																(click)="action.handler(row)"
-																[disabled]="
-																	action.disabled ? action.disabled(row) : false
-																"
-															>
-																<mat-icon [style.color]="action.color ?? ''">{{
-																	action.icon
-																}}</mat-icon>
-																<span [style.color]="action.color ?? ''">{{
-																	action.label | translate
-																}}</span>
-															</button>
-														}
-													</mat-menu>
-												</div>
-											}
-										}
-										@if (expandTemplate() && !nonExpandable()) {
-											@if (expandedRowId() === row.id) {
-												<div
-													[matTooltip]="'dataTable.details.hide' | translate"
-													class="d-flex align-items-center justify-content-center"
-												>
-													<mat-icon>expand_less</mat-icon>
-												</div>
-											} @else {
-												<div
-													[matTooltip]="'dataTable.details.show' | translate"
-													class="d-flex align-items-center justify-content-center"
-												>
-													<mat-icon>expand_more</mat-icon>
-												</div>
-											}
-										}
-									</div>
-								} @else {
-									<div class="table-row-item">
-										<ng-container
-											[ngTemplateOutlet]="getCellTemplate(col.key)"
-											[ngTemplateOutletContext]="{ $implicit: row }"
-										/>
-									</div>
-								}
-							</td>
-						</ng-container>
+						<div class="table-header-cell text-truncate">{{ col.header | translate }}</div>
 					}
-
-					<ng-container matColumnDef="expand">
-						<td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns().length">
-							<div class="detail-row-item">
-								<div
-									class="detail-container"
-									[@expandAnimation]="expandedRowId() === row.id ? 'expanded' : 'collapsed'"
-								>
+				</div>
+			}
+			<cdk-virtual-scroll-viewport #viewport [itemSize]="ITEM_SIZE" class="virtual-scroll-viewport">
+				<div
+					*cdkVirtualFor="let row of resolvedContent(); trackBy: trackById; let i = index"
+					data-testid="data-row"
+					class="table-row"
+					[class.non-expandable]="nonExpandable() || !expandTemplate()"
+					[class.expanded]="isExpanded(row)"
+					[class.even]="i % 2 === 0"
+					(click)="toggleExpand(row)"
+				>
+					@let expanded = isExpanded(row);
+					<div class="table-row-cells" [style.grid-template-columns]="gridTemplateColumns()">
+						@for (col of columns(); track col.key) {
+							@if (col.key === 'actions') {
+								<div class="table-row-item d-flex align-items-center justify-content-end pe-2">
+									@if (actions().length) {
+										@if (inlineActions()) {
+											@for (action of actions(); track action.label) {
+												<ex-button
+													data-testid="inline-action-btn"
+													iconButton
+													stopPropagation
+													[matIcon]="action.icon"
+													[customColor]="action.color"
+													[matTooltip]="action.label | translate"
+													(click)="action.handler(row)"
+													[disabled]="action.disabled ? action.disabled(row) : false"
+													[color]="action.icon === 'delete' ? 'error' : 'primary'"
+												/>
+											}
+										} @else {
+											<div
+												[matTooltip]="'dataTable.actions' | translate"
+												[class.hidden]="!expanded"
+												class="d-flex align-items-center justify-content-center"
+											>
+												<ex-button
+													data-testid="menu-trigger-btn"
+													iconButton
+													stopPropagation
+													[matMenuTriggerFor]="actionsMenu"
+													matIcon="more_vert"
+													color="secondary"
+												/>
+												<mat-menu #actionsMenu>
+													@for (action of actions(); track action.label) {
+														<button
+															mat-menu-item
+															[attr.data-testid]="
+																'row-action-' + (action.label | translate | lowercase)
+															"
+															(click)="action.handler(row)"
+															[disabled]="action.disabled ? action.disabled(row) : false"
+														>
+															<mat-icon [style.color]="action.color ?? ''">{{
+																action.icon
+															}}</mat-icon>
+															<span [style.color]="action.color ?? ''">{{
+																action.label | translate
+															}}</span>
+														</button>
+													}
+												</mat-menu>
+											</div>
+										}
+									}
+									@if (expandTemplate() && !nonExpandable()) {
+										@if (expanded) {
+											<div
+												[matTooltip]="'dataTable.details.hide' | translate"
+												class="d-flex align-items-center justify-content-center"
+											>
+												<mat-icon>expand_less</mat-icon>
+											</div>
+										} @else {
+											<div
+												[matTooltip]="'dataTable.details.show' | translate"
+												class="d-flex align-items-center justify-content-center"
+											>
+												<mat-icon>expand_more</mat-icon>
+											</div>
+										}
+									}
+								</div>
+							} @else {
+								<div class="table-row-item">
 									<ng-container
-										[ngTemplateOutlet]="expandTemplate() ?? null"
+										[ngTemplateOutlet]="getCellTemplate(col.key)"
 										[ngTemplateOutletContext]="{ $implicit: row }"
 									/>
 								</div>
+							}
+						}
+					</div>
+					@if (expandTemplate() && !nonExpandable()) {
+						<div class="detail-row-item">
+							<div class="detail-container" [@expandAnimation]="expanded ? 'expanded' : 'collapsed'">
+								<ng-container
+									[ngTemplateOutlet]="expandTemplate()!"
+									[ngTemplateOutletContext]="{ $implicit: row }"
+								/>
 							</div>
-						</td>
-					</ng-container>
-
-					<ng-container matColumnDef="loader">
-						<td mat-footer-cell *matFooterCellDef [attr.colspan]="displayedColumns().length">
-							<ng-container [ngTemplateOutlet]="loader" />
-						</td>
-					</ng-container>
-
-					<tr mat-header-row *matHeaderRowDef="displayedColumns()"></tr>
-					<tr
-						mat-row
-						data-testid="data-row"
-						*matRowDef="let row; columns: displayedColumns()"
-						class="table-row"
-						[class.non-expandable]="nonExpandable() || !expandTemplate()"
-						[class.expanded]="expandedRowId() === row.id"
-						(click)="toggleExpand(row)"
-					></tr>
-					<tr
-						mat-row
-						*matRowDef="let row; columns: ['expand']"
-						class="expanded-detail-row"
-						style="height: 0"
-					></tr>
-					<tr
-						mat-footer-row
-						*matFooterRowDef="['loader']"
-						data-testid="footer-row"
-						[hidden]="!isLoading()"
-						class="table-row"
-					></tr>
-				</table>
+						</div>
+					}
+				</div>
+			</cdk-virtual-scroll-viewport>
+			<div data-testid="footer-row" class="table-row" [hidden]="!isLoading()">
+				<ng-container [ngTemplateOutlet]="loader" />
 			</div>
 		</div>
 	} @else {

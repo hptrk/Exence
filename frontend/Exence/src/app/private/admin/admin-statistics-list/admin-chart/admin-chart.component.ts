@@ -17,7 +17,8 @@ import { AdminStatisticsService } from '../../admin-statistic.service';
 	template: `
 		@if (syntheticWidget() && payload()) {
 			<ex-chart-widget
-				[widget]="syntheticWidget()"
+				data-testid="chart-widget"
+				[widget]="syntheticWidget()!"
 				[payload]="payload()"
 				noRequest
 				disableCurrencyFormat
@@ -38,16 +39,15 @@ export class AdminChartComponent {
 	private readonly adminStatisticsService = inject(AdminStatisticsService);
 	private readonly translocoService = inject(TranslocoService);
 
-	private readonly activeLang = toSignal(this.translocoService.langChanges$, {
-		initialValue: this.translocoService.getActiveLang(),
-	});
+	private readonly activeLang = toSignal(this.translocoService.langChanges$);
 
 	type = input.required<AdminWidgetType>();
 	timeframe = signal<Timeframe>(Timeframe.YEAR_TO_DATE);
 	payload = signal<WidgetDataPayload | undefined>(undefined);
 
-	syntheticWidget = computed<ChartWidget>(() => {
+	readonly syntheticWidget = computed<ChartWidget | undefined>(() => {
 		const lang = this.activeLang();
+		if (!lang) return undefined;
 		return {
 			id: 0,
 			type: this.type() as unknown as StatisticsWidgetType,

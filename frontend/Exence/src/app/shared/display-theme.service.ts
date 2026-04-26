@@ -1,4 +1,5 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { LocalStorageService, StorageKey } from './local-storage.service';
 
 // add new theme here
 export enum DisplayTheme {
@@ -23,9 +24,10 @@ export const themes: ThemeData[] = [
 	providedIn: 'root',
 })
 export class DisplayThemeService {
-	private readonly _preference = signal<'primary' | 'secondary'>(this.getInitialPreference());
-	private readonly _primaryTheme = signal<ThemeData>(themes.find(t => t.name === DisplayTheme.DARK)!);
-	private readonly _secondaryTheme = signal<ThemeData>(themes.find(t => t.name === DisplayTheme.BLUE_DOLPHIN)!);
+	private _preference = signal<'primary' | 'secondary'>('primary');
+	private _primaryTheme = signal<ThemeData>(themes.find(t => t.name === DisplayTheme.DARK)!);
+	private _secondaryTheme = signal<ThemeData>(themes.find(t => t.name === DisplayTheme.BLUE_DOLPHIN)!);
+	private localStorageService = inject(LocalStorageService);
 
 	displayThemeSignal = computed<DisplayTheme>(() =>
 		this._preference() === 'primary' ? this._primaryTheme().name : this._secondaryTheme().name,
@@ -38,6 +40,11 @@ export class DisplayThemeService {
 
 	constructor() {
 		effect(() => {
+			const stored = this.localStorageService.getItem(StorageKey.ThemePreference);
+			this._preference.set(stored === 'secondary' ? 'secondary' : 'primary');
+		});
+
+		effect(() => {
 			this.setCssClassForHtmlElement(
 				this._preference() === 'primary' ? this._primaryTheme() : this._secondaryTheme(),
 			);
@@ -46,7 +53,7 @@ export class DisplayThemeService {
 
 	public toggleTheme(): void {
 		this._preference.update(p => (p === 'primary' ? 'secondary' : 'primary'));
-		localStorage.setItem('themePreference', this._preference());
+		this.localStorageService.setItem(StorageKey.ThemePreference, this._preference());
 	}
 
 	public setPreferredThemes(primary: DisplayTheme, secondary: DisplayTheme): void {
@@ -54,10 +61,6 @@ export class DisplayThemeService {
 		const secondaryTheme = themes.find(t => t.name === secondary);
 		if (primaryTheme) this._primaryTheme.set(primaryTheme);
 		if (secondaryTheme) this._secondaryTheme.set(secondaryTheme);
-	}
-
-	private getInitialPreference(): 'primary' | 'secondary' {
-		return localStorage.getItem('themePreference') === 'secondary' ? 'secondary' : 'primary';
 	}
 
 	private setCssClassForHtmlElement(themeData: ThemeData): void {

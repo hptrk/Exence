@@ -1,4 +1,5 @@
 <ex-button
+	data-testid="icon-picker-trigger"
 	primaryIconButton
 	filled
 	[customColor]="selectedColor()"
@@ -11,9 +12,11 @@
 <mat-menu #iconMenu (closed)="closeMenuWithData()">
 	<div class="d-flex flex-column gap-4 p-4 menu" stopPropagation>
 		<!-- Colors -->
-		<div class="d-flex flex-row flex-wrap gap-2">
+		<div data-testid="icon-picker-colors" class="d-flex flex-row flex-wrap gap-2">
 			@for (color of predefinedColors | enumValue; track color) {
 				<label
+					data-testid="color-option"
+					[attr.data-color]="predefinedIconColorsData[color]"
 					[style.background-color]="predefinedIconColorsData[color]"
 					class="color-square"
 					[class.selected]="form.value.color === color"
@@ -46,7 +49,7 @@
 				<h3 class="fs-5">{{ category.name | translate }}</h3>
 				<ul class="p-0">
 					@for (iconInfo of category.icons; track iconInfo.icon) {
-						<li (click)="form.controls.icon.setValue(iconInfo.icon)">
+						<li data-testid="icon-option" (click)="form.controls.icon.setValue(iconInfo.icon)">
 							<mat-icon
 								size="md"
 								[matTooltip]="iconInfo.tooltip | translate"

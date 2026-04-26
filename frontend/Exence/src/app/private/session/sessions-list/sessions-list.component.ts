@@ -37,7 +37,7 @@ export class SessionsListComponent implements OnInit {
 	async deleteAllSessions(): Promise<void> {
 		await this.sessionService.deleteAllSessions();
 		await this.initialize();
-		this.snackbarService.showSuccess(this.translocoService.translate('sessionsList.deletedAll'));
+		this.snackbarService.showSuccess(this.translocoService.translate('sessionList.deletedAll'));
 	}
 
 	private async initialize(): Promise<void> {

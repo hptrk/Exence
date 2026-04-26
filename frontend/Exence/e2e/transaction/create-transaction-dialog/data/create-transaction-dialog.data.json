@@ -1,0 +1,45 @@
+{
+	"title": "E2E Create Transaction",
+	"amount": 100,
+	"validation": {
+		"tooLongChar": "A",
+		"titleMaxLength": 255,
+		"noteMaxLength": 500,
+		"amountZero": 0
+	},
+	"errors": {
+		"required": "Field required",
+		"min1": "Min value is 1!",
+		"maxLength255": "Max length is 255!",
+		"maxLength500": "Max length is 500!"
+	},
+	"confirmExit": {
+		"title": "Unsaved changes",
+		"continueBtn": "Continue",
+		"cancelBtn": "Cancel"
+	},
+	"tooltips": {
+		"recurringDisabled": "This feature is not available for recurring transactions.",
+		"fetchingExchangeRate": "Fetching exchange rate"
+	},
+	"recurring": {
+		"frequency": {
+			"weekly": "week",
+			"monthly": "month",
+			"yearly": "year"
+		},
+		"dayOfWeek": {
+			"mondayShort": "M"
+		},
+		"dayOfMonth": 15
+	},
+	"foreignCurrency": "EUR",
+	"snackbar": {
+		"createSuccess": "created successfully!"
+	},
+	"api": {
+		"transactions": "/api/transactions",
+		"recurring": "/api/transactions/recurring",
+		"exchangeRates": "/api/exchange-rates"
+	}
+}

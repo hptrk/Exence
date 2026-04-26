@@ -1,0 +1,10 @@
+{
+	"tabs": {
+		"workspaceSettings": "Workspace settings",
+		"profileData": "Profile data",
+		"userSettings": "User settings",
+		"sessions": "Sessions",
+		"activity": "Workspace activity",
+		"achievements": "Achievements"
+	}
+}

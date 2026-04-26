@@ -6,17 +6,21 @@ export const getSidebar = (page: Page): Locator => page.getByTestId('sidebar');
 export const getLogoHorizontal = (page: Page): Locator => page.getByTestId('logoHorizontal');
 export const getLogoCompact = (page: Page): Locator => page.getByTestId('logoCompact');
 
-// Drawer — unauthenticated nav
+// Drawer - unauthenticated nav
 export const getNavHomeBtn = (page: Page): Locator => page.getByTestId('navHomeBtn');
 export const getNavLoginBtn = (page: Page): Locator => page.getByTestId('navLoginBtn');
 export const getNavRegisterBtn = (page: Page): Locator => page.getByTestId('navRegisterBtn');
 
-// Drawer — authenticated nav
+// Drawer - authenticated nav (admin)
+export const getNavAdminBtn = (page: Page): Locator => page.getByTestId('navAdminBtn');
+
+// Drawer - authenticated nav
 export const getNavDashboardBtn = (page: Page): Locator => page.getByTestId('navDashboardBtn');
 export const getNavTransactionsBtn = (page: Page): Locator => page.getByTestId('navTransactionsBtn');
 export const getNavStatisticsBtn = (page: Page): Locator => page.getByTestId('navStatisticsBtn');
 export const getNavGoalsBtn = (page: Page): Locator => page.getByTestId('navGoalsBtn');
 export const getNavDebtsBtn = (page: Page): Locator => page.getByTestId('navDebtsBtn');
+export const getNavInvestmentsBtn = (page: Page): Locator => page.getByTestId('navInvestmentsBtn');
 
 // XL actions
 export const getManageAccountsBtn = (page: Page): Locator => page.getByTestId('manageAccountsBtn');
@@ -30,17 +34,21 @@ export const getMoreActionsBtn = (page: Page): Locator => page.getByTestId('more
 // Mobile navigation
 export const getMobileNavigation = (page: Page): Locator => page.getByTestId('mobileNavigation');
 
-// Mobile — unauthenticated nav
+// Mobile - unauthenticated nav
 export const getMobileNavHomeBtn = (page: Page): Locator => page.getByTestId('mobileNavHomeBtn');
 export const getMobileNavLoginBtn = (page: Page): Locator => page.getByTestId('mobileNavLoginBtn');
 export const getMobileNavRegisterBtn = (page: Page): Locator => page.getByTestId('mobileNavRegisterBtn');
 
-// Mobile — authenticated nav
+// Mobile - authenticated nav (admin)
+export const getMobileNavAdminBtn = (page: Page): Locator => page.getByTestId('mobileNavAdminBtn');
+
+// Mobile - authenticated nav
 export const getMobileNavDashboardBtn = (page: Page): Locator => page.getByTestId('mobileNavDashboardBtn');
 export const getMobileNavTransactionsBtn = (page: Page): Locator => page.getByTestId('mobileNavTransactionsBtn');
 export const getMobileNavStatisticsBtn = (page: Page): Locator => page.getByTestId('mobileNavStatisticsBtn');
 export const getMobileNavGoalsBtn = (page: Page): Locator => page.getByTestId('mobileNavGoalsBtn');
 export const getMobileNavDebtsBtn = (page: Page): Locator => page.getByTestId('mobileNavDebtsBtn');
+export const getMobileNavInvestmentsBtn = (page: Page): Locator => page.getByTestId('mobileNavInvestmentsBtn');
 
 // Mobile more-actions button
 export const getMobileMoreActionsBtn = (page: Page): Locator => page.getByTestId('mobileMoreActionsBtn');

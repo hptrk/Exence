@@ -10,6 +10,7 @@ import {
 } from 'angular-gridster2';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
 import {
 	EditChartDialogComponent,
@@ -24,7 +25,7 @@ import { StatisticsWidgetType } from '../../../data-model/modules/statistics/wid
 	selector: 'ex-chart-widget-list',
 	templateUrl: './chart-widget-list.component.html',
 	styleUrl: './chart-widget-list.component.scss',
-	imports: [ChartWidgetComponent, Gridster, GridsterItem, ButtonComponent],
+	imports: [ChartWidgetComponent, Gridster, GridsterItem, ButtonComponent, AnimatedSkeletonLoaderComponent],
 })
 export class ChartWidgetListComponent {
 	private readonly store = inject(WidgetStore);

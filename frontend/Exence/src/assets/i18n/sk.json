@@ -208,7 +208,8 @@
 			"kickMember": {
 				"title": "Vyhodiť člena",
 				"message": "Naozaj chcete vyhodiť {{name}} z tohto pracovného priestoru?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Opustiť pracovný priestor",
@@ -1202,14 +1203,14 @@
 			"DELETED": "Vymazané"
 		},
 		"entityTypeLabel": {
-			"Transaction": "Transakcia",
-			"Category": "Kategória",
-			"Goal": "Cieľ",
-			"Debt": "Dlh",
-			"Investment": "Investícia",
-			"RecurringTransaction": "Opakovaná transakcia",
-			"Workspace": "Pracovný priestor",
-			"WorkspaceMember": "Člen pracovného priestoru"
+			"TRANSACTION": "Transakcia",
+			"CATEGORY": "Kategória",
+			"GOAL": "Cieľ",
+			"DEBT": "Dlh",
+			"INVESTMENT": "Investícia",
+			"RECURRING_TRANSACTION": "Opakovaná transakcia",
+			"WORKSPACE": "Pracovný priestor",
+			"WORKSPACE_MEMBER": "Člen pracovného priestoru"
 		},
 		"field": {
 			"title": "Názov",

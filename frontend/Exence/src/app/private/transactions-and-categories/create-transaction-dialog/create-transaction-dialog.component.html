@@ -1,8 +1,18 @@
-<ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
+<ex-dialog-card
+	data-testid="create-transaction-dialog"
+	[formGroup]="form"
+	(submit)="create()"
+	[confirmExitDialog]="dialogRef"
+>
 	<div ex-dialog-card-title>{{ 'transaction.create.title' | translate }}</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
-		<mat-button-toggle-group [formControl]="form.controls.type" [hideSingleSelectionIndicator]="true" class="mb-3">
+		<mat-button-toggle-group
+			data-testid="transaction-type-toggle"
+			[formControl]="form.controls.type"
+			[hideSingleSelectionIndicator]="true"
+			class="mb-3"
+		>
 			@for (type of transactionTypes | enumValue; track type) {
 				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">{{
 					codeForTransactionType(type) | translate | uppercase
@@ -13,7 +23,7 @@
 		@let titleControl = form.controls.title;
 		<mat-form-field>
 			<mat-label>{{ 'transaction.create.titleLabel' | translate }}</mat-label>
-			<input matInput autoTrim [formControl]="titleControl" />
+			<input data-testid="transaction-title-input" matInput autoTrim [formControl]="titleControl" />
 			<ex-input-clear matSuffix [control]="titleControl" />
 			<mat-error>
 				<ex-validator [control]="titleControl" />
@@ -23,6 +33,7 @@
 		<div class="d-flex flex-column flex-sm-row align-items-sm-start gap-3">
 			@let amountControl = form.controls.amount;
 			<ex-amount-stepper
+				data-testid="transaction-amount-stepper"
 				[control]="amountControl"
 				label="transaction.create.amount"
 				[min]="1"
@@ -34,7 +45,12 @@
 				[matTooltipDisabled]="dateControl.enabled"
 			>
 				<mat-label>{{ 'transaction.create.date' | translate }}</mat-label>
-				<input matInput [matDatepicker]="picker" [formControl]="dateControl" />
+				<input
+					data-testid="transaction-date-input"
+					matInput
+					[matDatepicker]="picker"
+					[formControl]="dateControl"
+				/>
 				<mat-datepicker-toggle matIconSuffix [for]="picker" />
 				<mat-datepicker #picker />
 				<mat-error>
@@ -47,7 +63,7 @@
 			@let currencyControl = form.controls.currency;
 			<mat-form-field>
 				<mat-label>{{ 'transaction.create.currency' | translate }}</mat-label>
-				<mat-select [formControl]="currencyControl">
+				<mat-select data-testid="transaction-currency-select" [formControl]="currencyControl">
 					@for (currency of currencies | enumValue; track currency) {
 						<mat-option [value]="currency">{{ currency }} - {{ localizeCurrency(currency) }}</mat-option>
 					}
@@ -58,6 +74,7 @@
 			</mat-form-field>
 			@let exchangeRateControl = form.controls.exchangeRate;
 			<ex-amount-stepper
+				data-testid="transaction-exchange-rate-stepper"
 				[control]="exchangeRateControl"
 				label="transaction.create.exchangeRate"
 				[step]="0.1"
@@ -72,6 +89,7 @@
 			<mat-form-field class="flex-grow-1">
 				<mat-label>{{ 'transaction.create.category' | translate }}</mat-label>
 				<mat-select
+					data-testid="transaction-category-select"
 					selectAutoFocus
 					[focusedInput]="searchCategoryInput"
 					[formControl]="categoryControl.category"
@@ -98,7 +116,11 @@
 			</mat-form-field>
 
 			@let recurringControl = form.controls.recurring.controls.isRecurring;
-			<mat-checkbox class="flex-grow-1 flex-shrink-0" [formControl]="recurringControl">
+			<mat-checkbox
+				data-testid="transaction-recurring-checkbox"
+				class="flex-grow-1 flex-shrink-0"
+				[formControl]="recurringControl"
+			>
 				{{ 'transaction.create.recurring' | translate }}
 			</mat-checkbox>
 		</div>
@@ -111,7 +133,7 @@
 
 				@let frequencyControl = recurringConfigs.frequency;
 				<mat-form-field subscriptSizing="dynamic">
-					<mat-select [formControl]="frequencyControl">
+					<mat-select data-testid="recurring-frequency-select" [formControl]="frequencyControl">
 						@for (freq of recurrenceFrequencies | enumValue; track freq) {
 							<mat-option [value]="freq">{{ codeForFrequency(freq) | translate }}</mat-option>
 						}
@@ -173,12 +195,13 @@
 			<mat-form-field>
 				<mat-label>{{ 'recurring.startDate' | translate }}</mat-label>
 				<input
+					data-testid="recurring-start-date-input"
 					matInput
 					[matDatepicker]="picker"
 					[formControl]="recurringConfigs.startDate"
 					[matDatepickerFilter]="recurringDateFilter()"
 				/>
-				<mat-datepicker-toggle matIconSuffix [for]="picker" />
+				<mat-datepicker-toggle data-testid="recurring-start-date-toggle" matIconSuffix [for]="picker" />
 				<mat-datepicker #picker />
 				<mat-error>
 					<ex-validator [control]="recurringConfigs.startDate" />
@@ -188,7 +211,7 @@
 				@let endCondControl = recurringConfigs.endCondition;
 				<mat-form-field>
 					<mat-label>{{ 'recurring.ends.label' | translate }}</mat-label>
-					<mat-select [formControl]="endCondControl">
+					<mat-select data-testid="recurring-end-condition-select" [formControl]="endCondControl">
 						@for (cond of endConditions | enumValue; track cond) {
 							<mat-option [value]="cond">{{ codeForEndCondition(cond) | translate }}</mat-option>
 						}
@@ -234,6 +257,7 @@
 					@case (endConditions.AFTER_OCCURRENCES) {
 						@let maxOccurrencesControl = recurringConfigs.maxOccurrences;
 						<ex-amount-stepper
+							data-testid="recurring-max-occurrences"
 							[control]="maxOccurrencesControl"
 							[step]="1"
 							[label]="'recurring.maxOccurrences'"
@@ -259,7 +283,7 @@
 		</mat-form-field>
 
 		@if (isRecurring()) {
-			<ex-note-box type="info">
+			<ex-note-box type="info" class="mx-auto">
 				<span [innerHTML]="'recurring.info' | translate"></span>
 			</ex-note-box>
 		}

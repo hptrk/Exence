@@ -52,7 +52,7 @@ export class CreateCategoryDialogComponent extends DialogComponent<undefined, Ca
 	categoryTypes = CategoryType;
 
 	form = this.fb.group({
-		name: this.fb.control<string>('', [Validators.required, Validators.minLength(1), Validators.maxLength(255)]),
+		name: this.fb.control<string>('', [Validators.required, Validators.minLength(1), Validators.maxLength(25)]),
 		icon: this.fb.group({
 			icon: this.fb.control<MaterialIcon | null>(null, [Validators.required]),
 			color: this.fb.control<string>('', [Validators.required]),

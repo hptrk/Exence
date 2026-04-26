@@ -11,11 +11,11 @@ export const AchievementStore = signalStore(
 	withProps((_, service = inject(AchievementService), workspaceService = inject(WorkspaceService)) => ({
 		allResource: resource<AchievementGet[], WorkspaceGet | null>({
 			params: () => workspaceService.currentWorkspace(),
-			loader: () => service.list(),
+			loader: async () => await service.list(),
 		}),
 		unlockedResource: resource<UserAchievementGet[], WorkspaceGet | null>({
 			params: () => workspaceService.currentWorkspace(),
-			loader: () => service.listUnlocked(),
+			loader: async () => await service.listUnlocked(),
 		}),
 	})),
 
@@ -27,7 +27,7 @@ export const AchievementStore = signalStore(
 	})),
 
 	withComputed(store => ({
-		achievements: computed(() => store.allResource.value() ?? []),
+		achievements: computed(() => store.allResource.value()),
 		unlockedAchievements: computed(() => store.unlockedResource.value() ?? []),
 		isLoading: computed(() => store.allResource.isLoading() || store.unlockedResource.isLoading()),
 	})),

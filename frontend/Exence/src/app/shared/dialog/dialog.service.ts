@@ -201,9 +201,7 @@ type Dialog<I, O> = DialogConstructor<I, O> | TemplateRef<any>;
  */
 type DialogSettings = Omit<MatDialogConfig, 'injector' | 'disableClose'>;
 
-@Injectable({
-	providedIn: 'root',
-})
+@Injectable()
 export class DialogService extends BaseComponent {
 	private readonly injector = inject(Injector);
 	private readonly matDialog = inject(MatDialog);

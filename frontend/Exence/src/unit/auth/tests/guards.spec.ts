@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection } from '@angular/core';
+import { Signal, WritableSignal, provideZonelessChangeDetection, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { firstValueFrom, Observable } from 'rxjs';
@@ -40,26 +40,40 @@ function resolveCanActivate(result: boolean | Observable<boolean>): Promise<bool
 
 // loggedInGuard
 describe('loggedInGuard', () => {
-	let currentUserService: CurrentUserService;
+	let userSignal: WritableSignal<UserGet | undefined>;
+	let mockCurrentUserService: {
+		user: Signal<UserGet | undefined>;
+		isAuthenticated: jasmine.Spy;
+		isAdmin: jasmine.Spy;
+	};
+	let mockNavigationService: { account: jasmine.Spy; private: jasmine.Spy };
 	let mockRouter: jasmine.SpyObj<Router>;
 
 	beforeEach(() => {
+		userSignal = signal<UserGet | undefined>(undefined);
+		mockCurrentUserService = {
+			user: userSignal.asReadonly(),
+			isAuthenticated: jasmine.createSpy('isAuthenticated').and.callFake(() => userSignal() !== undefined),
+			isAdmin: jasmine.createSpy('isAdmin').and.callFake(() => userSignal()?.role === Role.ADMIN),
+		};
+		mockNavigationService = {
+			account: jasmine.createSpy('account').and.returnValue({ login: () => '/public/login' }),
+			private: jasmine.createSpy('private').and.returnValue({ dashboard: () => '/dashboard' }),
+		};
 		mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
 		TestBed.configureTestingModule({
 			providers: [
 				provideZonelessChangeDetection(),
-				CurrentUserService,
-				NavigationService,
+				{ provide: CurrentUserService, useValue: mockCurrentUserService },
+				{ provide: NavigationService, useValue: mockNavigationService },
 				{ provide: Router, useValue: mockRouter },
 			],
 		});
-
-		currentUserService = TestBed.inject(CurrentUserService);
 	});
 
 	it('returns true when user is authenticated', async () => {
-		currentUserService.user = mockUser;
+		userSignal.set(mockUser);
 
 		const result = await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(
@@ -72,8 +86,6 @@ describe('loggedInGuard', () => {
 	});
 
 	it('redirects to login with returnUrl when user is unauthenticated', async () => {
-		currentUserService.user = undefined;
-
 		const result = await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(
 				loggedInGuard(makeRoute(), makeState('/private/dashboard')) as boolean | Observable<boolean>,
@@ -87,8 +99,6 @@ describe('loggedInGuard', () => {
 	});
 
 	it('includes the correct returnUrl in the query params', async () => {
-		currentUserService.user = undefined;
-
 		await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(
 				loggedInGuard(makeRoute(), makeState('/transactions?page=2')) as boolean | Observable<boolean>,
@@ -103,22 +113,36 @@ describe('loggedInGuard', () => {
 
 // loggedOutGuard
 describe('loggedOutGuard', () => {
-	let currentUserService: CurrentUserService;
+	let userSignal: WritableSignal<UserGet | undefined>;
+	let mockCurrentUserService: {
+		user: Signal<UserGet | undefined>;
+		isAuthenticated: jasmine.Spy;
+		isAdmin: jasmine.Spy;
+	};
+	let mockNavigationService: { account: jasmine.Spy; private: jasmine.Spy };
 	let mockRouter: jasmine.SpyObj<Router>;
 
 	beforeEach(() => {
+		userSignal = signal<UserGet | undefined>(undefined);
+		mockCurrentUserService = {
+			user: userSignal.asReadonly(),
+			isAuthenticated: jasmine.createSpy('isAuthenticated').and.callFake(() => userSignal() !== undefined),
+			isAdmin: jasmine.createSpy('isAdmin').and.callFake(() => userSignal()?.role === Role.ADMIN),
+		};
+		mockNavigationService = {
+			account: jasmine.createSpy('account').and.returnValue({ login: () => '/public/login' }),
+			private: jasmine.createSpy('private').and.returnValue({ dashboard: () => '/dashboard' }),
+		};
 		mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
 		TestBed.configureTestingModule({
 			providers: [
 				provideZonelessChangeDetection(),
-				CurrentUserService,
-				NavigationService,
+				{ provide: CurrentUserService, useValue: mockCurrentUserService },
+				{ provide: NavigationService, useValue: mockNavigationService },
 				{ provide: Router, useValue: mockRouter },
 			],
 		});
-
-		currentUserService = TestBed.inject(CurrentUserService);
 	});
 
 	it('returns true immediately when password-changed query param is true', async () => {
@@ -135,8 +159,6 @@ describe('loggedOutGuard', () => {
 	});
 
 	it('returns true when user is unauthenticated', async () => {
-		currentUserService.user = undefined;
-
 		const result = await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(
 				loggedOutGuard(makeRoute(), makeState('/public/login')) as boolean | Observable<boolean>,
@@ -148,7 +170,7 @@ describe('loggedOutGuard', () => {
 	});
 
 	it('redirects to dashboard when user is already authenticated', async () => {
-		currentUserService.user = mockUser;
+		userSignal.set(mockUser);
 
 		const result = await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(
@@ -161,8 +183,6 @@ describe('loggedOutGuard', () => {
 	});
 
 	it('does not redirect when password-changed param is not true', async () => {
-		currentUserService.user = undefined;
-
 		await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(
 				loggedOutGuard(makeRoute({ 'password-changed': 'false' }), makeState('/public/login')) as
@@ -177,26 +197,40 @@ describe('loggedOutGuard', () => {
 
 // adminGuard
 describe('adminGuard', () => {
-	let currentUserService: CurrentUserService;
+	let userSignal: WritableSignal<UserGet | undefined>;
+	let mockCurrentUserService: {
+		user: Signal<UserGet | undefined>;
+		isAuthenticated: jasmine.Spy;
+		isAdmin: jasmine.Spy;
+	};
+	let mockNavigationService: { account: jasmine.Spy; private: jasmine.Spy };
 	let mockRouter: jasmine.SpyObj<Router>;
 
 	beforeEach(() => {
+		userSignal = signal<UserGet | undefined>(undefined);
+		mockCurrentUserService = {
+			user: userSignal.asReadonly(),
+			isAuthenticated: jasmine.createSpy('isAuthenticated').and.callFake(() => userSignal() !== undefined),
+			isAdmin: jasmine.createSpy('isAdmin').and.callFake(() => userSignal()?.role === Role.ADMIN),
+		};
+		mockNavigationService = {
+			account: jasmine.createSpy('account').and.returnValue({ login: () => '/public/login' }),
+			private: jasmine.createSpy('private').and.returnValue({ dashboard: () => '/dashboard' }),
+		};
 		mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
 		TestBed.configureTestingModule({
 			providers: [
 				provideZonelessChangeDetection(),
-				CurrentUserService,
-				NavigationService,
+				{ provide: CurrentUserService, useValue: mockCurrentUserService },
+				{ provide: NavigationService, useValue: mockNavigationService },
 				{ provide: Router, useValue: mockRouter },
 			],
 		});
-
-		currentUserService = TestBed.inject(CurrentUserService);
 	});
 
 	it('returns true when user has admin role', async () => {
-		currentUserService.user = mockAdminUser;
+		userSignal.set(mockAdminUser);
 
 		const result = await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(adminGuard(makeRoute(), makeState('/admin')) as boolean | Observable<boolean>);
@@ -207,7 +241,7 @@ describe('adminGuard', () => {
 	});
 
 	it('redirects to dashboard when user has user role', async () => {
-		currentUserService.user = mockUser;
+		userSignal.set(mockUser);
 
 		const result = await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(adminGuard(makeRoute(), makeState('/admin')) as boolean | Observable<boolean>);
@@ -218,8 +252,6 @@ describe('adminGuard', () => {
 	});
 
 	it('redirects to dashboard when user is unauthenticated', async () => {
-		currentUserService.user = undefined;
-
 		const result = await TestBed.runInInjectionContext(() => {
 			return resolveCanActivate(adminGuard(makeRoute(), makeState('/admin')) as boolean | Observable<boolean>);
 		});

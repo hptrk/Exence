@@ -124,7 +124,7 @@ export class ChartWidgetComponent extends BaseComponent {
 
 		effect(() => {
 			this.themeService.displayThemeSignal(); // dependency
-			this.activeLang(); // dependency — re-render chart when language changes
+			this.activeLang(); // dependency - re-render chart when language changes
 			const currency = this.currency();
 			const payload = (this.noRequest() ? this.payload() : undefined) ?? this.cachedPayload();
 			if (!payload) return;

@@ -108,7 +108,7 @@ describe('WidgetStore', () => {
 		});
 	});
 
-	// addWidget — stat card
+	// addWidget - stat card
 	describe('addWidget (stat card)', () => {
 		const responseWithStatCard: WidgetLayoutResponse = {
 			statCards: [mockStatCard],
@@ -144,7 +144,7 @@ describe('WidgetStore', () => {
 		});
 	});
 
-	// addWidget — chart
+	// addWidget - chart
 	describe('addWidget (chart)', () => {
 		const responseWithChart: WidgetLayoutResponse = {
 			statCards: [],
@@ -177,7 +177,7 @@ describe('WidgetStore', () => {
 		});
 	});
 
-	// deleteWidget — stat card
+	// deleteWidget - stat card
 	describe('deleteWidget (stat card)', () => {
 		beforeEach(() => {
 			const layout: WidgetLayoutResponse = { statCards: [mockStatCard, mockStatCard2], charts: [mockChart] };
@@ -213,7 +213,7 @@ describe('WidgetStore', () => {
 		});
 	});
 
-	// deleteWidget — chart
+	// deleteWidget - chart
 	describe('deleteWidget (chart)', () => {
 		it('removes the chart by id and leaves statCards unchanged', async () => {
 			mockStatisticService.getLayout.and.resolveTo({ statCards: [mockStatCard], charts: [mockChart] });
@@ -227,7 +227,7 @@ describe('WidgetStore', () => {
 		});
 	});
 
-	// applyChangesOnWidget — stat card
+	// applyChangesOnWidget - stat card
 	describe('applyChangesOnWidget (stat card)', () => {
 		it('updates title and settings for the matching stat card', async () => {
 			mockStatisticService.getLayout.and.resolveTo({ statCards: [mockStatCard, mockStatCard2], charts: [] });
@@ -257,7 +257,7 @@ describe('WidgetStore', () => {
 		});
 	});
 
-	// applyChangesOnWidget — chart
+	// applyChangesOnWidget - chart
 	describe('applyChangesOnWidget (chart)', () => {
 		it('updates title and settings for the matching chart', async () => {
 			mockStatisticService.getLayout.and.resolveTo({ statCards: [], charts: [mockChart] });

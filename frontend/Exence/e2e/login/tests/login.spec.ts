@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
-import { getErrorSnackbar, getSnackbarCloseBtn } from '../../snackbar/locators/snackbar-locators';
+import { fillAndBlur } from '../../form/utils/form-utils';
+import { getErrorSnackbar } from '../../snackbar/locators/snackbar-locators';
 import data from '../data/login.data.json';
 import {
 	getEmailClearBtn,
@@ -13,16 +14,12 @@ import {
 	getShowPwdBtn,
 	getToRegisterButton,
 } from '../locators/login-locators';
-import { fillAndBlur } from '../../form/utils/form-utils';
 
 test.describe('Login', () => {
 	test.beforeEach(async ({ page, context }) => {
-		await context.clearCookies({ domain: 'localhost' }); // TODO change based on env
+		await context.clearCookies({ domain: 'localhost' });
 		await page.addInitScript(() => localStorage.setItem('language', 'en'));
 		await page.goto('/public/login', { waitUntil: 'domcontentloaded' });
-
-		await expect(getErrorSnackbar(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
 	});
 
 	test('should display validators', async ({ page }) => {

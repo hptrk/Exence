@@ -208,7 +208,8 @@
 			"kickMember": {
 				"title": "Tag kirúgása",
 				"message": "Biztosan ki szeretné rúgni {{name}} felhasználót erről a munkaterületről?",
-				"success": "'{{memberEmail}}' kirúgva!"
+				"success": "'{{memberEmail}}' kirúgva!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Kilépés a munkaterületről",
@@ -655,7 +656,7 @@
 		"message": "Vannak el nem mentett módosításai. Biztos, hogy el akarsz menni? A módosításai elvesznek."
 	},
 	"icons": {
-		"localConvenienceStore": "local_convenience_store",
+		"localConvenienceStore": "helyi bevásárlóközpont",
 		"shoppingBasket": "Bevásárlókosár",
 		"fridge": "hűtőszekrény",
 		"skillet": "serpenyő",
@@ -1202,14 +1203,14 @@
 			"DELETED": "Törölve"
 		},
 		"entityTypeLabel": {
-			"Transaction": "Tranzakció",
-			"Category": "Kategória",
-			"Goal": "Cél",
-			"Debt": "Tartozás",
-			"Investment": "Befektetés",
-			"RecurringTransaction": "Ismétlődő tranzakció",
-			"Workspace": "Munkaterület",
-			"WorkspaceMember": "Munkaterület tag"
+			"TRANSACTION": "Tranzakció",
+			"CATEGORY": "Kategória",
+			"GOAL": "Cél",
+			"DEBT": "Tartozás",
+			"INVESTMENT": "Befektetés",
+			"RECURRING_TRANSACTION": "Ismétlődő tranzakció",
+			"WORKSPACE": "Munkaterület",
+			"WORKSPACE_MEMBER": "Munkaterület tag"
 		},
 		"field": {
 			"title": "Cím",

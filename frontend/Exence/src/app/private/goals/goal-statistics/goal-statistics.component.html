@@ -1,11 +1,11 @@
 <section class="d-flex flex-column gap-3 overflow-y-auto">
-	<article class="card-grid">
+	<article class="card-grid" data-testid="goal-stat-cards">
 		@for (card of cards; track card) {
 			<ex-stat-card class="flex-grow-1" [goalCardType]="card" [customTitle]="widgetTitles[card] | translate" />
 		}
 	</article>
 
-	<article class="chart-grid" [class.single-chart]="!hasCategories()">
+	<article class="chart-grid" data-testid="goal-chart-grid" [class.single-chart]="!hasCategories()">
 		@for (chart of visibleCharts(); track chart) {
 			@if (store.goalResource.isLoading()) {
 				<ex-animated-skeleton-loader height="600px" width="100%" />

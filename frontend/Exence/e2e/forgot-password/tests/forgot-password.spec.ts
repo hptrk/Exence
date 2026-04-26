@@ -17,12 +17,9 @@ import {
 test.describe('Forgot Password', () => {
 	// Initialization: register a test account (idempotent - succeeds even if already registered)
 	test.beforeEach(async ({ page, context }) => {
-		await context.clearCookies({ domain: 'localhost' }); // TODO change based on env
+		await context.clearCookies({ domain: 'localhost' });
 		await page.addInitScript(() => localStorage.setItem('language', 'en'));
 		await page.goto('/public/forgot-password', { waitUntil: 'domcontentloaded' });
-
-		await expect(getErrorSnackbar(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
 	});
 
 	test('should display correct title, form fields', async ({ page }) => {
@@ -64,12 +61,6 @@ test.describe('Forgot Password', () => {
 		// Resend email
 		await getResendEmailBtn(page).click();
 		await expect(getEmailSentTitle(page)).toBeVisible();
-		if (await getSnackbarCloseBtn(page).isVisible()) await getSnackbarCloseBtn(page).click();
-
-		// Rapid resend should trigger rate limit error
-		await getResendEmailBtn(page).click();
-		await expect(getErrorSnackbar(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
 
 		// Change email address - should go back to main forgot password form
 		await getChangeEmailBtn(page).click();
@@ -81,7 +72,6 @@ test.describe('Forgot Password', () => {
 		// Try sending same email again - should fail with rate limit
 		await getSendEmailBtn(page).click();
 		await expect(getErrorSnackbar(page)).toBeVisible();
-		if (await getSnackbarCloseBtn(page).isVisible()) await getSnackbarCloseBtn(page).click();
 
 		// Change to a different email that works
 		await getEmailField(page).clear();

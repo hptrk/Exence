@@ -1,11 +1,11 @@
-<ex-dialog-card [formGroup]="form" (submit)="save()" [confirmExitDialog]="dialogRef">
+<ex-dialog-card data-testid="edit-debt-dialog" [formGroup]="form" (submit)="save()" [confirmExitDialog]="dialogRef">
 	<div ex-dialog-card-title>{{ 'debts.edit.title' | translate }}</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
 		@let titleControl = form.controls.title;
 		<mat-form-field>
 			<mat-label>{{ 'debts.edit.titleLabel' | translate }}</mat-label>
-			<input matInput autoTrim [formControl]="titleControl" />
+			<input data-testid="debt-title-input" matInput autoTrim [formControl]="titleControl" />
 			<ex-input-clear matSuffix [control]="titleControl" />
 			<mat-error>
 				<ex-validator [control]="titleControl" />
@@ -15,7 +15,7 @@
 		@let counterpartyControl = form.controls.counterpartyName;
 		<mat-form-field>
 			<mat-label>{{ 'debts.edit.counterpartyName' | translate }}</mat-label>
-			<input matInput autoTrim [formControl]="counterpartyControl" />
+			<input data-testid="debt-counterparty-input" matInput autoTrim [formControl]="counterpartyControl" />
 			<ex-input-clear matSuffix [control]="counterpartyControl" />
 			<mat-error>
 				<ex-validator [control]="counterpartyControl" />
@@ -26,7 +26,7 @@
 			@let statusControl = form.controls.status;
 			<mat-form-field>
 				<mat-label>{{ 'debts.edit.status' | translate }}</mat-label>
-				<mat-select [formControl]="statusControl">
+				<mat-select data-testid="debt-status-select" [formControl]="statusControl">
 					@for (status of debtStatuses | enumValue; track status) {
 						<mat-option [value]="status">{{ codeForStatus(status) | translate }}</mat-option>
 					}
@@ -39,7 +39,7 @@
 			@let typeControl = form.controls.type;
 			<mat-form-field>
 				<mat-label>{{ 'debts.edit.type' | translate }}</mat-label>
-				<mat-select [formControl]="typeControl">
+				<mat-select data-testid="debt-type-select" [formControl]="typeControl">
 					@for (type of debtTypes | enumValue; track type) {
 						<mat-option [value]="type">{{ codeForType(type) | translate }}</mat-option>
 					}
@@ -54,7 +54,12 @@
 			@let deadlineControl = form.controls.deadline;
 			<mat-form-field>
 				<mat-label>{{ 'debts.edit.deadline' | translate }}</mat-label>
-				<input matInput [matDatepicker]="deadlinePicker" [formControl]="deadlineControl" />
+				<input
+					data-testid="debt-deadline-input"
+					matInput
+					[matDatepicker]="deadlinePicker"
+					[formControl]="deadlineControl"
+				/>
 				<mat-datepicker-toggle matIconSuffix [for]="deadlinePicker" />
 				<mat-datepicker #deadlinePicker />
 				<mat-error>
@@ -67,9 +72,11 @@
 		<mat-form-field>
 			<mat-label>{{ 'debts.edit.category' | translate }}</mat-label>
 			<mat-select
+				data-testid="debt-category-select"
 				selectAutoFocus
 				[focusedInput]="searchCategoryInput"
 				[formControl]="categoryControl.category"
+				[compareWith]="compareCategories"
 				(closed)="categoryControl.searchText.reset()"
 			>
 				<mat-form-field subscriptSizing="dynamic" class="search-with-select">
@@ -99,19 +106,22 @@
 		<mat-divider class="my-3" />
 		<div class="d-flex flex-column gap-3">
 			<p class="m-0 fw-semibold">{{ 'debts.makePayment' | translate }}</p>
-			<div class="d-flex flex-row gap-3 align-items-end" [formGroup]="paymentForm">
+			<div class="d-flex flex-row gap-3 align-items-baseline" [formGroup]="paymentForm">
 				<ex-amount-stepper
+					data-testid="debt-payment-amount-stepper"
 					class="mb-3 flex-grow-1"
 					[control]="paymentForm.controls.amount"
 					[label]="'debts.paymentAmount'"
 					[min]="0.01"
 					[step]="amountStep()"
+					[disabled]="data.debt.status === debtStatuses.SETTLED"
 				/>
 				<ex-button
+					data-testid="debt-pay-btn"
 					filled
 					color="primary"
 					matIcon="payments"
-					[disabled]="paymentForm.invalid"
+					[disabled]="paymentForm.invalid || data.debt.status === debtStatuses.SETTLED"
 					(click)="makePayment()"
 					class="mb-4"
 				>
@@ -125,10 +135,17 @@
 		ex-dialog-card-actions
 		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
 	>
-		<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>
+		<ex-button data-testid="debt-cancel-btn" outline color="accent" matIcon="close" type="button" mat-dialog-close>
 			{{ 'literals.cancel' | translate }}
 		</ex-button>
-		<ex-button filled color="primary" matIcon="save" [disabled]="form.invalid" (click)="save()">
+		<ex-button
+			data-testid="debt-save-btn"
+			filled
+			color="primary"
+			matIcon="save"
+			[disabled]="form.invalid"
+			(click)="save()"
+		>
 			{{ 'literals.save' | translate }}
 		</ex-button>
 	</div>

@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { MatDialogClose } from '@angular/material/dialog';
+import { MatDialog, MatDialogClose } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { TranslocoService } from '@jsverse/transloco';
 import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { DialogComponent } from '../../shared/dialog/dialog.service';
 import { DisplaySizeService } from '../../shared/display-size.service';
+import { NavigationService } from '../../shared/navigation/navigation.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
-import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 import { CurrentUserService } from '../../shared/user/current-user.service';
 import { WorkspaceService } from '../../shared/workspace.service';
 import { SessionsListComponent } from '../session/sessions-list/sessions-list.component';
@@ -53,8 +53,9 @@ export class ProfileDialogComponent extends DialogComponent<void, void> {
 	private readonly currentUserService = inject(CurrentUserService);
 	private readonly workspaceService = inject(WorkspaceService);
 	private readonly store = inject(WorkspaceSettingsStore);
-	private readonly snackbarService = inject(SnackbarService);
-	private readonly translocoService = inject(TranslocoService);
+	private readonly navigationService = inject(NavigationService);
+	private readonly router = inject(Router);
+	private readonly matDialog = inject(MatDialog);
 	readonly display = inject(DisplaySizeService);
 
 	selectedPage = signal<
@@ -69,11 +70,10 @@ export class ProfileDialogComponent extends DialogComponent<void, void> {
 
 	switchWorkspace(id: number): void {
 		const ws = this.workspaces().find(w => w.id === id);
-		if (ws) {
+		if (ws && ws.id !== this.selectedWorkspaceId()) {
 			this.workspaceService.setWorkspace(ws);
-			this.snackbarService.showSuccess(
-				this.translocoService.translate('profile.switchWorkspaceSuccess', { workspaceName: ws.name }),
-			);
+			this.matDialog.closeAll();
+			this.router.navigateByUrl(this.navigationService.private().dashboard());
 		}
 	}
 

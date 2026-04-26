@@ -24,7 +24,7 @@
 	<ng-template exCell="frequency" let-row> {{ row.interval }} × {{ row.frequency }} </ng-template>
 
 	<ng-template exCell="nextDate" let-row>
-		{{ row.nextExecutionDate ? (row.nextExecutionDate | date: 'yy/MM/dd') : '—' }}
+		{{ row.nextExecutionDate ? (row.nextExecutionDate | date: 'yy/MM/dd') : '-' }}
 	</ng-template>
 
 	<ng-template exCell="category" let-row>

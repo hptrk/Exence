@@ -19,3 +19,12 @@ mat-card.mat-mdc-card {
 	justify-content: center;
 	padding: 0.5rem;
 }
+
+dd {
+	width: 80px;
+	flex-basis: 80px;
+}
+
+span {
+	max-width: 25ch;
+}

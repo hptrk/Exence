@@ -2,10 +2,13 @@
 	<div class="d-flex flex-row justify-content-center justify-content-md-between align-items-center gap-2">
 		<div>
 			<h1
+				data-testid="dashboard-title"
 				class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}"
 				[innerHTML]="'dashboard.title' | translate: { username: user().username }"
 			></h1>
-			<p class="fs-4 m-0 text-center text-md-start">{{ 'dashboard.subtitle' | translate }}</p>
+			<p data-testid="dashboard-subtitle" class="fs-4 m-0 text-center text-md-start">
+				{{ 'dashboard.subtitle' | translate }}
+			</p>
 		</div>
 	</div>
 
@@ -36,6 +39,7 @@
 		@if (display.isMd()) {
 			<div class="d-flex flex-row align-items-center gap-4" cardSlider>
 				<ex-summary-container
+					data-testid="summary-income"
 					class="flex-grow-1"
 					matIcon="attach_money"
 					[title]="'literals.income' | translate"
@@ -43,6 +47,7 @@
 					[type]="transactionTypes.INCOME"
 				/>
 				<ex-summary-container
+					data-testid="summary-expense"
 					class="flex-grow-1"
 					matIcon="money_off"
 					[title]="'literals.expense' | translate"
@@ -50,6 +55,7 @@
 					[type]="transactionTypes.EXPENSE"
 				/>
 				<ex-summary-container
+					data-testid="summary-balance"
 					class="flex-grow-1"
 					matIcon="savings"
 					[title]="'literals.balance' | translate"
@@ -61,6 +67,7 @@
 		@if (display.isLg()) {
 			<div class="d-flex flex-row flex-nowrap gap-4 h-100 overflow-hidden">
 				<ex-transaction-list
+					data-testid="expenses-list"
 					class="flex-grow-1"
 					matIcon="money_off"
 					[title]="'literals.expenses' | translate"
@@ -68,6 +75,7 @@
 					nonExpandable
 				/>
 				<ex-transaction-list
+					data-testid="income-list"
 					class="flex-grow-1"
 					matIcon="attach_money"
 					[title]="'literals.income' | translate"
@@ -78,6 +86,7 @@
 		} @else {
 			<div class="d-flex flex-column gap-4 align-items-center h-100">
 				<ex-transaction-list
+					data-testid="transactions-list"
 					class="w-100"
 					matIcon="attach_money"
 					[title]="'literals.transactions' | translate"
@@ -92,6 +101,7 @@
 <ng-template #mobileButtons>
 	<div class="d-flex flex-column-reverse flex-sm-row gap-2 justify-content-center align-items-md-center w-100">
 		<ex-button
+			data-testid="create-expense-btn"
 			filled
 			color="error"
 			class="flex-grow-1"
@@ -100,6 +110,7 @@
 			{{ 'literals.expense' | translate }}
 		</ex-button>
 		<ex-button
+			data-testid="create-income-btn"
 			filled
 			color="success"
 			class="flex-grow-1"

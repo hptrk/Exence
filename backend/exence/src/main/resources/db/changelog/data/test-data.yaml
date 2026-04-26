@@ -43,14 +43,14 @@ databaseChangeLog:
                   valueNumeric: 2
               - column:
                   name: username
-                  value: Winston
+                  value: Winston2
               - column:
                   name: email
                   value: captainwinnie2@exence.com
               - column:
                   name: password
-                  # Password: Test123!
-                  value: $argon2id$v=19$m=16384,t=2,p=1$5AxT9E1LV/etFs6qRdEf5Q$CV/y22dJjwGGEUPveLvIHEQHHVHcXpjHpiyU1YhZjU8
+                  # Password: Password123!
+                  value: $argon2id$v=19$m=16384,t=2,p=1$COLftIY2kQ+6XZ7jujaUfQ$LYsU3d0BlTYeIq2S3XxlH8DftB1r5fGyr5j2XhFzbmM
               - column:
                   name: email_verified
                   valueBoolean: true
@@ -59,7 +59,32 @@ databaseChangeLog:
                   valueComputed: "${now}"
               - column:
                   name: role
-                  value: ADMIN
+                  value: USER
+        - insert:
+            tableName: _user
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: username
+                  value: Winnie
+              - column:
+                  name: email
+                  value: captainwinnie@exence.com
+              - column:
+                  name: password
+                  # Password: Password123!
+                  value: $argon2id$v=19$m=16384,t=2,p=1$COLftIY2kQ+6XZ7jujaUfQ$LYsU3d0BlTYeIq2S3XxlH8DftB1r5fGyr5j2XhFzbmM
+              - column:
+                  name: email_verified
+                  valueBoolean: true
+              - column:
+                  name: last_login_at
+                  valueComputed: "${now}"
+              - column:
+                  name: role
+                  value: USER
 
         # Workspace
         - insert:
@@ -71,7 +96,6 @@ databaseChangeLog:
               - column: { name: updated_at, valueComputed: "${now}" }
               - column: { name: created_by, value: 'captainwinnie@exence.com' }
               - column: { name: updated_by, value: 'captainwinnie@exence.com' }
-
         - insert:
             tableName: workspace
             columns:
@@ -81,6 +105,15 @@ databaseChangeLog:
               - column: { name: updated_at, valueComputed: "${now}" }
               - column: { name: created_by, value: 'captainwinnie2@exence.com' }
               - column: { name: updated_by, value: 'captainwinnie2@exence.com' }
+        - insert:
+            tableName: workspace
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: name, value: "Winnie's Workspace" }
+              - column: { name: created_at, valueComputed: "${now}" }
+              - column: { name: updated_at, valueComputed: "${now}" }
+              - column: { name: created_by, value: 'captainwinnie@exence.com' }
+              - column: { name: updated_by, value: 'captainwinnie@exence.com' }
 
         # Workspace Member
         - insert:
@@ -91,13 +124,20 @@ databaseChangeLog:
               - column: { name: user_id, valueNumeric: 1 }
               - column: { name: role, value: 'OWNER' }
               - column: { name: joined_at, valueComputed: "${now}" }
-
         - insert:
             tableName: workspace_member
             columns:
               - column: { name: id, valueNumeric: 2 }
               - column: { name: workspace_id, valueNumeric: 2 }
               - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: role, value: 'OWNER' }
+              - column: { name: joined_at, valueComputed: "${now}" }
+        - insert:
+            tableName: workspace_member
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: workspace_id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 3 }
               - column: { name: role, value: 'OWNER' }
               - column: { name: joined_at, valueComputed: "${now}" }
 
@@ -109,12 +149,18 @@ databaseChangeLog:
               - column: { name: workspace_id, valueNumeric: 1 }
               - column: { name: base_currency, value: 'HUF' }
               - column: { name: show_base_currency, valueBoolean: false }
-
         - insert:
             tableName: workspace_settings
             columns:
               - column: { name: id, valueNumeric: 2 }
               - column: { name: workspace_id, valueNumeric: 2 }
+              - column: { name: base_currency, value: 'HUF' }
+              - column: { name: show_base_currency, valueBoolean: false }
+        - insert:
+            tableName: workspace_settings
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: workspace_id, valueNumeric: 3 }
               - column: { name: base_currency, value: 'HUF' }
               - column: { name: show_base_currency, valueBoolean: false }
 
@@ -7295,6 +7341,14 @@ databaseChangeLog:
               - column: { name: language, value: 'en' }
               - column: { name: primary_theme, value: 'DARK' }
               - column: { name: secondary_theme, value: 'BLUE_DOLPHIN' }
+        - insert:
+            tableName: user_settings
+            columns:
+              - column: { name: id, valueNumeric: 2 }
+              - column: { name: user_id, valueNumeric: 2 }
+              - column: { name: language, value: 'en' }
+              - column: { name: primary_theme, value: 'DARK' }
+              - column: { name: secondary_theme, value: 'BLUE_DOLPHIN' }
 
         # Widgets
         - insert:
@@ -7333,12 +7387,84 @@ databaseChangeLog:
               - column:
                   name: workspace_id
                   valueNumeric: 1
+        - insert:
+            tableName: widget
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: type
+                  value: DASHBOARD_BALANCE_TREND
+              - column:
+                  name: title
+                  value: Balance Trend
+              - column:
+                  name: timeframe
+                  value: YTD
+              - column:
+                  name: display_order
+                  valueNumeric: 0
+              - column:
+                  name: x
+                  valueNumeric: 0
+              - column:
+                  name: y
+                  valueNumeric: 0
+              - column:
+                  name: cols
+                  valueNumeric: 0
+              - column:
+                  name: rows
+                  valueNumeric: 0
+              - column:
+                  name: settings
+                  value: '{}'
+              - column:
+                  name: workspace_id
+                  valueNumeric: 2
+        - insert:
+            tableName: widget
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: type
+                  value: DASHBOARD_BALANCE_TREND
+              - column:
+                  name: title
+                  value: Balance Trend
+              - column:
+                  name: timeframe
+                  value: YTD
+              - column:
+                  name: display_order
+                  valueNumeric: 0
+              - column:
+                  name: x
+                  valueNumeric: 0
+              - column:
+                  name: y
+                  valueNumeric: 0
+              - column:
+                  name: cols
+                  valueNumeric: 0
+              - column:
+                  name: rows
+                  valueNumeric: 0
+              - column:
+                  name: settings
+                  value: '{}'
+              - column:
+                  name: workspace_id
+                  valueNumeric: 3
 
         # Stat cards
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 2 }
+              - column: { name: id, valueNumeric: 4 }
               - column: { name: type, value: 'EXPENSE_FREQUENCY_STATCARD' }
               - column: { name: title, value: 'Expense frequency' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7348,7 +7474,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 3 }
+              - column: { name: id, valueNumeric: 5 }
               - column: { name: type, value: 'NO_SPEND_DAYS_STATCARD' }
               - column: { name: title, value: 'Number of days without spending' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7358,7 +7484,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 4 }
+              - column: { name: id, valueNumeric: 6 }
               - column: { name: type, value: 'SAVINGS_RATE_STATCARD' }
               - column: { name: title, value: 'Savings rate' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7368,7 +7494,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 5 }
+              - column: { name: id, valueNumeric: 7 }
               - column: { name: type, value: 'TOP_INCOME_TRANSACTION_STATCARD' }
               - column: { name: title, value: 'Top income' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7379,7 +7505,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 6 }
+              - column: { name: id, valueNumeric: 8 }
               - column: { name: type, value: 'SPENDING_HEATMAP' }
               - column: { name: title, value: 'Your spendings' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7392,7 +7518,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 7 }
+              - column: { name: id, valueNumeric: 9 }
               - column: { name: type, value: 'SAVINGS_RATE_GAUGE' }
               - column: { name: title, value: 'Savings rate' }
               - column: { name: timeframe, value: 'YTD' }
@@ -7405,7 +7531,7 @@ databaseChangeLog:
         - insert:
             tableName: widget
             columns:
-              - column: { name: id, valueNumeric: 8 }
+              - column: { name: id, valueNumeric: 10 }
               - column: { name: type, value: 'CATEGORY_SANKEY' }
               - column: { name: title, value: 'Money flow by categories' }
               - column: { name: timeframe, value: 'YTD' }

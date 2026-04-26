@@ -1,5 +1,8 @@
 @if (isEmpty()) {
-	<section class="d-flex flex-column align-items-center justify-content-center gap-4 h-100">
+	<section
+		data-testid="investments-empty-state"
+		class="d-flex flex-column align-items-center justify-content-center gap-4 h-100"
+	>
 		<img src="assets/empty-investments.svg" />
 		<div class="d-flex flex-column gap-2 align-items-center text-center">
 			<h3 class="fs-2 fw-bold m-0">
@@ -9,13 +12,19 @@
 				{{ 'investments.empty.subtitle' | translate }}
 			</p>
 		</div>
-		<ex-button (click)="openCreate()" color="primary" matIcon="add" size="lg">
+		<ex-button
+			data-testid="investments-empty-create-btn"
+			(click)="openCreate()"
+			color="primary"
+			matIcon="add"
+			size="lg"
+		>
 			{{ 'investments.create.newAssetTitle' | translate }}
 		</ex-button>
 	</section>
 } @else {
 	<main
-		class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 gap-4"
+		class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 gap-4 h-100"
 		[class.overflow-hidden]="display.isLg()"
 		[class.h-100]="display.isLg()"
 	>

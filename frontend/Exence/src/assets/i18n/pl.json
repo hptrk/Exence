@@ -208,7 +208,8 @@
 			"kickMember": {
 				"title": "Wyrzuć członka",
 				"message": "Czy na pewno chcesz wyrzucić {{name}} z tego obszaru roboczego?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Opuść obszar roboczy",
@@ -1202,14 +1203,14 @@
 			"DELETED": "Usunięto"
 		},
 		"entityTypeLabel": {
-			"Transaction": "Transakcja",
-			"Category": "Kategoria",
-			"Goal": "Cel",
-			"Debt": "Dług",
-			"Investment": "Inwestycja",
-			"RecurringTransaction": "Transakcja cykliczna",
-			"Workspace": "Przestrzeń robocza",
-			"WorkspaceMember": "Członek przestrzeni roboczej"
+			"TRANSACTION": "Transakcja",
+			"CATEGORY": "Kategoria",
+			"GOAL": "Cel",
+			"DEBT": "Dług",
+			"INVESTMENT": "Inwestycja",
+			"RECURRING_TRANSACTION": "Transakcja cykliczna",
+			"WORKSPACE": "Przestrzeń robocza",
+			"WORKSPACE_MEMBER": "Członek przestrzeni roboczej"
 		},
 		"field": {
 			"title": "Tytuł",

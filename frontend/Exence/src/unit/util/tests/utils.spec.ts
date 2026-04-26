@@ -1,3 +1,6 @@
+import { provideZonelessChangeDetection } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import { convertToParamMap } from '@angular/router';
 
 import { SupportedCurrency } from '../../../app/data-model/modules/user-settings/SupportedCurrency';
@@ -11,11 +14,14 @@ import {
 	formatDateLabel,
 	formatDateTooltip,
 	formatNumber,
+	getAmountStep,
+	getCssVariableValue,
 	getFilters,
 	lightenHexColor,
 	localizeCurrency,
 	mapToTransactionFilter,
 	resolveNodeId,
+	toRawValueSignal,
 } from '../../../app/shared/util/utils';
 import { fullTransactionFilter, hubSankeyLinks, mixedSankeyLinks, simpleSankeyLinks } from '../data/utils.data';
 
@@ -371,6 +377,61 @@ describe('formatDateTooltip', () => {
 	});
 });
 
+describe('getAmountStep', () => {
+	it('returns eurAmount × 100 for HUF', () => {
+		expect(getAmountStep(1, SupportedCurrency.HUF)).toBe(100);
+		expect(getAmountStep(5, SupportedCurrency.HUF)).toBe(500);
+	});
+
+	it('returns eurAmount × 5 for CZK', () => {
+		expect(getAmountStep(1, SupportedCurrency.CZK)).toBe(5);
+		expect(getAmountStep(2, SupportedCurrency.CZK)).toBe(10);
+	});
+
+	it('returns eurAmount × 1 for EUR, USD, GBP, and other currencies', () => {
+		expect(getAmountStep(1, SupportedCurrency.EUR)).toBe(1);
+		expect(getAmountStep(1, SupportedCurrency.USD)).toBe(1);
+		expect(getAmountStep(1, SupportedCurrency.GBP)).toBe(1);
+	});
+
+	it('handles fractional base amounts', () => {
+		expect(getAmountStep(0.5, SupportedCurrency.HUF)).toBe(50);
+		expect(getAmountStep(0.1, SupportedCurrency.CZK)).toBeCloseTo(0.5);
+	});
+});
+
+describe('getCssVariableValue', () => {
+	let el: HTMLElement;
+
+	beforeEach(() => {
+		el = document.createElement('div');
+		document.body.appendChild(el);
+	});
+
+	afterEach(() => {
+		document.body.removeChild(el);
+	});
+
+	it('returns the value of a CSS custom property set on an element', () => {
+		el.style.setProperty('--test-color', 'red');
+		expect(getCssVariableValue('--test-color', el)).toBe('red');
+	});
+
+	it('returns an empty string for a custom property that is not set', () => {
+		expect(getCssVariableValue('--nonexistent', el)).toBe('');
+	});
+
+	it('returns an empty string when element is null', () => {
+		expect(getCssVariableValue('--test-color', null)).toBe('');
+	});
+
+	it('defaults to document.documentElement when no element is provided', () => {
+		document.documentElement.style.setProperty('--root-var', 'blue');
+		expect(getCssVariableValue('--root-var')).toBe('blue');
+		document.documentElement.style.removeProperty('--root-var');
+	});
+});
+
 describe('detectSeriesDateGranularity', () => {
 	it('returns null for empty series', () => {
 		expect(detectSeriesDateGranularity([])).toBeNull();
@@ -393,5 +454,36 @@ describe('detectSeriesDateGranularity', () => {
 	it('returns granularity from first valid point across multiple series', () => {
 		const series = [{ data: [{ x: '2024-06' }] }, { data: [{ x: '2024-01-01' }] }];
 		expect(detectSeriesDateGranularity(series)).toBe('month');
+	});
+});
+
+describe('toRawValueSignal', () => {
+	it('returns a signal with the initial raw value of the control', () => {
+		TestBed.configureTestingModule({
+			providers: [provideZonelessChangeDetection()],
+		});
+		const ctrl = new FormControl('hello');
+		const sig = TestBed.runInInjectionContext(() => toRawValueSignal(ctrl));
+		expect(sig()).toBe('hello');
+	});
+
+	it('updates the signal when the control value changes', () => {
+		TestBed.configureTestingModule({
+			providers: [provideZonelessChangeDetection()],
+		});
+		const ctrl = new FormControl('initial');
+		const sig = TestBed.runInInjectionContext(() => toRawValueSignal(ctrl));
+		ctrl.setValue('updated');
+		TestBed.flushEffects();
+		expect(sig()).toBe('updated');
+	});
+
+	it('captures the raw value of a disabled control', () => {
+		TestBed.configureTestingModule({
+			providers: [provideZonelessChangeDetection()],
+		});
+		const ctrl = new FormControl({ value: 'disabled-value', disabled: true });
+		const sig = TestBed.runInInjectionContext(() => toRawValueSignal(ctrl));
+		expect(sig()).toBe('disabled-value');
 	});
 });

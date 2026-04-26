@@ -10,7 +10,7 @@ type Category = { [key: string]: string | Category };
  * Recursively maps a nested object type to all possible dot-notation leaf paths.
  * e.g. { admin: { login: { title: string } } } => 'admin.login.title'
  *
- * This is the source of TranslationCode — every valid key you can pass to the pipe.
+ * This is the source of TranslationCode - every valid key you can pass to the pipe.
  */
 export type PropertyStringPath<T extends Category, Prefix extends string = ''> = {
 	[K in keyof T]: T[K] extends Category
@@ -34,7 +34,7 @@ export type TranslationCode = PropertyStringPath<En> | '';
  * produces: { 'admin.login': 'title' | 'subtitle' }
  *
  * This means codeFor('admin.login', 'title') is valid,
- * but codeFor('admin', 'login') is not — because 'login' is a branch, not a leaf.
+ * but codeFor('admin', 'login') is not - because 'login' is a branch, not a leaf.
  */
 type BranchPaths<T extends Category, Prefix extends string = ''> = {
 	[K in keyof T]: T[K] extends Category
@@ -62,7 +62,7 @@ type UnionToMap<U extends { prefix: string; suffix: string }> = {
 
 /**
  * All valid prefix -> suffix combinations derived from en.json.
- * Automatically stays in sync — no manual registration needed.
+ * Automatically stays in sync - no manual registration needed.
  *
  * A prefix is any branch node path (e.g. 'admin.login').
  * A suffix is any immediate leaf key under that branch (e.g. 'title').

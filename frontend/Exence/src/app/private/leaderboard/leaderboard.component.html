@@ -10,10 +10,10 @@
 						<mat-icon size="sm" [svgIcon]="place.svgIcon!" />
 					}
 				</div>
-				{{ place.label }}
+				<span class="text-truncate pe-2">{{ place.label }}</span>
 			</dt>
 			<dd
-				class="m-0"
+				class="m-0 text-nowrap"
 				[innerHTML]="'admin.statistics.leaderboard.result' | translate: { value: place.value }"
 			></dd>
 		</dl>

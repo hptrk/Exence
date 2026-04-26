@@ -1,0 +1,19 @@
+{
+	"transactionTypes": {
+		"income": "INCOME",
+		"expense": "EXPENSE"
+	},
+	"timeframeLabels": ["1W", "1M", "3M", "6M", "YTD", "1Y", "All"],
+	"timeframes": {
+		"ONE_WEEK": { "label": "1W", "param": "1W" },
+		"ONE_MONTH": { "label": "1M", "param": "1M" },
+		"SIX_MONTHS": { "label": "6M", "param": "6M" },
+		"YEAR_TO_DATE": { "label": "YTD", "param": "YTD" },
+		"ONE_YEAR": { "label": "1Y", "param": "1Y" },
+		"ALL": { "label": "All", "param": "ALL" }
+	},
+	"api": {
+		"dashboardWidgets": "/api/statistics/widgets/dashboard"
+	},
+	"filterBadgeCount": "1"
+}

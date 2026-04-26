@@ -17,7 +17,7 @@ describe('MarkdownEditorComponent', () => {
 	it('should buffer writeValue when called before EasyMDE initializes', () => {
 		const fixture = TestBed.createComponent(MarkdownEditorComponent);
 		const component = fixture.componentInstance;
-		// writeValue before detectChanges — EasyMDE not yet initialized
+		// writeValue before detectChanges - EasyMDE not yet initialized
 		component.writeValue('# Hello world');
 		// eslint-disable-next-line
 		expect((component as any).pendingValue).toBe('# Hello world');

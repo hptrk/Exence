@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, computed, inject, input } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InvestmentGet } from '../../../../data-model/modules/investment/InvestmentGet';
@@ -20,7 +20,7 @@ import { InvestmentStore } from '../../investment.store';
 	selector: 'ex-investment-list-detail',
 	templateUrl: './investment-list-detail.component.html',
 	styleUrl: './investment-list-detail.component.scss',
-	imports: [MatTooltipModule, CurrencyPipe, TranslatePipe, DatePipe, ButtonComponent],
+	imports: [MatTooltipModule, CommonModule, CurrencyPipe, TranslatePipe, DatePipe, ButtonComponent],
 })
 export class InvestmentListDetailComponent {
 	private readonly store = inject(InvestmentStore);

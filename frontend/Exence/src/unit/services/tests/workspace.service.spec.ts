@@ -1,4 +1,4 @@
-import { provideZonelessChangeDetection } from '@angular/core';
+import { provideZonelessChangeDetection, WritableSignal, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
@@ -11,7 +11,11 @@ import { WorkspaceRole } from '../../../app/data-model/modules/workspaces/Worksp
 import { WorkspaceSettingsGet } from '../../../app/data-model/modules/workspaces/WorkspaceSettingsGet';
 import { WorkspaceSettingsPatchRequest } from '../../../app/data-model/modules/workspaces/WorkspaceSettingsPatchRequest';
 import { SupportedCurrency } from '../../../app/data-model/modules/user-settings/SupportedCurrency';
+import { Role } from '../../../app/data-model/modules/auth/Role';
+import { UserGet } from '../../../app/data-model/modules/auth/UserGet';
 import { HttpService } from '../../../app/shared/http/http.service';
+import { LocalStorageService } from '../../../app/shared/local-storage.service';
+import { CurrentUserService } from '../../../app/shared/user/current-user.service';
 import { WorkspaceService } from '../../../app/shared/workspace.service';
 
 // Fixtures
@@ -29,28 +33,38 @@ const createRequest: WorkspaceCreateRequest = { name: 'New', baseCurrency: Suppo
 const renameRequest: WorkspaceRenameRequest = { name: 'Renamed' };
 const memberEmailRequest: WorkspaceMemberEmailRequest = { email: 'alice@example.com' };
 const settingsRequest: WorkspaceSettingsPatchRequest = { baseCurrency: SupportedCurrency.GBP, showBaseCurrency: false };
-const STORAGE_KEY = 'workspaceId';
+
+const USER_ID = 99;
+const mockUser: UserGet = { id: USER_ID, username: 'ws-user', email: 'ws@test.com', isVerified: true, role: Role.USER };
+
+function scopedKey(): string {
+	return `${USER_ID}:workspaceId`;
+}
 
 describe('WorkspaceService', () => {
 	let service: WorkspaceService;
 	let mockHttp: jasmine.SpyObj<HttpService>;
+	let userSignal: WritableSignal<UserGet | null | undefined>;
 
 	beforeEach(() => {
 		mockHttp = jasmine.createSpyObj<HttpService>('HttpService', ['get', 'post', 'patch', 'delete']);
+		userSignal = signal<UserGet | null | undefined>(mockUser);
 
 		TestBed.configureTestingModule({
 			providers: [
 				provideZonelessChangeDetection(),
 				WorkspaceService,
+				LocalStorageService,
 				{ provide: HttpService, useValue: mockHttp },
+				{ provide: CurrentUserService, useValue: { user: userSignal.asReadonly() } },
 			],
 		});
 
 		service = TestBed.inject(WorkspaceService);
-		localStorage.removeItem(STORAGE_KEY);
+		localStorage.removeItem(scopedKey());
 	});
 
-	afterEach(() => localStorage.removeItem(STORAGE_KEY));
+	afterEach(() => localStorage.removeItem(scopedKey()));
 
 	// list
 	describe('list', () => {
@@ -158,7 +172,7 @@ describe('WorkspaceService', () => {
 
 		it('persists the workspace id to localStorage', () => {
 			service.setWorkspace(mockWorkspaceOwner);
-			expect(localStorage.getItem(STORAGE_KEY)).toBe(String(mockWorkspaceOwner.id));
+			expect(localStorage.getItem(scopedKey())).toBe(String(mockWorkspaceOwner.id));
 		});
 	});
 
@@ -173,7 +187,7 @@ describe('WorkspaceService', () => {
 		it('removes the workspace id from localStorage', () => {
 			service.setWorkspace(mockWorkspaceOwner);
 			service.reset();
-			expect(localStorage.getItem(STORAGE_KEY)).toBeNull();
+			expect(localStorage.getItem(scopedKey())).toBeNull();
 		});
 	});
 
@@ -184,7 +198,7 @@ describe('WorkspaceService', () => {
 		});
 
 		it('selects the workspace stored in localStorage', async () => {
-			localStorage.setItem(STORAGE_KEY, String(mockWorkspaceMember.id));
+			localStorage.setItem(scopedKey(), String(mockWorkspaceMember.id));
 			await service.init();
 			expect(service.currentWorkspace()).toEqual(mockWorkspaceMember);
 		});
@@ -200,7 +214,7 @@ describe('WorkspaceService', () => {
 		});
 
 		it('prefers localStorage over defaultWorkspaceId', async () => {
-			localStorage.setItem(STORAGE_KEY, String(mockWorkspaceOwner.id));
+			localStorage.setItem(scopedKey(), String(mockWorkspaceOwner.id));
 			await service.init(mockWorkspaceMember.id);
 			expect(service.currentWorkspace()).toEqual(mockWorkspaceOwner);
 		});

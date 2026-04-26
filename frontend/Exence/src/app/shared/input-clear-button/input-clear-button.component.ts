@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
 	selector: 'ex-input-clear',
 	template: `
-		@if (control().value) {
+		@if (control().value && control().enabled) {
 			<button
 				data-testid="clear-btn"
 				mat-icon-button

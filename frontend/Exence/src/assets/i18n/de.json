@@ -208,7 +208,8 @@
 			"kickMember": {
 				"title": "Mitglied rauswerfen",
 				"message": "Möchten Sie {{name}} wirklich aus diesem Arbeitsbereich rauswerfen?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Arbeitsbereich verlassen",
@@ -655,7 +656,7 @@
 		"message": "Sie haben nicht gespeicherte Änderungen. Sind Sie sicher, dass Sie gehen wollen? Ihre Änderungen gehen dann verloren."
 	},
 	"icons": {
-		"localConvenienceStore": "lokaler_Convenience_store",
+		"localConvenienceStore": "lokaler convenience store",
 		"shoppingBasket": "Einkaufskorb",
 		"fridge": "Kühlschrank",
 		"skillet": "Bratpfanne",
@@ -1202,14 +1203,14 @@
 			"DELETED": "Gelöscht"
 		},
 		"entityTypeLabel": {
-			"Transaction": "Transaktion",
-			"Category": "Kategorie",
-			"Goal": "Ziel",
-			"Debt": "Schulden",
-			"Investment": "Investition",
-			"RecurringTransaction": "Wiederkehrende Transaktion",
-			"Workspace": "Arbeitsbereich",
-			"WorkspaceMember": "Arbeitsbereich-Mitglied"
+			"TRANSACTION": "Transaktion",
+			"CATEGORY": "Kategorie",
+			"GOAL": "Ziel",
+			"DEBT": "Schulden",
+			"INVESTMENT": "Investition",
+			"RECURRING_TRANSACTION": "Wiederkehrende Transaktion",
+			"WORKSPACE": "Arbeitsbereich",
+			"WORKSPACE_MEMBER": "Arbeitsbereich-Mitglied"
 		},
 		"field": {
 			"title": "Titel",

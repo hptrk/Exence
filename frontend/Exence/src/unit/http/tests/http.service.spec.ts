@@ -67,6 +67,15 @@ describe('HttpService', () => {
 			req.flush({});
 		});
 
+		it('filters out empty string values from query params', () => {
+			service.get('/api/items', { page: '1', empty: '' }).subscribe();
+
+			const req = httpMock.expectOne(r => r.url === '/api/items');
+			expect(req.request.params.get('page')).toBe('1');
+			expect(req.request.params.has('empty')).toBeFalse();
+			req.flush({});
+		});
+
 		it('makes a GET request with no params when params object is omitted', () => {
 			service.get('/api/items').subscribe();
 
@@ -147,6 +156,28 @@ describe('HttpService', () => {
 			const req = httpMock.expectOne('/api/items/1');
 			expect(req.request.method).toBe('DELETE');
 			req.flush(null);
+		});
+
+		it('sends a body with the DELETE request when data is provided', () => {
+			service.delete('/api/items/1', { reason: 'cleanup' }).subscribe();
+
+			const req = httpMock.expectOne('/api/items/1');
+			expect(req.request.method).toBe('DELETE');
+			expect(req.request.body).toEqual({ reason: 'cleanup' });
+			req.flush(null);
+		});
+
+		it('passes HttpSettings to errorService on a failing DELETE request', done => {
+			const settings = { suppressErrorMessage: true };
+
+			service.delete('/api/items/1', undefined, settings).subscribe({
+				error: () => {
+					expect(mockErrorService.handleError).toHaveBeenCalledOnceWith(jasmine.any(Object), settings);
+					done();
+				},
+			});
+
+			httpMock.expectOne('/api/items/1').flush('Error', { status: 403, statusText: 'Forbidden' });
 		});
 	});
 

@@ -205,7 +205,8 @@
 			"kickMember": {
 				"title": "Kick member",
 				"message": "Are you sure you want to kick {{name}} from this workspace?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Leave workspace",
@@ -478,7 +479,7 @@
 		},
 		"editButton": "Edit layout",
 		"addButton": "Add widget",
-		"editInfo": "Some cchanges might not be visible until you have saved changes."
+		"editInfo": "Some changes might not be visible until you have saved them."
 	},
 	"category": {
 		"create": {
@@ -655,7 +656,7 @@
 		"message": "You have unsaved changes. Are you sure you want to leave? Your changes will be lost."
 	},
 	"icons": {
-		"localConvenienceStore": "local_convenience_store",
+		"localConvenienceStore": "local convenience store",
 		"shoppingBasket": "shopping basket",
 		"fridge": "fridge",
 		"skillet": "skillet",
@@ -887,7 +888,7 @@
 			"actionableIntelligence": {
 				"subtitle": "Actionable Intelligence",
 				"title": "Turn numbers into knowledge.",
-				"description": "Don't just look at history—learn from it. Our engine analyzes your spending patterns to provide meaningful insights, helping you identify trends and optimize your budget before the month ends.",
+				"description": "Don't just look at history-learn from it. Our engine analyzes your spending patterns to provide meaningful insights, helping you identify trends and optimize your budget before the month ends.",
 				"alt": "Picture showing a snippet of our user settings page."
 			},
 			"transparentSecurity": {
@@ -1202,14 +1203,14 @@
 			"DELETED": "Deleted"
 		},
 		"entityTypeLabel": {
-			"Transaction": "Transaction",
-			"Category": "Category",
-			"Goal": "Goal",
-			"Debt": "Debt",
-			"Investment": "Investment",
-			"RecurringTransaction": "Recurring Transaction",
-			"Workspace": "Workspace",
-			"WorkspaceMember": "Workspace Member"
+			"TRANSACTION": "Transaction",
+			"CATEGORY": "Category",
+			"GOAL": "Goal",
+			"DEBT": "Debt",
+			"INVESTMENT": "Investment",
+			"RECURRING_TRANSACTION": "Recurring Transaction",
+			"WORKSPACE": "Workspace",
+			"WORKSPACE_MEMBER": "Workspace Member"
 		},
 		"field": {
 			"title": "Title",

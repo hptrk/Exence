@@ -1,4 +1,5 @@
 :host {
+	display: block;
 	width: 100%;
 }
 
@@ -23,6 +24,10 @@
 	color: var(--default-text-color);
 	padding-bottom: 0.5rem;
 	border-bottom: 1px solid var(--border-color);
+
+	&:last-of-type {
+		border-bottom: none;
+	}
 }
 
 .purchase-data-cell {
@@ -32,4 +37,8 @@
 	&:nth-last-child(-n + 5) {
 		border-bottom: none;
 	}
+}
+
+.border-none {
+	border: none;
 }

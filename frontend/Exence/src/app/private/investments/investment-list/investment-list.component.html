@@ -33,5 +33,7 @@
 </ex-data-table>
 
 <ng-template #expandTmpl let-row>
-	<ex-investment-list-detail [purchases]="row.purchases" />
+	<div data-testid="investment-expanded-details" class="w-100">
+		<ex-investment-list-detail [purchases]="row.purchases" />
+	</div>
 </ng-template>

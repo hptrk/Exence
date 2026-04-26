@@ -3,9 +3,10 @@
 		<ng-content />
 	</div>
 } @else {
-	<div class="language-list">
+	<div class="language-list" data-testid="language-list">
 		@for (lang of langs; track lang) {
 			<dl
+				[attr.data-testid]="'language-card-' + lang"
 				class="language-card d-flex flex-column justify-content-center align-items-center py-4"
 				[class.selected]="selectedLang() === lang"
 				(click)="selectLang(lang)"
