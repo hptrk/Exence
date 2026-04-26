@@ -1,6 +1,5 @@
 package com.exence.finance.modules.auth.dto.response;
 
-import com.exence.finance.common.dto.SupportedCurrency;
 import com.exence.finance.modules.auth.dto.Theme;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -28,17 +27,4 @@ public record UserSettingsResponse(
                         description =
                                 "The secondary theme for the user interface. This can be toggled using the theme button.",
                         example = "LIGHT")
-                Theme secondaryTheme,
-        @Schema(
-                        description =
-                                "The base currency for the user's financial data. This setting will determine the currency used"
-                                        + " for displaying financial information and performing currency conversions.",
-                        example = "USD")
-                SupportedCurrency baseCurrency,
-        @Schema(
-                        description =
-                                "Whether to show the base currency in the UI. If true, the user will see all transactions in"
-                                        + " their base currency. If false, the user will see everything in the currency the"
-                                        + " transaction was logged in.",
-                        example = "true")
-                boolean showBaseCurrency) {}
+                Theme secondaryTheme) {}

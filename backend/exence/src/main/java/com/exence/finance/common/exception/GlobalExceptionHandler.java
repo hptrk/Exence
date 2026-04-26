@@ -1,6 +1,10 @@
 package com.exence.finance.common.exception;
 
 import com.exence.finance.common.i18n.I18nService;
+import com.exence.finance.modules.statistics.dto.admin.AdminWidgetType;
+import com.exence.finance.modules.statistics.dto.debt.DebtWidgetType;
+import com.exence.finance.modules.statistics.dto.goal.GoalWidgetType;
+import com.exence.finance.modules.statistics.dto.investment.InvestmentWidgetType;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.net.URI;
 import java.time.Instant;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @Slf4j
@@ -47,6 +52,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Built-in exceptions
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Object> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        ErrorCode widgetTypeErrorCode = resolveWidgetTypeErrorCode(ex.getRequiredType());
+        if (widgetTypeErrorCode != null) {
+            String detail = i18n.get(widgetTypeErrorCode.getMessageKey());
+            return (ResponseEntity) buildResponse(widgetTypeErrorCode, detail);
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+    private ErrorCode resolveWidgetTypeErrorCode(Class<?> requiredType) {
+        if (requiredType == null) {
+            return null;
+        }
+
+        return switch (requiredType) {
+            case Class<?> type when type.equals(InvestmentWidgetType.class) -> ErrorCode.INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED;
+            case Class<?> type when type.equals(DebtWidgetType.class) -> ErrorCode.DEBT_WIDGET_TYPE_NOT_SUPPORTED;
+            case Class<?> type when type.equals(GoalWidgetType.class) -> ErrorCode.GOAL_WIDGET_TYPE_NOT_SUPPORTED;
+            case Class<?> type when type.equals(AdminWidgetType.class) -> ErrorCode.ADMIN_WIDGET_TYPE_NOT_SUPPORTED;
+            default -> null;
+        };
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
@@ -67,6 +97,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setTitle(i18n.get(code.getTitleKey()));
         problemDetail.setProperty("timestamp", Instant.now());
         problemDetail.setProperty("errors", errors);
+        problemDetail.setProperty("code", code.getProblemSlug());
 
         return ResponseEntity.badRequest().body(problemDetail);
     }
@@ -127,6 +158,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         problemDetail.setType(URI.create(PROBLEM_BASE_URI + code.getProblemSlug()));
         problemDetail.setTitle(i18n.get(code.getTitleKey()));
         problemDetail.setProperty("timestamp", Instant.now());
+        problemDetail.setProperty("code", code.getProblemSlug());
 
         return ResponseEntity.status(code.getStatus()).body(problemDetail);
     }

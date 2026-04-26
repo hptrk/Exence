@@ -1,9 +1,11 @@
 package com.exence.finance.modules.statistics.dto;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Set;
 
 @Schema(description = "Base interface for all widget types in the application.")
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 public interface WidgetType {
     /**
      * Set of widget types that represent stat cards. Each implementing enum must define its own

@@ -1,15 +1,14 @@
 package com.exence.finance.validators;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
+import static org.mockito.BDDMockito.given;
 
 import com.exence.finance.common.validators.EmailDomainValidator;
 import com.exence.finance.modules.systemsettings.entity.SystemSettings;
 import com.exence.finance.modules.systemsettings.service.SystemSettingsService;
 import jakarta.validation.ConstraintValidatorContext;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,34 +30,36 @@ public class EmailDomainValidatorTest {
     @InjectMocks
     private EmailDomainValidator validator;
 
-    @BeforeEach
-    void setUp() {
-        SystemSettings settings =
-                SystemSettings.builder().domainWhitelistOnly(false).build();
-        lenient().when(systemSettingsService.getSettings()).thenReturn(settings);
+    private static final SystemSettings WHITELIST_OFF =
+            SystemSettings.builder().domainWhitelistOnly(false).build();
 
-        lenient()
-                .when(context.buildConstraintViolationWithTemplate(anyString()))
-                .thenReturn(builder);
-        lenient().when(builder.addConstraintViolation()).thenReturn(context);
-        lenient().doNothing().when(context).disableDefaultConstraintViolation();
+    @Test
+    @DisplayName("returns true for valid domains when whitelist mode is disabled")
+    void validate_validDomain() {
+        // given
+        given(systemSettingsService.getSettings()).willReturn(WHITELIST_OFF);
+
+        // when / then
+        assertThat(validator.isValid("test@gmail.com", context)).isTrue();
+        assertThat(validator.isValid("user@company.com", context)).isTrue();
     }
 
     @Test
-    void test_validDomain() {
-        assertTrue(validator.isValid("test@gmail.com", context));
-        assertTrue(validator.isValid("user@company.com", context));
+    @DisplayName("returns false for blacklisted domains")
+    void validate_blacklistedDomain() {
+        // given
+        given(context.buildConstraintViolationWithTemplate(anyString())).willReturn(builder);
+
+        // when / then
+        assertThat(validator.isValid("test@10minutemail.com", context)).isFalse();
+        assertThat(validator.isValid("user@tempmail.org", context)).isFalse();
     }
 
     @Test
-    void test_blacklistedDomain() {
-        assertFalse(validator.isValid("test@10minutemail.com", context));
-        assertFalse(validator.isValid("user@tempmail.org", context));
-    }
-
-    @Test
-    void test_nullOrEmpty() {
-        assertTrue(validator.isValid(null, context));
-        assertTrue(validator.isValid("", context));
+    @DisplayName("returns true for null or empty input")
+    void validate_nullOrEmpty() {
+        // when / then
+        assertThat(validator.isValid(null, context)).isTrue();
+        assertThat(validator.isValid("", context)).isTrue();
     }
 }
