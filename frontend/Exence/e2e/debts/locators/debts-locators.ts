@@ -39,4 +39,5 @@ export const getDebtLoggedCurrency = (page: Page): Locator => page.getByTestId('
 export const getDebtBaseCurrency = (page: Page): Locator => page.getByTestId('debt-base-currency-label').first();
 
 // Other
-export const getDebtDaysHeader = (page: Page): Locator => page.locator('th').filter({ hasText: 'Days' }).first();
+export const getDebtDaysHeader = (page: Page): Locator =>
+	page.locator('.table-header-row').filter({ hasText: 'Days' }).first();

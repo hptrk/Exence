@@ -38,7 +38,7 @@ export async function createCatalogWidget(page: Page, customTitle?: string): Pro
 		await getCatalogTitleInput(page).fill(customTitle);
 	}
 	// Categories load asynchronously - wait for the form to become valid before clicking Create
-	await expect(getCatalogCreateBtn(page)).not.toHaveClass(/disabled/);
+	await expect(getCatalogCreateBtn(page).getByTestId('btn')).not.toHaveClass('disabled');
 	await getCatalogCreateBtn(page).click();
 }
 

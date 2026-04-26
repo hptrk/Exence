@@ -40,7 +40,7 @@ export const getAuditRowByAction = (page: Page, actionLabel: string): Locator =>
 export const getExpandedDetails = (page: Page): Locator => page.getByTestId('audit-details').first();
 
 export const getDateColumnHeader = (page: Page): Locator =>
-	page.getByTestId('audit-log-list').locator('th').filter({ hasText: 'Date' });
+	page.getByTestId('audit-log-list').locator('.table-header-row').filter({ hasText: 'Date' });
 
 export const getAuditChangeTypeSelect = (page: Page): Locator =>
 	page.getByTestId('admin-change-type-select').locator('.mat-mdc-select-arrow-wrapper');

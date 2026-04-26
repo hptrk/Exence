@@ -16,7 +16,7 @@ export const getGoalStatusIndicator = (row: Locator): Locator => row.getByTestId
 export const getGoalMenuTrigger = (row: Locator): Locator => row.getByTestId('menu-trigger-btn');
 export const getGoalProgressBar = (page: Page): Locator => page.locator('mat-progress-bar').first();
 export const getGoalDeadlineHeader = (page: Page): Locator =>
-	page.locator('th').filter({ hasText: 'Deadline' }).first();
+	page.locator('.table-header-row').filter({ hasText: 'Deadline' }).first();
 export const getGoalEditAction = (page: Page): Locator => page.getByTestId('row-action-edit');
 export const getGoalDeleteAction = (page: Page): Locator => page.getByTestId('row-action-delete');
 export const getGoalExpandedDetails = (page: Page): Locator => page.getByTestId('goal-expanded-details');

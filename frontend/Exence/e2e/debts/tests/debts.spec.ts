@@ -292,8 +292,6 @@ test.describe('Debts list - status indicator', () => {
 	});
 
 	test('should all statuses have correct attribute and different color', async ({ page }) => {
-		await deleteAllDebts(page);
-
 		const ts = createUniqueName();
 		const activeTitle = `a-${ts}`;
 		const settledTitle = `s-${ts}`;
@@ -1041,7 +1039,7 @@ test.describe('Edit debt dialog - unsaved changes guard', () => {
 		await expect(getEditDebtDialog(page)).toBeVisible();
 		await getDebtConfirmExitCancelBtn(page).click();
 		await getEditDebtCancelBtn(page).click();
-		await getDebtConfirmExitContinueBtn(page).click();
+		await getDebtConfirmExitContinueBtn(page).last().click();
 		await getDebtBorrowedListRows(page).first().click();
 		await deleteAllDebts(page);
 	});

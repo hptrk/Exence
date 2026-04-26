@@ -43,26 +43,17 @@ const SHARED_PROVIDERS = [
 	{ provide: TranslocoService, useValue: mockTransloco },
 ];
 
-// CdkVirtualScrollViewport.ngOnInit measures viewport size inside a Promise microtask.
-// In tests the fixture has no natural height, so CDK measures 0 and renders nothing.
-// Fix:
-//  1. detectChanges() creates the DOM and schedules CDK's attach microtask.
-//  2. await flushes that microtask (strategy attached, viewportSize = 0).
-//  3. Set explicit height on the viewport element and call checkViewportSize() to
-//     re-measure (now 500) and update the rendered range.
-//  4. checkViewportSize() → setRenderedRange() → _markChangeDetectionNeeded() schedules
-//     ANOTHER microtask; await flushes it so _changeDetectionNeeded signal is set.
-//  5. detectChanges() triggers the CDK effect → _doChangeDetection() → rows appear.
 async function setupViewport(fixture: ComponentFixture<unknown>): Promise<void> {
-	fixture.detectChanges(); // step 1
-	await Promise.resolve(); // step 2: flush CDK attach microtask
+	fixture.detectChanges();
+	await Promise.resolve(); // flush CDK attach microtask
 	const viewportDbgEl = fixture.debugElement.query(By.directive(CdkVirtualScrollViewport));
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (viewportDbgEl) {
 		(viewportDbgEl.nativeElement as HTMLElement).style.height = '500px';
-		(viewportDbgEl.componentInstance as CdkVirtualScrollViewport).checkViewportSize(); // step 3
+		(viewportDbgEl.componentInstance as CdkVirtualScrollViewport).checkViewportSize();
 	}
-	await Promise.resolve(); // step 4: flush _markChangeDetectionNeeded microtask
-	fixture.detectChanges(); // step 5: render rows
+	await Promise.resolve(); // flush _markChangeDetectionNeeded microtask
+	fixture.detectChanges(); // render rows
 	fixture.detectChanges(); // settle any secondary renders
 }
 

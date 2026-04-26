@@ -15,7 +15,7 @@ export const getInvestmentListAddBtn = (page: Page): Locator => page.getByTestId
 export const getInvestmentListRows = (page: Page): Locator => page.getByTestId('data-row');
 export const getInvestmentMenuTrigger = (row: Locator): Locator => row.getByTestId('menu-trigger-btn');
 export const getInvestmentLastActionHeader = (page: Page): Locator =>
-	page.locator('th').filter({ hasText: 'Last Action' }).first();
+	page.locator('.table-header-row').filter({ hasText: 'Last Action' }).first();
 
 // Row actions (from the shared data-table menu; testid = 'row-action-' + translated label lowercased)
 export const getInvestmentEditAction = (page: Page): Locator => page.getByTestId('row-action-edit');

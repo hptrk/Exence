@@ -17,7 +17,7 @@ export const getAuditLogEmptyState = (page: Page): Locator =>
 export const getAuditLogExpandedDetails = (page: Page): Locator => page.locator('.audit-details');
 
 export const getDateColumnHeader = (page: Page): Locator =>
-	page.locator('ex-audit-log-list th').filter({ hasText: 'Date' });
+	page.locator('ex-audit-log-list .table-header-row').filter({ hasText: 'Date' });
 
 export const getChangeTypeSelect = (page: Page): Locator =>
 	page.getByTestId('audit-log-change-type-select').locator('.mat-mdc-select-arrow-wrapper');

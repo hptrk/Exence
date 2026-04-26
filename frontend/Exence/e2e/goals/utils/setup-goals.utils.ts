@@ -5,7 +5,7 @@ import { createCategory, CreateCategoryData } from '../../common/utils/create-ca
 import { createUniqueName } from '../../form/utils/form-utils';
 import { getCategoriesTabLabel, getCategoryListAddBtn } from '../../transactions/locators/transactions-locators';
 import { getGoalsEmptyCreateBtn } from '../locators/goals-locators';
-import { createGoal, deleteAllGoals } from './create-goal.utils';
+import { createGoal } from './create-goal.utils';
 
 export async function createCategoryForGoal(page: Page): Promise<void> {
 	await page.goto('/transactions', { waitUntil: 'domcontentloaded' });
@@ -26,7 +26,6 @@ export async function setupGoals(page: Page, context: BrowserContext): Promise<v
 	await attemptLogin(page, 'user');
 	await page.evaluate(() => localStorage.setItem('language', 'en'));
 	await createCategoryForGoal(page);
-	await deleteAllGoals(page);
 	await createGoal(page, getGoalsEmptyCreateBtn(page));
 }
 
@@ -39,5 +38,4 @@ export async function setupGoalsEmpty(page: Page, context: BrowserContext): Prom
 	await attemptLogin(page, 'user');
 	await page.evaluate(() => localStorage.setItem('language', 'en'));
 	await createCategoryForGoal(page);
-	await deleteAllGoals(page);
 }

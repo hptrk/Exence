@@ -141,6 +141,11 @@ export class WidgetCatalogDialogComponent extends DialogComponent<
 		effect(() => {
 			this.form.controls.categories.controls.selectedCategories.setValue(this.categories().map(c => c.id!));
 		});
+
+		effect(() => {
+			if (this.isCategoryFilterable()) this.form.controls.categories.enable();
+			else this.form.controls.categories.disable();
+		});
 	}
 
 	statCardSelectionDisabled(type: StatisticsWidgetType): boolean {

@@ -190,6 +190,7 @@ test.describe('Goals list - status indicator', () => {
 			targetAmount: 10000,
 			initialAmount: 0,
 		});
+		await page.waitForTimeout(150);
 		await createGoal(page, getGoalListAddBtn(page), {
 			title: completedTitle,
 			targetAmount: 10000,

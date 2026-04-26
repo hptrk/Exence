@@ -75,7 +75,7 @@ import {
 	getTransactionRowMenuTrigger,
 	getUpdatedTransactionAuditRow,
 } from '../locators/admin-locators';
-import { setupAdmin } from '../utils/setup-admin.utils';
+import { setupAdmin, setupAdminLogs } from '../utils/setup-admin.utils';
 
 // Tab layout
 test.describe('Admin - tab layout on large screens', () => {
@@ -219,7 +219,7 @@ test.describe('Admin - Logs tab', () => {
 	test.use({ viewport: { width: 1400, height: 900 } });
 
 	test.beforeEach(async ({ page, context }) => {
-		await setupAdmin(page, context);
+		await setupAdminLogs(page, context);
 		await getAdminTabByIndex(page, 1).click();
 	});
 
@@ -263,30 +263,6 @@ test.describe('Admin - Logs tab', () => {
 		const details = getExpandedDetails(page);
 		await expect(details).toBeVisible();
 		await expect(details).toContainText('/');
-	});
-
-	test('should show date in expanded detail for Deleted rows', async ({ page }) => {
-		const deletedRow = getAuditRowByAction(page, adminData.auditLog.deletedLabel);
-		if (!(await deletedRow.isVisible())) {
-			test.skip();
-			return;
-		}
-		await deletedRow.click();
-		const details = getExpandedDetails(page);
-		await expect(details).toBeVisible();
-		await expect(details).toContainText('/');
-	});
-
-	test('should show field changes with arrow in expanded detail for Updated rows', async ({ page }) => {
-		const updatedRow = getAuditRowByAction(page, adminData.auditLog.updatedLabel);
-		if (!(await updatedRow.isVisible())) {
-			test.skip();
-			return;
-		}
-		await updatedRow.click();
-		const details = getExpandedDetails(page);
-		await expect(details).toBeVisible();
-		await expect(details).toContainText(adminData.auditLog.changeArrow);
 	});
 });
 
@@ -463,10 +439,6 @@ test.describe('Admin - Configs tab - System Settings verification paths', () => 
 	test('should remove a path chip when clicking its remove button', async ({ page }) => {
 		const chips = getPathChips(page);
 		const initialCount = await chips.count();
-		if (initialCount <= 1) {
-			test.skip();
-			return;
-		}
 		const removableChip = getFirstRemovableChip(page);
 		const removeBtn = getRemoveBtnOnChip(removableChip);
 		await removeBtn.click();

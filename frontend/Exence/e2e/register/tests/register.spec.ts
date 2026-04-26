@@ -34,7 +34,6 @@ test.describe('Register', () => {
 	});
 
 	test('should display validators', async ({ page }) => {
-		s;
 		// Username required
 		await getUsernameField(page).click();
 		await getUsernameField(page).blur();
