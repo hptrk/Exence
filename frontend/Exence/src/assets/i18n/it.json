@@ -27,7 +27,7 @@
 		"to": "A",
 		"yes": "Sí",
 		"no": "No",
-		"duplicate": "Duplicate",
+		"duplicate": "Duplica",
 		"add": "Aggiungi",
 		"ok": "Ok"
 	},
@@ -176,8 +176,8 @@
 			},
 			"success": "Impostazioni utente aggiornate con successo!"
 		},
-		"switchWorkspace": "Switch workspace",
-		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"switchWorkspace": "Cambia area di lavoro",
+		"switchWorkspaceSuccess": "Passato con successo all'area di lavoro '{{workspaceName}}'!",
 		"currentWorkspace": "Attuale",
 		"workspaces": {
 			"yourWorkspaces": "I tuoi spazi di lavoro",
@@ -186,12 +186,12 @@
 				"title": "Crea spazio di lavoro",
 				"nameLabel": "Nome",
 				"currencyLabel": "Valuta base",
-				"success": "Workspace '{{workspaceName}}' created successfully!"
+				"success": "Area di lavoro '{{workspaceName}}' creata con successo!"
 			},
 			"edit": {
 				"title": "Modifica area di lavoro",
 				"nameLabel": "Nome",
-				"success": "Successfully updated workspace!"
+				"success": "Area di lavoro aggiornata con successo!"
 			},
 			"members": "Membri",
 			"noMembers": "Nessun membro",
@@ -208,19 +208,19 @@
 			"kickMember": {
 				"title": "Espelli membro",
 				"message": "Sei sicuro di voler espellere {{name}} da questa area di lavoro?",
-				"success": "'{{memberEmail}}' kicked!",
-				"btn": "Kick"
+				"success": "'{{memberEmail}}' espulso!",
+				"btn": "Espelli"
 			},
 			"leaveWorkspace": {
 				"title": "Abbandona area di lavoro",
 				"message": "Sei sicuro di voler abbandonare questa area di lavoro?",
-				"success": "Successfully left '{{workspaceName}}' workspace!"
+				"success": "Hai abbandonato con successo l'area di lavoro '{{workspaceName}}'!"
 			},
 			"addMember": {
 				"title": "Aggiungi membro",
 				"emailLabel": "Indirizzo e-mail",
 				"button": "Nuovo membro",
-				"success": "New member successfully added to '{{workspaceName}}'!"
+				"success": "Nuovo membro aggiunto con successo a '{{workspaceName}}'!"
 			}
 		},
 		"workspaceSettings": {

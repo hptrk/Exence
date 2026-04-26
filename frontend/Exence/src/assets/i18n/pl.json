@@ -27,7 +27,7 @@
 		"to": "Do",
 		"yes": "Tak",
 		"no": "Nie",
-		"duplicate": "Duplicate",
+		"duplicate": "Duplikuj",
 		"add": "Dodaj",
 		"ok": "Ok"
 	},
@@ -176,8 +176,8 @@
 			},
 			"success": "Ustawienia użytkownika zostały pomyślnie zaktualizowane!"
 		},
-		"switchWorkspace": "Switch workspace",
-		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"switchWorkspace": "Przełącz obszar roboczy",
+		"switchWorkspaceSuccess": "Pomyślnie przełączono na obszar roboczy '{{workspaceName}}'!",
 		"currentWorkspace": "Bieżący",
 		"workspaces": {
 			"yourWorkspaces": "Twoje obszary robocze",
@@ -186,12 +186,12 @@
 				"title": "Utwórz obszar roboczy",
 				"nameLabel": "Nazwa",
 				"currencyLabel": "Waluta bazowa",
-				"success": "Workspace '{{workspaceName}}' created successfully!"
+				"success": "Obszar roboczy '{{workspaceName}}' pomyślnie utworzony!"
 			},
 			"edit": {
 				"title": "Edytuj obszar roboczy",
 				"nameLabel": "Nazwa",
-				"success": "Successfully updated workspace!"
+				"success": "Obszar roboczy pomyślnie zaktualizowany!"
 			},
 			"members": "Członkowie",
 			"noMembers": "Brak członków",
@@ -208,19 +208,19 @@
 			"kickMember": {
 				"title": "Wyrzuć członka",
 				"message": "Czy na pewno chcesz wyrzucić {{name}} z tego obszaru roboczego?",
-				"success": "'{{memberEmail}}' kicked!",
-				"btn": "Kick"
+				"success": "'{{memberEmail}}' wyrzucony!",
+				"btn": "Wyrzuć"
 			},
 			"leaveWorkspace": {
 				"title": "Opuść obszar roboczy",
 				"message": "Czy na pewno chcesz opuścić ten obszar roboczy?",
-				"success": "Successfully left '{{workspaceName}}' workspace!"
+				"success": "Pomyślnie opuszczono obszar roboczy '{{workspaceName}}'!"
 			},
 			"addMember": {
 				"title": "Dodaj członka",
 				"emailLabel": "Adres e-mail",
 				"button": "Nowy członek",
-				"success": "New member successfully added to '{{workspaceName}}'!"
+				"success": "Nowy członek pomyślnie dodany do obszaru roboczego '{{workspaceName}}'!"
 			}
 		},
 		"workspaceSettings": {
