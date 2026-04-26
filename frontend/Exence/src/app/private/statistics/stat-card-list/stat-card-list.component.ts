@@ -7,6 +7,7 @@ import {
 	EditChartDialogData,
 	EditChartDialogResult,
 } from '../edit-chart-dialog/edit-chart-dialog.component';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { StatCardComponent } from '../stat-card/stat-card.component';
 import { StatCardGridsterItem, WidgetStore } from '../widget.store';
 
@@ -14,7 +15,7 @@ import { StatCardGridsterItem, WidgetStore } from '../widget.store';
 	selector: 'ex-stat-card-list',
 	templateUrl: './stat-card-list.component.html',
 	styleUrl: './stat-card-list.component.scss',
-	imports: [StatCardComponent, Gridster, GridsterItem, ButtonComponent],
+	imports: [StatCardComponent, Gridster, GridsterItem, ButtonComponent, AnimatedSkeletonLoaderComponent],
 })
 export class StatCardListComponent {
 	private readonly store = inject(WidgetStore);

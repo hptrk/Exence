@@ -1,0 +1,62 @@
+<div class="d-flex flex-column flex-grow-1 gap-2 overflow-hidden">
+	<div class="d-flex flex-row flex-nowrap justify-content-end mt-5 mt-lg-3">
+		<ex-filter-menu [form]="filterForm" [appliedFiltersCount]="appliedFiltersCount()">
+			<mat-form-field subscriptSizing="dynamic">
+				<mat-label>{{ 'auditLog.filter.entityType' | translate }}</mat-label>
+				<mat-select data-testid="audit-log-entity-type-select" [formControl]="filterForm.controls.entityType">
+					@for (type of entityTypes | enumValue; track type) {
+						<mat-option [value]="type">{{ codeForEntityType(type) | translate }}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field subscriptSizing="dynamic">
+				<mat-label>{{ 'auditLog.filter.changeType' | translate }}</mat-label>
+				<mat-select data-testid="audit-log-change-type-select" [formControl]="filterForm.controls.changeType">
+					@for (type of changeTypes | enumValue; track type) {
+						<mat-option [value]="type">{{ codeForChangeType(type) | translate }}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+
+			@let changedByControl = filterForm.controls.changedBy;
+			<mat-form-field subscriptSizing="dynamic">
+				<mat-label>{{ 'auditLog.filter.changedBy' | translate }}</mat-label>
+				<input matInput [formControl]="changedByControl" [matAutocomplete]="changedByAuto" />
+				<ex-input-clear matSuffix [control]="changedByControl" />
+				<mat-autocomplete #changedByAuto>
+					@if (showSystemOption()) {
+						<mat-option value="SYSTEM">{{ 'auditLog.filter.system' | translate }}</mat-option>
+					}
+					@for (member of filteredMembers(); track member.userId) {
+						<mat-option [value]="member.username"> {{ member.username }} ({{ member.email }}) </mat-option>
+					}
+				</mat-autocomplete>
+			</mat-form-field>
+
+			@let fromControl = filterForm.controls.from;
+			<mat-form-field subscriptSizing="dynamic">
+				<mat-label>{{ 'auditLog.filter.dateFrom' | translate }}</mat-label>
+				<input matInput [matDatepicker]="fromPicker" [formControl]="fromControl" />
+				<mat-datepicker-toggle matIconSuffix [for]="fromPicker" />
+				<mat-datepicker #fromPicker />
+			</mat-form-field>
+
+			@let toControl = filterForm.controls.to;
+			<mat-form-field subscriptSizing="dynamic">
+				<mat-label>{{ 'auditLog.filter.dateTo' | translate }}</mat-label>
+				<input matInput [matDatepicker]="toPicker" [formControl]="toControl" />
+				<mat-datepicker-toggle matIconSuffix [for]="toPicker" />
+				<mat-datepicker #toPicker />
+			</mat-form-field>
+		</ex-filter-menu>
+	</div>
+	<ex-audit-log-list
+		matIcon="history"
+		[title]="'auditLog.userTitle' | translate"
+		[data]="data()"
+		[isLoading]="isLoading()"
+		class="overflow-hidden flex-grow-1"
+		(scrolled)="onScroll()"
+	/>
+</div>

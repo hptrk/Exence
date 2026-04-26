@@ -1,0 +1,24 @@
+{
+	"valid": {
+		"name": "E2E Test Category"
+	},
+	"validation": {
+		"tooLongChar": "A",
+		"nameMaxLength": 25,
+		"noteMaxLength": 500
+	},
+	"errors": {
+		"required": "Field required",
+		"maxLength25": "Max length is 25!",
+		"maxLength500": "Max length is 500!"
+	},
+	"types": {
+		"expense": "EXPENSE",
+		"income": "INCOME",
+		"mixed": "MIXED"
+	},
+	"snackbar": {
+		"createSuccess": "created successfully",
+		"deleteSuccess": "Category deleted successfully!"
+	}
+}

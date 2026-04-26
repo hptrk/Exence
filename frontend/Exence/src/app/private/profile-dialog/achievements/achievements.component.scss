@@ -1,0 +1,44 @@
+@import '../../../../styles/imports.scss';
+
+:host {
+	display: flex;
+	flex-direction: column;
+	margin-top: 3rem;
+	height: 100%;
+	overflow: hidden;
+
+	@include displayLg {
+		margin-top: 1rem;
+	}
+}
+
+mat-tab-group {
+	align-self: flex-end;
+}
+
+.tab-label-text {
+	display: none;
+
+	@include displayLg {
+		display: inline;
+	}
+}
+
+.achievement-card {
+	background-color: color-mix(in srgb, var(--tier-color), transparent 60%);
+	border: 1px solid var(--tier-color);
+	border-radius: 8px;
+	padding: 1rem;
+}
+
+[achievement-disabled] {
+	opacity: 0.4;
+}
+
+.tier-badge {
+	font-size: 0.7rem;
+	font-weight: 600;
+	color: var(--tier-color);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}

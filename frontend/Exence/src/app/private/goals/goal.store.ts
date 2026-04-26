@@ -9,6 +9,8 @@ import { GoalService } from './goal.service';
 import { CurrencyService } from '../../shared/currency.service';
 import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
 import { WorkspaceService } from '../../shared/workspace.service';
+import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
+import { AchievementStore } from '../profile-dialog/achievements/achievement.store';
 
 interface GoalStoreData {
 	goals: GoalGet[];
@@ -36,6 +38,8 @@ export const GoalStore = signalStore(
 			goalService = inject(GoalService),
 			snackbarService = inject(SnackbarService),
 			translocoService = inject(TranslocoService),
+			auditLogStore = inject(AuditLogStore),
+			achievementStore = inject(AchievementStore),
 		) => {
 			function reload(): void {
 				store.goalResource.reload();
@@ -48,16 +52,24 @@ export const GoalStore = signalStore(
 						translocoService.translate('goals.create.successInfo', { title: result.title }),
 					);
 					reload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
+					achievementStore.reload();
 				},
 				async updateGoal(id: number, request: GoalPatch): Promise<void> {
 					await goalService.update(id, request);
 					snackbarService.showSuccess(translocoService.translate('goals.updateInfo'));
 					reload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
+					achievementStore.reload();
 				},
 				async deleteGoal(id: number): Promise<void> {
 					await goalService.delete(id);
 					snackbarService.showSuccess(translocoService.translate('goals.deleteInfo'));
 					reload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
 				},
 				resetState(): void {
 					reload();

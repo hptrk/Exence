@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogClose } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,11 +20,11 @@ import { ButtonComponent } from '../../../shared/button/button.component';
 import { ConfirmExitDialogDirective } from '../../../shared/confirm-exit-dialog.directive';
 import { DialogCardComponent } from '../../../shared/dialog-card/dialog-card.component';
 import { DialogComponent, DialogRef } from '../../../shared/dialog/dialog.service';
+import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { InputClearButtonComponent } from '../../../shared/input-clear-button/input-clear-button.component';
 import { EnumValuePipe } from '../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { SelectAutoFocusDirective } from '../../../shared/select-auto-focus.directive';
-import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { getAmountStep, localizeCurrency, toRawValueSignal } from '../../../shared/util/utils';
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { CategoryService } from '../../transactions-and-categories/category.service';
@@ -46,6 +47,7 @@ export type EditDebtDialogResult = { action: 'save'; patch: DebtPatch } | { acti
 		MatDatepickerModule,
 		MatIconModule,
 		MatDividerModule,
+		MatDialogClose,
 		AmountStepperComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
@@ -81,7 +83,7 @@ export class EditDebtDialogComponent extends DialogComponent<EditDebtDialogData,
 		type: this.fb.control<DebtType>(this.data.debt.type, [Validators.required]),
 		status: this.fb.control<DebtStatus>(this.data.debt.status, [Validators.required]),
 		category: this.fb.group({
-			category: this.fb.control<CategoryGet | null>(this.data.debt.category ?? null, [Validators.required]),
+			category: this.fb.control<CategoryGet | null>(this.data.debt.category, [Validators.required]),
 			searchText: this.fb.control<string>('', [Validators.maxLength(25)]),
 		}),
 	});
@@ -103,6 +105,10 @@ export class EditDebtDialogComponent extends DialogComponent<EditDebtDialogData,
 		super(inject(DialogRef));
 		this.categoryService.list().then(cats => this.categoriesSignal.set(cats));
 		this.form.markAsPristine();
+	}
+
+	compareCategories(a: CategoryGet, b: CategoryGet): boolean {
+		return a.id === b.id;
 	}
 
 	codeForStatus(status: DebtStatus): TranslationCode {

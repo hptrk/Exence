@@ -41,6 +41,7 @@
 	<form [formGroup]="form" (submit)="save()" class="d-flex flex-column gap-4 w-100">
 		<div class="d-flex flex-column flex-md-row flex-wrap flex-xl-nowrap gap-4">
 			<ex-toggle-card
+				data-testid="toggle-card"
 				class="flex-grow-1"
 				matIcon="shield"
 				label="admin.configurations.systemSettings.domainWhitelistOnly"
@@ -51,6 +52,7 @@
 			/>
 
 			<ex-toggle-card
+				data-testid="toggle-card"
 				class="flex-grow-1"
 				matIcon="speed"
 				label="admin.configurations.systemSettings.rateLimitingEnabled"
@@ -61,6 +63,7 @@
 			/>
 
 			<ex-toggle-card
+				data-testid="toggle-card"
 				class="flex-grow-1"
 				matIcon="devices"
 				label="admin.configurations.systemSettings.logoutFromAllDevices"
@@ -73,6 +76,7 @@
 
 		<div class="d-flex flex-column flex-md-row gap-4">
 			<ex-amount-stepper
+				data-testid="amount-stepper"
 				[control]="form.controls.rateLimitingCooldownMinutes"
 				label="admin.configurations.systemSettings.rateLimitingCooldownMinutes"
 				[min]="1"
@@ -83,6 +87,7 @@
 			/>
 
 			<ex-amount-stepper
+				data-testid="amount-stepper"
 				[control]="form.controls.passwordHistoryCount"
 				label="admin.configurations.systemSettings.passwordHistoryCount"
 				[min]="0"
@@ -94,13 +99,13 @@
 			<span class="text-muted small">{{
 				'admin.configurations.systemSettings.verificationRequiredPaths' | translate
 			}}</span>
-			<mat-chip-set>
-				<mat-chip (click)="openAddPathDialog()">
+			<mat-chip-set data-testid="path-chip-set">
+				<mat-chip data-testid="add-path-chip" (click)="openAddPathDialog()">
 					<mat-icon matChipAvatar>add</mat-icon>
 					{{ 'literals.add' | translate }}
 				</mat-chip>
 				@for (path of verificationPaths(); track path) {
-					<mat-chip (removed)="removePath(path)">
+					<mat-chip data-testid="path-chip" (removed)="removePath(path)">
 						{{ path }}
 						<button matChipRemove>
 							<mat-icon>cancel</mat-icon>

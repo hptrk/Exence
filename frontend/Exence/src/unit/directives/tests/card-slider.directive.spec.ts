@@ -69,7 +69,7 @@ describe('CardSliderDirective', () => {
 		}).compileComponents();
 	});
 
-	describe('overflow scenario — shortCards false', () => {
+	describe('overflow scenario - shortCards false', () => {
 		let fixture: ComponentFixture<HostComponent>;
 		let sliderEl: HTMLElement;
 
@@ -93,7 +93,7 @@ describe('CardSliderDirective', () => {
 		});
 	});
 
-	describe('overflow scenario — shortCards true', () => {
+	describe('overflow scenario - shortCards true', () => {
 		let fixture: ComponentFixture<HostComponent>;
 		let sliderEl: HTMLElement;
 

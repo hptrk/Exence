@@ -4,6 +4,8 @@ import { DialogCardComponent } from '../dialog-card/dialog-card.component';
 import { DialogComponent } from '../dialog/dialog.service';
 import { SvgIcons } from '../svg-icons/svg-icons';
 import { MatDialogClose } from '@angular/material/dialog';
+import { TranslatePipe } from '../pipes/translate.pipe';
+import { TranslationCode } from '../i18n/translation-types';
 
 enum PredefinedButtonNames {
 	OK = 'OK',
@@ -12,13 +14,13 @@ enum PredefinedButtonNames {
 }
 
 export const PredefiedButtons: Record<PredefinedButtonNames, MessageDialogButtonData> = {
-	OK: { text: 'Ok', value: true, matIcon: 'check', color: 'primary' },
-	CANCEL: { text: 'Cancel', value: false, matIcon: 'close', color: 'accent' },
-	DELETE: { text: 'Delete', value: true, matIcon: 'delete', color: 'error' },
+	OK: { text: 'literals.ok', value: true, matIcon: 'check', color: 'primary' },
+	CANCEL: { text: 'literals.cancel', value: false, matIcon: 'close', color: 'accent' },
+	DELETE: { text: 'literals.delete', value: true, matIcon: 'delete', color: 'error' },
 };
 
 export interface MessageDialogButtonData {
-	text: string;
+	text: TranslationCode;
 	value: boolean;
 	color: 'primary' | 'accent' | 'success' | 'error' | 'warn';
 	svgIcon?: SvgIcons;
@@ -56,7 +58,7 @@ export class MessageDialogButtonConfig {
 @Component({
 	selector: 'ex-message-dialog',
 	templateUrl: './message-dialog.component.html',
-	imports: [DialogCardComponent, ButtonComponent, MatDialogClose],
+	imports: [DialogCardComponent, ButtonComponent, MatDialogClose, TranslatePipe],
 })
 export class MessageDialogComponent extends DialogComponent<MessageDialogData, boolean> {
 	actions = this.dialogRef.value.buttons ?? MessageDialogButtonConfig.okCancel;

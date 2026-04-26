@@ -28,7 +28,8 @@
 		"yes": "Áno",
 		"no": "Nie",
 		"duplicate": "Duplicate",
-		"add": "Pridať"
+		"add": "Pridať",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Vitajte späť, <span class='username'>{{username}}</span>!",
@@ -207,7 +208,8 @@
 			"kickMember": {
 				"title": "Vyhodiť člena",
 				"message": "Naozaj chcete vyhodiť {{name}} z tohto pracovného priestoru?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Opustiť pracovný priestor",
@@ -227,6 +229,20 @@
 		},
 		"sessions": {
 			"label": "Relácie"
+		},
+		"auditLog": {
+			"label": "Aktivita pracovného priestoru"
+		},
+		"achievements": {
+			"label": "Úspechy",
+			"tab": {
+				"all": "Všetko",
+				"unlocked": "Odomknuté"
+			},
+			"empty": {
+				"all": "Žiadne úspechy nie sú k dispozícii.",
+				"unlocked": "Zatiaľ nie sú odomknuté žiadne úspechy."
+			}
 		}
 	},
 	"sessionList": {
@@ -937,7 +953,8 @@
 		"configurations": {
 			"label": "Konfigurácie",
 			"registration": {
-				"title": "Vytvoriť nového správcu"
+				"title": "Vytvoriť nového správcu",
+				"success": "Správca bol úspešne vytvorený."
 			},
 			"emailBroadcast": {
 				"title": "Hromadný e-mail",
@@ -1029,72 +1046,80 @@
 			"status": "Stav"
 		},
 		"updateInfo": "Cieľ bol úspešne aktualizovaný!",
-		"deleteInfo": "Cieľ bol úspešne odstránený!"
+		"deleteInfo": "Cieľ bol úspešne odstránený!",
+		"empty": {
+			"title": "Zatiaľ žiadne ciele",
+			"subtitle": "Začnite šetriť na dosiahnutie svojich cieľov vytvorením prvého."
+		}
 	},
 	"debts": {
-		"title": "Debts",
-		"myDebts": "My Debts",
-		"owedToMe": "Owed to Me",
-		"titleLabel": "Title",
-		"counterparty": "Counterparty",
-		"originalAmount": "Original Amount",
-		"deadline": "Deadline",
-		"days": "Days",
-		"daysUnit": "days",
-		"progress": "Paid progress",
-		"makePayment": "Make a Payment",
-		"paymentAmount": "Payment amount",
-		"pay": "Pay",
+		"title": "Dlhy",
+		"myDebts": "Moje dlhy",
+		"owedToMe": "Dlhujú mi",
+		"titleLabel": "Názov",
+		"counterparty": "Protistrana",
+		"originalAmount": "Pôvodná suma",
+		"deadline": "Termín",
+		"days": "Dni",
+		"daysUnit": "dní",
+		"progress": "Priebeh splácania",
+		"makePayment": "Zaznamenať platbu",
+		"paymentAmount": "Suma platby",
+		"pay": "Zaplatiť",
 		"status": {
-			"label": "Status",
-			"ACTIVE": "Active",
-			"SETTLED": "Settled",
-			"EXPIRED": "Expired",
-			"FORGIVEN": "Forgiven"
+			"label": "Stav",
+			"ACTIVE": "Aktívny",
+			"SETTLED": "Splatený",
+			"EXPIRED": "Vypršaný",
+			"FORGIVEN": "Odpustený"
 		},
 		"type": {
-			"BORROWED": "I borrowed",
-			"LENT": "I lent"
+			"BORROWED": "Požičal som si",
+			"LENT": "Požičal som"
 		},
 		"currency": {
-			"logged": "Logged currency",
-			"base": "Base currency"
+			"logged": "Evidovaná mena",
+			"base": "Základná mena"
 		},
 		"amount": {
-			"logged": "Amount in logged currency",
-			"base": "Amount in base currency"
+			"logged": "Suma v evidovanej mene",
+			"base": "Suma v základnej mene"
 		},
 		"create": {
-			"title": "New Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"originalAmount": "Amount",
-			"currency": "Currency",
-			"deadline": "Deadline",
-			"type": "Type",
-			"category": "Category",
-			"search": "Search",
-			"successInfo": "Debt '{{title}}' created successfully!"
+			"title": "Nový dlh",
+			"titleLabel": "Názov",
+			"counterpartyName": "Meno protistrany",
+			"originalAmount": "Suma",
+			"currency": "Mena",
+			"deadline": "Termín",
+			"type": "Typ",
+			"category": "Kategória",
+			"search": "Hľadať",
+			"successInfo": "Dlh '{{title}}' bol úspešne vytvorený!"
 		},
 		"edit": {
-			"title": "Edit Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"deadline": "Deadline",
-			"type": "Type",
-			"status": "Status",
-			"category": "Category",
-			"search": "Search"
+			"title": "Upraviť dlh",
+			"titleLabel": "Názov",
+			"counterpartyName": "Meno protistrany",
+			"deadline": "Termín",
+			"type": "Typ",
+			"status": "Stav",
+			"category": "Kategória",
+			"search": "Hľadať"
 		},
 		"statistics": {
 			"card": {
-				"DEBT_TOTAL_I_OWE_STATCARD": "Total I Owe",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total Owed to Me"
+				"DEBT_TOTAL_I_OWE_STATCARD": "Celkovo dlhujem",
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Celkovo mi dlhujú"
 			}
 		},
-		"updateInfo": "Debt updated successfully!",
-		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"updateInfo": "Dlh bol úspešne aktualizovaný!",
+		"deleteInfo": "Dlh bol úspešne odstránený!",
+		"paymentInfo": "Platba bola úspešne zaznamenaná!",
+		"empty": {
+			"title": "Zatiaľ žiadne dlhy",
+			"subtitle": "Sledujte peniaze, ktoré dlhujete alebo ktoré vám dlhujú."
+		}
 	},
 	"investments": {
 		"title": "Investície",
@@ -1147,6 +1172,93 @@
 			}
 		},
 		"updateInfo": "Investícia bola úspešne aktualizovaná!",
-		"deleteInfo": "Investícia bola úspešne vymazaná!"
+		"deleteInfo": "Investícia bola úspešne vymazaná!",
+		"empty": {
+			"title": "Zatiaľ žiadne investície",
+			"subtitle": "Začnite sledovať svoje portfólio pridaním prvého aktíva."
+		}
+	},
+	"auditLog": {
+		"title": "Audit záznamy",
+		"userTitle": "Aktivita pracovného priestoru",
+		"action": "Akcia",
+		"entityType": "Typ",
+		"changedBy": "Zmenil",
+		"changedAt": "Dátum",
+		"changes": "Zmeny",
+		"from": "Pred",
+		"to": "Po",
+		"noChanges": "Žiadne zmeny polí",
+		"filter": {
+			"entityType": "Typ entity",
+			"changeType": "Typ zmeny",
+			"changedBy": "Zmenil",
+			"dateFrom": "Dátum od",
+			"dateTo": "Dátum do",
+			"system": "Systém"
+		},
+		"changeType": {
+			"CREATED": "Vytvorené",
+			"UPDATED": "Aktualizované",
+			"DELETED": "Vymazané"
+		},
+		"entityTypeLabel": {
+			"TRANSACTION": "Transakcia",
+			"CATEGORY": "Kategória",
+			"GOAL": "Cieľ",
+			"DEBT": "Dlh",
+			"INVESTMENT": "Investícia",
+			"RECURRING_TRANSACTION": "Opakovaná transakcia",
+			"WORKSPACE": "Pracovný priestor",
+			"WORKSPACE_MEMBER": "Člen pracovného priestoru"
+		},
+		"field": {
+			"title": "Názov",
+			"note": "Poznámka",
+			"date": "Dátum",
+			"amount": "Suma",
+			"type": "Typ",
+			"createdByRecurringJob": "Vytvorené opakujúcou úlohou",
+			"recurringTransactionId": "Opakujúca sa transakcia",
+			"categoryId": "Kategória",
+			"currency": "Mena",
+			"exchangeRate": "Výmenný kurz",
+			"baseCurrencyAmount": "Suma v základnej mene",
+			"name": "Meno",
+			"icon": "Ikona",
+			"color": "Farba",
+			"balance": "Zostatok",
+			"description": "Popis",
+			"targetAmount": "Cieľová suma",
+			"currentAmount": "Aktuálna suma",
+			"targetBaseCurrencyAmount": "Cieľová suma v základnej mene",
+			"currentBaseCurrencyAmount": "Aktuálna suma v základnej mene",
+			"deadline": "Termín",
+			"status": "Stav",
+			"progressPercentage": "Pokrok",
+			"counterpartyName": "Protistrana",
+			"originalAmount": "Pôvodná suma",
+			"remainingAmount": "Zostatok sumy",
+			"originalBaseCurrencyAmount": "Pôvodná suma v základnej mene",
+			"remainingBaseCurrencyAmount": "Zostatok sumy v základnej mene",
+			"paidPercentage": "Zaplatené",
+			"asset": "Aktívum",
+			"purchaseDate": "Dátum nákupu",
+			"frequency": "Frekvencia",
+			"interval": "Interval",
+			"dayOfWeek": "Deň v týždni",
+			"dayOfMonth": "Deň v mesiaci",
+			"endCondition": "Podmienka ukončenia",
+			"endDate": "Dátum ukončenia",
+			"maxOccurrences": "Max. opakovaní",
+			"currentOccurrences": "Aktuálne opakovania",
+			"nextExecutionDate": "Ďalšie vykonanie",
+			"active": "Aktívny",
+			"role": "Rola",
+			"userId": "ID používateľa",
+			"username": "Používateľské meno",
+			"email": "E-mail",
+			"joinedAt": "Dátum pripojenia"
+		}
 	}
 }

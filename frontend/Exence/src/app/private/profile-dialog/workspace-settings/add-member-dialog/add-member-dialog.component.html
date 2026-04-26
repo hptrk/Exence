@@ -1,12 +1,12 @@
-<ex-dialog-card [formGroup]="form" (submit)="submit()" [confirmExitDialog]="dialogRef">
+<ex-dialog-card data-testid="add-member" [formGroup]="form" (submit)="submit()" [confirmExitDialog]="dialogRef">
 	<div ex-dialog-card-title>{{ 'profile.workspaces.addMember.title' | translate }}</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3 py-2">
 		@let emailControl = form.controls.email;
 		<mat-form-field>
 			<mat-label>{{ 'profile.workspaces.addMember.emailLabel' | translate }}</mat-label>
-			<input matInput autoTrim type="email" [formControl]="emailControl" />
-			<ex-input-clear matSuffix [control]="emailControl" />
+			<input data-testid="add-member-email-input" matInput autoTrim type="email" [formControl]="emailControl" />
+			<ex-input-clear data-testid="add-member-email-input-clear-btn" matSuffix [control]="emailControl" />
 			<mat-error>
 				<ex-validator [control]="emailControl" />
 			</mat-error>
@@ -19,10 +19,24 @@
 		ex-dialog-card-actions
 		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
 	>
-		<ex-button outline color="accent" matIcon="close" type="button" mat-dialog-close>
+		<ex-button
+			data-testid="add-member-cancel-btn"
+			outline
+			color="accent"
+			matIcon="close"
+			type="button"
+			mat-dialog-close
+		>
 			{{ 'literals.cancel' | translate }}
 		</ex-button>
-		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="submit()">
+		<ex-button
+			data-testid="add-member-add-btn"
+			filled
+			color="primary"
+			matIcon="add"
+			[disabled]="form.invalid"
+			(click)="submit()"
+		>
 			{{ 'literals.add' | translate }}
 		</ex-button>
 	</div>

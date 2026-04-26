@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+﻿import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
@@ -9,7 +9,7 @@ import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
 import {
 	GOAL_WIDGET_TITLES,
 	GoalWidgetType,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -70,7 +70,7 @@ export class GoalChartComponent {
 		const lang = this.activeLang();
 		return {
 			id: 0,
-			type: this.type() as unknown as WidgetType,
+			type: this.type() as unknown as StatisticsWidgetType,
 			title: this.translocoService.translate(GOAL_WIDGET_TITLES[this.type()], {}, lang),
 			timeframe: this.timeframe(),
 			x: 0,
@@ -89,6 +89,7 @@ export class GoalChartComponent {
 		});
 
 		effect(() => {
+			this.goals();
 			const type = this.type();
 			const goalId = this.selectedGoal()?.id;
 			if (type === GoalWidgetType.GOAL_PROGRESS_TREND && !goalId) return;

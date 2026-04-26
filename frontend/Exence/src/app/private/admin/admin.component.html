@@ -12,6 +12,7 @@
 			}
 		</h2>
 		<mat-tab-group
+			data-testid="admin-tab-group"
 			animationDuration="0ms"
 			mat-stretch-tabs="false"
 			[(selectedIndex)]="selectedIndex"
@@ -60,24 +61,26 @@
 </main>
 
 <ng-template #statisticsTab>
-	<ex-admin-statistics-list />
+	<ex-admin-statistics-list data-testid="admin-statistics-section" />
 </ng-template>
 
 <ng-template #logsTab>
-	<div class="d-flex flex-column flex-grow-1 gap-2 bigger-row" [class.overflow-hidden]="display.isLg()">logs</div>
+	<div class="d-flex flex-column flex-grow-1 gap-2 bigger-row" [class.overflow-hidden]="display.isLg()">
+		<ex-admin-audit-log data-testid="admin-audit-log-section" />
+	</div>
 </ng-template>
 
 <ng-template #configurationsTab>
 	<section class="d-flex flex-column gap-3 overflow-y-auto px-2">
-		<ex-system-settings />
+		<ex-system-settings data-testid="admin-system-settings-section" />
 
 		<mat-divider />
 
-		<ex-admin-registration />
+		<ex-admin-registration data-testid="admin-registration-section" />
 
 		<mat-divider />
 
-		<ex-email-broadcast />
+		<ex-email-broadcast data-testid="admin-email-broadcast-section" />
 
 		<mat-divider />
 	</section>

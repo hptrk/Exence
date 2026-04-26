@@ -29,6 +29,7 @@ import { CurrentUserService } from './shared/user/current-user.service';
 import { UserService } from './shared/user/user.service';
 import { WorkspaceService } from './shared/workspace.service';
 import { TranslocoHttpLoader } from './transloco-loader';
+import { DialogService } from './shared/dialog/dialog.service';
 
 class TouchedErrorStateMatcher implements ErrorStateMatcher {
 	isErrorState(control: AbstractControl | null): boolean {
@@ -67,6 +68,7 @@ export const appConfig: ApplicationConfig = {
 				})
 				.catch(() => currentUserService.clearUser());
 		}),
+		DialogService,
 		provideServiceWorker('ngsw-worker.js', {
 			enabled: !isDevMode(),
 			registrationStrategy: 'registerWhenStable:30000',

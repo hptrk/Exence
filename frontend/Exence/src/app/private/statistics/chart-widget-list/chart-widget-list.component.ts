@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal, viewChild } from '@angular/core';
+﻿import { Component, effect, inject, input, signal, viewChild } from '@angular/core';
 import {
 	CompactType,
 	DisplayGrid,
@@ -10,6 +10,7 @@ import {
 } from 'angular-gridster2';
 import { ButtonComponent } from '../../../shared/button/button.component';
 import { DialogService } from '../../../shared/dialog/dialog.service';
+import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { ChartWidgetComponent } from '../chart-widget/chart-widget.component';
 import {
 	EditChartDialogComponent,
@@ -18,13 +19,13 @@ import {
 } from '../edit-chart-dialog/edit-chart-dialog.component';
 import { WidgetStore } from '../widget.store';
 import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
-import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
+import { StatisticsWidgetType } from '../../../data-model/modules/statistics/widget-config.model';
 
 @Component({
 	selector: 'ex-chart-widget-list',
 	templateUrl: './chart-widget-list.component.html',
 	styleUrl: './chart-widget-list.component.scss',
-	imports: [ChartWidgetComponent, Gridster, GridsterItem, ButtonComponent],
+	imports: [ChartWidgetComponent, Gridster, GridsterItem, ButtonComponent, AnimatedSkeletonLoaderComponent],
 })
 export class ChartWidgetListComponent {
 	private readonly store = inject(WidgetStore);
@@ -87,7 +88,7 @@ export class ChartWidgetListComponent {
 			EditChartDialogComponent,
 			{
 				title: widget.title,
-				type: widget.type as WidgetType,
+				type: widget.type as StatisticsWidgetType,
 				settings: { ...widget.settings },
 			},
 			{

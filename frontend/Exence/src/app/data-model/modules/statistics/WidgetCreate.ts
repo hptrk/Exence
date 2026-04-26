@@ -1,8 +1,8 @@
-import { Timeframe } from './Timeframe';
-import { WidgetType } from './widget-config.model';
+﻿import { Timeframe } from './Timeframe';
+import { StatisticsWidgetType } from './widget-config.model';
 
 export interface WidgetCreate {
-	type: WidgetType;
+	type: StatisticsWidgetType;
 	title: string;
 	timeframe: Timeframe;
 	displayOrder?: number;

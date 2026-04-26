@@ -1,27 +1,31 @@
 {
 	"admin": {
 		"login": {
-			"email": "captainwinnie@exence.com",
-			"password": "Test123!"
+			"email": "winston@exence.com",
+			"password": "Password123!",
+			"username": "Winston2"
 		},
 		"register": {
 			"username": "Test User",
 			"email": "test_user@exence.com",
-			"password": "Test123!",
-			"confirmPassword": "Test123!",
+			"password": "Password123!",
+			"confirmPassword": "Password123!",
 			"currency": "HUF"
 		}
 	},
 	"user": {
 		"login": {
-			"email": "captainwinnie@exence.com",
-			"password": "Test123!"
+			"email": "captainwinnie2@exence.com",
+			"password": "Password123!",
+			"username": "Winston2",
+			"email2": "captainwinnie@exence.com",
+			"username2": "Winnie"
 		},
 		"register": {
 			"username": "Test User",
 			"email": "test_user@exence.com",
-			"password": "Test123!",
-			"confirmPassword": "Test123!",
+			"password": "Password123!",
+			"confirmPassword": "Password123!",
 			"currency": "HUF"
 		}
 	}

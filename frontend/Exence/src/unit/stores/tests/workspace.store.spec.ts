@@ -8,6 +8,7 @@ import { WorkspaceRenameRequest } from '../../../app/data-model/modules/workspac
 import { SupportedCurrency } from '../../../app/data-model/modules/user-settings/SupportedCurrency';
 import { WorkspaceSettingsStore } from '../../../app/private/profile-dialog/workspace-settings/workspace.store';
 import { WorkspaceService } from '../../../app/shared/workspace.service';
+import { AuditLogStore } from '../../../app/shared/audit-log/audit-log.store';
 
 // Fixtures
 const mockWorkspace: WorkspaceGet = { id: 1, name: 'My Workspace', role: WorkspaceRole.OWNER };
@@ -52,6 +53,10 @@ describe('WorkspaceSettingsStore', () => {
 				provideZonelessChangeDetection(),
 				WorkspaceSettingsStore,
 				{ provide: WorkspaceService, useValue: mockWorkspaceService },
+				{
+					provide: AuditLogStore,
+					useValue: { resetUser: jasmine.createSpy(), resetAdmin: jasmine.createSpy() },
+				},
 			],
 		});
 

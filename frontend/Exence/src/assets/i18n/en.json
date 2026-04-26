@@ -28,7 +28,8 @@
 		"yes": "Yes",
 		"no": "No",
 		"duplicate": "Duplicate",
-		"add": "Add"
+		"add": "Add",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Welcome back, <span class='username'>{{username}}</span>!",
@@ -204,7 +205,8 @@
 			"kickMember": {
 				"title": "Kick member",
 				"message": "Are you sure you want to kick {{name}} from this workspace?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Leave workspace",
@@ -227,6 +229,20 @@
 		"currentWorkspace": "Current",
 		"sessions": {
 			"label": "Sessions"
+		},
+		"auditLog": {
+			"label": "Workspace activity"
+		},
+		"achievements": {
+			"label": "Achievements",
+			"tab": {
+				"all": "All",
+				"unlocked": "Unlocked"
+			},
+			"empty": {
+				"all": "No achievements available.",
+				"unlocked": "No unlocked achievements yet."
+			}
 		}
 	},
 	"sessionList": {
@@ -463,7 +479,7 @@
 		},
 		"editButton": "Edit layout",
 		"addButton": "Add widget",
-		"editInfo": "Some cchanges might not be visible until you have saved changes."
+		"editInfo": "Some changes might not be visible until you have saved them."
 	},
 	"category": {
 		"create": {
@@ -640,7 +656,7 @@
 		"message": "You have unsaved changes. Are you sure you want to leave? Your changes will be lost."
 	},
 	"icons": {
-		"localConvenienceStore": "local_convenience_store",
+		"localConvenienceStore": "local convenience store",
 		"shoppingBasket": "shopping basket",
 		"fridge": "fridge",
 		"skillet": "skillet",
@@ -872,7 +888,7 @@
 			"actionableIntelligence": {
 				"subtitle": "Actionable Intelligence",
 				"title": "Turn numbers into knowledge.",
-				"description": "Don't just look at history—learn from it. Our engine analyzes your spending patterns to provide meaningful insights, helping you identify trends and optimize your budget before the month ends.",
+				"description": "Don't just look at history-learn from it. Our engine analyzes your spending patterns to provide meaningful insights, helping you identify trends and optimize your budget before the month ends.",
 				"alt": "Picture showing a snippet of our user settings page."
 			},
 			"transparentSecurity": {
@@ -937,7 +953,8 @@
 		"configurations": {
 			"label": "Configs",
 			"registration": {
-				"title": "Create new Admin user"
+				"title": "Create new Admin user",
+				"success": "Admin user created successfully."
 			},
 			"emailBroadcast": {
 				"title": "Broadcast Email",
@@ -1029,7 +1046,11 @@
 			"status": "Status"
 		},
 		"updateInfo": "Goal updated successfully!",
-		"deleteInfo": "Goal deleted successfully!"
+		"deleteInfo": "Goal deleted successfully!",
+		"empty": {
+			"title": "No goals yet",
+			"subtitle": "Start saving towards your goals by creating your first one."
+		}
 	},
 	"debts": {
 		"title": "Debts",
@@ -1094,7 +1115,11 @@
 		},
 		"updateInfo": "Debt updated successfully!",
 		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"paymentInfo": "Payment recorded successfully!",
+		"empty": {
+			"title": "No debts yet",
+			"subtitle": "Track money you owe or are owed by others."
+		}
 	},
 	"investments": {
 		"title": "Investments",
@@ -1147,6 +1172,93 @@
 			}
 		},
 		"updateInfo": "Investment updated successfully!",
-		"deleteInfo": "Investment deleted successfully!"
+		"deleteInfo": "Investment deleted successfully!",
+		"empty": {
+			"title": "No investments yet",
+			"subtitle": "Start tracking your portfolio by adding your first asset."
+		}
+	},
+	"auditLog": {
+		"title": "Audit Logs",
+		"userTitle": "Workspace activity",
+		"action": "Action",
+		"entityType": "Type",
+		"changedBy": "Changed By",
+		"changedAt": "Date",
+		"changes": "Changes",
+		"from": "From",
+		"to": "To",
+		"noChanges": "No field changes",
+		"filter": {
+			"entityType": "Entity Type",
+			"changeType": "Change Type",
+			"changedBy": "Changed By",
+			"dateFrom": "From Date",
+			"dateTo": "To Date",
+			"system": "System"
+		},
+		"changeType": {
+			"CREATED": "Created",
+			"UPDATED": "Updated",
+			"DELETED": "Deleted"
+		},
+		"entityTypeLabel": {
+			"TRANSACTION": "Transaction",
+			"CATEGORY": "Category",
+			"GOAL": "Goal",
+			"DEBT": "Debt",
+			"INVESTMENT": "Investment",
+			"RECURRING_TRANSACTION": "Recurring Transaction",
+			"WORKSPACE": "Workspace",
+			"WORKSPACE_MEMBER": "Workspace Member"
+		},
+		"field": {
+			"title": "Title",
+			"note": "Note",
+			"date": "Date",
+			"amount": "Amount",
+			"type": "Type",
+			"createdByRecurringJob": "Created by recurring job",
+			"recurringTransactionId": "Recurring transaction",
+			"categoryId": "Category",
+			"currency": "Currency",
+			"exchangeRate": "Exchange rate",
+			"baseCurrencyAmount": "Base currency amount",
+			"name": "Name",
+			"icon": "Icon",
+			"color": "Color",
+			"balance": "Balance",
+			"description": "Description",
+			"targetAmount": "Target amount",
+			"currentAmount": "Current amount",
+			"targetBaseCurrencyAmount": "Target base currency amount",
+			"currentBaseCurrencyAmount": "Current base currency amount",
+			"deadline": "Deadline",
+			"status": "Status",
+			"progressPercentage": "Progress",
+			"counterpartyName": "Counterparty",
+			"originalAmount": "Original amount",
+			"remainingAmount": "Remaining amount",
+			"originalBaseCurrencyAmount": "Original base currency amount",
+			"remainingBaseCurrencyAmount": "Remaining base currency amount",
+			"paidPercentage": "Paid",
+			"asset": "Asset",
+			"purchaseDate": "Purchase date",
+			"frequency": "Frequency",
+			"interval": "Interval",
+			"dayOfWeek": "Day of week",
+			"dayOfMonth": "Day of month",
+			"endCondition": "End condition",
+			"endDate": "End date",
+			"maxOccurrences": "Max occurrences",
+			"currentOccurrences": "Current occurrences",
+			"nextExecutionDate": "Next execution date",
+			"active": "Active",
+			"role": "Role",
+			"userId": "User ID",
+			"username": "Username",
+			"email": "Email",
+			"joinedAt": "Joined at"
+		}
 	}
 }

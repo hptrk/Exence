@@ -29,6 +29,7 @@ import { WorkspaceSettingsStore } from '../workspace.store';
 import { WorkspaceMemberEmailRequest } from '../../../../data-model/modules/workspaces/WorkspaceMemberEmailRequest';
 import { WorkspaceRenameRequest } from '../../../../data-model/modules/workspaces/WorkspaceRenameRequest';
 import { DisplaySizeService } from '../../../../shared/display-size.service';
+import { AuditLogStore } from '../../../../shared/audit-log/audit-log.store';
 
 @Component({
 	selector: 'ex-workspace-item',
@@ -50,6 +51,7 @@ export class WorkspaceItemComponent {
 	private readonly dialogService = inject(DialogService);
 	private readonly translocoService = inject(TranslocoService);
 	private readonly snackbarService = inject(SnackbarService);
+	private readonly auditLogStore = inject(AuditLogStore);
 	readonly display = inject(DisplaySizeService);
 
 	workspace = input.required<WorkspaceGet>();
@@ -115,6 +117,8 @@ export class WorkspaceItemComponent {
 				workspaceName: this.workspace().name,
 			}),
 		);
+		this.auditLogStore.resetUser();
+		this.auditLogStore.resetAdmin();
 	}
 
 	async onDeleteWorkspace(event: MouseEvent): Promise<void> {
@@ -143,7 +147,7 @@ export class WorkspaceItemComponent {
 			hideCloseIcon: false,
 			buttons: MessageDialogButtonConfig.custom(
 				{
-					text: this.translocoService.translate('literals.leave'),
+					text: 'literals.leave',
 					value: true,
 					matIcon: 'logout',
 					color: 'error',
@@ -159,6 +163,8 @@ export class WorkspaceItemComponent {
 					workspaceName: this.workspace().name,
 				}),
 			);
+			this.auditLogStore.resetUser();
+			this.auditLogStore.resetAdmin();
 		}
 	}
 
@@ -169,7 +175,15 @@ export class WorkspaceItemComponent {
 				name: member.username,
 			}),
 			hideCloseIcon: false,
-			buttons: MessageDialogButtonConfig.deleteCancel,
+			buttons: MessageDialogButtonConfig.custom(
+				{
+					text: 'profile.workspaces.kickMember.btn',
+					value: true,
+					matIcon: 'logout',
+					color: 'error',
+				},
+				PredefiedButtons.CANCEL,
+			),
 		});
 		if (confirmed) {
 			await this.workspaceService.removeMember(this.workspace().id, { email: member.email });
@@ -177,6 +191,8 @@ export class WorkspaceItemComponent {
 			this.snackbarService.showSuccess(
 				this.translocoService.translate('profile.workspaces.kickMember.success', { memberEmail: member.email }),
 			);
+			this.auditLogStore.resetUser();
+			this.auditLogStore.resetAdmin();
 		}
 	}
 }

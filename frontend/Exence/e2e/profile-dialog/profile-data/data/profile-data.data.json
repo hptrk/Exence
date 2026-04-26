@@ -1,0 +1,19 @@
+{
+	"profileData": {
+		"newUsername": "NewUsername"
+	},
+	"validators": {
+		"userNameMaxLength": "255"
+	},
+	"errors": {
+		"required": "Field required",
+		"maxLength": "Max length is",
+		"invalidPassword": "Invalid password format!",
+		"passwordMismatch": "Passwords should match!"
+	},
+	"changePwd": {
+		"new": "NewPassword123!",
+		"invalid": "weak",
+		"mismatch": "Different123!"
+	}
+}

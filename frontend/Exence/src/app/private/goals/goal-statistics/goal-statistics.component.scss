@@ -20,5 +20,9 @@
 
 	@include displayMd {
 		grid-template-columns: 1fr 1fr;
+
+		&.single-chart {
+			grid-template-columns: 1fr;
+		}
 	}
 }

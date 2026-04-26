@@ -1,0 +1,124 @@
+<mat-tab-group
+	animationDuration="0ms"
+	mat-stretch-tabs="false"
+	dynamicHeight="false"
+	class="invert-color"
+	[(selectedIndex)]="selectedIndex"
+	data-testid="achievements-tab-group"
+>
+	<mat-tab>
+		<ng-template mat-tab-label>
+			<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+				<mat-icon size="md">emoji_events</mat-icon>
+				<span class="tab-label-text" data-testid="achievements-all-tab-text">{{
+					'profile.achievements.tab.all' | translate
+				}}</span>
+			</div>
+		</ng-template>
+	</mat-tab>
+	<mat-tab>
+		<ng-template mat-tab-label>
+			<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+				<mat-icon size="md">lock_open</mat-icon>
+				<span class="tab-label-text" data-testid="achievements-unlocked-tab-text">{{
+					'profile.achievements.tab.unlocked' | translate
+				}}</span>
+			</div>
+		</ng-template>
+	</mat-tab>
+</mat-tab-group>
+
+@if (selectedIndex === 0) {
+	<ng-container [ngTemplateOutlet]="allTab" />
+} @else if (selectedIndex === 1) {
+	<ng-container [ngTemplateOutlet]="unlockedTab" />
+}
+
+<ng-template #allTab>
+	@if (store.isLoading()) {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+		</div>
+	} @else {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			@for (achievement of store.achievements(); track achievement.id) {
+				<div
+					class="achievement-card"
+					data-testid="achievement-all-card"
+					[style.--tier-color]="tierColor(achievement.tier)"
+					[attr.achievement-disabled]="achievement.unlocked ? '' : null"
+				>
+					<div class="d-flex justify-content-between align-items-start">
+						<div>
+							<strong>{{ achievement.name }}</strong>
+							<div class="text-muted small">{{ achievement.description }}</div>
+						</div>
+						<span class="tier-badge">{{ achievement.tier }}</span>
+					</div>
+					<mat-progress-bar
+						[value]="(achievement.currentProgress / achievement.requirementValue) * 100"
+						class="mt-2"
+						data-testid="achievement-progress-bar"
+					/>
+					<div class="d-flex justify-content-between mt-1">
+						<small data-testid="achievement-progress-text"
+							>{{ achievement.currentProgress }} / {{ achievement.requirementValue }}</small
+						>
+						@if (achievement.unlockedAt) {
+							<small class="text-muted" data-testid="achievement-unlock-date">{{
+								achievement.unlockedAt | date: 'mediumDate'
+							}}</small>
+						}
+					</div>
+				</div>
+			} @empty {
+				<p class="text-muted text-center mt-4" data-testid="achievements-all-empty">
+					{{ 'profile.achievements.empty.all' | translate }}
+				</p>
+			}
+		</div>
+	}
+</ng-template>
+
+<ng-template #unlockedTab>
+	@if (store.isLoading()) {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+			<ex-animated-skeleton-loader width="100%" height="80px" />
+		</div>
+	} @else {
+		<div class="d-flex flex-column gap-2 overflow-y-auto">
+			@for (achievement of store.unlockedAchievements(); track achievement.id) {
+				<div
+					class="achievement-card"
+					data-testid="achievement-unlocked-card"
+					[style.--tier-color]="tierColor(achievement.tier)"
+				>
+					<div class="d-flex justify-content-between align-items-start">
+						<div>
+							<strong>{{ achievement.name }}</strong>
+							<div class="text-muted small">{{ achievement.description }}</div>
+						</div>
+						<span class="tier-badge">{{ achievement.tier }}</span>
+					</div>
+					<div class="mt-2">
+						<small class="text-muted" data-testid="achievement-unlock-date">{{
+							achievement.unlockedAt | date: 'mediumDate'
+						}}</small>
+					</div>
+				</div>
+			} @empty {
+				<p class="text-muted text-center mt-4" data-testid="achievements-unlocked-empty">
+					{{ 'profile.achievements.empty.unlocked' | translate }}
+				</p>
+			}
+		</div>
+	}
+</ng-template>

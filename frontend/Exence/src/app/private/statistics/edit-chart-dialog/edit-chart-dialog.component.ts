@@ -1,5 +1,6 @@
-import { Component, computed, inject, signal } from '@angular/core';
+﻿import { Component, computed, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialogClose } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -8,7 +9,7 @@ import { CategoryType } from '../../../data-model/modules/category/CategoryType'
 import {
 	CATEGORY_FILTERABLE_WIDGET_TYPES,
 	WIDGET_CATEGORY_TYPES,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { WidgetSetting } from '../../../data-model/modules/statistics/WidgetSetting';
 import { AutoTrimDirective } from '../../../shared/auto-trim.directive';
@@ -27,7 +28,7 @@ import { CategoryGet } from '../../../data-model/modules/category/CategoryGet';
 
 export interface EditChartDialogData {
 	title: string;
-	type: WidgetType;
+	type: StatisticsWidgetType;
 	settings?: Record<string, unknown>;
 }
 
@@ -51,6 +52,7 @@ export interface EditChartDialogResult {
 		AutoTrimDirective,
 		ButtonComponent,
 		ConfirmExitDialogDirective,
+		MatDialogClose,
 		SelectAutoFocusDirective,
 		TranslatePipe,
 	],
@@ -97,6 +99,9 @@ export class EditChartDialogComponent extends DialogComponent<EditChartDialogDat
 	constructor() {
 		super(inject(DialogRef));
 		this.categoryService.list().then(categories => this.categories.set(categories));
+		if (!this.isCategoryFilterable()) {
+			this.form.controls.categories.disable();
+		}
 	}
 
 	save(): void {

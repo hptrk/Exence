@@ -9,3 +9,7 @@ mat-expansion-panel.mat-expansion-panel {
 		border-bottom: 1px solid var(--border-color);
 	}
 }
+
+mat-expansion-panel.mat-expansion-panel.mat-expanded {
+	margin: 0;
+}

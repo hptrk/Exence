@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+﻿import { Component, effect, inject, input, signal } from '@angular/core';
 import { SankeyChart } from 'echarts/charts';
 import { TitleComponent, TooltipComponent } from 'echarts/components';
 import * as echarts from 'echarts/core';
@@ -14,7 +14,7 @@ import { StatisticService } from '../statistic.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
-import { WidgetType } from '../../../data-model/modules/statistics/widget-config.model';
+import { StatisticsWidgetType } from '../../../data-model/modules/statistics/widget-config.model';
 
 echarts.use([SankeyChart, TooltipComponent, TitleComponent, CanvasRenderer]);
 
@@ -80,7 +80,7 @@ export class SankeyChartComponent {
 					this.translocoService.getActiveLang(),
 					(key, params) => this.translocoService.translate(key, params),
 					(v: number) => this.currencyPipe.transform(v),
-					this.widget().type as WidgetType,
+					this.widget().type as StatisticsWidgetType,
 				) as Partial<EChartsOption>,
 			);
 		});

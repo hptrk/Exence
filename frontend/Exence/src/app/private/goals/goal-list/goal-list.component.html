@@ -13,6 +13,7 @@
 >
 	<ng-template exCell="title" let-row>
 		<div
+			data-testid="goal-status-indicator"
 			class="status"
 			style="min-width: 4px"
 			[attr.status]="row.status"
@@ -43,7 +44,7 @@
 </ex-data-table>
 
 <ng-template #expandTmpl let-row>
-	<div class="details">
+	<div class="details" data-testid="goal-expanded-details">
 		<div class="detail">
 			<mat-label>{{ 'goals.note' | translate }}</mat-label>
 			<div class="note">

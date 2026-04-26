@@ -142,7 +142,7 @@ describe('NoteBoxComponent', () => {
 	});
 });
 
-// ─── InputClearButtonComponent ──────────────────────────────────────────────
+//  InputClearButtonComponent
 describe('InputClearButtonComponent', () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
@@ -200,7 +200,7 @@ describe('InputClearButtonComponent', () => {
 		fixture.componentRef.setInput('control', control);
 		fixture.detectChanges();
 		fixture.componentInstance.clear();
-		// In zoneless mode we verify the model value — the @if(control().value) will be falsy
+		// In zoneless mode we verify the model value - the @if(control().value) will be falsy
 		expect(control.value == null || control.value === '').toBeTrue();
 	});
 });

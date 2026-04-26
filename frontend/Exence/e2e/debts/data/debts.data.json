@@ -1,0 +1,41 @@
+{
+	"createDebt": {
+		"title": "Test Debt",
+		"counterpartyName": "Test Person",
+		"originalAmount": 50000,
+		"currency": "USD",
+		"type": "BORROWED"
+	},
+	"validation": {
+		"maxTitleLength": 255,
+		"maxCounterpartyLength": 255
+	},
+	"errors": {
+		"required": "Field required",
+		"maxLength": "Max length is",
+		"minValue": "Min value is"
+	},
+	"statuses": {
+		"active": "ACTIVE",
+		"settled": "SETTLED",
+		"expired": "EXPIRED",
+		"forgiven": "FORGIVEN"
+	},
+	"types": {
+		"borrowed": "BORROWED",
+		"lent": "LENT"
+	},
+	"typeOption": {
+		"borrowed": "I borrowed",
+		"lent": "I lent"
+	},
+	"statusOption": {
+		"active": "Active",
+		"settled": "Settled",
+		"expired": "Expired",
+		"forgiven": "Forgiven"
+	},
+	"editDebt": {
+		"newTitle": "Updated Debt Title"
+	}
+}

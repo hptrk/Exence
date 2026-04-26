@@ -1,0 +1,26 @@
+{
+	"themes": {
+		"initialPrimary": "DARK",
+		"initialSecondary": "BLUE_DOLPHIN",
+		"light": "LIGHT",
+		"dark": "DARK",
+		"blueDolphin": "BLUE_DOLPHIN"
+	},
+	"themeNames": {
+		"light": "Light theme",
+		"dark": "Dark theme",
+		"blueDolphin": "Blue dolphin theme"
+	},
+	"colorsPerTheme": 4,
+	"currentThemeText": "Current",
+	"themeError": "You must choose two different themes!",
+	"languages": {
+		"initial": "en",
+		"german": "de",
+		"count": 8
+	},
+	"buttons": {
+		"saveEn": "Save",
+		"saveDe": "Speichern Sie"
+	}
+}

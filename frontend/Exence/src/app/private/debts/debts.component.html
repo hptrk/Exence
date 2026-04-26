@@ -1,26 +1,44 @@
-<main
-	class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 gap-4"
-	[class.overflow-hidden]="display.isLg()"
-	[class.h-100]="display.isLg()"
->
-	<ex-debt-statistics />
-
-	<div
-		class="d-flex flex-column flex-lg-row flex-nowrap gap-4"
-		[class.h-100]="display.isLg()"
-		[class.overflow-hidden]="display.isLg()"
+@if (isEmpty()) {
+	<section
+		data-testid="debts-empty-state"
+		class="d-flex flex-column align-items-center justify-content-center gap-4 h-100"
 	>
-		<ex-debt-list
-			class="flex-grow-1"
-			matIcon="arrow_circle_up"
-			[title]="'debts.myDebts' | translate"
-			[type]="debtTypes.BORROWED"
-		/>
-		<ex-debt-list
-			class="flex-grow-1"
-			matIcon="arrow_circle_down"
-			[title]="'debts.owedToMe' | translate"
-			[type]="debtTypes.LENT"
-		/>
-	</div>
-</main>
+		<img src="assets/empty-debts.svg" />
+		<div class="d-flex flex-column gap-2 align-items-center text-center">
+			<h3 class="fs-2 fw-bold m-0">
+				{{ 'debts.empty.title' | translate }}
+			</h3>
+			<p class="m-0 fs-5">
+				{{ 'debts.empty.subtitle' | translate }}
+			</p>
+		</div>
+		<ex-button data-testid="debts-empty-create-btn" (click)="openCreate()" color="primary" matIcon="add" size="lg">
+			{{ 'debts.create.title' | translate }}
+		</ex-button>
+	</section>
+} @else {
+	<main class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 gap-4 h-100" [class.overflow-hidden]="display.isLg()">
+		<ex-debt-statistics />
+
+		<div
+			data-testid="debt-lists-container"
+			class="h-100 d-flex flex-column flex-lg-row flex-nowrap gap-4"
+			[class.overflow-hidden]="display.isLg()"
+		>
+			<ex-debt-list
+				data-testid="debt-list-borrowed"
+				class="flex-grow-1"
+				matIcon="arrow_circle_up"
+				[title]="'debts.myDebts' | translate"
+				[type]="debtTypes.BORROWED"
+			/>
+			<ex-debt-list
+				data-testid="debt-list-lent"
+				class="flex-grow-1"
+				matIcon="arrow_circle_down"
+				[title]="'debts.owedToMe' | translate"
+				[type]="debtTypes.LENT"
+			/>
+		</div>
+	</main>
+}

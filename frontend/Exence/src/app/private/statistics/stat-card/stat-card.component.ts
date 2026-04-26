@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+﻿import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { StatCardWidget } from '../../../data-model/modules/statistics/StatCardWidget';
@@ -7,7 +7,7 @@ import {
 	DebtWidgetType,
 	GoalWidgetType,
 	InvestmentWidgetType,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { StatCardPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
@@ -16,7 +16,10 @@ import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { AdminStatisticsService } from '../../admin/admin-statistic.service';
 import { GoalService } from '../../goals/goal.service';
 import { DebtService } from '../../debts/debt.service';
+import { DebtStore } from '../../debts/debt.store';
+import { GoalStore } from '../../goals/goal.store';
 import { InvestmentService } from '../../investments/investment.service';
+import { InvestmentStore } from '../../investments/investment.store';
 import { StatisticService } from '../statistic.service';
 import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 
@@ -36,7 +39,10 @@ export class StatCardComponent {
 	private readonly adminStatisticService = inject(AdminStatisticsService);
 	private readonly goalService = inject(GoalService);
 	private readonly debtService = inject(DebtService);
+	private readonly debtStore = inject(DebtStore);
+	private readonly goalStore = inject(GoalStore);
 	private readonly investmentService = inject(InvestmentService);
+	private readonly investmentStore = inject(InvestmentStore);
 	readonly currencyService = inject(CurrencyService);
 
 	widget = input<StatCardWidget>();
@@ -70,9 +76,9 @@ export class StatCardComponent {
 		return !!currency && Object.values(SupportedCurrency).includes(currency);
 	});
 
-	readonly predefinedStatCardIcons: Partial<Record<WidgetType, string>> = {
-		[WidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
-		[WidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
+	readonly predefinedStatCardIcons: Partial<Record<StatisticsWidgetType, string>> = {
+		[StatisticsWidgetType.TOP_EXPENSE_CATEGORY_STATCARD]: 'money_off',
+		[StatisticsWidgetType.TOP_INCOME_CATEGORY_STATCARD]: 'attach_money',
 	};
 
 	constructor() {
@@ -97,6 +103,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.goalStore.goals();
 			if (!this.goalCardType()) return;
 			this.isLoading.set(true);
 			this.goalService
@@ -108,6 +115,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.debtStore.debts();
 			if (!this.debtCardType()) return;
 			this.isLoading.set(true);
 			this.debtService
@@ -119,6 +127,7 @@ export class StatCardComponent {
 		effect(() => {
 			this.currencyService.baseCurrency();
 			this.currencyService.showBaseCurrency();
+			this.investmentStore.investments();
 			if (!this.investmentCardType()) return;
 			this.isLoading.set(true);
 			this.investmentService

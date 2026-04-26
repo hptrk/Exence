@@ -1,0 +1,23 @@
+{
+	"createInvestment": {
+		"asset": "Test Asset",
+		"type": "ETF",
+		"amount": 1000,
+		"currency": "USD",
+		"note": "A test investment note"
+	},
+	"validation": {
+		"maxAssetLength": 100,
+		"maxNoteLength": 500
+	},
+	"errors": {
+		"required": "Field required",
+		"maxLength": "Max length is",
+		"minValue": "Min value is"
+	},
+	"dialogs": {
+		"newAssetTitle": "New Asset",
+		"addPurchaseTitle": "Add Purchase",
+		"editPurchaseTitle": "Edit Purchase"
+	}
+}

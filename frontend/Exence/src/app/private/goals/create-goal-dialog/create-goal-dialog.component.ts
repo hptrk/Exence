@@ -25,6 +25,7 @@ import { getAmountStep, localizeCurrency, toRawValueSignal } from '../../../shar
 import { ValidatorComponent } from '../../../shared/validator/validator.component';
 import { ExtraValidators } from '../../../shared/validators';
 import { CategoryService } from '../../transactions-and-categories/category.service';
+import { MatDialogClose } from '@angular/material/dialog';
 
 @Component({
 	selector: 'ex-create-goal-dialog',
@@ -36,6 +37,7 @@ import { CategoryService } from '../../transactions-and-categories/category.serv
 		MatSelectModule,
 		MatDatepickerModule,
 		MatIconModule,
+		MatDialogClose,
 		AmountStepperComponent,
 		InputClearButtonComponent,
 		ButtonComponent,
@@ -98,6 +100,10 @@ export class CreateGoalDialogComponent extends DialogComponent<undefined, GoalCr
 
 	localizeCurrency(currency: SupportedCurrency): string {
 		return localizeCurrency(currency, this.translocoService.getActiveLang());
+	}
+
+	close(): void {
+		this.dialogRef.close(null);
 	}
 
 	create(): void {

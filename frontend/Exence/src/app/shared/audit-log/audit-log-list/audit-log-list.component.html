@@ -1,0 +1,52 @@
+<ex-data-table
+	[columns]="columns()"
+	[data]="data()"
+	[isLoading]="isLoading()"
+	[title]="title()"
+	[matIcon]="matIcon()"
+	[svgIcon]="svgIcon()"
+	[expandTemplate]="expandTmpl"
+	(scrolled)="scrolled.emit()"
+	hideAddButton
+	class="overflow-hidden"
+	[height]="display.isMd() ? '60dvh' : '100%'"
+>
+	<ng-template exCell="action" let-row>
+		<span class="fw-bold ps-3 action-{{ row.action }}">{{ codeForChangeType(row.action) | translate }}</span>
+	</ng-template>
+
+	<ng-template exCell="entityType" let-row>
+		<span class="text-truncate d-block" [title]="codeForEntityType(row.entityType) | translate">{{
+			codeForEntityType(row.entityType) | translate
+		}}</span>
+	</ng-template>
+
+	<ng-template exCell="changedBy" let-row>
+		<span class="text-truncate d-block" [title]="row.changedBy">{{ row.changedBy }}</span>
+	</ng-template>
+
+	<ng-template exCell="changedAt" let-row>
+		{{ row.changedAt | date: 'yy/MM/dd HH:mm' }}
+	</ng-template>
+</ex-data-table>
+
+<ng-template #expandTmpl let-row>
+	<div class="audit-details" data-testid="audit-details">
+		<div class="detail">
+			<mat-label class="text-truncate">{{ 'auditLog.changedAt' | translate }}</mat-label>
+			<div class="fs-6 pt-lg-1">{{ row.changedAt | date: 'yy/MM/dd HH:mm' }}</div>
+		</div>
+		@for (change of row.changes; track change.field) {
+			<div class="detail">
+				<mat-label class="text-truncate">{{ codeForField(change.field) | translate }}</mat-label>
+				<div class="fs-6 pt-lg-1">
+					<span class="text-muted">{{ change.from }}</span>
+					@if (change.from && change.to) {
+						<span class="text-muted"> → </span>
+					}
+					<span>{{ change.to }}</span>
+				</div>
+			</div>
+		}
+	</div>
+</ng-template>

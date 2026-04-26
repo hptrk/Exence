@@ -10,12 +10,13 @@ import { WorkspaceService } from '../../../../shared/workspace.service';
 import { WorkspaceSettingsStore } from '../workspace.store';
 import { CreateWorkspaceDialogComponent } from '../create-workspace-dialog/create-workspace-dialog.component';
 import { WorkspaceItemComponent } from '../workspace-item/workspace-item.component';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
 	selector: 'ex-workspace-list',
 	templateUrl: './workspace-list.component.html',
 	styleUrl: './workspace-list.component.scss',
-	imports: [MatProgressSpinnerModule, WorkspaceItemComponent, ButtonComponent, TranslatePipe],
+	imports: [MatProgressSpinnerModule, MatAccordion, WorkspaceItemComponent, ButtonComponent, TranslatePipe],
 })
 export class WorkspaceListComponent {
 	private readonly workspaceService = inject(WorkspaceService);

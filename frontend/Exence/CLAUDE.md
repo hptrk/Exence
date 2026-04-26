@@ -39,8 +39,8 @@ The dev server proxies `/api/*` to `http://localhost:8080` via `proxy.conf.js`.
 ### Routing & Auth
 
 - `app.routes.ts`: root routes; root redirects to `/dashboard`
-- `src/app/public/` — unauthenticated routes (login, register, forgot-password, email-verification, logout), guarded by `loggedOutGuard`
-- `src/app/private/` — authenticated routes (dashboard, statistics, transactions, debts, goals, profile, settings), guarded by `loggedInGuard`
+- `src/app/public/` - unauthenticated routes (login, register, forgot-password, email-verification, logout), guarded by `loggedOutGuard`
+- `src/app/private/` - authenticated routes (dashboard, statistics, transactions, debts, goals, profile, settings), guarded by `loggedInGuard`
 - Auth is cookie-based; `auth.interceptor` adds `withCredentials: true`; `refresh-token.interceptor` handles 401s
 
 ### State Management (Signal Stores)
@@ -61,9 +61,9 @@ Async data loading uses the `resource()` / `rxResource()` pattern inside `withPr
 
 ### HTTP Layer
 
-- `shared/http/HttpService` — custom wrapper around Angular's `HttpClient` with centralized error handling. Accepts optional `HttpSettings` to suppress errors.
-- `shared/user/CurrentUserService` — singleton signal-based service for current user state
-- `shared/auth/AuthService` — authentication API calls
+- `shared/http/HttpService` - custom wrapper around Angular's `HttpClient` with centralized error handling. Accepts optional `HttpSettings` to suppress errors.
+- `shared/user/CurrentUserService` - singleton signal-based service for current user state
+- `shared/auth/AuthService` - authentication API calls
 
 ### App Structure
 
@@ -77,7 +77,7 @@ src/app/
 │   └── ...
 ├── public/                 # Auth pages
 └── shared/                 # Reusable components, services, directives, pipes
-    ├── base-component/     # BaseComponent — extend this for subscription lifecycle management
+    ├── base-component/     # BaseComponent - extend this for subscription lifecycle management
     ├── dialog/             # DialogService for opening modals
     ├── snackbar/           # SnackbarService for toast notifications
     ├── navigation/         # NavigationService for routing helpers

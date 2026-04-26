@@ -5,7 +5,7 @@
 	<div
 		class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between align-items-center gap-2"
 	>
-		<h2 class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
+		<h2 data-testid="page-title" class="m-0 text-center text-md-start {{ display.isSm() ? 'fs-1' : 'fs-2' }}">
 			@if (selectedIndex === 0) {
 				{{ 'literals.transactions' | translate }}
 			} @else {
@@ -13,6 +13,7 @@
 			}
 		</h2>
 		<mat-tab-group
+			data-testid="tab-group"
 			animationDuration="0ms"
 			mat-stretch-tabs="false"
 			[(selectedIndex)]="selectedIndex"
@@ -21,7 +22,10 @@
 		>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+					<div
+						data-testid="transactions-tab-label"
+						class="d-flex flex-row flex-nowrap align-items-center gap-2"
+					>
 						<mat-icon size="md">payments</mat-icon>
 						@if (display.isMd()) {
 							{{ 'literals.transactions' | translate }}
@@ -31,7 +35,10 @@
 			</mat-tab>
 			<mat-tab>
 				<ng-template mat-tab-label>
-					<div class="d-flex flex-row flex-nowrap align-items-center gap-2">
+					<div
+						data-testid="categories-tab-label"
+						class="d-flex flex-row flex-nowrap align-items-center gap-2"
+					>
 						<mat-icon size="md">cached</mat-icon>
 						@if (display.isMd()) {
 							{{ 'literals.categories' | translate }}
@@ -53,17 +60,20 @@
 		<div class="d-flex flex-row gap-4 smaller-row">
 			@if (display.isLg()) {
 				<ex-recurring-list
+					data-testid="recurring-expenses-list"
 					matIcon="money_off"
 					[title]="'transactionsAndCategories.recurring.expenses' | translate"
 					[type]="transactionTypes.EXPENSE"
 				/>
 				<ex-recurring-list
+					data-testid="recurring-incomes-list"
 					matIcon="attach_money"
 					[title]="'transactionsAndCategories.recurring.incomes' | translate"
 					[type]="transactionTypes.INCOME"
 				/>
 			} @else {
 				<ex-recurring-list
+					data-testid="recurring-transactions-list"
 					matIcon="attach_money"
 					[title]="'transactionsAndCategories.recurring.transactions' | translate"
 				/>
@@ -79,6 +89,7 @@
 					<mat-form-field subscriptSizing="dynamic" class="search">
 						<ex-button iconButton matPrefix matIcon="search" color="accent" />
 						<input
+							data-testid="search-text-input"
 							[formControl]="transactionFilterForm.controls.searchText"
 							matInput
 							[placeholder]="'transactionsAndCategories.search' | translate"
@@ -146,7 +157,7 @@
 						@let typeControl = transactionFilterForm.controls.type;
 						<mat-form-field subscriptSizing="dynamic">
 							<mat-label>{{ 'literals.type' | translate }}</mat-label>
-							<mat-select [formControl]="typeControl">
+							<mat-select data-testid="filter-type-select" [formControl]="typeControl">
 								<mat-option [value]="null">
 									{{ 'literals.all' | translate }}
 								</mat-option>
@@ -169,6 +180,7 @@
 				</div>
 			</div>
 			<ex-transaction-list
+				data-testid="transaction-list"
 				matIcon="payments"
 				[class.overflow-hidden]="display.isLg()"
 				[title]="'literals.transactions' | translate"
@@ -180,6 +192,7 @@
 <ng-template #categoriesTab>
 	<div class="d-flex flex-column gap-2 flex-grow-1 mt-4" [class.overflow-hidden]="display.isLg()">
 		<ex-category-list
+			data-testid="category-list"
 			matIcon="category"
 			[title]="'literals.categories' | translate"
 			[class.overflow-hidden]="display.isLg()"

@@ -1,13 +1,14 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { NgTemplateOutlet } from '@angular/common';
+import { LowerCasePipe, NgTemplateOutlet } from '@angular/common';
 import {
+	afterNextRender,
 	booleanAttribute,
 	Component,
 	computed,
 	ContentChildren,
 	effect,
-	ElementRef,
 	inject,
+	Injector,
 	input,
 	output,
 	QueryList,
@@ -15,13 +16,13 @@ import {
 	TemplateRef,
 	viewChild,
 } from '@angular/core';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { PagedResponse } from '../../data-model/modules/common/PagedResponse';
+import { SliceResponse } from '../../data-model/modules/common/SliceResponse';
 import { AnimatedSkeletonLoaderComponent } from '../animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../base-component/base.component';
 import { ButtonComponent } from '../button/button.component';
@@ -36,6 +37,7 @@ export interface ColumnDef {
 	key: string;
 	header: TranslationCode;
 	width?: string;
+	minWidth?: string;
 }
 
 export interface TableAction<T = unknown> {
@@ -52,7 +54,6 @@ export interface TableAction<T = unknown> {
 	styleUrl: './data-table.component.scss',
 	imports: [
 		MatCardModule,
-		MatTableModule,
 		MatIconModule,
 		NgTemplateOutlet,
 		MatTooltipModule,
@@ -60,9 +61,13 @@ export interface TableAction<T = unknown> {
 		ButtonComponent,
 		AnimatedSkeletonLoaderComponent,
 		StopPropagationDirective,
-		InfiniteScrollDirective,
+		ScrollingModule,
 		TranslatePipe,
+		LowerCasePipe,
 	],
+	host: {
+		'[style.--container-height]': 'height() ?? `60dvh`',
+	},
 	// TODO remove deprecated angular animations
 	/* eslint-disable */
 	animations: [
@@ -76,12 +81,16 @@ export interface TableAction<T = unknown> {
 })
 export class DataTableComponent<T extends { id: number }> extends BaseComponent {
 	readonly display = inject(DisplaySizeService);
+	private readonly injector = inject(Injector);
 
-	private scrollContainer = viewChild<ElementRef<HTMLElement>>('scrollContainer');
+	private viewport = viewChild<CdkVirtualScrollViewport>('viewport');
+
+	private _subscribedViewport: CdkVirtualScrollViewport | null = null;
 
 	columns = input.required<ColumnDef[]>();
 	actions = input<TableAction<T>[]>([]);
-	data = input<PagedResponse<T> | T[]>();
+	height = input<string>();
+	data = input<PagedResponse<T> | SliceResponse<T> | T[]>();
 	isLoading = input<boolean>(false);
 	matIcon = input<string>();
 	svgIcon = input<SvgIcons>();
@@ -89,24 +98,29 @@ export class DataTableComponent<T extends { id: number }> extends BaseComponent 
 	expandTemplate = input<TemplateRef<{ $implicit: T }>>();
 	nonExpandable = input(false, { transform: booleanAttribute });
 	inlineActions = input(false, { transform: booleanAttribute });
+	hideAddButton = input(false, { transform: booleanAttribute });
 
 	addClicked = output<void>();
 	scrolled = output<void>();
 
 	@ContentChildren(ExCellDirective) cellTemplates!: QueryList<ExCellDirective>;
 
-	expandedRowId = signal<number | null>(null);
+	private expandedId = signal<number | null>(null);
 
-	private resolvedContent = computed(() => {
+	readonly ITEM_SIZE = 60;
+
+	resolvedContent = computed(() => {
 		const d = this.data();
 		return Array.isArray(d) ? d : (d?.content ?? []);
 	});
 
-	dataSource = computed(() => new MatTableDataSource(this.resolvedContent()));
-
-	displayedColumns = computed(() => this.columns().map(c => c.key));
-
 	isEmpty = computed(() => !this.resolvedContent().length && !this.isLoading());
+
+	gridTemplateColumns = computed(() =>
+		this.columns()
+			.map(c => `minmax(${c.minWidth ?? 'auto'}, ${c.width ?? 'auto'})`)
+			.join(' '),
+	);
 
 	constructor() {
 		super();
@@ -115,7 +129,29 @@ export class DataTableComponent<T extends { id: number }> extends BaseComponent 
 			const d = this.data();
 			const content = Array.isArray(d) ? d : d?.content;
 			const isFirstPage = Array.isArray(d) || (d as PagedResponse<T>)?.page === 0;
-			if (content && isFirstPage) this.scrollToTop();
+			if (content && isFirstPage) {
+				this.scrollToTop();
+				// Re-measure after data changes so CDK renders newly added items.
+				afterNextRender(() => this.viewport()?.checkViewportSize(), { injector: this.injector });
+			}
+		});
+
+		effect(() => {
+			const viewport = this.viewport();
+			if (!viewport || this._subscribedViewport === viewport) return;
+			this._subscribedViewport = viewport;
+			// In zoneless mode CDK measures viewport size before flex layout settles.
+			// afterNextRender fires after Angular's DOM update, guaranteeing a correct clientHeight.
+			afterNextRender(() => viewport.checkViewportSize(), { injector: this.injector });
+			this.addSubscription(
+				viewport.scrolledIndexChange.subscribe(index => {
+					if (this.isLoading()) return;
+					const visibleCount = Math.ceil(viewport.getViewportSize() / this.ITEM_SIZE);
+					if (index + visibleCount >= this.resolvedContent().length - 3) {
+						this.scrolled.emit();
+					}
+				}),
+			);
 		});
 	}
 
@@ -123,18 +159,18 @@ export class DataTableComponent<T extends { id: number }> extends BaseComponent 
 		return this.cellTemplates?.find(d => d.column() === key)?.template ?? null;
 	}
 
+	isExpanded(row: T): boolean {
+		return this.expandedId() === row.id;
+	}
+
+	trackById = (_i: number, item: T) => item.id;
+
 	toggleExpand(row: T): void {
 		if (this.nonExpandable() || !this.expandTemplate()) return;
-		this.expandedRowId.update(id => (id === row.id ? null : row.id));
+		this.expandedId.update(id => (id === row.id ? null : row.id));
 	}
 
 	private scrollToTop(): void {
-		const container = this.scrollContainer()?.nativeElement;
-		if (container) {
-			container.scrollTop = 0;
-			setTimeout(() => {
-				container.scrollTop = 1;
-			}, 0);
-		}
+		this.viewport()?.scrollToOffset(0);
 	}
 }

@@ -140,6 +140,7 @@ export class ProfileInformationComponent {
 			queryParams: { ['password-changed']: 'true' },
 		});
 		this.snackbarService.showSuccess(this.translocoService.translate('profile.saved'));
+		this.dialogRef().submit(undefined);
 	}
 
 	cancelDataEditing(): void {

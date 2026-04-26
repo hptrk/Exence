@@ -1,4 +1,4 @@
-<mat-card class="h-100 categories">
+<mat-card data-testid="categories-card" class="h-100 categories">
 	@if (isLoading()) {
 		<mat-card-header>
 			<mat-card-title
@@ -6,6 +6,7 @@
 			>
 				<h2 class="header-2 m-0">{{ 'categories.topCategories' | translate }}</h2>
 				<ex-button
+					data-testid="add-category-btn"
 					iconButton
 					matIcon="add"
 					color="accent"
@@ -30,13 +31,19 @@
 				class="d-flex flex-row flex-nowrap gap-2 justify-content-between align-items-center mb-2 w-100"
 			>
 				<h2 class="header-2 m-0">{{ 'categories.topCategories' | translate }}</h2>
-				<ex-button iconButton matIcon="add" color="accent" (click)="openCreateCategoryDialog()" />
+				<ex-button
+					data-testid="add-category-btn"
+					iconButton
+					matIcon="add"
+					color="accent"
+					(click)="openCreateCategoryDialog()"
+				/>
 			</mat-card-title>
 		</mat-card-header>
 		<mat-card-content class="flex-grow-1 d-flex flex-column justify-content-between">
 			<div class="d-flex flex-column gap-4">
 				@for (category of topCategories(); track category.id) {
-					<div class="d-flex flex-column gap-1 align-items-center">
+					<div data-testid="category-item" class="d-flex flex-column gap-1 align-items-center">
 						<div class="d-flex flex-row flex-nowrap justify-content-between align-items-center w-100">
 							<div class="d-flex flex-row flex-nowrap gap-2">
 								<mat-icon>
@@ -54,13 +61,14 @@
 		</mat-card-content>
 	} @else {
 		@if (hasCategories()) {
-			<mat-card-content>
+			<mat-card-content data-testid="categories-no-transactions-state">
 				<div class="d-flex align-items-center justify-content-center">
 					<h2 class="header-2 text-center">{{ 'categories.noTransactions' | translate }}</h2>
 				</div>
 			</mat-card-content>
 			<mat-card-actions class="justify-content-center">
 				<ex-button
+					data-testid="create-first-transaction-btn"
 					color="primary"
 					matIcon="add"
 					collapsedStyle="outlined"
@@ -71,13 +79,14 @@
 				>
 			</mat-card-actions>
 		} @else {
-			<mat-card-content>
+			<mat-card-content data-testid="categories-no-categories-state">
 				<div class="d-flex align-items-center justify-content-center">
 					<h2 class="header-2 text-center">{{ 'categories.noCategories' | translate }}</h2>
 				</div>
 			</mat-card-content>
 			<mat-card-actions class="justify-content-center">
 				<ex-button
+					data-testid="create-first-category-btn"
 					color="primary"
 					matIcon="add"
 					collapsedStyle="outlined"
@@ -91,6 +100,7 @@
 	}
 	<mat-card-footer class="p-3">
 		<mat-button-toggle-group
+			data-testid="category-type-toggle"
 			class="mt-4 app-bg-color"
 			[hideSingleSelectionIndicator]="true"
 			(change)="onTypeChanged($event.value)"

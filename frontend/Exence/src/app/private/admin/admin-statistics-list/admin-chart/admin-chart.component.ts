@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject, input, signal } from '@angular/core';
+﻿import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoService } from '@jsverse/transloco';
 import { ChartWidget } from '../../../../data-model/modules/statistics/ChartWidget';
@@ -6,7 +6,7 @@ import { Timeframe } from '../../../../data-model/modules/statistics/Timeframe';
 import {
 	ADMIN_CHART_TITLES,
 	AdminWidgetType,
-	WidgetType,
+	StatisticsWidgetType,
 } from '../../../../data-model/modules/statistics/widget-config.model';
 import { WidgetDataPayload } from '../../../../data-model/modules/statistics/WidgetDataPayload';
 import { ChartWidgetComponent } from '../../../statistics/chart-widget/chart-widget.component';
@@ -17,7 +17,8 @@ import { AdminStatisticsService } from '../../admin-statistic.service';
 	template: `
 		@if (syntheticWidget() && payload()) {
 			<ex-chart-widget
-				[widget]="syntheticWidget()"
+				data-testid="chart-widget"
+				[widget]="syntheticWidget()!"
 				[payload]="payload()"
 				noRequest
 				disableCurrencyFormat
@@ -38,19 +39,18 @@ export class AdminChartComponent {
 	private readonly adminStatisticsService = inject(AdminStatisticsService);
 	private readonly translocoService = inject(TranslocoService);
 
-	private readonly activeLang = toSignal(this.translocoService.langChanges$, {
-		initialValue: this.translocoService.getActiveLang(),
-	});
+	private readonly activeLang = toSignal(this.translocoService.langChanges$);
 
 	type = input.required<AdminWidgetType>();
 	timeframe = signal<Timeframe>(Timeframe.YEAR_TO_DATE);
 	payload = signal<WidgetDataPayload | undefined>(undefined);
 
-	syntheticWidget = computed<ChartWidget>(() => {
+	readonly syntheticWidget = computed<ChartWidget | undefined>(() => {
 		const lang = this.activeLang();
+		if (!lang) return undefined;
 		return {
 			id: 0,
-			type: this.type() as unknown as WidgetType,
+			type: this.type() as unknown as StatisticsWidgetType,
 			title: this.translocoService.translate(ADMIN_CHART_TITLES[this.type()], {}, lang),
 			timeframe: this.timeframe(),
 			x: 0,

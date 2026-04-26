@@ -1,4 +1,4 @@
-import { EChartsOption } from 'echarts/types/dist/shared';
+﻿import { EChartsOption } from 'echarts/types/dist/shared';
 import {
 	ApexAxisChartSeries,
 	ApexChart,
@@ -8,7 +8,7 @@ import {
 	ApexYAxis,
 } from 'ng-apexcharts';
 import { ExChartType } from '../../data-model/modules/statistics/ChartType';
-import { WidgetType } from '../../data-model/modules/statistics/widget-config.model';
+import { StatisticsWidgetType } from '../../data-model/modules/statistics/widget-config.model';
 import {
 	BoxplotPayload,
 	BubblePayload,
@@ -42,7 +42,7 @@ export type ProviderFn<T extends WidgetDataPayload = WidgetDataPayload> = (
 	_locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
-	widgetType?: WidgetType,
+	widgetType?: StatisticsWidgetType,
 ) => Partial<ApexOptions> | T | EChartsOption | PlacementInfo[];
 
 function truncateTitle(title: string, max = 25): string {
@@ -265,7 +265,7 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 	locale: string,
 	translate?: (key: string, params?: Record<string, unknown>) => string,
 	formatCurrency?: (value: number) => string,
-	widgetType?: WidgetType,
+	widgetType?: StatisticsWidgetType,
 ): ApexOptions => {
 	const isSlopeChart = 'series' in data ? false : true;
 	const isMixed = isSlopeChart ? false : (data as SeriesPayload).series.some(si => si.type !== 'line');
@@ -306,7 +306,8 @@ const LineProvider: ProviderFn<SeriesPayload> = (
 	const granularity = !isSlopeChart ? detectSeriesDateGranularity((data as SeriesPayload).series) : null;
 
 	const lineIsCount =
-		widgetType === WidgetType.TRANSACTION_COUNT_EXPENSE_COMBO || widgetType === WidgetType.EXPENSE_SAVINGS_COMBO;
+		widgetType === StatisticsWidgetType.TRANSACTION_COUNT_EXPENSE_COMBO ||
+		widgetType === StatisticsWidgetType.EXPENSE_SAVINGS_COMBO;
 
 	const yAxisConfig: ApexYAxis | ApexYAxis[] = isMixed
 		? (data as SeriesPayload).series.map(si => ({

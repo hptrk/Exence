@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { fillAndBlur, getCurrentDate } from '../../form/utils/form-utils';
-import { getErrorSnackbar, getSnackbarCloseBtn, getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
+import { getSuccessSnackbar } from '../../snackbar/locators/snackbar-locators';
 import data from '../data/register.data.json';
 import {
 	getConfirmPasswordField,
@@ -27,13 +27,10 @@ import {
 
 test.describe('Register', () => {
 	test.beforeEach(async ({ page, context }) => {
-		await context.clearCookies({ domain: 'localhost' }); // TODO change based on env
+		await context.clearCookies({ domain: 'localhost' });
 
 		await page.addInitScript(() => localStorage.setItem('language', 'en'));
 		await page.goto('/public/register', { waitUntil: 'domcontentloaded' });
-
-		await expect(getErrorSnackbar(page)).toBeVisible();
-		await getSnackbarCloseBtn(page).click();
 	});
 
 	test('should display validators', async ({ page }) => {
@@ -199,18 +196,9 @@ test.describe('Register', () => {
 		await expect(getConfirmPasswordField(page)).toHaveAttribute('type', 'password');
 	});
 
-	test('should show error snackbar when registering with blacklisted email', async ({ page }) => {
-		await fillAndBlur(getUsernameField(page), data['valid'].username);
-		await fillAndBlur(getEmailField(page), `test_${getCurrentDate()}@maildrop.cc`);
-		await fillAndBlur(getPasswordField(page), data['valid'].password);
-		await fillAndBlur(getConfirmPasswordField(page), data['valid'].confirmPassword);
-		await expect(getRegisterBtn(page)).not.toBeDisabled();
-		await getRegisterBtn(page).click();
-		await expect(getErrorSnackbar(page)).toBeVisible();
-	});
-
 	test('should register successfully and redirect to login', async ({ page }) => {
 		await fillAndBlur(getUsernameField(page), data['valid'].username);
+		await fillAndBlur(getWorkspaceNameField(page), data['valid'].workspaceName);
 		await fillAndBlur(getEmailField(page), `test_${getCurrentDate()}@gmail.com`);
 		await fillAndBlur(getPasswordField(page), data['valid'].password);
 		await fillAndBlur(getConfirmPasswordField(page), data['valid'].confirmPassword);

@@ -32,7 +32,7 @@ import {
 } from '../edit-debt-dialog/edit-debt-dialog.component';
 
 export interface DebtModel extends DebtGet {
-	category?: CategoryGet | undefined;
+	category: CategoryGet;
 }
 
 @Component({
@@ -64,8 +64,9 @@ export class DebtListComponent {
 	svgIcon = input<SvgIcons>();
 	type = input<DebtType>();
 
-	data = computed<DebtModel[]>(() => {
+	data = computed<DebtModel[] | undefined>(() => {
 		const categories = this.categoryStore.categoryResource.value();
+		if (!categories) return;
 		const type = this.type();
 		const raw = this.store.debts();
 		if (!raw.length) return [];
@@ -74,7 +75,7 @@ export class DebtListComponent {
 
 		return filtered.map(d => ({
 			...d,
-			category: categories?.find(c => c.id === d.categoryId),
+			category: categories.find(c => c.id === d.categoryId)!,
 		}));
 	});
 
@@ -82,10 +83,10 @@ export class DebtListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({ key: 'title', header: 'debts.titleLabel', width: '35%' });
-		columns.push({ key: 'remaining', header: 'literals.amount', width: '120px' });
+		columns.push({ key: 'title', header: 'debts.titleLabel', width: 'auto' });
+		columns.push({ key: 'remaining', header: 'literals.amount', width: '20%', minWidth: '150px' });
 		if (this.display.isMd()) columns.push({ key: 'days', header: 'debts.days', width: '70px' });
-		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
+		columns.push({ key: 'category', header: 'literals.category', width: this.display.isMd() ? '100px' : '40px' });
 		columns.push({ key: 'actions', header: '', width: '60px' });
 		return columns;
 	});

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="240" height="200" viewBox="0 0 240 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer frame representing the debts page -->
+  <rect x="20" y="15" width="200" height="150" rx="10" stroke="rgb(180,180,220)" stroke-width="2" fill="none"/>
+  <!-- Vertical divider separating two columns -->
+  <line x1="120" y1="15" x2="120" y2="165" stroke="rgb(200,200,242)" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <!-- Left panel header (My Debts) -->
+  <rect x="28" y="23" width="84" height="16" rx="4" fill="rgb(200,200,242)" opacity="0.4"/>
+  <!-- Left panel ghost list rows -->
+  <rect x="28" y="46" width="60" height="8" rx="2" fill="rgb(200,200,242)" opacity="0.35"/>
+  <rect x="28" y="62" width="48" height="8" rx="2" fill="rgb(200,200,242)" opacity="0.25"/>
+  <rect x="28" y="78" width="55" height="8" rx="2" fill="rgb(200,200,242)" opacity="0.30"/>
+  <!-- Left panel: arrow up (money I borrowed) -->
+  <circle cx="68" cy="125" r="22" fill="rgb(200,200,242)" opacity="0.25"/>
+  <line x1="68" y1="138" x2="68" y2="112" stroke="rgb(200,200,242)" stroke-width="3" stroke-linecap="round"/>
+  <polyline points="58,122 68,112 78,122" stroke="rgb(200,200,242)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right panel header (Owed to Me) -->
+  <rect x="128" y="23" width="84" height="16" rx="4" fill="rgb(200,200,242)" opacity="0.4"/>
+  <!-- Right panel ghost list rows -->
+  <rect x="128" y="46" width="60" height="8" rx="2" fill="rgb(200,200,242)" opacity="0.35"/>
+  <rect x="128" y="62" width="52" height="8" rx="2" fill="rgb(200,200,242)" opacity="0.25"/>
+  <rect x="128" y="78" width="44" height="8" rx="2" fill="rgb(200,200,242)" opacity="0.30"/>
+  <!-- Right panel: arrow down (owed to me) -->
+  <circle cx="172" cy="125" r="22" fill="rgb(200,200,242)" opacity="0.25"/>
+  <line x1="172" y1="112" x2="172" y2="138" stroke="rgb(200,200,242)" stroke-width="3" stroke-linecap="round"/>
+  <polyline points="162,128 172,138 182,128" stroke="rgb(200,200,242)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

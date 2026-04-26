@@ -1,0 +1,18 @@
+{
+	"expense": {
+		"title": "E2E Test Expense",
+		"amount": 100
+	},
+	"income": {
+		"title": "E2E Test Income",
+		"amount": 200
+	},
+	"recurringExpense": {
+		"title": "E2E Test Recurring Expense",
+		"amount": 50
+	},
+	"recurringIncome": {
+		"title": "E2E Test Recurring Income",
+		"amount": 75
+	}
+}

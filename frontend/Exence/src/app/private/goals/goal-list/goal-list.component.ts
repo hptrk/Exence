@@ -74,10 +74,11 @@ export class GoalListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({ key: 'title', header: 'goals.titleLabel', width: '35%' });
-		if (this.display.isMd()) columns.push({ key: 'deadline', header: 'goals.date', width: '70px' });
-		columns.push({ key: 'amount', header: 'literals.amount', width: '120px' });
-		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
+		columns.push({ key: 'title', header: 'goals.titleLabel', width: 'auto' });
+		if (this.display.isMd())
+			columns.push({ key: 'deadline', header: 'goals.date', width: '10%', minWidth: '85px' });
+		columns.push({ key: 'amount', header: 'literals.amount', width: '20%', minWidth: '150px' });
+		columns.push({ key: 'category', header: 'literals.category', width: this.display.isMd() ? '100px' : '40px' });
 		columns.push({ key: 'actions', header: '', width: '60px' });
 		return columns;
 	});

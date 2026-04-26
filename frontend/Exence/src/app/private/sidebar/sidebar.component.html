@@ -17,6 +17,7 @@
 					@if (currentUserService.isAuthenticated()) {
 						@if (isAdminUser()) {
 							<a
+								data-testid="navAdminBtn"
 								class="ex-nav-button d-flex align-items-center gap-2"
 								[routerLink]="navigationService.private().admin()"
 								routerLinkActive="active"
@@ -83,6 +84,7 @@
 							}
 						</a>
 						<a
+							data-testid="navInvestmentsBtn"
 							class="ex-nav-button d-flex align-items-center gap-2"
 							[routerLink]="navigationService.private().investments()"
 							routerLinkActive="active"
@@ -207,6 +209,7 @@
 			@if (currentUserService.isAuthenticated()) {
 				@if (isAdminUser()) {
 					<a
+						data-testid="mobileNavAdminBtn"
 						class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 						[routerLink]="navigationService.private().admin()"
 						routerLinkActive="active"
@@ -256,6 +259,7 @@
 					<mat-icon>account_balance</mat-icon>
 				</a>
 				<a
+					data-testid="mobileNavInvestmentsBtn"
 					class="ex-nav-button d-flex align-items-center gap-2 justify-content-center"
 					[routerLink]="navigationService.private().investments()"
 					routerLinkActive="active"
@@ -301,7 +305,7 @@
 	</div>
 </ng-template>
 
-<mat-menu #sidebarActionsMenu="matMenu">
+<mat-menu #sidebarActionsMenu>
 	<div class="d-flex flex-column gap-0 actions-menu">
 		@if (currentUserService.isAuthenticated()) {
 			<button

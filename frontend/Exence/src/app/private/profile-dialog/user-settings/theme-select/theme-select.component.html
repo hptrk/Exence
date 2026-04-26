@@ -4,7 +4,7 @@
 		<div class="d-flex flex-column flex-md-row flex-nowrap gap-4">
 			<mat-form-field subscriptSizing="dynamic">
 				<mat-label>{{ 'profile.userSettings.theme.primary' | translate }}</mat-label>
-				<mat-select [formControl]="form.controls.primary">
+				<mat-select data-testid="theme-select-primary" [formControl]="form.controls.primary">
 					<mat-select-trigger>{{
 						codeForTheme(form.controls.primary.value!) | translate
 					}}</mat-select-trigger>
@@ -15,6 +15,7 @@
 									{{ codeForTheme(theme) | translate }}
 									@if (currentTheme() === theme) {
 										<p
+											data-testid="theme-current-indicator"
 											class="d-flex flex-row flex-nowrap gap-2 m-0 p-0 fs-6 fw-semibold current-theme"
 										>
 											<span class="mt-1">{{
@@ -26,7 +27,11 @@
 								</p>
 								<div class="d-flex flex-row gap-3 align-items-center">
 									@for (color of themeColors[theme]; track $index) {
-										<div [style.background-color]="color" class="color-square"></div>
+										<div
+											data-testid="theme-color-square"
+											[style.background-color]="color"
+											class="color-square"
+										></div>
 									}
 								</div>
 							</div>
@@ -37,7 +42,7 @@
 
 			<mat-form-field subscriptSizing="dynamic">
 				<mat-label>{{ 'profile.userSettings.theme.secondary' | translate }}</mat-label>
-				<mat-select [formControl]="form.controls.secondary">
+				<mat-select data-testid="theme-select-secondary" [formControl]="form.controls.secondary">
 					<mat-select-trigger>{{
 						codeForTheme(form.controls.secondary.value!) | translate
 					}}</mat-select-trigger>
@@ -48,7 +53,10 @@
 									{{ codeForTheme(theme) | translate }}
 								</p>
 								@if (currentTheme() === theme) {
-									<p class="d-flex flex-row flex-nowrap gap-2 m-0 p-0 fs-6 fw-semibold current-theme">
+									<p
+										data-testid="theme-current-indicator"
+										class="d-flex flex-row flex-nowrap gap-2 m-0 p-0 fs-6 fw-semibold current-theme"
+									>
 										<span class="mt-1">{{
 											'profile.userSettings.theme.currentTheme' | translate
 										}}</span>
@@ -57,7 +65,11 @@
 								}
 								<div class="d-flex flex-row gap-3 align-items-center">
 									@for (color of themeColors[theme]; track $index) {
-										<div [style.background-color]="color" class="color-square"></div>
+										<div
+											data-testid="theme-color-square"
+											[style.background-color]="color"
+											class="color-square"
+										></div>
 									}
 								</div>
 							</div>
@@ -67,7 +79,7 @@
 			</mat-form-field>
 		</div>
 		@if (form.errors) {
-			<mat-error>
+			<mat-error data-testid="theme-select-error">
 				<ex-validator [control]="form" />
 			</mat-error>
 		}

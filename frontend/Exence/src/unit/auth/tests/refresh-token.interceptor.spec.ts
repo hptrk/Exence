@@ -2,6 +2,7 @@ import { Location } from '@angular/common';
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../../app/shared/auth/auth.service';
@@ -21,6 +22,7 @@ describe('refreshTokenInterceptor', () => {
 	let mockNavigationService: jasmine.SpyObj<NavigationService>;
 	let mockCurrentUserService: jasmine.SpyObj<CurrentUserService>;
 	let mockLocation: jasmine.SpyObj<Location>;
+	let mockMatDialog: jasmine.SpyObj<MatDialog>;
 
 	beforeEach(() => {
 		mockAuthService = jasmine.createSpyObj('AuthService', ['refreshToken']);
@@ -37,6 +39,8 @@ describe('refreshTokenInterceptor', () => {
 		mockLocation = jasmine.createSpyObj('Location', ['path']);
 		mockLocation.path.and.returnValue('/private/dashboard');
 
+		mockMatDialog = jasmine.createSpyObj('MatDialog', ['closeAll']);
+
 		TestBed.configureTestingModule({
 			providers: [
 				provideHttpClient(withInterceptors([refreshTokenInterceptor])),
@@ -46,6 +50,7 @@ describe('refreshTokenInterceptor', () => {
 				{ provide: NavigationService, useValue: mockNavigationService },
 				{ provide: CurrentUserService, useValue: mockCurrentUserService },
 				{ provide: Location, useValue: mockLocation },
+				{ provide: MatDialog, useValue: mockMatDialog },
 			],
 		});
 
@@ -133,7 +138,41 @@ describe('refreshTokenInterceptor', () => {
 		await tick();
 
 		expect(mockCurrentUserService.clearUser).toHaveBeenCalled();
+		expect(mockMatDialog.closeAll).toHaveBeenCalled();
 		expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/');
+		expect(errorReceived).toBeTruthy();
+	});
+
+	it('on 403, calls refreshToken and retries the original request', async () => {
+		let result: unknown;
+
+		http.get('/api/protected').subscribe(r => (result = r));
+
+		httpMock.expectOne('/api/protected').flush({}, { status: 403, statusText: 'Forbidden' });
+
+		await tick();
+
+		expect(mockAuthService.refreshToken).toHaveBeenCalledTimes(1);
+
+		const retryReq = httpMock.expectOne('/api/protected');
+		retryReq.flush({ ok: true });
+
+		expect(result).toEqual({ ok: true });
+	});
+
+	it('on 403 from /api/auth/refresh-token, clears user, closes dialogs, navigates to login, and does NOT call refreshToken', async () => {
+		let errorReceived: unknown;
+
+		http.get('/api/auth/refresh-token').subscribe({ error: e => (errorReceived = e) });
+
+		httpMock.expectOne('/api/auth/refresh-token').flush({}, { status: 403, statusText: 'Forbidden' });
+
+		await tick();
+
+		expect(mockAuthService.refreshToken).not.toHaveBeenCalled();
+		expect(mockCurrentUserService.clearUser).toHaveBeenCalledTimes(1);
+		expect(mockMatDialog.closeAll).toHaveBeenCalledTimes(1);
+		expect(mockRouter.navigateByUrl).toHaveBeenCalledWith('/public/login');
 		expect(errorReceived).toBeTruthy();
 	});
 });

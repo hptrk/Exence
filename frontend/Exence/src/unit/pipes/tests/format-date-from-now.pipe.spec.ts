@@ -55,7 +55,7 @@ describe('FormatDateFromNowPipe', () => {
 		expect(pipe.transform('not-a-date')).toBe('');
 	});
 
-	// "Now" — less than 15 seconds ago
+	// "Now" - less than 15 seconds ago
 	it('returns "now" translation for 10 seconds ago', () => {
 		expect(pipe.transform(secondsAgo(10))).toBe('formattedDate.now');
 	});
@@ -73,7 +73,7 @@ describe('FormatDateFromNowPipe', () => {
 		expect(pipe.transform(secondsAgo(59))).toBe('formattedDate.secs:{"value":59}');
 	});
 
-	// Minutes — 1 to 59 minutes ago
+	// Minutes - 1 to 59 minutes ago
 	it('uses "min" key for exactly 1 minute ago', () => {
 		expect(pipe.transform(minutesAgo(1))).toBe('formattedDate.min:{"value":1}');
 	});
@@ -86,7 +86,7 @@ describe('FormatDateFromNowPipe', () => {
 		expect(pipe.transform(minutesAgo(59))).toBe('formattedDate.mins:{"value":59}');
 	});
 
-	// Hours — 1 to 23 hours ago
+	// Hours - 1 to 23 hours ago
 	it('uses "hour" key for exactly 1 hour ago', () => {
 		expect(pipe.transform(hoursAgo(1))).toBe('formattedDate.hour:{"value":1}');
 	});
@@ -99,7 +99,7 @@ describe('FormatDateFromNowPipe', () => {
 		expect(pipe.transform(hoursAgo(23))).toBe('formattedDate.hours:{"value":23}');
 	});
 
-	// Days — 1 to 6 days ago
+	// Days - 1 to 6 days ago
 	it('uses "formattedDate.day" key for exactly 1 day ago', () => {
 		expect(pipe.transform(daysAgo(1))).toBe('formattedDate.day:{"value":1}');
 	});
@@ -109,7 +109,7 @@ describe('FormatDateFromNowPipe', () => {
 	});
 
 	// ---------------------------------------------------------------------------
-	// Within the same year — month/day format
+	// Within the same year - month/day format
 	// ---------------------------------------------------------------------------
 
 	it('returns month translation for a date within the current year', () => {
@@ -121,7 +121,7 @@ describe('FormatDateFromNowPipe', () => {
 	});
 
 	// ---------------------------------------------------------------------------
-	// Older than a year — dd/MM/yyyy
+	// Older than a year - dd/MM/yyyy
 	// ---------------------------------------------------------------------------
 
 	it('returns dd/MM/yyyy for a date more than one year ago', () => {

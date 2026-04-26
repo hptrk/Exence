@@ -8,6 +8,7 @@ import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayloa
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
+import { AuditLogFilter } from '../../data-model/modules/audit-log/AuditLogFilter';
 
 const CURRENCY_STEP_MULTIPLIERS: Record<SupportedCurrency, number> = {
 	[SupportedCurrency.HUF]: 100,
@@ -55,7 +56,7 @@ export function mapToTransactionFilter(queryParam: ParamMap): TransactionFilter 
 	return filter;
 }
 
-export function getFilters(filters?: TransactionFilter | CategoryFilter): Record<string, string> {
+export function getFilters(filters?: TransactionFilter | CategoryFilter | AuditLogFilter): Record<string, string> {
 	if (filters) return JSON.parse(JSON.stringify(filters)) as Record<string, string>;
 	return {} satisfies Record<string, string>;
 }

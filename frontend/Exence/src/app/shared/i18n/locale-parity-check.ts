@@ -8,11 +8,11 @@ import pl from '../../../assets/i18n/pl.json';
 import sk from '../../../assets/i18n/sk.json';
 
 /**
- * Locale parity check — compile-time enforcement that hu.json and de.json
+ * Locale parity check - compile-time enforcement that hu.json and de.json
  * contain all the same keys as en.json (the source of truth).
  *
  * This file produces a TypeScript compile error if any locale is missing
- * a key that exists in en.json. It does not need to be imported anywhere —
+ * a key that exists in en.json. It does not need to be imported anywhere -
  * it just needs to be included in your tsconfig compilation.
  *
  * HOW IT WORKS:

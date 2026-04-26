@@ -4,6 +4,7 @@ import { WorkspaceGet } from '../../../data-model/modules/workspaces/WorkspaceGe
 import { WorkspaceCreateRequest } from '../../../data-model/modules/workspaces/WorkspaceCreateRequest';
 import { WorkspaceRenameRequest } from '../../../data-model/modules/workspaces/WorkspaceRenameRequest';
 import { WorkspaceService } from '../../../shared/workspace.service';
+import { AuditLogStore } from '../../../shared/audit-log/audit-log.store';
 
 interface WorkspaceSettingsStoreData {
 	workspaces: WorkspaceGet[];
@@ -24,7 +25,7 @@ export const WorkspaceSettingsStore = signalStore(
 		};
 	}),
 
-	withMethods((store, workspaceService = inject(WorkspaceService)) => {
+	withMethods((store, workspaceService = inject(WorkspaceService), auditLogStore = inject(AuditLogStore)) => {
 		return {
 			async createWorkspace(request: WorkspaceCreateRequest): Promise<WorkspaceGet> {
 				const created = await workspaceService.create(request);
@@ -32,6 +33,8 @@ export const WorkspaceSettingsStore = signalStore(
 					workspaces: [...state.workspaces, created],
 				}));
 				workspaceService.setWorkspace(created);
+				auditLogStore.resetUser();
+				auditLogStore.resetAdmin();
 				return created;
 			},
 
@@ -40,6 +43,8 @@ export const WorkspaceSettingsStore = signalStore(
 				patchState(store, state => ({
 					workspaces: state.workspaces.filter(w => w.id !== id),
 				}));
+				auditLogStore.resetUser();
+				auditLogStore.resetAdmin();
 			},
 
 			async updateWorkspace(id: number, request: WorkspaceRenameRequest): Promise<void> {
@@ -50,6 +55,8 @@ export const WorkspaceSettingsStore = signalStore(
 				if (workspaceService.currentWorkspace()?.id === id) {
 					workspaceService.setWorkspace({ ...workspaceService.currentWorkspace()!, name: request.name });
 				}
+				auditLogStore.resetUser();
+				auditLogStore.resetAdmin();
 			},
 
 			removeWorkspaceFromList(id: number): void {

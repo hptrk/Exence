@@ -28,7 +28,8 @@
 		"yes": "Sí",
 		"no": "No",
 		"duplicate": "Duplicate",
-		"add": "Aggiungi"
+		"add": "Aggiungi",
+		"ok": "Ok"
 	},
 	"dashboard": {
 		"title": "Bentornato/a, <span class='username'>{{username}}</span>!",
@@ -207,7 +208,8 @@
 			"kickMember": {
 				"title": "Espelli membro",
 				"message": "Sei sicuro di voler espellere {{name}} da questa area di lavoro?",
-				"success": "'{{memberEmail}}' kicked!"
+				"success": "'{{memberEmail}}' kicked!",
+				"btn": "Kick"
 			},
 			"leaveWorkspace": {
 				"title": "Abbandona area di lavoro",
@@ -227,6 +229,20 @@
 		},
 		"sessions": {
 			"label": "Sessioni"
+		},
+		"auditLog": {
+			"label": "Attività dell'area di lavoro"
+		},
+		"achievements": {
+			"label": "Obiettivi",
+			"tab": {
+				"all": "Tutti",
+				"unlocked": "Sbloccati"
+			},
+			"empty": {
+				"all": "Nessun obiettivo disponibile.",
+				"unlocked": "Nessun obiettivo sbloccato ancora."
+			}
 		}
 	},
 	"sessionList": {
@@ -937,7 +953,8 @@
 		"configurations": {
 			"label": "Configurazioni",
 			"registration": {
-				"title": "Crea un nuovo utente amministratore"
+				"title": "Crea un nuovo utente amministratore",
+				"success": "Utente amministratore creato con successo."
 			},
 			"emailBroadcast": {
 				"title": "E-mail di massa",
@@ -1029,72 +1046,80 @@
 			"status": "Stato"
 		},
 		"updateInfo": "Obiettivo aggiornato con successo!",
-		"deleteInfo": "Obiettivo eliminato con successo!"
+		"deleteInfo": "Obiettivo eliminato con successo!",
+		"empty": {
+			"title": "Nessun obiettivo ancora",
+			"subtitle": "Inizia a risparmiare verso i tuoi obiettivi creando il primo."
+		}
 	},
 	"debts": {
-		"title": "Debts",
-		"myDebts": "My Debts",
-		"owedToMe": "Owed to Me",
-		"titleLabel": "Title",
-		"counterparty": "Counterparty",
-		"originalAmount": "Original Amount",
-		"deadline": "Deadline",
-		"days": "Days",
-		"daysUnit": "days",
-		"progress": "Paid progress",
-		"makePayment": "Make a Payment",
-		"paymentAmount": "Payment amount",
-		"pay": "Pay",
+		"title": "Debiti",
+		"myDebts": "I miei debiti",
+		"owedToMe": "Mi è dovuto",
+		"titleLabel": "Titolo",
+		"counterparty": "Controparte",
+		"originalAmount": "Importo originale",
+		"deadline": "Scadenza",
+		"days": "Giorni",
+		"daysUnit": "giorni",
+		"progress": "Progresso del pagamento",
+		"makePayment": "Effettua un pagamento",
+		"paymentAmount": "Importo del pagamento",
+		"pay": "Paga",
 		"status": {
-			"label": "Status",
-			"ACTIVE": "Active",
-			"SETTLED": "Settled",
-			"EXPIRED": "Expired",
-			"FORGIVEN": "Forgiven"
+			"label": "Stato",
+			"ACTIVE": "Attivo",
+			"SETTLED": "Saldato",
+			"EXPIRED": "Scaduto",
+			"FORGIVEN": "Perdonato"
 		},
 		"type": {
-			"BORROWED": "I borrowed",
-			"LENT": "I lent"
+			"BORROWED": "Ho preso in prestito",
+			"LENT": "Ho prestato"
 		},
 		"currency": {
-			"logged": "Logged currency",
-			"base": "Base currency"
+			"logged": "Valuta registrata",
+			"base": "Valuta di base"
 		},
 		"amount": {
-			"logged": "Amount in logged currency",
-			"base": "Amount in base currency"
+			"logged": "Importo in valuta registrata",
+			"base": "Importo in valuta di base"
 		},
 		"create": {
-			"title": "New Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"originalAmount": "Amount",
-			"currency": "Currency",
-			"deadline": "Deadline",
-			"type": "Type",
-			"category": "Category",
-			"search": "Search",
-			"successInfo": "Debt '{{title}}' created successfully!"
+			"title": "Nuovo debito",
+			"titleLabel": "Titolo",
+			"counterpartyName": "Nome della controparte",
+			"originalAmount": "Importo",
+			"currency": "Valuta",
+			"deadline": "Scadenza",
+			"type": "Tipo",
+			"category": "Categoria",
+			"search": "Cerca",
+			"successInfo": "Debito '{{title}}' creato con successo!"
 		},
 		"edit": {
-			"title": "Edit Debt",
-			"titleLabel": "Title",
-			"counterpartyName": "Counterparty name",
-			"deadline": "Deadline",
-			"type": "Type",
-			"status": "Status",
-			"category": "Category",
-			"search": "Search"
+			"title": "Modifica debito",
+			"titleLabel": "Titolo",
+			"counterpartyName": "Nome della controparte",
+			"deadline": "Scadenza",
+			"type": "Tipo",
+			"status": "Stato",
+			"category": "Categoria",
+			"search": "Cerca"
 		},
 		"statistics": {
 			"card": {
-				"DEBT_TOTAL_I_OWE_STATCARD": "Total I Owe",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Total Owed to Me"
+				"DEBT_TOTAL_I_OWE_STATCARD": "Totale che devo",
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Totale che mi è dovuto"
 			}
 		},
-		"updateInfo": "Debt updated successfully!",
-		"deleteInfo": "Debt deleted successfully!",
-		"paymentInfo": "Payment recorded successfully!"
+		"updateInfo": "Debito aggiornato con successo!",
+		"deleteInfo": "Debito eliminato con successo!",
+		"paymentInfo": "Pagamento registrato con successo!",
+		"empty": {
+			"title": "Nessun debito ancora",
+			"subtitle": "Tieni traccia del denaro che devi o che ti è dovuto."
+		}
 	},
 	"investments": {
 		"title": "Investimenti",
@@ -1147,6 +1172,93 @@
 			}
 		},
 		"updateInfo": "Investimento aggiornato con successo!",
-		"deleteInfo": "Investimento eliminato con successo!"
+		"deleteInfo": "Investimento eliminato con successo!",
+		"empty": {
+			"title": "Nessun investimento ancora",
+			"subtitle": "Inizia a monitorare il tuo portafoglio aggiungendo il tuo primo asset."
+		}
+	},
+	"auditLog": {
+		"title": "Registri di audit",
+		"userTitle": "Attività dell'area di lavoro",
+		"action": "Azione",
+		"entityType": "Tipo",
+		"changedBy": "Modificato da",
+		"changedAt": "Data",
+		"changes": "Modifiche",
+		"from": "Da",
+		"to": "A",
+		"noChanges": "Nessuna modifica al campo",
+		"filter": {
+			"entityType": "Tipo di entità",
+			"changeType": "Tipo di modifica",
+			"changedBy": "Modificato da",
+			"dateFrom": "Data iniziale",
+			"dateTo": "Data finale",
+			"system": "Sistema"
+		},
+		"changeType": {
+			"CREATED": "Creato",
+			"UPDATED": "Aggiornato",
+			"DELETED": "Eliminato"
+		},
+		"entityTypeLabel": {
+			"TRANSACTION": "Transazione",
+			"CATEGORY": "Categoria",
+			"GOAL": "Obiettivo",
+			"DEBT": "Debito",
+			"INVESTMENT": "Investimento",
+			"RECURRING_TRANSACTION": "Transazione ricorrente",
+			"WORKSPACE": "Area di lavoro",
+			"WORKSPACE_MEMBER": "Membro dell'area di lavoro"
+		},
+		"field": {
+			"title": "Titolo",
+			"note": "Nota",
+			"date": "Data",
+			"amount": "Importo",
+			"type": "Tipo",
+			"createdByRecurringJob": "Creato da transazione ricorrente",
+			"recurringTransactionId": "Transazione ricorrente",
+			"categoryId": "Categoria",
+			"currency": "Valuta",
+			"exchangeRate": "Tasso di cambio",
+			"baseCurrencyAmount": "Importo in valuta base",
+			"name": "Nome",
+			"icon": "Icona",
+			"color": "Colore",
+			"balance": "Saldo",
+			"description": "Descrizione",
+			"targetAmount": "Importo obiettivo",
+			"currentAmount": "Importo attuale",
+			"targetBaseCurrencyAmount": "Importo obiettivo in valuta base",
+			"currentBaseCurrencyAmount": "Importo attuale in valuta base",
+			"deadline": "Scadenza",
+			"status": "Stato",
+			"progressPercentage": "Progresso",
+			"counterpartyName": "Controparte",
+			"originalAmount": "Importo originale",
+			"remainingAmount": "Importo rimanente",
+			"originalBaseCurrencyAmount": "Importo originale in valuta base",
+			"remainingBaseCurrencyAmount": "Importo rimanente in valuta base",
+			"paidPercentage": "Pagato",
+			"asset": "Attività",
+			"purchaseDate": "Data di acquisto",
+			"frequency": "Frequenza",
+			"interval": "Intervallo",
+			"dayOfWeek": "Giorno della settimana",
+			"dayOfMonth": "Giorno del mese",
+			"endCondition": "Condizione di fine",
+			"endDate": "Data di fine",
+			"maxOccurrences": "Max. occorrenze",
+			"currentOccurrences": "Occorrenze attuali",
+			"nextExecutionDate": "Prossima esecuzione",
+			"active": "Attivo",
+			"role": "Ruolo",
+			"userId": "ID utente",
+			"username": "Nome utente",
+			"email": "E-mail",
+			"joinedAt": "Iscritto il"
+		}
 	}
 }

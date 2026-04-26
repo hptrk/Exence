@@ -1,8 +1,17 @@
-<ex-dialog-card [formGroup]="form" (submit)="create()" [confirmExitDialog]="dialogRef">
+<ex-dialog-card
+	data-testid="create-category-dialog"
+	[formGroup]="form"
+	(submit)="create()"
+	[confirmExitDialog]="dialogRef"
+>
 	<div ex-dialog-card-title>{{ 'category.create.title' | translate }}</div>
 
 	<form ex-dialog-card-content class="d-flex flex-column gap-3">
-		<mat-button-toggle-group [formControl]="form.controls.type" [hideSingleSelectionIndicator]="true">
+		<mat-button-toggle-group
+			data-testid="category-type-toggle"
+			[formControl]="form.controls.type"
+			[hideSingleSelectionIndicator]="true"
+		>
 			@for (type of categoryTypes | enumValue; track type) {
 				<mat-button-toggle [value]="type" class="type-{{ type.toLowerCase() }}">
 					{{ codeForCategoryType(type) | translate | uppercase }}
@@ -14,7 +23,7 @@
 			@let nameControl = form.controls.name;
 			<mat-form-field>
 				<mat-label>{{ 'category.create.name' | translate }}</mat-label>
-				<input matInput autoTrim [formControl]="nameControl" />
+				<input data-testid="category-name-input" matInput autoTrim [formControl]="nameControl" />
 				<ex-input-clear matSuffix [control]="nameControl" />
 				<mat-error>
 					<ex-validator [control]="nameControl" />
@@ -44,7 +53,14 @@
 		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()">
 			{{ 'literals.cancel' | translate }}
 		</ex-button>
-		<ex-button filled color="primary" matIcon="add" [disabled]="form.invalid" (click)="create()">
+		<ex-button
+			data-testid="create-category-submit-btn"
+			filled
+			color="primary"
+			matIcon="add"
+			[disabled]="form.invalid"
+			(click)="create()"
+		>
 			{{ 'literals.create' | translate }}
 		</ex-button>
 	</div>

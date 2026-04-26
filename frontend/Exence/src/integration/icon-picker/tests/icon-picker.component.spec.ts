@@ -123,7 +123,7 @@ describe('IconPickerComponent', () => {
 			fixture.detectChanges();
 			const { componentInstance } = fixture;
 			componentInstance.form.controls.icon.setValue('home' as MaterialIcon);
-			// color is still null — form is invalid
+			// color is still null - form is invalid
 			const closedSpy = jasmine.createSpy('closed');
 			componentInstance.closed.subscribe(closedSpy);
 			componentInstance.closeMenuWithData();

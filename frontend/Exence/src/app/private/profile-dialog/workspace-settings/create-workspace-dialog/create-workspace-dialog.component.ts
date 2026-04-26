@@ -17,6 +17,7 @@ import { EnumValuePipe } from '../../../../shared/pipes/enum-value.pipe';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { localizeCurrency } from '../../../../shared/util/utils';
 import { ValidatorComponent } from '../../../../shared/validator/validator.component';
+import { MatDialogClose } from '@angular/material/dialog';
 
 @Component({
 	selector: 'ex-create-workspace-dialog',
@@ -26,6 +27,7 @@ import { ValidatorComponent } from '../../../../shared/validator/validator.compo
 		MatFormFieldModule,
 		MatInputModule,
 		MatSelectModule,
+		MatDialogClose,
 		AutoTrimDirective,
 		ButtonComponent,
 		ConfirmExitDialogDirective,

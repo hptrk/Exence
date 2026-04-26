@@ -1,7 +1,6 @@
 import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { authInterceptor } from '../../../app/shared/auth/interceptors/auth.interceptor';
 
 describe('authInterceptor', () => {

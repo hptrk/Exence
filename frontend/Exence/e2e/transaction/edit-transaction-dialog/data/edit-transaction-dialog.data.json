@@ -1,0 +1,33 @@
+{
+	"original": {
+		"title": "E2E Original Transaction",
+		"amount": 100
+	},
+	"updated": {
+		"title": "E2E Updated Transaction",
+		"amount": 250
+	},
+	"validation": {
+		"tooLongChar": "A",
+		"titleMaxLength": 255,
+		"noteMaxLength": 500,
+		"searchTextMaxLength": 25,
+		"amountZero": 0,
+		"exchangeRateZero": 0
+	},
+	"errors": {
+		"required": "Field required",
+		"min1": "Min value is 1!",
+		"minExchangeRate": "Min value is 1e-10!",
+		"maxLength25": "Max length is 25!",
+		"maxLength255": "Max length is 255!",
+		"maxLength500": "Max length is 500!"
+	},
+	"foreignCurrency": "EUR",
+	"confirmExit": {
+		"title": "Unsaved changes"
+	},
+	"snackbar": {
+		"updateSuccess": "updated successfully"
+	}
+}
