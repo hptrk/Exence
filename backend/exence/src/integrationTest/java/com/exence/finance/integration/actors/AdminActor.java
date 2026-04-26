@@ -118,9 +118,7 @@ public class AdminActor extends BaseActor {
     public ValidatableResponse getAdminWidgetDataRaw(AuthContext ctx, String type) {
         return given(spec)
                 .cookies(ctx.cookies())
-                .queryParam("type", type)
-                .when()
-                .get("/admin/statistics/widgets/data")
+                .get("/admin/statistics/" +  type)
                 .then();
     }
 }
