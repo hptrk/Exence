@@ -52,7 +52,7 @@ class UserSettingsServiceImplTest {
     void getCurrentUserSettings_valid() {
         // given
         UserSettings settings = UserSettings.builder().build();
-        UserSettingsResponse response = new UserSettingsResponse("en", null, null, null, false);
+        UserSettingsResponse response = new UserSettingsResponse("en", null, null);
 
         given(userService.getCurrentUserId()).willReturn(1L);
         given(userSettingsRepository.findByUserId(1L)).willReturn(Optional.of(settings));
@@ -70,7 +70,7 @@ class UserSettingsServiceImplTest {
     void updateCurrentUserSettings_valid() {
         // given
         UserSettings settings = UserSettings.builder().build();
-        UserSettingsResponse response = new UserSettingsResponse("hu", null, null, null, true);
+        UserSettingsResponse response = new UserSettingsResponse("hu", null, null);
         UpdateUserSettingsRequest request = new UpdateUserSettingsRequest("hu", null, null, null, true);
 
         given(userService.getCurrentUserId()).willReturn(1L);

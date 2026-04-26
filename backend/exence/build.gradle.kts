@@ -253,7 +253,6 @@ tasks.register<Test>("integrationTest") {
     useJUnitPlatform()
     finalizedBy(jacocoIntegrationTestReport)
     shouldRunAfter(tasks.test)
-//    environment("DOCKER_HOST", "npipe:////./pipe/dockerDesktopLinuxEngine")
 }
 
 tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
