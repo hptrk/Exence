@@ -21,7 +21,7 @@ export { AuditLogModel };
 	imports: [DataTableComponent, ExCellDirective, TranslatePipe, DatePipe, MatLabel],
 })
 export class AuditLogListComponent {
-	private readonly display = inject(DisplaySizeService);
+	readonly display = inject(DisplaySizeService);
 
 	data = input<SliceResponse<AuditLogModel>>({} as SliceResponse<AuditLogModel>);
 	isLoading = input<boolean>(false);
@@ -32,7 +32,7 @@ export class AuditLogListComponent {
 	readonly scrolled = output<void>();
 
 	private readonly allColumns: ColumnDef[] = [
-		{ key: 'action', header: 'auditLog.action', width: '80px' },
+		{ key: 'action', header: 'auditLog.action', width: 'auto' },
 		{ key: 'entityType', header: 'auditLog.entityType', width: '120px' },
 		{ key: 'changedBy', header: 'auditLog.changedBy', width: '35%' },
 		{ key: 'changedAt', header: 'auditLog.changedAt', width: '140px' },
@@ -45,8 +45,8 @@ export class AuditLogListComponent {
 		return this.allColumns
 			.filter(c => isLg || c.key !== 'changedAt')
 			.map(c => {
-				if (!isMd && c.key === 'action') return { ...c, width: '40px' };
-				if (!isMd && c.key === 'entityType') return { ...c, width: '60px' };
+				if (!isMd && c.key === 'action') return { ...c, width: 'auto' };
+				if (!isMd && c.key === 'changedBy') return { ...c, width: '100px' };
 				return c;
 			});
 	});
@@ -59,7 +59,42 @@ export class AuditLogListComponent {
 		return `auditLog.changeType.${action}`;
 	}
 
-	codeForEntityType(entityType: AuditableEntityType): TranslationCode {
-		return `auditLog.entityTypeLabel.${entityType.toUpperCase() as AuditableEntityType}`;
+	codeForEntityType(entityType: string): TranslationCode {
+		let type: AuditableEntityType = AuditableEntityType.TRANSACTION;
+		switch (entityType) {
+			case 'Transaction': {
+				type = AuditableEntityType.TRANSACTION;
+				break;
+			}
+			case 'Category': {
+				type = AuditableEntityType.CATEGORY;
+				break;
+			}
+			case 'Goal': {
+				type = AuditableEntityType.GOAL;
+				break;
+			}
+			case 'Debt': {
+				type = AuditableEntityType.DEBT;
+				break;
+			}
+			case 'Investment': {
+				type = AuditableEntityType.INVESTMENT;
+				break;
+			}
+			case 'RecurringTransaction': {
+				type = AuditableEntityType.RECURRING_TRANSACTION;
+				break;
+			}
+			case 'Workspace': {
+				type = AuditableEntityType.WORKSPACE;
+				break;
+			}
+			case 'WorkspaceMember': {
+				type = AuditableEntityType.WORKSPACE_MEMBER;
+				break;
+			}
+		}
+		return `auditLog.entityTypeLabel.${type}`;
 	}
 }

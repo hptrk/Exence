@@ -95,11 +95,12 @@ export class TransactionListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({ key: 'title', header: 'transactionsAndCategories.title', width: '35%' });
-		if (this.display.isMd()) columns.push({ key: 'date', header: 'transactionsAndCategories.date', width: '70px' });
-		columns.push({ key: 'amount', header: 'literals.amount', width: '120px' });
-		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
-		if (!this.nonExpandable()) columns.push({ key: 'actions', header: '', width: '60px' });
+		columns.push({ key: 'title', header: 'transactionsAndCategories.title', width: 'auto' });
+		if (this.display.isMd())
+			columns.push({ key: 'date', header: 'transactionsAndCategories.date', width: '100px' });
+		columns.push({ key: 'amount', header: 'literals.amount', width: '15%', minWidth: '150px' });
+		columns.push({ key: 'category', header: 'literals.category', width: '15%', minWidth: '90px' });
+		if (!this.nonExpandable()) columns.push({ key: 'actions', header: '', width: '5%' });
 		return columns;
 	});
 

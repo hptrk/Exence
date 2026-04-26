@@ -12,6 +12,7 @@ import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { CreateCategoryDialogComponent } from '../create-category-dialog/create-category-dialog.component';
 import { PagedResponse } from '../../../data-model/modules/common/PagedResponse';
+import { DisplaySizeService } from '../../../shared/display-size.service';
 
 @Component({
 	selector: 'ex-category-list',
@@ -22,17 +23,24 @@ import { PagedResponse } from '../../../data-model/modules/common/PagedResponse'
 export class CategoryListComponent {
 	private readonly categoryStore = inject(CategoryStore);
 	private readonly dialog = inject(DialogService);
+	private readonly display = inject(DisplaySizeService);
 
 	title = input<string>('');
 	matIcon = input<string>();
 
-	columns: ColumnDef[] = [
-		{ key: 'title', header: 'dataTable.title', width: '40%' },
-		{ key: 'icon', header: 'dataTable.icon', width: '60px' },
-		{ key: 'type', header: 'dataTable.type', width: '100px' },
-		{ key: 'amount', header: 'literals.balance', width: '120px' },
-		{ key: 'actions', header: '', width: '48px' },
-	];
+	columns = computed<ColumnDef[]>(() => {
+		return [
+			{ key: 'title', header: 'dataTable.title', width: 'auto' },
+			{ key: 'icon', header: 'dataTable.icon', width: this.display.isMd() ? '100px' : '60px' },
+			{
+				key: 'type',
+				header: 'dataTable.type',
+				width: this.display.isMd() ? '150px' : this.display.isSm() ? '100px' : '30px',
+			},
+			{ key: 'amount', header: 'literals.balance', width: this.display.isMd() ? '200px' : '150px' },
+			{ key: 'actions', header: '', width: this.display.isMd() ? '60px' : '35px' },
+		];
+	});
 
 	actions: TableAction<CategoryGet>[] = [
 		{

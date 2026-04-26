@@ -10,6 +10,7 @@
 	(addClicked)="openCreate()"
 	[nonExpandable]="false"
 	class="overflow-hidden"
+	[height]="display.isMd() ? '60dvh' : '100%'"
 >
 	<ng-template exCell="title" let-row>
 		<div

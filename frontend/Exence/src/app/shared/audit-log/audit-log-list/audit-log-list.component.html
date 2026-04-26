@@ -9,6 +9,7 @@
 	(scrolled)="scrolled.emit()"
 	hideAddButton
 	class="overflow-hidden"
+	[height]="display.isMd() ? '60dvh' : '100%'"
 >
 	<ng-template exCell="action" let-row>
 		<span class="fw-bold ps-3 action-{{ row.action }}">{{ codeForChangeType(row.action) | translate }}</span>

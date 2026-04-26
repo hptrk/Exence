@@ -83,10 +83,10 @@ export class DebtListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const columns: ColumnDef[] = [];
-		columns.push({ key: 'title', header: 'debts.titleLabel', width: '35%' });
-		columns.push({ key: 'remaining', header: 'literals.amount', width: '120px' });
+		columns.push({ key: 'title', header: 'debts.titleLabel', width: 'auto' });
+		columns.push({ key: 'remaining', header: 'literals.amount', width: '20%', minWidth: '150px' });
 		if (this.display.isMd()) columns.push({ key: 'days', header: 'debts.days', width: '70px' });
-		columns.push({ key: 'category', header: 'literals.category', width: '50px' });
+		columns.push({ key: 'category', header: 'literals.category', width: this.display.isMd() ? '100px' : '40px' });
 		columns.push({ key: 'actions', header: '', width: '60px' });
 		return columns;
 	});

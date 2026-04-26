@@ -26,6 +26,12 @@ import { InvestmentStore } from './investments/investment.store';
 @Component({
 	selector: 'ex-private',
 	template: '<router-outlet />',
+	styles: `
+		:host {
+			display: block;
+			height: 100%;
+		}
+	`,
 	imports: [RouterModule],
 	providers: [
 		TransactionStore,

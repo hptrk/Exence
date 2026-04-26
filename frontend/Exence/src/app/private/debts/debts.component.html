@@ -17,17 +17,12 @@
 		</ex-button>
 	</section>
 } @else {
-	<main
-		class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 gap-4"
-		[class.overflow-hidden]="display.isLg()"
-		[class.h-100]="display.isLg()"
-	>
+	<main class="d-flex flex-column p-2 pb-0 p-sm-3 p-md-4 gap-4 h-100" [class.overflow-hidden]="display.isLg()">
 		<ex-debt-statistics />
 
 		<div
 			data-testid="debt-lists-container"
-			class="d-flex flex-column flex-lg-row flex-nowrap gap-4"
-			[class.h-100]="display.isLg()"
+			class="h-100 d-flex flex-column flex-lg-row flex-nowrap gap-4"
 			[class.overflow-hidden]="display.isLg()"
 		>
 			<ex-debt-list

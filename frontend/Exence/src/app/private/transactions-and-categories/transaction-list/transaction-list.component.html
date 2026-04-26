@@ -32,8 +32,10 @@
 	</ng-template>
 
 	<ng-template exCell="category" let-row>
-		<div class="icon-container" [style.--icon-color]="row.category?.color" [matTooltip]="row.category?.name">
-			<mat-icon>{{ row.category?.icon }}</mat-icon>
+		<div class="d-flex justify-content-center w-100">
+			<div class="icon-container" [style.--icon-color]="row.category?.color" [matTooltip]="row.category?.name">
+				<mat-icon>{{ row.category?.icon }}</mat-icon>
+			</div>
 		</div>
 	</ng-template>
 </ex-data-table>

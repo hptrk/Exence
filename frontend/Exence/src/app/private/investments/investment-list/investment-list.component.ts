@@ -49,11 +49,11 @@ export class InvestmentListComponent {
 
 	columns = computed<ColumnDef[]>(() => {
 		const cols: ColumnDef[] = [];
-		cols.push({ key: 'title', header: 'investments.name', width: '35%' });
+		cols.push({ key: 'title', header: 'investments.name', width: 'auto' });
 		if (this.display.isMd()) cols.push({ key: 'lastAction', header: 'investments.lastAction', width: '110px' });
-		cols.push({ key: 'totalInvested', header: 'investments.totalInvested', width: '130px' });
+		cols.push({ key: 'totalInvested', header: 'literals.amount', width: '20%', minWidth: '150px' });
 		if (this.display.isMd()) cols.push({ key: 'type', header: 'investments.type', width: '80px' });
-		cols.push({ key: 'purchases', header: 'investments.transactions', width: '100px' });
+		cols.push({ key: 'purchases', header: 'investments.transactions', width: '120px' });
 		cols.push({ key: 'actions', header: '', width: '60px' });
 		return cols;
 	});

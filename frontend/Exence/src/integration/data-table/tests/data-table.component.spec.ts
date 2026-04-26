@@ -1,7 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { TranslocoService } from '@jsverse/transloco';
 import { EMPTY } from 'rxjs';
 import { PagedResponse } from '../../../app/data-model/modules/common/PagedResponse';
@@ -42,13 +43,42 @@ const SHARED_PROVIDERS = [
 	{ provide: TranslocoService, useValue: mockTransloco },
 ];
 
+// CdkVirtualScrollViewport.ngOnInit measures viewport size inside a Promise microtask.
+// In tests the fixture has no natural height, so CDK measures 0 and renders nothing.
+// Fix:
+//  1. detectChanges() creates the DOM and schedules CDK's attach microtask.
+//  2. await flushes that microtask (strategy attached, viewportSize = 0).
+//  3. Set explicit height on the viewport element and call checkViewportSize() to
+//     re-measure (now 500) and update the rendered range.
+//  4. checkViewportSize() → setRenderedRange() → _markChangeDetectionNeeded() schedules
+//     ANOTHER microtask; await flushes it so _changeDetectionNeeded signal is set.
+//  5. detectChanges() triggers the CDK effect → _doChangeDetection() → rows appear.
+async function setupViewport(fixture: ComponentFixture<unknown>): Promise<void> {
+	fixture.detectChanges(); // step 1
+	await Promise.resolve(); // step 2: flush CDK attach microtask
+	const viewportDbgEl = fixture.debugElement.query(By.directive(CdkVirtualScrollViewport));
+	if (viewportDbgEl) {
+		(viewportDbgEl.nativeElement as HTMLElement).style.height = '500px';
+		(viewportDbgEl.componentInstance as CdkVirtualScrollViewport).checkViewportSize(); // step 3
+	}
+	await Promise.resolve(); // step 4: flush _markChangeDetectionNeeded microtask
+	fixture.detectChanges(); // step 5: render rows
+	fixture.detectChanges(); // settle any secondary renders
+}
+
 // Host component that provides a real TemplateRef for expansion tests
 @Component({
 	template: `
 		<ng-template #tpl let-row
 			><span class="detail">{{ row.name }}</span></ng-template
 		>
-		<ex-data-table [columns]="columns" [data]="rows" [expandTemplate]="tpl" [nonExpandable]="nonExpandable" />
+		<ex-data-table
+			style="height: 500px; display: block;"
+			[columns]="columns"
+			[data]="rows"
+			[expandTemplate]="tpl"
+			[nonExpandable]="nonExpandable"
+		/>
 	`,
 	standalone: true,
 	imports: [DataTableComponent],
@@ -61,7 +91,7 @@ class ExpandTestHost {
 
 @Component({
 	template: `
-		<ex-data-table [columns]="columns" [data]="rows">
+		<ex-data-table style="height: 500px; display: block;" [columns]="columns" [data]="rows">
 			<ng-template exCell="name" let-row>
 				<span data-testid="custom-cell">CUSTOM:{{ row.name }}</span>
 			</ng-template>
@@ -88,15 +118,6 @@ describe('DataTableComponent', () => {
 		fixture.componentRef.setInput('columns', COLUMNS);
 		fixture.detectChanges();
 		expect(fixture.componentInstance).toBeTruthy();
-	});
-
-	describe('displayedColumns', () => {
-		it('should return column keys from columns input', () => {
-			const fixture = TestBed.createComponent(DataTableComponent);
-			fixture.componentRef.setInput('columns', COLUMNS);
-			fixture.detectChanges();
-			expect(fixture.componentInstance.displayedColumns()).toEqual(['name', 'actions']);
-		});
 	});
 
 	describe('empty state', () => {
@@ -127,15 +148,15 @@ describe('DataTableComponent', () => {
 	});
 
 	describe('data display', () => {
-		it('should display a row for each item in a plain array', () => {
+		it('should display a row for each item in a plain array', async () => {
 			const fixture = TestBed.createComponent(DataTableComponent);
 			fixture.componentRef.setInput('columns', COLUMNS);
 			fixture.componentRef.setInput('data', ROWS);
-			fixture.detectChanges();
+			await setupViewport(fixture);
 			expect(getAllDataRows(fixture.nativeElement).length).toBe(ROWS.length);
 		});
 
-		it('should display a row for each item in a PagedResponse', () => {
+		it('should display a row for each item in a PagedResponse', async () => {
 			const pagedData: PagedResponse<TestRow> = {
 				content: ROWS,
 				page: 0,
@@ -149,7 +170,7 @@ describe('DataTableComponent', () => {
 			const fixture = TestBed.createComponent(DataTableComponent);
 			fixture.componentRef.setInput('columns', COLUMNS);
 			fixture.componentRef.setInput('data', pagedData);
-			fixture.detectChanges();
+			await setupViewport(fixture);
 			expect(getAllDataRows(fixture.nativeElement).length).toBe(ROWS.length);
 		});
 	});
@@ -198,13 +219,13 @@ describe('DataTableComponent', () => {
 	});
 
 	describe('actions', () => {
-		it('should render inline action buttons when inlineActions is true', () => {
+		it('should render inline action buttons when inlineActions is true', async () => {
 			const fixture = TestBed.createComponent(DataTableComponent);
 			fixture.componentRef.setInput('columns', COLUMNS);
 			fixture.componentRef.setInput('data', ROWS);
 			fixture.componentRef.setInput('actions', ACTIONS);
 			fixture.componentRef.setInput('inlineActions', true);
-			fixture.detectChanges();
+			await setupViewport(fixture);
 			expect(getInlineActionBtns(fixture.nativeElement).length).toBe(ROWS.length * ACTIONS.length);
 		});
 	});
@@ -228,21 +249,21 @@ describe('DataTableComponent', () => {
 	});
 
 	describe('actions menu (non-inline)', () => {
-		it('should render a menu trigger button per row', () => {
+		it('should render a menu trigger button per row', async () => {
 			const fixture = TestBed.createComponent(DataTableComponent);
 			fixture.componentRef.setInput('columns', COLUMNS);
 			fixture.componentRef.setInput('data', ROWS);
 			fixture.componentRef.setInput('actions', ACTIONS);
-			fixture.detectChanges();
+			await setupViewport(fixture);
 			expect(getAllMenuTriggerBtns(fixture.nativeElement).length).toBe(ROWS.length);
 		});
 
-		it('should NOT render inline buttons when inlineActions is false', () => {
+		it('should NOT render inline buttons when inlineActions is false', async () => {
 			const fixture = TestBed.createComponent(DataTableComponent);
 			fixture.componentRef.setInput('columns', COLUMNS);
 			fixture.componentRef.setInput('data', ROWS);
 			fixture.componentRef.setInput('actions', ACTIONS);
-			fixture.detectChanges();
+			await setupViewport(fixture);
 			expect(getInlineActionBtns(fixture.nativeElement).length).toBe(0);
 		});
 
@@ -260,23 +281,23 @@ describe('DataTableComponent', () => {
 	});
 
 	describe('disabled actions predicate', () => {
-		it('should disable the button for a row matching the disabled predicate', () => {
+		it('should disable the button for a row matching the disabled predicate', async () => {
 			const fixture = TestBed.createComponent(DataTableComponent);
 			fixture.componentRef.setInput('columns', COLUMNS);
 			fixture.componentRef.setInput('data', ROWS);
 			fixture.componentRef.setInput('actions', ACTIONS_WITH_DISABLED);
 			fixture.componentRef.setInput('inlineActions', true);
-			fixture.detectChanges();
+			await setupViewport(fixture);
 			expect(getInlineActionNativeBtn(fixture.nativeElement, 0).disabled).toBeTrue();
 		});
 
-		it('should not disable the button for a row not matching the predicate', () => {
+		it('should not disable the button for a row not matching the predicate', async () => {
 			const fixture = TestBed.createComponent(DataTableComponent);
 			fixture.componentRef.setInput('columns', COLUMNS);
 			fixture.componentRef.setInput('data', ROWS);
 			fixture.componentRef.setInput('actions', ACTIONS_WITH_DISABLED);
 			fixture.componentRef.setInput('inlineActions', true);
-			fixture.detectChanges();
+			await setupViewport(fixture);
 			expect(getInlineActionNativeBtn(fixture.nativeElement, 1).disabled).toBeFalse();
 		});
 	});
@@ -288,7 +309,7 @@ describe('DataTableComponent', () => {
 			fixture.componentRef.setInput('data', ROWS);
 			fixture.detectChanges();
 			fixture.componentInstance.toggleExpand(ROWS[0]);
-			expect(fixture.componentInstance.expandedRowId()).toBeNull();
+			expect(fixture.componentInstance.isExpanded(ROWS[0])).toBeFalse();
 		});
 	});
 });
@@ -301,9 +322,9 @@ describe('DataTableComponent custom cell template', () => {
 		}).compileComponents();
 	});
 
-	it('should render custom cell template for a column', () => {
+	it('should render custom cell template for a column', async () => {
 		const fixture = TestBed.createComponent(CellTemplateHost);
-		fixture.detectChanges();
+		await setupViewport(fixture);
 		const customCells = getAllCustomCells(fixture.nativeElement);
 		expect(customCells.length).toBe(ROWS.length);
 		expect(customCells[0].textContent).toContain('CUSTOM:Alpha');
@@ -330,7 +351,7 @@ describe('DataTableComponent row expansion (with real TemplateRef)', () => {
 		fixture.detectChanges();
 		const dt = getDataTable(fixture);
 		dt.toggleExpand(ROWS[0]);
-		expect(dt.expandedRowId()).toBe(ROWS[0].id);
+		expect(dt.isExpanded(ROWS[0])).toBeTrue();
 	});
 
 	it('should collapse an expanded row on second toggleExpand', () => {
@@ -339,7 +360,7 @@ describe('DataTableComponent row expansion (with real TemplateRef)', () => {
 		const dt = getDataTable(fixture);
 		dt.toggleExpand(ROWS[0]);
 		dt.toggleExpand(ROWS[0]);
-		expect(dt.expandedRowId()).toBeNull();
+		expect(dt.isExpanded(ROWS[0])).toBeFalse();
 	});
 
 	it('should not expand when nonExpandable is true', () => {
@@ -348,6 +369,6 @@ describe('DataTableComponent row expansion (with real TemplateRef)', () => {
 		fixture.detectChanges();
 		const dt = getDataTable(fixture);
 		dt.toggleExpand(ROWS[0]);
-		expect(dt.expandedRowId()).toBeNull();
+		expect(dt.isExpanded(ROWS[0])).toBeFalse();
 	});
 });

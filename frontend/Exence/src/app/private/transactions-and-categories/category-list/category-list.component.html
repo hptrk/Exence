@@ -1,5 +1,5 @@
 <ex-data-table
-	[columns]="columns"
+	[columns]="columns()"
 	[actions]="actions"
 	[data]="data()"
 	[isLoading]="isLoading()"
@@ -20,7 +20,7 @@
 	</ng-template>
 
 	<ng-template exCell="type" let-row>
-		{{ codeForCategoryType(row.type) | translate }}
+		<div class="text-truncate w-100 text-center">{{ codeForCategoryType(row.type) | translate }}</div>
 	</ng-template>
 
 	<ng-template exCell="amount" let-row>
