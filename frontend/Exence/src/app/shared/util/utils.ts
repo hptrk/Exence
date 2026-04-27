@@ -4,11 +4,14 @@ import { AbstractControl } from '@angular/forms';
 import { ParamMap } from '@angular/router';
 import { map } from 'rxjs';
 import { CategoryFilter } from '../../data-model/modules/category/CategoryFilter';
-import { SankeyLink } from '../../data-model/modules/statistics/WidgetDataPayload';
+import { SankeyLink, WidgetDataPayload } from '../../data-model/modules/statistics/WidgetDataPayload';
 import { TransactionFilter } from '../../data-model/modules/transaction/TransactionFilter';
 import { TransactionType } from '../../data-model/modules/transaction/TransactionType';
 import { SupportedCurrency } from '../../data-model/modules/user-settings/SupportedCurrency';
 import { AuditLogFilter } from '../../data-model/modules/audit-log/AuditLogFilter';
+import { WidgetDataResponse } from '../../data-model/modules/statistics/WidgetDataReponse';
+import { WidgetLayoutResponse } from '../../data-model/modules/statistics/WidgetLayoutResponse';
+import { WidgetType } from '../../data-model/modules/statistics/WidgetType';
 
 const CURRENCY_STEP_MULTIPLIERS: Record<SupportedCurrency, number> = {
 	[SupportedCurrency.HUF]: 100,
@@ -193,4 +196,23 @@ export function detectSeriesDateGranularity(series: { data: { x: string }[] }[])
 		}
 	}
 	return null;
+}
+
+export function normalizeResponse<T extends WidgetDataPayload>(response: WidgetDataResponse<T>): WidgetDataResponse<T> {
+	const raw = response.payload.type as unknown;
+	const type = Array.isArray(raw) ? (raw[1] as WidgetType) : (raw as WidgetType);
+	return { ...response, payload: { ...response.payload, type } };
+}
+
+function normalizeWidgetType<T extends { type: unknown }>(widget: T): T {
+	const raw = widget.type;
+	const type = Array.isArray(raw) ? raw[1] : raw;
+	return { ...widget, type };
+}
+
+export function normalizeLayoutResponse(response: WidgetLayoutResponse): WidgetLayoutResponse {
+	return {
+		statCards: response.statCards.map(normalizeWidgetType),
+		charts: response.charts.map(normalizeWidgetType),
+	};
 }

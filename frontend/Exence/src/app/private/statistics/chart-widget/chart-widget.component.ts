@@ -3,26 +3,26 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslocoService } from '@jsverse/transloco';
 import { ApexOptions, ChartComponent, NgApexchartsModule } from 'ng-apexcharts';
 import { ExChartType } from '../../../data-model/modules/statistics/ChartType';
+import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
 import { Timeframe } from '../../../data-model/modules/statistics/Timeframe';
-import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 import {
 	mapToExChartType,
-	TIMEFRAME_HIDDEN_WIDGET_TYPES,
 	StatisticsWidgetType,
+	TIMEFRAME_HIDDEN_WIDGET_TYPES,
 } from '../../../data-model/modules/statistics/widget-config.model';
 import { WidgetDataPayload } from '../../../data-model/modules/statistics/WidgetDataPayload';
+import { SupportedCurrency } from '../../../data-model/modules/user-settings/SupportedCurrency';
 import { AnimatedSkeletonLoaderComponent } from '../../../shared/animated-skeleton-loader/animated-skeleton-loader.component';
 import { BaseComponent } from '../../../shared/base-component/base.component';
 import { DisplayThemeService } from '../../../shared/display-theme.service';
+import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { mapToProvider } from '../chart-providers';
 import { SankeyChartComponent } from '../sankey-chart/sankey-chart.component';
 import { StatisticService } from '../statistic.service';
 import { TimeframeComponent } from '../timeframe/timeframe.component';
-import { TranslocoService } from '@jsverse/transloco';
-import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
-import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
 
 @Component({
 	selector: 'ex-chart-widget',
@@ -128,7 +128,7 @@ export class ChartWidgetComponent extends BaseComponent {
 			const currency = this.currency();
 			const payload = (this.noRequest() ? this.payload() : undefined) ?? this.cachedPayload();
 			if (!payload) return;
-
+			console.log(payload, typeof payload, this.widget().type, this.type());
 			const providerFn = mapToProvider<typeof payload>(this.type());
 			const currencyFormatter = this.disableCurrencyFormat()
 				? undefined
