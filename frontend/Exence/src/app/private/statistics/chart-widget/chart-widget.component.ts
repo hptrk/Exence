@@ -128,7 +128,6 @@ export class ChartWidgetComponent extends BaseComponent {
 			const currency = this.currency();
 			const payload = (this.noRequest() ? this.payload() : undefined) ?? this.cachedPayload();
 			if (!payload) return;
-			console.log(payload, typeof payload, this.widget().type, this.type());
 			const providerFn = mapToProvider<typeof payload>(this.type());
 			const currencyFormatter = this.disableCurrencyFormat()
 				? undefined

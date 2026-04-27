@@ -489,6 +489,10 @@
 			"successInfo": "Category '{{name}}' created successfully!"
 		},
 		"deleteInfo": "Category deleted successfully!",
+		"edit": {
+			"title": "Edit category"
+		},
+		"updateInfo": "Category '{{name}}' updated successfully!",
 		"addButton": "Add category"
 	},
 	"transaction": {

@@ -489,6 +489,10 @@
 			"successInfo": "Kategória '{{name}}' bola úspešne vytvorená!"
 		},
 		"deleteInfo": "Kategória bola úspešne odstránená!",
+		"edit": {
+			"title": "Upraviť kategóriu"
+		},
+		"updateInfo": "Kategória '{{name}}' bola úspešne aktualizovaná!",
 		"addButton": "Pridať kategóriu"
 	},
 	"transaction": {
