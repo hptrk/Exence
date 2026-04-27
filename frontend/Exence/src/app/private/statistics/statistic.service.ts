@@ -26,9 +26,7 @@ export class StatisticService {
 
 	public getLayout(): Promise<WidgetLayoutResponse> {
 		return lastValueFrom(
-			this.http
-				.get<WidgetLayoutResponse>(`${this.baseUrl}/layout`)
-				.pipe(map(r => normalizeLayoutResponse(r))),
+			this.http.get<WidgetLayoutResponse>(`${this.baseUrl}/layout`).pipe(map(r => normalizeLayoutResponse(r))),
 		);
 	}
 

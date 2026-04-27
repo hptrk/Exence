@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transaction",
 		"transactions": "Transactions",
@@ -901,16 +901,16 @@
 		"testimonials": {
 			"title": "Our users said",
 			"testimonial1": {
-				"quote": "Your financial privacy is paramount. Monitor every active session and manage your logged-in devices directly from your profile, ensuring that you are always in total control of who accesses your data.",
-				"name": "Random Néni"
+				"quote": "I never realized how much I was overspending until I started using Exence. The spending breakdown by category made everything crystal clear — now I track every euro with confidence.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Your financial privacy is paramount. Monitor every active session and manage your logged-in devices directly from your profile, ensuring that you are always in total control of who accesses your data.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Your financial privacy is paramount. Monitor every active session and manage your logged-in devices directly from your profile, ensuring that you are always in total control of who accesses your data.",
-				"name": "Random Néni"
+				"quote": "Setting up my savings goals in Exence was effortless. I can see my progress at a glance, and it genuinely motivates me to stay on track with my monthly budget.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Picture of our user"
 		},

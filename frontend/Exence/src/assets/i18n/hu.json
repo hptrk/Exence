@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Tranzakció",
 		"transactions": "Tranzakciók",
@@ -901,16 +901,16 @@
 		"testimonials": {
 			"title": "Felhasználóink mondták",
 			"testimonial1": {
-				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
-				"name": "Random Néni"
+				"quote": "Sosem gondoltam volna, mennyit költök feleslegesen, amíg el nem kezdtem használni az Exence-t. A kategóriánkénti kiadásbontás mindent egyértelművé tett — most már magabiztosan követem minden eurót.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
-				"name": "Random Néni"
+				"quote": "A megtakarítási céljaim beállítása az Exence-ben gyerekjáték volt. Egy pillantás alatt látom az előrehaladást, és ez igazán motivál, hogy tartsam magam a havi büdzsémhez.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Kép a felhasználónkról"
 		},

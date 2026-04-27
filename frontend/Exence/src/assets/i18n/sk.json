@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transakcia",
 		"transactions": "Transakcie",
@@ -901,16 +901,16 @@
 		"testimonials": {
 			"title": "Naši používatelia povedali",
 			"testimonial1": {
-				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
-				"name": "Random Néni"
+				"quote": "Nikdy som si neuvedomil, koľko zbytočne míňam, kým som nezačal používať Exence. Rozdelenie výdavkov podľa kategórií všetko objasnilo — teraz sledujem každé euro s istotou.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
-				"name": "Random Néni"
+				"quote": "Nastavenie mojich cieľov sporenia v Exence bolo jednoduché. Vidím pokrok na prvý pohľad, čo ma skutočne motivuje dodržiavať môj mesačný rozpočet.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Obrázok nášho používateľa"
 		},

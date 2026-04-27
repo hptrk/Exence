@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transacción",
 		"transactions": "Transacciones",
@@ -901,16 +901,16 @@
 		"testimonials": {
 			"title": "Nuestros usuarios dijeron",
 			"testimonial1": {
-				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
-				"name": "Random Néni"
+				"quote": "Nunca me di cuenta de cuánto estaba gastando de más hasta que empecé a usar Exence. El desglose de gastos por categoría lo aclaró todo — ahora controlo cada euro con confianza.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
-				"name": "Random Néni"
+				"quote": "Configurar mis objetivos de ahorro en Exence fue muy sencillo. Puedo ver mi progreso de un vistazo, y eso me motiva a mantener mi presupuesto mensual.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Imagen de nuestro usuario"
 		},
