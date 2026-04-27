@@ -489,6 +489,10 @@
 			"successInfo": "Kategoria '{{name}}' została pomyślnie utworzona!"
 		},
 		"deleteInfo": "Kategoria została pomyślnie usunięta!",
+		"edit": {
+			"title": "Edytuj kategorię"
+		},
+		"updateInfo": "Kategoria '{{name}}' została zaktualizowana pomyślnie!",
 		"addButton": "Dodaj kategorię"
 	},
 	"transaction": {

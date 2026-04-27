@@ -489,6 +489,10 @@
 			"successInfo": "'{{name}}' kategória sikeresen létrehozva!"
 		},
 		"deleteInfo": "Kategória sikeresen törölve!",
+		"edit": {
+			"title": "Kategória szerkesztése"
+		},
+		"updateInfo": "A(z) '{{name}}' kategória sikeresen frissítve!",
 		"addButton": "Kategória hozzáadása"
 	},
 	"transaction": {
@@ -579,7 +583,7 @@
 	"dataTable": {
 		"title": "Cím",
 		"date": "Dátum",
-		"note": "Megjegyzés:",
+		"note": "Megjegyzés",
 		"recurring": "Auto. létrehozva?",
 		"name": "Név",
 		"icon": "Ikon",
@@ -968,8 +972,8 @@
 			},
 			"systemSettings": {
 				"title": "Rendszerbeállítások",
-				"domainWhitelistOnly": "Csak engedélyezett domének",
-				"domainWhitelistOnlyDescription": "Regisztrációk korlátozása engedélyezett e-mail doménekre",
+				"domainWhitelistOnly": "Csak engedélyezett címek",
+				"domainWhitelistOnlyDescription": "Regisztrációk korlátozása engedélyezett e-mail címekre",
 				"domainWhitelistOnlyTooltip": "Ha engedélyezve van, csak a konfigurált domain fehérlistán szereplő e-mail-címmel rendelkező felhasználók regisztrálhatnak. Minden más regisztrációs kísérletet el kell utasítani.",
 				"rateLimitingEnabled": "Rate limiting engedélyezve",
 				"rateLimitingEnabledDescription": "Ismételt kérések korlátozása brute-force támadások megelőzéséhez",
@@ -1110,7 +1114,7 @@
 		"statistics": {
 			"card": {
 				"DEBT_TOTAL_I_OWE_STATCARD": "Összes tartozásom",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Összes kintlévőségem"
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Összes kölcsönbe adott összeg"
 			}
 		},
 		"updateInfo": "Tartozás sikeresen frissítve!",
@@ -1125,7 +1129,7 @@
 		"title": "Befektetések",
 		"purchaseLog": "Vásárlási napló",
 		"name": "Név",
-		"lastAction": "Utolsó művelet",
+		"lastAction": "Utolsó műv.",
 		"totalInvested": "Összes befektetés",
 		"type": "Típus",
 		"transactions": "Tranzakciók",
@@ -1135,7 +1139,7 @@
 		"note": "Megjegyzés",
 		"date": "Dátum",
 		"amount": "Összeg",
-		"addPurchase": "Vétel hozzáadása",
+		"addPurchase": "Tranzakció hozzáadása",
 		"type_label": {
 			"CRYPTO": "Kripto",
 			"ETF": "ETF",
@@ -1148,13 +1152,13 @@
 		},
 		"create": {
 			"newAssetTitle": "Új eszköz",
-			"addPurchaseTitle": "Vétel hozzáadása",
+			"addPurchaseTitle": "Tranzakció hozzáadása",
 			"asset": "Eszköz neve",
 			"date": "Vásárlás dátuma",
 			"type": "Típus",
 			"amount": "Összeg",
 			"currency": "Pénznem",
-			"note": "Megjegyzés (opcionális)",
+			"note": "Megjegyzés",
 			"successInfo": "'{{asset}}' befektetés sikeresen létrehozva!"
 		},
 		"edit": {
@@ -1163,7 +1167,7 @@
 			"date": "Vásárlás dátuma",
 			"type": "Típus",
 			"amount": "Összeg",
-			"note": "Megjegyzés (opcionális)"
+			"note": "Megjegyzés"
 		},
 		"statistics": {
 			"card": {
