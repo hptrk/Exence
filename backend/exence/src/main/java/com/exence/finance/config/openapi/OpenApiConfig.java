@@ -76,8 +76,8 @@ public class OpenApiConfig {
                                 new Parameter()
                                         .in("header")
                                         .name("Accept-Language")
-                                        .description(
-                                                "Preferred language for responses ('en', 'hu', 'de', 'fr', 'it', 'es', 'pl', 'sk')")
+                                        .description("Preferred language for responses "
+                                                + "('en', 'hu', 'de', 'fr', 'it', 'es', 'pl', 'sk')")
                                         .example("en")
                                         .required(false)
                                         .schema(new StringSchema())))

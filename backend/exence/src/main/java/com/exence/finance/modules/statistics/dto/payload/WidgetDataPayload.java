@@ -23,18 +23,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
         },
         discriminatorProperty = "type")
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
-// @JsonSubTypes({
-//    @JsonSubTypes.Type(value = BoxplotPayload.class, name = "BOXPLOT"),
-//    @JsonSubTypes.Type(value = BubblePayload.class, name = "BUBBLE"),
-//    @JsonSubTypes.Type(value = DistributionPayload.class, name = "DISTRIBUTION"),
-//    @JsonSubTypes.Type(value = GaugePayload.class, name = "GAUGE" ),
-//    @JsonSubTypes.Type(value = SankeyPayload.class, name = "SANKEY"),
-//    @JsonSubTypes.Type(value = SeriesPayload.class, name = "SERIES"),
-//    @JsonSubTypes.Type(value = SlopePayload.class, name = "SLOPE"),
-//    @JsonSubTypes.Type(value = StatCardPayload.class, name = "STATCARD"),
-//    @JsonSubTypes.Type(value = LeaderboardPayload.class, name = "LEADERBOARD"),
-//    @JsonSubTypes.Type(value = SummaryPayload.class, name = "SUMMARY")
-// })
 public sealed interface WidgetDataPayload
         permits BoxplotPayload,
                 BubblePayload,

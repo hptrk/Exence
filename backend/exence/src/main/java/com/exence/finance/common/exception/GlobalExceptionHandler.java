@@ -68,13 +68,19 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             return null;
         }
 
-        return switch (requiredType) {
-            case Class<?> type when type.equals(InvestmentWidgetType.class) -> ErrorCode.INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED;
-            case Class<?> type when type.equals(DebtWidgetType.class) -> ErrorCode.DEBT_WIDGET_TYPE_NOT_SUPPORTED;
-            case Class<?> type when type.equals(GoalWidgetType.class) -> ErrorCode.GOAL_WIDGET_TYPE_NOT_SUPPORTED;
-            case Class<?> type when type.equals(AdminWidgetType.class) -> ErrorCode.ADMIN_WIDGET_TYPE_NOT_SUPPORTED;
-            default -> null;
-        };
+        if (requiredType.equals(InvestmentWidgetType.class)) {
+            return ErrorCode.INVESTMENT_WIDGET_TYPE_NOT_SUPPORTED;
+        }
+        if (requiredType.equals(DebtWidgetType.class)) {
+            return ErrorCode.DEBT_WIDGET_TYPE_NOT_SUPPORTED;
+        }
+        if (requiredType.equals(GoalWidgetType.class)) {
+            return ErrorCode.GOAL_WIDGET_TYPE_NOT_SUPPORTED;
+        }
+        if (requiredType.equals(AdminWidgetType.class)) {
+            return ErrorCode.ADMIN_WIDGET_TYPE_NOT_SUPPORTED;
+        }
+        return null;
     }
 
     @Override

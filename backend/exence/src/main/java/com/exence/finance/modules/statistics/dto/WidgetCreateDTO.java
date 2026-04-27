@@ -13,10 +13,11 @@ public record WidgetCreateDTO(
         @Schema(
                         description =
                                 "Type of the widget. It can be chosen from a wide variety of graphs and statistics cards.",
-                        example = "BAR_CHART")
+                        example = "BALANCE_YEAR_COMPARISON")
                 @NotNull(message = "{validation.widget.type.not-null}")
                 StatisticsWidgetType type,
-        String title,
+        @Schema(description = "Title of the widget displayed on the dashboard.", example = "Balance Year Comparison")
+                String title,
         Timeframe timeframe,
         @Schema(
                         description =
