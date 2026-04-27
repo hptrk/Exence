@@ -50,7 +50,7 @@ jobs:
       - name: Check i18n key consistency
         run: bash scripts/check-i18n-keys.sh
 
-      - name: Run Everything
+      - name: Lint & unit tests
         run: ./gradlew spotlessCheck checkstyleMain checkstyleTest test jacocoTestReport assemble --no-daemon
         env:
           SPRING_PROFILES_ACTIVE: test
@@ -58,19 +58,34 @@ jobs:
           SPRING_DATASOURCE_USERNAME: test
           SPRING_DATASOURCE_PASSWORD: test
 
-      - name: Upload JaCoCo HTML Report
+      - name: Integration tests
+        run: ./gradlew integrationTest --no-daemon
+        env:
+          SPRING_PROFILES_ACTIVE: test
+
+      - name: Upload unit test coverage report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: jacoco-coverage-report
+          name: jacoco-unit-test-report
           path: backend/exence/build/reports/jacoco/test/html/
+          retention-days: 7
+
+      - name: Upload integration test coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jacoco-integration-test-report
+          path: backend/exence/build/reports/jacoco/jacocoIntegrationTestReport/html/
           retention-days: 7
 
       - name: Add Coverage Comment to PR
         if: github.event_name == 'pull_request'
         uses: madrapps/jacoco-report@v1.6.1
         with:
-          paths: backend/exence/build/reports/jacoco/test/jacocoTestReport.xml
+          paths: |
+            backend/exence/build/reports/jacoco/test/jacocoTestReport.xml
+            backend/exence/build/reports/jacoco/jacocoIntegrationTestReport/jacocoIntegrationTestReport.xml
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 70
           min-coverage-changed-files: 60
