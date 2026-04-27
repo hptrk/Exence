@@ -3,7 +3,14 @@
 		@for (widget of data(); track widget.id) {
 			<gridster-item data-testid="chart-widget-item" [item]="widget">
 				@if (editing()) {
-					<ex-button data-testid="chart-widget-dragger" matIcon="drag_indicator" iconButton class="dragger" />
+					@if (display.isMd()) {
+						<ex-button
+							data-testid="chart-widget-dragger"
+							matIcon="drag_indicator"
+							iconButton
+							class="dragger"
+						/>
+					}
 					<div class="d-flex flex-column gap-2 position-absolute chart-modification-buttons">
 						<ex-button
 							data-testid="chart-widget-delete-btn"

@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transaktion",
 		"transactions": "Transaktionen",
@@ -901,16 +901,16 @@
 		"testimonials": {
 			"title": "Was unsere Nutzer sagen",
 			"testimonial1": {
-				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
-				"name": "Random Néni"
+				"quote": "Ich hatte keine Ahnung, wie viel ich unnötig ausgegeben habe, bis ich Exence benutzte. Die Ausgabenaufschlüsselung nach Kategorien hat alles klar gemacht — jetzt behalte ich jeden Euro im Blick.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
-				"name": "Random Néni"
+				"quote": "Meine Sparziele in Exence einzurichten war mühelos. Ich sehe meinen Fortschritt auf einen Blick, und das motiviert mich wirklich, mein monatliches Budget einzuhalten.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Bild unseres Nutzers"
 		},

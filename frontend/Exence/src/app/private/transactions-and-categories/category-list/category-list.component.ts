@@ -13,12 +13,13 @@ import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { CreateCategoryDialogComponent } from '../create-category-dialog/create-category-dialog.component';
 import { PagedResponse } from '../../../data-model/modules/common/PagedResponse';
 import { DisplaySizeService } from '../../../shared/display-size.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
 	selector: 'ex-category-list',
 	templateUrl: './category-list.component.html',
 	styleUrl: './category-list.component.scss',
-	imports: [DataTableComponent, ExCellDirective, MatIconModule, TranslatePipe, CurrencyPipe],
+	imports: [MatTooltipModule, DataTableComponent, ExCellDirective, MatIconModule, TranslatePipe, CurrencyPipe],
 })
 export class CategoryListComponent {
 	private readonly categoryStore = inject(CategoryStore);
@@ -37,6 +38,7 @@ export class CategoryListComponent {
 				header: 'dataTable.type',
 				width: this.display.isMd() ? '150px' : this.display.isSm() ? '100px' : '30px',
 			},
+			{ key: 'note', header: 'dataTable.note', width: this.display.isMd() ? '125px' : '50px' },
 			{ key: 'amount', header: 'literals.balance', width: this.display.isMd() ? '200px' : '150px' },
 			{ key: 'actions', header: '', width: this.display.isMd() ? '60px' : '35px' },
 		];

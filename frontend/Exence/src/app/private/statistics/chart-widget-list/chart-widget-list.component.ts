@@ -20,6 +20,7 @@ import {
 import { WidgetStore } from '../widget.store';
 import { ChartWidget } from '../../../data-model/modules/statistics/ChartWidget';
 import { StatisticsWidgetType } from '../../../data-model/modules/statistics/widget-config.model';
+import { DisplaySizeService } from '../../../shared/display-size.service';
 
 @Component({
 	selector: 'ex-chart-widget-list',
@@ -30,6 +31,7 @@ import { StatisticsWidgetType } from '../../../data-model/modules/statistics/wid
 export class ChartWidgetListComponent {
 	private readonly store = inject(WidgetStore);
 	private readonly dialog = inject(DialogService);
+	readonly display = inject(DisplaySizeService);
 
 	data = input.required<ChartWidget[]>();
 	editing = input.required<boolean>();
