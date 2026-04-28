@@ -1,0 +1,43 @@
+<ex-dialog-card data-testid="edit-category-dialog" [formGroup]="form" (submit)="save()" [confirmExitDialog]="dialogRef">
+	<div ex-dialog-card-title>{{ 'category.edit.title' | translate }}</div>
+
+	<form ex-dialog-card-content class="d-flex flex-column gap-3 pt-2">
+		<div class="d-flex flex-row flex-nowrap gap-2 align-items-start">
+			@let nameControl = form.controls.name;
+			<mat-form-field>
+				<mat-label>{{ 'category.create.name' | translate }}</mat-label>
+				<input matInput autoTrim [formControl]="nameControl" />
+				<ex-input-clear matSuffix [control]="nameControl" />
+				<mat-error>
+					<ex-validator [control]="nameControl" />
+				</mat-error>
+			</mat-form-field>
+
+			<ex-icon-picker
+				(closed)="onIconSelected($event)"
+				[icon]="form.value.icon?.icon ?? undefined"
+				[color]="form.value.icon?.color"
+			/>
+		</div>
+		@let noteControl = form.controls.note;
+		<mat-form-field>
+			<mat-label>{{ 'category.create.note' | translate }}</mat-label>
+			<textarea matInput cdkTextareaAutosize cdkAutosizeMinRows="4" [formControl]="noteControl"></textarea>
+			<mat-error>
+				<ex-validator [control]="noteControl" />
+			</mat-error>
+		</mat-form-field>
+	</form>
+
+	<div
+		ex-dialog-card-actions
+		class="d-flex flex-column-reverse flex-sm-row justify-content-end align-items-center gap-2 w-100"
+	>
+		<ex-button outline color="accent" matIcon="close" type="button" (click)="close()">
+			{{ 'literals.cancel' | translate }}
+		</ex-button>
+		<ex-button filled color="primary" matIcon="save" [disabled]="form.invalid" (click)="save()">
+			{{ 'literals.save' | translate }}
+		</ex-button>
+	</div>
+</ex-dialog-card>

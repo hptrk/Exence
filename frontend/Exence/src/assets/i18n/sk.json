@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transakcia",
 		"transactions": "Transakcie",
@@ -27,7 +27,7 @@
 		"to": "Do",
 		"yes": "Áno",
 		"no": "Nie",
-		"duplicate": "Duplicate",
+		"duplicate": "Duplikovať",
 		"add": "Pridať",
 		"ok": "Ok"
 	},
@@ -176,8 +176,8 @@
 			},
 			"success": "Nastavenia používateľa boli úspešne aktualizované!"
 		},
-		"switchWorkspace": "Switch workspace",
-		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"switchWorkspace": "Prepnúť pracovný priestor",
+		"switchWorkspaceSuccess": "Úspešne prepnuté na pracovný priestor '{{workspaceName}}'!",
 		"currentWorkspace": "Aktuálny",
 		"workspaces": {
 			"yourWorkspaces": "Vaše pracovné priestory",
@@ -186,12 +186,12 @@
 				"title": "Vytvoriť pracovný priestor",
 				"nameLabel": "Názov",
 				"currencyLabel": "Základná mena",
-				"success": "Workspace '{{workspaceName}}' created successfully!"
+				"success": "Pracovný priestor '{{workspaceName}}' bol úspešne vytvorený!"
 			},
 			"edit": {
 				"title": "Upraviť pracovný priestor",
 				"nameLabel": "Názov",
-				"success": "Successfully updated workspace!"
+				"success": "Pracovný priestor bol úspešne aktualizovaný!"
 			},
 			"members": "Členovia",
 			"noMembers": "Žiadni členovia",
@@ -208,19 +208,19 @@
 			"kickMember": {
 				"title": "Vyhodiť člena",
 				"message": "Naozaj chcete vyhodiť {{name}} z tohto pracovného priestoru?",
-				"success": "'{{memberEmail}}' kicked!",
-				"btn": "Kick"
+				"success": "'{{memberEmail}}' vyhodený!",
+				"btn": "Vyhodiť"
 			},
 			"leaveWorkspace": {
 				"title": "Opustiť pracovný priestor",
 				"message": "Naozaj chcete opustiť tento pracovný priestor?",
-				"success": "Successfully left '{{workspaceName}}' workspace!"
+				"success": "Úspešne ste opustili pracovný priestor '{{workspaceName}}'!"
 			},
 			"addMember": {
 				"title": "Pridať člena",
 				"emailLabel": "E-mailová adresa",
 				"button": "Nový člen",
-				"success": "New member successfully added to '{{workspaceName}}'!"
+				"success": "Nový člen bol úspešne pridaný do pracovného priestoru '{{workspaceName}}'!"
 			}
 		},
 		"workspaceSettings": {
@@ -489,6 +489,10 @@
 			"successInfo": "Kategória '{{name}}' bola úspešne vytvorená!"
 		},
 		"deleteInfo": "Kategória bola úspešne odstránená!",
+		"edit": {
+			"title": "Upraviť kategóriu"
+		},
+		"updateInfo": "Kategória '{{name}}' bola úspešne aktualizovaná!",
 		"addButton": "Pridať kategóriu"
 	},
 	"transaction": {
@@ -901,16 +905,16 @@
 		"testimonials": {
 			"title": "Naši používatelia povedali",
 			"testimonial1": {
-				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
-				"name": "Random Néni"
+				"quote": "Nikdy som si neuvedomil, koľko zbytočne míňam, kým som nezačal používať Exence. Rozdelenie výdavkov podľa kategórií všetko objasnilo — teraz sledujem každé euro s istotou.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Vaše finančné súkromie je prvoradé. Monitorujte každú aktívnu reláciu a spravujte svoje prihlásené zariadenia priamo zo svojho profilu, čím si zaistíte, že budete mať vždy plnú kontrolu nad tým, kto má prístup k vašim údajom.",
-				"name": "Random Néni"
+				"quote": "Nastavenie mojich cieľov sporenia v Exence bolo jednoduché. Vidím pokrok na prvý pohľad, čo ma skutočne motivuje dodržiavať môj mesačný rozpočet.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Obrázok nášho používateľa"
 		},

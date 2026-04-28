@@ -39,7 +39,6 @@
 		"easymde": "^2.20.0",
 		"echarts": "^6.0.0",
 		"marked": "^18.0.0",
-		"ngx-cookie-service": "^21.1.0",
 		"ngx-echarts": "^21.0.0",
 		"ngx-infinite-scroll": "^21.0.0",
 		"rxjs": "~7.8.0",

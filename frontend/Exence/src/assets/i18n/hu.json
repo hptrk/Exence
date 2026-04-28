@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Tranzakció",
 		"transactions": "Tranzakciók",
@@ -27,7 +27,7 @@
 		"to": "Ig",
 		"yes": "Igen",
 		"no": "Nem",
-		"duplicate": "Duplicate",
+		"duplicate": "Duplikálás",
 		"add": "Hozzáadás",
 		"ok": "Ok"
 	},
@@ -176,7 +176,7 @@
 			},
 			"success": "A felhasználói beállítások sikeresen frissültek!"
 		},
-		"switchWorkspace": "Switch workspace",
+		"switchWorkspace": "Munkaterület váltása",
 		"switchWorkspaceSuccess": "Sikeresen váltottál a(z) '{{workspaceName}}' munkaterületre!",
 		"currentWorkspace": "Jelenlegi",
 		"workspaces": {
@@ -209,7 +209,7 @@
 				"title": "Tag kirúgása",
 				"message": "Biztosan ki szeretné rúgni {{name}} felhasználót erről a munkaterületről?",
 				"success": "'{{memberEmail}}' kirúgva!",
-				"btn": "Kick"
+				"btn": "Kirúgás"
 			},
 			"leaveWorkspace": {
 				"title": "Kilépés a munkaterületről",
@@ -489,6 +489,10 @@
 			"successInfo": "'{{name}}' kategória sikeresen létrehozva!"
 		},
 		"deleteInfo": "Kategória sikeresen törölve!",
+		"edit": {
+			"title": "Kategória szerkesztése"
+		},
+		"updateInfo": "A(z) '{{name}}' kategória sikeresen frissítve!",
 		"addButton": "Kategória hozzáadása"
 	},
 	"transaction": {
@@ -579,7 +583,7 @@
 	"dataTable": {
 		"title": "Cím",
 		"date": "Dátum",
-		"note": "Megjegyzés:",
+		"note": "Megjegyzés",
 		"recurring": "Auto. létrehozva?",
 		"name": "Név",
 		"icon": "Ikon",
@@ -620,17 +624,17 @@
 		"days": "{{value}} napokkal ezelőtt"
 	},
 	"months": {
-		"jan": "Jan {{day}}0XTOKENX",
+		"jan": "Jan. {{day}}",
 		"feb": "Február {{day}}",
-		"mar": "Márc {{day}}0XTOKENX",
-		"apr": "április {{day}}0XTOKENX",
-		"jun": "Jun {{day}}0XTOKENX",
+		"mar": "Márc. {{day}}",
+		"apr": "Ápr. {{day}}",
+		"jun": "Jún. {{day}}",
 		"jul": "Július {{day}}",
-		"aug": "Aug {{day}}0XTOKENX",
-		"sep": "Sep {{day}}0XTOKENX",
-		"oct": "Október {{day}}0XTOKENX",
-		"nov": "november {{day}}0XTOKENX",
-		"dec": "december {{day}}0XTOKENX"
+		"aug": "Aug. {{day}}",
+		"sep": "Szept. {{day}}",
+		"oct": "Okt. {{day}}",
+		"nov": "Nov. {{day}}",
+		"dec": "Dec. {{day}}"
 	},
 	"validators": {
 		"required": "Kötelező mező",
@@ -676,7 +680,7 @@
 		"bar": "bár",
 		"wineBar": "borozó",
 		"liquor": "szeszes italok",
-		"home": "home",
+		"home": "otthon",
 		"house": "ház",
 		"apartment": "lakás",
 		"cottage": "házikó",
@@ -716,7 +720,7 @@
 		"airplaneTicket": "repülőjegy",
 		"transitTicket": "tranzitjegy",
 		"map": "térkép",
-		"store": "tárolja",
+		"store": "bolt",
 		"shoppingCart": "bevásárlókosár",
 		"shoppingBag": "bevásárlótáska",
 		"priceTag": "árcédula",
@@ -729,7 +733,7 @@
 		"styler": "styler",
 		"laundry": "mosoda",
 		"glasses": "szemüveg",
-		"watch": "nézd meg a",
+		"watch": "óra",
 		"diamond": "gyémánt",
 		"backpack": "hátizsák",
 		"umbrella": "esernyő",
@@ -750,7 +754,7 @@
 		"handwash": "kézmosó",
 		"wash": "mosás",
 		"brush": "kefe",
-		"face": "face",
+		"face": "arc",
 		"scissors": "olló",
 		"spa": "spa",
 		"mediation": "közvetítés",
@@ -799,7 +803,7 @@
 		"work": "munka",
 		"paid": "fizetett",
 		"priceCheck": "árellenőrzés",
-		"monneyBag": "monney bag",
+		"monneyBag": "pénzestáska",
 		"accountBalance": "számlaegyenleg",
 		"wallet": "pénztárca",
 		"walletBalance": "pénztárca egyenlege",
@@ -819,11 +823,11 @@
 		"calendar": "naptár",
 		"schedule": "ütemterv",
 		"celebration": "ünneplés",
-		"mail": "mail",
+		"mail": "levél",
 		"bell": "csengő",
 		"globe": "földgömb",
-		"cloud": "cloud",
-		"lock": "lock",
+		"cloud": "felhő",
+		"lock": "zár",
 		"key": "kulcs",
 		"verified": "ellenőrzött",
 		"help": "segítség",
@@ -831,7 +835,7 @@
 		"heart": "szív",
 		"bookmark": "könyvjelző",
 		"flag": "zászló",
-		"browse": "böngésszen a  oldalon.",
+		"browse": "böngészés",
 		"description": "leírás",
 		"build": "építeni",
 		"keyboard": "billentyűzet",
@@ -901,16 +905,16 @@
 		"testimonials": {
 			"title": "Felhasználóink mondták",
 			"testimonial1": {
-				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
-				"name": "Random Néni"
+				"quote": "Sosem gondoltam volna, mennyit költök feleslegesen, amíg el nem kezdtem használni az Exence-t. A kategóriánkénti kiadásbontás mindent egyértelművé tett — most már magabiztosan követem minden eurót.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Az Ön pénzügyi magánélete kiemelten fontos. Kísérje figyelemmel minden aktív munkamenetét, és kezelje bejelentkezett eszközeit közvetlenül a profiljából, biztosítva, hogy mindig teljes mértékben Ön irányítsa, ki férhet hozzá az adataihoz.",
-				"name": "Random Néni"
+				"quote": "A megtakarítási céljaim beállítása az Exence-ben gyerekjáték volt. Egy pillantás alatt látom az előrehaladást, és ez igazán motivál, hogy tartsam magam a havi büdzsémhez.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Kép a felhasználónkról"
 		},
@@ -968,8 +972,8 @@
 			},
 			"systemSettings": {
 				"title": "Rendszerbeállítások",
-				"domainWhitelistOnly": "Csak engedélyezett domének",
-				"domainWhitelistOnlyDescription": "Regisztrációk korlátozása engedélyezett e-mail doménekre",
+				"domainWhitelistOnly": "Csak engedélyezett címek",
+				"domainWhitelistOnlyDescription": "Regisztrációk korlátozása engedélyezett e-mail címekre",
 				"domainWhitelistOnlyTooltip": "Ha engedélyezve van, csak a konfigurált domain fehérlistán szereplő e-mail-címmel rendelkező felhasználók regisztrálhatnak. Minden más regisztrációs kísérletet el kell utasítani.",
 				"rateLimitingEnabled": "Rate limiting engedélyezve",
 				"rateLimitingEnabledDescription": "Ismételt kérések korlátozása brute-force támadások megelőzéséhez",
@@ -1110,7 +1114,7 @@
 		"statistics": {
 			"card": {
 				"DEBT_TOTAL_I_OWE_STATCARD": "Összes tartozásom",
-				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Összes kintlévőségem"
+				"DEBT_TOTAL_OWED_TO_ME_STATCARD": "Összes kölcsönbe adott összeg"
 			}
 		},
 		"updateInfo": "Tartozás sikeresen frissítve!",
@@ -1125,7 +1129,7 @@
 		"title": "Befektetések",
 		"purchaseLog": "Vásárlási napló",
 		"name": "Név",
-		"lastAction": "Utolsó művelet",
+		"lastAction": "Utolsó műv.",
 		"totalInvested": "Összes befektetés",
 		"type": "Típus",
 		"transactions": "Tranzakciók",
@@ -1135,7 +1139,7 @@
 		"note": "Megjegyzés",
 		"date": "Dátum",
 		"amount": "Összeg",
-		"addPurchase": "Vétel hozzáadása",
+		"addPurchase": "Tranzakció hozzáadása",
 		"type_label": {
 			"CRYPTO": "Kripto",
 			"ETF": "ETF",
@@ -1148,13 +1152,13 @@
 		},
 		"create": {
 			"newAssetTitle": "Új eszköz",
-			"addPurchaseTitle": "Vétel hozzáadása",
+			"addPurchaseTitle": "Tranzakció hozzáadása",
 			"asset": "Eszköz neve",
 			"date": "Vásárlás dátuma",
 			"type": "Típus",
 			"amount": "Összeg",
 			"currency": "Pénznem",
-			"note": "Megjegyzés (opcionális)",
+			"note": "Megjegyzés",
 			"successInfo": "'{{asset}}' befektetés sikeresen létrehozva!"
 		},
 		"edit": {
@@ -1163,7 +1167,7 @@
 			"date": "Vásárlás dátuma",
 			"type": "Típus",
 			"amount": "Összeg",
-			"note": "Megjegyzés (opcionális)"
+			"note": "Megjegyzés"
 		},
 		"statistics": {
 			"card": {

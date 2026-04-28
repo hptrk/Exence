@@ -11,14 +11,17 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { TranslationCode } from '../../../shared/i18n/translation-types';
 import { CurrencyPipe } from '../../../shared/pipes/currency.pipe';
 import { CreateCategoryDialogComponent } from '../create-category-dialog/create-category-dialog.component';
+import { EditCategoryDialogComponent } from '../edit-category-dialog/edit-category-dialog.component';
+import { CategoryPatch } from '../../../data-model/modules/category/CategoryPatch';
 import { PagedResponse } from '../../../data-model/modules/common/PagedResponse';
 import { DisplaySizeService } from '../../../shared/display-size.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
 	selector: 'ex-category-list',
 	templateUrl: './category-list.component.html',
 	styleUrl: './category-list.component.scss',
-	imports: [DataTableComponent, ExCellDirective, MatIconModule, TranslatePipe, CurrencyPipe],
+	imports: [MatTooltipModule, DataTableComponent, ExCellDirective, MatIconModule, TranslatePipe, CurrencyPipe],
 })
 export class CategoryListComponent {
 	private readonly categoryStore = inject(CategoryStore);
@@ -37,12 +40,19 @@ export class CategoryListComponent {
 				header: 'dataTable.type',
 				width: this.display.isMd() ? '150px' : this.display.isSm() ? '100px' : '30px',
 			},
+			{ key: 'note', header: 'dataTable.note', width: this.display.isMd() ? '125px' : '50px' },
 			{ key: 'amount', header: 'literals.balance', width: this.display.isMd() ? '200px' : '150px' },
 			{ key: 'actions', header: '', width: this.display.isMd() ? '60px' : '35px' },
 		];
 	});
 
 	actions: TableAction<CategoryGet>[] = [
+		{
+			label: 'literals.edit',
+			icon: 'edit',
+			color: 'secondary',
+			handler: row => this.openEdit(row),
+		},
 		{
 			label: 'literals.delete',
 			icon: 'delete',
@@ -82,5 +92,11 @@ export class CategoryListComponent {
 		const result = await this.dialog.openNonModal(CreateCategoryDialogComponent, undefined);
 		if (!result) return;
 		this.categoryStore.createCategory(result as CategoryCreate);
+	}
+
+	async openEdit(category: CategoryGet): Promise<void> {
+		const result = await this.dialog.openNonModal(EditCategoryDialogComponent, category);
+		if (!result) return;
+		this.categoryStore.updateCategory(category.id, result as CategoryPatch);
 	}
 }

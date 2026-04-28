@@ -7349,6 +7349,14 @@ databaseChangeLog:
               - column: { name: language, value: 'en' }
               - column: { name: primary_theme, value: 'DARK' }
               - column: { name: secondary_theme, value: 'BLUE_DOLPHIN' }
+        - insert:
+            tableName: user_settings
+            columns:
+              - column: { name: id, valueNumeric: 3 }
+              - column: { name: user_id, valueNumeric: 3 }
+              - column: { name: language, value: 'en' }
+              - column: { name: primary_theme, value: 'DARK' }
+              - column: { name: secondary_theme, value: 'BLUE_DOLPHIN' }
 
         # Widgets
         - insert:

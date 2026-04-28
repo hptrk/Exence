@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transacción",
 		"transactions": "Transacciones",
@@ -27,7 +27,7 @@
 		"to": "Hasta",
 		"yes": "Sí",
 		"no": "No",
-		"duplicate": "Duplicate",
+		"duplicate": "Duplicar",
 		"add": "Agregar",
 		"ok": "Ok"
 	},
@@ -176,8 +176,8 @@
 			},
 			"success": "¡Configuración de usuario actualizada con éxito!"
 		},
-		"switchWorkspace": "Switch workspace",
-		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"switchWorkspace": "Cambiar espacio de trabajo",
+		"switchWorkspaceSuccess": "¡Cambiado con éxito al espacio de trabajo '{{workspaceName}}'!",
 		"currentWorkspace": "Actual",
 		"workspaces": {
 			"yourWorkspaces": "Tus espacios de trabajo",
@@ -186,12 +186,12 @@
 				"title": "Crear espacio de trabajo",
 				"nameLabel": "Nombre",
 				"currencyLabel": "Moneda base",
-				"success": "Workspace '{{workspaceName}}' created successfully!"
+				"success": "¡Espacio de trabajo '{{workspaceName}}' creado con éxito!"
 			},
 			"edit": {
 				"title": "Editar espacio de trabajo",
 				"nameLabel": "Nombre",
-				"success": "Successfully updated workspace!"
+				"success": "¡Espacio de trabajo actualizado con éxito!"
 			},
 			"members": "Miembros",
 			"noMembers": "Sin miembros",
@@ -208,19 +208,19 @@
 			"kickMember": {
 				"title": "Expulsar miembro",
 				"message": "¿Está seguro de que desea expulsar a {{name}} de este espacio de trabajo?",
-				"success": "'{{memberEmail}}' kicked!",
-				"btn": "Kick"
+				"success": "'{{memberEmail}}' expulsado!",
+				"btn": "Expulsar"
 			},
 			"leaveWorkspace": {
 				"title": "Abandonar espacio de trabajo",
 				"message": "¿Está seguro de que desea abandonar este espacio de trabajo?",
-				"success": "Successfully left '{{workspaceName}}' workspace!"
+				"success": "¡Has abandonado con éxito el espacio de trabajo '{{workspaceName}}'!"
 			},
 			"addMember": {
 				"title": "Añadir miembro",
 				"emailLabel": "Dirección de correo electrónico",
 				"button": "Nuevo miembro",
-				"success": "New member successfully added to '{{workspaceName}}'!"
+				"success": "¡Nuevo miembro añadido con éxito al espacio de trabajo '{{workspaceName}}'!"
 			}
 		},
 		"workspaceSettings": {
@@ -489,6 +489,10 @@
 			"successInfo": "¡Categoría '{{name}}' creada con éxito!"
 		},
 		"deleteInfo": "¡Categoría eliminada con éxito!",
+		"edit": {
+			"title": "Editar categoría"
+		},
+		"updateInfo": "¡Categoría '{{name}}' actualizada correctamente!",
 		"addButton": "Añadir categoría"
 	},
 	"transaction": {
@@ -901,16 +905,16 @@
 		"testimonials": {
 			"title": "Nuestros usuarios dijeron",
 			"testimonial1": {
-				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
-				"name": "Random Néni"
+				"quote": "Nunca me di cuenta de cuánto estaba gastando de más hasta que empecé a usar Exence. El desglose de gastos por categoría lo aclaró todo — ahora controlo cada euro con confianza.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Su privacidad financiera es primordial. Supervise cada sesión activa y gestione sus dispositivos conectados directamente desde su perfil, asegurando que siempre tenga el control total sobre quién accede a sus datos.",
-				"name": "Random Néni"
+				"quote": "Configurar mis objetivos de ahorro en Exence fue muy sencillo. Puedo ver mi progreso de un vistazo, y eso me motiva a mantener mi presupuesto mensual.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Imagen de nuestro usuario"
 		},

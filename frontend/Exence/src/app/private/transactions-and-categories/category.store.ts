@@ -7,6 +7,7 @@ import { CategoryType } from '../../data-model/modules/category/CategoryType';
 import { TranslocoService } from '@jsverse/transloco';
 import { CategoryCreate } from '../../data-model/modules/category/CategoryCreate';
 import { CategoryGet } from '../../data-model/modules/category/CategoryGet';
+import { CategoryPatch } from '../../data-model/modules/category/CategoryPatch';
 import { WorkspaceGet } from '../../data-model/modules/workspaces/WorkspaceGet';
 import { WorkspaceService } from '../../shared/workspace.service';
 import { AuditLogStore } from '../../shared/audit-log/audit-log.store';
@@ -62,6 +63,15 @@ export const CategoryStore = signalStore(
 					const newCategory = await categoryService.create(request);
 					snackbarService.showSuccess(
 						translocoService.translate('category.create.successInfo', { name: newCategory.name }),
+					);
+					triggerReload();
+					auditLogStore.resetUser();
+					auditLogStore.resetAdmin();
+				},
+				async updateCategory(categoryId: number, request: CategoryPatch): Promise<void> {
+					const updated = await categoryService.update(categoryId, request);
+					snackbarService.showSuccess(
+						translocoService.translate('category.updateInfo', { name: updated.name }),
 					);
 					triggerReload();
 					auditLogStore.resetUser();

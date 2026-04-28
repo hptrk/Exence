@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, output, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
@@ -91,6 +91,21 @@ export class IconPickerComponent extends BaseComponent {
 
 	constructor() {
 		super();
+		effect(() => {
+			const icon = this.icon();
+			const color = this.color();
+			if (!icon || !color) return;
+			const predefinedKey = Object.entries(this.predefinedIconColorsData).find(
+				([, hex]) => hex.toLowerCase() === color.toLowerCase(),
+			)?.[0] as PredefinedIconColors | undefined;
+			this.form.setValue({
+				icon,
+				color: predefinedKey ?? 'custom',
+			});
+			if (!predefinedKey) {
+				this.customColor.set(color);
+			}
+		});
 		this.addSubscription(
 			this.form.valueChanges.pipe(pairwise()).subscribe(([prevValue, newValue]) => {
 				if (prevValue.color === 'custom' && newValue.color !== prevValue.color)

@@ -23,6 +23,16 @@
 		<div class="text-truncate w-100 text-center">{{ codeForCategoryType(row.type) | translate }}</div>
 	</ng-template>
 
+	<ng-template exCell="note" let-row>
+		<div class="text-truncate w-100 text-center" [matTooltip]="row.note" [matTooltipDisabled]="!row.note.length">
+			@if (row.note.length) {
+				{{ row.note }}
+			} @else {
+				&mdash;
+			}
+		</div>
+	</ng-template>
+
 	<ng-template exCell="amount" let-row>
 		<span
 			class="fw-semibold"

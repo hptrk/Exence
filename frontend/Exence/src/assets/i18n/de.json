@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transaktion",
 		"transactions": "Transaktionen",
@@ -27,7 +27,7 @@
 		"to": "An",
 		"yes": "Ja",
 		"no": "Nein",
-		"duplicate": "Duplicate",
+		"duplicate": "Duplizieren",
 		"add": "Hinzufügen",
 		"ok": "Ok"
 	},
@@ -176,8 +176,8 @@
 			},
 			"success": "Benutzereinstellungen erfolgreich aktualisiert!"
 		},
-		"switchWorkspace": "Switch workspace",
-		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"switchWorkspace": "Arbeitsbereich wechseln",
+		"switchWorkspaceSuccess": "Erfolgreich zum Arbeitsbereich '{{workspaceName}}' gewechselt!",
 		"currentWorkspace": "Aktuell",
 		"workspaces": {
 			"yourWorkspaces": "Deine Arbeitsbereiche",
@@ -186,12 +186,12 @@
 				"title": "Arbeitsbereich erstellen",
 				"nameLabel": "Name",
 				"currencyLabel": "Basiswährung",
-				"success": "Workspace '{{workspaceName}}' created successfully!"
+				"success": "Arbeitsbereich '{{workspaceName}}' erfolgreich erstellt!"
 			},
 			"edit": {
 				"title": "Arbeitsbereich bearbeiten",
 				"nameLabel": "Name",
-				"success": "Successfully updated workspace!"
+				"success": "Arbeitsbereich erfolgreich aktualisiert!"
 			},
 			"members": "Mitglieder",
 			"noMembers": "Keine Mitglieder",
@@ -208,19 +208,19 @@
 			"kickMember": {
 				"title": "Mitglied rauswerfen",
 				"message": "Möchten Sie {{name}} wirklich aus diesem Arbeitsbereich rauswerfen?",
-				"success": "'{{memberEmail}}' kicked!",
-				"btn": "Kick"
+				"success": "'{{memberEmail}}' rausgeworfen!",
+				"btn": "Rauswerfen"
 			},
 			"leaveWorkspace": {
 				"title": "Arbeitsbereich verlassen",
 				"message": "Möchten Sie diesen Arbeitsbereich wirklich verlassen?",
-				"success": "Successfully left '{{workspaceName}}' workspace!"
+				"success": "Arbeitsbereich '{{workspaceName}}' erfolgreich verlassen!"
 			},
 			"addMember": {
 				"title": "Mitglied hinzufügen",
 				"emailLabel": "E-Mail-Adresse",
 				"button": "Neues Mitglied",
-				"success": "New member successfully added to '{{workspaceName}}'!"
+				"success": "Neues Mitglied erfolgreich zum Arbeitsbereich '{{workspaceName}}' hinzugefügt!"
 			}
 		},
 		"workspaceSettings": {
@@ -489,6 +489,10 @@
 			"successInfo": "Kategorie '{{name}}' erfolgreich erstellt!"
 		},
 		"deleteInfo": "Kategorie erfolgreich gelöscht!",
+		"edit": {
+			"title": "Kategorie bearbeiten"
+		},
+		"updateInfo": "Kategorie '{{name}}' erfolgreich aktualisiert!",
 		"addButton": "Kategorie hinzufügen"
 	},
 	"transaction": {
@@ -901,16 +905,16 @@
 		"testimonials": {
 			"title": "Was unsere Nutzer sagen",
 			"testimonial1": {
-				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
-				"name": "Random Néni"
+				"quote": "Ich hatte keine Ahnung, wie viel ich unnötig ausgegeben habe, bis ich Exence benutzte. Die Ausgabenaufschlüsselung nach Kategorien hat alles klar gemacht — jetzt behalte ich jeden Euro im Blick.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Ihre finanzielle Privatsphäre steht an oberster Stelle. Überwachen Sie jede aktive Sitzung und verwalten Sie Ihre angemeldeten Geräte direkt von Ihrem Profil aus. So stellen Sie sicher, dass Sie stets die volle Kontrolle darüber haben, wer auf Ihre Daten zugreift.",
-				"name": "Random Néni"
+				"quote": "Meine Sparziele in Exence einzurichten war mühelos. Ich sehe meinen Fortschritt auf einen Blick, und das motiviert mich wirklich, mein monatliches Budget einzuhalten.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Bild unseres Nutzers"
 		},

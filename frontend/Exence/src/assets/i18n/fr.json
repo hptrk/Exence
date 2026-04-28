@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transaction",
 		"transactions": "Transactions",
@@ -27,7 +27,7 @@
 		"to": "À",
 		"yes": "Oui",
 		"no": "Non",
-		"duplicate": "Duplicate",
+		"duplicate": "Dupliquer",
 		"add": "Ajouter",
 		"ok": "Ok"
 	},
@@ -176,8 +176,8 @@
 			},
 			"success": "Paramètres utilisateur mis à jour avec succès !"
 		},
-		"switchWorkspace": "Switch workspace",
-		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"switchWorkspace": "Changer d'espace de travail",
+		"switchWorkspaceSuccess": "Basculé avec succès vers l'espace de travail '{{workspaceName}}' !",
 		"currentWorkspace": "Actuel",
 		"workspaces": {
 			"yourWorkspaces": "Vos espaces de travail",
@@ -186,12 +186,12 @@
 				"title": "Créer un espace de travail",
 				"nameLabel": "Nom",
 				"currencyLabel": "Devise de base",
-				"success": "Workspace '{{workspaceName}}' created successfully!"
+				"success": "Espace de travail '{{workspaceName}}' créé avec succès !"
 			},
 			"edit": {
 				"title": "Modifier l'espace de travail",
 				"nameLabel": "Nom",
-				"success": "Successfully updated workspace!"
+				"success": "Espace de travail mis à jour avec succès !"
 			},
 			"members": "Membres",
 			"noMembers": "Aucun membre",
@@ -208,19 +208,19 @@
 			"kickMember": {
 				"title": "Exclure un membre",
 				"message": "Êtes-vous sûr de vouloir exclure {{name}} de cet espace de travail ?",
-				"success": "'{{memberEmail}}' kicked!",
-				"btn": "Kick"
+				"success": "'{{memberEmail}}' exclu !",
+				"btn": "Exclure"
 			},
 			"leaveWorkspace": {
 				"title": "Quitter l'espace de travail",
 				"message": "Êtes-vous sûr de vouloir quitter cet espace de travail ?",
-				"success": "Successfully left '{{workspaceName}}' workspace!"
+				"success": "Vous avez quitté l'espace de travail '{{workspaceName}}' avec succès !"
 			},
 			"addMember": {
 				"title": "Ajouter un membre",
 				"emailLabel": "Adresse e-mail",
 				"button": "Nouveau membre",
-				"success": "New member successfully added to '{{workspaceName}}'!"
+				"success": "Nouveau membre ajouté avec succès à '{{workspaceName}}' !"
 			}
 		},
 		"workspaceSettings": {
@@ -489,6 +489,10 @@
 			"successInfo": "Catégorie '{{name}}' créée avec succès !"
 		},
 		"deleteInfo": "Catégorie supprimée avec succès !",
+		"edit": {
+			"title": "Modifier la catégorie"
+		},
+		"updateInfo": "Catégorie '{{name}}' mise à jour avec succès !",
 		"addButton": "Ajouter une catégorie"
 	},
 	"transaction": {
@@ -901,16 +905,16 @@
 		"testimonials": {
 			"title": "Nos utilisateurs ont dit",
 			"testimonial1": {
-				"quote": "Votre confidentialité financière est primordiale. Surveillez chaque session active et gérez vos appareils connectés directement depuis votre profil, en vous assurant que vous avez toujours le contrôle total sur les personnes qui accèdent à vos données.",
-				"name": "Random Néni"
+				"quote": "Je ne réalisais pas à quel point je dépensais trop avant de commencer à utiliser Exence. La répartition des dépenses par catégorie a tout clarifié — maintenant je suis chaque euro avec confiance.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Votre confidentialité financière est primordiale. Surveillez chaque session active et gérez vos appareils connectés directement depuis votre profil, en vous assurant que vous avez toujours le contrôle total sur les personnes qui accèdent à vos données.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Votre confidentialité financière est primordiale. Surveillez chaque session active et gérez vos appareils connectés directement depuis votre profil, en vous assurant que vous avez toujours le contrôle total sur les personnes qui accèdent à vos données.",
-				"name": "Random Néni"
+				"quote": "Configurer mes objectifs d'épargne dans Exence a été sans effort. Je vois mes progrès d'un coup d'œil, et cela me motive vraiment à respecter mon budget mensuel.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Image de notre utilisateur"
 		},

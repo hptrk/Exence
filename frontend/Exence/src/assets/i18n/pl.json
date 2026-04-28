@@ -1,4 +1,4 @@
-{
+﻿{
 	"literals": {
 		"transaction": "Transakcja",
 		"transactions": "Transakcje",
@@ -27,7 +27,7 @@
 		"to": "Do",
 		"yes": "Tak",
 		"no": "Nie",
-		"duplicate": "Duplicate",
+		"duplicate": "Duplikuj",
 		"add": "Dodaj",
 		"ok": "Ok"
 	},
@@ -176,8 +176,8 @@
 			},
 			"success": "Ustawienia użytkownika zostały pomyślnie zaktualizowane!"
 		},
-		"switchWorkspace": "Switch workspace",
-		"switchWorkspaceSuccess": "Successfully switch to '{{workspaceName}}' workspace!",
+		"switchWorkspace": "Przełącz obszar roboczy",
+		"switchWorkspaceSuccess": "Pomyślnie przełączono na obszar roboczy '{{workspaceName}}'!",
 		"currentWorkspace": "Bieżący",
 		"workspaces": {
 			"yourWorkspaces": "Twoje obszary robocze",
@@ -186,12 +186,12 @@
 				"title": "Utwórz obszar roboczy",
 				"nameLabel": "Nazwa",
 				"currencyLabel": "Waluta bazowa",
-				"success": "Workspace '{{workspaceName}}' created successfully!"
+				"success": "Obszar roboczy '{{workspaceName}}' pomyślnie utworzony!"
 			},
 			"edit": {
 				"title": "Edytuj obszar roboczy",
 				"nameLabel": "Nazwa",
-				"success": "Successfully updated workspace!"
+				"success": "Obszar roboczy pomyślnie zaktualizowany!"
 			},
 			"members": "Członkowie",
 			"noMembers": "Brak członków",
@@ -208,19 +208,19 @@
 			"kickMember": {
 				"title": "Wyrzuć członka",
 				"message": "Czy na pewno chcesz wyrzucić {{name}} z tego obszaru roboczego?",
-				"success": "'{{memberEmail}}' kicked!",
-				"btn": "Kick"
+				"success": "'{{memberEmail}}' wyrzucony!",
+				"btn": "Wyrzuć"
 			},
 			"leaveWorkspace": {
 				"title": "Opuść obszar roboczy",
 				"message": "Czy na pewno chcesz opuścić ten obszar roboczy?",
-				"success": "Successfully left '{{workspaceName}}' workspace!"
+				"success": "Pomyślnie opuszczono obszar roboczy '{{workspaceName}}'!"
 			},
 			"addMember": {
 				"title": "Dodaj członka",
 				"emailLabel": "Adres e-mail",
 				"button": "Nowy członek",
-				"success": "New member successfully added to '{{workspaceName}}'!"
+				"success": "Nowy członek pomyślnie dodany do obszaru roboczego '{{workspaceName}}'!"
 			}
 		},
 		"workspaceSettings": {
@@ -489,6 +489,10 @@
 			"successInfo": "Kategoria '{{name}}' została pomyślnie utworzona!"
 		},
 		"deleteInfo": "Kategoria została pomyślnie usunięta!",
+		"edit": {
+			"title": "Edytuj kategorię"
+		},
+		"updateInfo": "Kategoria '{{name}}' została zaktualizowana pomyślnie!",
 		"addButton": "Dodaj kategorię"
 	},
 	"transaction": {
@@ -901,16 +905,16 @@
 		"testimonials": {
 			"title": "Nasi użytkownicy powiedzieli",
 			"testimonial1": {
-				"quote": "Twoja prywatność finansowa jest najważniejsza. Monitoruj każdą aktywną sesję i zarządzaj zalogowanymi urządzeniami bezpośrednio ze swojego profilu, upewniając się, że zawsze masz pełną kontrolę nad tym, kto ma dostęp do Twoich danych.",
-				"name": "Random Néni"
+				"quote": "Nie zdawałem sobie sprawy, ile wydaję niepotrzebnie, dopóki nie zacząłem używać Exence. Podział wydatków według kategorii wszystko wyjaśnił — teraz śledzę każde euro z pewnością siebie.",
+				"name": "James Carter"
 			},
 			"testimonial2": {
 				"quote": "Twoja prywatność finansowa jest najważniejsza. Monitoruj każdą aktywną sesję i zarządzaj zalogowanymi urządzeniami bezpośrednio ze swojego profilu, upewniając się, że zawsze masz pełną kontrolę nad tym, kto ma dostęp do Twoich danych.",
-				"name": "Random Néni"
+				"name": "Sophie Müller"
 			},
 			"testimonial3": {
-				"quote": "Twoja prywatność finansowa jest najważniejsza. Monitoruj każdą aktywną sesję i zarządzaj zalogowanymi urządzeniami bezpośrednio ze swojego profilu, upewniając się, że zawsze masz pełną kontrolę nad tym, kto ma dostęp do Twoich danych.",
-				"name": "Random Néni"
+				"quote": "Konfigurowanie moich celów oszczędnościowych w Exence było bezwysiłkowe. Widzę swoje postępy na pierwszy rzut oka, co naprawdę motywuje mnie do trzymania się miesięcznego budżetu.",
+				"name": "Luca Rossi"
 			},
 			"imageAlt": "Zdjęcie naszego użytkownika"
 		},

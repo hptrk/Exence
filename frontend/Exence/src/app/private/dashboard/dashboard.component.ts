@@ -17,6 +17,7 @@ import { DisplaySizeService } from '../../shared/display-size.service';
 import { NavigationService } from '../../shared/navigation/navigation.service';
 import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 import { CurrentUserService } from '../../shared/user/current-user.service';
+import { WorkspaceService } from '../../shared/workspace.service';
 import { ChartWidgetComponent } from '../statistics/chart-widget/chart-widget.component';
 import { StatisticService } from '../statistics/statistic.service';
 import { CategoryStore } from '../transactions-and-categories/category.store';
@@ -47,6 +48,7 @@ import { TransactionStore } from '../transactions-and-categories/transaction.sto
 export class DashboardComponent extends BaseComponent {
 	private readonly currentUserService = inject(CurrentUserService);
 	private readonly statisticService = inject(StatisticService);
+	private readonly workspaceService = inject(WorkspaceService);
 	private readonly dialog = inject(DialogService);
 	readonly display = inject(DisplaySizeService);
 	readonly navigation = inject(NavigationService);
@@ -62,15 +64,20 @@ export class DashboardComponent extends BaseComponent {
 	dashboardPayload = signal<WidgetDataPayload | undefined>(undefined);
 	chartTimeframe = signal<Timeframe>(Timeframe.YEAR_TO_DATE);
 
+	private latestRequestId = 0;
+
 	constructor() {
 		super();
 
 		this.transactionStore.clearFilters();
 
 		effect(() => {
-			this.transactionStore.balance(); // dependency
+			this.workspaceService.currentWorkspace(); // dependency: refetch immediately on workspace change
+			this.transactionStore.balance(); // dependency: refetch when transactions change
 			const timeframe = this.chartTimeframe();
+			const requestId = ++this.latestRequestId;
 			this.statisticService.getDashboardChart(timeframe).then(response => {
+				if (requestId !== this.latestRequestId) return;
 				this.dashboardWidget.set({
 					id: response.widgetId,
 					type: response.payload.type as StatisticsWidgetType,

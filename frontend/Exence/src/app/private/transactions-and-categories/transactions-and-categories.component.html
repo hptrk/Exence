@@ -113,7 +113,7 @@
 							<mat-date-range-picker #dateRangePicker />
 						</mat-form-field>
 
-						<mat-divider />
+						<mat-divider [class.m-0]="!display.isMd()" />
 
 						<div class="d-flex flex-column gap-1">
 							<div class="fs-6 ps-1 mb-1">{{ 'literals.amount' | translate }}</div>
@@ -131,7 +131,7 @@
 							/>
 						</div>
 
-						<mat-divider />
+						<mat-divider [class.m-0]="!display.isMd()" />
 
 						@let categoryControl = transactionFilterForm.controls.category;
 						<mat-form-field subscriptSizing="dynamic">
